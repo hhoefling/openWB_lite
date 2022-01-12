@@ -223,6 +223,13 @@ fi
 echo "timezone..."
 sudo cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
+if [ ! -f /home/pi/ssl_patched ]; then
+	log "ssh patch neeeded" 
+	sudo apt-get update 
+	sudo apt-get -qq install -y openssl libcurl3 curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 php7.0-cli php7.0-gd php7.0-opcache php7.0 php7.0-common php7.0-json php7.0-readline php7.0-xml php7.0-curl libapache2-mod-php7.0 
+	touch /home/pi/ssl_patched 
+fi
+
 # check for mosquitto packages
 echo "mosquitto..."
 if [ ! -f /etc/mosquitto/mosquitto.conf ]; then
@@ -266,18 +273,33 @@ if python3 -c "import pymodbus" &> /dev/null; then
 else
 	sudo pip3 install pymodbus
 fi
+if python3 -c "import requests" &> /dev/null; then
+	echo 'python requests installed...'
+else
+	sudo pip3 install requests
+fi
 #Prepare for jq in Python
 if python3 -c "import jq" &> /dev/null; then
 	echo 'jq installed...'
 else
 	sudo pip3 install jq
 fi
+#Prepare for ipparser in Python
+if python3 -c "import ipparser" &> /dev/null; then
+	echo 'ipparser installed...'
+else
+	sudo pip3 install ipparser
+fi
+# update outdated urllib3 for Tesla Powerwall
+pip3 install --upgrade urllib3
+
 
 # update version
 echo "version..."
 uuid=$(</sys/class/net/eth0/address)
 owbv=$(</var/www/html/openWB/web/version)
-curl -d "update="$releasetrain$uuid"vers"$owbv"" -H "Content-Type: application/x-www-form-urlencoded" -X POST https://openwb.de/tools/update.php
+# No
+# curl -d "update="$releasetrain$uuid"vers"$owbv"" -H "Content-Type: application/x-www-form-urlencoded" -X POST https://openwb.de/tools/update.php
 
 # all done, remove warning in display
 echo "clear warning..."
