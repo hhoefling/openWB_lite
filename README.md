@@ -20,6 +20,7 @@ Python 3.5.3
 Die folgenden Schritte lassen eine laufenden snaptec/openwb auf dieses Repository umziehen.
 (Beutzer pi)
 ```
+# Schritt ein, Git Konfiguration anpassen
 cd /var/www/html/openWB
 git remote -v  # Anzeigen der aktuellen Basis
 origin  https://github.com/snaptec/openWB.git (fetch)
@@ -32,11 +33,22 @@ origin  https://github.com/hhoefling/openWB_lite.git (push)
 ```
 Update auf diese Version (Master) als Benutzer pi
 ```
-# fetch new release from GitHub
+# Schritt 2 , initiales Update vom  Git holen
 cd /var/www/html/openWB
+# Save old running config
+cp -p openwb.conf openwb.conf.sav
+# switch repository
 sudo git fetch origin
 sudo git reset --hard origin/master
-```
+# restore config
+cp -p openwb.conf.sav openwb.conf
+# fix access rights
+sudo chmod +x runs/*.sh
+sudo chmod +x *.sh
+# run normal after-update-handling
+./runs/update.sh
+
+``
 
 
 
