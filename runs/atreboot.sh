@@ -116,12 +116,12 @@ if ps ax |grep -v grep |grep "python /var/www/html/openWB/runs/readrfid2.py" > /
 then
 	sudo kill $(ps aux |grep '[r]eadrfid2.py' | awk '{print $2}')
 fi
-if (( rfidakt == 1 )); then
+if (( rfidakt == 1 )) && (( rfidenabled )) ; then
 	log "rfid 1..."
 	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid.py $displayaktiv) &
 	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid2.py $displayaktiv) &
 fi
-if (( rfidakt == 2 )); then
+if (( rfidakt == 2 ))&& (( rfidenabled )) ; then
 	log "rfid 2..."
 	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid.py $displayaktiv) &
 	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid2.py $displayaktiv) &
