@@ -11,7 +11,10 @@ echo "loading config"
 . /var/www/html/openWB/runs/initRamdisk.sh
 . /var/www/html/openWB/runs/updateConfig.sh
 
-sleep 5
+log "wait 10 Seconds for end of regel.sh if any"
+sleep 10
+
+
 mkdir -p /var/www/html/openWB/web/backup
 touch /var/www/html/openWB/web/backup/.donotdelete
 sudo chown -R www-data:www-data /var/www/html/openWB/web/backup
