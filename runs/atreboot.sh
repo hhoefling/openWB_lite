@@ -22,9 +22,16 @@ log loading config
 . /var/www/html/openWB/runs/initRamdisk.sh
 . /var/www/html/openWB/runs/updateConfig.sh
 
-sleep 5
-mkdir -p /var/www/html/openWB/web/backup
-touch /var/www/html/openWB/web/backup/.donotdelete
+sleep 1
+if [ ! -d /var/www/html/openWB/web/backup ] ; then
+  log "making backup direcotry"
+  mkdir -p /var/www/html/openWB/web/backup
+else
+ log "backupdir exists"  
+fi
+echo "" >/var/www/html/openWB/web/backup/.donotdelete
+
+log "checking rights und modes"
 sudo chown -R www-data:www-data /var/www/html/openWB/web/backup
 sudo chown -R www-data:www-data /var/www/html/openWB/web/tools/upload
 sudo chmod 777 /var/www/html/openWB/openwb.conf
