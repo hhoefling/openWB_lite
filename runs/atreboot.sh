@@ -22,7 +22,9 @@ log loading config
 . /var/www/html/openWB/runs/initRamdisk.sh
 . /var/www/html/openWB/runs/updateConfig.sh
 
-sleep 1
+log "wait 10 Seconds for end of active regel.sh if any"
+sleep 10
+
 if [ ! -d /var/www/html/openWB/web/backup ] ; then
   log "making backup direcotry"
   mkdir -p /var/www/html/openWB/web/backup
