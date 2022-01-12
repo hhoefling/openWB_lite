@@ -22,6 +22,11 @@ log loading config
 . /var/www/html/openWB/runs/initRamdisk.sh
 . /var/www/html/openWB/runs/updateConfig.sh
 
+
+if [ -d /var/www/html/openWB/ramdisk ] ; then
+	echo 1 > /var/www/html/openWB/ramdisk/bootinprogress
+	echo 1 > /var/www/html/openWB/ramdisk/updateinprogress
+fi
 log "wait 10 Seconds for end of active regel.sh if any"
 sleep 10
 
