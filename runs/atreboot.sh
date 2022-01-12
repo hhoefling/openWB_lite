@@ -197,7 +197,7 @@ else
 fi
 
 # check for apache configuration
-echo "apache..."
+log "apache..."
 if grep -Fxq "AllowOverride" /etc/apache2/sites-available/000-default.conf
 then
 	log "...ok"
