@@ -44,7 +44,10 @@ sofortlademodus(){
 	#mit einem Ladepunkt
 	if [[ $lastmanagement == "0" ]]; then
 		if (( msmoduslp1 == "2" )); then
-			if (( soc >= sofortsoclp1 )); then
+        
+        	openwbDebugLog "MAIN" 0 "sofortLP1  $soc $sofortsoclp1"
+
+			if (( soc >= sofortsoclp1 )) && (( sofortsoclp1 < 100 )); then    // HH Ok, stop bei 80=80 stop nicht bei ziel=100
 				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
 					runs/set-current.sh 0 all
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung gestoppt, $soc % SoC erreicht"
@@ -81,7 +84,7 @@ sofortlademodus(){
 							llneu=$((llalt - 1 ))
 							runs/set-current.sh $llneu m
 							openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung geändert auf $llneu Ampere"
-							openwbDebugLog "MAIN" 1 "Sofort ladung reudziert auf $llneu bei minimal A $minimalstromstaerke Ladeleistung zu gering"
+							openwbDebugLog "MAIN" 1 "Sofort ladung reduziert auf $llneu bei minimal A $minimalstromstaerke Ladeleistung zu gering"
 							exit 0
 						fi
 						if (( llalt == minimalstromstaerke )); then
@@ -256,8 +259,10 @@ sofortlademodus(){
 				maxdiff=$(echo "($maxdiff / $activechargepoints) / 1" |bc)
 			fi
 
+            openwbDebugLog "MAIN" 0 "Sofort maxdiff:$maxdiff   msmoduslp1:$msmoduslp1"
+		
 			#Ladepunkt 1
-			if (( msmoduslp1 == "2" )) && (( soc > sofortsoclp1 )); then
+			if (( msmoduslp1 == "2" )) && (( soc >= sofortsoclp1 ))  &&  (( sofortsoclp1 < 100 )); then  # HH >= statt >
 				# SoC-Limit gesetzt und erreicht
 				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
 					runs/set-current.sh 0 m
@@ -341,7 +346,9 @@ sofortlademodus(){
 
 			#Ladepunkt 2
 			if [[ $lastmanagement == "1" ]]; then
-				if (( msmoduslp2 == 2 )) && (( soc1 > sofortsoclp2 )); then
+				openwbDebugLog "MAIN" 0 "Sofort msmod:$msmoduslp2 soc1:$soc1 sofortsoclp2:$sofortsoclp2" 
+            
+                if (( msmoduslp2 == "2" )) && (( soc1 >= sofortsoclp2 ))  &&  (( sofortsoclp2<100 )); then  # HH >= statt >                
 					# SoC-Limit gesetzt und erreicht
 					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
 						runs/set-current.sh 0 s1
@@ -945,7 +952,7 @@ sofortlademodus(){
 			fi
 
 			if (( msmoduslp1 == 2 )); then
-				if (( soc >= sofortsoclp1)); then
+				if (( soc >= sofortsoclp1)); then       # HH >= war schon da
 					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
 						runs/set-current.sh 0 m
 						openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung gstoppt da $socortsoclp1 % SoC erreicht"
@@ -973,7 +980,7 @@ sofortlademodus(){
 				openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung geändert auf $llneu Ampere"
 			fi
 			if (( msmoduslp2 == 2 )); then
-				if (( soc1 >= sofortsoclp2 )); then
+				if (( soc1 >= sofortsoclp2 )); then  # HH >= war schon da
 					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
 						runs/set-current.sh 0 s1
 						openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Sofort. Ladung gstoppt da $sofortsoclp2 % SoC erreicht"
