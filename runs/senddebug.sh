@@ -47,10 +47,12 @@ echo "$(cat /var/www/html/openWB/ramdisk/smarthome.log)" >> $debugFile
 echo "############################ file and directory listing ##############" >> $debugFile
 ls -lRa /var/www/html/openWB/modules/soc_* >> $debugFile
 
-curl --upload $debugFile "https://openwb.de/tools/debug2.php?debugemail=$debugemail"
+
+# curl --upload $debugFile "https://openwb.de/tools/debug2.php?debugemail=$debugemail"
+echo "debug not  sended, look at $debugfile"
 
 
 sed -i 's/debug.*/debug=0/' /var/www/html/openWB/openwb.conf
-rm $debugFile
+# rm $debugFile
 rm /var/www/html/openWB/ramdisk/debuguser
 rm /var/www/html/openWB/ramdisk/debugemail

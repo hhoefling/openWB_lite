@@ -339,12 +339,18 @@ ip route get 1 | awk '{print $7;exit}' > /var/www/html/openWB/ramdisk/ipaddress
 
 # update current published versions
 echo "load versions..."
-curl -s https://raw.githubusercontent.com/snaptec/openWB/master/web/version > /var/www/html/openWB/ramdisk/vnightly
-curl -s https://raw.githubusercontent.com/snaptec/openWB/beta/web/version > /var/www/html/openWB/ramdisk/vbeta
-curl -s https://raw.githubusercontent.com/snaptec/openWB/stable/web/version > /var/www/html/openWB/ramdisk/vstable
+curl -s https://raw.githubusercontent.com/hhoefling/openWB/master/web/version > /var/www/html/openWB/ramdisk/vnightly
+curl -s https://raw.githubusercontent.com/hhoefling/openWB/beta/web/version > /var/www/html/openWB/ramdisk/vbeta
+curl -s https://raw.githubusercontent.com/hhoefling/openWB/stable17/web/version > /var/www/html/openWB/ramdisk/vstable
 
 # update our local version
 sudo git -C /var/www/html/openWB show --pretty='format:%ci [%h]' | head -n1 > /var/www/html/openWB/web/lastcommit
+# and record the current commit details
+commitId=`git -C /var/www/html/openWB log --format="%h" -n 1`
+echo $commitId > /var/www/html/openWB/ramdisk/currentCommitHash
+echo `git -C /var/www/html/openWB branch -a --contains $commitId | perl -nle 'm|.*origin/(.+).*|; print $1' | uniq | xargs` > /var/www/html/openWB/ramdisk/currentCommitBranches
+sudo chmod 777 /var/www/html/openWB/ramdisk/currentCommitHash
+sudo chmod 777 /var/www/html/openWB/ramdisk/currentCommitBranches
 
 # update broker
 echo "update broker..."
