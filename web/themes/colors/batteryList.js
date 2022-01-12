@@ -37,11 +37,12 @@ class BatteryList {
 
       // current power
       const cell = row.append("td")
-        .attr("class", "tablecell py-1 px-1");
+        .attr("class", "tablecell py-1 px-1")
+        .attr("style", "vertical-align: middle;");
       if (wbdata.batteryPowerImport > 0) {
-        cell.text("Ladung: " + formatWatt(wbdata.batteryPowerImport))
+        cell.text("Laden: " + formatWatt(wbdata.batteryPowerImport))
       } else if (wbdata.batteryPowerExport > 0) {
-        cell.text("Lieferung: " + formatWatt(wbdata.batteryPowerExport))
+        cell.text("Liefern: " + formatWatt(wbdata.batteryPowerExport))
       } else {
         cell.text("0 W")
       }
@@ -58,9 +59,10 @@ class BatteryList {
         .text(formatWattH(wbdata.batteryEnergyExport*1000));
 
       // SoC
-      row.append("td")
+      const scell = row.append("td")
         .attr("class", "tablecell py-1 px-1")
-        .text(wbdata.batterySoc + " %");
+           .attr("style", "vertical-align: middle;");
+      scell.html( wbdata.batterySoc + " %" + "&nbsp;<small>(" + wbdata.soctarget + "%</small>)" );
     }
     else {
       d3.select("div#batteryWidget").classed("hide", true);

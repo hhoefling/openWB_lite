@@ -81,14 +81,18 @@ class PowerMeter {
     this.updateDisplayRatio();
     this.drawSourceArc(svg);
     this.drawUsageArc(svg);
-    this.addLabel(svg, 0, -this.height / 2 * 3 / 5, "middle", wbdata.sourceSummary.pv); // PV
-    this.addLabel(svg, 0, -this.height / 2 * 2 / 5, "middle", wbdata.sourceSummary.evuIn); // Netz
-    this.addLabel(svg, this.width / 2 - this.margin / 4, this.height / 2 - this.margin + 15, "end", wbdata.sourceSummary.batOut); // Speicher Out
-    this.addLabel(svg, 0, -this.height / 2 * 2 / 5, "middle", wbdata.usageSummary.evuOut);  // Export
-    this.addLabel(svg, 0, this.height / 2 * 1 / 5, "middle", wbdata.usageSummary.charging); // Laden
-    this.addLabel(svg, 0, this.height / 2 * 3 / 5, "middle", wbdata.usageSummary.devices); // Geräte
-    this.addLabel(svg, this.width / 2 - this.margin / 4, this.height / 2 - this.margin + 15, "end", wbdata.usageSummary.batIn); // Speicher in
-    this.addLabel(svg, 0, this.height / 2 * 2 / 5, "middle", wbdata.usageSummary.house);  // Haus
+    this.addLabel(svg, 0, -this.height / 2 * 3 / 7, 	"middle", wbdata.sourceSummary.pv); // PV:
+    this.addLabel(svg, 0, -this.height / 2 * 2 / 7, 	"middle", wbdata.sourceSummary.evuIn); // Netz:
+    this.addLabel(svg, 0, -this.height / 2 * 2 / 7, 	"middle", wbdata.usageSummary.evuOut);  // Export:
+    this.addLabel(svg, 0, -this.height / 2 * 1 / 7, 	"middle", wbdata.sourceSummary.batOut);  // Batentnahme
+
+    this.addLabel(svg, 0, this.height / 2 * 1 / 9, 	"middle", wbdata.usageSummary.charging); // Laden:
+    this.addLabel(svg, 0, this.height / 2 * 2 / 9, 	"middle", wbdata.usageSummary.devices); // Geraete:
+    this.addLabel(svg, 0, this.height / 2 * 3 / 9, 	"middle", wbdata.usageSummary.house);  // Haus:
+    this.addLabel(svg, 0, this.height / 2 * 4 / 9, 	"middle", wbdata.usageSummary.batIn);  // Batladen
+
+//    this.addLabel(svg, this.width / 2 - this.margin / 4, this.height / 2 - this.margin + 15, "end", wbdata.sourceSummary.batOut); // Speicher:
+//    this.addLabel(svg, this.width / 2 - this.margin / 4, this.height / 2 - this.margin + 15, "end", wbdata.usageSummary.batIn); // Bat:
 
     if (wbdata.chargePoint[0].isSocConfigured) {
       this.addLabelWithColor(svg,
@@ -115,7 +119,7 @@ class PowerMeter {
         ("Speicher: " + wbdata.batterySoc + "%"),
         wbdata.usageSummary.batIn.color);
     }
-
+    // Mittelline
     if (this.showRelativeArcs) {
       svg.append("text")
         .attr("x", 0)
@@ -130,7 +134,7 @@ class PowerMeter {
         .attr("x", this.width / 2 - 44)
         .attr("y", 2)
         .text("Peak: " + formatWatt(this.maxPower))
-        .attr("fill", this.axisColor)
+        .attr("fill", this.fgColor) // this.axisColor)
         .attr("backgroundcolor", this.bgColor)
         .style("text-anchor", "middle")
         .style("font-size", "12")
@@ -189,10 +193,17 @@ class PowerMeter {
       .outerRadius(this.radius)
       .cornerRadius(this.cornerRadius);
 
+    // Filter out shared home devices that are included in house consumption
+    const plotData = [wbdata.usageSummary.evuOut,  wbdata.usageSummary.charging]
+    .concat(wbdata.shDevice.filter(row => (row.configured && !row.countAsHouse)).sort((a,b)=>{return (b.power-a.power)}))
+    .concat(wbdata.consumer.filter(row => (row.configured)))
+    .concat([wbdata.usageSummary.batIn, wbdata.usageSummary.house])
+    .concat([{ "power": this.emptyPower, "color": this.bgColor }]);
+
     // Add the chart to the svg
-    const arcCount = Object.values(wbdata.usageSummary).length;
+    const arcCount = Object.values(plotData).length -1;
     svg.selectAll("consumers")
-      .data(pieGenerator(Object.values(wbdata.usageSummary).concat([{ "power": this.emptyPower, "color": this.bgColor }]))).enter()
+      .data(pieGenerator(Object.values(plotData))).enter()
       .append("path")
       .attr("d", arc)
       .attr("fill", (d) => d.data.color)
@@ -202,7 +213,7 @@ class PowerMeter {
   addLabel(svg, x, y, anchor, data) {
     const labelFontSize = 22;
 
-    if (data.power > 0) {
+    if (data.power > 2) {
       svg
         .append("text")
         .attr("x", x)
@@ -271,14 +282,17 @@ function switchTheme() {
       break;
     case "light": wbdata.displayMode = "dark";
       break;
-    case "dark": wbdata.displayMode = "gray"
+    case "dark": wbdata.displayMode = "hh";
+      break;
+    case "hh": wbdata.displayMode = "gray";
       break;
     default: break;
   }
+  
   doc.classed("theme-dark", (wbdata.displayMode == "dark"));
   doc.classed("theme-light", (wbdata.displayMode == "light"));
   doc.classed("theme-gray", (wbdata.displayMode == "gray"));
-
+  doc.classed("theme-hh", (wbdata.displayMode == "hh"));
 
   wbdata.persistGraphPreferences();
 }

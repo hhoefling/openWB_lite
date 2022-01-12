@@ -18,7 +18,9 @@ class WbData {
 		this.chargePower = 0;
 		this.chargeSum = 0;
 		this.housePower = 0;
+		this.smartHomePower = 0;
 		this.houseEnergy = 0;
+		this.soctarget = 0;
 		this.batteryEnergyExport = 0;
 		this.batteryEnergyImport = 0;
 		this.batteryPowerExport = 0;
@@ -35,25 +37,25 @@ class WbData {
 		this.sourceSummary = {
 			"evuIn": { name: "Netz", power: 0, energy: 0, color: "white" },
 			"pv": { name: "PV", power: 0, energy: 0, color: "white" },			
-			"batOut": { name: "Bat >", power: 0, energy: 0, color: "white" }
+			"batOut": { name: "Bat Entl",   power: 0, energy: 0, color: "white" }
 		};
 
 		this.usageSummary = {
 			"evuOut": { name: "Export", power: 0, energy: 0, color: "white" },
-			"charging": { name: "Laden", power: 0, energy: 0, color: "white" },
+			"charging":{ name: "Laden",  power: 0, energy: 0, color: "white" },
 			"devices": { name: "Geräte", power: 0, energy: 0, color: "white" },
-			"batIn": { name: "> Bat", power: 0, energy: 0, color: "white" },
+			"batIn":   { name: "Bat Lad",    power: 0, energy: 0, color: "white" },
 			"house": { name: "Haus", power: 0, energy: 0, color: "white" }
 		};
 
 		this.historicSummary = {
 			"evuIn": { name: "Netz", power: 0, energy: 0, color: "white" },
 			"pv": { name: "PV", power: 0, energy: 0, color: "white" },
-			"batOut": { name: "Bat >", power: 0, energy: 0, color: "white" },
+			"batOut": { name: "Bat Entl", power: 0, energy: 0, color: "white" },
 			"evuOut": { name: "Export", power: 0, energy: 0, color: "white" },
 			"charging": { name: "Laden", power: 0, energy: 0, color: "white" },
 			"devices": { name: "Geräte", power: 0, energy: 0, color: "white" },
-			"batIn": { name: "> Bat", power: 0, energy: 0, color: "white" },
+			"batIn": { name: "Bat Lad", power: 0, energy: 0, color: "white" },
 			"house": { name: "Haus", power: 0, energy: 0, color: "white" }
 		};
 		
@@ -64,6 +66,8 @@ class WbData {
 		this.showGrid = false;
 		this.displayMode = "gray";
 		this.usageStackOrder = 0;
+		this.decimalPlaces = 1;
+		this.smartHomeColors = "normal";
 		this.prefs = {};
 	};
 
@@ -122,6 +126,23 @@ class WbData {
 		doc.classed("theme-dark", (this.displayMode == "dark"));
 		doc.classed("theme-light", (this.displayMode == "light"));
 		doc.classed("theme-gray", (this.displayMode == "gray"));
+		doc.classed("theme-hh", (this.displayMode == "hh"));
+		switch (this.smartHomeColors) {
+			case 'standard':
+				doc.classed("shcolors-standard", true);
+				break;
+			case 'advanced':
+				doc.classed("shcolors-advanced", true);
+				break;
+			case 'normal':
+				doc.classed("shcolors-normal", true);
+				break;
+			default:
+				doc.classed("shcolors-normal", true);
+				this.smartHomeColors = 'normal';
+				this.persistGraphPreferences();
+				break;
+		}
 	}
 
 	updateEvu(field, value) {
@@ -157,8 +178,11 @@ class WbData {
 				this.updateUsageSummary("charging", "energy", value)
 				break;
 			case 'houseEnergy':
-				console.log("Update House Energy: " + value);
 				this.updateUsageSummary("house", "energy", value);
+				break;
+			case 'smarthomePower':
+				this.updateConsumerSummary();
+				powerMeter.update();
 				break;
 			case 'currentPowerPrice':
 				chargePointList.update();
@@ -175,7 +199,6 @@ class WbData {
 				break;
 			case 'pvDailyYield':
 				this.updateSourceSummary("pv", "energy", this.pvDailyYield);
-				console.log("Update PV Energy: " + value);
 				break;
 			default:
 				break;
@@ -210,6 +233,8 @@ class WbData {
 				this.persistGraphPreferences();
 				this.updateUsageDetails();
 				yieldMeter.update();
+				break;
+			case 'countAsHouse':
 				break;
 			default:
 				break;
@@ -295,8 +320,13 @@ class WbData {
 	}
 
 	updateConsumerSummary(cat) {
-		this.updateUsageSummary("devices", cat, this.shDevice.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer[cat], 0)
-			+ this.consumer.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer[cat], 0));
+		if (cat == 'energy') {
+		this.updateUsageSummary("devices", 'energy', this.shDevice.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer.energy, 0)
+			+ this.consumer.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer.energy, 0));
+		} else {
+			this.updateUsageSummary("devices", 'power', this.smarthomePower
+			+ this.consumer.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer.power, 0));
+		}
 	}
 
 	//update cookie
@@ -306,6 +336,8 @@ class WbData {
 		this.prefs.displayM = this.displayMode;
 		this.prefs.stackO = this.usageStackOrder;
 		this.prefs.showGr = this.showGrid;
+		this.prefs.decimalP = this.decimalPlaces;
+		this.prefs.smartHomeC = this.smartHomeColors;
 		document.cookie = "openWBColorTheme=" + JSON.stringify(this.prefs) + "; max-age=16000000";
 	}
 	// read cookies and update settings
@@ -334,6 +366,12 @@ class WbData {
 			}
 			if ('showGr' in this.prefs) {
 				this.showGrid = this.prefs.showGr;
+			}
+			if ('decimalP' in this.prefs) {
+				this.decimalPlaces = this.prefs.decimalP;
+			}
+			if ('smartHomeC' in this.prefs) {
+				this.smartHomeColors = this.prefs.smartHomeC;
 			}
 		}
 	}
@@ -378,12 +416,31 @@ class SHDevice {
 		this.configured = configured;
 		this.showInGraph = true;
 		this.color = color;
+		this.countAsHouse = false;
 	}
 };
 
 function formatWatt(watt) {
+	let wattResult;
 	if (watt >= 1000) {
-		return ((Math.round(watt / 100) / 10) + " kW");
+		switch (wbdata.decimalPlaces) {
+			case 0:
+				wattResult = Math.round(watt / 1000);
+				break;
+			case 1:
+				wattResult = (Math.round(watt / 100) / 10).toFixed(1);
+				break;
+			case 2:
+				wattResult = (Math.round(watt / 10) / 100).toFixed(2);
+				break;
+			case 3:
+				wattResult = (Math.round(watt) / 1000).toFixed(3);
+				break;
+			default: 
+				wattResult = Math.round(watt / 100) / 10;
+				break;
+		}
+		return (wattResult + " kW");
 	} else {
 		return (watt + " W");
 	}
@@ -391,13 +448,30 @@ function formatWatt(watt) {
 
 function formatWattH(watt) {
 	if (watt >= 1000) {
-		return ((Math.round(watt / 100) / 10) + " kWh");
+		switch (wbdata.decimalPlaces) {
+			case 0:
+				wattResult = Math.round(watt / 1000);
+				break;
+			case 1:
+				wattResult = (Math.round(watt / 100) / 10).toFixed(1);
+				break;
+			case 2:
+				wattResult = (Math.round(watt / 10) / 100).toFixed(2);
+				break;
+			case 3:
+				wattResult = (Math.round(watt) / 1000).toFixed(3);
+				break;
+			default: 
+				wattResult = Math.round(watt / 100) / 10;
+				break;
+		}
+		return (wattResult + " kWh");
 	} else {
 		return (Math.round(watt) + " Wh");
 	}
 }
 function formatTime(seconds) {
-	const hours = (seconds / 3600).toFixed(0);
+	const hours = Math.floor(seconds / 3600);
 	const minutes = ((seconds % 3600) / 60).toFixed(0);
 	if (hours > 0) {
 		return (hours + "h " + minutes + " min");
@@ -484,6 +558,49 @@ function toggleGrid() {
 	wbdata.persistGraphPreferences();
 }
 
+function switchDecimalPlaces() {
+	if (wbdata.decimalPlaces  < 3) {
+		wbdata.decimalPlaces = wbdata.decimalPlaces+1;
+	} else {
+		wbdata.decimalPlaces = 0;
+	}
+	wbdata.persistGraphPreferences();
+	powerMeter.update();
+	yieldMeter.update();
+	smartHomeList.update();
+}
+
+function switchSmartHomeColors() {
+	const doc = d3.select("html");
+	switch (wbdata.smartHomeColors) {
+		case 'normal':
+			wbdata.smartHomeColors = 'standard';
+			doc.classed("shcolors-normal", false);
+			doc.classed("shcolors-standard", true);
+			doc.classed("shcolors-advanced", false);
+			break;
+		case 'standard':
+			wbdata.smartHomeColors = 'advanced';
+			doc.classed("shcolors-normal", false);
+			doc.classed("shcolors-standard", false);
+			doc.classed("shcolors-advanced", true);
+			break;
+		case 'advanced':
+			wbdata.smartHomeColors = 'normal';
+			doc.classed("shcolors-normal", true);
+			doc.classed("shcolors-standard", false);
+			doc.classed("shcolors-advanced", false);
+			break;
+		default:
+			wbdata.smartHomeColors = 'normal';
+			doc.classed("shcolors-normal", true);
+			doc.classed("shcolors-standard", false);
+			doc.classed("shcolors-advanced", false);
+			break;
+	}
+	wbdata.persistGraphPreferences();
+}
+
 function toggleMonthView() {
 	if (wbdata.graphMode == 'month') {
 		wbdata.graphMode = wbdata.graphPreference;
@@ -510,4 +627,3 @@ var tickCol;
 var fontCol;
 
 var wbdata = new WbData(new Date(Date.now()));
-

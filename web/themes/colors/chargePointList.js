@@ -10,7 +10,7 @@ class ChargePointList {
   constructor() {
     this.chargepoints = [];
     this.phaseSymbols = ['/', '\u2460', '\u2461', '\u2462']
-    this.headers = ["Ladepunkt", "Ladeparameter", "geladen", "Ladestand"];
+    this.headers = ["Ladepunkt", "Parameter", "geladen", "SoC"];
     this.manualSoc = 0;
   };
 
@@ -54,7 +54,9 @@ class ChargePointList {
 
     rows.append((row, i) => this.cpNameButtonCell(row, i));
 
-    rows.selectAll("cells")
+    console.log(wbdata);
+    
+	rows.selectAll("cells")
       .data(row => [
         formatWatt(row.power) + " " + this.phaseSymbols[row.phasesInUse] + " " + row.targetCurrent + " A",
         formatWattH(row.energy * 1000) + " / " + Math.round(row.energy / row.energyPer100km * 1000) / 10 + " km"

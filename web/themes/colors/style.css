@@ -226,10 +226,6 @@ h3 {
 		font-size: 1.7rem;
 	}
 
-	h4 {
-		font-size: 1.2rem;
-	}
-	
 	.verySmallTextSize {
 		font-size: 1.0rem;
 	}
@@ -277,10 +273,6 @@ h3 {
 		font-size: 1.0rem; /* 1.1rem; */
  	}
 
-	h4 {
-		font-size: 0.9rem;
-	}
-
 	.verySmallTextSize {
 		font-size: 1.0rem;
 	}
@@ -320,12 +312,8 @@ h3 {
 
 	h3 {
 		font-size: 1.0rem; /* 1.1rem; */
-	}
+ 	}
 
-	h4 {
-		font-size: 0.9rem;
-	}
-	
 	.verySmallTextSize {
 		font-size: 1.0rem;
 	}
@@ -395,9 +383,6 @@ h3 {
 	}
 }
 
-.maxPrice {
-	text-align: center;
-}
 /* Overarching colors */
 :root {
 	--fontCol: rgba(160, 160, 160, 0.82);
@@ -443,7 +428,7 @@ h3 {
 	--gridCol: rgba(255, 255, 255, 0.82);
 	--xgridCol: rgba(255, 255, 255, 0.1);
 	--tickCol: rgba(255, 255, 255, 0.82);
-	--evuCol: rgba(255, 0, 0, 0.7);
+	--evuCol: rgba(255, 0, 0, 0.7);	
 }
 
 .theme-dark {
@@ -567,8 +552,8 @@ h3 {
 	--color-sh7: rgba(50, 200, 200, 0.7);
 	--color-sh8: rgba(0, 200, 200, 0.7);
 	--color-sh9: rgba(200, 200, 200, 0.7);
-}
-
+}	
+	
 .openwb-devices {
 	color: #ccffff;
 	background-color: #009696;
@@ -583,7 +568,7 @@ h3 {
 }
 
 .wb-subwidget {
-	border:1px solid var(--color-subframe) ;
+	border:2px solid var(--color-subframe) ;
 	padding:var(--padding-widget);
     font-size: 1.5rem;  /* HH Texte om Kreis */
 }
@@ -601,4 +586,4 @@ th {
 .axis text {
 	color: var(--color-axis);
 	stroke-width: 0;
-	} 
+} 
