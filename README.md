@@ -18,6 +18,7 @@ Python 3.5.3
 
 
 Die folgenden Schritte lassen eine laufenden snaptec/openwb auf dieses Repository umziehen.
+(Beutzer pi)
 ```
 cd /var/www/html/openWB
 git remote -v  # Anzeigen der aktuellen Basis
