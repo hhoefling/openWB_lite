@@ -133,7 +133,7 @@
 							<h2>Nightly</h2>
 							<p>
 								Die Nightly-Version beinhaltet Neuentwicklungen, die teils nur eingeschränkt getestet sind. Fehlverhalten ist wahrscheinlich.<br>
-								Alle Änderungen können auf <a href="https://github.com/hhoefling/openWB/commits/master">GitHub</a> eingesehen werden.
+								Alle Änderungen können auf <a href="https://github.com/hhoefling/openWB_lite/commits/master">GitHub</a> eingesehen werden.
 							</p>
 						</div>
 					</div>
@@ -223,9 +223,9 @@
 				}
 
 				$(function getAllVersions() {
-					displayVersion("Stable", 'https://raw.githubusercontent.com/hhoefling/openWB/stable17/web/version');
-					displayVersion("Beta", 'https://raw.githubusercontent.com/hhoefling/openWB/beta/web/version');
-					displayVersion("Nightly", 'https://raw.githubusercontent.com/hhoefling/openWB/master/web/version');
+					displayVersion("Stable", 'https://raw.githubusercontent.com/hhoefling/openWB_lite/stable17/web/version');
+					displayVersion("Beta", 'https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version');
+					displayVersion("Nightly", 'https://raw.githubusercontent.com/hhoefling/openWB_lite/master/web/version');
 				});
 
 				$.get({

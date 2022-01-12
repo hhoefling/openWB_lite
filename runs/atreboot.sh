@@ -339,9 +339,9 @@ ip route get 1 | awk '{print $7;exit}' > /var/www/html/openWB/ramdisk/ipaddress
 
 # update current published versions
 echo "load versions..."
-curl -s https://raw.githubusercontent.com/hhoefling/openWB/master/web/version > /var/www/html/openWB/ramdisk/vnightly
-curl -s https://raw.githubusercontent.com/hhoefling/openWB/beta/web/version > /var/www/html/openWB/ramdisk/vbeta
-curl -s https://raw.githubusercontent.com/hhoefling/openWB/stable17/web/version > /var/www/html/openWB/ramdisk/vstable
+curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/web/version > /var/www/html/openWB/ramdisk/vnightly
+curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version > /var/www/html/openWB/ramdisk/vbeta
+curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/stable17/web/version > /var/www/html/openWB/ramdisk/vstable
 
 # update our local version
 sudo git -C /var/www/html/openWB show --pretty='format:%ci [%h]' | head -n1 > /var/www/html/openWB/web/lastcommit
