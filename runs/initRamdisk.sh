@@ -1,9 +1,9 @@
 #!/bin/bash
-# Ramdisk mit initialen Werten befüllen nach Neustart
+# Ramdisk mit initialen Werten befüllen nach Neustart, UP atreboot.sh
 
 initRamdisk(){
 	RamdiskPath="/var/www/html/openWB/ramdisk"
-	echo "Initializing Ramdisk $RamdiskPath"
+	log "Initializing Ramdisk $RamdiskPath"
 
 	# Logfiles erstellen
 	if [[ ! -L $RamdiskPath/openWB.log ]]; then
@@ -16,7 +16,7 @@ initRamdisk(){
 	echo "**** REBOOT ****" >> $RamdiskPath/nurpv.log
 	echo "**** REBOOT ****" >> $RamdiskPath/cleanup.log
 	echo "**** REBOOT ****" >> $RamdiskPath/smarthome.log
-
+	echo "**** REBOOT ****" >> $RamdiskPath/isss.log
 
 	echo $bootmodus > $RamdiskPath/lademodus
 
@@ -280,6 +280,8 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/speicherleistung2
 	echo 0 > $RamdiskPath/speichersoc
 	echo 0 > $RamdiskPath/speichersoc2
+# HH
+	echo 0 > $RamdiskPath/speichervorhanden
 
 	# temp mqtt
 	echo -1 > $RamdiskPath/mqttdurchslp2
@@ -469,14 +471,14 @@ initRamdisk(){
 				if [[ ! -z ${tuple[1]} ]]; then
 					mqttValue=$(timeout 1 mosquitto_sub -C 1 -t ${tuple[1]})
 					if [[ ! -z "$mqttValue" ]]; then
-						echo "'$currentRamdiskFile' missing: Setting from MQTT topic '${tuple[0]}' to value '$mqttValue'"
+						log "'$currentRamdiskFile' missing: Setting from MQTT topic '${tuple[0]}' to value '$mqttValue'"
 						echo "$mqttValue" > $currentRamdiskFile
 					else
-						echo "'$currentRamdiskFile' missing: MQTT topic '${tuple[0]}' can also not provide any value: Setting to default of '${tuple[2]}'"
+						log "'$currentRamdiskFile' missing: MQTT topic '${tuple[0]}' can also not provide any value: Setting to default of '${tuple[2]}'"
 						echo ${tuple[2]} > $currentRamdiskFile
 					fi
 				else
-					echo "'$currentRamdiskFile' missing: no MQTT topic set: Setting to default of '${tuple[2]}'"
+					log "'$currentRamdiskFile' missing: no MQTT topic set: Setting to default of '${tuple[2]}'"
 					echo ${tuple[2]} > $currentRamdiskFile
 				fi
 			fi
@@ -592,10 +594,10 @@ initRamdisk(){
 		eval currentRamdiskFile=\$$currentRamdiskFileVar
 		if ! [ -f $currentRamdiskFile ]; then
 			if [[ ! -z "${tuple[1]}" ]]; then
-				echo "'${tuple[0]}' missing: Setting to provided default value '${tuple[1]}'"
+				log "'${tuple[0]}' missing: Setting to provided default value '${tuple[1]}'"
 				echo "${tuple[1]}" > $currentRamdiskFile
 			else
-				echo "'${tuple[0]}' missing: No default value provided. Setting to 0."
+				log "'${tuple[0]}' missing: No default value provided. Setting to 0."
 				echo 0 > $currentRamdiskFile
 			fi
 		fi
@@ -611,7 +613,7 @@ initRamdisk(){
 
 	sudo chmod 777 $RamdiskPath/*
 
-	echo "Trigger update of logfiles..."
+	log "Trigger update of logfiles..."
 	python3 /var/www/html/openWB/runs/csvcalc.py --input /var/www/html/openWB/web/logging/data/daily/ --output /var/www/html/openWB/web/logging/data/v001/ --partial /var/www/html/openWB/ramdisk/ --mode M >> /var/www/html/openWB/ramdisk/csvcalc.log 2>&1 &
-	echo "Ramdisk init done."
+	log "Ramdisk init done."
 }

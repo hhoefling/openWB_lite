@@ -86,7 +86,7 @@ nurpvlademodus(){
 				echo "Ladung mit $minnurpvsocll Ampere, da $minnurpvsoclp1 % SoC noch nicht erreicht" > ramdisk/lastregelungaktiv
 			exit 0
 			fi
-			if (( soc > maxnurpvsoclp1 )); then
+			if (( soc >= maxnurpvsoclp1 ))  && (( maxnurpvsoclp1<100)); then
 				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
 					runs/set-current.sh 0 all
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus NurPV. Ladung gestoppt, $soc % SoC erreicht"

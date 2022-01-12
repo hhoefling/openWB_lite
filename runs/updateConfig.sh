@@ -1,9 +1,10 @@
 #!/bin/bash
-# Nach Update Inhalt der openwb.conf prüfen und ergänzen
+# Nach Update Inhalt der openwb.conf prüfen und ergänzen. UP atreboot.sh
 
 updateConfig(){
 	ConfigFile="/var/www/html/openWB/openwb.conf"
-	echo "Updating $ConfigFile..."
+	log "Updating $ConfigFile..."
+	clines=$(wc -l $ConfigFile | cut -f 1 -d " ")
 
 	if ! grep -Fq "wr_http_w_url=" $ConfigFile; then
 		echo "wr_http_w_url=http://192.168.0.17/pvwatt.txt" >> $ConfigFile
@@ -1159,7 +1160,9 @@ updateConfig(){
 		else
 			echo "etprovideraktiv=0" >> $ConfigFile
 		fi
+	fi
 		# tibber demo settings
+	if ! grep -Fq "tibbertoken=" $ConfigFile; then
 		echo "tibbertoken=d1007ead2dc84a2b82f0de19451c5fb22112f7ae11d19bf2bedb224a003ff74a" >> $ConfigFile
 		echo "tibberhomeid=c70dcbe5-4485-4821-933d-a8a86452737b" >> $ConfigFile
 	fi
@@ -1973,6 +1976,9 @@ updateConfig(){
 	if ! grep -Fq "rseenabled=" $ConfigFile; then
 		echo "rseenabled=0" >> $ConfigFile
 	fi
+	if ! grep -Fq "rfidenabled=" $ConfigFile; then
+		echo "rfidenabled=1" >> $ConfigFile
+	fi
 	if ! grep -Fq "u1p3schaltparam=" $ConfigFile; then
 		echo "u1p3schaltparam=8" >> $ConfigFile
 	fi
@@ -1988,7 +1994,7 @@ updateConfig(){
 		sed -i "/speicherpwpass='/b; s/^speicherpwpass=\(.*\)/speicherpwpass=\'\1\'/g" $ConfigFile
 	fi
 	if ! grep -Fq "multifems=" $ConfigFile; then
-		echo "multifems=1" >> $ConfigFile
+		echo "multifems=0" >> $ConfigFile
 	fi
 	if ! grep -Fq "solaredgezweiterspeicher=" $ConfigFile; then
 		echo "solaredgezweiterspeicher=0" >> $ConfigFile
@@ -2048,5 +2054,20 @@ updateConfig(){
 	if ! grep -Fq "alphav123=" $ConfigFile; then
 		echo "alphav123=0" >> $ConfigFile
 	fi
-	echo "Config file Update done."
+	if ! grep -Fq "virtual_ip_eth0=" $ConfigFile; then
+		echo "virtual_ip_eth0='192.168.193.5'" >> $ConfigFile
+	fi
+	if ! grep -Fq "virtual_ip_wlan0=" $ConfigFile; then
+		echo "virtual_ip_wlan0='192.168.193.6'" >> $ConfigFile
+	fi
+
+	newlines=$(wc -l $ConfigFile | cut -f 1 -d " ")
+	if (( newlines != clines )) ; then
+  	   log "Config file Update done. changed"
+  	   return 1
+  	else
+  	   log "Config file Update done, file has same size."
+  	   return 0
+	fi     
+
 }

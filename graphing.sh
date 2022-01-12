@@ -1,7 +1,10 @@
 #!/bin/bash
 graphing(){
 	#Ladestatuslog keurzen
-	echo "$(tail -100 /var/www/html/openWB/ramdisk/ladestatus.log)" > /var/www/html/openWB/ramdisk/ladestatus.log
+	# HH nicht noetig, macht cleanup, alle 5 Minuten 
+	#echo "$(tail -100 /var/www/html/openWB/ramdisk/ladestatus.log)" > /var/www/html/openWB/ramdisk/ladestatus.log
+	
+	
 	#Live Graphing
 	if [[ $pv2wattmodul != "none" ]]; then
 		pvwatt=$(</var/www/html/openWB/ramdisk/pvallwatt)

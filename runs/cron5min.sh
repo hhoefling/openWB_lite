@@ -1,12 +1,15 @@
 #!/bin/bash
+# must be called  as pi from /var/www/html/openWB
 OPENWBBASEDIR=$(cd `dirname $0`/../ && pwd)
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 
 . $OPENWBBASEDIR/loadconfig.sh
 . $OPENWBBASEDIR/helperFunctions.sh
 
-openwbDebugLog "MAIN" 0 "##### cron5min.sh started #####"
+idd=`id -un`
+openwbDebugLog "MAIN" 0 "##### cron5min.sh started as $idd #####"
 
+headfile="$OPENWBBASEDIR/web/logging/data/daily/daily_header"
 dailyfile="$OPENWBBASEDIR/web/logging/data/daily/$(date +%Y%m%d)"
 monthlyladelogfile="$OPENWBBASEDIR/web/logging/data/ladelog/$(date +%Y%m).csv"
 
@@ -73,6 +76,10 @@ d8=$(<$RAMDISKDIR/device8_wh)
 d9=$(<$RAMDISKDIR/device9_wh)
 d10="0"
 # now add a line to our daily csv
+if ! [[ -e "$headfile.csv" ]] ; then
+  echo "date,bezug,einspeisung,pv,ll1,ll2,ll3,llg,speicheri,speichere,verbraucher1,verbrauchere1,verbraucher2,verbrauchere2,verbraucher3,ll4,ll5,ll6,ll7,ll8,speichersoc,soc,soc1,temp1,temp2,temp3,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,temp4,temp5,temp6" >> $headfile.csv
+  openwbDebugLog "MAIN" 1 "daily headline created: $headfile.csv"
+fi
 echo $(date +%H%M),$bezug,$einspeisung,$pv,$ll1,$ll2,$ll3,$llg,$speicheri,$speichere,$verbraucher1,$verbrauchere1,$verbraucher2,$verbrauchere2,$verbraucher3,$ll4,$ll5,$ll6,$ll7,$ll8,$speichersoc,$soc,$soc1,$temp1,$temp2,$temp3,$d1,$d2,$d3,$d4,$d5,$d6,$d7,$d8,$d9,$d10,$temp4,$temp5,$temp6 >> $dailyfile.csv
 openwbDebugLog "MAIN" 1 "daily csv updated: $dailyfile.csv"
 
@@ -270,9 +277,9 @@ else
 	openwbDebugLog "MAIN" 1 "external openWB or daemon mode not configured; checking network setup"
 	ethstate=$(</sys/class/net/eth0/carrier)
 	if (( ethstate == 1 )); then
-		sudo ifconfig eth0:0 192.168.193.5 netmask 255.255.255.0 up
+		sudo ifconfig eth0:0 $virtual_ip_eth0 netmask 255.255.255.0 up
 		if [ -d /sys/class/net/wlan0 ]; then
-			sudo ifconfig wlan0:0 192.168.193.6 netmask 255.255.255.0 down
+			sudo ifconfig wlan0:0 $virtual_ip_wlan0 netmask 255.255.255.0 down
 			wlanstate=$(</sys/class/net/wlan0/carrier)
 			if (( wlanstate == 1 )); then
 				sudo systemctl stop hostapd
@@ -281,9 +288,9 @@ else
 		fi
 	else
 		if [ -d /sys/class/net/wlan0 ]; then
-			sudo ifconfig wlan0:0 192.168.193.6 netmask 255.255.255.0 up
+			sudo ifconfig wlan0:0 $virtual_ip_wlan0 netmask 255.255.255.0 up
 		fi
-		sudo ifconfig eth0:0 192.168.193.5 netmask 255.255.255.0 down
+		sudo ifconfig eth0:0 $virtual_ip_eth0 netmask 255.255.255.0 down
 	fi
 	# check for obsolete isss handler
 	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/isss.py" > /dev/null
@@ -344,12 +351,19 @@ if (( $pingcheckactive == 1 )); then
 	$OPENWBBASEDIR/runs/pingcheck.sh &
 fi
 
+# record the current commit details
+commitId=`git -C /var/www/html/openWB log --format="%h" -n 1`
+echo "$commitId" > $RAMDISKDIR/currentCommitHash
+echo `git -C /var/www/html/openWB branch -a --contains $commitId | perl -nle 'm|.*origin/(.+).*|; print $1' | uniq | xargs` > $RAMDISKDIR/currentCommitBranches
+
 # EVSE Check
 openwbDebugLog "MAIN" 1 "starting evsecheck"
 $OPENWBBASEDIR/runs/evsecheck
 
 # truncate all logs in ramdisk
 openwbDebugLog "MAIN" 1 "logfile cleanup triggered"
-$OPENWBBASEDIR/runs/cleanup.sh >> $RAMDISKDIR/cleanup.log 2>&1
+# die mqtt logdatei gehört www-data und kann von pi nicht geöndert werden.
+sudo $OPENWBBASEDIR/runs/cleanup.sh >> $RAMDISKDIR/cleanup.log 2>&1
+
 
 openwbDebugLog "MAIN" 0 "##### cron5min.sh finished #####"

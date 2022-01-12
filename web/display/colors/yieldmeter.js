@@ -5,20 +5,19 @@
  */
 
 class YieldMeter {
-	bardata;
-	xScale;
-	yScale;
-	svg;
-
+	
 	constructor() {
 		this.width = 500;
 		this.height = 500;
 		this.margin = {
-			top: 25, bottom: 30, left: 25, right: 0
+			top: 25, bottom: 30, left: 0, right: 0
 		};
 		this.labelfontsize = 16;
 		this.axisFontSize = 12;
-		this.textLength = 12;
+		this.bardata=null;
+		this.xScale=null;
+		this.yScale=null;
+		this.svg=null;
 	}
 
 	// to be called when the document is loaded
@@ -35,40 +34,17 @@ class YieldMeter {
 		this.chargeColor = 'var(--color-charging)';
 		this.axisColor = 'var(--color-axis)';
 		this.gridColor = 'var(--color-grid)';
-		d3.select("button#energyLeftButton")
-			.on("click", shiftLeft)
-		d3.select("button#energyRightButton")
-			.on("click", shiftRight)
-		d3.select("button#calendarButton")
-			.on("click", toggleMonthView)
+   	
 	}
 
 	// to be called when values have changed
 	update() {
-		switch (wbdata.graphMode) {
-			case 'live':
 				this.plotdata = Object.values(wbdata.sourceSummary)
-					.filter((row) => (row.energy > 0))
-					.concat(wbdata.usageDetails
-						.filter((row) => (row.energy > 0)));
-				break;
-			case 'day':
-				if (wbdata.showTodayGraph) {
-					this.plotdata = Object.values(wbdata.sourceSummary)
-						.filter((row) => (row.energy > 0))
-						.concat(wbdata.usageDetails
-							.filter((row) => (row.energy > 0)));
-				} else {
-					this.plotdata = Object.values(wbdata.historicSummary)
-						.filter((row) => (row.energy > 0));
-				}
-				break;
-			case 'month':
-				this.plotdata = Object.values(wbdata.historicSummary)
-					.filter((row) => (row.energy > 0));
-				break;
-			default: break;
-		}
+				.filter((row) => (row.energy > 0))
+				.concat(wbdata.usageDetails
+					.filter((row) => (row.energy > 0)));
+		
+				
 		this.adjustLabelSize()
 		const svg = this.createOrUpdateSvg();
 		this.drawChart(svg);
@@ -90,7 +66,7 @@ class YieldMeter {
 	drawChart(svg) {
 		const ymax = d3.max(this.plotdata, (d) => d.energy);
 		this.xScale.domain(this.plotdata.map((d) => d.name));
-		this.yScale.domain([0, Math.ceil(ymax)]);
+		this.yScale.domain([0, ymax]);
 		const bargroups = svg
 			.selectAll(".bar")
 			.data(this.plotdata)
@@ -107,7 +83,7 @@ class YieldMeter {
 
 		const yAxisGenerator = d3.axisLeft(this.yScale)
 			.tickFormat(function (d) {
-				return ((d > 0) ? d : "");
+				return (/*(d > 0) ? d :*/ "");
 			})
 			.ticks(8)
 			.tickSizeInner(-this.width);
@@ -124,23 +100,10 @@ class YieldMeter {
 			.text("energy");
 
 		yAxis.selectAll(".tick").attr("font-size", this.axisFontSize);
-		if (wbdata.showGrid) {
-			yAxis.selectAll(".tick line")
-				.attr("stroke", this.gridColor)
-				.attr("stroke-width", "0.5");
-		} else {
 			yAxis.selectAll(".tick line").attr("stroke", this.bgColor);
-		}
 		yAxis.select(".domain")
 			.attr("stroke", this.bgcolor);
 
-		svg.append("text")
-			.attr("x", -this.margin.left)
-			.attr("y", -15)
-			.style("fill", this.axisColor)
-			.attr("font-size", this.axisFontSize)
-			.text("kWh")
-			;
 		const labels = svg.selectAll(".label")
 			.data(this.plotdata)
 			.enter()
@@ -153,6 +116,7 @@ class YieldMeter {
 			.attr("text-anchor", "middle")
 			.attr("fill", (d) => d.color)
 			.text((d) => (formatWattH(d.energy * 1000)));
+
 
 		const categories = svg.selectAll(".category")
 			.data(this.plotdata)
@@ -169,24 +133,7 @@ class YieldMeter {
 	}
 
 	updateHeading() {
-		var heading = "Energie ";
-
-		switch (wbdata.graphMode) {
-			case 'live':
-				heading = heading + " heute";
-				break;
-			case 'day':
-				if (wbdata.showTodayGraph) {
-					heading = heading + " heute";
-				} else {
-					heading = heading + wbdata.graphDate.getDate() + "." + (wbdata.graphDate.getMonth() + 1) + ".";
-				}
-				break;
-			case 'month':
-				heading = "Monatswerte " + formatMonth(wbdata.graphMonth.month, wbdata.graphMonth.year);
-				break;
-			default: break;
-		}
+		var heading = "Energie heute";
 		d3.select("h3#energyheading").text(heading);
 	}
 
@@ -217,13 +164,10 @@ class YieldMeter {
 	truncateCategory(name) {
 		if (name.length > this.maxTextLength) {
 			return name.substr(0, this.maxTextLength) + "."
-		} else {
+				} else {
 			return name
-		}
+				}
 	}
 }
-
-
-
 var yieldMeter = new YieldMeter();
 

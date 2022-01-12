@@ -66,6 +66,7 @@
 					<div class="row">
 						<div class="col">
 							Kernel: <?php echo exec('uname -ors'); ?><br>
+							<?php echo exec('python3 -V'); ?><br>
 							openWB Version: <span id="installedVersionSpan" data-version=""></span>
 						</div>
 					</div>
@@ -143,7 +144,7 @@
 
 		<script>
 
-			// load navbar, be carefull: it loads asynchonously
+			// load navbar, be careful: it loads asynchronous
 			$.get(
 				{ url: "settings/navbar.html", cache: false },
 				function(data){
@@ -202,13 +203,13 @@
 						$('#memMeter').attr({'max': json.memtot, 'high': (json.memtot*0.85)});
 						$('#memMeter').val(json.memuse);
 						if (json.ethaddr != '') {
-							$('#iplan').text(json.ethaddr);
+							$('#iplan').text( json.ethaddr   + ', ' + json.ethaddr2 );
 						} else {
 							$('#iplan').text('--');
 						}
 						if (json.wlanaddr != '') {
 							$('#wifidata').show();
-							$('#ipwifi').text(json.wlanaddr);
+							$('#ipwifi').text(json.wlanaddr + ', ' + json.wlanaddr2 );
 							$('#wifiqualy').text(json.wlanqualy);
 							$('#wifissid').text(json.wlanssid);
 							$('#wifimode').text(json.wlanmode);
