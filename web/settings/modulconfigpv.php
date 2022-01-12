@@ -80,6 +80,7 @@
 										<option <?php if($pvwattmodulold == "wr_fems") echo "selected" ?> value="wr_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option>
 										<option <?php if($pvwattmodulold == "wr_powerdog") echo "selected" ?> value="wr_powerdog">Powerdog</option>
 										<option <?php if($pvwattmodulold == "wr_rct") echo "selected" ?> value="wr_rct">RCT</option>
+										<option <?php if($pvwattmodulold == "wr_rct2") echo "selected" ?> value="wr_rct2">RCT V.2</option>
 										<option <?php if($pvwattmodulold == "wr_siemens") echo "selected" ?> value="wr_siemens">Siemens Speicher</option>
 										<option <?php if($pvwattmodulold == "smaemd_pv") echo "selected" ?> value="smaemd_pv">SMA Energy Meter</option>
 										<option <?php if($pvwattmodulold == "wr_tripower9000") echo "selected" ?> value="wr_tripower9000">SMA ModbusTCP WR</option>
@@ -176,6 +177,7 @@
 									</span>
 								</div>
 							</div>
+							<div class="form-row mb-1">
 							<label class="col-md-4 col-form-label">Alternative Auslesung</label>
 							<div class="col">
 								<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
@@ -190,6 +192,7 @@
 									Diese Option aktivieren wenn statt des S0 der andere Eingang des Youless genutzt wird.
 								</span>
 							</div>
+						</div>
 						</div>
 						<div id="pvsunways" class="hide">
 							<div class="form-row mb-1">
@@ -823,6 +826,9 @@
 									showSection('#pvpowerdog');
 								}
 								if($('#pvwattmodul').val() == 'wr_rct') {
+									showSection('#pvrct');
+								}
+								if($('#pvwattmodul').val() == 'wr_rct2') {
 									showSection('#pvrct');
 								}
 								if($('#pvwattmodul').val() == 'wr_fems') {
