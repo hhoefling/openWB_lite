@@ -1,9 +1,20 @@
 #!/bin/bash
-echo "atreboot.sh started"
+
+SELF=`basename $0`
+function log()
+{
+ timestamp=`date +"%Y-%m-%d %H:%M:%S"`
+ echo $timestamp $SELF $*
+}
+
+
+OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
+log started
+
 (sleep 600; sudo kill $(ps aux |grep '[a]treboot.sh' | awk '{print $2}'); echo 0 > /var/www/html/openWB/ramdisk/bootinprogress; echo 0 > /var/www/html/openWB/ramdisk/updateinprogress) &
 
 # read openwb.conf
-echo "loading config"
+log loading config
 . /var/www/html/openWB/loadconfig.sh
 
 # load functions to init ramdisk and update config
@@ -23,6 +34,7 @@ sudo chmod 777 /var/www/html/openWB/ramdisk/
 sudo chmod 777 /var/www/html/openWB/web/files/*
 sudo chmod -R +x /var/www/html/openWB/modules/*
 
+# die schreiben in ihr verzeichniss
 sudo chmod -R 777 /var/www/html/openWB/modules/soc_i3
 sudo chmod -R 777 /var/www/html/openWB/modules/soc_eq
 sudo chmod -R 777 /var/www/html/openWB/modules/soc_tesla
@@ -38,26 +50,30 @@ sudo chmod -R 777 /var/www/html/openWB/web/logging/data/
 
 # update openwb.conf
 updateConfig
-# reload our changed openwb.conf
-. /var/www/html/openWB/loadconfig.sh
+updated=$?
+if  (( updated )) ; then
+  log "reload changed openwb.conf"
+   . /var/www/html/openWB/loadconfig.sh
+fi
+
 # now setup all files in ramdisk
 initRamdisk
 
 # standard socket - activated after reboot due to RASPI init defaults so we need to disable it as soon as we can
 if [[ $standardSocketInstalled == "1" ]]; then
-	echo "turning off standard socket ..."
+	log "turning off standard socket ..."
 	sudo python /var/www/html/openWB/runs/standardSocket.py off
 fi
 
 # initialize automatic phase switching
 if (( u1p3paktiv == 1 )); then
-	echo "triginit..."
+	log "triginit..."
 	sudo python /var/www/html/openWB/runs/triginit.py -d $u1p3ppause
 fi
 
 # check if buttons are configured and start daemon
 if (( ladetaster == 1 )); then
-	echo "pushbuttons..."
+	log "pushbuttons..."
 	if ! [ -x "$(command -v nmcli)" ]; then
 		if ps ax |grep -v grep |grep "python /var/www/html/openWB/runs/ladetaster.py" > /dev/null
 		then
@@ -70,7 +86,7 @@ fi
 
 # check for rse and start daemon
 if (( rseenabled == 1 )); then
-	echo "rse..."
+	log "rse..."
 	if ! [ -x "$(command -v nmcli)" ]; then
 		if ps ax |grep -v grep |grep "python /var/www/html/openWB/runs/rse.py" > /dev/null
 		then
@@ -82,22 +98,30 @@ if (( rseenabled == 1 )); then
 fi
 
 # check if rfid is configured and start daemons to listen on input devices
-if (( rfidakt == 1 )); then
-	echo "rfid 1..."
+
+
+if ps ax |grep -v grep |grep "python /var/www/html/openWB/runs/readrfid.py" > /dev/null
+then
 	sudo kill $(ps aux |grep '[r]eadrfid.py' | awk '{print $2}')
+fi
+if ps ax |grep -v grep |grep "python /var/www/html/openWB/runs/readrfid2.py" > /dev/null
+then
+	sudo kill $(ps aux |grep '[r]eadrfid2.py' | awk '{print $2}')
+fi
+if (( rfidakt == 1 )); then
+	log "rfid 1..."
 	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid.py $displayaktiv) &
 	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid2.py $displayaktiv) &
 fi
 if (( rfidakt == 2 )); then
-	echo "rfid 2..."
-	sudo kill $(ps aux |grep '[r]eadrfid.py' | awk '{print $2}')
+	log "rfid 2..."
 	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid.py $displayaktiv) &
 	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid2.py $displayaktiv) &
 fi
 
 # check if tesla wall connector is configured and start daemon
 if [[ $evsecon == twcmanager ]]; then
-	echo "twcmanager..."
+	log "twcmanager..."
 	if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
 		screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
 	fi
@@ -105,21 +129,21 @@ fi
 
 # check if display is configured and setup timeout
 if (( displayaktiv == 1 )); then
-	echo "display..."
+	log "display..."
 	if ! grep -Fq "pinch" /home/pi/.config/lxsession/LXDE-pi/autostart
 	then
-		echo "not found"
+		log "not found"
 		echo "@xscreensaver -no-splash" > /home/pi/.config/lxsession/LXDE-pi/autostart
 		echo "@point-rpi" >> /home/pi/.config/lxsession/LXDE-pi/autostart
 		echo "@xset s 600" >> /home/pi/.config/lxsession/LXDE-pi/autostart
 		echo "@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php" >> /home/pi/.config/lxsession/LXDE-pi/autostart
 	fi
-	echo "deleting browser cache"
+	log "deleting browser cache"
 	rm -rf /home/pi/.cache/chromium
 fi
 
 # restart smarthomehandler
-echo "smarthome handler..."
+log "smarthome handler..."
 if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/smarthomehandler.py" > /dev/null
 then
 	sudo kill $(ps aux |grep '[s]marthomehandler.py' | awk '{print $2}')
@@ -127,35 +151,36 @@ fi
 python3 /var/www/html/openWB/runs/smarthomehandler.py >> /var/www/html/openWB/ramdisk/smarthome.log 2>&1 &
 
 # restart mqttsub handler
-echo "mqtt handler..."
+log "mqtt handler..."
 if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/mqttsub.py" > /dev/null
 then
 	sudo kill $(ps aux |grep '[m]qttsub.py' | awk '{print $2}')
 fi
 python3 /var/www/html/openWB/runs/mqttsub.py &
 
-# check crontab for user pi
-echo "crontab 1..."
-crontab -l -u pi > /var/www/html/openWB/ramdisk/tmpcrontab
-if grep -Fq "lade.log" /var/www/html/openWB/ramdisk/tmpcrontab
-then
-	echo "crontab modified"
-	sed -i '/lade.log/d' /var/www/html/openWB/ramdisk/tmpcrontab
-	echo "* * * * * /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1" >> /var/www/html/openWB/ramdisk/tmpcrontab
-	cat /var/www/html/openWB/ramdisk/tmpcrontab | crontab -u pi -
-fi
+
+### check crontab for user pi   ***OLD***
+## echo "crontab 1..."
+## crontab -l -u pi > /var/www/html/openWB/ramdisk/tmpcrontab
+## if grep -Fq "lade.log" /var/www/html/openWB/ramdisk/tmpcrontab
+## then
+##	log "crontab modified"
+##	sed -i '/lade.log/d' /var/www/html/openWB/ramdisk/tmpcrontab
+##	echo "* * * * * /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1" >> /var/www/html/openWB/ramdisk/tmpcrontab
+##	cat /var/www/html/openWB/ramdisk/tmpcrontab | crontab -u pi -
+## fi
 
 # check crontab for user root and remove old @reboot entry
 sudo crontab -l > /var/www/html/openWB/ramdisk/tmprootcrontab
 if grep -Fq "atreboot.sh" /var/www/html/openWB/ramdisk/tmprootcrontab
 then
-	echo "executed"
+	log "executed"
 	sed -i '/atreboot.sh/d' /var/www/html/openWB/ramdisk/tmprootcrontab
 	cat /var/www/html/openWB/ramdisk/tmprootcrontab | sudo crontab -
 fi
 
 # check for LAN/WLAN connection
-echo "LAN/WLAN..."
+log "LAN/WLAN..."
 ethstate=$(</sys/class/net/eth0/carrier)
 if (( ethstate == 1 )); then
 	sudo ifconfig eth0:0 $virtual_ip_eth0 netmask 255.255.255.0 up
@@ -167,14 +192,14 @@ fi
 echo "apache..."
 if grep -Fxq "AllowOverride" /etc/apache2/sites-available/000-default.conf
 then
-	echo "...ok"
+	log "...ok"
 else
 	sudo cp /var/www/html/openWB/web/tools/000-default.conf /etc/apache2/sites-available/
-	echo "...changed"
+	log "...changed"
 fi
 
 # add some crontab entries for user pi
-echo "crontab 2..."
+log "crontab 2..."
 if ! sudo grep -Fq "cronnightly.sh" /var/spool/cron/crontabs/pi
 then
 	(crontab -l -u pi ; echo "1 0 * * * /var/www/html/openWB/runs/cronnightly.sh >> /var/log/openWB.log 2>&1")| crontab -u pi -
@@ -189,9 +214,9 @@ then
 fi
 
 # check for needed packages
-echo "packages 1..."
+log "packages 1..."
 if python -c "import evdev" &> /dev/null; then
-	echo 'evdev installed...'
+	log 'evdev installed...'
 else
 	sudo pip install evdev
 fi
@@ -217,12 +242,12 @@ fi
 
 # check for led handler
 if (( ledsakt == 1 )); then
-	echo "led..."
+	log "led..."
 	sudo python /var/www/html/openWB/runs/leds.py startup
 fi
 
 # setup timezone
-echo "timezone..."
+log "timezone..."
 sudo cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 if [ ! -f /home/pi/ssl_patched ]; then
@@ -233,7 +258,7 @@ if [ ! -f /home/pi/ssl_patched ]; then
 fi
 
 # check for mosquitto packages
-echo "mosquitto..."
+log "mosquitto..."
 if [ ! -f /etc/mosquitto/mosquitto.conf ]; then
 	sudo apt-get update
 	sudo apt-get -qq install -y mosquitto mosquitto-clients
@@ -242,53 +267,53 @@ fi
 
 # check for mosquitto configuration
 if [ ! -f /etc/mosquitto/conf.d/openwb.conf ] || ! sudo grep -Fq "persistent_client_expiration" /etc/mosquitto/mosquitto.conf; then
-	echo "updating mosquitto config file"
+	log "updating mosquitto config file"
 	sudo cp /var/www/html/openWB/web/files/mosquitto.conf /etc/mosquitto/conf.d/openwb.conf
 	sudo service mosquitto reload
 fi
 
 # check for other dependencies
-echo "packages 2..."
+log "packages 2..."
 if python3 -c "import paho.mqtt.publish as publish" &> /dev/null; then
-	echo 'mqtt installed...'
+	log 'mqtt installed...'
 else
 	sudo apt-get -qq install -y python3-pip
 	sudo pip3 install paho-mqtt
 fi
 if python3 -c "import docopt" &> /dev/null; then
-	echo 'docopt installed...'
+	log 'docopt installed...'
 else
 	sudo pip3 install docopt
 fi
 if python3 -c "import certifi" &> /dev/null; then
-	echo 'certifi installed...'
+	log 'certifi installed...'
 else
 	sudo pip3 install certifi
 fi
 if python3 -c "import aiohttp" &> /dev/null; then
-	echo 'aiohttp installed...'
+	log 'aiohttp installed...'
 else
 	sudo pip3 install aiohttp
 fi
 if python3 -c "import pymodbus" &> /dev/null; then
-	echo 'pymodbus installed...'
+	log 'pymodbus installed...'
 else
 	sudo pip3 install pymodbus
 fi
 if python3 -c "import requests" &> /dev/null; then
-	echo 'python requests installed...'
+	log 'python requests installed...'
 else
 	sudo pip3 install requests
 fi
 #Prepare for jq in Python
 if python3 -c "import jq" &> /dev/null; then
-	echo 'jq installed...'
+	log 'jq installed...'
 else
 	sudo pip3 install jq
 fi
 #Prepare for ipparser in Python
 if python3 -c "import ipparser" &> /dev/null; then
-	echo 'ipparser installed...'
+	log 'ipparser installed...'
 else
 	sudo pip3 install ipparser
 fi
@@ -297,21 +322,21 @@ pip3 install --upgrade urllib3
 
 
 # update version
-echo "version..."
+log "version..."
 uuid=$(</sys/class/net/eth0/address)
 owbv=$(</var/www/html/openWB/web/version)
 # No
 # curl -d "update="$releasetrain$uuid"vers"$owbv"" -H "Content-Type: application/x-www-form-urlencoded" -X POST https://openwb.de/tools/update.php
 
 # all done, remove warning in display
-echo "clear warning..."
+log "clear warning..."
 echo "" > /var/www/html/openWB/ramdisk/lastregelungaktiv
 echo "" > /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
 chmod 777 /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
 
 # check for slave config and start handler
 if (( isss == 1 )); then
-	echo "isss..."
+	log "isss..."
 	echo $lastmanagement > /var/www/html/openWB/ramdisk/issslp2act
 	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/isss.py" > /dev/null
 	then
@@ -329,7 +354,7 @@ fi
 
 # check for socket system and start handler
 if [[ "$evsecon" == "buchse" ]]  && [[ "$isss" == "0" ]]; then
-	echo "socket..."
+	log "socket..."
 	# ppbuchse is used in issss.py to detect "openWB Buchse"
 	if [ ! -f /home/pi/ppbuchse ]; then
 		echo "32" > /home/pi/ppbuchse
@@ -343,7 +368,7 @@ fi
 
 # check for rfid mode 2 and start handler
 if [[ "$rfidakt" == "2" ]]; then
-	echo "rfid 2 handler..."
+	log "rfid 2 handler..."
 	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/rfid.py" > /dev/null
 	then
 		sudo kill $(ps aux |grep '[r]fid.py' | awk '{print $2}')
@@ -352,7 +377,7 @@ if [[ "$rfidakt" == "2" ]]; then
 fi
 
 # update display configuration
-echo "display update..."
+log "display update..."
 if grep -Fq "@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php" /home/pi/.config/lxsession/LXDE-pi/autostart
 then
 	sed -i "s,@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php,@chromium-browser --incognito --disable-pinch --overscroll-history-navigation=0 --kiosk http://localhost/openWB/web/display.php,g" /home/pi/.config/lxsession/LXDE-pi/autostart
@@ -362,7 +387,7 @@ fi
 ip route get 1 | awk '{print $7;exit}' > /var/www/html/openWB/ramdisk/ipaddress
 
 # update current published versions
-echo "load versions..."
+log "load versions..."
 curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/web/version > /var/www/html/openWB/ramdisk/vnightly
 curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version > /var/www/html/openWB/ramdisk/vbeta
 curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/stable17/web/version > /var/www/html/openWB/ramdisk/vstable
@@ -377,7 +402,7 @@ sudo chmod 777 /var/www/html/openWB/ramdisk/currentCommitHash
 sudo chmod 777 /var/www/html/openWB/ramdisk/currentCommitBranches
 
 # update broker
-echo "update broker..."
+log "update broker..."
 for i in $(seq 1 9);
 do
 	configured=$(timeout 1 mosquitto_sub -C 1 -t openWB/config/get/SmartHome/Devices/$i/device_configured)
@@ -406,33 +431,33 @@ chmod 777 /var/www/html/openWB/ramdisk/smarthome.log
 chmod 777 /var/www/html/openWB/ramdisk/smarthomehandlerloglevel
 
 # update etprovider pricelist
-echo "etprovider..."
+log "etprovider..."
 if [[ "$etprovideraktiv" == "1" ]]; then
-	echo "update electricity pricelist..."
+	log "update electricity pricelist..."
 	echo "" > /var/www/html/openWB/ramdisk/etprovidergraphlist
 	mosquitto_pub -r -t openWB/global/ETProvider/modulePath -m "$etprovider"
 	/var/www/html/openWB/modules/$etprovider/main.sh > /var/log/openWB.log 2>&1 &
 else
-	echo "not activated, skipping"
+	log "not activated, skipping"
 	mosquitto_pub -r -t openWB/global/awattar/pricelist -m ""
 fi
 
 # set upload limit in php
 #prepare for Buster
-echo -n "fix upload limit..."
+log  "fix upload limit..."
 if [ -d "/etc/php/7.0/" ]; then
-	echo "OS Stretch"
+	log "OS Stretch"
 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
 elif [ -d "/etc/php/7.3/" ]; then
-	echo "OS Buster"
+	log "OS Buster"
 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
 fi
 sudo /usr/sbin/apachectl -k graceful
 
 # all done, remove boot and update status
-echo $(date +"%Y-%m-%d %H:%M:%S:") "boot done :-)"
+log "boot done :-)"
 echo 0 > /var/www/html/openWB/ramdisk/bootinprogress
 echo 0 > /var/www/html/openWB/ramdisk/updateinprogress
 mosquitto_pub -t openWB/system/updateInProgress -r -m "0"
