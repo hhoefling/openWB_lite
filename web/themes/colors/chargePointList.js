@@ -54,7 +54,6 @@ class ChargePointList {
 
     rows.append((row, i) => this.cpNameButtonCell(row, i));
 
-    console.log(wbdata);
     
 	rows.selectAll("cells")
       .data(row => [

@@ -155,8 +155,6 @@ function shModeClicked(i) {
 
 function shDeviceClicked(i) {
 
-  console.log( 'shDeviceClicked(' + i +')' );
-  
   if (!wbdata.shDevice[i].isAutomatic) {
     if (wbdata.shDevice[i].isOn) {
       publish("0", "openWB/config/set/SmartHome/Device" + (+i + 1) + "/device_manual_control");

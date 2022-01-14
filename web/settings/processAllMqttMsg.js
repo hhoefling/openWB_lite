@@ -57,6 +57,6 @@ function processMessages(mqttmsg, mqttpayload) {
         originalValues[mqttmsg] = mqttpayload;
         setInputValue(elementId, mqttpayload);
     } else {
-        console.log(elementId + ' not found');
+        console.log('processMessages inputelem:'+elementId + ' not found for topic:' + mqttmsg + '=' + mqttpayload);
     }
 }  // end processMessages

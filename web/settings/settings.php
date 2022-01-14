@@ -641,7 +641,7 @@
 										<div class="form-row vaRow mb-1">
 											<label for="zielladensoclp1" class="col-2 col-form-label valueLabel" suffix="%"><?php echo $zielladensoclp1old; ?> %</label>
 											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="zielladensoclp1" id="zielladensoclp1" min="0" max="100" step="5" value="<?php echo $zielladensoclp1old; ?>">
+												<input type="range" class="form-control-range rangeInput" name="zielladensoclp1" id="zielladensoclp1" min="0" max="100" step="1" value="<?php echo $zielladensoclp1old; ?>">
 											</div>
 										</div>
 										<span class="form-text small">Der SoC Wert auf den geladen werden soll.</span>
@@ -901,7 +901,7 @@
 										<div class="form-row vaRow mb-1">
 											<label for="u1p3ppause" class="col-2 col-form-label valueLabel" suffix="Sek"><?php echo $u1p3ppauseold; ?> Sek</label>
 											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="u1p3ppause" id="u1p3ppause" min="2" max="15" step="1" value="<?php echo $u1p3ppauseold; ?>">
+												<input type="range" class="form-control-range rangeInput" name="u1p3ppause" id="u1p3ppause" min="2" max="150" step="1" value="<?php echo $u1p3ppauseold; ?>">
 											</div>
 										</div>
 										<span class="form-text small">
@@ -1079,7 +1079,11 @@
 														<option <?php if($nachtladenabuhrold == 21) echo "selected" ?> value="21">21:00</option>
 														<option <?php if($nachtladenabuhrold == 22) echo "selected" ?> value="22">22:00</option>
 														<option <?php if($nachtladenabuhrold == 23) echo "selected" ?> value="23">23:00</option>
-														<option <?php if($nachtladenabuhrold == 24) echo "selected" ?> value="24">24:00</option>
+														<option <?php if($nachtladenabuhrold == 0) echo "selected" ?> value="0">0:00</option>
+														<option <?php if($nachtladenabuhrold == 1) echo "selected" ?> value="1">1:00</option>
+														<option <?php if($nachtladenabuhrold == 2) echo "selected" ?> value="2">2:00</option>
+														<option <?php if($nachtladenabuhrold == 3) echo "selected" ?> value="3">3:00</option>
+														<option <?php if($nachtladenabuhrold == 4) echo "selected" ?> value="4">4:00</option>
 													</select>
 												</div>
 											</div>
@@ -1091,6 +1095,10 @@
 														</div>
 													</div>
 													<select name="nachtladenbisuhr" id="nachtladenbisuhr" class="form-control">
+														<option <?php if($nachtladenbisuhrold == 20) echo "selected" ?> value="20">20:00</option>
+														<option <?php if($nachtladenbisuhrold == 21) echo "selected" ?> value="21">21:00</option>
+														<option <?php if($nachtladenbisuhrold == 22) echo "selected" ?> value="22">22:00</option>
+														<option <?php if($nachtladenbisuhrold == 23) echo "selected" ?> value="23">23:00</option>
 														<option <?php if($nachtladenbisuhrold == 0) echo "selected" ?> value="0">0:00</option>
 														<option <?php if($nachtladenbisuhrold == 1) echo "selected" ?> value="1">1:00</option>
 														<option <?php if($nachtladenbisuhrold == 2) echo "selected" ?> value="2">2:00</option>
@@ -1114,7 +1122,7 @@
 										<div class="form-row vaRow mb-1">
 											<label for="nachtsoc" class="col-2 col-form-label valueLabel" suffix="%"><?php echo $nachtsocold; ?> %</label>
 											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="nachtsoc" id="nachtsoc" min="5" max="100" step="5" value="<?php echo $nachtsocold; ?>">
+												<input type="range" class="form-control-range rangeInput" name="nachtsoc" id="nachtsoc" min="5" max="100" step="1" value="<?php echo $nachtsocold; ?>">
 											</div>
 										</div>
 										<span class="form-text small">Wenn SoC Modul vorhanden wird Nachts bis xx% SoC geladen in dem angegebenen Zeitfenster. Das SoC Fenster is von von Sonntag Abend bis Freitag Morgen aktiv.</span>
@@ -1126,7 +1134,7 @@
 										<div class="form-row vaRow mb-1">
 											<label for="nachtsoc1" class="col-2 col-form-label valueLabel" suffix="%"><?php echo $nachtsoc1old; ?> %</label>
 											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="nachtsoc1" id="nachtsoc1" min="5" max="100" step="5" value="<?php echo $nachtsoc1old; ?>">
+												<input type="range" class="form-control-range rangeInput" name="nachtsoc1" id="nachtsoc1" min="5" max="100" step="1" value="<?php echo $nachtsoc1old; ?>">
 											</div>
 										</div>
 										<span class="form-text small">Wenn SoC Modul vorhanden wird Nachts bis xx% SoC geladen in dem angegebenen Zeitfenster. Das SoC Fenster is von von Freitag Morgen bis Sonntag Abend aktiv.</span>
@@ -1265,7 +1273,11 @@
 															<option <?php if($nachtladenabuhrs1old == 21) echo "selected" ?> value="21">21:00</option>
 															<option <?php if($nachtladenabuhrs1old == 22) echo "selected" ?> value="22">22:00</option>
 															<option <?php if($nachtladenabuhrs1old == 23) echo "selected" ?> value="23">23:00</option>
-															<option <?php if($nachtladenabuhrs1old == 24) echo "selected" ?> value="24">24:00</option>
+															<option <?php if($nachtladenabuhrs1old == 0)  echo "selected" ?> value="0">0:00</option>
+															<option <?php if($nachtladenabuhrs1old == 1)  echo "selected" ?> value="1">1:00</option>
+															<option <?php if($nachtladenabuhrs1old == 2)  echo "selected" ?> value="2">2:00</option>
+															<option <?php if($nachtladenabuhrs1old == 3)  echo "selected" ?> value="3">3:00</option>
+															<option <?php if($nachtladenabuhrs1old == 4)  echo "selected" ?> value="4">4:00</option>
 														</select>
 													</div>
 												</div>
@@ -1277,6 +1289,10 @@
 															</div>
 														</div>
 														<select name="nachtladenbisuhrs1" id="nachtladenbisuhrs1" class="form-control">
+															<option <?php if($nachtladenbisuhrs1old == 20) echo "selected" ?> value="20">20:00</option>
+															<option <?php if($nachtladenbisuhrs1old == 21) echo "selected" ?> value="21">21:00</option>
+															<option <?php if($nachtladenbisuhrs1old == 22) echo "selected" ?> value="22">22:00</option>
+															<option <?php if($nachtladenbisuhrs1old == 23) echo "selected" ?> value="23">23:00</option>
 															<option <?php if($nachtladenbisuhrs1old == 0) echo "selected" ?> value="0">0:00</option>
 															<option <?php if($nachtladenbisuhrs1old == 1) echo "selected" ?> value="1">1:00</option>
 															<option <?php if($nachtladenbisuhrs1old == 2) echo "selected" ?> value="2">2:00</option>
@@ -1300,7 +1316,7 @@
 											<div class="form-row vaRow mb-1">
 												<label for="nachtsocs1" class="col-2 col-form-label valueLabel" suffix="%"><?php echo $nachtsocs1old; ?> %</label>
 												<div class="col-10">
-													<input type="range" class="form-control-range rangeInput" name="nachtsocs1" id="nachtsocs1" min="5" max="100" step="5" value="<?php echo $nachtsocs1old; ?>">
+													<input type="range" class="form-control-range rangeInput" name="nachtsocs1" id="nachtsocs1" min="5" max="100" step="1" value="<?php echo $nachtsocs1old; ?>">
 												</div>
 											</div>
 											<span class="form-text small">Wenn SoC Modul vorhanden wird Nachts bis xx% SoC geladen in dem angegebenen Zeitfenster. Das SoC Fenster is von von Sonntag Abend bis Freitag Morgen aktiv.</span>
@@ -1312,7 +1328,7 @@
 											<div class="form-row vaRow mb-1">
 												<label for="nachtsoc1s1" class="col-2 col-form-label valueLabel" suffix="%"><?php echo $nachtsoc1s1old; ?> %</label>
 												<div class="col-10">
-													<input type="range" class="form-control-range rangeInput" name="nachtsoc1s1" id="nachtsoc1s1" min="5" max="100" step="5" value="<?php echo $nachtsoc1s1old; ?>">
+													<input type="range" class="form-control-range rangeInput" name="nachtsoc1s1" id="nachtsoc1s1" min="5" max="100" step="1" value="<?php echo $nachtsoc1s1old; ?>">
 												</div>
 											</div>
 											<span class="form-text small">Wenn SoC Modul vorhanden wird Nachts bis xx% SoC geladen in dem angegebenen Zeitfenster. Das SoC Fenster is von von Freitag Morgen bis Sonntag Abend aktiv.</span>

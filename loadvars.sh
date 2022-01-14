@@ -169,6 +169,7 @@ loadvars(){
 						if [[ $displayconfigured == "1" ]] && [[ $displayEinBeimAnstecken == "1" ]] ; then
 							export DISPLAY=:0 && xset dpms force on && xset dpms $displaysleep $displaysleep $displaysleep
 						fi
+						echo 20000 > /var/www/html/openWB/ramdisk/soctimer1
 					fi
 					echo 1 > /var/www/html/openWB/ramdisk/plugstats1
 					plugstat2=1
@@ -473,7 +474,10 @@ loadvars(){
 
 	#Speicher werte
 	if [[ $speichermodul != "none" ]] ; then
-		timeout 5 modules/$speichermodul/main.sh || true
+		timeout 5 modules/$speichermodul/main.sh
+		if [[ $? -eq 124 ]] ; then
+			openwbModulePublishState "BAT" 2 "Die Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und GerÃ¤testatus prÜfen."
+		fi
 		speicherleistung=$(</var/www/html/openWB/ramdisk/speicherleistung)
 		speicherleistung=$(echo $speicherleistung | sed 's/\..*$//')
 		speichersoc=$(</var/www/html/openWB/ramdisk/speichersoc)

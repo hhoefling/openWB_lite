@@ -176,7 +176,7 @@ if(!preg_match('/^(mqttv31|mqttv311)$/', $mqttProtocol)) {
 debugPrint("MQTT protocol: '$mqttProtocol'");
 
 $tlsProtocol = $_POST['tlsProtocol'];
-if(!preg_match('/^(tlsv1.2|tlsv1.3)$/', $tlsProtocol)) {
+if(!preg_match('/^(tlsv1|tlsv1.2|tlsv1.3)$/', $tlsProtocol)) {
 	cleanAndExit("Interner Fehler: Ung&uuml;tiges TLS Protokoll '" . htmlentities($tlsProtocol) . "'");
 }
 

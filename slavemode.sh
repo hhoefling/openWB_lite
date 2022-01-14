@@ -31,6 +31,11 @@ fi
 # the main entry point of the script that is called from outside
 openwbisslave() {
 
+	openwbDebugLog "MAIN" 2 ""
+	openwbDebugLog "MAIN" 2 "************************************"
+	openwbDebugLog "MAIN" 2 "** Slave mode: Control loop start **"
+	openwbDebugLog "MAIN" 2 "************************************"
+
 	setVariablesFromRamdisk
 
 	checkControllerHeartbeat

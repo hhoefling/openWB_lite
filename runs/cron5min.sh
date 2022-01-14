@@ -6,7 +6,8 @@ RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 . $OPENWBBASEDIR/loadconfig.sh
 . $OPENWBBASEDIR/helperFunctions.sh
 
-openwbDebugLog "MAIN" 0 "##### cron5min.sh started #####"
+idd=`id -un`
+openwbDebugLog "MAIN" 0 "##### cron5min.sh started as $idd #####"
 
 headfile="$OPENWBBASEDIR/web/logging/data/daily/daily_header"
 dailyfile="$OPENWBBASEDIR/web/logging/data/daily/$(date +%Y%m%d)"
@@ -361,6 +362,8 @@ $OPENWBBASEDIR/runs/evsecheck
 
 # truncate all logs in ramdisk
 openwbDebugLog "MAIN" 1 "logfile cleanup triggered"
-$OPENWBBASEDIR/runs/cleanup.sh >> $RAMDISKDIR/cleanup.log 2>&1
+# die mqtt logdatei gehört www-data und kann von pi nicht geöndert werden.
+sudo $OPENWBBASEDIR/runs/cleanup.sh >> $RAMDISKDIR/cleanup.log 2>&1
+
 
 openwbDebugLog "MAIN" 0 "##### cron5min.sh finished #####"

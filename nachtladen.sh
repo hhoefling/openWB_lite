@@ -62,9 +62,58 @@ lastmnacht(){
 	fi
 }
 
+
+isnacht()  # $1 $2 $3
+{
+ local -i H=$1
+ local -i abuhr=$2
+ local -i bisuhr=$3
+ 
+#                     17        0        9   
+# Zeit #!-----------------------!----------------------!
+# Nacht               xxxxxxxxxxxxxxxxxxxx       
+# V B over 0          V--------------B		V>B && V>=17 && B<=9 
+# V B before 0        V-------B             V<B && V>=17 
+# V B after 0                    V----B     V<B && B<=9
+
+
+# check if ab und bis ein gueltiges interwall sind
+ local -i mode
+ if (( abuhr > bisuhr && abuhr>=17 && bisuhr<=9 )) ; then
+        mode=0      # mode over 0
+  elif (( abuhr < bisuhr &&  abuhr>=17  )) ; then
+        mode=1      # mode before 0
+  elif (( abuhr < bisuhr &&  bisuhr<=9   )) ; then
+        mode=2      # mode after 0
+  else
+        openwbDebugLog "MAIN" 0 "isnacht Interwall nicht gueltig  ($abuhr - $bisuhr) --> 2"
+        return 2
+  fi
+  
+  local -i ok=0
+  case $mode in
+   0)   # over 0
+       if (( abuhr <= H && H <= 24 ))  || (( 0 <= H && H < bisuhr )); then
+        ok=1
+       fi ;;
+   1 | 2) # before 0 or after 0
+       if (( H >= abuhr  && H < bisuhr )); then
+        ok=1
+       fi ;;
+  esac
+  openwbDebugLog "MAIN" 0 "isnacht ($abuhr -- $bisuhr) m:$mode ---> $ok" 
+  return $ok
+}
+
+
+
 nachtlademodus(){
 	if [[ $nachtladen == "1" ]]; then
-		if (( nachtladenabuhr <= 10#$H && 10#$H <= 24 )) || (( 0 <= 10#$H && 10#$H < nachtladenbisuhr )); then
+        isnacht 10#$H 10#$nachtladenabuhr 10#$nachtladenbisuhr
+        doit=$?
+		if [ $doit -eq 1 ] ; then
+#		if (( nachtladenabuhr <= 10#$H && 10#$H <= 24 )) || (( 0 <= 10#$H && 10#$H < nachtladenbisuhr )); then
+      openwbDebugLog "MAIN" 0 "nachtladen Year doit LP1" 
 			nachtladenstate=1
 			dayoftheweek=$(date +%w)
 			currenthour=$(date +%k)
@@ -74,8 +123,8 @@ nachtlademodus(){
 				diesersoc=$nachtsoc1
 			fi
 			if [[ $socmodul != "none" ]]; then
-				openwbDebugLog "MAIN" 1 "nachtladen mit socmodul $socmodul"
-				if (( soc <= diesersoc )); then
+			  openwbDebugLog "MAIN" 1 "nachtladen LP1 mit socmodul $socmodul (soc:$soc ds:$disersoc ns:$nachtsoc ns2:$nachtsoc1)"
+			  if (( soc < diesersoc ||  diesersoc == 100 )) ; then
 					if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
 						llnachtneu=$nachtll
 						#runs/set-current.sh "$nachtll" m
@@ -275,7 +324,12 @@ nachtlademodus(){
 
 	#Nachtladen S1
 	if [[ $nachtladens1 == "1" ]]; then
-		if (( nachtladenabuhrs1 <= 10#$H && 10#$H <= 24 )) || (( 0 <= 10#$H && 10#$H < nachtladenbisuhrs1 )); then
+    
+	    isnacht 10#$H 10#$nachtladenabuhrs1 10#$nachtladenbisuhrs1
+        doit=$?
+        if [ $doit -eq 1 ] ; then
+    	# if (( nachtladenabuhrs1 <= 10#$H && 10#$H <= 24 )) || (( 0 <= 10#$H && 10#$H < nachtladenbisuhrs1 )); then
+		    openwbDebugLog "MAIN" 0 "nachtladen Year doit LP2"
 			nachtladenstates1=1
 			dayoftheweek=$(date +%w)
 			currenthour=$(date +%k)
@@ -285,8 +339,8 @@ nachtlademodus(){
 				diesersocs1=$nachtsoc1s1
 			fi
 			if [[ $socmodul1 != "none" ]]; then
-				openwbDebugLog "MAIN" 1 "nachtladen mit socmodul $socmodul1"
-				if (( soc1 <= diesersocs1 )); then
+				openwbDebugLog "MAIN" 1 "nachtladen LP2 mit socmodul $socmodul1"
+				if ((  soc1 < diesersocs1  ||  diesersocs1 == 100 )) ; then
 					if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
 						llnachts1neu=$nachtlls1
 						#runs/set-current.sh "$nachtlls1" s1
@@ -357,14 +411,14 @@ nachtlademodus(){
 			lastmnacht $llalt $llnachtneu 
 			if (( llnachtreturn != llalt )); then
 				runs/set-current.sh $llnachtreturn m
-				openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Nachtladen. Ladung mit $llnachtreturn Ampere, $diesersoc % SoC"
+				openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Nachtladen. Ladung mit $llnachtreturn Ampere, Zielsoc: $diesersoc % soc: $soc "
 			fi
 		fi
 		if (( nachtladenstates1 == 1 )) || (( nachtladen2states1 == 1 )); then
 			lastmnacht $llalts1 $llnachts1neu
 			if (( llnachtreturn != llalts1 )); then
 				runs/set-current.sh $llnachtreturn s1
-				openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Nachtladen. Ladung mit $llnachtreturn Ampere, $diesersocs1 % SoC"
+				openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Nachtladen. Ladung mit $llnachtreturn Ampere, Zielsoc: $diesersocs1 % soc: $soc1 "
 			fi
 		fi
 		exit 0
