@@ -36,7 +36,7 @@ if [ ! -d /var/www/html/openWB/web/backup ] ; then
 else
  log "backupdir exists"  
 fi
-echo "" >/var/www/html/openWB/web/backup/.donotdelete
+sudo echo "" >/var/www/html/openWB/web/backup/.donotdelete
 
 log "checking rights und modes"
 sudo chown -R www-data:www-data /var/www/html/openWB/web/backup
@@ -205,7 +205,7 @@ fi
 
 # check for apache configuration
 log "apache..."
-if grep -Fxq "AllowOverride" /etc/apache2/sites-available/000-default.conf
+if ( sudo grep -Fq "AllowOverride" /etc/apache2/sites-available/000-default.conf )
 then
 	log "...ok"
 else
