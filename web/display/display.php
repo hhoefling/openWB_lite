@@ -26,7 +26,7 @@ if ($isssold == 1) {
 				include './yourcharge/index.php';
 				break;
 			case 5:
-				include './colors/index.php';
+				include './colors/index.html';
 				break;
 			default:
 				include './cards/index.html';
