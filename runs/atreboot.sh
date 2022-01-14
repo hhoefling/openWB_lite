@@ -22,6 +22,11 @@ log loading config
 . /var/www/html/openWB/runs/initRamdisk.sh
 . /var/www/html/openWB/runs/updateConfig.sh
 
+
+if [ -d /var/www/html/openWB/ramdisk ] ; then
+	echo 1 > /var/www/html/openWB/ramdisk/bootinprogress
+	echo 1 > /var/www/html/openWB/ramdisk/updateinprogress
+fi
 log "wait 10 Seconds for end of active regel.sh if any"
 sleep 10
 
@@ -31,7 +36,7 @@ if [ ! -d /var/www/html/openWB/web/backup ] ; then
 else
  log "backupdir exists"  
 fi
-echo "" >/var/www/html/openWB/web/backup/.donotdelete
+sudo echo "" >/var/www/html/openWB/web/backup/.donotdelete
 
 log "checking rights und modes"
 sudo chown -R www-data:www-data /var/www/html/openWB/web/backup
@@ -200,7 +205,7 @@ fi
 
 # check for apache configuration
 log "apache..."
-if grep -Fxq "AllowOverride" /etc/apache2/sites-available/000-default.conf
+if ( sudo grep -Fq "AllowOverride" /etc/apache2/sites-available/000-default.conf )
 then
 	log "...ok"
 else
