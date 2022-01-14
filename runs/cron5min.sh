@@ -6,6 +6,23 @@ RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 . $OPENWBBASEDIR/loadconfig.sh
 . $OPENWBBASEDIR/helperFunctions.sh
 
+if [ -e $OPENWBBASEDIR/ramdisk/updateinprogress ] && [ -e $OPENWBBASEDIR/ramdisk/bootinprogress ]; then
+	updateinprogress=$(<$OPENWBBASEDIR/ramdisk/updateinprogress)
+	bootinprogress=$(<$OPENWBBASEDIR/ramdisk/bootinprogress)
+	if (( updateinprogress == "1" )); then
+		openwbDebugLog "MAIN" 0 "Update in progress"
+		exit 0
+	elif (( bootinprogress == "1" )); then
+		openwbDebugLog "MAIN" 0 "Boot in progress"
+		exit 0
+	fi
+else
+	openwbDebugLog "MAIN" 0 "Ramdisk not set up. Maybe we are still booting."
+	exit 0
+fi
+
+
+
 idd=`id -un`
 openwbDebugLog "MAIN" 0 "##### cron5min.sh started as $idd #####"
 
@@ -146,7 +163,8 @@ fi
 # update all daily yield stats
 openwbDebugLog "MAIN" 1 "updating daily yield stats"
 pvkwh=$pv
-pvdailyyieldstart=$(head -n 1 $OPENWBBASEDIR/web/logging/data/daily/$(date +%Y%m%d).csv)
+pvdailyyieldstart=$(head -n 1 $dailyfile.csv)
+
 pvyieldcount=0
 for i in ${pvdailyyieldstart//,/ }
 do
