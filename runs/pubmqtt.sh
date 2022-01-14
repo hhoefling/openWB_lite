@@ -1,4 +1,6 @@
 #!/bin/bash
+# Alle Werte aus ENV übergeben
+# Asyncron gestartet am Ende von loadvars.sh und slavemode.sh 
 
 declare -A mqttvar
 mqttvar["system/IpAddress"]=ipaddress
