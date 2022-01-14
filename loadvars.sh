@@ -5,6 +5,8 @@ loadvars(){
 	if (( renewmqtt == 1 )); then
 		echo 0 > /var/www/html/openWB/ramdisk/renewmqtt
 		echo 01 | tee ramdisk/mqtt*
+		openwbDebugLog "MAIN" 1 "RenewMQTT copy 01 to all ramdiskvalues"
+		openwbDebugLog "MAIN" 1 "RenewMQTT so all mqtt var are set new at end of loadvar."
 	fi
 
 	#get temp vars
@@ -420,9 +422,10 @@ loadvars(){
 	fi
 
 	echo $ConfiguredChargePoints > ramdisk/ConfiguredChargePoints
-	# Lastmanagement var check age
+	# Lastmanagement var check age   Lasse Meldung 2 Minuten stehen
 	if test $(find "ramdisk/lastregelungaktiv" -mmin +2); then
-		echo " " > ramdisk/lastregelungaktiv
+		openwbDebugLog "MAIN" 1 "Clear Lastreglegelungstext (>2Min)"
+		echo "" > ramdisk/lastregelungaktiv
 	fi
 
 	# Werte für die Berechnung ermitteln
@@ -1006,6 +1009,7 @@ loadvars(){
 		usesimbezug=1
 	fi
 	if [[ $usesimbezug == "1" ]]; then
+		openwbDebugLog "MAIN" 0 "#### UseSimbezug counter simulation"
 		ra='^-?[0-9]+$'
 		watt2=$(</var/www/html/openWB/ramdisk/wattbezug)
 		if [[ -e /var/www/html/openWB/ramdisk/bezugwatt0pos ]]; then
@@ -1063,6 +1067,7 @@ loadvars(){
 		usesimpv=1
 	fi
 	if [[ $usesimpv == "1" ]]; then
+		openwbDebugLog "MAIN" 0 "#### UseSimPV counter simulation"
 		ra='^-?[0-9]+$'
 		watt3=$(</var/www/html/openWB/ramdisk/pvwatt)
 		if [[ -e /var/www/html/openWB/ramdisk/pvwatt0pos ]]; then
@@ -1098,6 +1103,7 @@ loadvars(){
 	fi
 
 	if [[ $speichermodul == "speicher_e3dc" ]] || [[ $speichermodul == "speicher_tesvoltsma" ]] || [[ $speichermodul == "speicher_solarwatt" ]] || [[ $speichermodul == "speicher_rct" ]]|| [[ $speichermodul == "speicher_sungrow" ]]|| [[ $speichermodul == "speicher_alphaess" ]] || [[ $speichermodul == "speicher_siemens" ]]|| [[ $speichermodul == "speicher_lgessv1" ]] || [[ $speichermodul == "speicher_bydhv" ]] || [[ $speichermodul == "speicher_kostalplenticore" ]] || [[ $speichermodul == "speicher_powerwall" ]] || [[ $speichermodul == "speicher_sbs25" ]] || [[ $speichermodul == "speicher_solaredge" ]] || [[ $speichermodul == "speicher_sonneneco" ]] || [[ $speichermodul == "speicher_varta" ]] || [[ $speichermodul == "speicher_victron" ]] || [[ $speichermodul == "speicher_fronius" ]] ; then
+		openwbDebugLog "MAIN" 0 "#### Use Sim Speicher counter simulation"
 		ra='^-?[0-9]+$'
 		watt2=$(</var/www/html/openWB/ramdisk/speicherleistung)
 		if [[ -e /var/www/html/openWB/ramdisk/speicherwatt0pos ]]; then
@@ -1133,6 +1139,7 @@ loadvars(){
 	fi
 
 	if [[ $verbraucher1_aktiv == "1" ]] && [[ $verbraucher1_typ == "shelly" ]]; then
+		openwbDebugLog "MAIN" 0 "#### UseSimVerbraucher counter simulation"
 		ra='^-?[0-9]+$'
 		watt3=$(</var/www/html/openWB/ramdisk/verbraucher1_watt)
 		if [[ -e /var/www/html/openWB/ramdisk/verbraucher1watt0pos ]]; then
