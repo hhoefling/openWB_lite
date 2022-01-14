@@ -64,10 +64,10 @@ function cleanup()
 trap cleanup EXIT
 ########### End Laufzeit protokolieren
 
+openwbDebugLog "MAIN" 1 "**** Regulation loop start ****"
+
 #config file einlesen
 . /var/www/html/openWB/loadconfig.sh
-
-openwbDebugLog "MAIN" 1 "**** Regulation loop start ****"
 
 declare -r IsFloatingNumberRegex='^-?[0-9.]+$'
 
