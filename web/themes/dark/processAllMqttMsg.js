@@ -1029,9 +1029,7 @@ function processSmartHomeDevicesMessages(mqttmsg, mqttpayload) {
 			actualPower += ' Min';
 		} else {
 			rest = (actualPower % 3600 / 60).toFixed(0);
-			var ganznot = (actualPower / 3600)
-			// nachkomma weg
-			ganz = (ganznot - (ganznot % 1)).toFixed(0);
+			ganz = Math.floor(actualPower / 3600);
 			actualPower = ganz + ' H ' + rest +' Min';
 		}
 		element.text(actualPower);
@@ -1118,7 +1116,7 @@ function processSmartHomeDevicesConfigMessages(mqttmsg, mqttpayload) {
 		} else {
 			infoElement.addClass('hide');
 		}
-		var visibleRows = $('[data-dev]:visible');  // show/hide complete block depending on visible rows within
+		var visibleRows = $('.smartHome [data-dev]').not('.hide');  // show/hide complete block depending on visible rows within
 		if ( visibleRows.length > 0 ) {
 			$('.smartHome').removeClass('hide');
 		} else {

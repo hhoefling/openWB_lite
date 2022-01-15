@@ -1,5 +1,31 @@
 #!/bin/bash
 
+
+writeifchanged()
+{
+ sollstate=$1
+ solltxt=$2
+ token=$3
+ cf="/var/www/html/openWB/ramdisk/${4}_scache"
+ t1=${5:-faultState}
+ t2=${6:-faultStr}
+ checktxt="${sollstate}##${solltxt}"
+ 
+ if ! [ -f $cf ]; then
+	  cached=""
+ else
+    cached=$(<$cf)
+ fi
+ #openwbDebugLog "MAIN" 0 "checkcache [$checktxt] [$cf] [$cached] $t1 $t2"
+ if [[ "$cached" != "$checktxt" ]] ; then
+		echo $checktxt >$cf
+		mosquitto_pub -t openWB/set/${token}/$t1 -r -m "$sollstate"
+		mosquitto_pub -t openWB/set/${token}/$t2 -r -m "$solltxt"
+ fi
+}
+
+export -f writeifchanged
+
 openwbModulePublishState() {
 	# $1: Modultyp (EVU, LP, EVSOC, PV, BAT)
 	# $2: Status (0=Ok, 1=Warning, 2=Error)
@@ -10,40 +36,35 @@ openwbModulePublishState() {
 			if (( $# != 3 )); then
 				echo "openwbPublishStatus: Wrong number of arguments: EVU $#"
 			else
-				mosquitto_pub -t openWB/set/evu/faultState -r -m "$2"
-				mosquitto_pub -t openWB/set/evu/faultStr -r -m "$3"
+		    writeifchanged "$2" "$3" "evu" "evu"
 			fi
 			;;
 		"LP")
 			if (( $# != 4 )); then
 				echo "openwbPublishStatus: Wrong number of arguments: LP $#"
 			else
-				mosquitto_pub -t openWB/set/lp/${4}/faultState -r -m "$2"
-				mosquitto_pub -t openWB/set/lp/${4}/faultStr -r -m "$3"
+		    writeifchanged "$2" "$3" "lp/${4}" "lp_${4}"
 			fi
 			;;
 		"EVSOC")
 			if (( $# != 4 )); then
 				echo "openwbPublishStatus: Wrong number of arguments: EVSOC $#"
 			else
-				mosquitto_pub -t openWB/set/lp/${4}/socFaultState -r -m "$2"
-				mosquitto_pub -t openWB/set/lp/${4}/socFaultStr -r -m "$3"
+		    writeifchanged "$2" "$3" "lp/${4}" "lp_${4}" "socFaultState" "socFaultStr"
 			fi
 			;;
 		"PV")
 			if (( $# != 4 )); then
 				echo "openwbPublishStatus: Wrong number of arguments: PV $#"
 			else
-				mosquitto_pub -t openWB/set/pv/${4}/faultState -r -m "$2"
-				mosquitto_pub -t openWB/set/pv/${4}/faultStr -r -m "$3"
+		    writeifchanged "$2" "$3" "pv/${4}" "pv_${4}"
 			fi
 			;;
 		"BAT")
 			if (( $# != 3 )); then
 				echo "openwbPublishStatus: Wrong number of arguments: BAT $#"
 			else
-				mosquitto_pub -t openWB/set/houseBattery/faultState -r -m "$2"
-				mosquitto_pub -t openWB/set/houseBattery/faultStr -r -m "$3"
+		    writeifchanged "$2" "$3" "houseBattery" "houseBattery"
 			fi
 			;;
 		*)
@@ -51,6 +72,7 @@ openwbModulePublishState() {
 			;;
 	esac
 }
+
 
 export -f openwbModulePublishState
 
