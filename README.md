@@ -105,13 +105,10 @@ ServerName      127.0.0.1
 *******************************************************
 Die weitere Entwicklung
 
-- Unter der Annahme das ich keine 8 Ladepunkte brauche werde ich die Software auf 3 Ladepukte zurückfahren.
-
-- Ladesteuerung an meine Wunsche anpassen
-insbesonder Nachtladen und Zielladen.
-- Ladelog im KM ergäntzen (ais dem SOC Module)
-
-
+- Unter der Annahme das ich keine 8 Ladepunkte brauche werde ich die Software auf 3 Ladepunkte zurückfahren.
+- Ladesteuerung an meine Wünsche anpassen, insbesonder Nachtladen und Zielladen.
+- Ladelog um KM ergäntzen (ais dem SOC Module)
+- 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
 *******************************************************
 Hilfreiche Infos, gesamelt im Forum
 
