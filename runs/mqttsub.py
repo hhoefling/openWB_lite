@@ -1287,7 +1287,13 @@ def on_message(client, userdata, msg):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
                 if (1 <= devicenumb <= 2):
                     client.publish("openWB/lp/"+str(devicenumb)+"/socFaultStr", msg.payload.decode("utf-8"), qos=0, retain=True)
-
+            if (( "openWB/set/lp" in msg.topic) and ("socKM" in msg.topic)):
+                devicenumb = int(re.sub(r'\D', '', msg.topic))
+                if (1 <= devicenumb <= 8):
+                    client.publish("openWB/lp/"+str(devicenumb)+"/socKM", msg.payload.decode("utf-8"), qos=0, retain=True)
+                    f = open('/var/www/html/openWB/ramdisk/soc'+str(devicenumb)+'KM', 'w')
+                    f.write(msg.payload.decode("utf-8"))
+                    f.close()
             # Topics for Mqtt-EVSE module
             # ToDo: check if Mqtt-EVSE module is selected!
             # llmodule = getConfigValue("evsecon")

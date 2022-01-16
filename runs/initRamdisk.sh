@@ -191,6 +191,14 @@ initRamdisk(){
 	touch $RamdiskPath/llog1
 	touch $RamdiskPath/llogs1
 	touch $RamdiskPath/llogs2
+	echo 0 > $RamdiskPath/soc1KM
+	echo 0 > $RamdiskPath/soc2KM
+	echo 0 > $RamdiskPath/soc3KM
+	echo 0 > $RamdiskPath/soc4KM
+	echo 0 > $RamdiskPath/soc5KM
+	echo 0 > $RamdiskPath/soc6KM
+	echo 0 > $RamdiskPath/soc7KM
+	echo 0 > $RamdiskPath/soc8KM
 
 	# SmartHome 2.0
 	echo 0 > $RamdiskPath/device1_temp0
