@@ -48,7 +48,7 @@ sudo chmod +x *.sh
 # run normal after-update-handling
 ./runs/update.sh
 
-``
+```
 
 
 
