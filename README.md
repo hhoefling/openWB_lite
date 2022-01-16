@@ -101,6 +101,17 @@ Zeile hinzufügen
 ServerName      127.0.0.1
 ```
 
+
+*******************************************************
+Die weitere Entwicklung
+
+- Unter der Annahme das ich keine 8 Ladepunkte brauche werde ich die Software auf 3 Ladepukte zurückfahren.
+
+- Ladesteuerung an meine Wunsche anpassen
+insbesonder Nachtladen und Zielladen.
+- Ladelog im KM ergäntzen (ais dem SOC Module)
+
+
 *******************************************************
 Hilfreiche Infos, gesamelt im Forum
 
