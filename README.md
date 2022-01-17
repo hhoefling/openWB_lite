@@ -107,7 +107,7 @@ Die weitere Entwicklung
 
 - Unter der Annahme das ich keine 8 Ladepunkte brauche werde ich die Software auf 3 Ladepunkte zurückfahren.
 - Ladesteuerung an meine Wünsche anpassen, insbesonder Nachtladen und Zielladen.
-- Ladelog um KM ergäntzen (ais dem SOC Module)
+- Ladelog um KM ergänzen (aus dem SOC Module)
 - 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
 *******************************************************
 Hilfreiche Infos, gesamelt im Forum
