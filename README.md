@@ -112,7 +112,7 @@ Die weitere Entwicklung
 *******************************************************
 Hilfreiche Infos, gesamelt im Forum
 
-Die unterschiedlichen Zählertypen und ihre Internen Adressen
+**Die unterschiedlichen Zählertypen und ihre Internen Adressen**
 ```
 Typ	IP     Port Unit_id
 EVU Kit
@@ -134,4 +134,20 @@ Speicherkit
 SDM120 192.168.193.19 8899 9
 SDM630 an EVU 192.168.193.15 8899 117
 MPM3PM 192.168.193.19 8899 1
+```
+
+******************************************
+
+**Interfacenamen bei Buster/Bullseye**
+
+Wenn auf VM's oder anderer Hardeare installiert werden soll
+und die Schnittstellennamen geändert wurden
+gibt es viele Fehlermeldungen in den Scripten
+
+Bei einem OS das Grub als Bootloader verwendet ist folgende Änderung nötig
+um zu den Namen eth0 und wlan0 zurückzukehren.
+
+sudo nano /etc/default/grub
+```
+GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"
 ```
