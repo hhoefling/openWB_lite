@@ -114,7 +114,11 @@
 								<meter id="memMeter" min=0 max=0 value=0></meter> (<span id='memused'>--</span>MB genutzt)
 							</p>
 							<p>
-								SD-Karte: <span id="diskuse">--</span>, <span id="diskfree">--</span> verfügbar
+                                SD-Karte: <span id="disktot">--</span>, <span id="diskfree">--</span> verfügbar / <span id="diskusedprz">--</span>% belegt
+								<meter id="disk" high=65 min=0 max=100 value=0></meter><br>
+                                TMP Filesystem: <span id="tmptot">--</span>, <span id="tmpfree">--</span> verfügbar /  <span id="tmpusedprz">--</span>% belegt
+								<meter id="tmp" high=65 min=0 max=100 value=0></meter><br>
+
 							</p>
 							IP-Adresse LAN: <span id="iplan">--</span><br>
 							IP-Adresse WLAN: <span id="ipwifi">--</span>
@@ -198,8 +202,16 @@
 						$('#cpufreq').text((json.cpufreq/1000));
 						$('#memtot').text(json.memtot);
 						$('#memused').text(json.memuse);
+						$('#disktot').text(json.disktot);
 						$('#diskuse').text(json.diskuse);
 						$('#diskfree').text(json.diskfree);
+						$('#diskusedprz').text(json.diskusedprz);
+						$('#disk').val(json.diskusedprz);
+						$('#tmptot').text(json.tmptot);
+						$('#tmpuse').text(json.tmpuse);
+						$('#tmpfree').text(json.tmpfree);
+						$('#tmpusedprz').text(json.tmpusedprz);
+						$('#tmp').val(json.tmpusedprz);
 						$('#memMeter').attr({'max': json.memtot, 'high': (json.memtot*0.85)});
 						$('#memMeter').val(json.memuse);
 						if (json.ethaddr != '') {
