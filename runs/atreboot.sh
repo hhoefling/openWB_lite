@@ -16,6 +16,7 @@ log started
 # read openwb.conf
 log loading config
 . /var/www/html/openWB/loadconfig.sh
+. "$OPENWBBASEDIR/helperFunctions.sh"
 
 # load functions to init ramdisk and update config
 # no code will run here, functions need to be called
