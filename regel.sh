@@ -139,7 +139,11 @@ fi
 ./processautolock.sh &
 
 #ladelog ausfuehren
-./ladelog.sh &
+( [ -e ./ladelog.sh ] ) &&  ( ./ladelog.sh & )
+( [ -e ./ladelog2.sh ] ) &&  ( ./ladelog2.sh & )
+# ./ladelog.sh &
+
+
 graphtimer=$(<ramdisk/graphtimer)
 if (( graphtimer < 4 )); then
 	graphtimer=$((graphtimer+1))
