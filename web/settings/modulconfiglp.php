@@ -176,7 +176,7 @@
 										<span class="form-text small">
 											Gültige Werte 0-99. Bei EVSE Anbindung per DAC (MCP 4725) Standardwert meist 62, oft auch 60 oder 48. Abhängig vom verbauten MCP.
 											Der benötigte Wert sollte <a href="/openWB/ramdisk/i2csearch">HIER</a> zu finden sein.
-											Alternativ rauszufinden bei angeschlossenem MCP auf der shell mit dem Befehl: "sudo i2cdetect -y 1"
+											Alternativ herauszufinden bei angeschlossenem MCP auf der shell mit dem Befehl: "sudo i2cdetect -y 1"
 										</span>
 									</div>
 								</div>
@@ -901,7 +901,7 @@
 									<div class="form-row mb-1">
 										<label for="soc_bluelink_pin" class="col-md-4 col-form-label">PIN</label>
 										<div class="col">
-											<input class="form-control" type="text" name="soc_bluelink_pin" id="soc_bluelink_pin" value="<?php echo $soc_bluelink_pinold ?>">
+											<input class="form-control" type="password" name="soc_bluelink_pin" id="soc_bluelink_pin" value="<?php echo $soc_bluelink_pinold ?>">
 											<span class="form-text small">
 												PIN des Accounts.
 											</span>
@@ -932,6 +932,7 @@
 												Bei Nein wird immer der SoC über die API abgefragt.
 											</span>
 										</div>
+									</div>
 										<div id="kiamanualcalcdiv" class="hide">
 											<div class="form-row mb-1">
 												<label for="kia_akkuglp1" class="col-md-4 col-form-label">Akkugröße in kWh bei manueller Berechnung</label>
@@ -1153,25 +1154,37 @@
 							<div id="socevcc" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
-										<label class="col-md-4 col-form-label">Fahrzeugtyp</label>
+										<label for="soc_evcc_select_vehicle_lp1" class="col-md-4 col-form-label">Unterstützte Fahrzeuge</label>
 										<div class="col">
-											<select name="soc_evcc_type_lp1" id="soc_evcc_type_lp1" class="form-control">
-												<option <?php if($soc_evcc_type_lp1old == "none") echo "selected" ?> value="none">Bitte auswählen</option>
-												<option <?php if($soc_evcc_type_lp1old == 'audi') echo "selected" ?> value="audi">Audi</option>
-												<option <?php if($soc_evcc_type_lp1old == 'bmw') echo "selected" ?> value="bmw">BMW</option>
-												<option <?php if($soc_evcc_type_lp1old == 'enyaq') echo "selected" ?> value="enyaq">Enyaq</option>
-												<option <?php if($soc_evcc_type_lp1old == 'ford') echo "selected" ?> value="ford">Ford</option>
-												<option <?php if($soc_evcc_type_lp1old == 'hyundai') echo "selected" ?> value="hyundai">Hyundai</option>
-												<option <?php if($soc_evcc_type_lp1old == 'id') echo "selected" ?> value="id">ID</option>
-												<option <?php if($soc_evcc_type_lp1old == 'kia') echo "selected" ?> value="kia">Kia</option>
-												<option <?php if($soc_evcc_type_lp1old == 'nissan') echo "selected" ?> value="nissan">Nissan</option>
-												<option <?php if($soc_evcc_type_lp1old == 'porsche') echo "selected" ?> value="porsche">Porsche</option>
-												<option <?php if($soc_evcc_type_lp1old == 'renault') echo "selected" ?> value="renault">Renault</option>
-												<option <?php if($soc_evcc_type_lp1old == 'seat') echo "selected" ?> value="seat">Seat</option>
-												<option <?php if($soc_evcc_type_lp1old == 'skoda') echo "selected" ?> value="skoda">Škoda</option>
-												<option <?php if($soc_evcc_type_lp1old == 'volvo') echo "selected" ?> value="volvo">Volvo</option>
-												<option <?php if($soc_evcc_type_lp1old == 'vw') echo "selected" ?> value="vw">VW</option>											</select>
-											<span class="form-text small">Auswahl Fahrzeugtyp</span>
+											<div class="input-group">
+												<div class="input-group-prepend clickable">
+													<div id="soc_evcc_load_vehicles_lp1" class="input-group-text">
+														<i class="fas fa-sync"></i>
+													</div>
+												</div>
+												<select id="soc_evcc_select_vehicle_lp1" class="form-control" readonly>
+													<option value="">-- Bitte aktualisieren --</option>
+												</select>
+											</div>
+											<span class="form-text small">
+												Die Auswahlliste dient nur der einfachen Eingabe des Fahrzeugtyps.
+											</span>
+										</div>
+									</div>
+									<div class="form-row mb-1">
+										<label for="soc_evcc_vehicle_id_lp1" class="col-md-4 col-form-label">Fahrzeug Typ</label>
+										<div class="col">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<div class="input-group-text">
+														<i class="fas fa-car"></i>
+													</div>
+												</div>
+												<input required readonly class="form-control" type="text" name="soc_evcc_type_lp1" id="soc_evcc_type_lp1" value="<?php echo $soc_evcc_type_lp1old ?>">
+											</div>
+											<span class="form-text small">
+												Dies ist der intern verwendete Typ, nicht der lesbare Name aus der Auswahlliste.
+											</span>
 										</div>
 									</div>
 									<div class="form-row mb-1">
@@ -1229,6 +1242,45 @@
 										</div>
 									</div>
 								</div>
+								<script>
+									$('#soc_evcc_select_vehicle_lp1').change(function(){
+										$('#soc_evcc_type_lp1').val($(this).val());
+									});
+
+									$('#soc_evcc_load_vehicles_lp1').click(function(){
+										$('#soc_evcc_load_vehicles_lp1').removeClass("bg-danger");
+										$('#soc_evcc_load_vehicles_lp1').removeClass("bg-success");
+										$('#soc_evcc_load_vehicles_lp1').addClass("bg-warning");
+										$(this).find('.fa-sync').addClass('fa-spin');
+										$("#soc_evcc_select_vehicle_lp1").empty();
+										$.ajax({
+											type: "GET",
+											url: "https://cloud.evcc.io/api/vehicles",
+											success: function(vehicledata){
+												$('#soc_evcc_load_vehicles_lp1').removeClass("bg-warning");
+												$('#soc_evcc_load_vehicles_lp1').addClass("bg-success");
+												var vehicleid = $('#soc_evcc_type_lp1').val();
+												$("<option/>").val('').text("-- Bitte auswählen --").appendTo('#soc_evcc_select_vehicle_lp1');
+												vehicledata.forEach(function(vehicle){
+													newVehicle = $("<option/>").val(vehicle.id).text(vehicle.name);
+													if( vehicleid == vehicle.id ){
+														newVehicle.attr('selected','selected');
+													}
+													newVehicle.appendTo('#soc_evcc_select_vehicle_lp1');
+												});
+												$('#soc_evcc_select_vehicle_lp1').attr('readonly', false);
+											},
+											error: function(errMsg) {
+												$('#soc_evcc_load_vehicles_lp1').removeClass("bg-warning");
+												$('#soc_evcc_load_vehicles_lp1').addClass("bg-danger");
+												alert("Fahrzeuge konnten nicht abgerufen werden!");
+											},
+											complete: function(){
+												$('#soc_evcc_load_vehicles_lp1').find('.fa-sync').removeClass('fa-spin');
+											}
+										});
+									});
+								</script>
 							</div>
 							<div id="socmhttp" class="hide">
 								<div class="form-group">
@@ -1506,8 +1558,8 @@
 								<div class="form-group">
 									<div class="card-text alert alert-info">
 										Die notwendige <a href="https://developer.groupe-psa.io/webapi/b2c/quickstart/connect/#connect-your-app" target="_blank" rel="noopener noreferrer">API</a> ist derzeit von PSA noch nicht freigegeben, daher funktionieren über den dokumentierten Weg erstellte Client-IDs und Client-Secrets leider noch nicht.<br>
-										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt. <a href="https://github.com/flobz/psa_car_controller" target="_blank" rel="noopener noreferrer">https://github.com/flobz/psa_car_controller</a><br> 
-										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206&start=20#p19412" target="_blank" rel="noopener noreferrer">im Forum.</a>
+										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt und wird durch die openWB Community (nicht openWB selbst) gepflegt. <a href="https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden" target="_blank" rel="noopener noreferrer">https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden</a><br> 
+										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206" target="_blank" rel="noopener noreferrer">im Forum.</a>
 									</div>
 									<div class="form-row mb-1">
 										<label for="mypeugeot_userlp1" class="col-md-4 col-form-label">Benutzername</label>
@@ -1600,8 +1652,8 @@
 								<div class="form-group">
 									<div class="card-text alert alert-info">
 										Die notwendige <a href="https://developer.groupe-psa.io/webapi/b2c/quickstart/connect/#connect-your-app" target="_blank" rel="noopener noreferrer">API</a> ist derzeit von PSA noch nicht freigegeben, daher funktionieren über den dokumentierten Weg erstellte Client-IDs und Client-Secrets leider noch nicht.<br>
-										Auf eigenes Risiko kann Methode 2 dieser Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt. <a href="https://github.com/flobz/psa_car_controller" target="_blank" rel="noopener noreferrer">https://github.com/flobz/psa_car_controller</a><br> 
-										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206&start=20#p19412" target="_blank" rel="noopener noreferrer">im Forum.</a>
+										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt und wird durch die openWB Community (nicht openWB selbst) gepflegt. <a href="https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden" target="_blank" rel="noopener noreferrer">https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden</a><br> 
+										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206" target="_blank" rel="noopener noreferrer">im Forum.</a>
 									</div>
 									<div class="form-row mb-1">
 										<label for="myopel_userlp1" class="col-md-4 col-form-label">Benutzername</label>
@@ -1695,8 +1747,8 @@
 								<div class="form-group">
 									<div class="card-text alert alert-info">
 										Die notwendige <a href="https://developer.groupe-psa.io/webapi/b2c/quickstart/connect/#connect-your-app" target="_blank" rel="noopener noreferrer">API</a> ist derzeit von PSA noch nicht freigegeben, daher funktionieren über den dokumentierten Weg erstellte Client-IDs und Client-Secrets leider noch nicht.<br>
-										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt. <a href="https://github.com/flobz/psa_car_controller" target="_blank" rel="noopener noreferrer">https://github.com/flobz/psa_car_controller</a><br> 
-										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206&start=20#p19412" target="_blank" rel="noopener noreferrer">im Forum.</a>
+										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt und wird durch die openWB Community (nicht openWB selbst) gepflegt. <a href="https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden" target="_blank" rel="noopener noreferrer">https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden</a><br> 
+										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206" target="_blank" rel="noopener noreferrer">im Forum.</a>
 									</div>
 									<div class="form-row mb-1">
 										<label for="psa_manufacturerlp1" class="col-md-4 col-form-label">Hersteller</label>
@@ -1876,12 +1928,12 @@
 										<label for="soc_tronity_select_vehicle_lp1" class="col-md-4 col-form-label">Fahrzeug</label>
 										<div class="col">
 											<div class="input-group">
-												<div class="input-group-prepend">
+												<div class="input-group-prepend clickable">
 													<div id="soc_tronity_load_vehicles_lp1" class="input-group-text">
 														<i class="fas fa-sync"></i>
 													</div>
 												</div>
-												<select id="soc_tronity_select_vehicle_lp1" class="form-control" disabled>
+												<select id="soc_tronity_select_vehicle_lp1" class="form-control" readonly>
 													<option value="">Bitte aktualisieren</option>
 												</select>
 											</div>
@@ -1959,7 +2011,7 @@
 																}
 																newVehicle.appendTo('#soc_tronity_select_vehicle_lp1');
 															});
-															$('#soc_tronity_select_vehicle_lp1').attr('disabled', false);
+															$('#soc_tronity_select_vehicle_lp1').attr('readonly', false);
 														},
 														error: function(errMsg) {
 															alert("Fahrzeuge konnten nicht abgerufen werden!");
@@ -3213,7 +3265,7 @@
 									<div class="form-row mb-1">
 										<label for="soc2pin" class="col-md-4 col-form-label">Pin</label>
 										<div class="col">
-											<input class="form-control" type="text" name="soc2pin" id="soc2pin" value="<?php echo $soc2pinold ?>">
+											<input class="form-control" type="password" name="soc2pin" id="soc2pin" value="<?php echo $soc2pinold ?>">
 											<span class="form-text small">
 												PIN des Accounts.
 											</span>
@@ -3238,8 +3290,8 @@
 								<div class="form-group">
 									<div class="card-text alert alert-info">
 										Die notwendige <a href="https://developer.groupe-psa.io/webapi/b2c/quickstart/connect/#connect-your-app" target="_blank" rel="noopener noreferrer">API</a> ist derzeit von PSA noch nicht freigegeben, daher funktionieren über den dokumentierten Weg erstellte Client-IDs und Client-Secrets leider noch nicht.<br>
-										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt. <a href="https://github.com/flobz/psa_car_controller" target="_blank" rel="noopener noreferrer">https://github.com/flobz/psa_car_controller</a><br> 
-										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206&start=20#p19412" target="_blank" rel="noopener noreferrer">im Forum.</a>
+										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt und wird durch die openWB Community (nicht openWB selbst) gepflegt. <a href="https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden" target="_blank" rel="noopener noreferrer">https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden</a><br> 
+										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206" target="_blank" rel="noopener noreferrer">im Forum.</a>
 									</div>
 									<div class="form-row mb-1">
 										<label for="mypeugeot_userlp2" class="col-md-4 col-form-label">Benutzername</label>
@@ -3333,8 +3385,8 @@
 								<div class="form-group">
 									<div class="card-text alert alert-info">
 										Die notwendige <a href="https://developer.groupe-psa.io/webapi/b2c/quickstart/connect/#connect-your-app" target="_blank" rel="noopener noreferrer">API</a> ist derzeit von PSA noch nicht freigegeben, daher funktionieren über den dokumentierten Weg erstellte Client-IDs und Client-Secrets leider noch nicht.<br>
-										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt. <a href="https://github.com/flobz/psa_car_controller" target="_blank" rel="noopener noreferrer">https://github.com/flobz/psa_car_controller</a><br> 
-										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206&start=20#p19412" target="_blank" rel="noopener noreferrer">im Forum.</a>
+										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt und wird durch die openWB Community (nicht openWB selbst) gepflegt. <a href="https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden" target="_blank" rel="noopener noreferrer">https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden</a><br> 
+										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206" target="_blank" rel="noopener noreferrer">im Forum.</a>
 									</div>
 									<div class="form-row mb-1">
 										<label for="myopel_userlp2" class="col-md-4 col-form-label">Benutzername</label>
@@ -3428,8 +3480,8 @@
 								<div class="form-group">
 									<div class="card-text alert alert-info">
 										Die notwendige <a href="https://developer.groupe-psa.io/webapi/b2c/quickstart/connect/#connect-your-app" target="_blank" rel="noopener noreferrer">API</a> ist derzeit von PSA noch nicht freigegeben, daher funktionieren über den dokumentierten Weg erstellte Client-IDs und Client-Secrets leider noch nicht.<br>
-										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt. <a href="https://github.com/flobz/psa_car_controller" target="_blank" rel="noopener noreferrer">https://github.com/flobz/psa_car_controller</a><br> 
-										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206&start=20#p19412" target="_blank" rel="noopener noreferrer">im Forum.</a>
+										Auf eigenes Risiko kann diese Anleitung genutzt werden, dies hat bisher zu guten Ergebnissen geführt und wird durch die openWB Community (nicht openWB selbst) gepflegt. <a href="https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden" target="_blank" rel="noopener noreferrer">https://github.com/snaptec/openWB/wiki/Fahrzeugspezifische-Konfigurationen#welches-soc-modul-kann-verwendet-werden</a><br> 
+										Weitere Diskussion zu diesem Thema findet sich <a href="https://openwb.de/forum/viewtopic.php?f=5&t=1206" target="_blank" rel="noopener noreferrer">im Forum.</a>
 									</div>
 									<div class="form-row mb-1">
 										<label for="psa_manufacturerlp2" class="col-md-4 col-form-label">Hersteller</label>
@@ -3603,6 +3655,7 @@
 												Bei Nein wird immer der SoC über die API abgefragt.
 											</span>
 										</div>
+									</div>
 										<div id="kiamanualcalclp2div" class="hide">
 											<div class="form-row mb-1">
 												<label for="kia_akkuglp2" class="col-md-4 col-form-label">Akkugröße in kWh bei manueller Berechnung</label>
@@ -3672,12 +3725,12 @@
 										<label for="soc_tronity_select_vehicle_lp2" class="col-md-4 col-form-label">Fahrzeug</label>
 										<div class="col">
 											<div class="input-group">
-												<div class="input-group-prepend">
+												<div class="input-group-prepend clickable">
 													<div id="soc_tronity_load_vehicles_lp2" class="input-group-text">
 														<i class="fas fa-sync"></i>
 													</div>
 												</div>
-												<select id="soc_tronity_select_vehicle_lp2" class="form-control" disabled>
+												<select id="soc_tronity_select_vehicle_lp2" class="form-control" readonly>
 													<option value="">Bitte aktualisieren</option>
 												</select>
 											</div>
@@ -3736,7 +3789,7 @@
 																}
 																newVehicle.appendTo('#soc_tronity_select_vehicle_lp2');
 															});
-															$('#soc_tronity_select_vehicle_lp2').attr('disabled', false);
+															$('#soc_tronity_select_vehicle_lp2').attr('readonly', false);
 														},
 														error: function(errMsg) {
 															alert("Fahrzeuge konnten nicht abgerufen werden!");
@@ -3757,26 +3810,37 @@
 							<div id="socevcclp2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
-										<label class="col-md-4 col-form-label">Fahrzeugtyp</label>
+										<label for="soc_evcc_select_vehicle_lp2" class="col-md-4 col-form-label">Unterstützte Fahrzeuge</label>
 										<div class="col">
-											<select name="soc_evcc_type_lp2" id="soc_evcc_type_lp2" class="form-control">
-												<option <?php if($soc_evcc_type_lp2old == "none") echo "selected" ?> value="none">Bitte auswählen</option>
-												<option <?php if($soc_evcc_type_lp2old == 'audi') echo "selected" ?> value="audi">Audi</option>
-												<option <?php if($soc_evcc_type_lp2old == 'bmw') echo "selected" ?> value="bmw">BMW</option>
-												<option <?php if($soc_evcc_type_lp2old == 'enyaq') echo "selected" ?> value="enyaq">Enyaq</option>
-												<option <?php if($soc_evcc_type_lp2old == 'ford') echo "selected" ?> value="ford">Ford</option>
-												<option <?php if($soc_evcc_type_lp2old == 'hyundai') echo "selected" ?> value="hyundai">Hyundai</option>
-												<option <?php if($soc_evcc_type_lp2old == 'id') echo "selected" ?> value="id">ID</option>
-												<option <?php if($soc_evcc_type_lp2old == 'kia') echo "selected" ?> value="kia">Kia</option>
-												<option <?php if($soc_evcc_type_lp2old == 'nissan') echo "selected" ?> value="nissan">Nissan</option>
-												<option <?php if($soc_evcc_type_lp2old == 'porsche') echo "selected" ?> value="porsche">Porsche</option>
-												<option <?php if($soc_evcc_type_lp2old == 'renault') echo "selected" ?> value="renault">Renault</option>
-												<option <?php if($soc_evcc_type_lp2old == 'seat') echo "selected" ?> value="seat">Seat</option>
-												<option <?php if($soc_evcc_type_lp2old == 'skoda') echo "selected" ?> value="skoda">Škoda</option>
-												<option <?php if($soc_evcc_type_lp2old == 'volvo') echo "selected" ?> value="volvo">Volvo</option>
-												<option <?php if($soc_evcc_type_lp2old == 'vw') echo "selected" ?> value="vw">VW</option>
+											<div class="input-group">
+												<div class="input-group-prepend clickable">
+													<div id="soc_evcc_load_vehicles_lp2" class="input-group-text">
+														<i class="fas fa-sync"></i>
+													</div>
+												</div>
+												<select id="soc_evcc_select_vehicle_lp2" class="form-control" readonly>
+													<option value="">-- Bitte aktualisieren --</option>
 											</select>
-											<span class="form-text small">Auswahl Fahrzeugtyp</span>
+											</div>
+											<span class="form-text small">
+												Die Auswahlliste dient nur der einfachen Eingabe des Fahrzeugtyps.
+											</span>
+										</div>
+									</div>
+									<div class="form-row mb-1">
+										<label for="soc_evcc_vehicle_id_lp2" class="col-md-4 col-form-label">Fahrzeug Typ</label>
+										<div class="col">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<div class="input-group-text">
+														<i class="fas fa-car"></i>
+													</div>
+												</div>
+												<input required readonly class="form-control" type="text" name="soc_evcc_type_lp2" id="soc_evcc_type_lp2" value="<?php echo $soc_evcc_type_lp2old ?>">
+											</div>
+											<span class="form-text small">
+												Dies ist der intern verwendete Typ, nicht der lesbare Name aus der Auswahlliste.
+											</span>
 										</div>
 									</div>
 									<div class="form-row mb-1">
@@ -3816,6 +3880,45 @@
 										</div>
 									</div>
 								</div>
+								<script>
+									$('#soc_evcc_select_vehicle_lp2').change(function(){
+										$('#soc_evcc_type_lp2').val($(this).val());
+									});
+
+									$('#soc_evcc_load_vehicles_lp2').click(function(){
+										$('#soc_evcc_load_vehicles_lp2').removeClass("bg-danger");
+										$('#soc_evcc_load_vehicles_lp2').removeClass("bg-success");
+										$('#soc_evcc_load_vehicles_lp2').addClass("bg-warning");
+										$(this).find('.fa-sync').addClass('fa-spin');
+										$("#soc_evcc_select_vehicle_lp2").empty();
+										$.ajax({
+											type: "GET",
+											url: "https://cloud.evcc.io/api/vehicles",
+											success: function(vehicledata){
+												$('#soc_evcc_load_vehicles_lp2').removeClass("bg-warning");
+												$('#soc_evcc_load_vehicles_lp2').addClass("bg-success");
+												var vehicleid = $('#soc_evcc_type_lp2').val();
+												$("<option/>").val('').text("-- Bitte auswählen --").appendTo('#soc_evcc_select_vehicle_lp2');
+												vehicledata.forEach(function(vehicle){
+													newVehicle = $("<option/>").val(vehicle.id).text(vehicle.name);
+													if( vehicleid == vehicle.id ){
+														newVehicle.attr('selected','selected');
+													}
+													newVehicle.appendTo('#soc_evcc_select_vehicle_lp2');
+												});
+												$('#soc_evcc_select_vehicle_lp2').attr('readonly', false);
+											},
+											error: function(errMsg) {
+												$('#soc_evcc_load_vehicles_lp2').removeClass("bg-warning");
+												$('#soc_evcc_load_vehicles_lp2').addClass("bg-danger");
+												alert("Fahrzeuge konnten nicht abgerufen werden!");
+											},
+											complete: function(){
+												$('#soc_evcc_load_vehicles_lp2').find('.fa-sync').removeClass('fa-spin');
+											}
+										});
+									});
+								</script>
 							</div>
 							<div id="socmintervall2" class="hide">
 								<div class="form-group">

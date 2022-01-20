@@ -118,7 +118,7 @@
 							</div>
 						</div>
 						<div id="wattbezugsungrow" class="hide">
-							<div class="card-text alert alert-info">
+							<div class="form-row mb-1">
 								<label for="sungrowsr" class="col-md-4 col-form-label">Version des Sungrow</label>
 								<div class="col">
 									<select name="sungrowsr" id="sungrowsr" class="form-control">
@@ -131,7 +131,11 @@
 
 						<div id="wattbezugsonneneco" class="hide">
 							<div class="card-text alert alert-info">
-								Keine Konfiguration erforderlich. Es muss beim Speicher die alternative Methode ausgewählt werden, da die Daten nur von der JSON-API übergeben werden.
+								Keine Konfiguration erforderlich. Alle Einstellungen werden in dem Speicher-Modul vorgenommen.
+							</div>
+							<div class="card-text alert alert-warning">
+								Die EVU-Leistung steht nur in den Varianten "Rest-API 2" und "JSON-API" zur Verfügung!<br />
+								Mit diesem Modul ist kein Lastmanagement möglich, da keine Ströme der einzelnen Phasen gemessen werden!
 							</div>
 						</div>
 						<div id="wattbezugvarta" class="hide">
@@ -774,7 +778,7 @@
 								</div>
 							</div>
 							<div class="form-row mb-1">
-								<label for="solaredgemodbusport" class="col-md-4 col-form-label">IP Adresse</label>
+								<label for="solaredgemodbusport" class="col-md-4 col-form-label">Port</label>
 								<div class="col">
 									<input class="form-control" type="number" min="1" step="1" name="solaredgemodbusport" id="solaredgemodbusport" value="<?php echo (empty($solaredgemodbusportold)?'502':$solaredgemodbusportold) ?>">
 									<span class="form-text small">
