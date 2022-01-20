@@ -17,6 +17,21 @@ file_string= '/var/www/html/openWB/ramdisk/smarthome_device_' + str(devicenumber
 file_stringpv= '/var/www/html/openWB/ramdisk/smarthome_device_' + str(devicenumber) + '_pv'
 file_stringcount= '/var/www/html/openWB/ramdisk/smarthome_device_' + str(devicenumber) + '_count'
 file_stringcount5= '/var/www/html/openWB/ramdisk/smarthome_device_' + str(devicenumber) + '_count5'
+powerc = 0
+# pv modus
+pvmodus = 0
+if os.path.isfile(file_stringpv):
+    f = open( file_stringpv , 'r')
+    pvmodus =int(f.read())
+    f.close()
+# aktuelle Leistung lesen
+client = ModbusTcpClient(ipadr, port=502)
+#
+start = 1000
+resp=client.read_holding_registers(start,20,unit=1)
+value1 = resp.registers[0]
+all = format(value1, '04x')
+aktpower= int(struct.unpack('>h',codecs.decode(all, 'hex'))[0])
 count5 = 999
 if os.path.isfile(file_stringcount5):
    f = open( file_stringcount5, 'r')
@@ -29,12 +44,6 @@ f = open( file_stringcount5 , 'w')
 f.write(str(count5))
 f.close()
 if count5==0:
-   # pv modus
-   pvmodus = 0
-   if os.path.isfile(file_stringpv):
-      f = open( file_stringpv , 'r')
-      pvmodus =int(f.read())
-      f.close()
    # log counter
    count1 = 999
    if os.path.isfile(file_stringcount):
@@ -42,17 +51,7 @@ if count5==0:
       count1 =int(f.read())
       f.close()
    count1=count1+1
-   # aktuelle Leistung lesen
-   client = ModbusTcpClient(ipadr, port=502)
-   #
-   #start = 3524
-   #resp=client.read_input_registers(start,20,unit=1)
-   start = 1000
-   resp=client.read_holding_registers(start,20,unit=1)
-   value1 = resp.registers[0]
-   all = format(value1, '04x')
-   #aktpower= int(struct.unpack('>h', all.decode('hex'))[0])
-   aktpower= int(struct.unpack('>h',codecs.decode(all, 'hex'))[0])
+    # status und fuse lesen
    value1 = resp.registers[3]
    all = format(value1, '04x')
    status= int(struct.unpack('>h',codecs.decode(all, 'hex') )[0])
@@ -113,7 +112,6 @@ if count5==0:
    # test only
    #json return power = aktuelle Leistungsaufnahme in Watt, on = 1 pvmodus, powerc = counter in kwh
    #answer = '{"power":225,"on":0} '
-   powerc = 0
    answer = '{"power":' + str(aktpower) + ',"powerc":' + str(powerc) + ',"on":' + str(pvmodus) + '} '
    f1 = open('/var/www/html/openWB/ramdisk/smarthome_device_ret' + str(devicenumber), 'w')
    json.dump(answer,f1)
@@ -140,3 +138,8 @@ if count5==0:
          f = open( file_string , 'a')
          print ('%s devicenr %s ipadr %s device written by modbus ' % (time_string,devicenumber,ipadr),file=f)
          f.close()
+else:
+    answer = '{"power":' + str(aktpower) + ',"powerc":' + str(powerc) + ',"on":' + str(pvmodus) + '} '
+    f1 = open('/var/www/html/openWB/ramdisk/smarthome_device_ret' + str(devicenumber), 'w')
+    json.dump(answer,f1)
+    f1.close()
