@@ -230,7 +230,7 @@ var isSSL = location.protocol == 'https:'
 var options = {
 	timeout: 5,
 	useSSL: isSSL,
-	//Gets Called if the connection has sucessfully been established
+	//Gets Called if the connection has been established
 	onSuccess: function () {
 		retries = 0;
 		topicsToSubscribe.forEach((topic) => {
@@ -244,6 +244,7 @@ var options = {
 };
 
 var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 5);
+console.log('setupmqttservice main create client '+(location.hostname)' 9001')
 var client = new Messaging.Client(location.hostname, 9001, clientuid);
 
 $(document).ready(function(){
