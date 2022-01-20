@@ -47,7 +47,7 @@ sofortlademodus(){
         
         	openwbDebugLog "MAIN" 0 "sofortLP1  $soc $sofortsoclp1"
 
-			if (( soc >= sofortsoclp1 )) && (( sofortsoclp1 < 100 )); then    // HH Ok, stop bei 80=80 stop nicht bei ziel=100
+			if (( soc >= sofortsoclp1 )) && (( sofortsoclp1 < 100 )); then    ## // HH Ok, stop bei 80=80 stop nicht bei ziel=100
 				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
 					runs/set-current.sh 0 all
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung gestoppt, $soc % SoC erreicht"

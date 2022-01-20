@@ -30,6 +30,7 @@ $wlantx = exec("iwconfig wlan0 |grep 'Tx'");
 $wlanpower = exec("iwconfig wlan0 |grep 'Power'");
 $wlanmode = exec("iwconfig wlan0 |grep 'Mode'");
 $wlanssid = exec("iwconfig wlan0 |grep 'ESSID'|awk '{print $4}'");
+
 $arr = array(
 	'uptime' => trim($uptime),
 	'systime' => trim($systime),
@@ -63,3 +64,5 @@ $arr = array(
 header("Content-type: application/json");
 echo json_encode($arr);
 ?>
+
+

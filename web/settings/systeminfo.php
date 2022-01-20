@@ -194,6 +194,7 @@
 							return result + ', ';
 						} else return '';
 					}
+
 					$.getJSON('tools/programmloggerinfo.php', function(data){
 						json = eval(data);
 						$('#cpu').val(json.cpuuse);
