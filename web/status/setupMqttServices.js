@@ -244,7 +244,6 @@ var options = {
 };
 
 var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 5);
-console.log('setupmqttservice main create client '+(location.hostname)' 9001')
 var client = new Messaging.Client(location.hostname, 9001, clientuid);
 
 $(document).ready(function(){
