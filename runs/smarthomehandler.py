@@ -736,28 +736,28 @@ def getdevicevalues():
                     argumentList.append(device_username)
                     argumentList.append(device_password)
                     try:
-                    proc=subprocess.Popen(argumentList)
-                    proc.communicate()
+                        proc=subprocess.Popen(argumentList)
+                        proc.communicate()
                     except Exception as e:
                         DeviceValues.update( {str(numberOfDevices) : "error"})
                         logDebug(LOGLEVELERROR, "Device " + str(switchtyp) + str(numberOfDevices) + str(devicename) + " Fehlermeldung (zugriff watt.py): " + str(e))
                     try:
-                    f1 = open(basePath+'/ramdisk/smarthome_device_ret' +str(numberOfDevices) , 'r')
-                    answerj=json.load(f1)
-                    f1.close()
+                        f1 = open(basePath+'/ramdisk/smarthome_device_ret' +str(numberOfDevices) , 'r')
+                        answerj=json.load(f1)
+                        f1.close()
                     except Exception as e:
                         DeviceValues.update( {str(numberOfDevices) : "error"})
                         logDebug(LOGLEVELERROR, "Device " + str(switchtyp) + str(numberOfDevices) + str(devicename) + " Fehlermeldung (zugriff return file (1)): " + str(e))
                     try:
-                    answer = json.loads(answerj)
-                    wattstart = int(answer['power'])
-                    wattkstart = int(answer['powerc'])
-                    # bei laufender Anlauferkennung deivce nicht aktiv setzten
-                    devstatus=getstat(numberOfDevices)
-                    if (int(answer['on']) == 1) and (devstatus != 20):
-                        relais=1
-                    else:
-                        relais=0
+                        answer = json.loads(answerj)
+                        wattstart = int(answer['power'])
+                        wattkstart = int(answer['powerc'])
+                        # bei laufender Anlauferkennung deivce nicht aktiv setzten
+                        devstatus=getstat(numberOfDevices)
+                        if (int(answer['on']) == 1) and (devstatus != 20):
+                            relais=1
+                        else:
+                            relais=0
                     except Exception as e:
                         DeviceValues.update( {str(numberOfDevices) : "error"})
                         logDebug(LOGLEVELERROR, "Device " + str(switchtyp) + str(numberOfDevices) + str(devicename) + " Fehlermeldung (zugriff return file (2)): " + str(e) + str(answerj))
@@ -1031,10 +1031,10 @@ def conditions(nummer):
     maxeinschaltdauer = int(config.get('smarthomedevices', 'device_maxeinschaltdauer_'+str(nummer))) * 60
     name = str(config.get('smarthomedevices', 'device_name_'+str(nummer)))
     #logDebug(LOGLEVELDEBUG,"(" + str(nummer) + ") " + str(name) + " finishtime definiert " + str(finishtime) + ">" + str(DeviceOn[nummer-1]))
-        local_time = datetime.now(timezone.utc).astimezone()
-        localhour = int(local_time.strftime(format = "%H"))
-        localminute = int(local_time.strftime(format = "%M"))
-        localinsec = int(( localhour * 60 * 60 )  + (localminute * 60))
+    local_time = datetime.now(timezone.utc).astimezone()
+    localhour = int(local_time.strftime(format = "%H"))
+    localminute = int(local_time.strftime(format = "%M"))
+    localinsec = int(( localhour * 60 * 60 )  + (localminute * 60))
     # onnow = 0 -> normale Regelung
     # onnow = 1 -> Zeitpunkt erreciht, immer ein ohne Ueberschuss regelung
     onnow = 0
@@ -1118,7 +1118,7 @@ def conditions(nummer):
                         turndevicerelais(nummer, 1,oldueberschussberechnung,1)
                     else:
                         logDebug(LOGLEVELDEBUG,"(" + str(nummer) + ") " + str(config.get('smarthomedevices', 'device_name_'+str(nummer)))+ " Überschuss "  + str(devuberschuss) + " kleiner Einschaltschwelle, schalte aus " + str(einschwelle) )
-                    turndevicerelais(nummer, 0,0,1)
+                        turndevicerelais(nummer, 0,0,1)
                     return
                 else:
                     logDebug(LOGLEVELINFO,"(" + str(nummer) + ") " + str(name) + " standbycheck noch nicht erreicht " +  str(standbyduration)+ " > " + str(timesince))
@@ -1149,9 +1149,9 @@ def conditions(nummer):
                     if ( mineinschaltdauer < timestart):
                         if deactivatewhileevcharging == 2:
                             logDebug(LOGLEVELINFO,"(" + str(nummer) + ") " + str(name)  + " Mindesteinschaltdauer erreicht, schalte aus")
-                        turndevicerelais(nummer, 0,0,1)
-                        return
-                    else:
+                            turndevicerelais(nummer, 0,0,1)
+                            return
+                        else:
                             logDebug(LOGLEVELINFO,"(" + str(nummer) + ") " + str(name)  + " Mindesteinschaltdauer erreicht, setze Ausschaltschwelle auf 0")
                             ausverz = 0
                             if (ausschwelle < 0):
@@ -1161,9 +1161,9 @@ def conditions(nummer):
                 else:
                     if deactivatewhileevcharging == 2:
                         logDebug(LOGLEVELINFO,"(" + str(nummer) + ") " + str(name)+ " Mindesteinschaltdauer nicht bekannt,schalte aus")
-                    turndevicerelais(nummer, 0,0,1)
-                    return
-            else:
+                        turndevicerelais(nummer, 0,0,1)
+                        return
+                    else:
                         logDebug(LOGLEVELINFO,"(" + str(nummer) + ") " + str(name)+ " Mindesteinschaltdauer nicht bekannt,setze Ausschaltschwelle auf 0")
                         ausverz = 0
                         if (ausschwelle < 0):
@@ -1172,10 +1172,10 @@ def conditions(nummer):
                 logDebug(LOGLEVELDEBUG,"(" + str(nummer) + ") " + str(name) + " Ladung läuft nicht, pruefe weiter")
         else:
             if deactivatewhileevcharging == 2:
-            logDebug(LOGLEVELDEBUG,"(" + str(nummer) + ") " + str(name) + " Soll nicht eingeschaltet werden bei Ladung, pruefe " + str( testcharge) )
-            if chargestatus == 1:
-                logDebug(LOGLEVELDEBUG,"(" + str(nummer) + ") " + str(name) + " Ladung läuft, wird nicht eingeschaltet")
-                return
+                logDebug(LOGLEVELDEBUG,"(" + str(nummer) + ") " + str(name) + " Soll nicht eingeschaltet werden bei Ladung, pruefe " + str( testcharge) )
+                if chargestatus == 1:
+                    logDebug(LOGLEVELDEBUG,"(" + str(nummer) + ") " + str(name) + " Ladung läuft, wird nicht eingeschaltet")
+                    return
     # Auto ladung ende
     # Art vom ueberschussberechnung pruefen
     ueberschussberechnung = 0
@@ -1341,7 +1341,7 @@ def resetmaxeinschaltdauerfunc():
                     devstatus=getstat(i)
                     #Sofern Anlauferkennung laueft counter nicht zuruecksetzen
                     if (devstatus != 20):
-                    DeviceOnStandby[i-1]= str("0")
+                        DeviceOnStandby[i-1]= str("0")
                     try:
                         del DeviceCounters[str(i)+"oldstampeinschaltdauer"]
                     except:
