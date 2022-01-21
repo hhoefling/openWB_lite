@@ -359,8 +359,12 @@ if ps ax |grep -v grep |grep "sudo python3 $OPENWBBASEDIR/runs/modbusserver/modb
 then
 	openwbDebugLog "MAIN" 1 "modbus tcp server already running"
 else
+  if (  $(lsusb | grep -q UART) ) ; then
 	openwbDebugLog "MAIN" 0 "modbus tcp server not running! restarting process"
-	$(lsusb | grep -q UART) && sudo python3 $OPENWBBASEDIR/runs/modbusserver/modbusserver.py &
+	sudo python3 $OPENWBBASEDIR/runs/modbusserver/modbusserver.py &
+  else
+	openwbDebugLog "MAIN" 0 "modbus tcp server not avail no usb-UART"
+  fi
 fi
 
 #Pingchecker
@@ -374,10 +378,14 @@ commitId=`git -C /var/www/html/openWB log --format="%h" -n 1`
 echo "$commitId" > $RAMDISKDIR/currentCommitHash
 echo `git -C /var/www/html/openWB branch -a --contains $commitId | perl -nle 'm|.*origin/(.+).*|; print $1' | uniq | xargs` > $RAMDISKDIR/currentCommitBranches
 
-# EVSE Check
-openwbDebugLog "MAIN" 1 "starting evsecheck"
-$OPENWBBASEDIR/runs/evsecheck
 
+if (  $(lsusb | grep -q UART) ) ; then
+# EVSE Check
+	openwbDebugLog "MAIN" 1 "starting evsecheck"
+	$OPENWBBASEDIR/runs/evsecheck
+else
+	openwbDebugLog "MAIN" 1 "not starting evsecheck no usb UART"
+fi
 # truncate all logs in ramdisk
 openwbDebugLog "MAIN" 1 "logfile cleanup triggered"
 # die mqtt logdatei gehört www-data und kann von pi nicht geöndert werden.
