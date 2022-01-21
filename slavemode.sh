@@ -338,7 +338,7 @@ function computeLoadImbalanceCompensation() {
 	if (( chargingVehiclesToUse == 0 )); then
 		# if, for whatever reasons, we end up here even though no vehicles are reporting charging on same phases as we, we at least assume ourself charging
 		chargingVehiclesToUse=1
-				fi
+	fi
 
 	local imbalanceAvailable=$(echo "scale=3; (${SlaveModeAllowedLoadImbalance} - ${currentLoadImbalance}) / $chargingVehiclesToUse" | bc)
 
