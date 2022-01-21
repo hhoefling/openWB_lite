@@ -360,7 +360,7 @@ then
 	openwbDebugLog "MAIN" 1 "modbus tcp server already running"
 else
 	openwbDebugLog "MAIN" 0 "modbus tcp server not running! restarting process"
-	sudo python3 $OPENWBBASEDIR/runs/modbusserver/modbusserver.py &
+	$(lsusb | grep -q UART) && sudo python3 $OPENWBBASEDIR/runs/modbusserver/modbusserver.py &
 fi
 
 #Pingchecker
