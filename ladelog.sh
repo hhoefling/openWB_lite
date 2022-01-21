@@ -14,11 +14,11 @@ rfidlp1=$( cut -d ',' -f 1 <<< "$rfidlp1" )
 rfidlp2=$(<ramdisk/rfidlp2)
 rfidlp2=$( cut -d ',' -f 1 <<< "$rfidlp2" )
 rfidlp3=$(<ramdisk/rfidlp3)
-rfidlp4=$(<ramdisk/rfidlp4)
-rfidlp5=$(<ramdisk/rfidlp5)
-rfidlp6=$(<ramdisk/rfidlp6)
-rfidlp7=$(<ramdisk/rfidlp7)
-rfidlp8=$(<ramdisk/rfidlp8)
+rfidlp4="0" # $(<ramdisk/rfidlp4)
+rfidlp5="0" # $(<ramdisk/rfidlp5)
+rfidlp6="0" # $(<ramdisk/rfidlp6)
+rfidlp7="0" # $(<ramdisk/rfidlp7)
+
 
 if (( nachtladenstate == 0 )) && (( nachtladen2state == 0 )); then # Weder Nachtladen (nachtladestate) noch  Morgens laden (nachtladen2state) aktiv? nutze lademodus.
 	lmodus=$(</var/www/html/openWB/ramdisk/lademodus)
