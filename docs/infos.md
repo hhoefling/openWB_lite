@@ -1,6 +1,6 @@
-** Hilfreiche Infos, gesamelt im Forum **
+**Hilfreiche Infos, gesamelt im Forum**
 
-**Die unterschiedlichen Zählertypen und ihre Internen Adressen**
+***Die unterschiedlichen Zählertypen und ihre Internen Adressen***
 ```
 Typ	IP     Port Unit_id
 EVU Kit
