@@ -122,9 +122,9 @@ if [[ $verbraucher2_typ == "tasmota" ]]; then
 	fi
 fi
 
-curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/web/version > /var/www/html/openWB/ramdisk/vnightly
-curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version > /var/www/html/openWB/ramdisk/vbeta
-curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/stable/web/version > /var/www/html/openWB/ramdisk/vstable
+curl --connect-timeout 10 -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/web/version > /var/www/html/openWB/ramdisk/vnightly
+curl --connect-timeout 10 -s https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version > /var/www/html/openWB/ramdisk/vbeta
+curl --connect-timeout 10 -s https://raw.githubusercontent.com/hhoefling/openWB_lite/stable/web/version > /var/www/html/openWB/ramdisk/vstable
 
 if [[ -s /var/www/html/openWB/ramdisk/randomSleepValue ]]; then
 	randomSleep=$(</var/www/html/openWB/ramdisk/randomSleepValue)
