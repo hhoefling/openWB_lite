@@ -1,18 +1,16 @@
-import configparser
-import fileinput
-import re
-import subprocess
-import sys
-import threading
-import time
-from datetime import datetime
-from json import loads as json_loads
-from json.decoder import JSONDecodeError
 from pathlib import Path
 
 import paho.mqtt.client as mqtt
-
-from modules.common.store.ramdisk import files
+import sys
+import subprocess
+import time
+import fileinput
+from datetime import datetime
+import configparser
+import re
+import threading
+from json import loads as json_loads
+from json.decoder import JSONDecodeError
 
 global inaction
 inaction=0
@@ -950,19 +948,19 @@ def on_message(client, userdata, msg):
                         json_payload = { "message": payload[0], "email": payload[2] }
                     finally:
                         if (re.match(emailallowed, json_payload["email"])):
-                    f = open('/var/www/html/openWB/ramdisk/debuguser', 'w')
+                            f = open('/var/www/html/openWB/ramdisk/debuguser', 'w')
                             f.write("%s\n%s\n" % (json_payload["message"], json_payload["email"]))
                             f.close()
                             f = open('/var/www/html/openWB/ramdisk/debugemail', 'w')
                             f.write(json_payload["email"] + "\n")
-                    f.close()
+                            f.close()
                         else:
                             file = open('/var/www/html/openWB/ramdisk/mqtt.log', 'a')
                             file.write("payload does not contain a valid email: '%s'\n" % (str(json_payload["email"])))
                             file.close()
-                    client.publish("openWB/set/system/SendDebug", "0", qos=0, retain=True)
-                    setTopicCleared = True
-                    subprocess.run("/var/www/html/openWB/runs/senddebuginit.sh")
+                        client.publish("openWB/set/system/SendDebug", "0", qos=0, retain=True)
+                        setTopicCleared = True
+                        subprocess.run("/var/www/html/openWB/runs/senddebuginit.sh")
             if (msg.topic == "openWB/set/system/reloadDisplay"):
                 if (int(msg.payload) >= 0 and int(msg.payload) <= 1):
                     client.publish("openWB/system/reloadDisplay", msg.payload.decode("utf-8"), qos=0, retain=True)
@@ -1355,22 +1353,46 @@ def on_message(client, userdata, msg):
                     f = open('/var/www/html/openWB/ramdisk/soc1', 'w')
                     f.write(msg.payload.decode("utf-8"))
                     f.close()
-            set_pv_match = re.match(r"^openWB/set/pv/([12])/(.*)$", msg.topic)
-            if set_pv_match is not None:
-                pv = files.pv[int(set_pv_match.group(1)) - 1]
-                subtopic = set_pv_match.group(2)
-                if subtopic == "kWhCounter":
-                    value = float(msg.payload)
-                    if 0 <= value <= 10000000000:
-                        pv.energy.write(float(msg.payload) * 1000)
-                elif subtopic == "WhCounter":
-                    value = float(msg.payload)
-                    if 0 <= value <= 10000000000:
-                        pv.energy.write(float(msg.payload))
-                elif subtopic == "W":
-                    value = abs(float(msg.payload))
-                    if value <= 100000000:
-                        pv.power.write(-float(msg.payload))
+            if (msg.topic == "openWB/set/pv/1/kWhCounter"):
+                if (float(msg.payload) >= 0 and float(msg.payload) <= 10000000000):
+                    pvkwhcounter=float(msg.payload.decode("utf-8"))*1000
+                    f = open('/var/www/html/openWB/ramdisk/pvkwh', 'w')
+                    f.write(str(pvkwhcounter))
+                    f.close()
+            if (msg.topic == "openWB/set/pv/1/WhCounter"):
+                if (float(msg.payload) >= 0 and float(msg.payload) <= 10000000000):
+                    f = open('/var/www/html/openWB/ramdisk/pvkwh', 'w')
+                    f.write(msg.payload.decode("utf-8"))
+                    f.close()
+            if (msg.topic == "openWB/set/pv/1/W"):
+                if (float(msg.payload) >= -10000000 and float(msg.payload) <= 100000000):
+                    if (float(msg.payload) > 1):
+                        pvwatt=int(float(msg.payload.decode("utf-8"))) * -1
+                    else:
+                        pvwatt=int(float(msg.payload.decode("utf-8")))
+                    f = open('/var/www/html/openWB/ramdisk/pvwatt', 'w')
+                    f.write(str(pvwatt))
+                    f.close()
+            if (msg.topic == "openWB/set/pv/2/kWhCounter"):
+                if (float(msg.payload) >= 0 and float(msg.payload) <= 10000000000):
+                    pvkwhcounter=float(msg.payload.decode("utf-8"))*1000
+                    f = open('/var/www/html/openWB/ramdisk/pvkwh', 'w')
+                    f.write(str(pvkwhcounter))
+                    f.close()
+            if (msg.topic == "openWB/set/pv/2/WhCounter"):
+                if (float(msg.payload) >= 0 and float(msg.payload) <= 10000000000):
+                    f = open('/var/www/html/openWB/ramdisk/pv2kwh', 'w')
+                    f.write(msg.payload.decode("utf-8"))
+                    f.close()
+            if (msg.topic == "openWB/set/pv/2/W"):
+                if (float(msg.payload) >= -10000000 and float(msg.payload) <= 100000000):
+                    if (float(msg.payload) > 1):
+                        pvwatt=int(float(msg.payload.decode("utf-8"))) * -1
+                    else:
+                        pvwatt=int(float(msg.payload.decode("utf-8")))
+                    f = open('/var/www/html/openWB/ramdisk/pv2watt', 'w')
+                    f.write(str(pvwatt))
+                    f.close()
             if (msg.topic == "openWB/set/lp/1/AutolockStatus"):
                 if (int(msg.payload) >= 0 and int(msg.payload) <=3):
                     f = open('/var/www/html/openWB/ramdisk/autolockstatuslp1', 'w')
