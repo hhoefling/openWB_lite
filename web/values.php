@@ -183,7 +183,9 @@ if (isset($_GET['theme'])) {
 	$theme = $themeold;
 	$_SESSION['theme'] = $theme;
 }
-
+if (isset($_GET['themeid'])) {
+    $displaythemeold=$_GET['themeid'];
+}
 // convert lines to key/value array for faster manipulation
 foreach($lines as $line) {
 	// split line at char '='
