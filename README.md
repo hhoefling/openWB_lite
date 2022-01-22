@@ -17,6 +17,18 @@ Python 3.5.3
 ```
 
 
+*******************************************************
+Die weitere Entwicklung
+
+- Unter der Annahme das ich keine 8 Ladepunkte brauche werde ich die Software auf 3 Ladepunkte zurückfahren.
+- Ladesteuerung an meine Wünsche anpassen, insbesonder Nachtladen und Zielladen.
+- Ladelog um KM ergänzen (aus dem SOC Module)
+- 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
+*******************************************************
+
+
+
+
 Die folgenden Schritte lassen eine laufenden snaptec/openwb auf dieses Repository umziehen.
 (Beutzer pi)
 ```
@@ -102,42 +114,6 @@ ServerName      127.0.0.1
 ```
 
 
-*******************************************************
-Die weitere Entwicklung
-
-- Unter der Annahme das ich keine 8 Ladepunkte brauche werde ich die Software auf 3 Ladepunkte zurückfahren.
-- Ladesteuerung an meine Wünsche anpassen, insbesonder Nachtladen und Zielladen.
-- Ladelog um KM ergänzen (aus dem SOC Module)
-- 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
-*******************************************************
-Hilfreiche Infos, gesamelt im Forum
-
-**Die unterschiedlichen Zählertypen und ihre Internen Adressen**
-```
-Typ	IP     Port Unit_id
-EVU Kit
-MPM3PM 192.168.193.15 8899 5 
-SDM630 192.168.193.15 8899 115
-Lovato 192.168.193.15 8899 2
-
-PV Kit
-MPM3PM 192.168.193.13 8899 8
-SDM630 192.168.193.13 8899 116
-Lovato 192.168.193.13 8899 8
-
-PV Kit and EVU Kit
-MPM3PM 192.168.193.15 8899 8
-SDM630 192.168.193.15 8899 116 (flex-Kit)
-Lovato 192.168.193.15 8899 8
-
-Speicherkit
-SDM120 192.168.193.19 8899 9
-SDM630 an EVU 192.168.193.15 8899 117
-MPM3PM 192.168.193.19 8899 1
-```
-
-******************************************
-
 **Interfacenamen bei Buster/Bullseye**
 
 Wenn auf VM's oder anderer Hardeare installiert werden soll
@@ -155,8 +131,9 @@ GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"
 
 ******************
 
-History
+**[History](docs/history.ms)**
 
-Einige Steps der Entwicklung
-- 22.1.2022 Begin der Reduktion auf LP1-3, wenn ich mal 4 oder nehr openWB's habe, dann nehme ich wieder die 2.0 Software :-). Aktuell reichen mir 3 Ladepunkte
-   
+******************
+
+**[Infos](docs/info.ms)**
+
