@@ -131,9 +131,9 @@ GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"
 
 ******************
 
-**[History](docs/history.ms)**
+**[History](docs/history.md)**
 
 ******************
 
-**[Infos](docs/info.ms)**
+**[Infos](docs/info.md)**
 
