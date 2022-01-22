@@ -26,10 +26,13 @@ Die weitere Entwicklung
 - 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
 *******************************************************
 
-**[Umzug auf Buster/Bullseye](docs/umzug.md)**
+**[Umzug auf openwb_lite](docs/umzug.md)**
 
+*****************
 
-******************
+**[info zu Buster/Bullseye](docs/debian.md)**
+
+****************
 
 **[History](docs/history.md)**
 
