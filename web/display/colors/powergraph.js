@@ -63,8 +63,6 @@ class PowerGraph {
     this.svg = figure.append("svg")
       .attr("viewBox", `0 0 500 500`);
 
-   
-
   }
 
   activateLive() {
@@ -87,18 +85,14 @@ class PowerGraph {
     }
   }
 
-  
-
   updateHeading() {
     var heading = "";
     heading = heading + this.liveGraphMinutes + " min";
     d3.select("h3#widgetheading").text(heading);
   }
 
-  
-
   updateLive(topic, payload) {
-    if (wbdata.graphMode == 'live') { // only udpdate if live graph is active
+    if (wbdata.graphMode == 'live') { // only update if live graph is active
       if (this.initialized) { // steady state
         if (topic === "openWB/graph/lastlivevalues") {
           const values = this.extractLiveValues(payload.toString());
@@ -145,12 +139,6 @@ class PowerGraph {
       }
     }
   }
-
-  
-
-  
-
-  
 
   extractLiveValues(payload) {
     const elements = payload.split(",");
@@ -225,11 +213,8 @@ class PowerGraph {
     return values;
   }
 
-  
-  
   reset() {
     this.resetLiveGraph();
-    
   }
 
   resetLiveGraph() {
@@ -240,9 +225,6 @@ class PowerGraph {
     this.graphData = [];
     this.graphRefreshCounter = 0;
   }
-
-  
-
 
   calcValue(i, array, oldArray) {
     var val = (array[i] - oldArray[i]) * 12;
@@ -290,7 +272,6 @@ class PowerGraph {
   drawSourceGraph(svg, width, height) {
     var keys = (wbdata.graphMode == 'month') ? ["gridPull", "batOut", "selfUsage", "gridPush"] : ["selfUsage", "gridPush", "batOut", "gridPull"];
 
-   
       this.xScale = d3.scaleTime().domain(d3.extent(this.graphData, d => d.date));
     
     this.xScale.range([0, width - this.margin.right]);

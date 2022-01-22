@@ -2395,7 +2395,7 @@
                         publish(value, topic);
                         var label = $('label[for="' + id + '"].valueLabel');
                         label.removeClass('text-danger');
-                        // if rangeInput is for chargeLimitation, recalc progress
+						// if rangeInput is for chargeLimitation, recalculate progress
                         if ( id.includes('/energyToCharge') ) {
                             var parent = elem.closest('.chargeLimitation')  // get parent div element for charge limitation
                             var element = parent.find('.progress-bar');  // now get parents progressbar

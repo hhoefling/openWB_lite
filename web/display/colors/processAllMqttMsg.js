@@ -38,7 +38,7 @@ function convertToKw(dataColum) {
 }
 
 function getIndex(topic) {
-	// get occurence of numbers between / / in topic
+	// get occurrence of numbers between / / in topic
 	// since this is supposed to be the index like in openwb/lp/4/w
 	// no lookbehind supported by safari, so workaround with replace needed
 	var index = topic.match(/(?:\/)([0-9]+)(?=\/)/g)[0].replace(/[^0-9]+/g, '');
@@ -161,6 +161,22 @@ function processPvConfigMessages(mqttmsg, mqttpayload) {
 	}
 	else if (mqttmsg == 'openWB/config/get/pv/minCurrentMinPv') {
 	//	setInputValue('minCurrentMinPv', mqttpayload);
+	} else if ( mqttmsg == 'openWB/config/get/pv/priorityModeEVBattery' ) {
+		// sets button color in charge mode modal and sets icon in mode select button
+		switch (mqttpayload) {
+			case '0':
+				// battery priority
+				$('#evPriorityBtn').removeClass('btn-success');
+				$('#batteryPriorityBtn').addClass('btn-success');
+				$('.priorityEvBatteryIcon').removeClass('fa-car').addClass('fa-car-battery')
+				break;
+			case '1':
+				// ev priority
+				$('#evPriorityBtn').addClass('btn-success');
+				$('#batteryPriorityBtn').removeClass('btn-success');
+				$('.priorityEvBatteryIcon').removeClass('fa-car-battery').addClass('fa-car')
+				break;
+		}
 	}
 }
 
@@ -169,7 +185,7 @@ function processSofortConfigMessages(mqttmsg, mqttpayload) {
 	// called by handlevar
 
 	// colors theme
-	var index = getIndex(mqttmsg); // extraxt number between two / /
+	var index = getIndex(mqttmsg); // extract number between two / /
 	if (mqttmsg.match(/^openwb\/config\/get\/sofort\/lp\/[1-9][0-9]*\/current$/i)) {
 		var current = parseInt(mqttpayload, 10);
 		if (isNaN(current)) {
@@ -271,6 +287,9 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 		// '3': mode stop
 		// '4': mode standby
 	}
+	else if ( mqttmsg == 'openWB/global/rfidConfigured' ) {
+		wbdata.updateGlobal("rfidConfigured", (mqttpayload == 1))
+	}
 	else if (mqttmsg == 'openWB/global/DailyYieldAllChargePointsKwh') {
 		wbdata.updateGlobal("chargeEnergy", makeFloat(mqttpayload));
 	}
@@ -289,17 +308,16 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 			$('#lastregelungaktiv').text('');
 			$('#lastmanagementShowBtn').addClass('hide');
 		}
-	}
-	else if (mqttmsg == 'openWB/global/ChargeMode') {
+	} else if ( mqttmsg == 'openWB/global/ChargeMode' ) {
 		// set modal button colors depending on charge mode
 		// set visibility of divs
 		// set visibility of priority icon depending on charge mode
-		// (priority icon is encapsulated in another element hidden/shown by housebattery configured or not)
+		// (priority icon is encapsulated in another element hidden/shown by house battery configured or not)
 		switch (mqttpayload) {
 			case '0':
 				// mode sofort
-				$('.chargeModeSelectBtnText').text('Sofort');  // text btn mainpage
-				$('.chargeModeBtn').removeClass('btn-success');  // changes to select btns in modal
+				$('.chargeModeSelectBtnText').text('Sofort');  // text btn main page
+				$('.chargeModeBtn').removeClass('btn-success');  // changes to select buttons in modal
 				$('.chargeModeBtnSofort').addClass('btn-success');
 				$('.priorityEvBatteryIcon').addClass('hide');  // visibility of priority icon
 				$('.chargeMode').addClass('hide'); // modal chargepoint config
@@ -517,7 +535,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
 
 	// color theme
 
-	var index = getIndex(mqttmsg); // extraxt number between two / /
+	var index = getIndex(mqttmsg); // extract number between two / /
 	if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/w$/i)) {
 		var actualPower = parseInt(mqttpayload, 10);
 		if (isNaN(actualPower)) {
@@ -738,7 +756,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
 	}
 }
 function processSmartHomeDevicesConfigMessages(mqttmsg, mqttpayload) {
-	// processes mqttmsg for topic openWB/config/get/SmartHome/Devices - config variables (Name / configured only!), actual Variables in proccessSMartHomeDevices
+	// processes mqttmsg for topic openWB/config/get/SmartHome/Devices - config variables (Name / configured only!), actual Variables in proccessSmartHomeDevices
 	// called by handlevar
 	// color theme
 	var index = getIndex(mqttmsg);  // extract number between two / /
