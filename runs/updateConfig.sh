@@ -383,6 +383,24 @@ updateConfig(){
 	if ! grep -Fq "twcmanagerlp1phasen=" $ConfigFile; then
 		echo "twcmanagerlp1phasen=3" >> $ConfigFile
 	fi
+	if ! grep -Fq "twcmanagerlp1httpcontrol=" $ConfigFile; then
+		echo "twcmanagerlp1httpcontrol=0" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp1port=" $ConfigFile; then
+		echo "twcmanagerlp1port=8080" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp2ip=" $ConfigFile; then
+		echo "twcmanagerlp2ip='127.0.0.1'" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp2port=" $ConfigFile; then
+		echo "twcmanagerlp2port=8080" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp2phasen=" $ConfigFile; then
+		echo "twcmanagerlp2phasen=3" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp2httpcontrol=" $ConfigFile; then
+		echo "twcmanagerlp2httpcontrol=0" >> $ConfigFile
+	fi
 	if ! grep -Fq "mpm3pmpvsource=" $ConfigFile; then
 		echo "mpm3pmpvsource=/dev/ttyUSB0" >> $ConfigFile
 	fi
@@ -1429,7 +1447,13 @@ updateConfig(){
 		echo "solarview_hostname=192.168.0.31" >> $ConfigFile
 	fi
 	if ! grep -Fq "solarview_port=" $ConfigFile; then
-		echo "solarview_port=80" >> $ConfigFile
+		echo "solarview_port=15000" >> $ConfigFile
+	fi
+	if ! grep -Fq "solarview_timeout=" $ConfigFile; then
+		echo "solarview_timeout=1" >> $ConfigFile
+	fi
+	if ! grep -Fq "solarview_command_wr=" $ConfigFile; then
+		echo "solarview_command_wr=00*" >> $ConfigFile
 	fi
 	if ! grep -Fq "discovergyuser=" $ConfigFile; then
 		echo "discovergyuser=name@mail.de" >> $ConfigFile
@@ -1717,6 +1741,10 @@ updateConfig(){
 	fi
 	if ! grep -Fq "pv2wattmodul=" $ConfigFile; then
 		echo "pv2wattmodul=none" >> $ConfigFile
+	fi
+	if ! grep -Fq "pv2ip2=" $ConfigFile; then
+		echo "pv2ip2=192.168.192.192" >> $ConfigFile
+		echo "pv2id2=0" >> $ConfigFile
 	fi
 	if ! grep -Fq "pv2ip=" $ConfigFile; then
 		echo "pv2ip=none" >> $ConfigFile

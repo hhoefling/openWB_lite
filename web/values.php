@@ -183,6 +183,7 @@ if (isset($_GET['theme'])) {
 	$theme = $themeold;
 	$_SESSION['theme'] = $theme;
 }
+// Lasse das Thema über 1..5 auswählen
 if (isset($_GET['themeid'])) {
     $displaythemeold=$_GET['themeid'];
 }

@@ -39,5 +39,3 @@ if ! [[ $chargestat =~ $r2e ]] ; then
 fi
 echo $plugstat > /var/www/html/openWB/ramdisk/plugstat
 echo $chargestat > /var/www/html/openWB/ramdisk/chargestat
-
-

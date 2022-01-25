@@ -94,7 +94,6 @@ if [[ $sdm120modbusllid1s2 != "254" ]] && [[ $sdm120modbusllid2s2 != "254" ]] &&
 	 	llaktuell=`echo "($wl1+$wl2+$wl3)" |bc`
 		echo $llaktuell > /var/www/html/openWB/ramdisk/llaktuells2
 	fi
-
 else
 	if [[ $sdm120modbusllid2s2 != "254" ]] ; then
 		n=0
@@ -158,11 +157,3 @@ else
 		sudo python /var/www/html/openWB/modules/sdm120modbuslls2/readsdm1.py $sdm120lp3source $sdm120modbusllid1s2
 	fi
 fi
-
-
-
-
-
-
-
-

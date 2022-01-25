@@ -17,5 +17,3 @@ if  [[ ($rc == 143)  || ($rc == 124) ]] ; then
   echo "Speicher-Info Script timed out"
 fi
 exit $rc
-
-

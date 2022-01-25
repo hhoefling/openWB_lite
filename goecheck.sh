@@ -36,7 +36,6 @@ goecheck(){
 				state=$(echo $output | jq -r '.alw')
 				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
 					lp2enabled=$(</var/www/html/openWB/ramdisk/lp2enabled)
-
 					if ((state == "0"))  && (( lp2enabled == "1" )) ; then
 						curl --silent --connect-timeout $goetimeoutlp2 -s http://$goeiplp2/mqtt?payload=alw=1 > /dev/null
 					fi

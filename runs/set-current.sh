@@ -182,6 +182,7 @@ function setChargingCurrenttwcmanager () {
 		else
 		curl -s --connect-timeout 3 "http://$twcmanagerlp1ip/index.php?&nonScheduledAmpsMax=$current&submit=Save" > /dev/null
 	fi
+	fi
 }
 
 function setChargingCurrenthttp () {
@@ -491,7 +492,6 @@ if [[ $lastmanagement == "1" ]]; then
 		twcmanagerlp1port=$twcmanagerlp2port
 		twcmanagerlp1httpcontrol=$twcmanagerlp2httpcontrol
 		owbpro1ip=$owbpro2ip
-
 		# dirty call (no parameters, all is set above...)
 		if (( lp2enabled == 0 )); then
 			oldcurrent=$current

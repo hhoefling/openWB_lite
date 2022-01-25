@@ -1,4 +1,5 @@
 #!/bin/bash
+SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 MODULEDIR=$(cd `dirname $0` && pwd)

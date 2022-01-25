@@ -52,7 +52,7 @@ function cleanup()
  local t=$((endregel-startregel))
  
  if [ "$t" -le "7" ] ; then   # 1..7 Ok
- 	openwbDebugLog "MAIN" 0 "**** Regulation loop needs $t seconds"
+	openwbDebugLog "MAIN" 1 "**** Regulation loop needs $t seconds"
  elif [ "$t" -le "8" ] ; then # 8 Warning 
 	openwbDebugLog "MAIN" 0 "**** WARNING **** Regulation loop needs $t seconds"
  else                         # 9,10,... Fatal
@@ -284,8 +284,10 @@ fi
 if (( cpunterbrechunglp2 == 1 )); then
 	if (( plugstatlp2 == 1 )) && (( lp2enabled == 1 )); then
 		if (( llalts1 > 5 )); then
-			if (( ladeleistunglp2 < 200 )); then
+			if (( ladeleistunglp2 < 100 )); then
 				cpulp2waraktiv=$(<ramdisk/cpulp2waraktiv)
+				cpulp2counter=$(<ramdisk/cpulp2counter)
+				if (( cpulp2counter > 5 )); then
 				if (( cpulp2waraktiv == 0 )); then
 					openwbDebugLog "MAIN" 0 "CP Unterbrechung an LP2 wird durchgeführt"
 					if [[ $evsecons1 == "simpleevsewifi" ]]; then
@@ -303,11 +305,17 @@ if (( cpunterbrechunglp2 == 1 )); then
 					date +%s > ramdisk/cpulp2timestamp # Timestamp in epoch der CP Unterbrechung
 				fi
 			else
+					cpulp2counter=$((cpulp2counter+1))
+					echo $cpulp2counter > ramdisk/cpulp2counter
+				fi
+			else
 				echo 0 > ramdisk/cpulp2waraktiv
+				echo 0 > ramdisk/cpulp2counter
 			fi
 		fi
 	else
 		echo 0 > ramdisk/cpulp2waraktiv
+		echo 0 > ramdisk/cpulp2counter
 	fi
 fi
 
