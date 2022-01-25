@@ -46,7 +46,7 @@ class ChargePointList {
   updateValues() { // A value has changed. Only update the values, do not redraw all
       this.chargepoints.map((cp, i) => {
       let powerString = formatWatt(cp.power) + " " + this.phaseSymbols[cp.phasesInUse] + " " + cp.targetCurrent + " A";
-      let energyString = formatWattH(cp.energy * 1000) + " / " + Math.round(cp.energy / cp.energyPer100km * 1000) / 10 + " km"
+      let energyString = formatWattH(cp.energy * 1000) + " / " + Math.floor(cp.energy / cp.energyPer100km * 100) + " km"
       if (cp.configured) {
         d3.select(".cpname-" + i).text(cp.name) // name
         if (cp.isSocConfigured) { // soc
@@ -174,12 +174,10 @@ class ChargePointList {
     d3.select(".energyLimitSettings").classed("hide", (limitMode != "1"))
     d3.select(".priceConfiguration").classed("hide", !((wbdata.chargeMode == "0") && wbdata.isEtEnabled));
     d3.select(".labelMaxPrice").text(wbdata.etMaxPrice + " Cent");
+    d3.select(".maxPriceInput").property("value", wbdata.etMaxPrice);
 
     d3.select(".pricechartColumn").classed ("col-12", (limitMode == 0));
     d3.select(".pricechartColumn").classed ("col-10", (limitMode == 2 ||  limitMode == 1));
-    // d3.select(".pricechartColumn").classed ("col-10", (limitMode == 1));
-    
-
   }
 }
 
@@ -236,6 +234,9 @@ function modeButtonClicked(index) {
       })
     b.classed("btn-danger", chargePointList.chargepoints[index].isEnabled)
     b.classed("btn-info", !chargePointList.chargepoints[index].isEnabled)
+    d3.select("#priorityModeBtns").classed ("hide", !wbdata.isBatteryConfigured)
+    d3.select("#evPriorityBtn").classed ("active", wbdata.hasEVPriority)
+    d3.select("#batteryPriorityBtn").classed ("active", !wbdata.hasEVPriority)
 
     if (wbdata.chargePoint[index].isSocConfigured) {
       let socSetDiv = d3.select("div#socSetButton").attr("class", "col px-3 pb-3 pt-1 modalLabel hide");
@@ -259,7 +260,7 @@ function modeButtonClicked(index) {
         socLoadDiv.append("button")
           .attr("type", "button")
           .text("SOC abfragen")
-          .attr("class", " chargeModeBtn btn-info btn btn-lg btn-block")
+          .attr("class", " modal-button chargeModeBtn btn-info btn btn-lg btn-block")
           .attr("data-dismiss", "modal")
           .on("click", () => {
             socLoadButtonClicked(index);

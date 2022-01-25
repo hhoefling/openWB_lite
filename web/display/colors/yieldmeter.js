@@ -44,7 +44,6 @@ class YieldMeter {
 				.concat(wbdata.usageDetails
 					.filter((row) => (row.energy > 0)));
 		
-				
 		this.adjustLabelSize()
 		const svg = this.createOrUpdateSvg();
 		this.drawChart(svg);
