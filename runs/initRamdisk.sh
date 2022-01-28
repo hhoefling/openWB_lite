@@ -383,8 +383,9 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL3
 	echo 0 > $RamdiskPath/autolocktimer
 	echo 0 > $RamdiskPath/blockall
-	echo 0 > $RamdiskPath/date-live.graph
-	echo 0 > $RamdiskPath/date.graph
+#NC	echo 0 > $RamdiskPath/date-live.graph
+#NC echo 0 > $RamdiskPath/date.graph
+    echo 0 > $RamdiskPath/hausverbrauch-live.graph	# neu
 	echo 0 > $RamdiskPath/devicetotal_watt
 	echo 0 > $RamdiskPath/etprovidermaxprice
 	echo 0 > $RamdiskPath/etproviderprice
