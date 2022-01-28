@@ -81,7 +81,7 @@ Defaults:cron   !syslog
 Defaults:root   !syslog
 ```
 
-Reduzierung der Meldungen im apache2 error.log
+**Reduzierung der Meldungen im apache2 error.log**
 
 File: **/etc/apache2/apache2.conf**
 
@@ -90,5 +90,14 @@ Zeile hinzufügen
 ServerName      127.0.0.1
 ```
 
+**Wenn die folgende Meldung in openwb.log auftaucht**
+```
+RequestsDependencyWarning: urllib3 (1.26.8) or chardet (3.0.4) doesn't match a supported version!
+```
+dann hilft
+
+```
+pip3 install --upgrade requests
+```
 
 
