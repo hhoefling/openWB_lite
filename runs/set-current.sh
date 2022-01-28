@@ -183,7 +183,6 @@ function setChargingCurrenttwcmanager () {
 			curl -s --connect-timeout 3 "http://$twcmanagerlp1ip/index.php?&nonScheduledAmpsMax=$current&submit=Save" > /dev/null
 		fi
 	fi
-	fi
 }
 
 function setChargingCurrenthttp () {
