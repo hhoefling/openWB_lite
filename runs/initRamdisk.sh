@@ -177,7 +177,7 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/progevsedinlp22007
 	echo 0 > $RamdiskPath/cpulp1counter
 	echo 0 > $RamdiskPath/soc
-	echo 0 > $RamdiskPath/soc-live.graph
+#NC	echo 0 > $RamdiskPath/soc-live.graph
 	echo 0 > $RamdiskPath/soc.graph
 	echo 0 > $RamdiskPath/soc1
 	echo 0 > $RamdiskPath/soc1vorhanden
@@ -237,7 +237,7 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/bezugw2
 	echo 0 > $RamdiskPath/bezugw3
 	echo 0 > $RamdiskPath/einspeisungkwh
-	echo 0 > $RamdiskPath/evu-live.graph
+#NC	echo 0 > $RamdiskPath/evu-live.graph
 	echo 0 > $RamdiskPath/evu.graph
 	echo 0 > $RamdiskPath/evuhz
 	echo 0 > $RamdiskPath/evupf1
@@ -256,7 +256,7 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/monthly_pvkwhk1
 	echo 0 > $RamdiskPath/monthly_pvkwhk2
 	echo 0 > $RamdiskPath/nurpv70dynstatus
-	echo 0 > $RamdiskPath/pv-live.graph
+#NC	echo 0 > $RamdiskPath/pv-live.graph
 	echo 0 > $RamdiskPath/pv.graph
 	echo 0 > $RamdiskPath/pv1watt
 	echo 0 > $RamdiskPath/pv2a1
@@ -383,13 +383,13 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL3
 	echo 0 > $RamdiskPath/autolocktimer
 	echo 0 > $RamdiskPath/blockall
-	echo 0 > $RamdiskPath/date-live.graph
-	echo 0 > $RamdiskPath/date.graph
+#NC	echo 0 > $RamdiskPath/date-live.graph
+#NC echo 0 > $RamdiskPath/date.graph
 	echo 0 > $RamdiskPath/devicetotal_watt
 	echo 0 > $RamdiskPath/etprovidermaxprice
 	echo 0 > $RamdiskPath/etproviderprice
 	touch $RamdiskPath/etprovidergraphlist
-	echo 0 > $RamdiskPath/ev-live.graph
+#NC	echo 0 > $RamdiskPath/ev-live.graph
 	echo 0 > $RamdiskPath/ev.graph
 	echo 0 > $RamdiskPath/evseausgelesen
 	echo 0 > $RamdiskPath/glattwattbezug

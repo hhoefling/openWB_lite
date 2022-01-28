@@ -1300,11 +1300,17 @@ loadvars(){
 	fi
 
 	csvfile="/var/www/html/openWB/web/logging/data/daily/$(date +%Y%m%d).csv"
-	first=$(head -n 1 "$csvfile")
-	last=$(tail -n 1 "$csvfile")
-	dailychargelp1=$(echo "$(echo "$first" | cut -d , -f 5) $(echo "$last" | cut -d , -f 5)" | awk '{printf "%0.2f", ($2 - $1)/1000}')
-	dailychargelp2=$(echo "$(echo "$first" | cut -d , -f 6) $(echo "$last" | cut -d , -f 6)" | awk '{printf "%0.2f", ($2 - $1)/1000}')
-	dailychargelp3=$(echo "$(echo "$first" | cut -d , -f 7) $(echo "$last" | cut -d , -f 7)" | awk '{printf "%0.2f", ($2 - $1)/1000}')
+	if [ -r $csvfile ]  ; then
+		first=$(head -n 1 "$csvfile")
+		last=$(tail -n 1 "$csvfile")
+		dailychargelp1=$(echo "$(echo "$first" | cut -d , -f 5) $(echo "$last" | cut -d , -f 5)" | awk '{printf "%0.2f", ($2 - $1)/1000}')
+		dailychargelp2=$(echo "$(echo "$first" | cut -d , -f 6) $(echo "$last" | cut -d , -f 6)" | awk '{printf "%0.2f", ($2 - $1)/1000}')
+		dailychargelp3=$(echo "$(echo "$first" | cut -d , -f 7) $(echo "$last" | cut -d , -f 7)" | awk '{printf "%0.2f", ($2 - $1)/1000}')
+	else	
+		dailychargelp1=0
+		dailychargelp2=0
+		dailychargelp3=0
+	fi		
 
 	restzeitlp1=$(<ramdisk/restzeitlp1)
 	restzeitlp2=$(<ramdisk/restzeitlp2)

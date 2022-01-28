@@ -229,6 +229,16 @@ then
 	(crontab -l -u pi ; echo "@reboot /var/www/html/openWB/runs/atreboot.sh >> /var/log/openWB.log 2>&1")| crontab -u pi -
 fi
 
+# check for email
+$(sendmail -V >/dev/null 2>&1 )
+if (( $? !=0 )) ; then
+  log "install simple smtp client"
+  apt-get install ssmtp
+else
+  log "sendmail found. Please check config"
+fi
+
+
 # check for needed packages
 log "packages 1..."
 if python -c "import evdev" &> /dev/null; then
