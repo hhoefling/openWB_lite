@@ -44,8 +44,8 @@ Filesystem einstellungen optimieren.
 
 In der /etc/fstab 
 ```
-PARTUUID=xxxxxxxxxxx /boot           vfat    defaults,noatime,nodiratime,commit=120  0       2
-PARTUUID=xxxxxxxxxxx /               ext4    defaults,noatime,nodiratime,commit=120  0       1
+PARTUUID=xxxxxxxxxxx /boot           vfat    defaults,noatime,nodiratime  0       2
+PARTUUID=xxxxxxxxxxx /               ext4    defaults,noatime,nodiratime  0       1
 ```
 
 Die folgen modificationen sind auf meinen Test-Pi-3B+ getestet worden.
