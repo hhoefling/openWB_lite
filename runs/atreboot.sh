@@ -116,6 +116,21 @@ fi
 # check if rfid is configured and start daemons to listen on input devices
 
 
+
+log "detect if LCD is avail."
+ 
+if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
+     log "LCD detected"
+else
+    if (( displayaktiv == 1 )) ; then
+      log "No LCD detcted, disable displayaktiv"
+      /var/www/html/openWB/runs/replaceinconfig.sh "displayaktiv=" "0"
+    fi
+    log "No LCD detcted, stop lighttdm "
+    sudo service lightdm stop
+    displayaktiv=0
+fi
+
 if ps ax |grep -v grep |grep "python /var/www/html/openWB/runs/readrfid.py" > /dev/null
 then
 	sudo kill $(ps aux |grep '[r]eadrfid.py' | awk '{print $2}')
@@ -142,6 +157,9 @@ if [[ $evsecon == twcmanager ]]; then
 		screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
 	fi
 fi
+
+
+
 
 # check if display is configured and setup timeout
 if (( displayaktiv == 1 )); then
@@ -230,12 +248,11 @@ then
 fi
 
 # check for email
-$(sendmail -V >/dev/null 2>&1 )
-if (( $? !=0 )) ; then
-  log "install simple smtp client"
-  apt-get install ssmtp
-else
+if [[ -x /usr/sbin/ssmtp ]] ; then
   log "sendmail found. Please check config"
+else
+  log "install simple smtp client"
+  sudo apt-get -qq install ssmtp
 fi
 
 
