@@ -5,6 +5,9 @@
  * @author Michael Ortenstein
  */
 
+/* NC */ 
+
+/*------------------------------
 var doInterval;
 var do2Interval;
 var speichersoc;
@@ -1190,3 +1193,6 @@ function getfile() {
 
 doInterval = setInterval(getfile, 5000);
 getfile();
+
+
+---------------------*/

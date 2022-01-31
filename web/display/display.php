@@ -13,6 +13,9 @@ if ($isssold == 1) {
 	} else {
 		// das gewählte Theme einbinden
 		switch ($displaythemeold) {
+			case -1:
+				include 'simple/index.php';
+		        break;
 			case 1:
 				include './gauges/index.php';
 				break;
