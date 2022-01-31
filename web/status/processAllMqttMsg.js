@@ -252,6 +252,7 @@ function processVerbraucherMsg (mqttmsg, mqttpayload) {
 
 function processLpMsg (mqttmsg, mqttpayload) {
 	var index = getIndex(mqttmsg);  // extract number between two / /
+	if( index > 3 ){ return; }
 	if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/boolChargePointConfigured$/i ) ) {
 		visibilityCard('#lp' + index, mqttpayload);
 	}
@@ -456,7 +457,7 @@ function visibilityCard(card, mqttpayload) {
 		hideSection(card);
 	} else {
 		showSection(card);
-		if ( (card.match( /^[#]lp[2-8]$/i)) && lpGesCardShown == false ) {
+		if ( (card.match( /^[#]lp[2-3]$/i)) && lpGesCardShown == false ) {
 			showSection('#lpges');
 			lpGesCardShown = true;
 		} else if ( card.match(/^[#]inverter[1-2]+$/i) ) {

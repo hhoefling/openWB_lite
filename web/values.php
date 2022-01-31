@@ -176,17 +176,6 @@ $settingspwold = str_replace("\n", '', $settingspwold);
 
 $owbversion = file_get_contents('/var/www/html/openWB/web/version');
 
-if (isset($_GET['theme'])) {
-	$theme = $_GET['theme'];
-	$_SESSION['theme'] = $theme;
-} else {
-	$theme = $themeold;
-	$_SESSION['theme'] = $theme;
-}
-// Lasse das Thema über 1..5 auswählen
-if (isset($_GET['themeid'])) {
-    $displaythemeold=$_GET['themeid'];
-}
 // convert lines to key/value array for faster manipulation
 foreach($lines as $line) {
 	// split line at char '='
@@ -197,6 +186,22 @@ foreach($lines as $line) {
 	// push key/value pair to new array
 	$settingsArray[$splitLine[0]] = $splitLine[1];
 }
+
+
+if (isset($_GET['theme'])) {
+	$theme = $_GET['theme'];
+	$_SESSION['theme'] = $theme;
+} else {
+	$theme = $themeold;
+	$_SESSION['theme'] = $theme;
+}
+
+//echo "<pre>"; print_r($GLOBALS) ; echo "</pre>";
+// Lasse das Thema über -1..5 auswählen
+if (isset($_GET['themeId'])) {
+    $displaythemeold=trim($_GET['themeId']);
+}
+
 // now values can be accessed by $settingsArray[$key] = $value;
 
 $isConfiguredLp = array_fill(1, 8, false); // holds boolean for configured lp

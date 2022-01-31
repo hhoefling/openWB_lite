@@ -33,9 +33,10 @@ foreach($lines as $line) {
 	if(strpos($line, "displaypincode=") !== false) {
 		list(, $displaypincodeold) = explode("=", $line);
 	}
-	if(strpos($line, "displaytheme=") !== false) {
-		list(, $displaythemeold) = explode("=", $line);
-	}
+//	if(strpos($line, "displaytheme=") !== false) {
+//		list(, $displaythemeold) = explode("=", $line);
+//	}
+   
 }
 $displaypincodeold = trim($displaypincodeold);
 ?>
