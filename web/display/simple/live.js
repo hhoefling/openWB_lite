@@ -23,11 +23,11 @@ var boolDisplayLp2Soc;
 var boolDisplayLp1;
 var boolDisplayLp2;
 var boolDisplayLp3;
-var boolDisplayLp4;
-var boolDisplayLp5;
-var boolDisplayLp6;
-var boolDisplayLp7;
-var boolDisplayLp8;
+//var boolDisplayLp4;
+//var boolDisplayLp5;
+//var boolDisplayLp6;
+//var boolDisplayLp7;
+//var boolDisplayLp8;
 var boolDisplayLpAll;
 var boolDisplaySpeicherSoc;
 var boolDisplaySpeicher;
@@ -55,18 +55,18 @@ var all8p;
 var hidehaus;
 $('#lp2div').hide();
 $('#lp3div').hide();
-$('#lp4div').hide();
-$('#lp5div').hide();
-$('#lp6div').hide();
-$('#lp7div').hide();
-$('#lp8div').hide();
+//$('#lp4div').hide();
+//$('#lp5div').hide();
+//$('#lp6div').hide();
+//$('#lp7div').hide();
+//$('#lp8div').hide();
 $('#slider2div').hide();
 $('#slider3div').hide();
-$('#slider4div').hide();
-$('#slider5div').hide();
-$('#slider6div').hide();
-$('#slider7div').hide();
-$('#slider8div').hide();
+//$('#slider4div').hide();
+//$('#slider5div').hide();
+//$('#slider6div').hide();
+//$('#slider7div').hide();
+//$('#slider8div').hide();
 var thevalues = [
 	["openWB/graph/lastlivevalues", "#"],
 	["openWB/graph/1alllivevalues", "#"],
@@ -85,11 +85,11 @@ var thevalues = [
 	["openWB/graph/boolDisplayLp1", "#"],
 	["openWB/graph/boolDisplayLp2", "#"],
 	["openWB/graph/boolDisplayLp3", "#"],
-	["openWB/graph/boolDisplayLp4", "#"],
-	["openWB/graph/boolDisplayLp5", "#"],
-	["openWB/graph/boolDisplayLp6", "#"],
-	["openWB/graph/boolDisplayLp7", "#"],
-	["openWB/graph/boolDisplayLp8", "#"],
+//	["openWB/graph/boolDisplayLp4", "#"],
+//	["openWB/graph/boolDisplayLp5", "#"],
+//	["openWB/graph/boolDisplayLp6", "#"],
+//	["openWB/graph/boolDisplayLp7", "#"],
+//	["openWB/graph/boolDisplayLp8", "#"],
 	["openWB/graph/boolDisplayLpAll", "#"],
 	["openWB/graph/boolDisplaySpeicherSoc", "#"],
 	["openWB/graph/boolDisplaySpeicher", "#"],
@@ -111,35 +111,35 @@ var thevalues = [
 	["openWB/lp/1/W", "#"],
 	["openWB/lp/2/W", "#"],
 	["openWB/lp/3/W", "#"],
-	["openWB/lp/4/W", "#"],
-	["openWB/lp/5/W", "#"],
-	["openWB/lp/6/W", "#"],
-	["openWB/lp/7/W", "#"],
-	["openWB/lp/8/W", "#"],
+//	["openWB/lp/4/W", "#"],
+//	["openWB/lp/5/W", "#"],
+//	["openWB/lp/6/W", "#"],
+//	["openWB/lp/7/W", "#"],
+//	["openWB/lp/8/W", "#"],
 	["openWB/lp/1/boolPlugStat", "#"],
 	["openWB/lp/2/boolPlugStat", "#"],
 	["openWB/lp/3/boolPlugStat", "#"],
-	["openWB/lp/4/boolPlugStat", "#"],
-	["openWB/lp/5/boolPlugStat", "#"],
-	["openWB/lp/6/boolPlugStat", "#"],
-	["openWB/lp/7/boolPlugStat", "#"],
-	["openWB/lp/8/boolPlugStat", "#"],
+//	["openWB/lp/4/boolPlugStat", "#"],
+//	["openWB/lp/5/boolPlugStat", "#"],
+//	["openWB/lp/6/boolPlugStat", "#"],
+//	["openWB/lp/7/boolPlugStat", "#"],
+//	["openWB/lp/8/boolPlugStat", "#"],
 	["openWB/lp/1/boolChargeStat", "#"],
 	["openWB/lp/2/boolChargeStat", "#"],
 	["openWB/lp/3/boolChargeStat", "#"],
-	["openWB/lp/4/boolChargeStat", "#"],
-	["openWB/lp/5/boolChargeStat", "#"],
-	["openWB/lp/6/boolChargeStat", "#"],
-	["openWB/lp/7/boolChargeStat", "#"],
-	["openWB/lp/8/boolChargeStat", "#"],
+//	["openWB/lp/4/boolChargeStat", "#"],
+//	["openWB/lp/5/boolChargeStat", "#"],
+//	["openWB/lp/6/boolChargeStat", "#"],
+//	["openWB/lp/7/boolChargeStat", "#"],
+//	["openWB/lp/8/boolChargeStat", "#"],
 	["openWB/lp/1/AConfigured", "#llsolllp1div"],
 	["openWB/lp/2/AConfigured", "#llsolllp2div"],
 	["openWB/lp/3/AConfigured", "#llsolllp3div"],
-	["openWB/lp/8/AConfigured", "#llsolllp8div"],
-	["openWB/lp/4/AConfigured", "#llsolllp4div"],
-	["openWB/lp/5/AConfigured", "#llsolllp5div"],
-	["openWB/lp/6/AConfigured", "#llsolllp6div"],
-	["openWB/lp/7/AConfigured", "#llsolllp7div"],
+//	["openWB/lp/8/AConfigured", "#llsolllp8div"],
+//	["openWB/lp/4/AConfigured", "#llsolllp4div"],
+//	["openWB/lp/5/AConfigured", "#llsolllp5div"],
+//	["openWB/lp/6/AConfigured", "#llsolllp6div"],
+//	["openWB/lp/7/AConfigured", "#llsolllp7div"],
 	["openWB/lp/1/TimeRemaining", "#restzeitlp1div"],
 	["openWB/lp/2/TimeRemaining", "#restzeitlp2div"],
 	["openWB/lp/3/TimeRemaining", "#restzeitlp3div"],
@@ -150,19 +150,19 @@ var thevalues = [
 	["openWB/lp/1/ChargeStatus", "#"],
 	["openWB/lp/2/ChargeStatus", "#"],
 	["openWB/lp/3/ChargeStatus", "#"],
-	["openWB/lp/4/ChargeStatus", "#"],
-	["openWB/lp/5/ChargeStatus", "#"],
-	["openWB/lp/6/ChargeStatus", "#"],
-	["openWB/lp/7/ChargeStatus", "#"],
-	["openWB/lp/8/ChargeStatus", "#"],
+//	["openWB/lp/4/ChargeStatus", "#"],
+//	["openWB/lp/5/ChargeStatus", "#"],
+//	["openWB/lp/6/ChargeStatus", "#"],
+//	["openWB/lp/7/ChargeStatus", "#"],
+//	["openWB/lp/8/ChargeStatus", "#"],
 	["openWB/lp/1/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp1div"],
 	["openWB/lp/2/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp2div"],
 	["openWB/lp/3/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp3div"],
-	["openWB/lp/4/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp4div"],
-	["openWB/lp/5/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp5div"],
-	["openWB/lp/6/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp6div"],
-	["openWB/lp/7/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp7div"],
-	["openWB/lp/8/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp8div"],
+//	["openWB/lp/4/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp4div"],
+//	["openWB/lp/5/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp5div"],
+//	["openWB/lp/6/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp6div"],
+//	["openWB/lp/7/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp7div"],
+//	["openWB/lp/8/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp8div"],
 	["openWB/global/ChargeMode", "#"],
 	["openWB/global/WAllChargePoints", "#"],
 	["openWB/housebattery/W", "#speicherleistungdiv"],
@@ -171,35 +171,35 @@ var thevalues = [
 	["openWB/lp/1/boolChargePointConfigured", "#"],
 	["openWB/lp/2/boolChargePointConfigured", "#"],
 	["openWB/lp/3/boolChargePointConfigured", "#"],
-	["openWB/lp/4/boolChargePointConfigured", "#"],
-	["openWB/lp/5/boolChargePointConfigured", "#"],
-	["openWB/lp/6/boolChargePointConfigured", "#"],
-	["openWB/lp/7/boolChargePointConfigured", "#"],
-	["openWB/lp/8/boolChargePointConfigured", "#"],
+//	["openWB/lp/4/boolChargePointConfigured", "#"],
+//	["openWB/lp/5/boolChargePointConfigured", "#"],
+//	["openWB/lp/6/boolChargePointConfigured", "#"],
+//	["openWB/lp/7/boolChargePointConfigured", "#"],
+//	["openWB/lp/8/boolChargePointConfigured", "#"],
 	["openWB/lp/1/ChargePointEnabled", "#lp1enabled"],
 	["openWB/lp/2/ChargePointEnabled", "#lp2enabled"],
 	["openWB/lp/3/ChargePointEnabled", "#lp3enabled"],
-	["openWB/lp/4/ChargePointEnabled", "#lp4enabled"],
-	["openWB/lp/5/ChargePointEnabled", "#lp5enabled"],
-	["openWB/lp/6/ChargePointEnabled", "#lp6enabled"],
-	["openWB/lp/7/ChargePointEnabled", "#lp7enabled"],
-	["openWB/lp/8/ChargePointEnabled", "#lp8enabled"],
+//	["openWB/lp/4/ChargePointEnabled", "#lp4enabled"],
+//	["openWB/lp/5/ChargePointEnabled", "#lp5enabled"],
+//	["openWB/lp/6/ChargePointEnabled", "#lp6enabled"],
+//	["openWB/lp/7/ChargePointEnabled", "#lp7enabled"],
+//	["openWB/lp/8/ChargePointEnabled", "#lp8enabled"],
 	["openWB/lp/1/strChargePointName", "#lp1name"],
 	["openWB/lp/2/strChargePointName", "#lp2name"],
 	["openWB/lp/3/strChargePointName", "#lp3name"],
-	["openWB/lp/4/strChargePointName", "#lp4name"],
-	["openWB/lp/5/strChargePointName", "#lp5name"],
-	["openWB/lp/6/strChargePointName", "#lp6name"],
-	["openWB/lp/7/strChargePointName", "#lp7name"],
-	["openWB/lp/8/strChargePointName", "#lp8name"],
+//	["openWB/lp/4/strChargePointName", "#lp4name"],
+//	["openWB/lp/5/strChargePointName", "#lp5name"],
+//	["openWB/lp/6/strChargePointName", "#lp6name"],
+//	["openWB/lp/7/strChargePointName", "#lp7name"],
+//	["openWB/lp/8/strChargePointName", "#lp8name"],
 	["openWB/config/get/sofort/lp/1/current", "#"],
 	["openWB/config/get/sofort/lp/2/current", "#"],
 	["openWB/config/get/sofort/lp/3/current", "#"],
-	["openWB/config/get/sofort/lp/4/current", "#"],
-	["openWB/config/get/sofort/lp/5/current", "#"],
-	["openWB/config/get/sofort/lp/6/current", "#"],
-	["openWB/config/get/sofort/lp/7/current", "#"],
-	["openWB/config/get/sofort/lp/8/current", "#"],
+//	["openWB/config/get/sofort/lp/4/current", "#"],
+//	["openWB/config/get/sofort/lp/5/current", "#"],
+//	["openWB/config/get/sofort/lp/6/current", "#"],
+//	["openWB/config/get/sofort/lp/7/current", "#"],
+//	["openWB/config/get/sofort/lp/8/current", "#"],
 	["openWB/system/reloadDisplay", "#"]
 ];
 
