@@ -838,6 +838,15 @@ function processLpMessages(mqttmsg, mqttpayload) {
 	// color theme
 
 	var index = getIndex(mqttmsg); // extraxt number between two / /
+
+        if( index > 3 )
+        {
+          console.log('ignore mqtttopic ', mqttmsg, ' ',mqttpayload);
+          return;
+        }
+        //console.log('use mqtttopic ', mqttmsg, ' ',mqttpayload);
+
+
 	if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/w$/i)) {
 		var actualPower = parseInt(mqttpayload, 10);
 		if (isNaN(actualPower)) {

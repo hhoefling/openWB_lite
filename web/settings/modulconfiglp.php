@@ -959,7 +959,7 @@
 												</div>
 											</div>
 										</div>
-									</div>
+								<!--	</div>  -->
 								</div>
 								<script>
 									$(function() {
@@ -3682,7 +3682,7 @@
 												</div>
 											</div>
 										</div>
-									</div>
+								<!--	</div>  -->
 								</div>
 								<script>
 								$(function() {
@@ -4744,7 +4744,7 @@
 					</script>
 				</div>
 
-				<?php for( $chargepointNum = 4; $chargepointNum <= 8; $chargepointNum++ ){ ?>
+				<?php for( $chargepointNum = 9; $chargepointNum <= 8; $chargepointNum++ ){ ?>
 					<!-- Ladepunkt <?php echo $chargepointNum; ?> -->
 					<div class="card border-primary">
 						<div class="card-header bg-primary">

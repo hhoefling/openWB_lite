@@ -82,7 +82,7 @@ class WbData {
 		this.usageSummary.batIn.color = 'var(--color-battery)';
 		this.usageSummary.house.color = 'var(--color-house)';
 		var i;
-		for (i = 0; i < 8; i++) {
+		for (i = 0; i < 3; i++) {
 			this.chargePoint[i].color = 'var(--color-lp' + (i + 1) + ')';
 		}
 		for (i = 0; i < 9; i++) {
