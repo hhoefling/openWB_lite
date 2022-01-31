@@ -51,11 +51,11 @@ var thevalues = [
 	["openWB/lp/1/boolChargePointConfigured"],
 	["openWB/lp/2/boolChargePointConfigured"],
 	["openWB/lp/3/boolChargePointConfigured"],
-	["openWB/lp/4/boolChargePointConfigured"],
-	["openWB/lp/5/boolChargePointConfigured"],
-	["openWB/lp/6/boolChargePointConfigured"],
-	["openWB/lp/7/boolChargePointConfigured"],
-	["openWB/lp/8/boolChargePointConfigured"]
+//	["openWB/lp/4/boolChargePointConfigured"],
+//	["openWB/lp/5/boolChargePointConfigured"],
+//	["openWB/lp/6/boolChargePointConfigured"],
+//	["openWB/lp/7/boolChargePointConfigured"],
+//	["openWB/lp/8/boolChargePointConfigured"]
 ];
 
 var options = {
