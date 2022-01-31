@@ -478,92 +478,12 @@
 									</div>
 								</div>
 							</div>
-							<div id="lp4aktdiv" class="hide">
-								<div class="form-row vaRow mb-1">
-									<div class="col-md-4">
-										Ladepunkt 4
-									</div>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp4old == 0) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp4" id="stopchargeafterdisclp4Off" value="0"<?php if($stopchargeafterdisclp4old == 0) echo " checked=\"checked\"" ?>>Nein
-										</label>
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp4old == 1) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp4" id="stopchargeafterdisclp4On" value="1"<?php if($stopchargeafterdisclp4old == 1) echo " checked=\"checked\"" ?>>Ja
-										</label>
-									</div>
-								</div>
-							</div>
-							<div id="lp5aktdiv" class="hide">
-								<div class="form-row vaRow mb-1">
-									<div class="col-md-4">
-										Ladepunkt 5
-									</div>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp5old == 0) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp5" id="stopchargeafterdisclp5Off" value="0"<?php if($stopchargeafterdisclp5old == 0) echo " checked=\"checked\"" ?>>Nein
-										</label>
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp5old == 1) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp5" id="stopchargeafterdisclp5On" value="1"<?php if($stopchargeafterdisclp5old == 1) echo " checked=\"checked\"" ?>>Ja
-										</label>
-									</div>
-								</div>
-							</div>
-							<div id="lp6aktdiv" class="hide">
-								<div class="form-row vaRow mb-1">
-									<div class="col-md-4">
-										Ladepunkt 6
-									</div>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp6old == 0) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp6" id="stopchargeafterdisclp6Off" value="0"<?php if($stopchargeafterdisclp6old == 0) echo " checked=\"checked\"" ?>>Nein
-										</label>
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp6old == 1) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp6" id="stopchargeafterdisclp6On" value="1"<?php if($stopchargeafterdisclp6old == 1) echo " checked=\"checked\"" ?>>Ja
-										</label>
-									</div>
-								</div>
-							</div>
-							<div id="lp7aktdiv" class="hide">
-								<div class="form-row vaRow mb-1">
-									<div class="col-md-4">
-										Ladepunkt 7
-									</div>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp7old == 0) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp7" id="stopchargeafterdisclp7Off" value="0"<?php if($stopchargeafterdisclp7old == 0) echo " checked=\"checked\"" ?>>Nein
-										</label>
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp7old == 1) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp7" id="stopchargeafterdisclp7On" value="1"<?php if($stopchargeafterdisclp7old == 1) echo " checked=\"checked\"" ?>>Ja
-										</label>
-									</div>
-								</div>
-							</div>
-							<div id="lp8aktdiv" class="hide">
-								<div class="form-row vaRow mb-1">
-									<div class="col-md-4">
-										Ladepunkt 8
-									</div>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp8old == 0) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp8" id="stopchargeafterdisclp8Off" value="0"<?php if($stopchargeafterdisclp8old == 0) echo " checked=\"checked\"" ?>>Nein
-										</label>
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp8old == 1) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp8" id="stopchargeafterdisclp8On" value="1"<?php if($stopchargeafterdisclp8old == 1) echo " checked=\"checked\"" ?>>Ja
-										</label>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 					<script>
 						$(function() {
 							var lp2akt = <?php echo $lastmanagementold ?>;
 							var lp3akt = <?php echo $lastmanagements2old ?>;
-							var lp4akt = <?php echo $lastmanagementlp4old ?>;
-							var lp5akt = <?php echo $lastmanagementlp5old ?>;
-							var lp6akt = <?php echo $lastmanagementlp6old ?>;
-							var lp7akt = <?php echo $lastmanagementlp7old ?>;
-							var lp8akt = <?php echo $lastmanagementlp8old ?>;
 
 							if(lp2akt == '0') {
 								hideSection('#lp2aktdiv');
@@ -584,31 +504,6 @@
 							} else {
 								showSection('#lp3aktdiv');
 								showSection('#durchslp3div');
-							}
-							if(lp4akt == '0') {
-								hideSection('#lp4aktdiv');
-							} else {
-								showSection('#lp4aktdiv');
-							}
-							if(lp5akt == '0') {
-								hideSection('#lp5aktdiv');
-							} else {
-								showSection('#lp5aktdiv');
-							}
-							if(lp6akt == '0') {
-								hideSection('#lp6aktdiv');
-							} else {
-								showSection('#lp6aktdiv');
-							}
-							if(lp7akt == '0') {
-								hideSection('#lp7aktdiv');
-							} else {
-								showSection('#lp7aktdiv');
-							}
-							if(lp8akt == '0') {
-								hideSection('#lp8aktdiv');
-							} else {
-								showSection('#lp8aktdiv');
 							}
 						});
 					</script>

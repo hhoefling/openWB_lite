@@ -1348,36 +1348,6 @@
 										<input type="number" min="1000" step="100" name="displaylp3max" id="displaylp3max" class="form-control" value="<?php echo $displaylp3maxold ?>">
 									</div>
 								</div>
-								<div class="form-row vaRow mb-1" id="displaylp4">
-									<label for="displaylp4max" class="col-md-4 col-form-label">Ladepunkt 4 Skala Max</label>
-									<div class="col">
-										<input type="number" min="1000" step="100" name="displaylp4max" id="displaylp4max" class="form-control" value="<?php echo $displaylp4maxold ?>">
-									</div>
-								</div>
-								<div class="form-row vaRow mb-1" id="displaylp5">
-									<label for="displaylp5max" class="col-md-4 col-form-label">Ladepunkt 5 Skala Max</label>
-									<div class="col">
-										<input type="number" min="1000" step="100" name="displaylp5max" id="displaylp5max" class="form-control" value="<?php echo $displaylp5maxold ?>">
-									</div>
-								</div>
-								<div class="form-row vaRow mb-1" id="displaylp6">
-									<label for="displaylp6max" class="col-md-4 col-form-label">Ladepunkt 6 Skala Max</label>
-									<div class="col">
-										<input type="number" min="1000" step="100" name="displaylp6max" id="displaylp6max" class="form-control" value="<?php echo $displaylp6maxold ?>">
-									</div>
-								</div>
-								<div class="form-row vaRow mb-1" id="displaylp7">
-									<label for="displaylp7max" class="col-md-4 col-form-label">Ladepunkt 7 Skala Max</label>
-									<div class="col">
-										<input type="number" min="1000" step="100" name="displaylp7max" id="displaylp7max" class="form-control" value="<?php echo $displaylp7maxold ?>">
-									</div>
-								</div>
-								<div class="form-row vaRow mb-1" id="displaylp8">
-									<label for="displaylp8max" class="col-md-4 col-form-label">Ladepunkt 8 Skala Max</label>
-									<div class="col">
-										<input type="number" min="1000" step="100" name="displaylp8max" id="displaylp8max" class="form-control" value="<?php echo $displaylp8maxold ?>">
-									</div>
-								</div>
 							</div>
 						</div>
 						<hr class="border-secondary">
