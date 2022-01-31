@@ -17,11 +17,11 @@ var boolDisplayLp2Soc;
 var boolDisplayLp1;
 var boolDisplayLp2;
 var boolDisplayLp3;
-var boolDisplayLp4;
-var boolDisplayLp5;
-var boolDisplayLp6;
-var boolDisplayLp7;
-var boolDisplayLp8;
+//var boolDisplayLp4;
+//var boolDisplayLp5;
+//var boolDisplayLp6;
+//var boolDisplayLp7;
+//var boolDisplayLp8;
 var boolDisplayLpAll;
 var boolDisplaySpeicherSoc;
 var boolDisplaySpeicher;
@@ -176,11 +176,11 @@ function loadgraph() {
 	alp1 = convertToKw(getCol(csvData, 4));
 	alp2 = convertToKw(getCol(csvData, 5));
 	alp3 = convertToKw(getCol(csvData, 6));
-	alp4 = convertToKw(getCol(csvData, 7));
-	alp5 = convertToKw(getCol(csvData, 8));
-	alp6 = convertToKw(getCol(csvData, 9));
-	alp7 = convertToKw(getCol(csvData, 10));
-	alp8 = convertToKw(getCol(csvData, 11));
+//	alp4 = convertToKw(getCol(csvData, 7));
+//	alp5 = convertToKw(getCol(csvData, 8));
+//	alp6 = convertToKw(getCol(csvData, 9));
+//	alp7 = convertToKw(getCol(csvData, 10));
+//	alp8 = convertToKw(getCol(csvData, 11));
 	aspeicherl = convertToKw(getCol(csvData, 12));
 	aspeichersoc = getCol(csvData, 13);
 	asoc = getCol(csvData, 14);
@@ -194,11 +194,11 @@ function loadgraph() {
 	visibility(alp1,'hidelp1','Lp1',boolDisplayLp1);
 	visibility(alp2,'hidelp2','Lp2',boolDisplayLp2);
 	visibility(alp3,'hidelp3','Lp3',boolDisplayLp3);
-	visibility(alp4,'hidelp4','Lp4',boolDisplayLp4);
-	visibility(alp5,'hidelp5','Lp5',boolDisplayLp5);
-	visibility(alp6,'hidelp6','Lp6',boolDisplayLp6);
-	visibility(alp7,'hidelp7','Lp7',boolDisplayLp7);
-	visibility(alp8,'hidelp8','Lp8',boolDisplayLp8);
+//	visibility(alp4,'hidelp4','Lp4',boolDisplayLp4);
+//	visibility(alp5,'hidelp5','Lp5',boolDisplayLp5);
+//	visibility(alp6,'hidelp6','Lp6',boolDisplayLp6);
+//	visibility(alp7,'hidelp7','Lp7',boolDisplayLp7);
+//	visibility(alp8,'hidelp8','Lp8',boolDisplayLp8);
 	visibility(aspeicherl,'hidespeicher','Speicherleistung',boolDisplaySpeicher);
 	visibility(aspeichersoc,'hidespeichersoc','Speicher SoC',boolDisplaySpeicherSoc);
 	visibility(asoc,'hidelp1soc','LP1 SoC',boolDisplayLp1Soc);
@@ -327,52 +327,7 @@ function loadgraph() {
 			data: alp3,
 			yAxisID: 'y-axis-1',
 			hidden: boolDisplayLp3
-		} , {
-			label: 'Lp4',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			data: alp4,
-			borderWidth: 2,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp4
-		} , {
-			label: 'Lp5',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp5,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp5
-		} , {
-			label: 'Lp6',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp6,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp6
-		} , {
-			label: 'Lp7',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp7,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp7
-		} , {
-			label: 'Lp8',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp8,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp8
-		}]
+		} ]
 	}
 	var canvas = $('#canvas').get(0);
     var ctx = canvas.getContext('2d');
@@ -437,7 +392,10 @@ function loadgraph() {
 					// middle grey, opacy = 100% (visible)
 					fontColor: "rgba(153, 153, 153, 1)",
 					filter: function(item,chart) {
-						if ( item.text.includes(hidehaus) || item.text.includes(hideload2) || item.text.includes(hideload1) || item.text.includes(hidelp2soc) || item.text.includes(hidelp1soc) || item.text.includes(hidelp1) || item.text.includes(hidelp2) || item.text.includes(hidelp3) || item.text.includes(hidelp4) || item.text.includes(hidelp5) || item.text.includes(hidelp6) || item.text.includes(hidelp7) || item.text.includes(hidelp8) || item.text.includes(hidespeichersoc) || item.text.includes(hidespeicher) || item.text.includes(hidelpa) || item.text.includes(hidepv) || item.text.includes(hidebezug) ) {
+						if ( item.text.includes(hidehaus) || item.text.includes(hideload2) || item.text.includes(hideload1) || item.text.includes(hidelp2soc) || item.text.includes(hidelp1soc) 
+						  || item.text.includes(hidelp1) || item.text.includes(hidelp2) || item.text.includes(hidelp3) 
+						  //|| item.text.includes(hidelp4) || item.text.includes(hidelp5) || item.text.includes(hidelp6) || item.text.includes(hidelp7) || item.text.includes(hidelp8) 
+						  || item.text.includes(hidespeichersoc) || item.text.includes(hidespeicher) || item.text.includes(hidelpa) || item.text.includes(hidepv) || item.text.includes(hidebezug) ) {
 							return false
 						} else {
 							return true

@@ -5,21 +5,21 @@ var hidelpa;
 var hidelp1;
 var hidelp2;
 var hidelp3;
-var hidelp4;
-var hidelp5;
-var hidelp6;
-var hidelp7;
-var hidelp8;
+//var hidelp4;
+//var hidelp5;
+//var hidelp6;
+//var hidelp7;
+//var hidelp8;
 var graphdata;
 var atime;
 var boolDisplayLp1 = false;
 var boolDisplayLp2 = false;
 var boolDisplayLp3 = false;
-var boolDisplayLp4 = false;
-var boolDisplayLp5 = false;
-var boolDisplayLp6 = false;
-var boolDisplayLp7 = false;
-var boolDisplayLp8 = false;
+//var boolDisplayLp4 = false;
+//var boolDisplayLp5 = false;
+//var boolDisplayLp6 = false;
+//var boolDisplayLp7 = false;
+//var boolDisplayLp8 = false;
 var boolDisplayEvu = false;
 var boolDisplayPv = false;
 var boolDisplaySpeicher = false;
@@ -28,11 +28,11 @@ var boolDisplayLp2Soc = false;
 var alp1 = [];
 var alp2 = [];
 var alp3 = [];
-var alp4 = [];
-var alp5 = [];
-var alp6 = [];
-var alp7 = [];
-var alp8 = [];
+//var alp4 = [];
+//var alp5 = [];
+//var alp6 = [];
+//var alp7 = [];
+//var alp8 = [];
 var abezug = [];
 var aeinspeisung = [];
 var lp1soc;
@@ -49,11 +49,11 @@ var boolDisplayLp2Soc;
 var boolDisplayLp1;
 var boolDisplayLp2;
 var boolDisplayLp3;
-var boolDisplayLp4;
-var boolDisplayLp5;
-var boolDisplayLp6;
-var boolDisplayLp7;
-var boolDisplayLp8;
+//var boolDisplayLp4;
+//var boolDisplayLp5;
+//var boolDisplayLp6;
+//var boolDisplayLp7;
+//var boolDisplayLp8;
 var boolDisplayLpAll;
 var boolDisplaySpeicherSoc;
 var boolDisplaySpeicher;
@@ -276,11 +276,11 @@ function formdata(graphdata){
 	convertdata(csvData,'4',alp1,'hidelp1','Lp1','overalllp1');
 	convertdata(csvData,'5',alp2,'hidelp2','Lp2','overalllp2');
 	convertdata(csvData,'6',alp3,'hidelp3','Lp3','overalllp3');
-	convertdata(csvData,'15',alp4,'hidelp4','Lp4','overalllp4');
-	convertdata(csvData,'16',alp5,'hidelp5','Lp5','overalllp5');
-	convertdata(csvData,'17',alp6,'hidelp6','Lp6','overalllp6');
-	convertdata(csvData,'18',alp7,'hidelp7','Lp7','overalllp7');
-	convertdata(csvData,'19',alp8,'hidelp8','Lp8','overalllp8');
+	//convertdata(csvData,'15',alp4,'hidelp4','Lp4','overalllp4');
+	//convertdata(csvData,'16',alp5,'hidelp5','Lp5','overalllp5');
+	//convertdata(csvData,'17',alp6,'hidelp6','Lp6','overalllp6');
+	//convertdata(csvData,'18',alp7,'hidelp7','Lp7','overalllp7');
+	//convertdata(csvData,'19',alp8,'hidelp8','Lp8','overalllp8');
 	convertdata(csvData,'10',averbraucher1i,'hideload1i','Verbraucher 1 I','overallload1i');
 	convertdata(csvData,'11',averbraucher1e,'hideload1e','Verbraucher 1 E','overallload1e');
 	convertdata(csvData,'12',averbraucher2i,'hideload2i','Verbraucher 2 I','overallload2i');
@@ -505,51 +505,6 @@ function loadgraph() {
 			data: alp3,
 			yAxisID: 'y-axis-1',
 			hidden: boolDisplayLp3
-		} , {
-			label: 'Lp4 ' + overalllp4 + ' kWh',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			data: alp4,
-			borderWidth: 2,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp4
-		} , {
-			label: 'Lp5 ' + overalllp5 + ' kWh',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp5,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp5
-		} , {
-			label: 'Lp6 ' + overalllp6 + ' kWh',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp6,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp6
-		} , {
-			label: 'Lp7 ' + overalllp7 + ' kWh',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp7,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp7
-		} , {
-			label: 'Lp8 ' + overalllp8 + ' kWh',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp8,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp8
 		} , {
 			label: 'Verbraucher 1 I ' + overallload1i + ' kWh',
 			borderColor: "rgba(0, 150, 150, 0.7)",
@@ -809,7 +764,9 @@ function loadgraph() {
 						// middle grey, opacy = 100% (visible)
 						fontColor: "rgba(153, 153, 153, 1)",
 						filter: function(item, chart) {
-						if ( item.text.includes(hidelpa) || item.text.includes(hideload2) || item.text.includes(hidespeicheri) || item.text.includes(hidespeichere) || item.text.includes(hidespeichersoc) || item.text.includes(hidesoc) || item.text.includes(hidesoc1) || item.text.includes(hidelp1) || item.text.includes(hidelp2)|| item.text.includes(hidelp3)|| item.text.includes(hidelp4)|| item.text.includes(hidelp5)|| item.text.includes(hidelp6)|| item.text.includes(hidelp7)|| item.text.includes(hidelp8)|| item.text.includes(hideload2i)|| item.text.includes(hideload2e)|| item.text.includes(hideload1i)|| item.text.includes(hideload1e)|| item.text.includes(hidedevice3)|| item.text.includes(hidedevice4)|| item.text.includes(hidedevice5)|| item.text.includes(hidedevice6)|| item.text.includes(hidedevice7)|| item.text.includes(hidedevice8)|| item.text.includes(hidedevice9)|| item.text.includes(hidedevice10)|| item.text.includes(hidedevice1)|| item.text.includes(hidedevice2)|| item.text.includes(hidetemp1)|| item.text.includes(hidetemp2)|| item.text.includes(hidetemp3)|| item.text.includes(hidetemp4)|| item.text.includes(hidetemp5)|| item.text.includes(hidetemp6)) {
+						if ( item.text.includes(hidelpa) || item.text.includes(hideload2) || item.text.includes(hidespeicheri) || item.text.includes(hidespeichere) || item.text.includes(hidespeichersoc) || item.text.includes(hidesoc) || item.text.includes(hidesoc1) || item.text.includes(hidelp1) || item.text.includes(hidelp2)|| item.text.includes(hidelp3)
+						  //|| item.text.includes(hidelp4)|| item.text.includes(hidelp5)|| item.text.includes(hidelp6)|| item.text.includes(hidelp7)|| item.text.includes(hidelp8)
+						  || item.text.includes(hideload2i)|| item.text.includes(hideload2e)|| item.text.includes(hideload1i)|| item.text.includes(hideload1e)|| item.text.includes(hidedevice3)|| item.text.includes(hidedevice4)|| item.text.includes(hidedevice5)|| item.text.includes(hidedevice6)|| item.text.includes(hidedevice7)|| item.text.includes(hidedevice8)|| item.text.includes(hidedevice9)|| item.text.includes(hidedevice10)|| item.text.includes(hidedevice1)|| item.text.includes(hidedevice2)|| item.text.includes(hidetemp1)|| item.text.includes(hidetemp2)|| item.text.includes(hidetemp3)|| item.text.includes(hidetemp4)|| item.text.includes(hidetemp5)|| item.text.includes(hidetemp6)) {
 							return false
 						} else {
 							return true
