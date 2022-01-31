@@ -119,52 +119,7 @@ function loadgraph() {
 			data: alp3,
 			yAxisID: 'y-axis-1',
 			hidden: boolDisplayLp3,
-		} , {
-			label: 'Lp4',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			data: alp4,
-			borderWidth: 2,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp4,
-		} , {
-			label: 'Lp5',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp5,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp5,
-		} , {
-			label: 'Lp6',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp6,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp6,
-		} , {
-			label: 'Lp7',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp7,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp7,
-		} , {
-			label: 'Lp8',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp8,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp8,
-		}]
+		} ]
 	}
 
 	var ctx = document.getElementById('canvas').getContext('2d');
@@ -307,21 +262,6 @@ function forcegraphload() {
 		}
 		if ( !( boolDisplayLp3 == true  ||  boolDisplayLp3 == false) ) {
 			showhidedataset('boolDisplayLp3');
-		}
-		if ( !( boolDisplayLp4 == true  ||  boolDisplayLp4 == false) ) {
-			showhidedataset('boolDisplayLp4');
-		}
-		if ( !( boolDisplayLp5 == true  ||  boolDisplayLp5 == false) ) {
-			showhidedataset('boolDisplayLp5');
-		}
-		if ( !( boolDisplayLp6 == true  ||  boolDisplayLp6 == false) ) {
-			showhidedataset('boolDisplayLp6');
-		}
-		if ( !( boolDisplayLp7 == true  ||  boolDisplayLp7 == false) ) {
-			showhidedataset('boolDisplayLp7');
-		}
-		if ( !( boolDisplayLp8 == true  ||  boolDisplayLp8 == false) ) {
-			showhidedataset('boolDisplayLp8');
 		}
 		if ( !( boolDisplayLpAll == true  ||  boolDisplayLpAll == false)){
 			showhidedataset('boolDisplayLpAll');
