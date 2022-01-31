@@ -1216,25 +1216,6 @@
 						<div class="col-xs-6">
 							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp3')"><i id="graphlp3div" class="fa"></i> Ladepunkt 3</span>
 						</div>
-						<div class="col-xs-6">
-							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp4')"><i id="graphlp4div" class="fa"></i> Ladepunkt 4</span>
-						</div>
-					</div>
-					<div class="row col-xs-12" style="white-space: nowrap;">
-						<div class="col-xs-6">
-							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp5')"><i id="graphlp5div" class="fa"></i> Ladepunkt 5</span>
-						</div>
-						<div class="col-xs-6">
-							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp6')"><i id="graphlp6div" class="fa"></i> Ladepunkt 6</span>
-						</div>
-					</div>
-					<div class="row col-xs-12" style="white-space: nowrap;">
-						<div class="col-xs-6">
-							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp7')"><i id="graphlp7div" class="fa"></i> Ladepunkt 7</span>
-						</div>
-						<div class="col-xs-6">
-							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp8')"><i id="graphlp8div" class="fa"></i> Ladepunkt 8</span>
-						</div>
 					</div>
 					<div class="row col-xs-12" style="white-space: nowrap;">
 						<div class="col-xs-6">
@@ -1315,23 +1296,8 @@
 					</div>
 					<div id="graphoptiondiv" style="display: none;"><br><br></div>
 					<div style="display: none;" id="lp3enableddiv"></div>
-					<div style="display: none;" id="lp4enableddiv"></div>
-					<div style="display: none;" id="lp5enableddiv"></div>
-					<div style="display: none;" id="lp6enableddiv"></div>
-					<div style="display: none;" id="lp7enableddiv"></div>
-					<div style="display: none;" id="lp8enableddiv"></div>
 					<div style="display: none;" id="sofortlllp3s"></div>
-					<div style="display: none;" id="sofortlllp4s"></div>
-					<div style="display: none;" id="sofortlllp5s"></div>
-					<div style="display: none;" id="sofortlllp6s"></div>
-					<div style="display: none;" id="sofortlllp7s"></div>
-					<div style="display: none;" id="sofortlllp8s"></div>
 					<div style="display: none;" id="sofortlllp3l"></div>
-					<div style="display: none;" id="sofortlllp4l"></div>
-					<div style="display: none;" id="sofortlllp5l"></div>
-					<div style="display: none;" id="sofortlllp6l"></div>
-					<div style="display: none;" id="sofortlllp7l"></div>
-					<div style="display: none;" id="sofortlllp8l"></div>
 					<div style="display: none;" id="lademstatdiv"></div>
 					<div style="display: none;" id="ladepunkts11111div"></div>
 					<div style="display: none;" id="ladepunkts22222div"></div>
