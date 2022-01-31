@@ -91,7 +91,7 @@
 				</div>
 				<div id="collapseFilter" class="card-body collapse">
 					<div class="wrapper">
-						<?php for( $index = 1; $index <= 8; $index++ ){ ?>
+						<?php for( $index = 1; $index <= 3; $index++ ){ ?>
 						<div class="row vaRow" id="chargep<?php echo $index; ?>">
 							<div class="col">
 								<label for="showlp<?php echo $index; ?>">Ladepunkt <?php echo $index; ?><span class="chargepName"></span></label>
