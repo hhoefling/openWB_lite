@@ -255,11 +255,11 @@ updateConfig(){
 	fi
 	if ! grep -Fq "msmoduslp3=" $ConfigFile; then
 		echo "msmoduslp3=0" >> $ConfigFile
-		echo "msmoduslp4=0" >> $ConfigFile
-		echo "msmoduslp5=0" >> $ConfigFile
-		echo "msmoduslp6=0" >> $ConfigFile
-		echo "msmoduslp7=0" >> $ConfigFile
-		echo "msmoduslp8=0" >> $ConfigFile
+#		echo "msmoduslp4=0" >> $ConfigFile
+#		echo "msmoduslp5=0" >> $ConfigFile
+#		echo "msmoduslp6=0" >> $ConfigFile
+#		echo "msmoduslp7=0" >> $ConfigFile
+#		echo "msmoduslp8=0" >> $ConfigFile
 	fi
 	if ! grep -Fq "nachtladenbisuhrs1=" $ConfigFile; then
 		echo "nachtladenbisuhrs1=6" >> $ConfigFile
@@ -1585,85 +1585,88 @@ updateConfig(){
 	if ! grep -Fq "ess_api_ver=" $ConfigFile; then
 		echo "ess_api_ver=01.2020" >> $ConfigFile
 	fi
-	if ! grep -Fq "mpmlp4ip=" $ConfigFile; then
-		echo "mpmlp4ip=192.168.193.54" >> $ConfigFile
-		echo "mpmlp5ip=192.168.193.55" >> $ConfigFile
-		echo "mpmlp6ip=192.168.193.56" >> $ConfigFile
-		echo "mpmlp7ip=192.168.193.57" >> $ConfigFile
-		echo "mpmlp8ip=192.168.193.58" >> $ConfigFile
-		echo "mpmlp4id=14" >> $ConfigFile
-		echo "mpmlp5id=15" >> $ConfigFile
-		echo "mpmlp6id=16" >> $ConfigFile
-		echo "mpmlp7id=17" >> $ConfigFile
-		echo "mpmlp8id=18" >> $ConfigFile
-		echo "lastmanagementlp4=0" >> $ConfigFile
-		echo "lastmanagementlp5=0" >> $ConfigFile
-		echo "lastmanagementlp6=0" >> $ConfigFile
-		echo "lastmanagementlp7=0" >> $ConfigFile
-		echo "lastmanagementlp8=0" >> $ConfigFile
-		echo "evseconlp4=none" >> $ConfigFile
-		echo "evseconlp5=none" >> $ConfigFile
-		echo "evseconlp6=none" >> $ConfigFile
-		echo "evseconlp7=none" >> $ConfigFile
-		echo "evseconlp8=none" >> $ConfigFile
-		echo "evseidlp4=24" >> $ConfigFile
-		echo "evseidlp5=25" >> $ConfigFile
-		echo "evseidlp6=26" >> $ConfigFile
-		echo "evseidlp7=27" >> $ConfigFile
-		echo "evseidlp8=28" >> $ConfigFile
-		echo "evseiplp4=192.168.193.44" >> $ConfigFile
-		echo "evseiplp5=192.168.193.45" >> $ConfigFile
-		echo "evseiplp6=192.168.193.46" >> $ConfigFile
-		echo "evseiplp7=192.168.193.47" >> $ConfigFile
-		echo "evseiplp8=192.168.193.48" >> $ConfigFile
-		echo "sofortlllp4=13" >> $ConfigFile
-		echo "sofortlllp5=13" >> $ConfigFile
-		echo "sofortlllp6=13" >> $ConfigFile
-		echo "sofortlllp7=13" >> $ConfigFile
-		echo "sofortlllp8=13" >> $ConfigFile
-		echo "lademkwhlp4=10" >> $ConfigFile
-		echo "lademkwhlp5=10" >> $ConfigFile
-		echo "lademkwhlp6=10" >> $ConfigFile
-		echo "lademkwhlp7=10" >> $ConfigFile
-		echo "lademkwhlp8=10" >> $ConfigFile
-		echo "durchslp4=20" >> $ConfigFile
-		echo "durchslp5=20" >> $ConfigFile
-		echo "durchslp6=20" >> $ConfigFile
-		echo "durchslp7=20" >> $ConfigFile
-		echo "durchslp8=20" >> $ConfigFile
-		echo "evseidlp1=21" >> $ConfigFile
-		echo "evseidlp2=22" >> $ConfigFile
-		echo "evseidlp3=23" >> $ConfigFile
+	if ! grep -Fq "evseiplp1=" $ConfigFile; then
 		echo "evseiplp1=192.168.193.41" >> $ConfigFile
 		echo "evseiplp2=192.168.193.42" >> $ConfigFile
 		echo "evseiplp3=192.168.193.43" >> $ConfigFile
 		echo "mpmlp1ip=192.168.193.51" >> $ConfigFile
 		echo "mpmlp2ip=192.168.193.52" >> $ConfigFile
 		echo "mpmlp3ip=192.168.193.53" >> $ConfigFile
+		echo "evseidlp1=21" >> $ConfigFile
+		echo "evseidlp2=22" >> $ConfigFile
+		echo "evseidlp3=23" >> $ConfigFile
 		echo "mpmlp1id=11" >> $ConfigFile
 		echo "mpmlp2id=12" >> $ConfigFile
 		echo "mpmlp3id=13" >> $ConfigFile
-		echo "lp4name=LP4" >> $ConfigFile
-		echo "lp5name=LP5" >> $ConfigFile
-		echo "lp6name=LP6" >> $ConfigFile
-		echo "lp7name=LP7" >> $ConfigFile
-		echo "lp8name=LP8" >> $ConfigFile
 		echo "simplemode=0" >> $ConfigFile
-		echo "lademstatlp4=01" >> $ConfigFile
-		echo "lademstatlp5=0" >> $ConfigFile
-		echo "lademstatlp6=0" >> $ConfigFile
-		echo "lademstatlp7=0" >> $ConfigFile
-		echo "lademstatlp8=0" >> $ConfigFile
 	fi
+													
+#	if ! grep -Fq "mpmlp4ip=" $ConfigFile; then
+#		echo "mpmlp4ip=192.168.193.54" >> $ConfigFile
+#		echo "mpmlp5ip=192.168.193.55" >> $ConfigFile
+#		echo "mpmlp6ip=192.168.193.56" >> $ConfigFile
+#		echo "mpmlp7ip=192.168.193.57" >> $ConfigFile
+#		echo "mpmlp8ip=192.168.193.58" >> $ConfigFile
+#		echo "mpmlp4id=14" >> $ConfigFile
+#		echo "mpmlp5id=15" >> $ConfigFile
+#		echo "mpmlp6id=16" >> $ConfigFile
+#		echo "mpmlp7id=17" >> $ConfigFile
+#		echo "mpmlp8id=18" >> $ConfigFile
+#		echo "lastmanagementlp4=0" >> $ConfigFile
+#		echo "lastmanagementlp5=0" >> $ConfigFile
+#		echo "lastmanagementlp6=0" >> $ConfigFile
+#		echo "lastmanagementlp7=0" >> $ConfigFile
+#		echo "lastmanagementlp8=0" >> $ConfigFile
+#		echo "evseconlp4=none" >> $ConfigFile
+#		echo "evseconlp5=none" >> $ConfigFile
+#		echo "evseconlp6=none" >> $ConfigFile
+#		echo "evseconlp7=none" >> $ConfigFile
+#		echo "evseconlp8=none" >> $ConfigFile
+#		echo "evseidlp4=24" >> $ConfigFile
+#		echo "evseidlp5=25" >> $ConfigFile
+#		echo "evseidlp6=26" >> $ConfigFile
+#		echo "evseidlp7=27" >> $ConfigFile
+#		echo "evseidlp8=28" >> $ConfigFile
+#		echo "evseiplp4=192.168.193.44" >> $ConfigFile
+#		echo "evseiplp5=192.168.193.45" >> $ConfigFile
+#		echo "evseiplp6=192.168.193.46" >> $ConfigFile
+#		echo "evseiplp7=192.168.193.47" >> $ConfigFile
+#		echo "evseiplp8=192.168.193.48" >> $ConfigFile
+#		echo "sofortlllp4=13" >> $ConfigFile
+#		echo "sofortlllp5=13" >> $ConfigFile
+#		echo "sofortlllp6=13" >> $ConfigFile
+#		echo "sofortlllp7=13" >> $ConfigFile
+#		echo "sofortlllp8=13" >> $ConfigFile
+#		echo "lademkwhlp4=10" >> $ConfigFile
+#		echo "lademkwhlp5=10" >> $ConfigFile
+#		echo "lademkwhlp6=10" >> $ConfigFile
+#		echo "lademkwhlp7=10" >> $ConfigFile
+#		echo "lademkwhlp8=10" >> $ConfigFile
+#		echo "durchslp4=20" >> $ConfigFile
+#		echo "durchslp5=20" >> $ConfigFile
+#		echo "durchslp6=20" >> $ConfigFile
+#		echo "durchslp7=20" >> $ConfigFile
+#		echo "durchslp8=20" >> $ConfigFile
+#		echo "lp4name=LP4" >> $ConfigFile
+#		echo "lp5name=LP5" >> $ConfigFile
+#		echo "lp6name=LP6" >> $ConfigFile
+#		echo "lp7name=LP7" >> $ConfigFile
+#		echo "lp8name=LP8" >> $ConfigFile
+#		echo "lademstatlp4=01" >> $ConfigFile
+#		echo "lademstatlp5=0" >> $ConfigFile
+#		echo "lademstatlp6=0" >> $ConfigFile
+#		echo "lademstatlp7=0" >> $ConfigFile
+#		echo "lademstatlp8=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "stopchargeafterdisclp1=" $ConfigFile; then
 		echo "stopchargeafterdisclp1=0" >> $ConfigFile
 		echo "stopchargeafterdisclp2=0" >> $ConfigFile
 		echo "stopchargeafterdisclp3=0" >> $ConfigFile
-		echo "stopchargeafterdisclp4=0" >> $ConfigFile
-		echo "stopchargeafterdisclp5=0" >> $ConfigFile
-		echo "stopchargeafterdisclp6=0" >> $ConfigFile
-		echo "stopchargeafterdisclp7=0" >> $ConfigFile
-		echo "stopchargeafterdisclp8=0" >> $ConfigFile
+#		echo "stopchargeafterdisclp4=0" >> $ConfigFile
+#		echo "stopchargeafterdisclp5=0" >> $ConfigFile
+#		echo "stopchargeafterdisclp6=0" >> $ConfigFile
+#		echo "stopchargeafterdisclp7=0" >> $ConfigFile
+#		echo "stopchargeafterdisclp8=0" >> $ConfigFile
 	fi
 	if ! grep -Fq "myrenault_userlp1=" $ConfigFile; then
 		echo "myrenault_userlp1=Benutzername" >> $ConfigFile
@@ -1784,11 +1787,11 @@ updateConfig(){
 		echo "owbpro1ip=192.168.1.100" >> $ConfigFile
 		echo "owbpro2ip=192.168.1.100" >> $ConfigFile
 		echo "owbpro3ip=192.168.1.100" >> $ConfigFile
-		echo "owbpro4ip=192.168.1.100" >> $ConfigFile
-		echo "owbpro5ip=192.168.1.100" >> $ConfigFile
-		echo "owbpro6ip=192.168.1.100" >> $ConfigFile
-		echo "owbpro7ip=192.168.1.100" >> $ConfigFile
-		echo "owbpro8ip=192.168.1.100" >> $ConfigFile
+#		echo "owbpro4ip=192.168.1.100" >> $ConfigFile
+#		echo "owbpro5ip=192.168.1.100" >> $ConfigFile
+#		echo "owbpro6ip=192.168.1.100" >> $ConfigFile
+#		echo "owbpro7ip=192.168.1.100" >> $ConfigFile
+#		echo "owbpro8ip=192.168.1.100" >> $ConfigFile
 	fi
 	if ! grep -Fq "chargep1ip=" $ConfigFile; then
 		echo "chargep1ip=192.168.1.100" >> $ConfigFile
@@ -1797,11 +1800,11 @@ updateConfig(){
 		echo "chargep1cp=1" >> $ConfigFile
 		echo "chargep2cp=1" >> $ConfigFile
 		echo "chargep3cp=1" >> $ConfigFile
-		echo "chargep4cp=1" >> $ConfigFile
-		echo "chargep5cp=1" >> $ConfigFile
-		echo "chargep6cp=1" >> $ConfigFile
-		echo "chargep7cp=1" >> $ConfigFile
-		echo "chargep8cp=1" >> $ConfigFile
+#		echo "chargep4cp=1" >> $ConfigFile
+#		echo "chargep5cp=1" >> $ConfigFile
+#		echo "chargep6cp=1" >> $ConfigFile
+#		echo "chargep7cp=1" >> $ConfigFile
+#		echo "chargep8cp=1" >> $ConfigFile
 	fi
 	if ! grep -Fq "chargep2ip=" $ConfigFile; then
 		echo "chargep2ip=192.168.1.100" >> $ConfigFile
@@ -1809,21 +1812,21 @@ updateConfig(){
 	if ! grep -Fq "chargep3ip=" $ConfigFile; then
 		echo "chargep3ip=192.168.1.100" >> $ConfigFile
 	fi
-	if ! grep -Fq "chargep4ip=" $ConfigFile; then
-		echo "chargep4ip=192.168.1.100" >> $ConfigFile
-	fi
-	if ! grep -Fq "chargep5ip=" $ConfigFile; then
-		echo "chargep5ip=192.168.1.100" >> $ConfigFile
-	fi
-	if ! grep -Fq "chargep6ip=" $ConfigFile; then
-		echo "chargep6ip=192.168.1.100" >> $ConfigFile
-	fi
-	if ! grep -Fq "chargep7ip=" $ConfigFile; then
-		echo "chargep7ip=192.168.1.100" >> $ConfigFile
-	fi
-	if ! grep -Fq "chargep8ip=" $ConfigFile; then
-		echo "chargep8ip=192.168.1.100" >> $ConfigFile
-	fi
+#	if ! grep -Fq "chargep4ip=" $ConfigFile; then
+#		echo "chargep4ip=192.168.1.100" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "chargep5ip=" $ConfigFile; then
+#		echo "chargep5ip=192.168.1.100" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "chargep6ip=" $ConfigFile; then
+#		echo "chargep6ip=192.168.1.100" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "chargep7ip=" $ConfigFile; then
+#		echo "chargep7ip=192.168.1.100" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "chargep8ip=" $ConfigFile; then
+#		echo "chargep8ip=192.168.1.100" >> $ConfigFile
+#	fi
 	if ! grep -Fq "datenschutzack=" $ConfigFile; then
 		echo "datenschutzack=0" >> $ConfigFile
 	fi
@@ -1850,21 +1853,21 @@ updateConfig(){
 	if ! grep -Fq "displaylp3max=" $ConfigFile; then
 		echo "displaylp3max=22000" >> $ConfigFile
 	fi
-	if ! grep -Fq "displaylp4max=" $ConfigFile; then
-		echo "displaylp4max=22000" >> $ConfigFile
-	fi
-	if ! grep -Fq "displaylp5max=" $ConfigFile; then
-		echo "displaylp5max=22000" >> $ConfigFile
-	fi
-	if ! grep -Fq "displaylp6max=" $ConfigFile; then
-		echo "displaylp6max=22000" >> $ConfigFile
-	fi
-	if ! grep -Fq "displaylp7max=" $ConfigFile; then
-		echo "displaylp7max=22000" >> $ConfigFile
-	fi
-	if ! grep -Fq "displaylp8max=" $ConfigFile; then
-		echo "displaylp8max=22000" >> $ConfigFile
-	fi
+#	if ! grep -Fq "displaylp4max=" $ConfigFile; then
+#		echo "displaylp4max=22000" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "displaylp5max=" $ConfigFile; then
+#		echo "displaylp5max=22000" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "displaylp6max=" $ConfigFile; then
+#		echo "displaylp6max=22000" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "displaylp7max=" $ConfigFile; then
+#		echo "displaylp7max=22000" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "displaylp8max=" $ConfigFile; then
+#		echo "displaylp8max=22000" >> $ConfigFile
+#	fi
 	if ! grep -Fq "mypeugeot_userlp1=" $ConfigFile; then
 		echo "mypeugeot_userlp1=User" >> $ConfigFile
 		echo "mypeugeot_passlp1=''" >> $ConfigFile

@@ -75,12 +75,90 @@ def getserial():
                 return line[10:26]
         return "0000000000000000"
 
+
+def log(msg):
+	timestamp = datetime.now().strftime(format = "%Y-%m-%d %H:%M:%S")
+	file = open('/var/www/html/openWB/ramdisk/mqtt.log', 'a')
+	file.write("%s %s\n" % (timestamp, msg) )
+	file.close()
+
+log("mqttsub starting...\n")	
+
+#############################################	
+class Ramdisk:
+	def	__init__(self, rambase):
+		self.rambase=rambase
+		log("ramdisk %s" % (rambase ) )  
+
+	def write(self, name,val, debug=False):
+		fn=self.rambase+'/'+name
+		with open(fn,'w' ) as f:
+			f.write(str(val))
+		if True or debug:
+			log("write ramdisk %s = [%s]" % (fn, val ) )
+		return True  
+
+	def readint(self, name, defval='0', debug=False):
+		fn=self.rambase+'/'+name
+		try:
+			with open(fn,'r' ) as f:
+				val=f.read().rstrip("\n")
+		except:
+			val = defval
+			log("ramdisk.readint %s  not found used default [%s]" % (fn, val ) )
+			return int(val)
+		if debug:
+			log("read ramdiskI %s = [%s]" % (fn, val ) )  
+		return int(val)
+
+	def readfloat(self, name, defval='0.0', debug=False):
+		fn=self.rambase+'/'+name
+		try:
+			with open(fn,'r' ) as f:
+				val=f.read().rstrip("\n")
+		except:
+			val = defval
+			log("ramdisk.readfloat %s  not found used default [%s]" % (fn, val ) )
+		else:
+			if debug:
+				log("read ramdiskF %s = [%s]" % (fn, val ) )  
+		return float(val)
+
+	def readstr(self, name, defval='', debug=False):
+		fn=self.rambase+'/'+name
+		try:
+			with open(fn,'r' ) as f:
+				val=f.read().rstrip("\n")
+		except:
+			val = defval
+			log("ramdisk.readstr %s  not found used default [%s]" % (fn, val ) )
+		else:
+			if debug:
+				log("read ramdiskS %s = [%s]" % (fn, val ) )  
+		return str(val)
+
+
+#############################################
+
 mqtt_broker_ip = "localhost"
 client = mqtt.Client("openWB-mqttsub-" + getserial())
 ipallowed = '^[0-9.]+$'
 nameallowed = '^[a-zA-Z ]+$'
 namenumballowed = '^[0-9a-zA-Z ]+$'
 emailallowed = '^([\w\.]+)([\w]+)@(\w{2,})\.(\w{2,})$'
+
+ramdisk = Ramdisk('/var/www/html/openWB/ramdisk')
+
+#log("int [%s] " %  ramdisk.readint('int')  )
+#log("int [%s] nf" %  ramdisk.readint('intx')  )
+#log("int [%s] nf" %  ramdisk.readint('intx',0)  )
+#log("float [%s] " %  ramdisk.readfloat('float')  )
+#log("float [%s] " %  ramdisk.readfloat('float2')  )
+#log("float [%s] nf" %  ramdisk.readfloat('float3',0.0 )  )
+#log("str [%s] " %  ramdisk.readstr('str')  )
+#log("str [%s] " %  ramdisk.readstr('str','a')  )
+#log("str [%s] nf" %  ramdisk.readstr('str3','none')  )
+
 
 # connect to broker and subscribe to set topics
 def on_connect(client, userdata, flags, rc):
@@ -97,11 +175,7 @@ def on_message(client, userdata, msg):
         lock.acquire()
         try:
             setTopicCleared = False
-            theTime = datetime.now()
-            timestamp = theTime.strftime(format = "%Y-%m-%d %H:%M:%S")
-            file = open('/var/www/html/openWB/ramdisk/mqtt.log', 'a')
-            file.write( "%s Topic: %s Message: %s\n" % (timestamp, msg.topic, str(msg.payload.decode("utf-8"))) )
-            file.close()
+            log( "Topic: [%s] Message: [%s]" % (msg.topic, str(msg.payload.decode("utf-8"))) )
 
             if (( "openWB/set/lp" in msg.topic) and ("ChargePointEnabled" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
@@ -458,19 +532,34 @@ def on_message(client, userdata, msg):
                 devicenumb_int = int(devicenumb)
                 soc = int(msg.payload)
                 if 1 <= devicenumb_int <= 2 and 0 <= soc <= 100:
+
                     if devicenumb_int == 1:
-                        soc_suffix = ""
-                        counter_suffix = ""
-                    else:
-                        soc_suffix = str(devicenumb_int - 1)
-                        counter_suffix = "s" + soc_suffix
-                    for soc_file in ["manual_soc_lp" + devicenumb, "soc" + soc_suffix]:
-                        (RAMDISK_PATH / soc_file).write_text(str(soc))
-                    RAMDISK_PATH.joinpath("manual_soc_meter_lp" + devicenumb).write_text(
-                        RAMDISK_PATH.joinpath("llkwh" + counter_suffix).read_text()
-                    )
-                    for topic_suffix in ["manualSoc", "%Soc"]:
-                        client.publish("openWB/lp/"+devicenumb+"/"+topic_suffix, soc, qos=0, retain=True)
+                        ramdisk.write('manual_soc_lp1',soc)
+                        ramdisk.write('soc',soc)
+                        ramdisk.write('manual_soc_meter_lp1', str(ramdisk.readfloat('llkwh')) )
+                        client.publish("openWB/lp/1/manualSoc", soc, qos=0, retain=True)
+                        client.publish("openWB/lp/1/%Soc"     , soc, qos=0, retain=True)
+                     if devicenumb_int == 2:
+                        ramdisk.write('manual_soc_lp2',soc)
+                        ramdisk.write('soc1',soc)
+                        ramdisk.write('manual_soc_meter_lp2', str(ramdisk.readfloat('llkwhs1')) )
+                        client.publish("openWB/lp/2/manualSoc", soc, qos=0, retain=True)
+                        client.publish("openWB/lp/2/%Soc"     , soc, qos=0, retain=True)
+
+#                    if devicenumb_int == 1:
+#                        soc_suffix = ""
+#                        counter_suffix = ""
+#                    else:
+#                        soc_suffix = str(devicenumb_int - 1)
+#                        counter_suffix = "s" + soc_suffix
+#                    for soc_file in ["manual_soc_lp" + devicenumb, "soc" + soc_suffix]:
+#                       (RAMDISK_PATH / soc_file).write_text(str(soc))
+#                    RAMDISK_PATH.joinpath("manual_soc_meter_lp" + devicenumb).write_text(
+#                        RAMDISK_PATH.joinpath("llkwh" + counter_suffix).read_text()
+#                    )
+#                    for topic_suffix in ["manualSoc", "%Soc"]:
+#                        client.publish("openWB/lp/"+devicenumb+"/"+topic_suffix, soc, qos=0, retain=True)
+
             if (( "openWB/config/set/sofort/lp" in msg.topic) and ("energyToCharge" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
                 if ( 1 <= int(devicenumb) <= 8 and 0 <= int(msg.payload) <= 100):
@@ -483,9 +572,9 @@ def on_message(client, userdata, msg):
                     if (int(devicenumb) == 3):
                         sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "lademkwhs2=", msg.payload.decode("utf-8")]
                         subprocess.run(sendcommand)
-                    if (int(devicenumb) >= 4):
-                        sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "lademkwhlp"+str(devicenumb)+"=", msg.payload.decode("utf-8")]
-                        subprocess.run(sendcommand)
+#                    if (int(devicenumb) >= 4):
+#                        sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "lademkwhlp"+str(devicenumb)+"=", msg.payload.decode("utf-8")]
+#                        subprocess.run(sendcommand)
                     client.publish("openWB/config/get/sofort/lp/"+str(devicenumb)+"/energyToCharge", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (( "openWB/config/set/sofort/lp" in msg.topic) and ("resetEnergyToCharge" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
@@ -1602,6 +1691,7 @@ def on_message(client, userdata, msg):
 
             # clear all set topics if not already done
             if ( not(setTopicCleared) ):
+                # log(" now clear [%s]" % (msg.topic) )  
                 client.publish(msg.topic, "", qos=0, retain=True)
 
         finally:
