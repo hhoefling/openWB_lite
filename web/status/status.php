@@ -173,7 +173,7 @@
 			<div class="wrapper">
 
 				<!-- Ladepunkte-->
-				<?php for( $chargepointNum = 1; $chargepointNum <= 8; $chargepointNum++ ){ ?>
+				<?php for( $chargepointNum = 1; $chargepointNum <= 3; $chargepointNum++ ){ ?>
 					<div class="card border-primary hide" id="lp<?php echo $chargepointNum ?>">
 						<div class="card-header bg-primary">
 							Ladepunkt <?php echo $chargepointNum . " (" . ${'lp'.$chargepointNum.'nameold'} . ")"; ?>
