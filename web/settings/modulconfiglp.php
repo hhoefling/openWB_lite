@@ -704,7 +704,6 @@
 									</optgroup>
 									<optgroup label="Fahrzeughersteller">
 										<option <?php if($socmodulold == "soc_i3") echo "selected" ?> value="soc_i3">BMW &amp; Mini</option>
-										<option <?php if($socmodulold == "soc_bluelink") echo "selected" ?> value="soc_bluelink">Hyundai</option>
 										<option <?php if($socmodulold == "soc_kia") echo "selected" ?> value="soc_kia">Kia</option>
 										<option <?php if($socmodulold == "soc_eq") echo "selected" ?> value="soc_eq">Mercedes EQ</option>
 										<option <?php if($socmodulold == "soc_myopel") echo "selected" ?> value="soc_myopel">MyOpel</option>
@@ -860,37 +859,6 @@
 										});
 									});
 								</script>
-							</div>
-							<div id="socmbluelink" class="hide">
-								<div class="form-group">
-									<div class="form-row mb-1">
-										<label for="soc_bluelink_email" class="col-md-4 col-form-label">E-Mail</label>
-										<div class="col">
-											<input class="form-control" type="email" name="soc_bluelink_email" id="soc_bluelink_email" value="<?php echo $soc_bluelink_emailold ?>">
-											<span class="form-text small">
-												Email Adresse des Logins.
-											</span>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<label for="soc_bluelink_password" class="col-md-4 col-form-label">Passwort</label>
-										<div class="col">
-											<input class="form-control" type="password" name="soc_bluelink_password" id="soc_bluelink_password" value="<?php echo $soc_bluelink_passwordold ?>">
-											<span class="form-text small">
-												Password des Logins.
-											</span>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<label for="soc_bluelink_interval" class="col-md-4 col-form-label">Abfrageintervall</label>
-										<div class="col">
-											<input class="form-control" type="number" min="0" step="1" name="soc_bluelink_interval" id="soc_bluelink_interval" value="<?php echo $soc_bluelink_intervalold ?>">
-											<span class="form-text small">
-												Wie oft abgefragt wird. Angabe in Minuten.
-											</span>
-										</div>
-									</div>
-								</div>
 							</div>
 							<div id="socmkia" class="hide">
 								<div class="form-group">
@@ -2058,12 +2026,6 @@
 								showSection('#socsupportinfo');
 								showSection('#socmqtt');
 							}
-							if($('#socmodul').val() == 'soc_bluelink') {
-								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3138')
-								showSection('#socsupportinfo');
-								showSection('#socmkia');
-								showSection('#socmbluelink');
-							}
 							if($('#socmodul').val() == 'soc_evcc') {
 								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3134')
 								showSection('#socsupportinfo');
@@ -2637,7 +2599,6 @@
 									</optgroup>
 									<optgroup label="Fahrzeughersteller">
 										<option <?php if($socmodul1old == "soc_i3s1") echo "selected" ?> value="soc_i3s1">BMW &amp; Mini</option>
-										<option <?php if($socmodul1old == "soc_bluelinklp2") echo "selected" ?> value="soc_bluelinklp2">Hyundai</option>
 										<option <?php if($socmodul1old == "soc_kialp2") echo "selected" ?> value="soc_kialp2">Kia</option>
 										<option <?php if($socmodul1old == "soc_eqlp2") echo "selected" ?> value="soc_eqlp2">Mercedes EQ</option>
 										<option <?php if($socmodul1old == "soc_myopellp2") echo "selected" ?> value="soc_myopellp2">MyOpel</option>
@@ -3860,16 +3821,6 @@
 								showSection('#socmhttp1');
 								showSection('#socmintervall2');
 								showSection('#socmintervallladen2');
-							}
-							if($('#socmodul1').val() == 'soc_bluelinklp2') {
-								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3138')
-								showSection('#socsupportinfolp2');
-								showSection('#socmuser2');
-								showSection('#socmpass2');
-								showSection('#socmpin2');
-								showSection('#socmvin2');
-								showSection('#socmintervall2');
-								showSection('#socmkialp2');
 							}
 							if($('#socmodul1').val() == 'soc_kialp2') {
 								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3137')
