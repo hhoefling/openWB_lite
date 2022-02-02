@@ -84,7 +84,7 @@ else
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentMeter: $currentMeter"
 
 		# read manual Soc
-        if [[ -f /var/www/html/openWB/ramdisk/soc1 ]] ; then
+		if [[ -f "$manualSocFile" ]]; then
 			manualSoc=$(<$manualSocFile)
 		else
 			# set manualSoc to 0 as a starting point
