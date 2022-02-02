@@ -13,6 +13,10 @@ if [[ -z "$debug" ]]; then
 	. $OPENWBBASEDIR/loadconfig.sh
 	# load helperFunctions
 	. $OPENWBBASEDIR/helperFunctions.sh
+	openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: OPENWBBASEDIR: [$OPENWBBASEDIR]" 
+	openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: RAMDISKDIR: [$RAMDISKDIR]" 
+	openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: MODULEDIR: [$MODULEDIR]"
+    debug=1 
 fi
 
 case $CHARGEPOINT in
@@ -22,7 +26,7 @@ case $CHARGEPOINT in
 		manualMeterFile="$RAMDISKDIR/manual_soc_meter_lp2"
 		socFile="$RAMDISKDIR/soc1"
 		soctimerfile="$RAMDISKDIR/soctimer1"
-		socIntervall=1 # update every minute if script is called every 10 seconds
+		socIntervall=1 # update every 20 Sec if script is called every 10 seconds
 		meterFile="$RAMDISKDIR/llkwhs1"
 		akkug=$akkuglp2
 		efficiency=$wirkungsgradlp2
@@ -35,7 +39,7 @@ case $CHARGEPOINT in
 		manualMeterFile="$RAMDISKDIR/manual_soc_meter_lp1"
 		socFile="$RAMDISKDIR/soc"
 		soctimerfile="$RAMDISKDIR/soctimer"
-		socIntervall=1 # update every minute if script is called every 10 seconds
+		socIntervall=1 # update every 20 Sec  if script is called every 10 seconds
 		meterFile="$RAMDISKDIR/llkwh"
 		akkug=$akkuglp1
 		efficiency=$wirkungsgradlp1
@@ -66,13 +70,11 @@ incrementTimer(){
 }
 
 soctimer=$(<$soctimerfile)
-openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer"
-
 if (( soctimer < socIntervall )); then
-	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Nothing to do yet. Incrementing timer."
+	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer , Nothing to do yet. Incrementing."
 	incrementTimer
 else
-	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Calculating manual SoC"
+	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer, Calculating manual SoC"
 	# reset timer
 	echo 0 > $soctimerfile
 
@@ -82,7 +84,7 @@ else
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentMeter: $currentMeter"
 
 		# read manual Soc
-		if [[ -f "$manualSocFile" ]]; then
+        if [[ -f /var/www/html/openWB/ramdisk/soc1 ]] ; then
 			manualSoc=$(<$manualSocFile)
 		else
 			# set manualSoc to 0 as a starting point
@@ -92,7 +94,7 @@ else
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: manual SoC: $manualSoc"
 
 		# read manualMeterFile if file exists and manualMeterFile is newer than manualSocFile
-		if [[ -f "$manualMeterFile" ]] && [ "$manualMeterFile" -nt "$manualSocFile" ]; then
+		if [[ -f "$manualMeterFile" ]] && [[ "$manualMeterFile" -nt "$manualSocFile" ]]; then
 			manualMeter=$(<$manualMeterFile)
 		else
 			# manualMeterFile does not exist or is outdated
@@ -103,7 +105,7 @@ else
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: manualMeter: $manualMeter"
 
 		# read current soc
-		if [[ -f "$socFile" ]]; then
+		if [[ -f "$socFile" ]] ; then      
 			currentSoc=$(<$socFile)
 		else
 			currentSoc=$manualSoc
@@ -113,13 +115,15 @@ else
 
 		# calculate newSoc
 		currentMeterDiff=$(echo "scale=5;$currentMeter - $manualMeter" | bc)
-		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentMeterDiff: $currentMeterDiff"
 		currentEffectiveMeterDiff=$(echo "scale=5;$currentMeterDiff * $efficiency / 100" | bc)
-		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentEffectiveMeterDiff: $currentEffectiveMeterDiff ($efficiency %)"
 		currentSocDiff=$(echo "scale=5;100 / $akkug * $currentEffectiveMeterDiff" | bc | awk '{printf"%d\n",$1}')
+
+		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentMeterDiff: $currentMeterDiff"
+		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentEffectiveMeterDiff: $currentEffectiveMeterDiff ($efficiency %)"
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentSocDiff: $currentSocDiff"
 		newSoc=$(echo "$manualSoc + $currentSocDiff" | bc)
 		if (( newSoc > 100 )); then
+			openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: Calculated SoC of $newSoc% exceeds maximum and is limited to 100%%! Check your settings!"
 			newSoc=100
 		fi
 		if (( newSoc < 0 )); then
