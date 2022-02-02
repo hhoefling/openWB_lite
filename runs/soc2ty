@@ -709,9 +709,6 @@ updateConfig(){
 	if ! grep -Fq "wr2_piko2_url=" $ConfigFile; then
 		echo "wr2_piko2_url='https://url'" >> $ConfigFile
 	fi
-	if ! grep -Fq "soc2type=" $ConfigFile; then
-		echo "soc2type=vw" >> $ConfigFile
-	fi
 	if ! grep -Fq "soc2intervallladen=" $ConfigFile; then
 		echo "soc2intervallladen=10" >> $ConfigFile
 	fi
