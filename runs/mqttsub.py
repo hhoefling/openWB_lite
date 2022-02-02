@@ -19,6 +19,7 @@ config = configparser.ConfigParser()
 shconfigfile='/var/www/html/openWB/smarthome.ini'
 config.read(shconfigfile)
 numberOfSupportedDevices=9 # limit number of smarthome devices
+numberOfSupportedLP=3 # limit number of LP devices, lite=3 openWB=8
 lock=threading.Lock()
 RAMDISK_PATH = Path(__file__).resolve().parents[1] / "ramdisk"
 
@@ -89,6 +90,11 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("openWB/set/#", 2)
     client.subscribe("openWB/config/set/#", 2)
 
+def log(msg):
+	file = open('/var/www/html/openWB/ramdisk/mqtt.log', 'a')
+	file.write(msg)
+	file.close()
+
 # handle each set topic
 def on_message(client, userdata, msg):
     global numberOfSupportedDevices
@@ -105,7 +111,7 @@ def on_message(client, userdata, msg):
 
             if (( "openWB/set/lp" in msg.topic) and ("ChargePointEnabled" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
-                if ( 1 <= int(devicenumb) <= 8 and 0 <= int(msg.payload) <= 1):
+                if ( 1 <= int(devicenumb) <= numberOfSupportedLP  and 0 <= int(msg.payload) <= 1):
                     f = open('/var/www/html/openWB/ramdisk/lp'+str(devicenumb)+'enabled', 'w')
                     f.write(msg.payload.decode("utf-8"))
                     f.close()
@@ -442,13 +448,13 @@ def on_message(client, userdata, msg):
                     client.publish("openWB/config/get/SmartHome/logLevel", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (( "openWB/config/set/lp" in msg.topic) and ("stopchargeafterdisc" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
-                if ( 1 <= int(devicenumb) <= 8 and 0 <= int(msg.payload) <= 1):
+                if ( 1 <= int(devicenumb) <= numberOfSupportedLP and 0 <= int(msg.payload) <= 1):
                     sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "stopchargeafterdisclp" + str(devicenumb) + "=", msg.payload.decode("utf-8")]
                     subprocess.run(sendcommand)
                     client.publish("openWB/config/get/lp/" + str(devicenumb) + "/stopchargeafterdisc", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (( "openWB/config/set/sofort/lp" in msg.topic) and ("current" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
-                if ( 1 <= int(devicenumb) <= 8 and 6 <= int(msg.payload) <= 32):
+                if ( 1 <= int(devicenumb) <= numberOfSupportedLP and 6 <= int(msg.payload) <= 32):
                     client.publish("openWB/config/get/sofort/lp/"+str(devicenumb)+"/current", msg.payload.decode("utf-8"), qos=0, retain=True)
                     f = open('/var/www/html/openWB/ramdisk/lp'+str(devicenumb)+'sofortll', 'w')
                     f.write(msg.payload.decode("utf-8"))
@@ -473,7 +479,7 @@ def on_message(client, userdata, msg):
                         client.publish("openWB/lp/"+devicenumb+"/"+topic_suffix, soc, qos=0, retain=True)
             if (( "openWB/config/set/sofort/lp" in msg.topic) and ("energyToCharge" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
-                if ( 1 <= int(devicenumb) <= 8 and 0 <= int(msg.payload) <= 100):
+                if ( 1 <= int(devicenumb) <= numberOfSupportedLP and 0 <= int(msg.payload) <= 100):
                     if ( int(devicenumb) == 1):
                         sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "lademkwh=", msg.payload.decode("utf-8")]
                         subprocess.run(sendcommand)
@@ -489,7 +495,7 @@ def on_message(client, userdata, msg):
                     client.publish("openWB/config/get/sofort/lp/"+str(devicenumb)+"/energyToCharge", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (( "openWB/config/set/sofort/lp" in msg.topic) and ("resetEnergyToCharge" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
-                if ( 1 <= int(devicenumb) <= 8 and int(msg.payload) == 1):
+                if ( 1 <= int(devicenumb) <= numberOfSupportedLP and int(msg.payload) == 1):
                     if ( int(devicenumb) == 1):
                         f = open('/var/www/html/openWB/ramdisk/aktgeladen', 'w')
                         f.write("0")
@@ -526,7 +532,7 @@ def on_message(client, userdata, msg):
                     subprocess.run(sendcommand)
             if (( "openWB/config/set/sofort/lp" in msg.topic) and ("chargeLimitation" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
-                if ( 3 <= int(devicenumb) <= 8 and 0 <= int(msg.payload) <= 1):
+                if ( 3 <= int(devicenumb) <= numberOfSupportedLP  and 0 <= int(msg.payload) <= 1):
                     sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "msmoduslp"+str(devicenumb)+"=", msg.payload.decode("utf-8")]
                     subprocess.run(sendcommand)
                     time.sleep(0.4)
@@ -770,7 +776,7 @@ def on_message(client, userdata, msg):
                     client.publish("openWB/config/get/slave/UseLastChargingPhase", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (( "openWB/config/set/slave/lp" in msg.topic) and ("EnergyLimit" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
-                if ( 1 <= int(devicenumb) <= 8 and -1 <= int(msg.payload) <= 99999999):
+                if ( 1 <= int(devicenumb) <= numberOfSupportedLP and -1 <= int(msg.payload) <= 99999999):
                     f = open('/var/www/html/openWB/ramdisk/energyLimitLp'+str(devicenumb), 'w')
                     f.write(msg.payload.decode("utf-8"))
                     f.close()
@@ -1436,11 +1442,11 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("faultState" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if ( (1 <= devicenumb <= 8) and (0 <= int(msg.payload) <= 2) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP ) and (0 <= int(msg.payload) <= 2) ):
                     client.publish("openWB/lp/"+str(devicenumb)+"/faultState", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (( "openWB/set/lp" in msg.topic) and ("faultStr" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if (1 <= devicenumb <= 8):
+                if (1 <= devicenumb <= numberOfSupportedLP):
                     client.publish("openWB/lp/"+str(devicenumb)+"/faultStr", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (( "openWB/set/lp" in msg.topic) and ("socFaultState" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
@@ -1452,7 +1458,7 @@ def on_message(client, userdata, msg):
                     client.publish("openWB/lp/"+str(devicenumb)+"/socFaultStr", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (( "openWB/set/lp" in msg.topic) and ("socKM" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if (1 <= devicenumb <= 8):
+                if (1 <= devicenumb <= numberOfSupportedLP):
                     client.publish("openWB/lp/"+str(devicenumb)+"/socKM", msg.payload.decode("utf-8"), qos=0, retain=True)
                     f = open('/var/www/html/openWB/ramdisk/soc'+str(devicenumb)+'KM', 'w')
                     f.write(msg.payload.decode("utf-8"))
@@ -1462,7 +1468,7 @@ def on_message(client, userdata, msg):
             # llmodule = getConfigValue("evsecon")
             if (( "openWB/set/lp" in msg.topic) and ("plugStat" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= int(msg.payload) <= 1) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= int(msg.payload) <= 1) ):
                     plugstat=int(msg.payload.decode("utf-8"))
                     if ( devicenumb == 1 ):
                         filename = "plugstat"
@@ -1475,7 +1481,7 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("chargeStat" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= int(msg.payload) <= 1) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= int(msg.payload) <= 1) ):
                     chargestat=int(msg.payload.decode("utf-8"))
                     if ( devicenumb == 1 ):
                         filename = "chargestat"
@@ -1492,7 +1498,7 @@ def on_message(client, userdata, msg):
             # llmodule = getConfigValue("ladeleistungsmodul")
             if (( "openWB/set/lp" in msg.topic) and ("/W" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= int(msg.payload) <= 100000) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= int(msg.payload) <= 100000) ):
                     llaktuell=int(msg.payload.decode("utf-8"))
                     if ( devicenumb == 1 ):
                         filename = "llaktuell"
@@ -1505,7 +1511,7 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("kWhCounter" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= float(msg.payload) <= 10000000000) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 10000000000) ):
                     if ( devicenumb == 1 ):
                         filename = "llkwh"
                     elif ( devicenumb == 2 ):
@@ -1517,7 +1523,7 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("VPhase1" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= float(msg.payload) <= 300) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 300) ):
                     if ( devicenumb == 1 ):
                         filename = "llv1"
                     elif ( devicenumb == 2 ):
@@ -1529,7 +1535,7 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("VPhase2" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= float(msg.payload) <= 300) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 300) ):
                     if ( devicenumb == 1 ):
                         filename = "llv2"
                     elif ( devicenumb == 2 ):
@@ -1541,7 +1547,7 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("VPhase3" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= float(msg.payload) <= 300) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 300) ):
                     if ( devicenumb == 1 ):
                         filename = "llv3"
                     elif ( devicenumb == 2 ):
@@ -1553,7 +1559,7 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("APhase1" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= float(msg.payload) <= 3000) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 3000) ):
                     if ( devicenumb == 1 ):
                         filename = "lla1"
                     elif ( devicenumb == 2 ):
@@ -1565,7 +1571,7 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("APhase2" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= float(msg.payload) <= 3000) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 3000) ):
                     if ( devicenumb == 1 ):
                         filename = "lla2"
                     elif ( devicenumb == 2 ):
@@ -1577,7 +1583,7 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("APhase3" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= float(msg.payload) <= 3000) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 3000) ):
                     if ( devicenumb == 1 ):
                         filename = "lla3"
                     elif ( devicenumb == 2 ):
@@ -1589,7 +1595,7 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("HzFrequenz" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if ( (1 <= devicenumb <= 3) and (0 <= float(msg.payload) <= 80) ):
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 80) ):
                     if ( devicenumb == 1 ):
                         filename = "llhz"
                     elif ( devicenumb == 2 ):
