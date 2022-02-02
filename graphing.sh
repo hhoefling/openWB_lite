@@ -41,6 +41,12 @@ graphing(){
 #NC		echo $verbraucher2_watt >> /var/www/html/openWB/ramdisk/verbraucher2-live.graph
 #NC	fi
 
+ladeleistunglp4=0
+ladeleistunglp5=0
+ladeleistunglp6=0
+ladeleistunglp7=0
+ladeleistunglp8=0
+     
 	if [[ $livegraph =~ $re ]] ; then
 		livegraph=$((livegraph * 6 ))
 		if ! [[ $livegraph =~ $re ]] ; then
