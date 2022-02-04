@@ -44,14 +44,14 @@ var all5 = 0;
 var all6 = 0;
 var all7 = 0;
 var all8 = 0;
-var all1p;
-var all2p;
-var all3p;
-var all4p;
-var all5p;
-var all6p;
-var all7p;
-var all8p;
+var all1p =0;
+var all2p =0;
+var all3p =0;
+var all4p =0;
+var all5p =0;
+var all6p =0;
+var all7p =0;
+var all8p =0;
 var hidehaus;
 $('#lp2div').hide();
 $('#lp3div').hide();
@@ -976,6 +976,7 @@ function lp3enabledclick() {
 	}
 }
 
+/*
 function lp4enabledclick() {
 	if ( lp4enabled == 0 ) {
 		publish("1","openWB/set/lp/4/ChargePointEnabled");
@@ -1015,6 +1016,8 @@ function lp8enabledclick() {
 		publish("0","openWB/set/lp/8/ChargePointEnabled");
 	}
 }
+*/
+
 
 function lp1DirectChargeAmpsClick() {
 	publish($("#sofortlllp1l").html(),"openWB/config/set/sofort/lp/1/current");
@@ -1028,6 +1031,7 @@ function lp3DirectChargeAmpsClick() {
 	publish($("#sofortlllp3l").html(),"openWB/config/set/sofort/lp/3/current");
 }
 
+/*
 function lp4DirectChargeAmpsClick() {
 	publish($("#sofortlllp4l").html(),"openWB/config/set/sofort/lp/4/current");
 }
@@ -1047,6 +1051,8 @@ function lp7DirectChargeAmpsClick() {
 function lp8DirectChargeAmpsClick() {
 	publish($("#sofortlllp8l").html(),"openWB/config/set/sofort/lp/8/current");
 }
+*/
+
 
 function sofortclick() {
 	publish("0","openWB/set/ChargeMode");

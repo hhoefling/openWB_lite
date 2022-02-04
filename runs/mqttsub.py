@@ -545,7 +545,7 @@ def on_message(client, userdata, msg):
                         ramdisk.write('manual_soc_meter_lp1', str(ramdisk.readfloat('llkwh')) )
                         client.publish("openWB/lp/1/manualSoc", soc, qos=0, retain=True)
                         client.publish("openWB/lp/1/%Soc"     , soc, qos=0, retain=True)
-                     if devicenumb_int == 2:
+                    if devicenumb_int == 2:
                         ramdisk.write('manual_soc_lp2',soc)
                         ramdisk.write('soc1',soc)
                         ramdisk.write('manual_soc_meter_lp2', str(ramdisk.readfloat('llkwhs1')) )
