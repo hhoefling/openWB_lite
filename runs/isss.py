@@ -882,38 +882,38 @@ def loadregelvars():
         u1p3pstat = u1p3ptmpstat
         writelp1evse(lp1solla)
     if lp2installed:
-    try:
-        with open('ramdisk/u1p3plp2stat', 'r') as value:
-            u1p3plp2tmpstat = int(value.read())
-    except Exception:
-        pass
-        u1p3plp2tmpstat = 3
-    try:
-        u1p3plp2stat
-    except Exception:
-        u1p3plp2stat = 3
-    if u1p3plp2stat != u1p3plp2tmpstat:
-        log_debug(1, "Umschaltung erfolgt auf " + str(u1p3plp2tmpstat) + " Phasen an Lp2")
-        writelp2evse(0)
-        time.sleep(1)
-        if u1p3plp2tmpstat == 1:
-            GPIO.output(15, GPIO.HIGH)
-            GPIO.output(11, GPIO.HIGH)
-            time.sleep(2)
-            GPIO.output(11, GPIO.LOW)
-            time.sleep(5)
-            GPIO.output(15, GPIO.LOW)
+        try:
+            with open('ramdisk/u1p3plp2stat', 'r') as value:
+                u1p3plp2tmpstat = int(value.read())
+        except Exception:
+            pass
+            u1p3plp2tmpstat = 3
+        try:
+            u1p3plp2stat
+        except Exception:
+            u1p3plp2stat = 3
+        if u1p3plp2stat != u1p3plp2tmpstat:
+            log_debug(1, "Umschaltung erfolgt auf " + str(u1p3plp2tmpstat) + " Phasen an Lp2")
+            writelp2evse(0)
             time.sleep(1)
-        if u1p3plp2tmpstat == 3:
-            GPIO.output(15, GPIO.HIGH)
-            GPIO.output(13, GPIO.HIGH)
-            time.sleep(2)
-            GPIO.output(13, GPIO.LOW)
-            time.sleep(5)
-            GPIO.output(15, GPIO.LOW)
-            time.sleep(1)
-        u1p3plp2stat = u1p3plp2tmpstat
-        writelp2evse(lp2solla)
+            if u1p3plp2tmpstat == 1:
+                GPIO.output(15, GPIO.HIGH)
+                GPIO.output(11, GPIO.HIGH)
+                time.sleep(2)
+                GPIO.output(11, GPIO.LOW)
+                time.sleep(5)
+                GPIO.output(15, GPIO.LOW)
+                time.sleep(1)
+            if u1p3plp2tmpstat == 3:
+                GPIO.output(15, GPIO.HIGH)
+                GPIO.output(13, GPIO.HIGH)
+                time.sleep(2)
+                GPIO.output(13, GPIO.LOW)
+                time.sleep(5)
+                GPIO.output(15, GPIO.LOW)
+                time.sleep(1)
+            u1p3plp2stat = u1p3plp2tmpstat
+            writelp2evse(lp2solla)
 
 
 def writelp2evse(lla):

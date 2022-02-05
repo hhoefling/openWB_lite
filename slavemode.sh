@@ -311,7 +311,7 @@ function endChargeAndAbortOnChargeLimits() {
 		openwbDebugLog "MAIN" 2 "Slave Mode: Energy limit reached: Disabling charge"
 		callSetCurrent 0 0  $LmStatusDownByEnergyLimit
 		return 0
-		fi
+	fi
 
 	openwbDebugLog "MAIN" 2 "Slave Mode: Energy limit not reached: Continue to charge"
 	return 1

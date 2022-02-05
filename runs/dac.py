@@ -30,7 +30,7 @@ import sys
 import Adafruit_MCP4725
 
 # translation table current-to-voltage
-voltage = { 
+voltage = {
     0: 0,
     1: 0,
     2: 0,

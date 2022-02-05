@@ -7,28 +7,28 @@ import argparse
 
 def outfiledefyear(jjjjinput):
     if (str(jjjjinput) == str(aktjjjj)):
-    # heutiges Jahr nachgerechnet, ramdisk nehmen
-        file_stringo =  outputa + 'logaktyearonl.csv'
-        file_stringos =  outputa + 'logaktyearonls.csv'
+        # heutiges Jahr nachgerechnet, ramdisk nehmen
+        file_stringo = outputa + 'logaktyearonl.csv'
+        file_stringos = outputa + 'logaktyearonls.csv'
     else:
-        file_stringo =  outputp + str(jjjjinput) + 'onl.csv'
-        file_stringos =  outputp + str(jjjjinput) + 'onls.csv'
+        file_stringo = outputp + str(jjjjinput) + 'onl.csv'
+        file_stringos = outputp + str(jjjjinput) + 'onls.csv'
     return (file_stringo, file_stringos)
 
 
 def outfiledef(jjjjmminput):
     if (str(jjjjmminput) == str(aktjjjjmm)):
-    # heutiger Monat nachgerechnet, ramdisk nehmen
-        file_stringo =  outputa + 'logaktmonthonl.csv'
-        file_stringos =  outputa + 'logaktmonthonls.csv'
+        # heutiger Monat nachgerechnet, ramdisk nehmen
+        file_stringo = outputa + 'logaktmonthonl.csv'
+        file_stringos = outputa + 'logaktmonthonls.csv'
     else:
-        file_stringo =  outputp + str(jjjjmminput) + 'onl.csv'
-        file_stringos =  outputp + str(jjjjmminput) + 'onls.csv'
+        file_stringo = outputp + str(jjjjmminput) + 'onl.csv'
+        file_stringos = outputp + str(jjjjmminput) + 'onls.csv'
     return (file_stringo, file_stringos)
 
 
 def exceldate(datestring):
-    datestringexcel =  datestring[-2:]  + '.' + datestring[4:6] + '.' + datestring[:4]
+    datestringexcel = datestring[-2:] + '.' + datestring[4:6] + '.' + datestring[:4]
     return datestringexcel
 
 
@@ -51,7 +51,7 @@ def prep():
 
 
 def getTime():
-    named_tuple = time.localtime() # getstruct_time
+    named_tuple = time.localtime()  # getstruct_time
     return time.strftime("%m/%d/%Y, %H:%M:%S", named_tuple)
 
 
@@ -67,66 +67,66 @@ def trdaymonth(irow):
             else:
                 inputrow.append(float(0))
     row = inputrow[:]
-    #	Monatlich_________	Seq	PosT	Tag
+    # Monatlich_________	Seq	PosT	Tag
     #
-    #	$bezug___________	1	1	$bezug
-    #	$einspeisung_____	2	2	$einspeisung
-    #	$pv______________	3	3	$pv
-    #	$ll1_____________	4	4	$ll1
-    #	$ll2_____________	5	5	$ll2
-    #	$ll3_____________	6	6	$ll3
-    #	$llg_____________	7	7	$llg
-    #   $verbraucher1iwh_	8	10	$speicheri
-    #	$verbraucher1ewh_	9	11	$speichere
-    #	$verbraucher2iwh_	10	12	$verbraucher1
-    #	$verbraucher2ewh_	11	13	$verbrauchere1
-    #	$ll4_____________	12	15	$verbraucher2
-    #	$ll5_____________	13	16	$verbrauchere2
-    #	$ll6_____________	14	17	$verbraucher3
-    #	$ll7_____________	15	18	$ll4
-    #	$ll8_____________	16	19	$ll5
-    #	$speicherikwh____	17	8	$ll6
-    #	$speicherekwh____	18	9	$ll7
-    #	$d1______________	19	26	$ll8
-    #	$d2______________	20	27	$speichersoc
-    #	$d3______________	21	28	$soc
-    #	$d4______________	22	29	$soc1
-    #	$d5______________	23	30	$temp1
-    #	$d6______________	24	31	$temp2
-    #	$d7______________	25	32	$temp3
-    #	$d8______________	26	33	$d1
-    #	$d9______________	27	34	$d2
-    #	$d10 ____________	28	35	$d3
-    #	Lpalle PV________	29	7	$d4
-    #	Lpall Speicher___	30	7	$d5
-    #	Lpalle EVU_______	31  7	$d6
-    #	Device 1 PV______	32	26  $d7
-    #	Device 1 Speicher	33	26	$d8
-    #	Device 1 EVU____ 	34	26	$d9
-    #	Device 2 pv________	35	27 $d10
-    #	Device 2 Speicher_	36	27 $temp4
-    #	device 2_EVU_______	37	27 $temp5
-    #	Device 3 PV______	38	28 $temp6
-    #	Device 3 Speicher	39	28
-    #	Device 3 EVU____ 	40	28
-    #	Device 4 PV______	41	29
-    #	Device 4 Speicher	42	29
-    #	Device 4 EVU____ 	43	29
-    #	Device 5 PV______	44	30
-    #	Device 5 Speicher	45	30
-    #	Device 5 EVU____ 	46	30
-    #	Device 6 PV______	47	31
-    #	Device 6 Speicher	48	31
-    #	Device 6 EVU____ 	49	31
-    #	Device 7 PV______	50	32
-    #	Device 7 Speicher	51	32
-    #	Device 7 EVU____ 	52	32
-    #	Device 8 PV______	53	33
-    #	Device 8 Speicher	54	33
-    #	Device 8 EVU____ 	55	33
-    #	Device 9 PV______	56	34
-    #	Device 9 Speicher	57	34
-    #	Device 9 EVU____ 	58	34
+    # $bezug___________	1	1	$bezug
+    # $einspeisung_____	2	2	$einspeisung
+    # $pv______________	3	3	$pv
+    # $ll1_____________	4	4	$ll1
+    # $ll2_____________	5	5	$ll2
+    # $ll3_____________	6	6	$ll3
+    # $llg_____________	7	7	$llg
+    # $verbraucher1iwh_	8	10	$speicheri
+    # $verbraucher1ewh_	9	11	$speichere
+    # $verbraucher2iwh_	10	12	$verbraucher1
+    # $verbraucher2ewh_	11	13	$verbrauchere1
+    # $ll4_____________	12	15	$verbraucher2
+    # $ll5_____________	13	16	$verbrauchere2
+    # $ll6_____________	14	17	$verbraucher3
+    # $ll7_____________	15	18	$ll4
+    # $ll8_____________	16	19	$ll5
+    # $speicherikwh____	17	8	$ll6
+    # $speicherekwh____	18	9	$ll7
+    # $d1______________	19	26	$ll8
+    # $d2______________	20	27	$speichersoc
+    # $d3______________	21	28	$soc
+    # $d4______________	22	29	$soc1
+    # $d5______________	23	30	$temp1
+    # $d6______________	24	31	$temp2
+    # $d7______________	25	32	$temp3
+    # $d8______________	26	33	$d1
+    # $d9______________	27	34	$d2
+    # $d10 ____________	28	35	$d3
+    # Lpalle PV________	29	7	$d4
+    # Lpall Speicher___	30	7	$d5
+    # Lpalle EVU_______	31  7	$d6
+    # Device 1 PV______	32	26  $d7
+    # Device 1 Speicher	33	26	$d8
+    # Device 1 EVU____ 	34	26	$d9
+    # Device 2 pv________	35	27 $d10
+    # Device 2 Speicher_	36	27 $temp4
+    # device 2_EVU_______	37	27 $temp5
+    # Device 3 PV______	38	28 $temp6
+    # Device 3 Speicher	39	28
+    # Device 3 EVU____ 	40	28
+    # Device 4 PV______	41	29
+    # Device 4 Speicher	42	29
+    # Device 4 EVU____ 	43	29
+    # Device 5 PV______	44	30
+    # Device 5 Speicher	45	30
+    # Device 5 EVU____ 	46	30
+    # Device 6 PV______	47	31
+    # Device 6 Speicher	48	31
+    # Device 6 EVU____ 	49	31
+    # Device 7 PV______	50	32
+    # Device 7 Speicher	51	32
+    # Device 7 EVU____ 	52	32
+    # Device 8 PV______	53	33
+    # Device 8 Speicher	54	33
+    # Device 8 EVU____ 	55	33
+    # Device 9 PV______	56	34
+    # Device 9 Speicher	57	34
+    # Device 9 EVU____ 	58	34
     row[8] = inputrow[10]
     row[9] = inputrow[11]
     row[10] = inputrow[12]
@@ -196,20 +196,20 @@ def calcdelta(row, rowold, i, zeile, datestring):
         oldvalue = float(rowold[i])
     except Exception:
         oldvalue = float(0)
-    #	Monatlich_________	Seq	PosT	Tag
+    # Monatlich_________	Seq	PosT	Tag
     #
-    #	$bezug___________	1	1	$bezug
-    #	$einspeisung_____	2	2	$einspeisung
-    #	$pv______________	3	3	$pv
-    #	$llg_____________	7	7	$llg
-    #	$speicherikwh____	17	8	$ll6
-    #	$speicherekwh____	18	9	$ll7
-    #	Lpalle PV________	29	7	$d4
-    #	Lpall Speicher___	30	7	$d5
-    #	Lpalle EVU_______	31  7	$d6
-    #	Device 1 PV______	32		$d7
-    #	Device 1 Speicher	33		$d8
-    #	Device 1 EVU____ 	34		$d9
+    # $bezug___________	1	1	$bezug
+    # $einspeisung_____	2	2	$einspeisung
+    # $pv______________	3	3	$pv
+    # $llg_____________	7	7	$llg
+    # $speicherikwh____	17	8	$ll6
+    # $speicherekwh____	18	9	$ll7
+    # Lpalle PV________	29	7	$d4
+    # Lpall Speicher___	30	7	$d5
+    # Lpalle EVU_______	31  7	$d6
+    # Device 1 PV______	32		$d7
+    # Device 1 Speicher	33		$d8
+    # Device 1 EVU____ 	34		$d9
     if (i >= 29) and (i <= 58):
         try:
             gesamtv = float(0)
@@ -218,8 +218,8 @@ def calcdelta(row, rowold, i, zeile, datestring):
             deltapv = float(row[3]) - float(rowold[3])
             deltaspeicherladung = float(row[17]) - float(rowold[17])
             deltaspeicherentladung = float(row[18]) - float(rowold[18])
-            # gesamtv = Bezug    + PV        + Speicherentladung - Speicherladung - Einspeisung
-            gesamtv = deltabezug  + deltapv + deltaspeicherentladung - deltaspeicherladung - deltaeinspeisung
+            # gesamtv = Bezug    + PV      + Speicherentladung      - Speicherladung      - Einspeisung
+            gesamtv = deltabezug + deltapv + deltaspeicherentladung - deltaspeicherladung - deltaeinspeisung
             # Einzelwerte validieren
             if (
                 (deltabezug >= 0) and (deltabezug < 12500) and (deltaeinspeisung >= 0) and (deltaeinspeisung < 12500)
@@ -235,19 +235,19 @@ def calcdelta(row, rowold, i, zeile, datestring):
                 or (i == 53) or (i == 56)
             ):
                 # (PV - Einspeisung - Speicherladung) / Gesamtverbrauch)
-                delta = ((deltapv - deltaeinspeisung - deltaspeicherladung)  / gesamtv) * (newvalue -  oldvalue)
+                delta = ((deltapv - deltaeinspeisung - deltaspeicherladung) / gesamtv) * (newvalue - oldvalue)
             if (
                 (i == 30) or (i == 33) or (i == 36) or (i == 39) or (i == 42) or (i == 45) or (i == 48) or (i == 51)
                 or (i == 54) or (i == 57)
             ):
                 # Speicherentladung / Gesamtverbrauch
-                delta = (deltaspeicherentladung  / gesamtv) * (newvalue -  oldvalue)
+                delta = (deltaspeicherentladung / gesamtv) * (newvalue - oldvalue)
             if (
                 (i == 31) or (i == 34) or (i == 37) or (i == 40) or (i == 43) or (i == 46) or (i == 49) or (i == 52)
                 or (i == 55) or (i == 58)
             ):
                 # Bezug EVU / Gesamtverbrauch
-                delta = (deltabezug  / gesamtv) * (newvalue -  oldvalue)
+                delta = (deltabezug / gesamtv) * (newvalue - oldvalue)
         except Exception:
             delta = 0
             # nur Fehler wenn gesamtverbrauch > 0
@@ -260,7 +260,7 @@ def calcdelta(row, rowold, i, zeile, datestring):
                     getTime(), datestring, str(row[0]), i, textcol, sumcsv[i], newvalue, oldvalue, gesamtv)
                 )
     else:
-        delta = newvalue -  oldvalue
+        delta = newvalue - oldvalue
     deltarund = float(str("%.6f" % delta))
     if (deltarund < 0):
         deltarund = 0
@@ -424,7 +424,7 @@ def remonth(jjjjmm):
     for dd in range(1, 32):
         dds = '0' + str(dd)
         datestring = str(jjjjmm) + dds[-2:]
-        file_stringi =  inputp + datestring + '.csv'
+        file_stringi = inputp + datestring + '.csv'
         (file_stringo, file_stringos) = outfiledef(jjjjmm)
         if os.path.isfile(file_stringi):
             ifile = 1
@@ -473,7 +473,7 @@ def remonth(jjjjmm):
         for dd in range(1, 32):
             dds = '0' + str(dd)
             datestring = str(jjjjmmnext) + dds[-2:]
-            file_stringi =  inputp + datestring + '.csv'
+            file_stringi = inputp + datestring + '.csv'
             if os.path.isfile(file_stringi):
                 ifile = 1
             else:
@@ -577,7 +577,7 @@ def checkmonth(jjjjmm):
         for dd in range(31, 0, -1):
             dds = '0' + str(dd)
             datestring = str(jjjjmm) + dds[-2:]
-            file_stringi =  inputp + datestring + '.csv'
+            file_stringi = inputp + datestring + '.csv'
             if os.path.isfile(file_stringi):
                 dfile = 1
                 validdata = 0
@@ -659,7 +659,7 @@ if __name__ == "__main__":
     JJMM -> nur bei M relevant, Monat zum nachrechnen
     '''
 
-    aktjjjjmm  = time.strftime("%Y%m")
+    aktjjjjmm = time.strftime("%Y%m")
     aktjjjj = int(int(aktjjjjmm) / 100)
     header = [
             'Datum', 'Bezug', 'Einspeisung', 'Pv',
