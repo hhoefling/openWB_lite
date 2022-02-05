@@ -109,7 +109,7 @@
 				function(data){
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
-					$('#navLadelog').addClass('disabled');
+					$('#navlogExport').addClass('disabled');
 				}
 			);
 		</script>

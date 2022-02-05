@@ -195,7 +195,12 @@ function putladelogtogether() {
 			var writelp = 0;
 			var writemodus = 0;
 			var writerfid = 0;
-			row.forEach(function(cell) {
+
+			if (row.length == 9) {  // KM fehlt, dann sind es 10
+			   row.push(""); // dann 10
+			}
+			row.forEach(function(cell) 
+			{
 				cellcount+=1;
 				temparr.push(cell);
 				if ( cellcount == 7) {
@@ -239,14 +244,14 @@ function putladelogtogether() {
 						testout.push(temparr);
 					}
 				}
-				if ( cellcount == 9 && writelp == 1 && writemodus == 1 && writerfid == 1) {
+				if ( cellcount == 10 && writelp == 1 && writemodus == 1 && writerfid == 1) {
 					testout.push(temparr);
 				}
 			});
 		});
 
 		if ( testout.length >= 1 ) {
-			var content = '<table class="table"> <thead><tr><th scope="col">Startzeit</th><th scope="col">Endzeit</th><th scope="col" class="text-right">geladene km</th><th scope="col" class="text-right">kWh</th><th scope="col" class="text-right">mit kW</th><th scope="col" class="text-right">Ladedauer</th><th scope="col">Ladepunkt</th><th scope="col">Lademodus</th><th scope="col">RFID Tag</th><th scope="col" class="text-right">Kosten</th></tr></thead> <tbody>';
+			var content = '<table class="table"> <thead><tr><th scope="col">Startzeit</th><th scope="col">Endzeit</th><th scope="col" class="text-right">geladene km</th><th scope="col" class="text-right">kWh</th><th scope="col" class="text-right">mit kW</th><th scope="col" class="text-right">Ladedauer</th><th scope="col">Ladepunkt</th><th scope="col">Lademodus</th><th scope="col">RFID Tag</th><th scope="col">Km</th><th scope="col" class="text-right">Kosten</th></tr></thead> <tbody>';
 			var rowcount=0;
 			var avgkw="0";
 			var totalprice="0";
@@ -310,6 +315,12 @@ function putladelogtogether() {
 								content += "<td>" + cell + "</td>" ;
 							}
 							break;
+						case 9: // rfid
+							 content += "<td>" + cell + "</td>";
+							 break;
+						case 10: // 
+							 content += "<td>" + cell + "</td>";
+							break;
 						default:
 							content += "<td>" + cell + "</td>";
 					}
@@ -318,7 +329,7 @@ function putladelogtogether() {
 				content += "</tr>";
 			});
 
-			content += '</tbody><tfoot><tr><th scope="col">Startzeit</th><th scope="col">Endzeit</th><th scope="col" class="text-right">' + totalkm.toFixed(0) + ' geladene km</th><th scope="col" class="text-right">' + totalkwh.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kWh </th><th scope="col" class="text-right">mit ' + (avgkw / rowcount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kW</th><th scope="col" class="text-right">Ladedauer</th><th scope="col">Ladepunkt</th><th scope="col">Lademodus</th><th scope="col">RFID Tag</th><th scope="col" class="text-right">' + totalprice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '€ Kosten</th></tr></thead>';
+			content += '</tbody><tfoot><tr><th scope="col">Startzeit</th><th scope="col">Endzeit</th><th scope="col" class="text-right">' + totalkm.toFixed(0) + ' geladene km</th><th scope="col" class="text-right">' + totalkwh.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kWh </th><th scope="col" class="text-right">mit ' + (avgkw / rowcount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kW</th><th scope="col" class="text-right">Ladedauer</th><th scope="col">Ladepunkt</th><th scope="col">Lademodus</th><th scope="col">RFID Tag</th><th scope="col">Km</th><th scope="col" class="text-right">' + totalprice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '€ Kosten</th></tr></thead>';
 			content += "</tfoot></table>";
 			$("#ladelogtablediv").html(content);
 		} else {
