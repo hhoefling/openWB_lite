@@ -73,7 +73,7 @@
 					</div>  <!-- end card body Allgemeine Einstellungen Sofort -->
 				</div>  <!-- end card Allgemeine Einstellungen Sofort -->
 
-				<?php for( $chargepoint = 1; $chargepoint < 9; $chargepoint++ ){ // begin chargepoint loop ?>
+				<?php for( $chargepoint = 1; $chargepoint <= 3; $chargepoint++ ){ // begin chargepoint loop ?>
 					<div class="card border-primary lp<?php echo $chargepoint; ?>options<?php if( $chargepoint > 1 ) echo " hide"; ?>">
 						<div class="card-header bg-primary">
 							Einstellungen Ladepunkt <?php echo $chargepoint; ?>
