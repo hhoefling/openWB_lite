@@ -176,6 +176,7 @@ $settingspwold = str_replace("\n", '', $settingspwold);
 
 $owbversion = file_get_contents('/var/www/html/openWB/web/version');
 
+$settingsArray = [];
 // convert lines to key/value array for faster manipulation
 foreach($lines as $line) {
 	// split line at char '='
@@ -185,6 +186,7 @@ foreach($lines as $line) {
 	$splitLine[1] = trim($splitLine[1]);
 	// push key/value pair to new array
 	$settingsArray[$splitLine[0]] = $splitLine[1];
+
 }
 
 
@@ -199,7 +201,12 @@ if (isset($_GET['theme'])) {
 //echo "<pre>"; print_r($GLOBALS) ; echo "</pre>";
 // Lasse das Thema über -1..5 auswählen
 if (isset($_GET['themeId'])) {
+    $settingsArrayOld['displaytheme']=trim($_GET['themeId']);
     $displaythemeold=trim($_GET['themeId']);
+}
+if (isset($_GET['themeid'])) {
+    $settingsArrayOld['displaytheme']=trim($_GET['themeid']);
+    $displaythemeold=trim($_GET['themeid']);
 }
 
 // now values can be accessed by $settingsArray[$key] = $value;
@@ -209,13 +216,13 @@ $isConfiguredLp = array_fill(1, 8, false); // holds boolean for configured lp
 $isConfiguredLp[1] = 1;  // lp1 always configured
 $isConfiguredLp[2] = ($settingsArray['lastmanagement'] == 1) ? 1 : 0;
 $isConfiguredLp[3] = ($settingsArray['lastmanagements2'] == 1) ? 1 : 0;
-for ( $lp = 4  ; $lp <= 8; $lp++) {
+for ( $lp = 14  ; $lp <= 8; $lp++) {
 	$isConfiguredLp[$lp] = ($settingsArray['lastmanagementlp'.$lp] == 1) ? 1 : 0;
 }
 $countLpConfigured = array_sum($isConfiguredLp);
 
 // remove special characters from lp-names except space and underscore... maybe dangerous
-for ( $lp = 1  ; $lp <= 8; $lp++) {
+for ( $lp = 1  ; $lp <= 3; $lp++) {
 	$settingsArray['lp'.$lp.'name'] = preg_replace('/[^A-Za-z0-9_ ]/', '', $settingsArray['lp'.$lp.'name']);
 }
 ?>
