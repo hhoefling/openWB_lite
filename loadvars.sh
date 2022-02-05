@@ -517,6 +517,22 @@ loadvars(){
 		speichervorhanden="0"
 		echo 0 > /var/www/html/openWB/ramdisk/speichervorhanden
 	fi
+	#addition pv nach Speicherauslesung
+	if [[ $pv2vorhanden == "1" ]]; then
+		pv1watt=$(</var/www/html/openWB/ramdisk/pv1watt)
+		pv2watt=$(</var/www/html/openWB/ramdisk/pv2watt)
+		pvwatt=$(( pv1watt + pv2watt ))
+		echo $pvwatt > /var/www/html/openWB/ramdisk/pvallwatt
+		echo $pvwatt > /var/www/html/openWB/ramdisk/pvwatt
+	else
+		if [[ $pv1vorhanden == "1" ]]; then
+			pv1watt=$(</var/www/html/openWB/ramdisk/pv1watt)
+			pvwatt=$pv1watt
+			echo $pvwatt > /var/www/html/openWB/ramdisk/pvallwatt
+			echo $pvwatt > /var/www/html/openWB/ramdisk/pvwatt
+		fi
+	fi
+
 	llphaset=3
 
 	#Ladeleistung ermitteln
@@ -979,6 +995,7 @@ loadvars(){
 	if [ -s "ramdisk/device7_watt" ]; then shd7_w=$(<ramdisk/device7_watt); else shd7_w=0; fi
 	if [ -s "ramdisk/device8_watt" ]; then shd8_w=$(<ramdisk/device8_watt); else shd8_w=0; fi
 	if [ -s "ramdisk/device9_watt" ]; then shd9_w=$(<ramdisk/device9_watt); else shd9_w=0; fi
+	if [ -s "ramdisk/devicetotal_watt_hausmin" ]; then shdall_w=$(<ramdisk/devicetotal_watt_hausmin); else shdall_w=0; fi
 	if [ -s "ramdisk/device1_temp0" ]; then shd1_t0=$(<ramdisk/device1_temp0); else shd1_t0=0; fi
 	if [ -s "ramdisk/device1_temp1" ]; then shd1_t1=$(<ramdisk/device1_temp1); else shd1_t1=0; fi
 	if [ -s "ramdisk/device1_temp2" ]; then shd1_t2=$(<ramdisk/device1_temp2); else shd1_t2=0; fi

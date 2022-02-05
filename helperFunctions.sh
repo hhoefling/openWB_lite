@@ -19,8 +19,8 @@ writeifchanged()
  #openwbDebugLog "MAIN" 0 "checkcache [$checktxt] [$cf] [$cached] $t1 $t2"
  if [[ "$cached" != "$checktxt" ]] ; then
 		echo $checktxt >$cf
-		mosquitto_pub -t openWB/set/${token}/$t1 -r -m "$sollstate"
-		mosquitto_pub -t openWB/set/${token}/$t2 -r -m "$solltxt"
+		mosquitto_pub -t "openWB/set/${token}/$t1" -r -m "$sollstate"
+		mosquitto_pub -t "openWB/set/${token}/$t2" -r -m "$solltxt"
  fi
 }
 
@@ -81,7 +81,7 @@ openwbDebugLog() {
 	# $2: Level (0=Info, 1=Regelwerte , 2=Berechnungsgrundlage)
 	# $3: Meldung (String)
 	LOGFILE="/var/log/openWB.log"
-	timestamp=`date +"%Y-%m-%d %H:%M:%S"`
+	timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
 	if [[ -z "$debug" ]]; then
 		# enable all levels as global $debug is not set up yet
@@ -90,7 +90,7 @@ openwbDebugLog() {
 		DEBUGLEVEL=$debug
 	fi
 	# echo "LVL: $2 DEBUG: $debug DEBUGLEVEL: $DEBUGLEVEL" >> $LOGFILE
-	if (( $2 <= $DEBUGLEVEL )); then
+	if (( $2 <= DEBUGLEVEL )); then
 		case $1 in
 			"EVSOC")
 				LOGFILE="/var/www/html/openWB/ramdisk/soc.log"
@@ -115,7 +115,7 @@ openwbDebugLog() {
 				LOGFILE="/var/log/openWB.log"
 				;;
 		esac
-		if (( $DEBUGLEVEL > 0 )); then
+		if (( DEBUGLEVEL > 0 )); then
 			echo "$timestamp: $$ $3 (LV$2) at $(caller 0)" >> $LOGFILE
 		else
 			echo "$timestamp: $$ $3 (LV$2)" >> $LOGFILE
