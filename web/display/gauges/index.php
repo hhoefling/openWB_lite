@@ -477,7 +477,7 @@
 						<?php
 					} else {
 						?>
-						<div class="col-xs-2"></div>
+						<div class="col-xs-3"></div>
 						<?php
 					}
 				?>
