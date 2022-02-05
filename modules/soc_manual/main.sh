@@ -79,8 +79,8 @@ else
 	echo 0 > $soctimerfile
 
 	# read current meter
-	if [[ -f "$meterFile" ]]; then
-		currentMeter=$(<$meterFile)
+	if [[ -f "$meterFile" ]]; then					# "$RAMDISKDIR/llkwhs1"
+		currentMeter=$(<$meterFile)					# llkwhs1
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentMeter: $currentMeter"
 
 		# read manual Soc
