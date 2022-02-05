@@ -69,7 +69,7 @@
 							}, 3000);
 						</script>
 						<?php
-					break;
+						break;
 					case 'wlanreset':
 						// reset wlan credentials
 						$result1 = file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tmp/wssid', '');
