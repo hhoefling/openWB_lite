@@ -186,6 +186,10 @@ h3 {
 	font-size: 1.0rem;  /*1.2 HH*/
 }
 
+h4 {
+	font-size: 0.9rem;
+}
+
 .verySmallTextSize {
 	font-size: 0.8rem;
 }
@@ -226,6 +230,10 @@ h3 {
 		font-size: 1.7rem;
 	}
 
+	h4 {
+		font-size: 1.2rem;
+	}
+	
 	.verySmallTextSize {
 		font-size: 1.0rem;
 	}
@@ -273,6 +281,10 @@ h3 {
 		font-size: 1.0rem; /* 1.1rem; */
  	}
 
+	h4 {
+		font-size: 0.9rem;
+	}
+	
 	.verySmallTextSize {
 		font-size: 1.0rem;
 	}
@@ -314,6 +326,10 @@ h3 {
 		font-size: 1.0rem; /* 1.1rem; */
  	}
 
+	h4 {
+		font-size: 0.9rem;
+	}
+	
 	.verySmallTextSize {
 		font-size: 1.0rem;
 	}
@@ -383,6 +399,9 @@ h3 {
 	}
 }
 
+.maxPrice {
+	text-align: center;
+}
 /* Overarching colors */
 :root {
 	--fontCol: rgba(160, 160, 160, 0.82);

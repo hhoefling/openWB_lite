@@ -89,7 +89,7 @@ class PowerGraph {
       unsubscribeMqttGraphSegments();
       unsubscribeGraphUpdates();
     } catch (err) {
-      // on intial run this method is not existing
+      // on initial run this method is not existing
     }
   }
 
@@ -138,7 +138,7 @@ class PowerGraph {
       // ignore error 
     }
   }
-  
+
   activateMonth() {
     this.resetMonthGraph();
     try {
@@ -157,9 +157,9 @@ class PowerGraph {
       // ignore error 
     }
   }
-  
+
   updateLive(topic, payload) {
-    if (wbdata.graphMode == 'live') { // only udpdate if live graph is active
+    if (wbdata.graphMode == 'live') { // only update if live graph is active
       if (this.initialized) { // steady state
         if (topic === "openWB/graph/lastlivevalues") {
           const values = this.extractLiveValues(payload.toString());
@@ -342,7 +342,7 @@ class PowerGraph {
     var i;
     values.lp0 = +elements[4];
     values.lp1 = +elements[5];
-    for (i = 2; i < 3; i++) {	// 3
+    for (i = 2; i <=8; i++) {
       values["lp" + i] = +elements[11 + i];
     }
     values.soc1 = +elements[9];
@@ -400,7 +400,7 @@ class PowerGraph {
     // smart home
     for (i = 0; i < 9; i++) {
       if (!(wbdata.shDevice[i].countAsHouse)) {
-      values["sh" + i] = this.calcValue(26 + i, elements, oldElements);
+        values["sh" + i] = this.calcValue(26 + i, elements, oldElements);
       } else {
         values["sh" + i] = +0;
       }
@@ -445,9 +445,9 @@ class PowerGraph {
     values.soc1 = +elements[21];
     values.soc2 = +elements[22];
     // smart home
-   for (i = 0; i < 10; i++) {
+    for (i = 0; i < 10; i++) {
       values["sh" + i] = this.calcMonthlyValue(19 + i, elements, oldElements);
-    } 
+    }
     //consumers
     values.co0 = this.calcMonthlyValue(10, elements, oldElements);
     values.co1 = this.calcMonthlyValue(12, elements, oldElements);
@@ -457,7 +457,7 @@ class PowerGraph {
     values.batterySoc = +elements[20];
     // calculated values
     values.housePower = values.gridPull + values.solarPower + values.batOut
-    - values.gridPush - values.batIn - values.charging - values.co0 - values.co1
+      - values.gridPush - values.batIn - values.charging - values.co0 - values.co1
       - values.sh0 - values.sh1 - values.sh2 - values.sh3 - values.sh4 - values.sh5 - values.sh6 - values.sh7 - values.sh8 - values.sh9; if (values.housePower < 0) { values.housePower = 0; };
     values.selfUsage = values.solarPower - values.gridPush;
     if (values.selfUsage < 0) { values.selfUsage = 0; };
@@ -504,7 +504,7 @@ class PowerGraph {
   }
   calcMonthlyValue(i, array, oldArray) {
     var val = (array[i] - oldArray[i]);
-    
+
     if (val < 0 || val > 150000) {
       val = 0;
     }
@@ -540,7 +540,7 @@ class PowerGraph {
 
   drawSourceGraph(svg, width, height) {
     var keys = (wbdata.graphMode == 'month') ? ["gridPull", "batOut", "selfUsage", "gridPush"] : ["selfUsage", "gridPush", "batOut", "gridPull"];
-    
+
     if (wbdata.graphMode == 'month') {
       const dayRange = d3.extent(this.graphData, d => d.date.getDate())
       this.xScale = d3.scaleBand()
@@ -567,21 +567,21 @@ class PowerGraph {
         .selectAll("rect")
         .data((d) => d).enter()
         .append("rect")
-          .attr("x", (d) => this.xScale(d.data.date.getDate()))
-          .attr("y", d => yScale(d[1]))
-          .attr("height", d => yScale(d[0]) - yScale(d[1]))
-          .attr("width", this.xScale.bandwidth())
+        .attr("x", (d) => this.xScale(d.data.date.getDate()))
+        .attr("y", d => yScale(d[1]))
+        .attr("height", d => yScale(d[0]) - yScale(d[1]))
+        .attr("width", this.xScale.bandwidth())
       rects.append("svg:title").text((d) => formatWattH(d[1] - d[0]));
     } else {
       svg.selectAll(".sourceareas")
-      .data(stackedSeries)
-      .join("path")
-      .attr("d", d3.area()
-        .x((d, i) => this.xScale(this.graphData[i].date))
-        .y0((d) => yScale(d[0]))
-        .y1((d) => yScale(d[1]))
-      )
-      .attr("fill", (d, i) => this.colors[keys[i]]);
+        .data(stackedSeries)
+        .join("path")
+        .attr("d", d3.area()
+          .x((d, i) => this.xScale(this.graphData[i].date))
+          .y0((d) => yScale(d[0]))
+          .y1((d) => yScale(d[1]))
+        )
+        .attr("fill", (d, i) => this.colors[keys[i]]);
     }
 
     const yAxis = svg.append("g")
@@ -639,21 +639,21 @@ class PowerGraph {
         .selectAll("rect")
         .data(d => d).enter()
         .append("rect")
-          .attr("x", (d) => this.xScale(d.data.date.getDate()))
-          .attr("y", d => yScale(d[0]))
-          .attr("height", d => yScale(d[1]) - yScale(d[0]))
-          .attr("width", this.xScale.bandwidth())
+        .attr("x", (d) => this.xScale(d.data.date.getDate()))
+        .attr("y", d => yScale(d[0]))
+        .attr("height", d => yScale(d[1]) - yScale(d[0]))
+        .attr("width", this.xScale.bandwidth())
       rects2.append("svg:title").text((d) => formatWattH(d[1] - d[0]));
     } else {
       svg.selectAll(".targetareas")
-      .data(stackedSeries)
-      .join("path")
-      .attr("d", d3.area()
-        .x((d, i) => this.xScale(this.graphData[i].date))
-        .y0((d) => yScale(d[0]))
-        .y1((d) => yScale(d[1]))
-      )
-      .attr("fill", (d, i) => this.colors[keys[wbdata.usageStackOrder][i]]);
+        .data(stackedSeries)
+        .join("path")
+        .attr("d", d3.area()
+          .x((d, i) => this.xScale(this.graphData[i].date))
+          .y0((d) => yScale(d[0]))
+          .y1((d) => yScale(d[1]))
+        )
+        .attr("fill", (d, i) => this.colors[keys[wbdata.usageStackOrder][i]]);
     }
     const yAxis = svg.append("g")
       .attr("class", "axis")
@@ -690,10 +690,10 @@ class PowerGraph {
       .ticks(4)
       .tickSizeInner(ticksize)
 
-      if (wbdata.graphMode != 'month') {
-        xAxisGenerator.tickFormat(d3.timeFormat("%H:%M"))
-          .ticks(4);
-      } 
+    if (wbdata.graphMode != 'month') {
+      xAxisGenerator.tickFormat(d3.timeFormat("%H:%M"))
+        .ticks(4);
+    }
 
     const xAxis = svg.append("g").attr("class", "axis")
       .call(xAxisGenerator);

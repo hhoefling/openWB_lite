@@ -25,11 +25,13 @@ class WbData {
 		this.batteryEnergyImport = 0;
 		this.batteryPowerExport = 0;
 		this.batteryPowerImport = 0;
+		this.chargeMode="0"
 		this.graphDate = new Date();
 		this.graphMonth = {
 			"month": this.graphDate.getMonth(),
 			"year": this.graphDate.getFullYear()
 		}
+		this.rfidConfigured = false;
 		this.consumer = [new Consumer(), new Consumer()];
 		this.chargePoint = Array.from({ length: 9 }, (v, i) => new ChargePoint(i));
 		this.shDevice = Array.from({ length: 9 }, (v, i) => new SHDevice(i));
@@ -185,7 +187,13 @@ class WbData {
 				powerMeter.update();
 				break;
 			case 'currentPowerPrice':
+				case 'chargeMode':
+				priceChart.update();
 				chargePointList.update();
+				break
+			case 'rfidConfigured':
+				d3.select('#codeButton').classed ("hide", (!value))
+				break
 			default:
 				break;
 		}
@@ -283,6 +291,20 @@ class WbData {
 				break;
 		}
 		batteryList.update();
+	}
+
+
+	updateET(field,value) {
+		this[field]=value;
+		
+		switch (field) {
+			case 'etPrice':
+			case 'isEtEnabled': chargePointList.updateValues();
+			break;
+			default:
+				break;
+		}
+		priceChart.update()
 	}
 
 	updateSourceSummary(cat, field, value) {
@@ -619,7 +641,7 @@ function toggleMonthView() {
 	}
 	yieldMeter.update();
 }
-// required for pricechart to work
+// required for price chart to work
 var evuCol;
 var xgridCol;
 var gridCol;
