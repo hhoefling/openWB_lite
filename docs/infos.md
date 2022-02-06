@@ -27,6 +27,8 @@ MPM3PM 192.168.193.19 8899 1
 ******************************************
 
 EVSE Registers (modbis id =1)
+
+Die neue OLC-Auflösung mit 0,01A (ab FW18 mgl.)
 ```
 1000: Configured Current 12
 1001: Actual Current 12
