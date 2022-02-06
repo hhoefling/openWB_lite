@@ -26,7 +26,7 @@ MPM3PM 192.168.193.19 8899 1
 
 ******************************************
 
-EVSE Registers
+EVSE Registers (modbis id =1)
 ```
 1000: Configured Current 12
 1001: Actual Current 12
@@ -48,7 +48,7 @@ EVSE Registers
 ```
 
 
-Integrierter Zähle SDM72D-M
+Integrierter Zähle SDM72D-M (modbus id = 105)
 ```
 30001 Phase 1 line to neutral volts. 4 Float V 00 00
 30003 Phase 2 line to neutral volts. 4 Float V 00 02
