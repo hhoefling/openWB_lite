@@ -34,7 +34,8 @@ EVSE Registers
 1003: PP-Limit 32
 1004: Turn off bit 0
 1005: Firmware Version 12
-1006: EVSE Status 2
+1006: EVSE Status 2+
+1007: evseRcdStatus (??)
 2000: Current after boot 32
 2001: Modbus Status 1
 2002: Min. Current Value 6
