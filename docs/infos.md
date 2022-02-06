@@ -43,4 +43,5 @@ EVSE Registers
 2005: Register 2005 8192
 2006: Current Sharing Mode 0
 2007: PP-Detection 0 
+2009: BootFirmware;  (??)
 ```
