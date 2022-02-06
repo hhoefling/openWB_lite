@@ -46,3 +46,23 @@ EVSE Registers
 2007: PP-Detection 0 
 2009: BootFirmware;  (??)
 ```
+
+
+Integrierter Zähle SDM72D-M
+```
+30001 Phase 1 line to neutral volts. 4 Float V 00 00
+30003 Phase 2 line to neutral volts. 4 Float V 00 02
+30005 Phase 3 line to neutral volts. 4 Float V 00 04
+30007 Phase 1 current. 4 Float A 00 06
+30009 Phase 2 current. 4 Float A 00 08
+30011 Phase 3 current. 4 Float A 00 0A
+30013 Phase 1 active power. 4 Float W 00 0C
+30015 Phase 2 active power. 4 Float W 00 0E
+30017 Phase 3 active power. 4 Float W 00 10
+30019 Phase 1 apparent power. 4 Float VA 00 12
+30021 Phase 2 apparent power. 4 Float VA 00 14
+30023 Phase 3 apparent power. 4 Float VA 00 16
+30025 Phase 1 reactive power. 4 Float VAr 00 18
+30027 Phase 2 reactive power. 4 Float VAr 00 1A
+30029 Phase 3 reactive power. 4 Float VAr 00 1C
+```
