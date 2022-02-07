@@ -96,3 +96,15 @@ Integrierter Zähle SDM72D-M (modbus id = 105)
 31283 Total export active power 4 Float W 05 02
 40000-- Write Register u.a mit Passwort/Reset/baudrate etc
 ```
+
+**Chargemode
+```
+Sofort	0
+Min+PV	1
+NurPV		2
+Stop	  3
+Standby	4
+(Nachladen 7)
+
+
+```
