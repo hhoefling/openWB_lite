@@ -157,11 +157,11 @@ function loadgraph() {
 			scales: {
 				xAxes: [
 					{
-         				ticks: {
+						ticks: {
 							// middle grey, opacity = 100% (visible)
 							fontColor: "rgba(153, 153, 153, 1)"
-         				}
-      				}],
+						}
+					}],
 				yAxes: [
 					{
 						// horizontal line for values displayed on the left side (power)
@@ -170,11 +170,11 @@ function loadgraph() {
 						type: 'linear',
 						display: true,
 						scaleLabel: {
-		        			display: true,
-		        			labelString: 'Leistung [W]',
+							display: true,
+							labelString: 'Leistung [W]',
 							// middle grey, opacity = 100% (visible)
 							fontColor: "rgba(153, 153, 153, 1)"
-		      			},
+						},
 						gridLines: {
 							// light grey, opacity = 100% (visible)
 							color: "rgba(204, 204, 204, 1)",
@@ -217,7 +217,7 @@ function loadgraph() {
 
 function checkgraphload(){
 	if ( graphloaded == 1) {
-       	myLine.destroy();
+		myLine.destroy();
 		loadgraph();
 	} else {
 		if (( boolDisplayHouseConsumption == true  ||  boolDisplayHouseConsumption == false) && (boolDisplayLoad1 == true || boolDisplayLoad1 == false ) && (boolDisplayLp1Soc == true || boolDisplayLp1Soc == false ) && (boolDisplayLp2Soc == true || boolDisplayLp2Soc == false ) && (boolDisplayLoad2 == true || boolDisplayLoad2 == false ) && (boolDisplayLp1 == true || boolDisplayLp1 == false ) && (boolDisplayLp2 == true || boolDisplayLp2 == false ) && (boolDisplayLp3 == true || boolDisplayLp3 == false ) && (boolDisplayLp4 == true || boolDisplayLp4 == false ) && (boolDisplayLp5 == true || boolDisplayLp5 == false ) && (boolDisplayLp6 == true || boolDisplayLp6 == false ) && (boolDisplayLp7 == true || boolDisplayLp7 == false ) && (boolDisplayLp8 == true || boolDisplayLp8 == false ) && (boolDisplayLpAll == true || boolDisplayLpAll == false ) && (boolDisplaySpeicherSoc == true || boolDisplaySpeicherSoc == false ) && (boolDisplaySpeicher == true || boolDisplaySpeicher == false ) && (boolDisplayEvu == true || boolDisplayEvu == false ) && (boolDisplayPv == true || boolDisplayPv == false ) && (boolDisplayLegend == true || boolDisplayLegend == false ))  {
@@ -225,10 +225,10 @@ function checkgraphload(){
 				if ( graphloaded == 0 ) {
 					graphloaded += 1;
 				} else {
-		       		myLine.destroy();
+					myLine.destroy();
 				}
 				loadgraph();
-	 		}
+			}
 		}
 	}
 }

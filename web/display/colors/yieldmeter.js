@@ -34,16 +34,16 @@ class YieldMeter {
 		this.chargeColor = 'var(--color-charging)';
 		this.axisColor = 'var(--color-axis)';
 		this.gridColor = 'var(--color-grid)';
-   	
+
 	}
 
 	// to be called when values have changed
 	update() {
-				this.plotdata = Object.values(wbdata.sourceSummary)
-				.filter((row) => (row.energy > 0))
-				.concat(wbdata.usageDetails
-					.filter((row) => (row.energy > 0)));
-		
+		this.plotdata = Object.values(wbdata.sourceSummary)
+			.filter((row) => (row.energy > 0))
+			.concat(wbdata.usageDetails
+				.filter((row) => (row.energy > 0)));
+
 		this.adjustLabelSize()
 		const svg = this.createOrUpdateSvg();
 		this.drawChart(svg);
@@ -99,7 +99,7 @@ class YieldMeter {
 			.text("energy");
 
 		yAxis.selectAll(".tick").attr("font-size", this.axisFontSize);
-			yAxis.selectAll(".tick line").attr("stroke", this.bgColor);
+		yAxis.selectAll(".tick line").attr("stroke", this.bgColor);
 		yAxis.select(".domain")
 			.attr("stroke", this.bgcolor);
 
@@ -115,8 +115,6 @@ class YieldMeter {
 			.attr("text-anchor", "middle")
 			.attr("fill", (d) => d.color)
 			.text((d) => (formatWattH(d.energy * 1000)));
-
-
 		const categories = svg.selectAll(".category")
 			.data(this.plotdata)
 			.enter()
@@ -163,10 +161,12 @@ class YieldMeter {
 	truncateCategory(name) {
 		if (name.length > this.maxTextLength) {
 			return name.substr(0, this.maxTextLength) + "."
-				} else {
+		} else {
 			return name
-				}
+		}
 	}
+
+
 }
 var yieldMeter = new YieldMeter();
 

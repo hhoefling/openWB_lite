@@ -44,7 +44,7 @@ class ChargePointList {
   }
 
   updateValues() { // A value has changed. Only update the values, do not redraw all
-      this.chargepoints.map((cp, i) => {
+    this.chargepoints.map((cp, i) => {
       let powerString = formatWatt(cp.power) + " " + this.phaseSymbols[cp.phasesInUse] + " " + cp.targetCurrent + " A";
       let energyString = formatWattH(cp.energy * 1000) + " / " + Math.floor(cp.energy / cp.energyPer100km * 100) + " km"
       if (cp.configured) {
@@ -81,7 +81,7 @@ class ChargePointList {
     d3.select(".pricechartColumn").classed ("col-10", (limitMode == 2 || limitMode == 1));
     // d3.select(".pricechartColumn").classed ("col-10", (limitMode == 1));
     d3.select(".energyResetButton").classed ("hide", (limitMode != 1));
-    
+
   }
 
   calculateValues() {
@@ -161,7 +161,6 @@ class ChargePointList {
     d3.select(".chargeModeStop").classed ("hide", wbdata.chargeMode != '3')
     d3.select(".chargeModeStandby").classed ("hide", wbdata.chargeMode != '4')
     
-
     // charge limit selectors
     const noLimitButton = d3.select(".buttonNoLimit");
     const socLimitButton = d3.select(".buttonSocLimit");
@@ -237,7 +236,7 @@ function modeButtonClicked(index) {
     d3.select("#priorityModeBtns").classed ("hide", !wbdata.isBatteryConfigured)
     d3.select("#evPriorityBtn").classed ("active", wbdata.hasEVPriority)
     d3.select("#batteryPriorityBtn").classed ("active", !wbdata.hasEVPriority)
-
+    
     if (wbdata.chargePoint[index].isSocConfigured) {
       let socSetDiv = d3.select("div#socSetButton").attr("class", "col px-3 pb-3 pt-1 modalLabel hide");
       socSetDiv.selectAll("*").remove();
@@ -267,8 +266,8 @@ function modeButtonClicked(index) {
           })
       }
     }
-  
-    $("#chargeModeModal").modal("show");
+
+  $("#chargeModeModal").modal("show");
 } else {
   $("#lockInfoModal").modal("show");
 }

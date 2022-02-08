@@ -6,7 +6,7 @@
  */
 
 // these topics will be subscribed
-// index 1 represents flag if value was received, needed for preloaderbar progress
+// index 1 represents flag if value was received, needed for preloader progress bar
 // if flags are preset with 1 they are not counted on reload and page will show even if topic was not received
 var topicsToSubscribe = [
 	// Status Konfiguration Ladepunkt
@@ -297,6 +297,15 @@ var topicsToSubscribe = [
 	["openWB/SmartHome/Devices/7/Watt", 1],
 	["openWB/SmartHome/Devices/8/Watt", 1],
 	["openWB/SmartHome/Devices/9/Watt", 1],
+	["openWB/SmartHome/Devices/1/Status", 1],
+	["openWB/SmartHome/Devices/2/Status", 1],
+	["openWB/SmartHome/Devices/3/Status", 1],
+	["openWB/SmartHome/Devices/4/Status", 1],
+	["openWB/SmartHome/Devices/5/Status", 1],
+	["openWB/SmartHome/Devices/6/Status", 1],
+	["openWB/SmartHome/Devices/7/Status", 1],
+	["openWB/SmartHome/Devices/8/Status", 1],
+	["openWB/SmartHome/Devices/9/Status", 1],
 	["openWB/SmartHome/Devices/1/RelayStatus", 1],
 	["openWB/SmartHome/Devices/2/RelayStatus", 1],
 	["openWB/SmartHome/Devices/3/RelayStatus", 1],

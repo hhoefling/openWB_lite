@@ -521,7 +521,7 @@
 				<div class="form-row form-group mb-1 vaRow regularTextSize">
 					<label for="MaxPriceForCharging" class="col-3 col-form-label text-right">max. Preis:</label>
 					<div class="col">
-						<input type="range" class="form-control-range rangeInput" id="MaxPriceForCharging" min="-25" max="40" step="0.1" value="0" data-topicprefix="openWB/global/awattar/">
+						<input type="range" class="form-control-range rangeInput" id="MaxPriceForCharging" min="-25" max="95" step="0.1" value="0" data-topicprefix="openWB/global/awattar/">
 					</div>
 					<label for="MaxPriceForCharging" class="col-3 col-form-label valueLabel" suffix="ct/kWh"></label>
 				</div>
@@ -861,7 +861,7 @@
 
 	<script>
 
-		// load navbar, be carefull: it loads asynchonously
+		// load navbar, be careful: it loads asynchronous
 		$.get(
 			{ url: "themes/navbar.html", cache: false },
 			function(data){
@@ -923,7 +923,7 @@
 		}
 
 		var delayUserInput = (function () {
-			// sets a timeout on call and resets timout if called again for same id before timeout fires
+			// sets a timeout on call and resets timeout if called again for same id before timeout fires
 			var timeoutHandles = {};
 			return function (id, callback, ms) {
 				if ( timeoutHandles[id] ) {
@@ -949,7 +949,7 @@
 				// some helper functions
 				'themes/dark/helperFunctions.js?ver=20201218',
 				// functions for processing messages
-				'themes/dark/processAllMqttMsg.js?ver=20210307',
+				'themes/dark/processAllMqttMsg.js?ver=20211125',
 				// respective Chart.js definition live
 				'themes/dark/livechart.js?ver=20210307',
 				// respective Chart.js definition
@@ -1036,7 +1036,7 @@
 			});
 
 			$('.priorityModeBtn').click(function(event){
-				// prio: 0 = battery, 1 = ev
+				// priority: 0 = battery, 1 = ev
 				var priority = $(this).attr('priority');
 				if ( priority == '0' || priority == '1' ) {
 					publish(priority, 'openWB/config/set/pv/priorityModeEVBattery');
