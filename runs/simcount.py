@@ -17,13 +17,13 @@ if os.path.isfile('/var/www/html/openWB/ramdisk/' + prefix + 'sec0'):
     seconds1 = float(f.read())
     f.close()
     f = open('/var/www/html/openWB/ramdisk/' + prefix + 'wh0', 'r')
-    watt1 = int(float(f.read())
+    watt1 = int(float(f.read()))
     f.close()
     f = open('/var/www/html/openWB/ramdisk/' + prefix + 'watt0pos', 'r')
-    wattposh = int(float(f.read())
+    wattposh = int(float(f.read()))
     f.close()
     f = open('/var/www/html/openWB/ramdisk/' + prefix + 'watt0neg', 'r')
-    wattnegh = int(float(f.read())
+    wattnegh = int(float(f.read()))
     f.close()
     f = open('/var/www/html/openWB/ramdisk/' + prefix + 'sec0', 'w')
     value1 = "%22.6f" % seconds2
@@ -69,7 +69,7 @@ if os.path.isfile('/var/www/html/openWB/ramdisk/' + prefix + 'sec0'):
     f = open('/var/www/html/openWB/ramdisk/' + export_filename, 'w')
     f.write(str(wattnegkh))
     f.close()
-else: 
+else:
     f = open('/var/www/html/openWB/ramdisk/' + prefix + 'sec0', 'w')
     value1 = "%22.6f" % seconds2
     f.write(str(value1))
