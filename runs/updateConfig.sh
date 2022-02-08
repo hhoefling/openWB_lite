@@ -752,6 +752,17 @@ updateConfig(){
 		echo "soc_http_intervall=60" >> $ConfigFile
 		echo "soc_http_intervallladen=10" >> $ConfigFile
 	fi
+	if ! grep -Fq "skodaurl=" $ConfigFile; then
+	    echo "skodaurl="                  >> $ConfigFile
+		echo "soc_Skoda_intervall=60"      >> $ConfigFile
+		echo "soc_Skoda_intervallladen=10" >> $ConfigFile
+	fi
+	if ! grep -Fq "skodaurl2=" $ConfigFile; then
+	    echo "skodaurl2="                  >> $ConfigFile
+		echo "soc_Skoda_intervall2=60"      >> $ConfigFile
+		echo "soc_Skoda_intervallladen2=10" >> $ConfigFile
+	fi
+	
 	if ! grep -Fq "bydhvuser=" $ConfigFile; then
 		echo "bydhvuser=benutzer" >> $ConfigFile
 	fi

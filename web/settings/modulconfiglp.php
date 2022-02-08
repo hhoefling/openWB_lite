@@ -699,6 +699,7 @@
 										<option <?php if($socmodulold == "soc_evnotify") echo "selected" ?> value="soc_evnotify">EVNotify</option>
 										<option <?php if($socmodulold == "soc_http") echo "selected" ?> value="soc_http">HTTP</option>
 										<option <?php if($socmodulold == "soc_manual") echo "selected" ?> value="soc_manual">Manuell + Berechnung</option>
+										<option <?php if($socmodulold == "soc_manualSkoda") echo "selected" ?> value="soc_manualSkoda">Skoda-API & Manuell + Berechnung</option>
 										<option <?php if($socmodulold == "soc_mqtt") echo "selected" ?> value="soc_mqtt">MQTT</option>
 										<option <?php if($socmodulold == "soc_tronity") echo "selected" ?> value="soc_tronity">Tronity</option>
 									</optgroup>
@@ -1281,6 +1282,65 @@
 										});
 									});
 								</script>
+							</div>
+							<div id="socmanualSkoda" class="hide">
+								<div class="form-group">
+									<div class="form-row mb-1">
+										<label for="skodaurl" class="col-md-4 col-form-label">Abfrage URL</label>
+										<div class="col">
+											<input class="form-control" type="text" name="skodaurl" id="skodaurl" value="<?php echo htmlspecialchars($skodaurlold) ?>">
+											<span class="form-text small">
+												Gültige Werte none, "url". URL für die Abfrage des Soc, Antwort muss der reine Zahlenwert sein.
+											</span>
+										</div>
+									</div>
+									<div class="form-row mb-1">
+										<label for="soc_Skoda_intervall" class="col-md-4 col-form-label">Abfrageintervall Standby</label>
+										<div class="col">
+											<input class="form-control" type="text" name="soc_Skoda_intervall" id="soc_Skoda_intervall" value="<?php echo $soc_Skoda_intervallold ?>">
+											<span class="form-text small">
+												Wie oft das Fahrzeug abgefragt wird, wenn nicht geladen wird. Angabe in Minuten.
+											</span>
+										</div>
+									</div>
+									<div class="form-row mb-1">
+										<label for="soc_Skoda_intervallladen" class="col-md-4 col-form-label">Abfrageintervall Ladevorgang</label>
+										<div class="col">
+											<input class="form-control" type="text" name="soc_Skoda_intervallladen" id="soc_Skoda_intervallladen" value="<?php echo $soc_Skoda_intervallladenold ?>">
+											<span class="form-text small">
+												Wie oft das Fahrzeug abgefragt wird, wenn geladen wird. Angabe in Minuten.
+											</span>
+										</div>
+									</div>
+									<div class="alert alert-info">
+										Wenn beim Anstecken des Fahrzeugs kein aktueller SoC von der API vorliegt kann der aktuelle SoC (am Display oder über einen Browser) angegeben werden.
+										Anhand des Zählers im Ladepunkt wird dann der aktuelle SoC interpoliert. Jeder neue Wert von der API startet die Interpolation neu.
+										Ausschlaggebend für die Qualität dieses Moduls sind die beiden Einstellungen "Akkugröße" und "Wirkungsgrad".<br>
+									</div>
+									<div class="form-row mb-1">
+												<label for="skoda_akkuglp1" class="col-md-4 col-form-label">Akkugröße in kWh bei manueller Berechnung</label>
+												<div class="col">
+													<input class="form-control" type="number" min="1" step="1" name="akkuglp1" id="skoda_akkuglp1" value="<?php echo $akkuglp1old ?>">
+													<span class="form-text small">
+														Angabe der Netto-Kapazität der Fahrzeugbatterie in kWh. Dient zur Berechnung des manuellen SoC.<br>Für Citiog-eIv 32KWh
+													</span>
+												</div>
+									</div>
+									<div class="form-row mb-1">
+												<label for="skoda_wirkungsgradlp1" class="col-md-4 col-form-label">Wirkungsgrad Ladeelektronik bei manueller Berechnung</label>
+												<div class="col">
+													<input class="form-control" type="number" min="1" step="1" max="100" name="wirkungsgradlp1" id="skoda_wirkungsgradlp1" value="<?php echo $wirkungsgradlp1old ?>">
+													<span class="form-text small">
+														Wert in Prozent, der den gemittelten Wirkungsgrad der Ladeelektronik angibt.<br>
+														Für Citigo-eiv: 95-97 Prozent<br>
+														Durch Verluste in der Ladeelektronik (z. B. Umwandlung Wechselspannung in Gleichspannung) gelangt nicht die komplette Energie, welche durch den Zähler in der Wallbox gemesen wird, im Akku des Fahrzeugs.
+														Liegen die Angaben der Wallbox und des Fahrzeugs nach der Ladung mehrere Prozent auseinander, dann kann mit dieser Einstellung eine Feinabstimmung erfolgen:<br>
+														SoC an der Wallbox zu hoch: Wirkungsgrad um ein paar Prozent reduzieren<br>
+														SoC an der Wallbox zu gering: Wirkungsgrad um ein paar Prozent erhöhen
+													</span>
+												</div>
+									</div>
+  							   </div>
 							</div>
 							<div id="socmhttp" class="hide">
 								<div class="form-group">
@@ -2212,6 +2272,7 @@
 							hideSection('#socmyopel');
 							hideSection('#socpsa');
 							hideSection('#socmanual');
+							hideSection('#socmanualSkoda');
 							hideSection('#soctronity');
 							hideSection('#socoldevccwarning');
 							hideSection('#socsupportinfo');
@@ -2312,6 +2373,9 @@
 								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3144')
 								showSection('#socsupportinfo');
 								showSection('#socmanual');
+							}
+							if($('#socmodul').val() == 'soc_manualSkoda') {
+								showSection('#socmanualSkoda');
 							}
 							if($('#socmodul').val() == 'soc_tronity') {
 								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3142')
@@ -2820,6 +2884,7 @@
 										<option <?php if($socmodul1old == "soc_evcclp2") echo "selected" ?> value="soc_evcclp2">EVCC</option>
 										<option <?php if($socmodul1old == "soc_evnotifys1") echo "selected" ?> value="soc_evnotifys1">EVNotify</option>
 										<option <?php if($socmodul1old == "soc_http1") echo "selected" ?> value="soc_http1">HTTP</option>
+										<option <?php if($socmodul1old == "soc_manuallp2Skoda") echo "selected" ?> value="soc_manuallp2Skoda">Skoda-API & Manuell + Berechnung</option>
 										<option <?php if($socmodul1old == "soc_manuallp2") echo "selected" ?> value="soc_manuallp2">Manuell + Berechnung</option>
 										<option <?php if($socmodul1old == "soc_mqtt") echo "selected" ?> value="soc_mqtt">MQTT</option>
 										<option <?php if($socmodul1old == "soc_tronitylp2") echo "selected" ?> value="soc_tronitylp2">Tronity</option>
@@ -3193,6 +3258,64 @@
 											<input class="form-control" type="text" name="hsocip1" id="hsocip1" value="<?php echo htmlspecialchars($hsocip1old) ?>">
 											<span class="form-text small">
 												Gültige Werte none, "url". URL für die Abfrage des Soc, Antwort muss der reine Zahlenwert sein.
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="socmanuallp2Skoda" class="hide">
+								<div class="form-group">
+									<div class="form-row mb-1">
+										<label for="skodaurl2" class="col-md-4 col-form-label">Abfrage URL</label>
+										<div class="col">
+											<input class="form-control" type="text" name="skodaurl2" id="skodaurl2" value="<?php echo htmlspecialchars($skodaurl2old) ?>">
+											<span class="form-text small">
+												Gültige Werte none, "url". URL für die Abfrage des Soc, Antwort muss der reine Zahlenwert sein.
+											</span>
+										</div>
+									</div>
+									<div class="form-row mb-1">
+										<label for="soc_Skoda_intervall2" class="col-md-4 col-form-label">Abfrageintervall Standby</label>
+										<div class="col">
+											<input class="form-control" type="text" name="soc_Skoda_intervall2" id="soc_Skoda_intervall2" value="<?php echo $soc_Skoda_intervall2old ?>">
+											<span class="form-text small">
+												Wie oft das Fahrzeug abgefragt wird, wenn nicht geladen wird. Angabe in Minuten.
+											</span>
+										</div>
+									</div>
+									<div class="form-row mb-1">
+										<label for="soc_Skoda_intervallladen2" class="col-md-4 col-form-label">Abfrageintervall Ladevorgang</label>
+										<div class="col">
+											<input class="form-control" type="text" name="soc_Skoda_intervallladen2" id="soc_Skoda_intervallladen2" value="<?php echo $soc_Skoda_intervallladen2old ?>">
+											<span class="form-text small">
+												Wie oft das Fahrzeug abgefragt wird, wenn geladen wird. Angabe in Minuten.
+											</span>
+										</div>
+									</div>
+									<div class="alert alert-info">
+										Beim Anstecken des Fahrzeugs muss der aktuelle SoC (am Display oder über einen Browser) angegeben werden.
+										Anhand des Zählers im Ladepunkt wird dann der aktuelle SoC errechnet. Ausschlaggebend für die Qualität dieses Moduls sind die beiden Einstellungen "Akkugröße" und "Wirkungsgrad".<br>
+									</div>
+									<div class="form-row mb-1">
+										<label for="skoda_akkuglp2" class="col-md-4 col-form-label">Akkugröße in kWh</label>
+										<div class="col">
+											<input class="form-control" type="number" min="1" step="1" name="akkuglp2" id="skoda_akkuglp2" value="<?php echo $akkuglp2old ?>">
+											<span class="form-text small">
+											Angabe der Netto-Kapazität der Fahrzeugbatterie in kWh. Dient zur Berechnung des manuellen SoC.<br>Für Citiog-eIv 32KWh
+											</span>
+										</div>
+									</div>
+									<div class="form-row mb-1">
+										<label for="skoda_wirkungsgradlp2" class="col-md-4 col-form-label">Wirkungsgrad Ladeelektronik</label>
+										<div class="col">
+											<input class="form-control" type="number" min="1" step="1" max="100" name="wirkungsgradlp2" id="skoda_wirkungsgradlp2" value="<?php echo $wirkungsgradlp2old ?>">
+											<span class="form-text small">
+														Wert in Prozent, der den gemittelten Wirkungsgrad der Ladeelektronik angibt.<br>
+														Für Citigo-eiv: 95-97 Prozent<br>
+														Durch Verluste in der Ladeelektronik (z. B. Umwandlung Wechselspannung in Gleichspannung) gelangt nicht die komplette Energie, welche durch den Zähler in der Wallbox gemesen wird, im Akku des Fahrzeugs.
+														Liegen die Angaben der Wallbox und des Fahrzeugs nach der Ladung mehrere Prozent auseinander, dann kann mit dieser Einstellung eine Feinabstimmung erfolgen:<br>
+														SoC an der Wallbox zu hoch: Wirkungsgrad um ein paar Prozent reduzieren<br>
+														SoC an der Wallbox zu gering: Wirkungsgrad um ein paar Prozent erhöhen
 											</span>
 										</div>
 									</div>
@@ -4084,6 +4207,7 @@
 							hideSection('#socmintervall2');
 							hideSection('#socmintervallladen2');
 							hideSection('#socmanuallp2');
+							hideSection('#socmanuallp2Skoda');
 							hideSection('#soctronitylp2');
 							hideSection('#socevcclp2');
 							hideSection('#socmkialp2');
@@ -4202,6 +4326,9 @@
 								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3144')
 								showSection('#socsupportinfolp2');
 								showSection('#socmanuallp2');
+							}
+							if($('#socmodul1').val() == 'soc_manuallp2Skoda') {
+								showSection('#socmanuallp2Skoda');
 							}
 							if($('#socmodul1').val() == 'soc_volvolp2') {
 								showSection('#socmuser2');
