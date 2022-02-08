@@ -77,26 +77,26 @@ def getserial():
         return "0000000000000000"
 
 
-def log(msg):
+def dolog(msg):
 	timestamp = datetime.now().strftime(format = "%Y-%m-%d %H:%M:%S")
 	file = open('/var/www/html/openWB/ramdisk/mqtt.log', 'a')
-	file.write("%s %s\n" % (timestamp, msg) )
+	file.write("%s %s \n" % (timestamp, msg) )
 	file.close()
 
-log("mqttsub starting...\n")	
+dolog("mqttsub starting...\n")	
 
 #############################################	
 class Ramdisk:
 	def	__init__(self, rambase):
 		self.rambase=rambase
-		log("ramdisk %s" % (rambase ) )  
+		dolog("ramdisk %s" % (rambase ) )  
 
 	def write(self, name,val, debug=False):
 		fn=self.rambase+'/'+name
 		with open(fn,'w' ) as f:
 			f.write(str(val))
 		if True or debug:
-			log("write ramdisk %s = [%s]" % (fn, val ) )
+			dolog("write ramdisk %s = [%s]" % (fn, val ) )
 		return True  
 
 	def readint(self, name, defval='0', debug=False):
@@ -106,10 +106,10 @@ class Ramdisk:
 				val=f.read().rstrip("\n")
 		except:
 			val = defval
-			log("ramdisk.readint %s  not found used default [%s]" % (fn, val ) )
+			dolog("ramdisk.readint %s  not found used default [%s]" % (fn, val ) )
 			return int(val)
 		if debug:
-			log("read ramdiskI %s = [%s]" % (fn, val ) )  
+			dolog("read ramdiskI %s = [%s]" % (fn, val ) )  
 		return int(val)
 
 	def readfloat(self, name, defval='0.0', debug=False):
@@ -119,10 +119,10 @@ class Ramdisk:
 				val=f.read().rstrip("\n")
 		except:
 			val = defval
-			log("ramdisk.readfloat %s  not found used default [%s]" % (fn, val ) )
+			dolog("ramdisk.readfloat %s  not found used default [%s]" % (fn, val ) )
 		else:
 			if debug:
-				log("read ramdiskF %s = [%s]" % (fn, val ) )  
+				dolog("read ramdiskF %s = [%s]" % (fn, val ) )  
 		return float(val)
 
 	def readstr(self, name, defval='', debug=False):
@@ -132,10 +132,10 @@ class Ramdisk:
 				val=f.read().rstrip("\n")
 		except:
 			val = defval
-			log("ramdisk.readstr %s  not found used default [%s]" % (fn, val ) )
+			dolog("ramdisk.readstr %s  not found used default [%s]" % (fn, val ) )
 		else:
 			if debug:
-				log("read ramdiskS %s = [%s]" % (fn, val ) )  
+				dolog("read ramdiskS %s = [%s]" % (fn, val ) )  
 		return str(val)
 
 
@@ -150,15 +150,15 @@ emailallowed = '^([\w\.]+)([\w]+)@(\w{2,})\.(\w{2,})$'
 
 ramdisk = Ramdisk('/var/www/html/openWB/ramdisk')
 
-#log("int [%s] " %  ramdisk.readint('int')  )
-#log("int [%s] nf" %  ramdisk.readint('intx')  )
-#log("int [%s] nf" %  ramdisk.readint('intx',0)  )
-#log("float [%s] " %  ramdisk.readfloat('float')  )
-#log("float [%s] " %  ramdisk.readfloat('float2')  )
-#log("float [%s] nf" %  ramdisk.readfloat('float3',0.0 )  )
-#log("str [%s] " %  ramdisk.readstr('str')  )
-#log("str [%s] " %  ramdisk.readstr('str','a')  )
-#log("str [%s] nf" %  ramdisk.readstr('str3','none')  )
+#dolog("int [%s] " %  ramdisk.readint('int')  )
+#dolog("int [%s] nf" %  ramdisk.readint('intx')  )
+#dolog("int [%s] nf" %  ramdisk.readint('intx',0)  )
+#dolog("float [%s] " %  ramdisk.readfloat('float')  )
+#dolog("float [%s] " %  ramdisk.readfloat('float2')  )
+#dolog("float [%s] nf" %  ramdisk.readfloat('float3',0.0 )  )
+#dolog("str [%s] " %  ramdisk.readstr('str')  )
+#dolog("str [%s] " %  ramdisk.readstr('str','a')  )
+#dolog("str [%s] nf" %  ramdisk.readstr('str3','none')  )
 
 
 # connect to broker and subscribe to set topics
@@ -168,11 +168,6 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("openWB/set/#", 2)
     client.subscribe("openWB/config/set/#", 2)
 
-def log(msg):
-	file = open('/var/www/html/openWB/ramdisk/mqtt.log', 'a')
-	file.write(msg)
-	file.close()
-
 # handle each set topic
 def on_message(client, userdata, msg):
     global numberOfSupportedDevices
@@ -181,7 +176,8 @@ def on_message(client, userdata, msg):
         lock.acquire()
         try:
             setTopicCleared = False
-            log( "Topic: [%s] Message: [%s]" % (msg.topic, str(msg.payload.decode("utf-8"))) )
+            payload=msg.payload.decode("utf-8")
+            dolog( "Topic: [%s] Message: [%s]" % (msg.topic, payload ) )
 
             if (( "openWB/set/lp" in msg.topic) and ("ChargePointEnabled" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
@@ -1697,7 +1693,7 @@ def on_message(client, userdata, msg):
 
             # clear all set topics if not already done
             if ( not(setTopicCleared) ):
-                # log(" now clear [%s]" % (msg.topic) )  
+                #dolog(" now clear [%s]" % (msg.topic) )  
                 client.publish(msg.topic, "", qos=0, retain=True)
 
         finally:

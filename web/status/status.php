@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
-
 	<head>
 		<base href="/openWB/web/">
-
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,12 +19,10 @@
 		<meta name="msapplication-TileColor" content="#00a8ff">
 		<meta name="msapplication-config" content="img/favicons/browserconfig.xml">
 		<meta name="theme-color" content="#ffffff">
-
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-4.4.1/bootstrap.min.css">
 		<!-- Normalize -->
 		<link rel="stylesheet" type="text/css" href="css/normalize-8.0.1.css">
-
 		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5.8.2/css/all.css">
 		<!-- include settings-style -->
 		<link rel="stylesheet" type="text/css" href="status/status_style.css?ver=20210209">
@@ -465,7 +461,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- Smarthome -->
 				<div class="card border-info " id="Smarthome">
 					<div class="card-header bg-info">
@@ -495,12 +491,12 @@
 										<th scope="row">Maximale Speicherladung [W]</th>
 										<td><div id="wmaxspeicherladung"></div></td>
 									</tr>
-								</tbody>								
+								</tbody>
 							</table>
 						</div>
 					</div>
-				</div>			
-				
+				</div>
+
 				<!--Verbraucher-->
 				<?php for( $loadsNum = 1; $loadsNum <= 2; $loadsNum++ ){ ?>
 					<div class="card border-secondary hide" id="loads<?php echo $loadsNum ?>">

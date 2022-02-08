@@ -410,7 +410,6 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/global
 	// called by handlevar
 	processPreloader(mqttmsg);
-
 	// color theme
 	if (mqttmsg == 'openWB/global/WHouseConsumption') {
 		wbdata.updateGlobal("housePower", makeInt(mqttpayload));
@@ -629,8 +628,6 @@ function processHousebatteryMessages(mqttmsg, mqttpayload) {
 			$('#priorityModeBtns').hide();
 		}
 	}
-
-
 }
 
 function processSystemMessages(mqttmsg, mqttpayload) {

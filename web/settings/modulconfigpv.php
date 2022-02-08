@@ -193,7 +193,6 @@
 								</span>
 							</div>
 						</div>
-						</div>
 						<div id="pvsunways" class="hide">
 							<div class="form-row mb-1">
 								<label for="wrsunwaysip" class="col-md-4 col-form-label">IP Adresse</label>

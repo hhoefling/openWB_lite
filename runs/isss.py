@@ -482,8 +482,7 @@ def getmeter():
                     DeviceValues.update({'lp1watt': str(lp1llg)})
                 if parentWB != "0":
                     remoteclient.publish("openWB/lp/"+parentCPlp1+"/W", payload=str(lp1llg), qos=0, retain=True)
-                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/power", payload=str(lp1llg),
-                                         qos=0, retain=True)
+                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/power", payload=str(lp1llg), qos=0, retain=True)
                     remoteclient.loop(timeout=2.0)
             if "lp1voltage1" in key:
                 if DeviceValues[str(key)] != str(lp1voltage1):

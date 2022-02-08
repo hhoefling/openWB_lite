@@ -456,7 +456,7 @@
 					</div> 
 				</div>
 			</div>
-			<div class="row col-xs-12 text-center" style="font-size: 15px; height: 20px; top: 320px; left: 00px; position: absolute; width: 800px; color: white; text-align:center;"> 
+			<div class="row col-xs-12 text-center" style="font-size: 15px; height: 20px; top: 320px; left: 00px; position: absolute; width: 820px; color: white; text-align:center;"> 
 				<div class="col-xs-2">
 					<div id="sofortllbtn">
 						<input type="submit" class="1sofortll btn btn-blue btn-block"  name="sofortllbtn" value="Ladestrom">
@@ -477,7 +477,7 @@
 						<?php
 					} else {
 						?>
-						<div class="col-xs-3"></div>
+						<div class="col-xs-2"></div>
 						<?php
 					}
 				?>
