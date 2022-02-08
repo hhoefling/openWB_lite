@@ -115,7 +115,7 @@
 
 		// check for manual ev soc module on lp1
 		if( array_key_exists( 'socmodul', $_POST ) ){
-			if( $_POST['socmodul'] == 'soc_manual' ){
+            if (preg_match("/^soc_manual/", $_POST['socmodul'] )) {
 				exec( 'mosquitto_pub -t openWB/lp/1/boolSocManual -r -m "1"' );
 			} else {
 				exec( 'mosquitto_pub -t openWB/lp/1/boolSocManual -r -m "0"' );
@@ -123,7 +123,7 @@
 		}
 		// check for manual ev soc module on lp2
 		if( array_key_exists( 'socmodul1', $_POST ) ){
-			if( $_POST['socmodul1'] == 'soc_manuallp2' ){
+            if (preg_match("/^soc_manuallp2/", $_POST['socmodul1'] )) {
 				exec( 'mosquitto_pub -t openWB/lp/2/boolSocManual -r -m "1"' );
 			} else {
 				exec( 'mosquitto_pub -t openWB/lp/2/boolSocManual -r -m "0"' );
