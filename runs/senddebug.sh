@@ -35,10 +35,10 @@ echo "############################ rfid.log ##############" >> $debugFile
 echo "$(cat /var/www/html/openWB/ramdisk/rfid.log)" >> $debugFile
 
 for currentConfig in /etc/mosquitto/conf.d/99-bridge-*; do
-    if [ -f "$currentConfig" ]; then
-        echo "############################ mqtt bridge '$currentConfig' ######" >> $debugFile
-        sudo grep -F -v -e password "$currentConfig" | sed '/^#/ d'>> $debugFile
-    fi
+	if [ -f "$currentConfig" ]; then
+		echo "############################ mqtt bridge '$currentConfig' ######" >> $debugFile
+		sudo grep -F -v -e password "$currentConfig" | sed '/^#/ d'>> $debugFile
+	fi
 done
 
 echo "############################ config ##############" >> $debugFile
