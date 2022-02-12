@@ -71,6 +71,13 @@ openwbDebugLog "MAIN" 1 "**** Regulation loop start ****"
 
 declare -r IsFloatingNumberRegex='^-?[0-9.]+$'
 
+if pidof -x -o $$ "${BASH_SOURCE[0]}"
+then
+	openwbDebugLog "MAIN" 0 "Previous regulation loop still running."
+	#exit
+fi
+
+
 if (( slavemode == 1)); then
 	randomSleep=$(<ramdisk/randomSleepValue)
 	if [[ -z $randomSleep ]] || [[ "${randomSleep}" == "0" ]] || ! [[ "${randomSleep}" =~ $IsFloatingNumberRegex ]]; then
