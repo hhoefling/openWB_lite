@@ -72,7 +72,7 @@ loadvars(){
 	# EVSE DIN Plug State
 	declare -r IsNumberRegex='^[0-9]+$'
 	if [[ $evsecon == "modbusevse" ]]; then
-		if [[ "$modbusevseid" == 0 ]]; then
+		if [[ "$modbusevseid" == "0" ]]; then
 			if [ -f /var/www/html/openWB/ramdisk/evsemodulconfig ]; then
 				modbusevsesource=$(<ramdisk/evsemodulconfig)
 				modbusevseid=1
@@ -1882,11 +1882,11 @@ loadvars(){
 		declare o${mqttconfvar[$mq]}
 		declare ${mqttconfvar[$mq]}
 
-		tempnewname=${mqttconfvar[$mq]}
+		#tempnewname=${mqttconfvar[$mq]}
 
 		tempoldname=o${mqttconfvar[$mq]}
 		tempoldname=$(<ramdisk/mqtt"${mqttconfvar[$mq]}")
-		tempnewname="${mqttconfvar[$mq]}"
+		#tempnewname="${mqttconfvar[$mq]}"
 		if [[ "$tempoldname" != "$theval" ]]; then
 			tempPubList="${tempPubList}\nopenWB/${mq}=${theval}"
 			echo $theval > ramdisk/mqtt${mqttconfvar[$mq]}
@@ -1907,7 +1907,12 @@ loadvars(){
 	#		echo $actualvar > ramdisk/mqtt$val
 	#	fi
 	#done
-	echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
-	runs/pubmqtt.sh &
+	
+echo "loadvars.Publist:"
+echo -e $tempPubList
+echo "Running Python: runs/mqttpub.py -q 0 -r &"
+echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
+
+runs/pubmqtt.sh &
 
 }
