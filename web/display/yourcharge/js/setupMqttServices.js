@@ -1,5 +1,6 @@
 /**
  * Functions to provide services for MQTT
+ * UTF8 äöüÄÖPäöü
  *
  * @author Kevin Wieland
  * @author Michael Ortenstein

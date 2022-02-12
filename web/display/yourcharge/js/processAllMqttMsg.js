@@ -1,5 +1,6 @@
 /**
  * Functions to update graph and gui values via MQTT-messages
+ * utf8  äöüÄÖÜäöü zur auto-erkennung durch editor
  *
  * @author Kevin Wieland
  * @author Michael Ortenstein
