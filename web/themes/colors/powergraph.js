@@ -49,7 +49,7 @@ class PowerGraph {
     this.batteryColor = 'var(--color-battery)';
     this.batSocColor = 'var(--color-title)';
     var i;
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < 3; i++) {
       this.colors["lp" + i] = wbdata.chargePoint[i].color;
     }
     for (i = 0; i < 8; i++) {
@@ -342,8 +342,11 @@ class PowerGraph {
     var i;
     values.lp0 = +elements[4];
     values.lp1 = +elements[5];
-    for (i = 2; i <=8; i++) {
+    for (i = 2; i <3; i++) {
       values["lp" + i] = +elements[11 + i];
+    }
+    for (i = 3; i <=8; i++) {
+      values["lp" + i] = 0;
     }
     values.soc1 = +elements[9];
     values.soc2 = +elements[10];
@@ -392,8 +395,11 @@ class PowerGraph {
     for (i = 0; i < 3; i++) {
       values["lp" + i] = this.calcValue(4 + i, elements, oldElements);
     }
-    for (i = 3; i < 8; i++) {
+    for (i = 3; i < 4; i++) {
       values["lp" + i] = this.calcValue(12 + i, elements, oldElements);
+    }
+    for (i = 4; i < 8; i++) {
+      values["lp" + i] = 0;
     }
     values.soc1 = +elements[21];
     values.soc2 = +elements[22];
@@ -439,8 +445,11 @@ class PowerGraph {
     for (i = 0; i < 3; i++) {
       values["lp" + i] = this.calcMonthlyValue(4 + i, elements, oldElements);
     }
-    for (i = 3; i < 8; i++) {
+    for (i = 3; i < 4; i++) {
       values["lp" + i] = this.calcMonthlyValue(12 + i - 3, elements, oldElements);
+    }
+    for (i = 4; i < 8; i++) {
+      values["lp" + i] = 0;
     }
     values.soc1 = +elements[21];
     values.soc2 = +elements[22];

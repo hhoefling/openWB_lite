@@ -182,6 +182,9 @@ class PowerGraph {
     for (i = 2; i < 3; i++) {	// 3
       values["lp" + i] = +elements[11 + i];
     }
+    for (i = 3; i < 8; i++) {	// 4..8
+      values["lp" + i] = 0; 
+    }
     values.soc1 = +elements[9];
     values.soc2 = +elements[10];
 
