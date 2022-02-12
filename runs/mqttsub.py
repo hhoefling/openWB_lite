@@ -1527,20 +1527,20 @@ def on_message(client, userdata, msg):
                     f.close()
             if (( "openWB/set/lp" in msg.topic) and ("faultState" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if ( (1 <= devicenumb <= numberOfSupportedLP ) and (0 <= int(msg.payload) <= 2) ):
-                    client.publish("openWB/lp/"+str(devicenumb)+"/faultState", msg.payload.decode("utf-8"), qos=0, retain=True)
+                if ( (1 <= devicenumb <= numberOfSupportedLP ) and (0 <= int(payload) <= 2) ):
+                    client.publish("openWB/lp/"+str(devicenumb)+"/faultState", str(payload), qos=0, retain=True)
             if (( "openWB/set/lp" in msg.topic) and ("faultStr" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
                 if (1 <= devicenumb <= numberOfSupportedLP):
-                    client.publish("openWB/lp/"+str(devicenumb)+"/faultStr", msg.payload.decode("utf-8"), qos=0, retain=True)
+                    client.publish("openWB/lp/"+str(devicenumb)+"/faultStr", str(payload), qos=0, retain=True)
             if (( "openWB/set/lp" in msg.topic) and ("socFaultState" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if ( (1 <= devicenumb <= 2) and (0 <= int(msg.payload) <= 2) ):
-                    client.publish("openWB/lp/"+str(devicenumb)+"/socFaultState", msg.payload.decode("utf-8"), qos=0, retain=True)
+                if ( (1 <= devicenumb <= 2) and (0 <= int(payload) <= 2) ):
+                    client.publish("openWB/lp/"+str(devicenumb)+"/socFaultState", str(payload), qos=0, retain=True)
             if (( "openWB/set/lp" in msg.topic) and ("socFaultStr" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
                 if (1 <= devicenumb <= 2):
-                    client.publish("openWB/lp/"+str(devicenumb)+"/socFaultStr", msg.payload.decode("utf-8"), qos=0, retain=True)
+                    client.publish("openWB/lp/"+str(devicenumb)+"/socFaultStr", str(payload), qos=0, retain=True)
             if (( "openWB/set/lp" in msg.topic) and ("socKM" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
                 if (1 <= devicenumb <= numberOfSupportedLP):
@@ -1553,8 +1553,8 @@ def on_message(client, userdata, msg):
             # llmodule = getConfigValue("evsecon")
             if (( "openWB/set/lp" in msg.topic) and ("plugStat" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
-                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= int(msg.payload) <= 1) ):
-                    plugstat=int(msg.payload.decode("utf-8"))
+                if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= int(payload) <= 1) ):
+                    plugstat=int(payload)
                     if ( devicenumb == 1 ):
                         filename = "plugstat"
                     elif ( devicenumb == 2 ):

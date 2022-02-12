@@ -107,13 +107,13 @@ isnacht()  # $1 $2 $3
 
 
 
-nachtlademodus(){
+private_nachtlademodus(){
 	if [[ $nachtladen == "1" ]]; then
         isnacht 10#$H 10#$nachtladenabuhr 10#$nachtladenbisuhr
         doit=$?
 		if [ $doit -eq 1 ] ; then
 #		if (( nachtladenabuhr <= 10#$H && 10#$H <= 24 )) || (( 0 <= 10#$H && 10#$H < nachtladenbisuhr )); then
-      openwbDebugLog "MAIN" 0 "nachtladen Year doit LP1" 
+      		openwbDebugLog "MAIN" 0 "nachtladen Year doit LP1" 
 			nachtladenstate=1
 			dayoftheweek=$(date +%w)
 			currenthour=$(date +%k)
@@ -425,9 +425,13 @@ nachtlademodus(){
 	fi
 }
 
-prenachtlademodus(){
-	if { (( lademodus == 0 )) && (( nlakt_sofort == 1 )); } || { (( lademodus == 1 )) && (( nlakt_minpv == 1 )); } || { (( lademodus == 2 )) && (( nlakt_nurpv == 1 )); } || { (( lademodus == 4 )) && (( nlakt_standby == 1 )); } then
-		nachtlademodus
+prenachtlademodus()
+{
+	if { (( lademodus == 0 )) && (( nlakt_sofort  == 1 )); } \
+	|| { (( lademodus == 1 )) && (( nlakt_minpv   == 1 )); } \
+	|| { (( lademodus == 2 )) && (( nlakt_nurpv   == 1 )); } \
+	|| { (( lademodus == 4 )) && (( nlakt_standby == 1 )); } then
+		private_nachtlademodus
 	else
 		echo 0 > ramdisk/nachtladenstate
 		echo 0 > ramdisk/nachtladen2state

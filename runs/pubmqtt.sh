@@ -1,5 +1,5 @@
 #!/bin/bash
-# Alle Werte aus ENV übergeben
+# Alle Werte aus ENV ?bergeben
 # Asyncron gestartet am Ende von loadvars.sh und slavemode.sh 
 
 declare -A mqttvar
@@ -308,7 +308,7 @@ done
 #tempPubList="${tempPubList}\nopenWB/global/diskFree=$(echo ${sysinfo} | jq -r '.diskfree')"
 
 
-echo "Publist:"
+echo "pubmqtt.Publist:"
 echo -e $tempPubList
 echo "Running Python: runs/mqttpub.py -q 0 -r &"
 echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &

@@ -82,7 +82,7 @@ fi
 
 # initialize automatic phase switching
 if (( u1p3paktiv == 1 )); then
-	log "triginit..."
+	log "triginit...quick init of phase switching with default pause duration (2s)"
 	# quick init of phase switching with default pause duration (2s)
 	sudo python /var/www/html/openWB/runs/triginit.py
 fi
