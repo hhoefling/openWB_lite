@@ -38,18 +38,19 @@ if [[ $lastmanagements2 == "1" ]]; then
 		mosquitto_pub -t openWB/set/system/PerformUpdate -r -h $chargep3ip -m "1"
 	fi
 fi
-for i in $(seq 4 8); do
-	lastmanagementVar="lastmanagementlp$i"
-	evseconVar="evseconlp$i"
-	if [[ ${!lastmanagementVar} == "1" ]]; then
-		if [[ ${!evseconVar} == "extopenwb" ]]; then
-			echo "starting update on extOpenWB on LP$i"
-			chargepIpVar="chargep${i}ip"
-			mosquitto_pub -t openWB/set/system/releaseTrain -r -h ${!chargepIpVar} -m "$releasetrain"
-			mosquitto_pub -t openWB/set/system/PerformUpdate -r -h ${!chargepIpVar} -m "1"
-		fi
-	fi
-done
+
+#for i in $(seq 4 8); do
+#	lastmanagementVar="lastmanagementlp$i"
+#	evseconVar="evseconlp$i"
+#	if [[ ${!lastmanagementVar} == "1" ]]; then
+#		if [[ ${!evseconVar} == "extopenwb" ]]; then
+#			echo "starting update on extOpenWB on LP$i"
+#			chargepIpVar="chargep${i}ip"
+#			mosquitto_pub -t openWB/set/system/releaseTrain -r -h ${!chargepIpVar} -m "$releasetrain"
+#			mosquitto_pub -t openWB/set/system/PerformUpdate -r -h ${!chargepIpVar} -m "1"
+#		fi
+#	fi
+#done
 
 sleep 15
 

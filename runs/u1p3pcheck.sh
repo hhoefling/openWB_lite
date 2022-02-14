@@ -1,5 +1,12 @@
 #!/bin/bash
-
+# Low Level driver.
+# update Haredware to new State
+#
+# called only from u1p3p.sh
+#
+# Para 1 | 3 | stop | start | startslow
+# 
+#
 # change to 1 phases
 if [[ "$1" == "1" ]]; then
 	# chargepoint 1
@@ -41,60 +48,63 @@ if [[ "$1" == "1" ]]; then
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "ipevse" && $u1p3plp3aktiv == "1" ]]; then
 		sudo python runs/u1p3premote.py -a $evseiplp3 -i $u1p3plp3id -p 1 -d $u1p3ppause
 	fi
-	# chargepoint 4
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep4ip -m "1"
-	fi
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "ipevse" && $u1p3plp4aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp4 -i $u1p3plp4id -p 1 -d $u1p3ppause
-	fi
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "owbpro" ]]; then
-		curl -s -X POST --data "phasetarget=1" $owbpro4ip/connect.php
-	fi
 
-	# chargepoint 5
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep5ip -m "1"
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "ipevse" && $u1p3plp5aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp5 -i $u1p3plp5id -p 1 -d $u1p3ppause
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "owbpro" ]]; then
-		curl -s -X POST --data "phasetarget=1" $owbpro5ip/connect.php
-	fi
+#	# chargepoint 4
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep4ip -m "1"
+#	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "ipevse" && $u1p3plp4aktiv == "1" ]]; then
+#		sudo python runs/u1p3premote.py -a $evseiplp4 -i $u1p3plp4id -p 1 -d $u1p3ppause
+#	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "owbpro" ]]; then
+#		curl -s -X POST --data "phasetarget=1" $owbpro4ip/connect.php
+#	fi
 
-	# chargepoint 6
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep6ip -m "1"
-	fi
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "ipevse" && $u1p3plp6aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp6 -i $u1p3plp6id -p 1 -d $u1p3ppause
-	fi
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "owbpro" ]]; then
-		curl -s -X POST --data "phasetarget=1" $owbpro6ip/connect.php
-	fi
-	# chargepoint 7
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep7ip -m "1"
-	fi
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "ipevse" && $u1p3plp7aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp7 -i $u1p3plp7id -p 1 -d $u1p3ppause
-	fi
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "owbpro" ]]; then
-		curl -s -X POST --data "phasetarget=1" $owbpro7ip/connect.php
-	fi
+#	# chargepoint 5
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep5ip -m "1"
+#	fi
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "ipevse" && $u1p3plp5aktiv == "1" ]]; then
+#		sudo python runs/u1p3premote.py -a $evseiplp5 -i $u1p3plp5id -p 1 -d $u1p3ppause
+#	fi
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "owbpro" ]]; then
+#		curl -s -X POST --data "phasetarget=1" $owbpro5ip/connect.php
+#	fi
 
-	# chargepoint 8
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep8ip -m "1"
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "ipevse" && $u1p3plp8aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp8 -i $u1p3plp8id -p 1 -d $u1p3ppause
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "owbpro" ]]; then
-		curl -s -X POST --data "phasetarget=1" $owbpro8ip/connect.php
-	fi
+#	# chargepoint 6
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep6ip -m "1"
+#	fi
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "ipevse" && $u1p3plp6aktiv == "1" ]]; then
+#		sudo python runs/u1p3premote.py -a $evseiplp6 -i $u1p3plp6id -p 1 -d $u1p3ppause
+#	fi
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "owbpro" ]]; then
+#		curl -s -X POST --data "phasetarget=1" $owbpro6ip/connect.php
+#	fi
 
+#	# chargepoint 7
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep7ip -m "1"
+#	fi
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "ipevse" && $u1p3plp7aktiv == "1" ]]; then
+#		sudo python runs/u1p3premote.py -a $evseiplp7 -i $u1p3plp7id -p 1 -d $u1p3ppause
+#	fi
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "owbpro" ]]; then
+#		curl -s -X POST --data "phasetarget=1" $owbpro7ip/connect.php
+#	fi
+
+#	# chargepoint 8
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep8ip -m "1"
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "ipevse" && $u1p3plp8aktiv == "1" ]]; then
+#		sudo python runs/u1p3premote.py -a $evseiplp8 -i $u1p3plp8id -p 1 -d $u1p3ppause
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "owbpro" ]]; then
+#		curl -s -X POST --data "phasetarget=1" $owbpro8ip/connect.php
+#	fi
+
+#  done
 	echo 1 > ramdisk/u1p3pstat
 fi
 
@@ -129,38 +139,39 @@ if [[ "$1" == "3" ]]; then
 		curl -s -X POST --data "phasetarget=3" $owbpro3ip/connect.php
 	fi
 
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep4ip -m "3"
-	fi
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "owbpro" ]]; then
-		curl -s -X POST --data "phasetarget=3" $owbpro4ip/connect.php
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep5ip -m "3"
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "owbpro" ]]; then
-		curl -s -X POST --data "phasetarget=3" $owbpro5ip/connect.php
-	fi
-
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep6ip -m "3"
-	fi
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "owbpro" ]]; then
-		curl -s -X POST --data "phasetarget=3" $owbpro6ip/connect.php
-	fi
-
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep7ip -m "3"
-	fi
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "owbpro" ]]; then
-		curl -s -X POST --data "phasetarget=3" $owbpro7ip/connect.php
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep8ip -m "3"
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "owbpro" ]]; then
-		curl -s -X POST --data "phasetarget=3" $owbpro8ip/connect.php
-	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep4ip -m "3"
+#	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "owbpro" ]]; then
+#		curl -s -X POST --data "phasetarget=3" $owbpro4ip/connect.php
+#	fi
+#
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep5ip -m "3"
+#	fi
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "owbpro" ]]; then
+#		curl -s -X POST --data "phasetarget=3" $owbpro5ip/connect.php
+#	fi
+#
+# if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "extopenwb" ]]; then
+# 	mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep6ip -m "3"
+#	fi
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "owbpro" ]]; then
+#		curl -s -X POST --data "phasetarget=3" $owbpro6ip/connect.php
+#	fi
+#
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep7ip -m "3"
+#	fi
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "owbpro" ]]; then
+#		curl -s -X POST --data "phasetarget=3" $owbpro7ip/connect.php
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/U1p3p -h $chargep8ip -m "3"
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "owbpro" ]]; then
+#		curl -s -X POST --data "phasetarget=3" $owbpro8ip/connect.php
+#	fi
 	if [[ $evsecon == "ipevse" ]]; then
 		sudo python runs/u1p3premote.py -a $evseiplp1 -i $u1p3plp2id -p 3 -d $u1p3ppause
 	fi
@@ -170,21 +181,22 @@ if [[ "$1" == "3" ]]; then
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "ipevse" && $u1p3plp3aktiv == "1" ]]; then
 		sudo python runs/u1p3premote.py -a $evseiplp3 -i $u1p3plp3id -p 3 -d $u1p3ppause
 	fi
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "ipevse" && $u1p3plp4aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp4 -i $u1p3plp4id -p 3 -d $u1p3ppause
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "ipevse" && $u1p3plp5aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp5 -i $u1p3plp5id -p 3 -d $u1p3ppause
-	fi
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "ipevse" && $u1p3plp6aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp6 -i $u1p3plp6id -p 3 -d $u1p3ppause
-	fi
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "ipevse" && $u1p3plp7aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp7 -i $u1p3plp7id -p 3 -d $u1p3ppause
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "ipevse" && $u1p3plp8aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp8 -i $u1p3plp8id -p 3 -d $u1p3ppause
-	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "ipevse" && $u1p3plp4aktiv == "1" ]]; then
+#		sudo python runs/u1p3premote.py -a $evseiplp4 -i $u1p3plp4id -p 3 -d $u1p3ppause
+#	fi
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "ipevse" && $u1p3plp5aktiv == "1" ]]; then
+#		sudo python runs/u1p3premote.py -a $evseiplp5 -i $u1p3plp5id -p 3 -d $u1p3ppause
+#	fi
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "ipevse" && $u1p3plp6aktiv == "1" ]]; then
+#		sudo python runs/u1p3premote.py -a $evseiplp6 -i $u1p3plp6id -p 3 -d $u1p3ppause
+#	fi
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "ipevse" && $u1p3plp7aktiv == "1" ]]; then
+#		sudo python runs/u1p3premote.py -a $evseiplp7 -i $u1p3plp7id -p 3 -d $u1p3ppause
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "ipevse" && $u1p3plp8aktiv == "1" ]]; then
+#		sudo python runs/u1p3premote.py -a $evseiplp8 -i $u1p3plp8id -p 3 -d $u1p3ppause
+#	fi
+# Done	
 	echo 3 > ramdisk/u1p3pstat
 fi
 
@@ -219,31 +231,31 @@ if [[ "$1" == "stop" ]]; then
 		echo $oldlls2 > ramdisk/tmpllsolls2
 		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep3ip -m "0"
 	fi
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "extopenwb" ]]; then
-		oldlllp4=$(<ramdisk/llsolllp4)
-		echo $oldlllp4 > ramdisk/tmpllsolllp4
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "0"
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "extopenwb" ]]; then
-		oldlllp5=$(<ramdisk/llsolllp5)
-		echo $oldlllp5 > ramdisk/tmpllsolllp5
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "0"
-	fi
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "extopenwb" ]]; then
-		oldlllp6=$(<ramdisk/llsolllp6)
-		echo $oldlllp6 > ramdisk/tmpllsolllp6
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "0"
-	fi
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "extopenwb" ]]; then
-		oldlllp7=$(<ramdisk/llsolllp7)
-		echo $oldlllp7 > ramdisk/tmpllsolllp7
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "0"
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "extopenwb" ]]; then
-		oldlllp8=$(<ramdisk/llsolllp8)
-		echo $oldlllp8 > ramdisk/tmpllsolllp8
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "0"
-	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "extopenwb" ]]; then
+#		oldlllp4=$(<ramdisk/llsolllp4)
+#		echo $oldlllp4 > ramdisk/tmpllsolllp4
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "0"
+#	fi
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "extopenwb" ]]; then
+#		oldlllp5=$(<ramdisk/llsolllp5)
+#		echo $oldlllp5 > ramdisk/tmpllsolllp5
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "0"
+#	fi
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "extopenwb" ]]; then
+#		oldlllp6=$(<ramdisk/llsolllp6)
+#		echo $oldlllp6 > ramdisk/tmpllsolllp6
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "0"
+#	fi
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "extopenwb" ]]; then
+#		oldlllp7=$(<ramdisk/llsolllp7)
+#		echo $oldlllp7 > ramdisk/tmpllsolllp7
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "0"
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "extopenwb" ]]; then
+#		oldlllp8=$(<ramdisk/llsolllp8)
+#		echo $oldlllp8 > ramdisk/tmpllsolllp8
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "0"
+#	fi
 
 	if [[ $evsecon == "ipevse" ]]; then
 		oldll=$(<ramdisk/llsoll)
@@ -265,31 +277,31 @@ if [[ "$1" == "stop" ]]; then
 		echo $oldlls2 > ramdisk/tmpllsolls2
 		runs/set-current.sh 0 s2
 	fi
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "ipevse" && $u1p3plp4aktiv == "1" ]]; then
-		oldlllp4=$(<ramdisk/llsolllp4)
-		echo $oldlllp4 > ramdisk/tmpllsolllp4
-		runs/set-current.sh 0 lp4
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "ipevse" && $u1p3plp5aktiv == "1" ]]; then
-		oldlllp5=$(<ramdisk/llsolllp5)
-		echo $oldlllp5 > ramdisk/tmpllsolllp5
-		runs/set-current.sh 0 lp5
-	fi
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "ipevse" && $u1p3plp6aktiv == "1" ]]; then
-		oldlllp6=$(<ramdisk/llsolllp6)
-		echo $oldlllp6 > ramdisk/tmpllsolllp6
-		runs/set-current.sh 0 lp6
-	fi
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "ipevse" && $u1p3plp7aktiv == "1" ]]; then
-		oldlllp7=$(<ramdisk/llsolllp7)
-		echo $oldlllp7 > ramdisk/tmpllsolllp7
-		runs/set-current.sh 0 lp7
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "ipevse" && $u1p3plp8aktiv == "1" ]]; then
-		oldlllp8=$(<ramdisk/llsolllp8)
-		echo $oldlllp8 > ramdisk/tmpllsolllp8
-		runs/set-current.sh 0 lp8
-	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "ipevse" && $u1p3plp4aktiv == "1" ]]; then
+#		oldlllp4=$(<ramdisk/llsolllp4)
+#		echo $oldlllp4 > ramdisk/tmpllsolllp4
+#		runs/set-current.sh 0 lp4
+#	fi
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "ipevse" && $u1p3plp5aktiv == "1" ]]; then
+#		oldlllp5=$(<ramdisk/llsolllp5)
+#		echo $oldlllp5 > ramdisk/tmpllsolllp5
+#		runs/set-current.sh 0 lp5
+#	fi
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "ipevse" && $u1p3plp6aktiv == "1" ]]; then
+#		oldlllp6=$(<ramdisk/llsolllp6)
+#		echo $oldlllp6 > ramdisk/tmpllsolllp6
+#		runs/set-current.sh 0 lp6
+#	fi
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "ipevse" && $u1p3plp7aktiv == "1" ]]; then
+#		oldlllp7=$(<ramdisk/llsolllp7)
+#		echo $oldlllp7 > ramdisk/tmpllsolllp7
+#		runs/set-current.sh 0 lp7
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "ipevse" && $u1p3plp8aktiv == "1" ]]; then
+#		oldlllp8=$(<ramdisk/llsolllp8)
+#		echo $oldlllp8 > ramdisk/tmpllsolllp8
+#		runs/set-current.sh 0 lp8
+#	fi
 fi
 
 if [[ "$1" == "start" ]]; then
@@ -318,26 +330,26 @@ if [[ "$1" == "start" ]]; then
 		oldlls2=$(<ramdisk/tmpllsolls2)
 		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep3ip -m "$oldlls1"
 	fi
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "extopenwb" ]]; then
-		oldlllp4=$(<ramdisk/tmpllsolllp4)
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$oldlllp4"
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "extopenwb" ]]; then
-		oldlllp5=$(<ramdisk/tmpllsolllp5)
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$oldlllp5"
-	fi
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "extopenwb" ]]; then
-		oldlllp6=$(<ramdisk/tmpllsolllp6)
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$oldlllp6"
-	fi
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "extopenwb" ]]; then
-		oldlllp7=$(<ramdisk/tmpllsolllp7)
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$oldlllp7"
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "extopenwb" ]]; then
-		oldlllp8=$(<ramdisk/tmpllsolllp8)
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$oldlllp8"
-	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "extopenwb" ]]; then
+#		oldlllp4=$(<ramdisk/tmpllsolllp4)
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$oldlllp4"
+#	fi
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "extopenwb" ]]; then
+#		oldlllp5=$(<ramdisk/tmpllsolllp5)
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$oldlllp5"
+#	fi
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "extopenwb" ]]; then
+#		oldlllp6=$(<ramdisk/tmpllsolllp6)
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$oldlllp6"
+#	fi
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "extopenwb" ]]; then
+#		oldlllp7=$(<ramdisk/tmpllsolllp7)
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$oldlllp7"
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "extopenwb" ]]; then
+#		oldlllp8=$(<ramdisk/tmpllsolllp8)
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$oldlllp8"
+#	fi
 
 	if [[ $lastmanagement == 1 && $evsecons1 == "modbusevse" && $u1p3plp2aktiv == "1" ]]; then
 		oldlls1=$(<ramdisk/tmpllsolls1)
@@ -356,26 +368,26 @@ if [[ "$1" == "start" ]]; then
 		oldlls2=$(<ramdisk/tmpllsolls2)
 		runs/set-current.sh $oldlls2 s2
 	fi
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "ipevse" && $u1p3plp4aktiv == "1" ]]; then
-		oldlllp4=$(<ramdisk/tmpllsolllp4)
-		runs/set-current.sh $oldlllp4 lp4
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "ipevse" && $u1p3plp5aktiv == "1" ]]; then
-		oldlllp5=$(<ramdisk/tmpllsolllp5)
-		runs/set-current.sh $oldlllp5 lp5
-	fi
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "ipevse" && $u1p3plp6aktiv == "1" ]]; then
-		oldlllp6=$(<ramdisk/tmpllsolllp6)
-		runs/set-current.sh $oldlllp6 lp6
-	fi
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "ipevse" && $u1p3plp7aktiv == "1" ]]; then
-		oldlllp7=$(<ramdisk/tmpllsolllp7)
-		runs/set-current.sh $oldlllp7 lp7
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "ipevse" && $u1p3plp8aktiv == "1" ]]; then
-		oldlllp8=$(<ramdisk/tmpllsolllp8)
-		runs/set-current.sh $oldlllp8 lp8
-	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "ipevse" && $u1p3plp4aktiv == "1" ]]; then
+#		oldlllp4=$(<ramdisk/tmpllsolllp4)
+#		runs/set-current.sh $oldlllp4 lp4
+#	fi
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "ipevse" && $u1p3plp5aktiv == "1" ]]; then
+#		oldlllp5=$(<ramdisk/tmpllsolllp5)
+#		runs/set-current.sh $oldlllp5 lp5
+#	fi
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "ipevse" && $u1p3plp6aktiv == "1" ]]; then
+#		oldlllp6=$(<ramdisk/tmpllsolllp6)
+#		runs/set-current.sh $oldlllp6 lp6
+#	fi
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "ipevse" && $u1p3plp7aktiv == "1" ]]; then
+#		oldlllp7=$(<ramdisk/tmpllsolllp7)
+#		runs/set-current.sh $oldlllp7 lp7
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "ipevse" && $u1p3plp8aktiv == "1" ]]; then
+#		oldlllp8=$(<ramdisk/tmpllsolllp8)
+#		runs/set-current.sh $oldlllp8 lp8
+#	fi
 fi
 
 if [[ "$1" == "startslow" ]]; then
@@ -394,21 +406,21 @@ if [[ "$1" == "startslow" ]]; then
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "extopenwb" ]]; then
 		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep3ip -m "$minimalapv"
 	fi
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$minimalapv"
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep5ip -m "$minimalapv"
-	fi
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep6ip -m "$minimalapv"
-	fi
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep7ip -m "$minimalapv"
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "extopenwb" ]]; then
-		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep8ip -m "$minimalapv"
-	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep4ip -m "$minimalapv"
+#	fi
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep5ip -m "$minimalapv"
+#	fi
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep6ip -m "$minimalapv"
+#	fi
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep7ip -m "$minimalapv"
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "extopenwb" ]]; then
+#		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep8ip -m "$minimalapv"
+#	fi
 	if [[ $evsecon == "ipevse" ]]; then
 		runs/set-current.sh $minimalapv m
 	fi
@@ -424,19 +436,19 @@ if [[ "$1" == "startslow" ]]; then
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "ipevse" && $u1p3plp3aktiv == "1" ]]; then
 		runs/set-current.sh $minimalapv s2
 	fi
-	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "ipevse" && $u1p3plp4aktiv == "1" ]]; then
-		runs/set-current.sh $minimalapv lp4
-	fi
-	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "ipevse" && $u1p3plp5aktiv == "1" ]]; then
-		runs/set-current.sh $minimalapv lp5
-	fi
-	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "ipevse" && $u1p3plp6aktiv == "1" ]]; then
-		runs/set-current.sh $minimalapv lp6
-	fi
-	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "ipevse" && $u1p3plp7aktiv == "1" ]]; then
-		runs/set-current.sh $minimalapv lp7
-	fi
-	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "ipevse" && $u1p3plp8aktiv == "1" ]]; then
-		runs/set-current.sh $minimalapv lp8
-	fi
+#	if [[ $lastmanagementlp4 == 1 && $evseconlp4 == "ipevse" && $u1p3plp4aktiv == "1" ]]; then
+#		runs/set-current.sh $minimalapv lp4
+#	fi
+#	if [[ $lastmanagementlp5 == 1 && $evseconlp5 == "ipevse" && $u1p3plp5aktiv == "1" ]]; then
+#		runs/set-current.sh $minimalapv lp5
+#	fi
+#	if [[ $lastmanagementlp6 == 1 && $evseconlp6 == "ipevse" && $u1p3plp6aktiv == "1" ]]; then
+#		runs/set-current.sh $minimalapv lp6
+#	fi
+#	if [[ $lastmanagementlp7 == 1 && $evseconlp7 == "ipevse" && $u1p3plp7aktiv == "1" ]]; then
+#		runs/set-current.sh $minimalapv lp7
+#	fi
+#	if [[ $lastmanagementlp8 == 1 && $evseconlp8 == "ipevse" && $u1p3plp8aktiv == "1" ]]; then
+#		runs/set-current.sh $minimalapv lp8
+#	fi
 fi

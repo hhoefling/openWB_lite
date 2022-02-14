@@ -34,11 +34,11 @@
 lp1enabled=$(<ramdisk/lp1enabled)
 lp2enabled=$(<ramdisk/lp2enabled)
 lp3enabled=$(<ramdisk/lp3enabled)
-lp4enabled=$(<ramdisk/lp4enabled)
-lp5enabled=$(<ramdisk/lp5enabled)
-lp6enabled=$(<ramdisk/lp6enabled)
-lp7enabled=$(<ramdisk/lp7enabled)
-lp8enabled=$(<ramdisk/lp8enabled)
+# lp4enabled=$(<ramdisk/lp4enabled)
+# lp5enabled=$(<ramdisk/lp5enabled)
+# lp6enabled=$(<ramdisk/lp6enabled)
+# lp7enabled=$(<ramdisk/lp7enabled)
+# lp8enabled=$(<ramdisk/lp8enabled)
 #####
 #
 # functions
@@ -538,117 +538,121 @@ if [[ $lastmanagements2 == "1" ]]; then
 
 	fi
 fi
-if [[ $lastmanagementlp4 == "1" ]]; then
-	if [[ $points == "all" ]] || [[ $points == "lp4" ]]; then
-		evsecon=$evseconlp4
-		evseip=$evseiplp4
-		ipevseid=$evseidlp4
-		chargep1ip=$chargep4ip
-		chargep1cp=$chargep4cp
-		owbpro1ip=$owbpro4ip
+# if [[ $lastmanagementlp4 == "1" ]]; then
+# 	if [[ $points == "all" ]] || [[ $points == "lp4" ]]; then
+# 		evsecon=$evseconlp4
+# 		evseip=$evseiplp4
+# 		ipevseid=$evseidlp4
+# 		chargep1ip=$chargep4ip
+# 		chargep1cp=$chargep4cp
+# 		owbpro1ip=$owbpro4ip
 
-		if (( lp4enabled == 0 )); then
-			oldcurrent=$current
-			current=0
-		fi
-		# dirty call (no parameters, all is set above...)
-		setChargingCurrent
-		echo $current > /var/www/html/openWB/ramdisk/llsolllp4
-		echo $lstate > /var/www/html/openWB/ramdisk/ladestatuslp4
-		if (( lp4enabled == 0 )); then
-			current=$oldcurrent
-		fi
+# 		if (( lp4enabled == 0 )); then
+# 			oldcurrent=$current
+# 			current=0
+# 		fi
+# 		# dirty call (no parameters, all is set above...)
+# 		setChargingCurrent
+# 		echo $current > /var/www/html/openWB/ramdisk/llsolllp4
+# 		echo $lstate > /var/www/html/openWB/ramdisk/ladestatuslp4
+# 		if (( lp4enabled == 0 )); then
+# 			current=$oldcurrent
+# 		fi
 
-	fi
-fi
-if [[ $lastmanagementlp5 == "1" ]]; then
-	if [[ $points == "all" ]] || [[ $points == "lp5" ]]; then
-		evsecon=$evseconlp5
-		evseip=$evseiplp5
-		ipevseid=$evseidlp5
-		chargep1ip=$chargep5ip
-		chargep1cp=$chargep5cp
-		owbpro1ip=$owbpro5ip
+# 	fi
+# fi
 
-		if (( lp5enabled == 0 )); then
-			oldcurrent=$current
-			current=0
-		fi
-		# dirty call (no parameters, all is set above...)
-		setChargingCurrent
-		echo $current > /var/www/html/openWB/ramdisk/llsolllp5
-		echo $lstate > /var/www/html/openWB/ramdisk/ladestatuslp5
-		if (( lp5enabled == 0 )); then
-			current=$oldcurrent
-		fi
+# if [[ $lastmanagementlp5 == "1" ]]; then
+# 	if [[ $points == "all" ]] || [[ $points == "lp5" ]]; then
+# 		evsecon=$evseconlp5
+# 		evseip=$evseiplp5
+# 		ipevseid=$evseidlp5
+# 		chargep1ip=$chargep5ip
+# 		chargep1cp=$chargep5cp
+# 		owbpro1ip=$owbpro5ip
 
-	fi
-fi
-if [[ $lastmanagementlp6 == "1" ]]; then
-	if [[ $points == "all" ]] || [[ $points == "lp6" ]]; then
-		evsecon=$evseconlp6
-		evseip=$evseiplp6
-		ipevseid=$evseidlp6
-		chargep1ip=$chargep6ip
-		chargep1cp=$chargep6cp
-		owbpro1ip=$owbpro6ip
-		if (( lp6enabled == 0 )); then
-			oldcurrent=$current
-			current=0
-		fi
-		# dirty call (no parameters, all is set above...)
-		setChargingCurrent
-		echo $current > /var/www/html/openWB/ramdisk/llsolllp6
-		echo $lstate > /var/www/html/openWB/ramdisk/ladestatuslp6
-		if (( lp6enabled == 0 )); then
-			current=$oldcurrent
-		fi
+# 		if (( lp5enabled == 0 )); then
+# 			oldcurrent=$current
+# 			current=0
+# 		fi
+# 		# dirty call (no parameters, all is set above...)
+# 		setChargingCurrent
+# 		echo $current > /var/www/html/openWB/ramdisk/llsolllp5
+# 		echo $lstate > /var/www/html/openWB/ramdisk/ladestatuslp5
+# 		if (( lp5enabled == 0 )); then
+# 			current=$oldcurrent
+# 		fi
 
-	fi
-fi
-if [[ $lastmanagementlp7 == "1" ]]; then
-	if [[ $points == "all" ]] || [[ $points == "lp7" ]]; then
-		evsecon=$evseconlp7
-		evseip=$evseiplp7
-		ipevseid=$evseidlp7
-		chargep1ip=$chargep7ip
-		chargep1cp=$chargep7cp
-		owbpro1ip=$owbpro7ip
+# 	fi
+# fi
 
-		if (( lp7enabled == 0 )); then
-			oldcurrent=$current
-			current=0
-		fi
-		# dirty call (no parameters, all is set above...)
-		setChargingCurrent
-		echo $current > /var/www/html/openWB/ramdisk/llsolllp7
-		echo $lstate > /var/www/html/openWB/ramdisk/ladestatuslp7
-		if (( lp7enabled == 0 )); then
-			current=$oldcurrent
-		fi
+# if [[ $lastmanagementlp6 == "1" ]]; then
+# 	if [[ $points == "all" ]] || [[ $points == "lp6" ]]; then
+# 		evsecon=$evseconlp6
+# 		evseip=$evseiplp6
+# 		ipevseid=$evseidlp6
+# 		chargep1ip=$chargep6ip
+# 		chargep1cp=$chargep6cp
+# 		owbpro1ip=$owbpro6ip
+# 		if (( lp6enabled == 0 )); then
+# 			oldcurrent=$current
+# 			current=0
+# 		fi
+# 		# dirty call (no parameters, all is set above...)
+# 		setChargingCurrent
+# 		echo $current > /var/www/html/openWB/ramdisk/llsolllp6
+# 		echo $lstate > /var/www/html/openWB/ramdisk/ladestatuslp6
+# 		if (( lp6enabled == 0 )); then
+# 			current=$oldcurrent
+# 		fi
 
-	fi
-fi
-if [[ $lastmanagementlp8 == "1" ]]; then
-	if [[ $points == "all" ]] || [[ $points == "lp8" ]]; then
-		evsecon=$evseconlp8
-		evseip=$evseiplp8
-		ipevseid=$evseidlp8
-		chargep1ip=$chargep8ip
-		chargep1cp=$chargep8cp
-		owbpro1ip=$owbpro8ip
+# 	fi
+# fi
 
-		if (( lp8enabled == 0 )); then
-			oldcurrent=$current
-			current=0
-		fi
-		# dirty call (no parameters, all is set above...)
-		setChargingCurrent
-		echo $current > /var/www/html/openWB/ramdisk/llsolllp8
-		echo $lstate > /var/www/html/openWB/ramdisk/ladestatuslp8
-		if (( lp8enabled == 0 )); then
-			current=$oldcurrent
-		fi
+# if [[ $lastmanagementlp7 == "1" ]]; then
+# 	if [[ $points == "all" ]] || [[ $points == "lp7" ]]; then
+# 		evsecon=$evseconlp7
+# 		evseip=$evseiplp7
+# 		ipevseid=$evseidlp7
+# 		chargep1ip=$chargep7ip
+# 		chargep1cp=$chargep7cp
+# 		owbpro1ip=$owbpro7ip
 
-	fi
-fi
+# 		if (( lp7enabled == 0 )); then
+# 			oldcurrent=$current
+# 			current=0
+# 		fi
+# 		# dirty call (no parameters, all is set above...)
+# 		setChargingCurrent
+# 		echo $current > /var/www/html/openWB/ramdisk/llsolllp7
+# 		echo $lstate > /var/www/html/openWB/ramdisk/ladestatuslp7
+# 		if (( lp7enabled == 0 )); then
+# 			current=$oldcurrent
+# 		fi
+
+# 	fi
+# fi
+
+# if [[ $lastmanagementlp8 == "1" ]]; then
+# 	if [[ $points == "all" ]] || [[ $points == "lp8" ]]; then
+# 		evsecon=$evseconlp8
+# 		evseip=$evseiplp8
+# 		ipevseid=$evseidlp8
+# 		chargep1ip=$chargep8ip
+# 		chargep1cp=$chargep8cp
+# 		owbpro1ip=$owbpro8ip
+
+# 		if (( lp8enabled == 0 )); then
+# 			oldcurrent=$current
+# 			current=0
+# 		fi
+# 		# dirty call (no parameters, all is set above...)
+# 		setChargingCurrent
+# 		echo $current > /var/www/html/openWB/ramdisk/llsolllp8
+# 		echo $lstate > /var/www/html/openWB/ramdisk/ladestatuslp8
+# 		if (( lp8enabled == 0 )); then
+# 			current=$oldcurrent
+# 		fi
+
+# 	fi
+# fi

@@ -1274,31 +1274,31 @@ def on_message(client, userdata, msg):
                 #if (int(msg.payload) == 2):
                 #    replaceAll("lademstats1=","0")
                 #    replaceAll("sofortsocstatlp2=","1")
-            if (msg.topic == "openWB/set/lp/4/DirectChargeSubMode"):
-                if (int(msg.payload) == 0):
-                    replaceAll("lademstatlp4=",msg.payload.decode("utf-8"))
-                if (int(msg.payload) == 1):
-                    replaceAll("lademstatlp4=",msg.payload.decode("utf-8"))
-            if (msg.topic == "openWB/set/lp/5/DirectChargeSubMode"):
-                if (int(msg.payload) == 0):
-                    replaceAll("lademstatlp5=",msg.payload.decode("utf-8"))
-                if (int(msg.payload) == 1):
-                    replaceAll("lademstatlp5=",msg.payload.decode("utf-8"))
-            if (msg.topic == "openWB/set/lp/6/DirectChargeSubMode"):
-                if (int(msg.payload) == 0):
-                    replaceAll("lademstatlp6=",msg.payload.decode("utf-8"))
-                if (int(msg.payload) == 1):
-                    replaceAll("lademstatlp6=",msg.payload.decode("utf-8"))
-            if (msg.topic == "openWB/set/lp/7/DirectChargeSubMode"):
-                if (int(msg.payload) == 0):
-                    replaceAll("lademstatlp7=",msg.payload.decode("utf-8"))
-                if (int(msg.payload) == 1):
-                    replaceAll("lademstatlp7=",msg.payload.decode("utf-8"))
-            if (msg.topic == "openWB/set/lp/8/DirectChargeSubMode"):
-                if (int(msg.payload) == 0):
-                    replaceAll("lademstatlp8=",msg.payload.decode("utf-8"))
-                if (int(msg.payload) == 1):
-                    replaceAll("lademstatlp8=",msg.payload.decode("utf-8"))
+            # if (msg.topic == "openWB/set/lp/4/DirectChargeSubMode"):
+            #     if (int(msg.payload) == 0):
+            #         replaceAll("lademstatlp4=",msg.payload.decode("utf-8"))
+            #     if (int(msg.payload) == 1):
+            #         replaceAll("lademstatlp4=",msg.payload.decode("utf-8"))
+            # if (msg.topic == "openWB/set/lp/5/DirectChargeSubMode"):
+            #     if (int(msg.payload) == 0):
+            #         replaceAll("lademstatlp5=",msg.payload.decode("utf-8"))
+            #     if (int(msg.payload) == 1):
+            #         replaceAll("lademstatlp5=",msg.payload.decode("utf-8"))
+            # if (msg.topic == "openWB/set/lp/6/DirectChargeSubMode"):
+            #     if (int(msg.payload) == 0):
+            #         replaceAll("lademstatlp6=",msg.payload.decode("utf-8"))
+            #     if (int(msg.payload) == 1):
+            #         replaceAll("lademstatlp6=",msg.payload.decode("utf-8"))
+            # if (msg.topic == "openWB/set/lp/7/DirectChargeSubMode"):
+            #     if (int(msg.payload) == 0):
+            #         replaceAll("lademstatlp7=",msg.payload.decode("utf-8"))
+            #     if (int(msg.payload) == 1):
+            #         replaceAll("lademstatlp7=",msg.payload.decode("utf-8"))
+            # if (msg.topic == "openWB/set/lp/8/DirectChargeSubMode"):
+            #     if (int(msg.payload) == 0):
+            #         replaceAll("lademstatlp8=",msg.payload.decode("utf-8"))
+            #     if (int(msg.payload) == 1):
+            #         replaceAll("lademstatlp8=",msg.payload.decode("utf-8"))
             if (msg.topic == "openWB/set/isss/ClearRfid"):
                 if (int(msg.payload) > 0 and int(msg.payload) <=1):
                     f = open('/var/www/html/openWB/ramdisk/readtag', 'w')
