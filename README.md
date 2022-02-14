@@ -17,16 +17,14 @@ Python 3.5.3
 ```
 
 ## Abweichungen zur normalen openWB
-- Reduktion auf LP1-LP3
+- Reduktion auf LP1-LP3, weitgehend abgeschlossen.
 - Nicht übernommen wurde die Umwidmung der mqtt Zuweisungen zur pv Leistung. Bei der 1.9'er bis hin zur 254 wurde dort ein negativer Wert von der Datenquelle abgelegt. Irgendwann Dez/Jan 2022 wurde das umgestellt auf eine positive Zahl. Dadurch werden alle MQTT-PV Datequellen ungültig und es müste die openWB Version berücksichtig werden um zu entscheiden ob eine posivie oder einen negaive Zahl an openWB zu übegeben sei. Diese Inkompatibilität behindert den Vergleichenden Test mit einer ältern Version.
 Auch verlieren älter Backups dann ihr gültigkeit wenn die MQTT Quelle notgedrungen auf posivive Werte umgestellt wurde. Daher wird in meiner Lite weiterhin ein negavtive Zahl via MQTT übergeben.
- 
+- Ladelog um KM ergänzen (aus dem SOC Module LP1/LP2)
+
  *******************************************************
 Die weitere Entwicklung
-
-- Unter der Annahme das ich keine 8 Ladepunkte brauche werde ich die Software auf 3 Ladepunkte zurückfahren.
 - Ladesteuerung an meine Wünsche anpassen, insbesonder Nachtladen und Zielladen.
-- Ladelog um KM ergänzen (aus dem SOC Module)
 - 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
 *******************************************************
 
