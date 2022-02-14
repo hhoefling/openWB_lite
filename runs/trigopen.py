@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+#
+# Hardware Ebene
+# Up u1p3check.sh 
+# Schalte auf drei Phasen ( open releay )
+#
 #coding: utf8
 
 import time

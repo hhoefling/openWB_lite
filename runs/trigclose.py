@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 #coding: utf8
 
+# Hardware Ebene
+# Up u1p3check.sh 
+# Schalte auf drei Phasen ( close releay )
+
 import time
 import RPi.GPIO as GPIO
 import argparse

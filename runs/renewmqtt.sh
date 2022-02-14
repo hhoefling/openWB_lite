@@ -1,4 +1,5 @@
 #!/bin/bash
+# NOT USED ANYMORE (1.9.254)
 #force pushing all values in broker
 timeout 3 mosquitto_sub -v -h localhost -t "openWB/#" > /var/www/html/openWB/ramdisk/mqttrenew
 while read line; do

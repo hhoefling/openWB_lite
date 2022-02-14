@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 #coding: utf8
+#
+# Up atreboot.sh
+# Hardware ebene
+#
 
 import time
 import RPi.GPIO as GPIO
@@ -38,3 +42,4 @@ time.sleep(float(args.duration))
 # enable CP
 GPIO.output(22, GPIO.LOW)
 GPIO.output(15, GPIO.LOW)
+
