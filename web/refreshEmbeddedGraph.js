@@ -1,3 +1,4 @@
+/* NC */
 var doval;
 
 function getgraph() {

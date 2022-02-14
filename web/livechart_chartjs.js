@@ -1,3 +1,5 @@
+/* used by display/gauges display/simple */ 
+
 function loadgraph() {
 	var lineChartData = {
 		labels: atime,

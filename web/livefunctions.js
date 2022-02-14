@@ -1,3 +1,5 @@
+
+/* up display/gauges display/minimal display/simple */
 loadText();
 function loadText(){
     $.ajax({
