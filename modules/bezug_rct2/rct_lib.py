@@ -341,12 +341,12 @@ class Frame:
 
 # helper function to print and error
 def errlog(*args):
-    sys.stderr.write(' '.join(map(str,args)) + '\n')
+    sys.stderr.write('rct2: ' + ' '.join(map(str,args)) + '\n')
     
 # helper function to print debug messages
 def dbglog(*args):
     if bVerbose == True:
-        sys.stdout.write(' '.join(map(str,args)) + '\n')
+        sys.stdout.write('rct2: ' +  ' '.join(map(str,args)) + '\n')
         
     return bVerbose
         
@@ -453,17 +453,39 @@ def init(argv):
     global search_name
     global param_len
     global desc_len
+    global bb
+    global wr
+    global sp
+    global ii
+    global bm5
 
     # parse command line arguments
     try:
-        options, remainder = getopt.getopt(argv[1:], 'p:i:v', ['port=', 'ip=', 'verbose', 'id=', 'name='])
+        options, remainder = getopt.getopt(argv[1:], 'p:i:v:b:w:s:i:m', ['port=', 'ip=', 'verbose', 'id=', 'name=', 'm5' ])
     except getopt.GetoptError as err:
         # print help information and exit:
         errlog(err) # will print something like "option -a not recognized"
         errlog('usage: ', argv[0], '[--ip_addr=<host>] [--verbose] [--port=<portnr>] [--id=0xXXXXXXXX|--name=<string>] ')
         sys.exit(-1)
     
+    bb=False
+    wr=False
+    sp=False
+    ii=False
+    bm5=False
     for opt, arg in options:
+        dbglog("arg " + str(opt) +" :" + str(arg) )
+        if opt in ('-b'):
+            if arg == '=bezug_rct2':
+                bb=True
+        if opt in ('-w'):
+            if arg == '=wr_rct2':
+                wr=True
+        if opt in ('-s'):
+            if arg == '=speicher_rct2':
+               sp=True
+        if opt in ('-i'):
+               ii =True
         if opt in ('-p', '--port'):
             port = int(arg, base=10)
         elif opt in ('-i', '--ip'):
@@ -474,6 +496,8 @@ def init(argv):
             search_name = arg
         elif opt in ('-v', '--verbose'):
             bVerbose = True
+        elif opt in ('--m5'):
+            bm5 = True
 
     id_tab_setup()
     param_len = 0
