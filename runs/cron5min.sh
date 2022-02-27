@@ -354,7 +354,6 @@ else
 			if (( wlanstate == 1 )); then
 				sudo systemctl stop hostapd
 				sudo systemctl stop dnsmasq
-				fi
 			fi
 		fi
 	else
