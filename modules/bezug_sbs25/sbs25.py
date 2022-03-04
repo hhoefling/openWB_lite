@@ -1,17 +1,18 @@
 #!/usr/bin/python
 import sys
-import os
-import time
-import getopt
-import socket
-import ConfigParser
+# import os
+# import time
+# import getopt
+# import socket
+# import ConfigParser
 import struct
-import binascii
-ipaddress = str(sys.argv[1])
+# import binascii
 from pymodbus.client.sync import ModbusTcpClient
+ipaddress = str(sys.argv[1])
+
 client = ModbusTcpClient(ipaddress, port=502)
 
-#print "evu watt bezug"
+# print "evu watt bezug"
 resp= client.read_holding_registers(30865,2,unit=3)
 value1 = resp.registers[0]
 value2 = resp.registers[1]
