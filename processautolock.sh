@@ -30,19 +30,19 @@ cd /var/www/html/openWB/
 powerLp1=$(<ramdisk/llaktuell)
 powerLp2=$(<ramdisk/llaktuells1)
 powerLp3=$(<ramdisk/llaktuells2)
-powerLp4=$(<ramdisk/llaktuelllp4)
-powerLp5=$(<ramdisk/llaktuelllp5)
-powerLp6=$(<ramdisk/llaktuelllp6)
-powerLp7=$(<ramdisk/llaktuelllp7)
-powerLp8=$(<ramdisk/llaktuelllp8)
+powerLp4=0 # $(<ramdisk/llaktuelllp4)
+powerLp5=0 # $(<ramdisk/llaktuelllp5)
+powerLp6=0 # $(<ramdisk/llaktuelllp6)
+powerLp7=0 # $(<ramdisk/llaktuelllp7)
+powerLp8=0 # $(<ramdisk/llaktuelllp8)
 isConfiguredLp1="1"
 isConfiguredLp2=$lastmanagement
 isConfiguredLp3=$lastmanagements2
-isConfiguredLp4=$lastmanagementlp4
-isConfiguredLp5=$lastmanagementlp5
-isConfiguredLp6=$lastmanagementlp6
-isConfiguredLp7=$lastmanagementlp7
-isConfiguredLp8=$lastmanagementlp8
+isConfiguredLp4=0 # $lastmanagementlp4
+isConfiguredLp5=0 # $lastmanagementlp5
+isConfiguredLp6=0 # $lastmanagementlp6
+isConfiguredLp7=0 # $lastmanagementlp7
+isConfiguredLp8=0 # $lastmanagementlp8
 
 # process current time
 timeOfDay=$(date +%H:%M)
@@ -58,7 +58,7 @@ second=$(date +%S)
 if [ "$second" -lt "10" ]; then
 	# once a minute at new minute check if (un)lock-time is up
 
-	for chargePoint in {1..8}
+	for chargePoint in {1..3} # 8 
 	do
 		variableConfiguredLpName="isConfiguredLp${chargePoint}"  # name of variable for lp configured
 		if [ "${!variableConfiguredLpName}" = "1" ]; then
@@ -99,7 +99,7 @@ function checkDisableLp {
 	fi
 }
 
-for chargePoint in {1..8}
+for chargePoint in {1..3}   # 8 
 do
 	# every 10 seconds check if flag is set to disable charge point
 	# or if unlock time is up
