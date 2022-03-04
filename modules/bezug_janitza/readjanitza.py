@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 import sys
-import os
-import time
-import getopt
-import socket
+# import os
+# import time
+# import getopt
+# import socket
 import struct
-import binascii
+# import binascii
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.constants import Endian
 from pymodbus.client.sync import ModbusTcpClient
