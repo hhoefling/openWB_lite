@@ -53,9 +53,9 @@ function cleanup()
 
 	if [ "$t" -le "7" ] ; then   # 1..7 Ok
 		openwbDebugLog "MAIN" 1 "**** Regulation loop needs $t seconds"
-	elif [ "$t" -le "8" ] ; then # 8 Warning 
+	elif [ "$t" -le "9" ] ; then # 8,9 Warning 
 		openwbDebugLog "MAIN" 0 "**** WARNING **** Regulation loop needs $t seconds"
-	else                         # 9,10,... Fatal
+	else                         # 10,... Fatal
 		openwbDebugLog "MAIN" 0 "**** FATAL *********************************"
 		openwbDebugLog "MAIN" 0 "**** FATAL Regulation loop needs $t seconds"
 		openwbDebugLog "MAIN" 0 "**** FATAL *********************************"
@@ -435,11 +435,13 @@ fi
 
 if (( zielladenaktivlp1 == 1 )); then
 	ziellademodus
+	# Exit 0 if Laden aktive 		
 fi
 
 ####################
 # Nachtladung bzw. Ladung bis SOC x% nachts von x bis x Uhr
 prenachtlademodus
+# Exit 0 if laden aktive
 
 #######################
 #Ladestromstarke berechnen
@@ -447,53 +449,63 @@ anzahlphasen=$(</var/www/html/openWB/ramdisk/anzahlphasen)
 if (( anzahlphasen > 9 )); then
 	anzahlphasen=1
 fi
-llphasentest=3
 openwbDebugLog "PV" 0 "Alte Anzahl genutzter Phasen= $anzahlphasen"
+
+# mehr als 3A gelten als "Laden"
+declare -ri LLPHASENTEST=3
+
 #Anzahl genutzter Phasen ermitteln, wenn ladestrom kleiner 3 (nicht vorhanden) nutze den letzten bekannten wert
-if (( llalt > 3 )); then
+if (( llalt > LLPHASENTEST )); then
 	anzahlphasen=0
-	if [ $lla1 -ge $llphasentest ]; then
+	if (( lla1 > LLPHASENTEST )); then
 		anzahlphasen=$((anzahlphasen + 1 ))
 	fi
-	if [ $lla2 -ge $llphasentest ]; then
+	if (( lla2 > LLPHASENTEST )); then
 		anzahlphasen=$((anzahlphasen + 1 ))
 	fi
-	if [ $lla3 -ge $llphasentest ]; then
+	if (( lla3 > LLPHASENTEST )); then
 		anzahlphasen=$((anzahlphasen + 1 ))
 	fi
 	echo $anzahlphasen > /var/www/html/openWB/ramdisk/anzahlphasen
 	echo $anzahlphasen > /var/www/html/openWB/ramdisk/lp1anzahlphasen
-	openwbDebugLog "PV" 0 "LP1 Anzahl Phasen während Ladung= $anzahlphasen"
+	openwbDebugLog "PV" 0 "LP1 aktive Phasen während Ladung= $anzahlphasen"
 else
+	# wir laden nicht, könten aber daher future-phasen bestimmen 
 	if (( plugstat == 1 )) && (( lp1enabled == 1 )); then
 		if [ ! -f /var/www/html/openWB/ramdisk/anzahlphasen ]; then
 			echo 1 > /var/www/html/openWB/ramdisk/anzahlphasen
 		fi
 		if (( u1p3paktiv == 1 )); then
-			anzahlphasen=$(cat /var/www/html/openWB/ramdisk/u1p3pstat)
+			anzahlphasen=$(cat /var/www/html/openWB/ramdisk/u1p3pstat)	# letzer stand ????, statt mit 1 zu beginnen
+			openwbDebugLog "PV" 0 "LP1 u1p3aktiv, nehme u1p3pstat:$u1p3pstat als mogliche phasenanzahl"
 		else
+		    openwbDebugLog "PV" 0 "LP1 nehme letzte phasenanzzahl als mogliche phasenanzahl"
 			if [ ! -f /var/www/html/openWB/ramdisk/lp1anzahlphasen ]; then
 				anzahlphasen=$(cat /var/www/html/openWB/ramdisk/lp1anzahlphasen)
 			else
 				anzahlphasen=$(cat /var/www/html/openWB/ramdisk/anzahlphasen)
 			fi
 		fi
-	else
+	else # nicht angesteckt oder disabled
 		anzahlphasen=0
 	fi
 	openwbDebugLog "PV" 0 "LP1 Anzahl Phasen während keiner Ladung= $anzahlphasen"
 fi
-if (( lastmanagement == 1 )); then
-	if (( llas11 > 3 )); then
-		if [ "$llas11" -ge $llphasentest ]; then
+
+
+
+lp2anzahlphasen=0
+if (( lastmanagement == 1 )); then		# lastmanagement == 1 means that it's on openWB duo
+	if (( llas11 > LLPHASENTEST )); then
+		if (( llas11 > LLPHASENTEST )); then
 			anzahlphasen=$((anzahlphasen + 1 ))
 			lp2anzahlphasen=1
 		fi
-		if [ "$llas12" -ge $llphasentest ]; then
+		if (( llas12 > LLPHASENTEST )); then
 			anzahlphasen=$((anzahlphasen + 1 ))
 			lp2anzahlphasen=$((lp2anzahlphasen + 1 ))
 		fi
-		if [ "$llas13" -ge $llphasentest ]; then
+		if (( llas13 > LLPHASENTEST )); then
 			anzahlphasen=$((anzahlphasen + 1 ))
 			lp2anzahlphasen=$((lp2anzahlphasen + 1 ))
 		fi
@@ -522,14 +534,14 @@ if (( lastmanagement == 1 )); then
 	fi
 fi
 if (( lastmanagements2 == 1 )); then
-	if (( llas21 > 3 )); then
-		if [ "$llas21" -ge $llphasentest ]; then
+	if (( llas21 > LLPHASENTEST )); then
+		if (( llas21 >  LLPHASENTEST )); then
 			anzahlphasen=$((anzahlphasen + 1 ))
 		fi
-		if [ "$llas22" -ge $llphasentest ]; then
+		if (( llas22 > LLPHASENTEST )); then
 			anzahlphasen=$((anzahlphasen + 1 ))
 		fi
-		if [ "$llas23" -ge $llphasentest ]; then
+		if (( llas23 > LLPHASENTEST )); then
 			anzahlphasen=$((anzahlphasen + 1 ))
 		fi
 		echo $anzahlphasen > /var/www/html/openWB/ramdisk/anzahlphasen
@@ -542,12 +554,13 @@ if [ "$anzahlphasen" -ge "24" ]; then
 	anzahlphasen=1
 	echo $anzahlphasen > /var/www/html/openWB/ramdisk/anzahlphasen
 fi
-openwbDebugLog "PV" 0 "Gesamt Anzahl Phasen= $anzahlphasen"
+openwbDebugLog "PV" 0 "Gesamt Anzahl Phasen= $anzahlphasen (0..24 korrigiert)"
 
 ########################
 # Sofort Laden
 if (( lademodus == 0 )); then
 	sofortlademodus
+	# Exit 0 if aktiv
 fi
 
 ########################
