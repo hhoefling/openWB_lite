@@ -41,7 +41,7 @@ else
    Log 2 "Last --m5  $diff sec ago"
 fi
 
-if (( debug > 1 )) ; then
+if (( debug > 2 )) ; then
   python3 /var/www/html/openWB/modules/bezug_rct2/rct2.py --verbose --ip=$bezug1_ip  -b=$wattbezugmodul -w=$pvwattmodul -s=$speichermodul $m5 >>/var/log/openWB.log 2>&1 
 else
   python3 /var/www/html/openWB/modules/bezug_rct2/rct2.py --ip=$bezug1_ip  -b=$wattbezugmodul -w=$pvwattmodul -s=$speichermodul $m5

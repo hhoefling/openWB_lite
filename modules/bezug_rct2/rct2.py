@@ -41,7 +41,7 @@ def main():
 #
 ######################################################
 #
-     if  rct_lib.bb:
+     if rct_lib.bb:
         if rct_lib.bm5:
             rct_lib.dbglog("--m5 set, get EVU totals")
             # Counter nur alle 5 Mintuen auslesen
@@ -113,7 +113,7 @@ def main():
         
 
 ######################################################
-     if  rct_lib.wr:
+     if rct_lib.wr and rct_lib.bb:
         # Wr 
         wrfaultStr=' '
         wrfaultState=0
@@ -179,7 +179,7 @@ def main():
 #
 ######################################################
 #
-     if  rct_lib.sp:
+     if rct_lib.sp and rct_lib.bb:
         # Speicher 
         spfaultStr=' '
         spfaultState=0
@@ -234,7 +234,7 @@ def main():
 #
 ######################################################
 #
-     if  rct_lib.ii:
+     if  rct_lib.ii and rct_lib.bb:
         # Info-Speicher 
         faultStr=' '
         faultState=0

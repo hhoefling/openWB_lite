@@ -79,10 +79,10 @@ def get_type_by_id(id):
     return obj.data_type
     
 
-# decode a value according to the id data type
-def decode_value(id, data):
+# decode a value according to the data type
+def decode_value(data_type, data):
     try:
-        data_type = get_type_by_id(id)
+        ### data_type = get_type_by_id(id)
         if data_type == rct_id.t_bool:
             value = struct.unpack(">B", data)[0]
             if value != 0:
@@ -115,7 +115,7 @@ def decode_value(id, data):
 # encode a value according to the id data type
 def encode_value(id, value):
     data_type = get_type_by_id(id)
-    return encode_by_type(data_type)
+    return encode_by_type(data_type)   
 
 
 # encode a value according to the id data type
@@ -248,17 +248,19 @@ class Frame:
     
             self.id = struct.unpack(">I", self.stream[idx:idx+4])[0]
             self.id_obj = find_by_id(self.id)
+            dtype=self.id_obj.data_type
             idx += 4
             if self.frame_type == FRAME_TYPE_PLANT:
                 self.address = struct.unpack(">I", self.stream[idx:idx+4])[0]
                 idx += 4
             self.data = self.stream[idx:idx+data_length]
-            self.data_dump = binascii.hexlify(self.data)                # just for debugging
+            ### self.data_dump = binascii.hexlify(self.data) 
+            ### just for debugging
+            ### dbglog('decode ', dtype, str(self.data_dump) )
             idx += data_length
-
             # decode data using id and id data type
             if data_length > 0 and (self.command == cmd_response or self.command == cmd_long_response or self.command == cmd_write or self.command == cmd_long_write):
-                self.value = decode_value(self.id, self.data) 
+                self.value = decode_value(dtype, self.data) 
         
     # encode a transmit stream using the frame values    
     def encode(self):
@@ -467,7 +469,7 @@ def init(argv):
         errlog(err) # will print something like "option -a not recognized"
         errlog('usage: ', argv[0], '[--ip_addr=<host>] [--verbose] [--port=<portnr>] [--id=0xXXXXXXXX|--name=<string>] ')
         sys.exit(-1)
-    
+
     bb=False
     wr=False
     sp=False
