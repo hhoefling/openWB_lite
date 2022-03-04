@@ -1,20 +1,23 @@
 #!/usr/bin/python
 import sys
-import os
-import time
-import getopt
-import socket
-import ConfigParser
+# import os
+# import time
+# import getopt
+# import socket
+# import ConfigParser
 import struct
-import binascii
+# import binascii
+from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 slave1id = int(sys.argv[2])
 batwrsame = int(sys.argv[3])
 ip2address = str(sys.argv[4])
 extprodakt = str(sys.argv[5])
-from pymodbus.client.sync import ModbusTcpClient
+
 client = ModbusTcpClient(ipaddress, port=502)
-#batterie auslesen und pv leistung korrigieren
+
+# batterie auslesen und pv leistung korrigieren
 storagepower = 0
 if batwrsame == 1:
     rr = client.read_holding_registers(62836, 2, unit=1)
@@ -57,10 +60,9 @@ value2 = resp.registers[1]
 all = format(value1, '04x') + format(value2, '04x')
 finalwr1 = int(struct.unpack('>i', all.decode('hex'))[0])
 
-
-from pymodbus.client.sync import ModbusTcpClient
 client = ModbusTcpClient(ip2address, port=502)
-#batterie auslesen und pv leistung korrigieren
+
+# batterie auslesen und pv leistung korrigieren
 resp= client.read_holding_registers(40084,2,unit=slave1id)
 multipli = resp.registers[0]
 multiplint = format(multipli, '04x')

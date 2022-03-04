@@ -1,13 +1,11 @@
 #!/usr/bin/python
 import sys
-import os
-import time
-import getopt
-import socket
-import struct
-import binascii
-
-
+# import os
+# import time
+# import getopt
+# import socket
+# import struct
+# import binascii
 from pymodbus.client.sync import ModbusTcpClient
 from pymodbus.factory import ClientDecoder
 

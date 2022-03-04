@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Auslesen einer Sonnbenbatterie Eco 4.5 über die integrierte JSON-API des Batteriesystems
+# Auslesen einer Sonnbenbatterie Eco 4.5 über die integrierte JSON-API des Batteriesystems
 ra='^-?[0-9]+$'
 if (( sonnenecoalternativ == 2 )); then
 	speichersoc=$(curl --connect-timeout 5 -s "$sonnenecoip:7979/rest/devices/battery/M05")
@@ -10,7 +10,7 @@ if (( sonnenecoalternativ == 2 )); then
 	speicherladung=$(echo $speicherladung | sed 's/\..*$//')
 	speicherentladung=$(echo $speicherentladung | sed 's/\..*$//')
 	speicherwatt=$(echo "$speicherladung - $speicherentladung" | bc)
-	#wenn Batterie aus bzw. keine Antwort ersetze leeren Wert durch eine 0
+	# wenn Batterie aus bzw. keine Antwort ersetze leeren Wert durch eine 0
 	if ! [[ $speicherwatt =~ $ra ]] ; then
 		speicherwatt="0"
 	fi
@@ -34,9 +34,7 @@ else
 		speicherladung=$(echo $speicherantwort | jq '.M35' |sed 's/\..*$//')
 
 		speicherwatt=$(echo "$speicherladung - $speicherentladung" | bc)
-
-		#wenn Batterie aus bzw. keine Antwort ersetze leeren Wert durch eine 0
-		
+		# wenn Batterie aus bzw. keine Antwort ersetze leeren Wert durch eine 0
 		if ! [[ $speicherwatt =~ $ra ]] ; then
 				  speicherwatt="0"
 		fi

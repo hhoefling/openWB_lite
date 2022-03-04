@@ -349,11 +349,12 @@ else
 			openwbDebugLog "MAIN" 1 "eth0 and wlan0 exists wlancarrier:$wlanstate"
 			if (( wlanstate == 1 )); then
 				openwbDebugLog "MAIN" 1 "now stop wlan"
-			sudo ifconfig wlan0:0 $virtual_ip_wlan0 netmask 255.255.255.0 down
-			wlanstate=$(</sys/class/net/wlan0/carrier)
-			if (( wlanstate == 1 )); then
-				sudo systemctl stop hostapd
-				sudo systemctl stop dnsmasq
+				sudo ifconfig wlan0:0 $virtual_ip_wlan0 netmask 255.255.255.0 down
+				wlanstate=$(</sys/class/net/wlan0/carrier)
+				if (( wlanstate == 1 )); then
+					sudo systemctl stop hostapd
+					sudo systemctl stop dnsmasq
+				fi
 			fi
 		fi
 	else

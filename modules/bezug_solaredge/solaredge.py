@@ -1,17 +1,18 @@
 #!/usr/bin/python
 import sys
-import os
-import time
-import getopt
-import socket
-import ConfigParser
+# import os
+# import time
+# import getopt
+# import socket
+# import ConfigParser
 import struct
-import binascii
+# import binascii
+from pymodbus.client.sync import ModbusTcpClient
 ipaddress = str(sys.argv[1])
 modbusport = int(sys.argv[2])
-from pymodbus.client.sync import ModbusTcpClient
-client = ModbusTcpClient(ipaddress, port=modbusport)
 slaveid = int(sys.argv[3])
+
+client = ModbusTcpClient(ipaddress, port=modbusport)
 
 resp= client.read_holding_registers(40206,5,unit=slaveid)
 value1 = resp.registers[0] 
@@ -144,7 +145,7 @@ f = open('/var/www/html/openWB/ramdisk/evuv3', 'w')
 f.write(str(finale3))
 f.close()
 
- #watt pro phase
+#watt pro phase
 resp= client.read_holding_registers(40207,1,unit=slaveid)
 value1 = resp.registers[0]
 all = format(value1, '04x')

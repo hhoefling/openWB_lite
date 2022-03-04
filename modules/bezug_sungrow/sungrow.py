@@ -1,15 +1,16 @@
 #!/usr/bin/python
 import sys
-import os
-import time
-import getopt
-import socket
-import ConfigParser
+# import os
+# import time
+# import getopt
+# import socket
+# import ConfigParser
 import struct
-import binascii
+# import binascii
+from pymodbus.client.sync import ModbusTcpClient
 ipaddress = str(sys.argv[1])
 srmode = int(sys.argv[2])
-from pymodbus.client.sync import ModbusTcpClient
+
 client = ModbusTcpClient(ipaddress, port=502)
 
 if srmode == 1:

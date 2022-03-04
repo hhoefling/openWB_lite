@@ -1,23 +1,24 @@
 #!/usr/bin/python
 import sys
-import os
-import time
-import getopt
-import socket
-import ConfigParser
+# import os
+# import time
+# import getopt
+# import socket
+# import ConfigParser
 import struct
-import binascii
+# import binascii
+from pymodbus.client.sync import ModbusTcpClient
 ipaddress = str(sys.argv[1])
 slave1id = int(sys.argv[2])
-from pymodbus.client.sync import ModbusTcpClient
-client = ModbusTcpClient(ipaddress, port=502)
-#batterie auslesen und pv leistung korrigieren
 
+client = ModbusTcpClient(ipaddress, port=502)
+
+# batterie auslesen und pv leistung korrigieren
 resp= client.read_holding_registers(40083,2,unit=slave1id)
-#read watt
+# read watt
 watt=format(resp.registers[0], '04x')
 wr1watt=int(struct.unpack('>h', watt.decode('hex'))[0]) * -1
-#read multiplier
+# read multiplier
 multiplier=format(resp.registers[1], '04x')
 fmultiplier=int(struct.unpack('>h', multiplier.decode('hex'))[0])
 if fmultiplier == 2:

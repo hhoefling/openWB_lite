@@ -1,10 +1,10 @@
 #!/usr/bin/python
 import sys
-import os
-import time
-import getopt
-import socket
-import ConfigParser
+# import os
+# import time
+# import getopt
+# import socket
+# import ConfigParser
 import struct
 import binascii
 ipaddress = str(sys.argv[1])

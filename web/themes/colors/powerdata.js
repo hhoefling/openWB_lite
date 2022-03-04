@@ -442,20 +442,20 @@ class SHDevice {
 	}
 };
 
+
 function formatWatt(watt) {
-	let wattResult;
 	if (watt >= 1000) {
 		switch (wbdata.decimalPlaces) {
 			case 0:	return Math.round(watt / 1000).toLocaleString('de-DE')  + " kW";
-				break;
+					break;
 			case 1: return (Math.round(watt / 100) / 10).toLocaleString('de-DE') + " kW";
-				break;
+					break;
 			case 2: return (Math.round(watt / 10) / 100).toLocaleString('de-DE') + " kW";
-				break;
+					break;
 			case 3: return (Math.round(watt) /* / 1000*/).toLocaleString('de-DE') + " W";
-				break;
+					break;
 			default:return (Math.round(watt / 100) / 10 ).toLocaleString('de-DE') + " kW";
-				break;
+					break;
 		}
 	} else {
 		return (Math.round(watt).toLocaleString('de-DE') + " W");
@@ -466,20 +466,22 @@ function formatWattH(watt) {
 	if (watt >= 1000) {
 		switch (wbdata.decimalPlaces) {
 			case 0:	return Math.round(watt / 1000).toLocaleString('de-DE') + ' kWh';
-				break;
+					break;
 			case 1: return (Math.round(watt / 100) / 10).toLocaleString('de-DE') + ' kWh';
-				break;
+					break;
 			case 2: return (Math.round(watt / 10) / 100).toLocaleString('de-DE') + ' kWh';
-				break;
+					break;
 			case 3: return (Math.round(watt) /* / 1000*/).toLocaleString('de-DE')  + ' Wh';
-				break;
+					break;
 			default:return (Math.round(watt / 100) / 10).toLocaleString('de-DE') + ' kWh';
-				break;
+					break;
 		}
 	} else {
 		return (Math.round(watt).toLocaleString('de-DE') + " Wh");
 	}
 }
+
+
 function formatTime(seconds) {
 	const hours = Math.floor(seconds / 3600);
 	const minutes = ((seconds % 3600) / 60).toFixed(0);

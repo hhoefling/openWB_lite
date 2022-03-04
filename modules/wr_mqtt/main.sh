@@ -2,7 +2,7 @@
 OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 MODULEDIR=$(cd `dirname $0` && pwd)
-DMOD="PV"
+DMOD="MAIN"
 Debug=$debug
 
 pvwatt=$(<${RAMDISKDIR}/pvwatt)
