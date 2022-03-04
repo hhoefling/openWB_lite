@@ -947,6 +947,7 @@ loadvars(){
 		schieflast=$(( maxevu - lowevu ))
 		echo $schieflast > /var/www/html/openWB/ramdisk/schieflast
 	else
+	    #  wattbezugmodul=none
 		uberschuss=$((-pvwatt - hausbezugnone - ladeleistung))
 		echo $((-uberschuss)) > /var/www/html/openWB/ramdisk/wattbezug
 		wattbezugint=$((-uberschuss))
@@ -954,11 +955,14 @@ loadvars(){
 	fi
 
 	# Abschaltbare Smartdevices zum Ueberschuss rechnen
-	echo $uberschuss > /var/www/html/openWB/ramdisk/ueberschuss_org
+	## NC echo $uberschuss > /var/www/html/openWB/ramdisk/ueberschuss_org
 	wattabs=$(cat /var/www/html/openWB/ramdisk/devicetotal_watt)
-	uberschuss=$((uberschuss + wattabs))
-	echo $uberschuss > /var/www/html/openWB/ramdisk/ueberschuss_mitsmart
-
+	if (( wattabs>0 )) ; then
+	   uberschuss=$((uberschuss + wattabs))
+	   ## NC echo $uberschuss > /var/www/html/openWB/ramdisk/ueberschuss_mitsmart
+	   openwbDebugLog "PV" 0 "5 :UEBERSCHUSS $uberschuss  nach addierung der abschaltbaren smartdev"		
+    fi
+	
 	#Soc ermitteln
 	if [[ "$socmodul" != "none" ]]; then
 		socvorhanden=1
