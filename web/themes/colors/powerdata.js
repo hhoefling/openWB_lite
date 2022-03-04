@@ -446,50 +446,38 @@ function formatWatt(watt) {
 	let wattResult;
 	if (watt >= 1000) {
 		switch (wbdata.decimalPlaces) {
-			case 0:
-				wattResult = Math.round(watt / 1000);
+			case 0:	return Math.round(watt / 1000).toLocaleString('de-DE')  + " kW";
 				break;
-			case 1:
-				wattResult = (Math.round(watt / 100) / 10).toFixed(1);
+			case 1: return (Math.round(watt / 100) / 10).toLocaleString('de-DE') + " kW";
 				break;
-			case 2:
-				wattResult = (Math.round(watt / 10) / 100).toFixed(2);
+			case 2: return (Math.round(watt / 10) / 100).toLocaleString('de-DE') + " kW";
 				break;
-			case 3:
-				wattResult = (Math.round(watt) / 1000).toFixed(3);
+			case 3: return (Math.round(watt) /* / 1000*/).toLocaleString('de-DE') + " W";
 				break;
-			default: 
-				wattResult = Math.round(watt / 100) / 10;
+			default:return (Math.round(watt / 100) / 10 ).toLocaleString('de-DE') + " kW";
 				break;
 		}
-		return (wattResult + " kW");
 	} else {
-		return (watt + " W");
+		return (Math.round(watt).toLocaleString('de-DE') + " W");
 	}
 }
 
 function formatWattH(watt) {
 	if (watt >= 1000) {
 		switch (wbdata.decimalPlaces) {
-			case 0:
-				wattResult = Math.round(watt / 1000);
+			case 0:	return Math.round(watt / 1000).toLocaleString('de-DE') + ' kWh';
 				break;
-			case 1:
-				wattResult = (Math.round(watt / 100) / 10).toFixed(1);
+			case 1: return (Math.round(watt / 100) / 10).toLocaleString('de-DE') + ' kWh';
 				break;
-			case 2:
-				wattResult = (Math.round(watt / 10) / 100).toFixed(2);
+			case 2: return (Math.round(watt / 10) / 100).toLocaleString('de-DE') + ' kWh';
 				break;
-			case 3:
-				wattResult = (Math.round(watt) / 1000).toFixed(3);
+			case 3: return (Math.round(watt) /* / 1000*/).toLocaleString('de-DE')  + ' Wh';
 				break;
-			default: 
-				wattResult = Math.round(watt / 100) / 10;
+			default:return (Math.round(watt / 100) / 10).toLocaleString('de-DE') + ' kWh';
 				break;
 		}
-		return (wattResult + " kWh");
 	} else {
-		return (Math.round(watt) + " Wh");
+		return (Math.round(watt).toLocaleString('de-DE') + " Wh");
 	}
 }
 function formatTime(seconds) {
