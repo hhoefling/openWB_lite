@@ -1,8 +1,11 @@
 #!/bin/bash
 # NUR PV Uberschussregelung Lademodus 2
-nurpvlademodus(){
-	maxll=($llalt $llalts1 $llalts2 $llaltlp4 $llaltlp5 $llaltlp6 $llaltlp7 $llaltlp8)
-	maxllvar=0
+nurpvlademodus()
+{
+
+	## maxll=($llalt $llalts1 $llalts2 $llaltlp4 $llaltlp5 $llaltlp6 $llaltlp7 $llaltlp8)
+	maxll=($llalt $llalts1 $llalts2)
+	maxllvar=0		# hoechster Soll-Ampere Zahl
 	for v in "${maxll[@]}"; do
 		if (( v > maxllvar )); then maxllvar=$v; fi;
 	done
@@ -84,7 +87,7 @@ nurpvlademodus(){
 					fi
 				fi
 				echo "Ladung mit $minnurpvsocll Ampere, da $minnurpvsoclp1 % SoC noch nicht erreicht" > ramdisk/lastregelungaktiv
-			exit 0
+			    exit 0
 			fi
 			if (( soc >= maxnurpvsoclp1 ))  && (( maxnurpvsoclp1<100)); then
 				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
@@ -92,7 +95,7 @@ nurpvlademodus(){
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus NurPV. Ladung gestoppt, $soc % SoC erreicht"
 					openwbDebugLog "MAIN" 1 "Beende PV Laden da $sofortsoclp1 % erreicht"
 				fi
-			exit 0
+			    exit 0
 			fi
 		fi
 	fi
