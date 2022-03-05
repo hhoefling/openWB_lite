@@ -400,9 +400,9 @@ class SHDevice {
 
 function formatWatt(watt) {
 	if (watt >= 10000) {
-		return (Math.round(watt / 1000) + " kW");
+		return (Math.round(watt / 1000).toLocaleString('de-DE') + " kW");
 	} else if (watt >= 1000) {
-		return ((Math.round(watt / 100) / 10) + " kW");
+		return ((Math.round(watt / 100) / 10).toLocaleString('de-DE') + " kW");
 	} else {
 		return (watt + " W");
 	}
@@ -410,11 +410,11 @@ function formatWatt(watt) {
 
 function formatWattH(watth) {
 	if (watth >= 10000) {
-		return (Math.round(watth / 1000) + " kWh");
+		return (Math.round(watth / 1000).toLocaleString('de-DE') + " kWh");
 	} else if (watth >= 1000) {
-		return ((Math.round(watth / 100) / 10) + " kWh");
+		return ((Math.round(watth / 100) / 10).toLocaleString('de-DE') + " kWh");
 	} else {
-		return (Math.round(watth) + " Wh");
+		return (Math.round(watth).toLocaleString('de-DE') + " Wh");
 	}
 }
 function formatTime(seconds) {
