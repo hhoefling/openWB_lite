@@ -21,15 +21,18 @@ Python 3.5.3
 - Nicht übernommen wurde die Umwidmung der mqtt Zuweisungen zur pv Leistung. Bei der 1.9'er bis hin zur 254 wurde dort ein negativer Wert von der Datenquelle abgelegt. Irgendwann Dez/Jan 2022 wurde das umgestellt auf eine positive Zahl. Dadurch werden alle MQTT-PV Datequellen ungültig und es müste die openWB Version berücksichtig werden um zu entscheiden ob eine posivie oder einen negaive Zahl an openWB zu übegeben sei. Diese Inkompatibilität behindert den Vergleichenden Test mit einer ältern Version.
 Auch verlieren älter Backups dann ihr gültigkeit wenn die MQTT Quelle notgedrungen auf posivive Werte umgestellt wurde. Daher wird in meiner Lite weiterhin ein negavtive Zahl via MQTT übergeben.
 - Ladelog um KM ergänzen. wird via MQTT aus dem Skoda-SoC Module übergeben.
- *******************************************************
-Die weitere Entwicklung
-- Ladesteuerung an meine Wünsche anpassen, insbesonder Nachtladen und Zielladen.
-- 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
-*******************************************************
-Nachladen.
+- Nachladen.
 Die Startzeit für das Nachladen kann nun von 17:00 bis 4:00 Uhr Nachts gesetzt werden.
 Die Endzeit für das Nachladen kann nun von 20:00 bis 9:00 Uhr Morgens gesetzt werden.
 Es wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vorher)
+
+*******************************************************
+
+***Die weitere Entwicklung***
+
+- Ladesteuerung an meine Wünsche anpassen, insbesonder Nachtladen und Zielladen.
+- 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
+- Ladelog, Ein Eintrag je Ab/AnStecken, nicht je Ladeunterbrechung
 
 **[Umzug auf openwb_lite](docs/umzug.md)**
 
