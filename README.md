@@ -26,6 +26,10 @@ Die weitere Entwicklung
 - Ladesteuerung an meine Wünsche anpassen, insbesonder Nachtladen und Zielladen.
 - 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
 *******************************************************
+Nachladen.
+Die Startzeit für das Nachladen kann nun von 17:00 bis 4:00 Uhr Nachts gesetzt werden.
+Die Endzeit für das Nachladen kann nun von 20:00 bis 9:00 Uhr Morgens gesetzt werden.
+Es wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vorher)
 
 **[Umzug auf openwb_lite](docs/umzug.md)**
 
