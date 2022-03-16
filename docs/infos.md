@@ -63,7 +63,7 @@ Die neue OLC-Auflösung mit 0,01A (ab FW18 mgl.)
 2015             R/W     48     Amps value 6
 2016             R/W     63     Amps value 7
 2017             R/W     80     Amps value 8
-
+```
 
 
 Integrierter Zähle SDM72D-M (modbus id = 105)
