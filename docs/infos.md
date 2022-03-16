@@ -42,7 +42,7 @@ Die neue OLC-Auflösung mit 0,01A (ab FW18 mgl.)
 1004: Turn off bit 0
 1005: Firmware Version 12
 1006: EVSE Status 2+
-												1: steady 12V
+			1: steady 12V
                         2: PWM is being generated (only if 1000 >= 6)
                         3: OFF, steady 12V
 1007: evseRcdStatus (??)
