@@ -33,10 +33,18 @@ Die neue OLC-Auflösung mit 0,01A (ab FW18 mgl.)
 1000: Configured Current 12
 1001: Actual Current 12
 1002: Vehicle Status 2
+                        1: ready
+                        2: EV is present
+                        3: charging
+                        4: charging with ventilation
+                        5: failure (e.g. diode check)
 1003: PP-Limit 32
 1004: Turn off bit 0
 1005: Firmware Version 12
 1006: EVSE Status 2+
+			1: steady 12V
+                        2: PWM is being generated (only if 1000 >= 6)
+                        3: OFF, steady 12V
 1007: evseRcdStatus (??)
 2000: Current after boot 32
 2001: Modbus Status 1
@@ -47,6 +55,14 @@ Die neue OLC-Auflösung mit 0,01A (ab FW18 mgl.)
 2006: Current Sharing Mode 0
 2007: PP-Detection 0 
 2009: BootFirmware;  (??)
+2010             R/W     6      Amps value 1
+2011             R/W     10     Amps value 2
+2012             R/W     16     Amps value 3
+2013             R/W     25     Amps value 4
+2014             R/W     32     Amps value 5
+2015             R/W     48     Amps value 6
+2016             R/W     63     Amps value 7
+2017             R/W     80     Amps value 8
 ```
 
 
