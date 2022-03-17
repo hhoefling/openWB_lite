@@ -1,26 +1,21 @@
 #!/bin/bash
 
-OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
-RAMDISKDIR="${OPENWBBASEDIR}/ramdisk"
-#MODULEDIR=$(cd `dirname $0` && pwd)
-#DMOD="BATT"
-DMOD="MAIN"
-Debug=$debug
+#########################################################
+#
+# liest aus Wechselrichter Kostal Plenticore
+# mit angeschlossener Batterie die Lade-/Entladeleistung
+# und den Batterie-SOC
+#
+# 2019 Michael Ortenstein
+# This file is part of openWB
+#
+#########################################################
 
-#For Development only
-#Debug=1
+# Daten aus temporärer ramdisk zur globalen Weiterverarbeitung in die
+# entsprechenden ramdisks kopieren. Die temporären Werte stammen aus dem
+# wr_plenticore Modul, werden dort zentral aus den Modbus-Registern gelesen
 
-if [ ${DMOD} == "MAIN" ]; then
-    MYLOGFILE="${RAMDISKDIR}/openWB.log"
-else
-    MYLOGFILE="${RAMDISKDIR}/speicher.log"
-fi
-
-python3 /var/www/html/openWB/modules/speicher_kostalplenticore/kostal_plenticore.py >>$MYLOGFILE 2>&1
-ret=$?
-
-openwbDebugLog ${DMOD} 2 "RET: ${ret}"
-
-speicherleistung=$(<${RAMDISKDIR}/speicherleistung)
-
-openwbDebugLog ${DMOD} 1 "BattLeistung: ${speicherleistung}"
+# Speicherleistung WR 1
+"cp" /var/www/html/openWB/ramdisk/temp_speicherleistung /var/www/html/openWB/ramdisk/speicherleistung
+# Speicher Ladestand von Speicher am WR 1
+"cp" /var/www/html/openWB/ramdisk/temp_speichersoc /var/www/html/openWB/ramdisk/speichersoc
