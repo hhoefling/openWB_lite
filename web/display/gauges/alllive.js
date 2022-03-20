@@ -247,7 +247,7 @@ function getfile() {
 				pvwatt = pvwatt * -1;
 				pvwattarrow = pvwatt;
 				if (pvwatt > 999) {
-					pvwatt = (pvwatt / 1000).toFixed(2);
+					pvwatt = (pvwatt / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 					pvwatt = pvwatt + " kW Erzeugung";
 				} else {
 					pvwatt = pvwatt + " W Erzeugung";
@@ -262,7 +262,7 @@ function getfile() {
 			llaktuelllp2 = parseInt(request.responseText, 10);
 			llaktuelllp2arrow = llaktuelllp2;
 			if (request.responseText > 999) {
-				request.responseText = (request.responseText / 1000).toFixed(2);
+				request.responseText = (request.responseText / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 				request.responseText = request.responseText + " kW";
 			} else {
 				request.responseText = request.responseText + " W";
@@ -278,7 +278,7 @@ function getfile() {
 			intbezugarrow = intbezug;
 			if (intbezug > 0) {
 				if (intbezug > 999) {
-					intbezug = (intbezug / 1000).toFixed(2);
+					intbezug = (intbezug / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 					wattbezug = intbezug + " kW Bezug";
 				} else {
 					wattbezug = intbezug + " W Bezug";
@@ -286,7 +286,7 @@ function getfile() {
 			} else {
 				intbezug = intbezug * -1;
 				if (intbezug > 999) {
-					intbezug = (intbezug / 1000).toFixed(2);
+					intbezug = (intbezug / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 					wattbezug = intbezug + " kW Einspeisung";
 				} else {
 					wattbezug = intbezug + " W Einspeisung";
@@ -327,7 +327,7 @@ function getfile() {
 			intspeicherarrow = intspeicherw;	
 			if (intspeicherw > 0) {
 				if (intspeicherw > 999) {
-					intspeicherw = (intspeicherw / 1000).toFixed(2);
+					intspeicherw = (intspeicherw / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 					speicherwatt = intspeicherw + " kW Ladung";
 				} else {
 					speicherwatt = intspeicherw + " W Ladung";
@@ -335,7 +335,7 @@ function getfile() {
 			} else {
 				intspeicherw = intspeicherw * -1;
 				if (intspeicherw > 999) {
-					intspeicherw = (intspeicherw / 1000).toFixed(2);
+					intspeicherw = (intspeicherw / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 					speicherwatt = intspeicherw + " kW Entladung";
 				} else {
 					speicherwatt = intspeicherw + " W Entladung";
@@ -350,7 +350,7 @@ function getfile() {
 			llaktuell = parseInt(request.responseText, 10);
 			llaktuellarrow = llaktuell;
 			if (request.responseText > 999) {
-				request.responseText = (request.responseText / 1000).toFixed(2);
+				request.responseText = (request.responseText / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 				request.responseText = request.responseText + " kW";
 			} else {
 				request.responseText = request.responseText + " W";
@@ -362,7 +362,7 @@ function getfile() {
 		url: "/openWB/ramdisk/hausverbrauch",
 		complete: function(request){
 			if (request.responseText > 999) {
-				request.responseText = (request.responseText / 1000).toFixed(2);
+				request.responseText = (request.responseText / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 				request.responseText = request.responseText + " kW";
 			} else {
 				request.responseText = request.responseText + " W";
@@ -376,7 +376,7 @@ function getfile() {
 			llaktuellg = parseInt(request.responseText, 10);
 			llaktuellgarrow = llaktuellg;
 			if (request.responseText > 999) {
-				request.responseText = (request.responseText / 1000).toFixed(2);
+				request.responseText = (request.responseText / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 				request.responseText = request.responseText + " kW";
 			} else {
 				request.responseText = request.responseText + " W";

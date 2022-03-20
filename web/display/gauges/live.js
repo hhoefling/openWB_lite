@@ -244,7 +244,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		intbezugarrow = intbezug;
 			if (intbezug > 0) {
 			if (intbezug > 999) {
-				intbezug = (intbezug / 1000).toFixed(2);
+				intbezug = (intbezug / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 					wattbezug = intbezug + " kW Bezug";
 			} else {
 			wattbezug = intbezug + " W Bezug";
@@ -252,7 +252,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		} else {
 				intbezug = intbezug * -1;
 			if (intbezug > 999) {
-				intbezug = (intbezug / 1000).toFixed(2);
+				intbezug = (intbezug / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 					wattbezug = intbezug + " kW Einspeisung";
 			} else {
 			wattbezug = intbezug + " W Einspeisung";
@@ -583,7 +583,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		intspeicherarrow = intspeicherw;
 		if (intspeicherw > 0) {
 			if (intspeicherw > 999) {
-				intspeicherw = (intspeicherw / 1000).toFixed(2);
+				intspeicherw = (intspeicherw / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 				speicherwatt = intspeicherw + " kW Ladung";
 			} else {
 				speicherwatt = intspeicherw + " W Ladung";
@@ -591,7 +591,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		} else {
 				intspeicherw = intspeicherw * -1;
 			if (intspeicherw > 999) {
-				intspeicherw = (intspeicherw / 1000).toFixed(2);
+				intspeicherw = (intspeicherw / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 				speicherwatt = intspeicherw + " kW Entladung";
 			} else {
 				speicherwatt = intspeicherw + " W Entladung";
@@ -601,7 +601,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 	}
 	else if ( mqttmsg == "openWB/global/WHouseConsumption" ) {
 		if (mqttpayload > 999) {
-			mqttpayload = (mqttpayload / 1000).toFixed(2);
+			mqttpayload = (mqttpayload / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 				mqttpayload = mqttpayload + " kW";
 		} else {
 			mqttpayload = mqttpayload + " W";
@@ -652,7 +652,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 			pvwattarrow = pvwatt;
 			// adjust and add unit
 			if (pvwatt > 999) {
-				pvwattStr = (pvwatt / 1000).toFixed(2) + " kW";
+				pvwattStr = (pvwatt / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})  + " kW";
 			} else {
 				pvwattStr = pvwatt + " W";
 			}
@@ -672,7 +672,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		llaktuell = parseInt(mqttpayload, 10);
 		llaktuellarrow = llaktuell;
 		if (mqttpayload > 999) {
-			mqttpayload = (mqttpayload / 1000).toFixed(2);
+			mqttpayload = (mqttpayload / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 			mqttpayload = mqttpayload + " kW";
 		} else {
 		mqttpayload = mqttpayload + " W";
@@ -683,7 +683,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		llaktuell = parseInt(mqttpayload, 10);
 		llaktuellgarrow = llaktuell;
 		if (mqttpayload > 999) {
-			mqttpayload = (mqttpayload / 1000).toFixed(2);
+			mqttpayload = (mqttpayload / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 			mqttpayload = mqttpayload + " kW";
 		} else {
 		mqttpayload = mqttpayload + " W";

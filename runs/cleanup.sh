@@ -8,4 +8,5 @@ if [ -f /var/www/html/openWB/ramdisk/debuguser ]; then
 else
   echo "$timestamp cleanup.sh: checking logfiles." >> /var/www/html/openWB/ramdisk/openWB.log
   find /var/www/html/openWB/ramdisk/ -name "*.log" -type f -exec /var/www/html/openWB/runs/cleanupf.sh {} \;
+  /var/www/html/openWB/runs/cleanupf.sh /var/log/openWB.log
 fi
