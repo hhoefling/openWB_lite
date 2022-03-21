@@ -408,17 +408,28 @@ else
 fi
 
 # check if our modbus server is running
-if ps ax |grep -v grep |grep "sudo python3 $OPENWBBASEDIR/runs/modbusserver/modbusserver.py" > /dev/null
-then
-	openwbDebugLog "MAIN" 1 "modbus tcp server already running"
+# if Variable not set -> server active (old config)
+if [[ "$modbus502enabled" == "0" ]]; then
+  	openwbDebugLog "MAIN" 0 "modbus tcp server not enabled"
+   	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/modbusserver/modbusserver.py" > /dev/null
+  	then
+     	openwbDebugLog "MAIN" 0 "kill running modbus tcp server"
+	   	sudo kill $(ps aux |grep '[m]odbusserver.py' | awk '{print $2}')
+	  fi
 else
-  if (  $(lsusb | grep -q UART) ) ; then
-	openwbDebugLog "MAIN" 0 "modbus tcp server not running! restarting process"
-	sudo python3 $OPENWBBASEDIR/runs/modbusserver/modbusserver.py &
-  else
-	openwbDebugLog "MAIN" 0 "modbus tcp server not avail no usb-UART"
-  fi
+    if ps ax |grep -v grep |grep "sudo python3 $OPENWBBASEDIR/runs/modbusserver/modbusserver.py" > /dev/null
+    then
+  	   openwbDebugLog "MAIN" 1 "modbus tcp server already running"
+    else
+       if (  $(lsusb | grep -q UART) ) ; then
+	        openwbDebugLog "MAIN" 0 "modbus tcp server not running! restarting process"
+          sudo python3 $OPENWBBASEDIR/runs/modbusserver/modbusserver.py &
+       else
+        	openwbDebugLog "MAIN" 0 "modbus tcp server not avail no usb-UART"
+       fi
+    fi
 fi
+
 
 #Pingchecker
 if (( $pingcheckactive == 1 )); then
