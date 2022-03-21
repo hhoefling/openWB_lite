@@ -199,7 +199,7 @@ if (isset($_GET['theme'])) {
 }
 
 //echo "<pre>"; print_r($GLOBALS) ; echo "</pre>";
-// Lasse das Thema über -1..5 auswählen
+// Lasse das Thema ?ber -1..5 auswä¨¬en
 if (isset($_GET['themeId'])) {
     $settingsArrayOld['displaytheme']=trim($_GET['themeId']);
     $displaythemeold=trim($_GET['themeId']);
@@ -219,6 +219,8 @@ $isConfiguredLp[3] = ($settingsArray['lastmanagements2'] == 1) ? 1 : 0;
 for ( $lp = 14  ; $lp <= 8; $lp++) {
 	$isConfiguredLp[$lp] = ($settingsArray['lastmanagementlp'.$lp] == 1) ? 1 : 0;
 }
+
+#NC
 $countLpConfigured = array_sum($isConfiguredLp);
 
 // remove special characters from lp-names except space and underscore... maybe dangerous
