@@ -258,8 +258,29 @@
 									</span>
 								</div>
 							</div>
-
 						</div>
+
+						<hr class="border-secondary">
+						<div class="form-group">
+							<div class="form-row mb-1">
+								<div class="col-md-4">
+									<label class="col-form-label">Modbus</label>
+								</div>
+								<div class="col">
+									<div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-outline-info<?php if($modbus502enabledold == 0) echo " active" ?>">
+											<input type="radio" name="modbus502enabled" id="modbus502enabledOff" value="0"<?php if($modbus502enabledold == 0) echo " checked=\"checked\"" ?>>Aus
+										</label>
+										<label class="btn btn-outline-info<?php if($modbus502enabledold == 1) echo " active" ?>">
+											<input type="radio" name="modbus502enabled" id="modbus502enabledOn" value="1"<?php if($modbus502enabledold == 1) echo " checked=\"checked\"" ?>>An
+										</label>
+									</div>
+									<span class="form-text small">Wenn aktiviert, wird nach einem Neustart der Modbus-Server auf Port 502 aktiviert.</span>
+								</div>
+							</div>
+						</div>
+
+
 					</div>
 					<script>
 						var lp2akt = <?php echo $lastmanagementold ?>;
