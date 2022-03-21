@@ -1,5 +1,47 @@
 **Hilfreiche Infos, gesamelt im Forum**
 
+***Modbus Adressen (tcp) ***
+```
+110  rse
+111  configured chardpoints
+(W)112  Lademodustaster
+(W)113  rfidleser 
+300 Wattbezug
+302 Bezug A1
+303 Bezug A2
+304 Bezug A3
+305 Bezug V1
+306 Bezug V2
+307 Bezug V3
+308 Bezug Kwh
+310 Einspeisung Kwh
+400 pv Watt
+402 pv Wh
+500 bat Watt
+502 Bat Soc
+503 Bat KwhIn
+505 BatKwhOut
+>10999 Ladepunkte
+ subnr
+  0  llaktuell
+  2  llkwh
+  4  llv1
+  5  llv2
+  6  llv3
+  7  lla1
+  8  lla2
+  9  lla3
+  10  mqttlastmanagement
+  11  lpXenabled
+  12  rfidlp
+  14  plugstat
+  15  chargestat
+  16  llsoll
+(W) 51 lpXenabled  
+(W) 52 lpXsofortll  
+19916 llsolllp8  
+```  
+
 ***Die unterschiedlichen Zählertypen und ihre Internen Adressen***
 ```
 Typ	IP     Port Unit_id
@@ -20,7 +62,7 @@ Lovato 192.168.193.15 8899 8
 
 Speicherkit
 SDM120 192.168.193.19 8899 9
-SDM630 an EVU 192.168.193.15 8899 117
+SDM630 192.168.193.15 8899 117 (als EVU)
 MPM3PM 192.168.193.19 8899 1
 ```
 
