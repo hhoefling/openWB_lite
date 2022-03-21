@@ -281,6 +281,7 @@ class PowerGraph {
   }
 
   updateEnergyValues() {
+    if (this.rawData.length) {
     const startValues = this.rawData[0].split(',');
     const endValues = this.rawData[this.rawData.length - 1].split(',');
     wbdata.historicSummary.pv.energy = (endValues[3] - startValues[3]) / 1000;
@@ -289,7 +290,7 @@ class PowerGraph {
     wbdata.historicSummary.evuOut.energy = (endValues[2] - startValues[2]) / 1000;
     wbdata.historicSummary.charging.energy = (endValues[7] - startValues[7]) / 1000;
     var deviceEnergy = 0;
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 9; i++) {
       if (wbdata.graphMode == 'day') {
         deviceEnergy = deviceEnergy + (endValues[26 + i] - startValues[26 + i]) / 1000;
       } else {
@@ -303,7 +304,7 @@ class PowerGraph {
     wbdata.historicSummary.house.energy = wbdata.historicSummary.evuIn.energy + wbdata.historicSummary.pv.energy + wbdata.historicSummary.batOut.energy
       - wbdata.historicSummary.evuOut.energy - wbdata.historicSummary.batIn.energy - wbdata.historicSummary.charging.energy - wbdata.historicSummary.devices.energy;
   }
-
+  }
   extractLiveValues(payload) {
     const elements = payload.split(",");
     const now = new Date (Date.now());
