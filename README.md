@@ -17,6 +17,7 @@ Python 3.5.3
 ```
 
 ## Abweichungen zur normalen openWB
+- Diese Version arbeite nicht mit dem Legathy-Run-Server der ab 12.2022 einegbaut wurde. Gerade die RCT2 Module haben damit Probleme. Daher versuche ich die jeweils letzte Version der Module zu verwenden die noch ohne den LRS auskommt.
 - Reduktion auf LP1-LP3, dies ist weitgehend abgeschlossen.
 - Nicht übernommen wurde die Umwidmung der mqtt Zuweisungen zur pv Leistung. Bei der 1.9'er bis hin zur 254 wurde dort ein negativer Wert von der Datenquelle abgelegt. Irgendwann Dez/Jan 2022 wurde das umgestellt auf eine positive Zahl. Dadurch werden alle MQTT-PV Datequellen ungültig und es müste die openWB Version berücksichtig werden um zu entscheiden ob eine posivie oder einen negaive Zahl an openWB zu übegeben sei. Diese Inkompatibilität behindert den Vergleichenden Test mit einer ältern Version.
 Auch verlieren älter Backups dann ihr gültigkeit wenn die MQTT Quelle notgedrungen auf posivive Werte umgestellt wurde. Daher wird in meiner Lite weiterhin ein negavtive Zahl via MQTT übergeben.
