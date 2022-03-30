@@ -20,3 +20,10 @@ daher:
 ```
 apt install bsd-mailx msmtp msmtp-mta
 ```
+
+Parameter in der openWB
+```
+Xeventto='-a gmx xxx@yyy.de'
+eventto='-a hal4.local root@xxx.local'
+eventtosend=1
+```
