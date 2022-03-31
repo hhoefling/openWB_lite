@@ -25,7 +25,7 @@ u1p3pswitch(){
 					openwbDebugLog "MAIN" 1 "auf $u1p3pnl Phasen geaendert"
 				fi
 			else
-				if (( lademodus == 0 )); then
+				if (( lademodus == $SOFORT0 )); then
 					if (( u1p3pstat != u1p3psofort )); then
 						openwbDebugLog "MAIN" 1 "Sofortladen derzeit $u1p3pstat Phasen, auf $u1p3psofort konfiguriert, aendere..."
 						if (( u1p3psofort == 3 )); then
@@ -139,7 +139,7 @@ u1p3pswitch(){
 					openwbDebugLog "MAIN" 1 "auf $u1p3pnl Phasen geaendert"
 				fi
 			else
-				if (( lademodus == 0 )); then
+				if (( lademodus == $SOFORT0 )); then
 					if (( u1p3pstat != u1p3psofort )); then
 						openwbDebugLog "MAIN" 1 "Sofortladen derzeit $u1p3pstat Phasen, auf $u1p3psofort konfiguriert, unterbreche Ladung und aendere..."
 						echo 1 > ramdisk/blockall
