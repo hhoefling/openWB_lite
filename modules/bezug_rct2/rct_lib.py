@@ -190,7 +190,7 @@ class Frame:
     # consume a data fragment until frame is complete
     # The function returns the number of consumed bytes in data
     def consume(self, data):
-        i = 0;
+        i = 0
         for d in data:
             c = bytes([d])
             i += 1

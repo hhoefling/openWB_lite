@@ -31,11 +31,11 @@ def writeRam(fn,val, rctname):
 # Entry point with parameter check
 def main():
     rct_lib.init(sys.argv)
-    rct_lib.dbglog("bb=" , str(rct_lib.bb) )
-    rct_lib.dbglog("wr=" , str(rct_lib.wr) )
-    rct_lib.dbglog("sp=" , str(rct_lib.sp) )
-    rct_lib.dbglog("ii=" , str(rct_lib.ii) )
-    rct_lib.dbglog('bm5 ', str(rct_lib.bm5) )
+    rct_lib.dbglog("EVU bb=" , str(rct_lib.bb) )
+    rct_lib.dbglog("WR  wr=" , str(rct_lib.wr) )
+    rct_lib.dbglog("BAT sp=" , str(rct_lib.sp) )
+    rct_lib.dbglog("IN  ii=" , str(rct_lib.ii), " Info - not used" )
+    rct_lib.dbglog('5M  bm5 ', str(rct_lib.bm5), " get all counter every 5 minutes" )
     clientsocket = rct_lib.connect_to_server()
     if clientsocket is not None:
 #
@@ -85,6 +85,9 @@ def main():
         freq=rct_lib.read(clientsocket,0x1C4A665F )
         freq=int(freq * 100) / 100.0
         writeRam('evuhz', freq, '0x1C4A665F grid_pll[0].f')
+
+#	die Standart-openWB2 liefert keine Frequenz ab
+#	nehme die vom EVU stattdessen
         writeRam('llhz', freq, '0x1C4A665F grid_pll[0].f')
 
 
@@ -195,7 +198,7 @@ def main():
         writeRam('speicherleistung', watt, '0x400F015B g_sync.p_acc_lp')
 
         if rct_lib.bm5:
-            rct_lib.dbglog("--m5 set, get WR totals")
+            rct_lib.dbglog("--m5 set, get BAT totals")
             watt =int(rct_lib.read(clientsocket,0x5570401B ))
             #rct_lib.dbglog("speicherikwh will be battery.stored_energy "+ str(watt)) 
             writeRam('speicherikwh', watt, '0x5570401B battery.stored_energy')
