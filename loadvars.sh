@@ -460,6 +460,7 @@ loadvars(){
 		echo 1 > /var/www/html/openWB/ramdisk/pv1vorhanden
 		pvwatt=$(modules/$pvwattmodul/main.sh || true)
 		if ! [[ $pvwatt =~ $re ]] ; then
+			openwbDebugLog "MAIN" 0 "ungültiger Wert für pvwatt: $pvwatt"
 			pvwatt="0"
 		fi
 		pv1watt=$pvwatt
@@ -474,11 +475,13 @@ loadvars(){
 		echo 1 > /var/www/html/openWB/ramdisk/pv2vorhanden
 		pv2watt=$(modules/$pv2wattmodul/main.sh || true)
 		if ! [[ $pv2watt =~ $re ]] ; then
+			openwbDebugLog "MAIN" 0 "ungültiger Wert für pv2watt: $pv2watt"
 			pv2watt="0"
 		fi
 		echo $pv2watt > ramdisk/pv2watt
 		pvwatt=$(( pvwatt + pv2watt ))
 		if ! [[ $pvwatt =~ $re ]] ; then
+			openwbDebugLog "MAIN" 0 "ungültiger Wert für PV Gesamtleistung: $pvwatt"
 			pvwatt="0"
 		fi
 		echo $pvwatt > /var/www/html/openWB/ramdisk/pvallwatt
@@ -561,13 +564,16 @@ loadvars(){
 		ladeleistung=$(cat /var/www/html/openWB/ramdisk/llaktuell)
 		ladeleistunglp1=$ladeleistung
 		if ! [[ $lla1 =~ $re ]] ; then
+			openwbDebugLog "MAIN" 0 "ungültiger Wert für lla1: $lla1"
 			lla1="0"
 		fi
 		if ! [[ $lla2 =~ $re ]] ; then
+			openwbDebugLog "MAIN" 0 "ungültiger Wert für lla2: $lla2"
 			lla2="0"
 		fi
 
 		if ! [[ $lla3 =~ $re ]] ; then
+			openwbDebugLog "MAIN" 0 "ungültiger Wert für lla3: $lla3"
 			lla3="0"
 		fi
 
@@ -583,6 +589,7 @@ loadvars(){
 		fi
 		echo $lp1phasen > /var/www/html/openWB/ramdisk/lp1phasen
 		if ! [[ $ladeleistung =~ $re ]] ; then
+			openwbDebugLog "MAIN" 0 "ungültiger Wert für ladeleistung: $ladeleistung"
 			ladeleistung="0"
 		fi
 		ladestatus=$(</var/www/html/openWB/ramdisk/ladestatus)
@@ -603,6 +610,7 @@ loadvars(){
 			soc1=$(</var/www/html/openWB/ramdisk/soc1)
 			tmpsoc1=$(</var/www/html/openWB/ramdisk/tmpsoc1)
 			if ! [[ $soc1 =~ $re ]] ; then
+				openwbDebugLog "MAIN" 0 "ungültiger Wert für soc1: $soc1"
 				soc1=$tmpsoc1
 			else
 				echo $soc1 > /var/www/html/openWB/ramdisk/tmpsoc1
@@ -676,6 +684,7 @@ loadvars(){
 		echo $lp3phasen > /var/www/html/openWB/ramdisk/lp3phasen
 		ladestatuss2=$(</var/www/html/openWB/ramdisk/ladestatuss2)
 		if ! [[ $ladeleistungs2 =~ $re ]] ; then
+			openwbDebugLog "MAIN" 0 "ungültiger Wert für ladeleistungs2: $ladeleistungs2"
 		ladeleistungs2="0"
 		fi
 		ladeleistung=$(( ladeleistung + ladeleistungs2 ))
@@ -884,6 +893,7 @@ loadvars(){
 		socketa=$(echo $socketa | sed 's/\..*$//')
 		socketv=$(cat /var/www/html/openWB/ramdisk/socketv)
 		if ! [[ $socketa =~ $re ]] ; then
+			openwbDebugLog "MAIN" 0 "ungültiger Wert für socketa: $socketa"
 			socketa="0"
 		fi
 	fi
@@ -892,6 +902,7 @@ loadvars(){
 	if [[ $wattbezugmodul != "none" ]]; then
 		wattbezug=$(modules/$wattbezugmodul/main.sh || true)
 		if ! [[ $wattbezug =~ $re ]] ; then
+			openwbDebugLog "MAIN" 0 "ungültiger Wert für wattbezug: $wattbezug"
 			wattbezug="0"
 		fi
 		wattbezugint=$(printf "%.0f\n" $wattbezug)
@@ -975,6 +986,7 @@ loadvars(){
 				soc=$(</var/www/html/openWB/ramdisk/soc)
 				tmpsoc=$(</var/www/html/openWB/ramdisk/tmpsoc)
 				if ! [[ $soc =~ $re ]] ; then
+					openwbDebugLog "MAIN" 0 "ungültiger Wert für soc: $soc"
 					soc=$tmpsoc
 				else
 					echo "$soc" > /var/www/html/openWB/ramdisk/tmpsoc
@@ -988,6 +1000,7 @@ loadvars(){
 			soc=$(</var/www/html/openWB/ramdisk/soc)
 			tmpsoc=$(</var/www/html/openWB/ramdisk/tmpsoc)
 			if ! [[ $soc =~ $re ]] ; then
+				openwbDebugLog "MAIN" 0 "ungültiger Wert für soc: $soc"
 				soc=$tmpsoc
 			else
 				echo "$soc" > /var/www/html/openWB/ramdisk/tmpsoc
@@ -1041,16 +1054,9 @@ loadvars(){
 	fi
 	echo $hausverbrauch > /var/www/html/openWB/ramdisk/hausverbrauch
 	fronius_sm_bezug_meterlocation=$(</var/www/html/openWB/ramdisk/fronius_sm_bezug_meterlocation)
-	usesimbezug=0
-	if [[ $wattbezugmodul == "bezug_e3dc" ]] || [[ $wattbezugmodul == "bezug_carlogavazzilan" ]]|| [[ $wattbezugmodul == "bezug_siemens" ]] || [[ $wattbezugmodul == "bezug_solarwatt" ]]|| [[ $wattbezugmodul == "bezug_rct" ]]|| [[ $wattbezugmodul == "bezug_sungrow" ]] || [[ $wattbezugmodul == "bezug_powerdog" ]] || [[ $wattbezugmodul == "bezug_varta" ]] || [[ $wattbezugmodul == "bezug_lgessv1" ]] || [[ $wattbezugmodul == "bezug_kostalpiko" ]] || [[ $wattbezugmodul == "bezug_kostalplenticoreem300haus" ]] || [[ $wattbezugmodul == "bezug_sbs25" ]] || [[ $wattbezugmodul == "bezug_solarlog" ]] || [[ $wattbezugmodul == "bezug_sonneneco" ]] || [[ $fronius_sm_bezug_meterlocation == "1" ]]; then
-		usesimbezug=1
-	fi
-	if [[ $wattbezugmodul == "bezug_ethmpm3pm" ]] && [[ $evukitversion == "1" ]]; then
-		usesimbezug=1
-	fi
-	if [[ $wattbezugmodul == "bezug_ethmpm3pm" ]] && [[ $evukitversion == "2" ]]; then
-		usesimbezug=1
-	fi
+
+
+	usesimbezug=$( (test ! -r modules/$wattbezugmodul/usesim && echo "0") || cat  modules/$wattbezugmodul/usesim   )
 	if [[ $usesimbezug == "1" ]]; then
 		openwbDebugLog "MAIN" 0 "#### UseSimbezug counter simulation"
 		ra='^-?[0-9]+$'
@@ -1087,28 +1093,7 @@ loadvars(){
 		# sim bezug end
 	fi
 
-	usesimpv=0
-	if [[ $pvwattmodul == "none" ]] && [[ $speichermodul == "speicher_e3dc" ]]; then
-		usesimpv=1
-	fi
-	if [[ $pvwattmodul == "none" ]] && [[ $speichermodul == "speicher_alphaess" ]]; then
-		usesimpv=1
-	fi
-	if [[ $speichermodul == "speicher_kostalplenticore" ]] && [[ $pvwattmodul == "wr_plenticore" ]]; then
-		usesimpv=1
-	fi
-	if [[ $speichermodul == "speicher_solaredge" ]] && [[ $pvwattmodul == "wr_solaredge" ]]; then
-		usesimpv=1
-	fi
-	if [[ $pvwattmodul == "wr_fronius" ]] && [[ $speichermodul == "speicher_fronius" ]]; then
-		usesimpv=1
-	fi
-	if [[ $pvwattmodul == "wr_fronius" ]] && [[ $wrfroniusisgen24 == "1" ]]; then
-		usesimpv=1
-	fi
-	if [[ $pvwattmodul == "wr_kostalpiko" ]] || [[ $pvwattmodul == "wr_siemens" ]] || [[ $pvwattmodul == "wr_rct" ]]|| [[ $pvwattmodul == "wr_solarwatt" ]] || [[ $pvwattmodul == "wr_shelly" ]] || [[ $pvwattmodul == "wr_sungrow" ]] || [[ $pvwattmodul == "wr_huawei" ]] || [[ $pvwattmodul == "wr_powerdog" ]] || [[ $pvwattmodul == "wr_lgessv1" ]]|| [[ $pvwattmodul == "wr_kostalpikovar2" ]]; then
-		usesimpv=1
-	fi
+	usesimpv=$( (test ! -r modules/$pvwattmodul/usesim && echo "0") || cat  modules/$pvwattmodul/usesim   )
 	if [[ $usesimpv == "1" ]]; then
 		openwbDebugLog "MAIN" 0 "#### UseSimPV counter simulation"
 		ra='^-?[0-9]+$'
@@ -1146,11 +1131,9 @@ loadvars(){
 		# sim pv end
 	fi
 	#simcount für wr2
-	usesimpv2=0
-	if [[ $pv2wattmodul == "wr2_shelly" ]]; then
-		usesimpv2=1
-	fi
+	usesimpv2=$( (test ! -r modules/$pv2wattmodul/usesim && echo "0") || cat  modules/$pv2wattmodul/usesim   )
 	if [[ $usesimpv2 == "1" ]]; then
+		openwbDebugLog "MAIN" 0 "#### UseSimPV2 counter simulation"
 		ra='^-?[0-9]+$'
 		#rechnen auf wr2
 		watt4=$(</var/www/html/openWB/ramdisk/pv2watt)
@@ -1193,7 +1176,8 @@ loadvars(){
 		echo $pvallwh > /var/www/html/openWB/ramdisk/pvallwh
 	fi
 
-	if [[ $speichermodul == "speicher_e3dc" ]] || [[ $speichermodul == "speicher_tesvoltsma" ]] || [[ $speichermodul == "speicher_solarwatt" ]] || [[ $speichermodul == "speicher_rct" ]]|| [[ $speichermodul == "speicher_sungrow" ]]|| [[ $speichermodul == "speicher_alphaess" ]] || [[ $speichermodul == "speicher_siemens" ]]|| [[ $speichermodul == "speicher_lgessv1" ]] || [[ $speichermodul == "speicher_bydhv" ]] || [[ $speichermodul == "speicher_kostalplenticore" ]] || [[ $speichermodul == "speicher_powerwall" ]] || [[ $speichermodul == "speicher_sbs25" ]] || [[ $speichermodul == "speicher_solaredge" ]] || [[ $speichermodul == "speicher_sonneneco" ]] || [[ $speichermodul == "speicher_varta" ]] || [[ $speichermodul == "speicher_victron" ]] || [[ $speichermodul == "speicher_fronius" ]] ; then
+	usesimbat=$( (test ! -r modules/$speichermodul/usesim && echo "0") || cat  modules/$speichermodul/usesim   )
+	if [[ $usesimbat == "1" ]]; then
 		openwbDebugLog "MAIN" 0 "#### Use Sim Speicher counter simulation"
 		ra='^-?[0-9]+$'
 		watt2=$(</var/www/html/openWB/ramdisk/speicherleistung)
@@ -1289,7 +1273,7 @@ loadvars(){
 		openwbDebugLog "MAIN" 1 "socketa $socketa socketp $socketp socketkwh $socketkwh socketv $socketv"
 	fi
 
-	tempPubList=""
+	tempPubList="openWB/system/Uptime=$(uptime)"
 
 	if [[ "$opvwatt" != "$pvwatt" ]]; then
 		tempPubList="${tempPubList}\nopenWB/pv/W=${pvwatt}"
@@ -1311,6 +1295,24 @@ loadvars(){
 	if [[ "$olademodus" != "$lademodus" ]]; then
 		tempPubList="${tempPubList}\nopenWB/global/ChargeMode=${lademodus}"
 		echo $lademodus > ramdisk/mqttlastlademodus
+		
+	fi
+
+	
+		if { (( lademodus == 0 )) && (( nlakt_sofort  == 1 )); } \
+		|| { (( lademodus == 1 )) && (( nlakt_minpv   == 1 )); } \
+ 		|| { (( lademodus == 2 )) && (( nlakt_nurpv   == 1 )); } \
+ 		|| { (( lademodus == 4 )) && (( nlakt_standby == 1 )); } then
+			if (( nachtladen > 0 )) ; then 
+			     openwbDebugLog "MAIN" 0 "################# lademodes:$lademodus openWB/lp/1/boolChargeAtNight=1 1"
+		         tempPubList="${tempPubList}\nopenWB/lp/1/boolChargeAtNight=1"
+			else	 
+				 openwbDebugLog "MAIN" 0 "################## lademodes:$lademodus openWB/lp/1/boolChargeAtNight=0 1"
+		         tempPubList="${tempPubList}\nopenWB/lp/1/boolChargeAtNight=0"
+			fi
+		else
+				 openwbDebugLog "MAIN" 0 "################ lademodes:$lademodus openWB/lp/1/boolChargeAtNight=0 2"
+		         tempPubList="${tempPubList}\nopenWB/lp/1/boolChargeAtNight=0"
 	fi
 	if [[ "$ohausverbrauch" != "$hausverbrauch" ]]; then
 		tempPubList="${tempPubList}\nopenWB/global/WHouseConsumption=${hausverbrauch}"
@@ -1579,16 +1581,16 @@ loadvars(){
 		tempPubList="${tempPubList}\nopenWB/lp/2/boolDirectChargeModeSoc=${sofortsocstatlp2}"
 		echo $sofortsocstatlp2 > ramdisk/mqttsofortsocstatlp2
 	fi
-	#osofortsocstatlp3=$(<ramdisk/mqttsofortsocstatlp3)
-	#if (( osofortsocstatlp3 != sofortsocstatlp3 )); then
-	#	tempPubList="${tempPubList}\nopenWB/boolsofortlademodussoclp3=${sofortsocstatlp3}"
-	#	echo $sofortsocstatlp3 > ramdisk/mqttsofortsocstatlp3
-	#fi
-	#osofortsoclp3=$(<ramdisk/mqttsofortsoclp3)
-	#if (( osofortsoclp3 != sofortsoclp3 )); then
-	#	tempPubList="${tempPubList}\nopenWB/percentsofortlademodussoclp3=${sofortsoclp3}"
-	#	echo $sofortsoclp3 > ramdisk/mqttsofortsoclp3
-	#fi
+	osofortsocstatlp3=$(<ramdisk/mqttsofortsocstatlp3)
+	if (( osofortsocstatlp3 != sofortsocstatlp3 )); then
+		tempPubList="${tempPubList}\nopenWB/boolsofortlademodussoclp3=${sofortsocstatlp3}"
+		echo $sofortsocstatlp3 > ramdisk/mqttsofortsocstatlp3
+	fi
+	osofortsoclp3=$(<ramdisk/mqttsofortsoclp3)
+	if (( osofortsoclp3 != sofortsoclp3 )); then
+		tempPubList="${tempPubList}\nopenWB/percentsofortlademodussoclp3=${sofortsoclp3}"
+		echo $sofortsoclp3 > ramdisk/mqttsofortsoclp3
+	fi
 	ospeichervorhanden=$(<ramdisk/mqttspeichervorhanden)
 	if (( ospeichervorhanden != speichervorhanden )); then
 		tempPubList="${tempPubList}\nopenWB/housebattery/boolHouseBatteryConfigured=${speichervorhanden}"
@@ -1898,9 +1900,6 @@ loadvars(){
 		fi
 	done
 
-	tempPubList="${tempPubList}\nopenWB/system/Uptime=$(uptime)"
-	tempPubList="${tempPubList}\nopenWB/system/Date=$(date)"
-	tempPubList="${tempPubList}\nopenWB/system/Timestamp=${timestamp}"
 	#declare -a pvarray=("speichersocminpv" "speichersochystminpv" "mindestuberschuss" "abschaltuberschuss" "abschaltverzoegerung" "einschaltverzoegerung" "minimalampv" "minimalampv" "minimalalp2pv" "minnurpvsoclp1" "minnurpvsocll" "pvbezugeinspeisung" "offsetpv" "speicherpvui" "speichermaxwatt" "speichersocnurpv" "speicherwattnurpv" "adaptpv" "adaptfaktor")
 	#for val in ${pvarray[@]}; do
 	#	declare o$val
@@ -1915,7 +1914,7 @@ loadvars(){
 	
 echo "loadvars.Publist:"
 echo -e $tempPubList
-echo "Running Python: runs/mqttpub.py -q 0 -r &"
+#echo "Running Python: runs/mqttpub.py -q 0 -r &"
 echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
 
 runs/pubmqtt.sh &
