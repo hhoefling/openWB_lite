@@ -87,6 +87,7 @@ if [ "$second" -lt "10" ]; then
 	done
 fi
 
+# Input chargePoint 1..3
 function checkDisableLp {
 	powerVarName="powerLp${chargePoint}"
 	if [ "$waitUntilFinished" = "off" ] || [ "${!powerVarName}" -lt "200" ]; then

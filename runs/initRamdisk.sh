@@ -494,7 +494,18 @@ initRamdisk(){
 		done
 	done
 
-	# init other files
+#		"mqttlademkwhlp4:-1" \
+#		"mqttlademkwhlp5:-1" \
+#		"mqttlademkwhlp6:-1" \
+#		"mqttlademkwhlp7:-1" \
+#		"mqttlademkwhlp8:-1" \
+#		"mqttlademstatlp4:-1" \
+#		"mqttlademstatlp5:-1" \
+#		"mqttlademstatlp6:-1" \
+#		"mqttlademstatlp7:-1" \
+#		"mqttlademstatlp8:-1" \
+
+# init other files
 	for f in \
 		"mqttCp1Configured:-1" \
 		"mqttRandomSleepValue:-1" \
@@ -526,17 +537,7 @@ initRamdisk(){
 		"mqtthook2_aktiv:-1" \
 		"mqtthook3_aktiv:-1" \
 		"mqttlademkwh:-1" \
-		"mqttlademkwhlp4:-1" \
-		"mqttlademkwhlp5:-1" \
-		"mqttlademkwhlp6:-1" \
-		"mqttlademkwhlp7:-1" \
-		"mqttlademkwhlp8:-1" \
 		"mqttlademstat:-1" \
-		"mqttlademstatlp4:-1" \
-		"mqttlademstatlp5:-1" \
-		"mqttlademstatlp6:-1" \
-		"mqttlademstatlp7:-1" \
-		"mqttlademstatlp8:-1" \
 		"mqttlademstats1:-1" \
 		"mqttlademstats2:-1" \
 		"mqttlastlademodus:-1" \

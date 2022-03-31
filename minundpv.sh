@@ -54,7 +54,7 @@ minundpvlademodus(){
 			fi
 		fi
 	fi
-	maxll=($llalt $llalts1 $llalts2 $llaltlp4 $llaltlp5 $llaltlp6 $llaltlp7 $llaltlp8)
+	maxll=($llalt $llalts1 $llalts2 ) # $llaltlp4 $llaltlp5 $llaltlp6 $llaltlp7 $llaltlp8)
 	maxllvar=0
 	for v in "${maxll[@]}"; do
 		if (( v > maxllvar )); then maxllvar=$v; fi;

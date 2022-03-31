@@ -24,21 +24,21 @@ fi
 ll1=$(<$RAMDISKDIR/llkwh)  # Zählerstand LP1
 ll2=$(<$RAMDISKDIR/llkwhs1)  # Zählerstand LP2
 ll3=$(<$RAMDISKDIR/llkwhs2)  # Zählerstand LP3
-ll4=$(<$RAMDISKDIR/llkwhlp4)  # Zählerstand LP4
-ll5=$(<$RAMDISKDIR/llkwhlp5)  # Zählerstand LP5
-ll6=$(<$RAMDISKDIR/llkwhlp6)  # Zählerstand LP6
-ll7=$(<$RAMDISKDIR/llkwhlp7)  # Zählerstand LP7
-ll8=$(<$RAMDISKDIR/llkwhlp8)  # Zählerstand LP8
-llg=$(<$RAMDISKDIR/llkwhges)  # Zählerstand Gesamt
+ll4=0 #$(<$RAMDISKDIR/llkwhlp4)  # Zählerstand LP4
+ll5=0 #$(<$RAMDISKDIR/llkwhlp5)  # Zählerstand LP5
+ll6=0 #$(<$RAMDISKDIR/llkwhlp6)  # Zählerstand LP6
+ll7=0 #$(<$RAMDISKDIR/llkwhlp7)  # Zählerstand LP7
+ll8=0 #$(<$RAMDISKDIR/llkwhlp8)  # Zählerstand LP8
+llg=0 #$(<$RAMDISKDIR/llkwhges)  # Zählerstand Gesamt
 
 is_configured_cp1="1"                 #Ladepunkt 1 ist immer konfiguriert
 is_configured_cp2=$lastmanagement     # LP2 konfiguriert?
 is_configured_cp3=$lastmanagements2   # LP3 konfiguriert?
-is_configured_cp4=$lastmanagementlp4  # LP4 konfiguriert?
-is_configured_cp5=$lastmanagementlp5  # ...
-is_configured_cp6=$lastmanagementlp6
-is_configured_cp7=$lastmanagementlp7
-is_configured_cp8=$lastmanagementlp8
+#is_configured_cp4=$lastmanagementlp4  # LP4 konfiguriert?
+#is_configured_cp5=$lastmanagementlp5  # ...
+#is_configured_cp6=$lastmanagementlp6
+#is_configured_cp7=$lastmanagementlp7
+#is_configured_cp8=$lastmanagementlp8
 
 # wenn Pushover aktiviert, Zählerstände senden
 if (( pushbenachrichtigung == "1" )) ; then
@@ -67,11 +67,11 @@ fi
 ll1=$(echo "$ll1 * 1000" | bc)
 ll2=$(echo "$ll2 * 1000" | bc)
 ll3=$(echo "$ll3 * 1000" | bc)
-ll4=$(echo "$ll4 * 1000" | bc)
-ll5=$(echo "$ll5 * 1000" | bc)
-ll6=$(echo "$ll6 * 1000" | bc)
-ll7=$(echo "$ll7 * 1000" | bc)
-ll8=$(echo "$ll8 * 1000" | bc)
+#ll4=$(echo "$ll4 * 1000" | bc)
+#ll5=$(echo "$ll5 * 1000" | bc)
+#ll6=$(echo "$ll6 * 1000" | bc)
+#ll7=$(echo "$ll7 * 1000" | bc)
+#ll8=$(echo "$ll8 * 1000" | bc)
 llg=$(echo "$llg * 1000" | bc)
 
 speicherikwh=$(</var/www/html/openWB/ramdisk/speicherikwh)
