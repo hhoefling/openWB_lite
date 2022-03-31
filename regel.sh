@@ -352,8 +352,8 @@ if (( rseenabled == 1 )); then
 		if (( rseaktiv == 0 )); then
 			openwbDebugLog "CHARGESTAT" 0 "RSE Kontakt aktiviert, ändere Lademodus auf Stop"
 			echo $lademodus > ramdisk/rseoldlademodus
-			echo 3 > ramdisk/lademodus
-			mosquitto_pub -r -t openWB/global/ChargeMode -m "3"
+			echo $STOP3 > ramdisk/lademodus
+			mosquitto_pub -r -t openWB/global/ChargeMode -m "$STOP3"
 			echo 1 > ramdisk/rseaktiv
 		fi
 	else
@@ -384,8 +384,8 @@ if (( slavemode == 1 )); then
 	openwbisslave
 fi
 
-#Lademodus 3 == Aus
-if (( lademodus == 3 )); then
+#Lademodus STOP3 == Aus
+if (( lademodus == $STOP3 )); then
 	auslademodus
 fi
 
@@ -558,7 +558,7 @@ openwbDebugLog "PV" 0 "Gesamt Anzahl Phasen= $anzahlphasen (0..24 korrigiert)"
 
 ########################
 # Sofort Laden
-if (( lademodus == 0 )); then
+if (( lademodus == $SOFORT0 )); then
 	sofortlademodus
 	# Exit 0 if aktiv
 fi
@@ -600,17 +600,18 @@ openwbDebugLog "MAIN" 1 "anzahlphasen $anzahlphasen"
 openwbDebugLog "MAIN" 2 "uberschuss $uberschuss wattbezug $wattbezug ladestatus $ladestatus llsoll $llalt pvwatt $pvwatt mindestuberschussphasen $mindestuberschussphasen wattkombiniert $wattkombiniert schaltschwelle $schaltschwelle"
 ########################
 #Min Ladung + PV Uberschussregelung lademodus 1
-if (( lademodus == 1 )); then
+if (( lademodus == $MINPV1 )); then
 	minundpvlademodus
 fi
 ########################
 #NUR PV Uberschussregelung lademodus 2
 # wenn evse aus und $mindestuberschuss vorhanden, starte evse mit 6A Ladestromstaerke (1320 - 3960 Watt je nach Anzahl Phasen)
-if (( lademodus == 2 )); then
+if (( lademodus == $NURPV2 )); then
 	nurpvlademodus
 fi
 
+########################
 #Lademodus 4 == SemiAus
-if (( lademodus == 4 )); then
+if (( lademodus == $STANDBY4 )); then
 	semiauslademodus
 fi

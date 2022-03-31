@@ -31,23 +31,23 @@ rfid() {
 			echo "${lasttag},${NowItIs}" > ramdisk/rfidlp2
 		fi
 		if [ "$lasttag" == "$rfidstop" ] || [ "$lasttag" == "$rfidstop2" ] || [ "$lasttag" == "$rfidstop3" ] ; then
-			echo 3 > ramdisk/lademodus
+			echo $STOP3 > ramdisk/lademodus
 		fi
 
 		if [ "$lasttag" == "$rfidsofort" ] || [ "$lasttag" == "$rfidsofort2" ] || [ "$lasttag" == "$rfidsofort3" ]  ; then
-			echo 0 > ramdisk/lademodus
+			echo $SOFORT0 > ramdisk/lademodus
 		fi
 
 		if [ "$lasttag" == "$rfidminpv" ] || [ "$lasttag" == "$rfidminpv2" ] || [ "$lasttag" == "$rfidminpv3" ]  ; then
-			echo 1 > ramdisk/lademodus
+			echo $MINPV1 > ramdisk/lademodus
 		fi
 
 		if [ "$lasttag" == "$rfidnurpv" ] || [ "$lasttag" == "$rfidnurpv2" ] || [ "$lasttag" == "$rfidnurpv3" ]   ; then
-			echo 2 > ramdisk/lademodus
+			echo $NURPV2 > ramdisk/lademodus
 		fi
 
 		if [ "$lasttag" == "$rfidstandby" ] || [ "$lasttag" == "$rfidstandby2" ] || [ "$lasttag" == "$rfidstandby3" ] ; then
-			echo 4 > ramdisk/lademodus
+			echo $STANDBY4 > ramdisk/lademodus
 		fi
 		if [ "$lasttag" == "$rfidlp1start1" ] || [ "$lasttag" == "$rfidlp1start2" ] || [ "$lasttag" == "$rfidlp1start3" ] || [ "$lasttag" == "$rfidlp1start4" ] || [ "$lasttag" == "$rfidlp1start5" ]; then
 			mosquitto_pub -r -t openWB/set/lp/1/ChargePointEnabled -m "1"

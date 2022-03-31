@@ -3,6 +3,15 @@ monthlyfile="/var/www/html/openWB/web/logging/data/ladelog/$(date +%Y%m).csv"
 if [ ! -f $monthlyfile ]; then
 	echo $monthlyfile
 fi
+
+readonly SOFORT0=0
+readonly MINPV1=1
+readonly NURPV2=2
+readonly STOP3=3
+readonly STANDBY4=4
+readonly SUBMODE_NACHLADEN7=7
+
+
 ladeleistung=$(<ramdisk/llaktuell)
 llkwh=$(<ramdisk/llkwh)
 soc=$(<ramdisk/soc)
@@ -26,7 +35,7 @@ soc3KM=$(<ramdisk/soc3KM)
 if (( nachtladenstate == 0 )) && (( nachtladen2state == 0 )); then # Weder Nachtladen (nachtladestate) noch  Morgens laden (nachtladen2state) aktiv? nutze lademodus.
 	lmodus=$(</var/www/html/openWB/ramdisk/lademodus)
 else # Nachtladen oder Morgens laden ist aktiv, lademodus 7 setzen
-	lmodus=7
+	lmodus=$SUBMODE_NACHLADEN7
 fi
 if [ -e ramdisk/loglademodus ]; then
 	lademodus=$(</var/www/html/openWB/ramdisk/loglademodus)

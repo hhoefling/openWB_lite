@@ -134,7 +134,7 @@ if (( netzabschaltunghz == 1 )); then
 				lademodus=$(<$RAMDISKDIR/lademodus)
 				echo $lademodus > $RAMDISKDIR/templademodus
 				# set charge mode to stop
-				echo 3 > $RAMDISKDIR/lademodus
+				echo $STOP3 > $RAMDISKDIR/lademodus
 				openwbDebugLog "MAIN" 0 "Netzschutz aktiviert, Frequenz: ${hz}"
 				# set grid protection
 				echo 1 > $RAMDISKDIR/netzschutz

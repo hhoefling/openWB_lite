@@ -427,10 +427,10 @@ private_nachtlademodus(){
 
 prenachtlademodus()
 {
-	if { (( lademodus == 0 )) && (( nlakt_sofort  == 1 )); } \
-	|| { (( lademodus == 1 )) && (( nlakt_minpv   == 1 )); } \
-	|| { (( lademodus == 2 )) && (( nlakt_nurpv   == 1 )); } \
-	|| { (( lademodus == 4 )) && (( nlakt_standby == 1 )); } then
+	if { (( lademodus == $SOFORT0 ))  && (( nlakt_sofort  == 1 )); } \
+	|| { (( lademodus == $MINPV1 ))   && (( nlakt_minpv   == 1 )); } \
+	|| { (( lademodus == $NURPV2 ))   && (( nlakt_nurpv   == 1 )); } \
+	|| { (( lademodus == $STANDBY4 )) && (( nlakt_standby == 1 )); } then
 		private_nachtlademodus
 	else
 		echo 0 > ramdisk/nachtladenstate
