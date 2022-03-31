@@ -248,11 +248,18 @@ then
 fi
 
 # check for email
-if [[ -x /usr/sbin/ssmtp ]] ; then
-  log "sendmail found. Please check config"
+if [[ -x /usr/bin/msmtp ]] ; then
+  log "msmtp found. Please check config"
 else
-  log "install simple smtp client"
-  sudo apt-get -qq install ssmtp
+  log "install a simple smtp client"
+  sudo apt install bsd-mailx msmtp msmtp-mta
+  # check for configuration
+   if [ ! -f /etc/msmtprc ] ; then
+	log "updating global msmtprc config file"
+	sudo cp /var/www/html/openWB/web/files/msmtprc /etc/msmtprc
+    sudo chown root:mail /etc/msmtprc
+    sudo chmod 0640 /etc/msmtprc
+   fi
 fi
 
 
