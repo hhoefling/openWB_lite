@@ -15,6 +15,7 @@ nurpvlademodus()
 			llalt=$minimalapv
 		fi
 	fi
+	openwbDebugLog "PV" 0 "(1:$llalt 2:$llalts1 3:$llalts2)Max:$maxllvar (Min:$minimalapv)-> $llalt "  
 
 	if [[ $schieflastaktiv == "1" ]]; then
 		if [[ $u1p3paktiv == "1" ]]; then
@@ -87,6 +88,7 @@ nurpvlademodus()
 					fi
 				fi
 				echo "Ladung mit $minnurpvsocll Ampere, da $minnurpvsoclp1 % SoC noch nicht erreicht" > ramdisk/lastregelungaktiv
+			  openwbDebugLog "MAIN" 0 "*** exit 0"
 			    exit 0
 			fi
 			if (( soc >= maxnurpvsoclp1 ))  && (( maxnurpvsoclp1<100)); then
@@ -95,6 +97,7 @@ nurpvlademodus()
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus NurPV. Ladung gestoppt, $soc % SoC erreicht"
 					openwbDebugLog "MAIN" 1 "Beende PV Laden da $sofortsoclp1 % erreicht"
 				fi
+				openwbDebugLog "MAIN" 0 "*** exit 0"
 			    exit 0
 			fi
 		fi
@@ -113,6 +116,7 @@ nurpvlademodus()
 				pvecounter=$((pvecounter + 10))
 				echo $pvecounter > /var/www/html/openWB/ramdisk/pvecounter
 				openwbDebugLog "MAIN" 1 "PV Einschaltverzögerung auf $pvecounter erhöht, Ziel $einschaltverzoegerung"
+				openwbDebugLog "MAIN" 0 "*** exit 0"
 				exit 0
 			else
 				openwbDebugLog "MAIN" 1 "nur pv ladung auf $minimalapv starten"
@@ -133,16 +137,19 @@ nurpvlademodus()
 				echo 0 > /var/www/html/openWB/ramdisk/pvecounter
 				openwbDebugLog "PV" 0 "setzte Soctimer hoch zum Abfragen des aktuellen SoC"
 				echo 20000 > /var/www/html/openWB/ramdisk/soctimer
+				openwbDebugLog "MAIN" 0 "*** exit 0"
 				exit 0
 			fi
 		else
 			echo 0 > /var/www/html/openWB/ramdisk/pvecounter
+			openwbDebugLog "MAIN" 0 "*** exit 0"
 			exit 0
 		fi
 	fi
 
+	# ladeleiszung ist die gesammte aktelle ladeleistung aller ladepunkte
 	if (( ladeleistung < 300 )); then
-		openwbDebugLog "PV" 0 "Keine Ladung aktiv"
+		openwbDebugLog "PV" 0 "Keine Ladung aktiv (ladeleistung<300)"
 		if (( llalt > minimalapv )); then
 			llneu=$minimalapv
 			if (( minimalapv == minimalalp2pv )); then
@@ -155,6 +162,7 @@ nurpvlademodus()
 				openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus NurPV. Ladung geändert auf $minimalalp2pv Ampere"
 			fi
 			echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+			openwbDebugLog "MAIN" 0 "*** exit 0"
 			exit 0
 		fi
 		if (( llalt < minimalapv )); then
@@ -169,6 +177,7 @@ nurpvlademodus()
 				openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus NurPV. Ladung geändert auf $minimalalp2pv Ampere"
 			fi
 			echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+			openwbDebugLog "MAIN" 0 "*** exit 0"
 			exit 0
 		fi
 		if (( llalt == minimalapv )); then
@@ -299,6 +308,7 @@ nurpvlademodus()
 				openwbDebugLog "MAIN" 1 "pv ladung auf $llneu erhoeht"
 			fi
 			echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+			openwbDebugLog "MAIN" 0 "*** exit 0"
 			exit 0
 		fi
 		if (( uberschuss < pvregelungm )); then
@@ -357,6 +367,7 @@ nurpvlademodus()
 				fi
 				openwbDebugLog "PV" 0 "Uberschuss ($uberschuss) geringer als herunterschaltschwelle ($pvregelungm), neuer Ladestromwert: $llneu"
 				echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+				openwbDebugLog "MAIN" 0 "*** exit 0"
 				exit 0
 			else
 				if [[ $nurpv70dynact == "1" ]]; then
@@ -382,10 +393,12 @@ nurpvlademodus()
 						openwbDebugLog "MAIN" 1 "pv ladung beendet"
 						echo 0 > /var/www/html/openWB/ramdisk/pvcounter
 					fi
+					openwbDebugLog "MAIN" 0 "*** exit 0"
 					exit 0
 				else
 					openwbDebugLog "PV" 0 "Minimalstromstärke erreicht, Überschuss größer als Abschaltschwelle"
 					echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+					openwbDebugLog "MAIN" 0 "*** exit 0"
 					exit 0
 				fi
 			fi
