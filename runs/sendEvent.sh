@@ -42,11 +42,11 @@ function sendHttpevent()	# url, enventname
 
 function xsendmail()  # event msg
 {
-	to=${eventtomail:-webmaster}
+	to=${eventto:-webmaster}
 	subject="$1 message from OpenWB/Raspi"
 	msg="$1 $2"
-	openwbDebugLog "CHARGESTAT" 0 "sendmail to $to"
-	echo -e "To: ${to}\nSubject: ${subject}\n\n${msg}" | sendmail -t  &
+	openwbDebugLog "CHARGESTAT" 0 "send [$1] with msmtp to [$to]"
+	echo -e "Subject: ${subject}\n\n${msg}" | msmtp $to &
 }
  
 
