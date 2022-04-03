@@ -24,16 +24,6 @@ var lpgesamtCol = style.getPropertyValue('--lpgesamtCol');
 var lpgesamtbgCol = style.getPropertyValue('--lpgesamtbgCol');
 var lp3Col = style.getPropertyValue('--lp3Col');
 var lp3bgCol = style.getPropertyValue('--lp3bgCol');
-//var lp4Col = style.getPropertyValue('--lp4Col');
-//var lp4bgCol = style.getPropertyValue('--lp4bgCol');
-//var lp5Col = style.getPropertyValue('--lp5Col');
-//var lp5bgCol = style.getPropertyValue('--lp5bgCol');
-//var lp6Col = style.getPropertyValue('--lp6Col');
-//var lp6bgCol = style.getPropertyValue('--lp6bgCol');
-//var lp7Col = style.getPropertyValue('--lp7Col');
-//var lp7bgCol = style.getPropertyValue('--lp7bgCol');
-//var lp8Col = style.getPropertyValue('--lp8Col');
-//var lp8bgCol = style.getPropertyValue('--lp8bgCol');
 var verbraucher1Col = style.getPropertyValue('--verbraucher1Col');
 var verbraucher1bgCol = style.getPropertyValue('--verbraucher1bgCol');
 var verbraucher2Col = style.getPropertyValue('--verbraucher2Col');
@@ -67,11 +57,6 @@ var boolDisplayLp2Soc;
 var boolDisplayLp1;
 var boolDisplayLp2;
 var boolDisplayLp3;
-//var boolDisplayLp4;
-//var boolDisplayLp5;
-//var boolDisplayLp6;
-//var boolDisplayLp7;
-//var boolDisplayLp8;
 var boolDisplayLpAll;
 var boolDisplaySpeicherSoc;
 var boolDisplaySpeicher;
@@ -591,13 +576,6 @@ function putgraphtogether() {
 			averbraucher1 = convertToKw(getCol(csvData, 12));
 			averbraucher2 = convertToKw(getCol(csvData, 13));
 			alp3 = convertToKw(getCol(csvData, 14));
-/*
-			alp4 = convertToKw(getCol(csvData, 15));
-			alp5 = convertToKw(getCol(csvData, 16));
-			alp6 = convertToKw(getCol(csvData, 17));
-			alp7 = convertToKw(getCol(csvData, 18));
-			alp8 = convertToKw(getCol(csvData, 19));
-*/
 			ashd1 = convertToKw(getCol(csvData, 20));
 			ashd2 = convertToKw(getCol(csvData, 21));
 			ashd3 = convertToKw(getCol(csvData, 22));
@@ -611,13 +589,6 @@ function putgraphtogether() {
 			//ashd1t1 = getCol(csvData, 30);
 			//ashd1t2 = getCol(csvData, 31);
 			setvisibility(alp3,'hidelp3','Lp3');
-/*
-			setvisibility(alp4,'hidelp4','Lp4');
-			setvisibility(alp5,'hidelp5','Lp5');
-			setvisibility(alp6,'hidelp6','Lp6');
-			setvisibility(alp7,'hidelp7','Lp7');
-			setvisibility(alp8,'hidelp8','Lp8');
-*/
 			setvisibility(ashd1,'hideshd1',d1name,'boolDisplayshd1');
 			setvisibility(ashd2,'hideshd2',d2name,'boolDisplayshd2');
 			setvisibility(ashd3,'hideshd3',d3name,'boolDisplayshd3');
@@ -674,13 +645,6 @@ function updateGraph(dataset) {
 		var lverbraucher1 = lines[i].split(",")[12];
 		var lverbraucher2 = lines[i].split(",")[13];
 		var lp3 = lines[i].split(",")[14];
-/*
-		var lp4 = lines[i].split(",")[15];
-		var lp5 = lines[i].split(",")[16];
-		var lp6 = lines[i].split(",")[17];
-		var lp7 = lines[i].split(",")[18];
-		var lp8 = lines[i].split(",")[19];
-*/
 		var shd1 = lines[i].split(",")[20];
 		var shd2 = lines[i].split(",")[21];
 		var shd3 = lines[i].split(",")[22];
@@ -710,11 +674,7 @@ function updateGraph(dataset) {
 	myLine.data.datasets[11].data.push(lpa / 1000);
 	myLine.data.datasets[12].data.push(lp3 / 1000);
 /*
-	myLine.data.datasets[13].data.push(lp4 / 1000);
-	myLine.data.datasets[14].data.push(lp5 / 1000);
-	myLine.data.datasets[15].data.push(lp6 / 1000);
-	myLine.data.datasets[16].data.push(lp7 / 1000);
-	myLine.data.datasets[17].data.push(lp8 / 1000);
+	lp4-lp8
 */
 	myLine.data.datasets[18].data.push(shd1 / 1000);
 	myLine.data.datasets[19].data.push(shd2 / 1000);

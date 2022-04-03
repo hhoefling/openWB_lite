@@ -76,6 +76,7 @@
 							</div>
 						</div>
 					</div>
+					<span class="d_label">&nbsp;isss   </span>				
 					<div class="card-body">
 						<div class="card-text alert alert-info">
 							Wird hier Ja gewählt ist diese openWB nur ein Ladepunkt und übernimmt keine eigene Regelung.
@@ -94,6 +95,7 @@
 										</select>
 									</div>
 								</div>
+							  	<span class="d_label">&nbsp;ssdisplay   </span>				
 							</div>
 						</div>
 					</div>
@@ -135,6 +137,7 @@
 							</div>
 						</div>
 					</div>
+					<span class="d_label"> etprovideraktiv  </span>				
 					<div class="card-body">
 						<div class="card-text alert alert-info">
 							Ermöglicht Laden nach Strompreis. Hierfür wird ein unterstützter Anbieter benötigt. Die Funktion ist nur im Modus Sofortladen aktiv!
@@ -150,6 +153,7 @@
 									</select>
 								</div>
 							</div>
+						   <div class="d_label">openWB/global/ETProvider/modulePath etprovider </div>				
 							<div id="awattardiv" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -161,6 +165,7 @@
 											</select>
 										</div>
 									</div>
+						         <div class="d_label">awattarlocation</div>				
 								</div>
 							</div>
 							<div id="tibberdiv" class="hide">
@@ -185,12 +190,14 @@
 											<input class="form-control" type="text" name="tibbertoken" id="tibbertoken" value="<?php echo $tibbertokenold; ?>">
 										</div>
 									</div>
+									<div class="d_label">tibbertoken</div>				
 									<div class="form-row mb-1">
 										<label for="tibberhomeid" class="col-md-4 col-form-label">Home-ID</label>
 										<div class="col">
 											<input class="form-control" type="text" name="tibberhomeid" id="tibberhomeid" value="<?php echo $tibberhomeidold; ?>">
 										</div>
 									</div>
+									<div class="d_label">tibberhomeid</div>				
 								</div>
 								<div class="row justify-content-center">
 									<button id="getTibberHomeIdBtn" type="button" class="btn btn-primary m-2">Home-ID ermitteln</button>
@@ -447,6 +454,7 @@
 										<input type="radio" name="stopchargeafterdisclp1" id="stopchargeafterdisclp1On" value="1"<?php if($stopchargeafterdisclp1old == 1) echo " checked=\"checked\"" ?>>Ja
 									</label>
 								</div>
+							   <div class="d_label">stopchargeafterdisclp1</div>				
 							</div>
 							<div id="lp2aktdiv" class="hide">
 								<div class="form-row vaRow mb-1">
@@ -461,6 +469,7 @@
 											<input type="radio" name="stopchargeafterdisclp2" id="stopchargeafterdisclp2On" value="1"<?php if($stopchargeafterdisclp2old == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
 									</div>
+							      <div class="d_label">stopchargeafterdisclp2</div>				
 								</div>
 							</div>
 							<div id="lp3aktdiv" class="hide">
@@ -476,6 +485,7 @@
 											<input type="radio" name="stopchargeafterdisclp3" id="stopchargeafterdisclp3On" value="1"<?php if($stopchargeafterdisclp3old == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
 									</div>
+						    	   <span class="d_label">stopchargeafterdisclp3</span>			
 								</div>
 							</div>
 						</div>
@@ -526,6 +536,7 @@
 										<input type="radio" name="zielladenaktivlp1" id="zielladenaktivlp1On" value="1"<?php if($zielladenaktivlp1old == 1) echo " checked=\"checked\"" ?>>An
 									</label>
 								</div>
+							   <div class="d_label">zielladenaktivlp1</div>				
 							</div>
 							<div id="zielladenaktivlp1div" class="hide">
 								<div class="card-text alert alert-info">
@@ -540,6 +551,7 @@
 												<input type="range" class="form-control-range rangeInput" name="zielladensoclp1" id="zielladensoclp1" min="0" max="100" step="1" value="<?php echo $zielladensoclp1old; ?>">
 											</div>
 										</div>
+							         <span class="d_label">zielladensoclp1</span>				
 										<span class="form-text small">Der SoC Wert auf den geladen werden soll.</span>
 									</div>
 								</div>
@@ -547,6 +559,7 @@
 									<label for="zielladenuhrzeitlp1" class="col-md-4 col-form-label">Ziel-Zeitpunkt</label>
 									<div class="col">
 										<input class="form-control" type="text" pattern="20[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31)) (0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])" name="zielladenuhrzeitlp1" id="zielladenuhrzeitlp1" value="<?php echo $zielladenuhrzeitlp1old; ?>">
+							         <span class="d_label">zielladenuhrzeitlp1</span>				
 										<span class="form-text small">Gültige Werte YYYY-MM-DD HH:MM, z.B. 2018-12-16 06:15. Ende der gewünschten Ladezeit. Das Datum muss exakt in diesem Format mit Leerzeichen zwischen Monat und Stunde eingegeben werden.</span>
 										<!--
 											test datetime input (not supported by all Browsers)
@@ -564,6 +577,7 @@
 												<input type="range" class="form-control-range rangeInput" name="zielladenalp1" id="zielladenalp1" min="6" max="32" step="1" value="<?php echo $zielladenalp1old; ?>">
 											</div>
 										</div>
+							         <span class="d_label">zielladenalp1</span>				
 										<span class="form-text small">Ampere mit denen geladen werden soll um den Ziel SoC zu erreichen.</span>
 									</div>
 								</div>
@@ -606,6 +620,7 @@
 									<label for="durchslp1" class="col-md-4 col-form-label">Durchschnittsverbrauch in kWh/100km</label>
 									<div class="col">
 										<input class="form-control" type="number" min="1" step="0.1" name="durchslp1" id="durchslp1" value="<?php echo $durchslp1old ?>">
+							         <span class="d_label">durchslp1</span>				
 										<span class="form-text small">Gültige Werte xx.xx, z.B. 14.5. Dient zur Berechnung der geladenen Strecke.</span>
 									</div>
 								</div>
@@ -613,6 +628,7 @@
 									<label for="akkuglp1" class="col-md-4 col-form-label">Akkugröße in kWh</label>
 									<div class="col">
 										<input class="form-control" type="number" min="1" step="1" name="akkuglp1" id="akkuglp1" value="<?php echo $akkuglp1old ?>">
+							         <span class="d_label">akkuglp1</span>				
 										<span class="form-text small">Gültige Werte xx, z.B. 41. Dient zur Berechnung der benötigten Ladezeit.</span>
 									</div>
 								</div>
@@ -630,6 +646,7 @@
 												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp13" value="3"<?php if($zielladenphasenlp1old == 3) echo " checked=\"checked\"" ?>>3
 											</label>
 										</div>
+							         <span class="d_label">zielladenphasenlp1</span>				
 										<span class="form-text small">Nur für Zielladen relevant.</span>
 									</div>
 								</div>
@@ -642,6 +659,7 @@
 												<input type="range" class="form-control-range rangeInput" name="zielladenmaxalp1" id="zielladenmaxalp1" min="6" max="32" step="1" value="<?php echo $zielladenmaxalp1old; ?>">
 											</div>
 										</div>
+							         <span class="d_label">zielladenmaxalp1</span>				
 										<span class="form-text small">Ampere mit denen geladen werden kann, um den Ziel SoC zu erreichen. Orientiert an der Leistung der Hausinstallation, oder der des zu ladenden Autos.</span>
 									</div>
 								</div>
@@ -659,6 +677,7 @@
 									<label for="durchslp2" class="col-md-4 col-form-label">Durchschnittsverbrauch in kWh/100km</label>
 									<div class="col">
 										<input class="form-control" type="number" min="1" step=".1" name="durchslp2" id="durchslp2" value="<?php echo $durchslp2old ?>">
+							         <span class="d_label">durchslp2</span>				
 										<span class="form-text small">Gültige Werte xx.xx, z.B. 14.5. Dient zur Berechnung der geladenen Strecke.</span>
 									</div>
 								</div>
@@ -666,6 +685,7 @@
 									<label for="akkuglp2" class="col-md-4 col-form-label">Akkugröße in kWh</label>
 									<div class="col">
 										<input class="form-control" type="number" min="1" step="1" name="akkuglp2" id="akkuglp2" value="<?php echo $akkuglp2old ?>">
+							         <span class="d_label">akkuglp2</span>				
 										<span class="form-text small">Gültige Werte xx, z.B. 41. Dient zur Berechnung der benötigten Ladezeit.</span>
 									</div>
 								</div>
@@ -683,6 +703,7 @@
 									<label for="durchslp3" class="col-md-4 col-form-label">Durchschnittsverbrauch in kWh/100km</label>
 									<div class="col">
 										<input class="form-control" type="number" min="1" step=".1" name="durchslp3" id="durchslp3" value="<?php echo $durchslp3old ?>">
+							         <span class="d_label">durchslp3</span>				
 										<span class="form-text small">Gültige Werte xx.xx, z.B. 14.5. Dient zur Berechnung der geladenen Strecke.</span>
 									</div>
 								</div>
@@ -710,6 +731,7 @@
 							</div>
 						</div>
 					</div>
+					<span class="d_label">u1p3paktiv</span>				
 					<div class="card-body">
 						<div class="card-text alert alert-info">
 							Automatisierte Umschaltung von 1- und 3-phasiger Ladung. Nur aktivieren, wenn diese Option in der OpenWB verbaut ist. Je nach gekaufter Hardwareoption gültig für alle Ladepunkte!
@@ -726,6 +748,7 @@
 											<input type="radio" name="u1p3psofort" id="u1p3psofort3" value="3"<?php if($u1p3psofortold == 3) echo " checked=\"checked\"" ?>>dreiphasig
 										</label>
 									</div>
+								   <span class="d_label">u1p3psofort</span>				
 								</div>
 								<div class="form-row mb-1">
 									<label class="col-md-4 col-form-label">Standby</label>
@@ -737,6 +760,7 @@
 											<input type="radio" name="u1p3pstandby" id="u1p3pstandby3" value="3"<?php if($u1p3pstandbyold == 3) echo " checked=\"checked\"" ?>>dreiphasig
 										</label>
 									</div>
+								   <span class="d_label">u1p3pstandby</span>				
 								</div>
 								<div class="form-row mb-1">
 									<label class="col-md-4 col-form-label">Nachtladen</label>
@@ -748,6 +772,7 @@
 											<input type="radio" name="u1p3pnl" id="u1p3pnl3" value="3"<?php if($u1p3pnlold == 3) echo " checked=\"checked\"" ?>>dreiphasig
 										</label>
 									</div>
+								   <span class="d_label">u1p3pnl</span>				
 								</div>
 								<div class="form-row mb-1">
 									<label class="col-md-4 col-form-label">Min + PV Laden</label>
@@ -762,6 +787,7 @@
 											<input type="radio" name="u1p3pminundpv" id="u1p3pminundpv4" value="4"<?php if($u1p3pminundpvold == 4) echo " checked=\"checked\"" ?>>Automatikmodus
 										</label>
 									</div>
+								   <span class="d_label">u1p3pminundpv</span>				
 								</div>
 								<div class="form-row mb-1">
 									<label class="col-md-4 col-form-label">Nur PV Laden</label>
@@ -776,6 +802,7 @@
 											<label class="btn btn-outline-info<?php if($u1p3pnurpvold == 4) echo " active" ?>">
 												<input type="radio" name="u1p3pnurpv" id="u1p3pnurpv4" value="4"<?php if($u1p3pnurpvold == 4) echo " checked=\"checked\"" ?>>Automatikmodus
 											</label>
+   								   <span class="d_label">u1p3pnurpv</span>				
 										</div>
 									</div>
 								</div>
@@ -788,6 +815,7 @@
 												<input type="range" class="form-control-range rangeInput" name="u1p3schaltparam" id="u1p3schaltparam" min="1" max="15" step="1" value="<?php echo $u1p3schaltparamold; ?>">
 											</div>
 										</div>
+   								   <span class="d_label">u1p3schaltparam</span>				
 										<span class="form-text small">Im Automatikmodus wird die PV Ladung einphasig begonnen. Um zu viele Schaltungen zu vermeiden wird Anhand dieses Wertes definiert wann die Umschaltung erfolgen soll. Ist für durchgehend x Minuten die Maximalstromstärke erreicht, wird auf dreiphasige Ladung umgestellt. Ist die Ladung nur für ein Intervall unterhalb der Maximalstromstärke, beginnt der Counter für die Umschaltung erneut. Ist die Ladung im dreiphasigen Modus für 16 - x Minuten bei der Minimalstromstärke, wird wieder auf einphasige Ladung gewechselt. Standardmäßig ist dieser Wert bei 8 min, sprich nach 8 min Maximalstromstärke wird auf 3 Phasige Ladung umgestellt und nach 16 - 8 = 8 min bei Minimalstromstärke wird wieder auf einphasige Ladung gewechselt.</span>
 									</div>
 								</div>
@@ -800,6 +828,7 @@
 												<input type="range" class="form-control-range rangeInput" name="u1p3ppause" id="u1p3ppause" min="2" max="150" step="1" value="<?php echo $u1p3ppauseold; ?>">
 											</div>
 										</div>
+   								   <span class="d_label">u1p3ppause</span>				
 										<span class="form-text small">
 											Die Standardeinstellung ist 2 Sekunden. Falls ein Fahrzeug den Ladevorgang nach einer Umschaltung nicht zuverlässig startet, kann dieser Wert erhöht werden.
 											<span class="text-danger">Achtung: experimentelle Einstellung!</span>
@@ -820,6 +849,7 @@
 										</label>
 									</div>
 								</div>
+   							<span class="d_label">schieflastaktiv</span>				
 								<div class="form-row mb-1 hide" id="schieflastan">
 									<label for="schieflastmaxa" class="col-md-4 col-form-label">Schieflastbegrenzung</label>
 									<div class="col-md-8">
@@ -829,6 +859,7 @@
 												<input type="range" class="form-control-range rangeInput" name="schieflastmaxa" id="schieflastmaxa" min="10" max="32" step="1" value="<?php echo $schieflastmaxaold; ?>">
 											</div>
 										</div>
+            						<span class="d_label">schieflastmaxa</span>				
 										<span class="form-text small">Gibt an mit wieviel Ampere maximal geladen wird wenn die automatische Umschaltung aktiv ist und mit einer Phase lädt.</span>
 									</div>
 								</div>
@@ -888,6 +919,7 @@
 									<label class="btn btn-outline-info<?php if($nlakt_sofortold == 1) echo " active" ?>">
 										<input type="radio" name="nlakt_sofort" id="nlakt_sofortOn" value="1"<?php if($nlakt_sofortold == 1) echo " checked=\"checked\"" ?>>An
 									</label>
+	             				<span class="d_label">nlakt_sofort</span>				
 								</div>
 							</div>
 							<div class="form-row vaRow mb-1">
@@ -899,6 +931,7 @@
 									<label class="btn btn-outline-info<?php if($nlakt_minpvold == 1) echo " active" ?>">
 										<input type="radio" name="nlakt_minpv" id="nlakt_minpvOn" value="1"<?php if($nlakt_minpvold == 1) echo " checked=\"checked\"" ?>>An
 									</label>
+	             				<span class="d_label">nlakt_minpv</span>				
 								</div>
 							</div>
 							<div class="form-row vaRow mb-1">
@@ -910,6 +943,7 @@
 									<label class="btn btn-outline-info<?php if($nlakt_nurpvold == 1) echo " active" ?>">
 										<input type="radio" name="nlakt_nurpv" id="nlakt_nurpvOn" value="1"<?php if($nlakt_nurpvold == 1) echo " checked=\"checked\"" ?>>An
 									</label>
+	             				<span class="d_label">nlakt_nurpv</span>				
 								</div>
 							</div>
 							<div class="form-row vaRow mb-1">
@@ -921,6 +955,7 @@
 									<label class="btn btn-outline-info<?php if($nlakt_standbyold == 1) echo " active" ?>">
 										<input type="radio" name="nlakt_standby" id="nlakt_standbyOn" value="1"<?php if($nlakt_standbyold == 1) echo " checked=\"checked\"" ?>>An
 									</label>
+	             				<span class="d_label">nlakt_standby</span>				
 								</div>
 							</div>
 						</div>
@@ -935,6 +970,7 @@
 									<label class="btn btn-outline-info<?php if($nachtladenold == 1) echo " active" ?>">
 										<input type="radio" name="nachtladen" id="nachtladenOn" value="1"<?php if($nachtladenold == 1) echo " checked=\"checked\"" ?>>An
 									</label>
+									<span class="d_label">nachtladen</span>				
 								</div>
 							</div>
 							<div id="nachtladenan" class="hide">
@@ -1373,6 +1409,7 @@
 											</div>
 										</div>
 									</div>
+	             				<span class="d_label">lastmaxap1 lastmaxap2 lastmaxap3 </span>				
 									<span class="form-text small">Gültige Werte: ganze Zahl größer 7. Definiert die maximal erlaubte Stromstärke der einzelnen Phasen des <b>Hausanschlusses</b> im Sofort Laden Modus, sofern das EVU Modul die Werte je Phase zur Verfügung stellt. Hiermit ist nicht der Anschluss der openWB gemeint! Übliche Werte für ein EFH/MFH sind im Bereich 35 bis 63A.</span>
 								</div>
 							</div>
@@ -1380,6 +1417,7 @@
 								<label for="lastmmaxw" class="col-md-4 col-form-label">maximaler Bezug in W</label>
 								<div class="col">
 									<input class="form-control" type="number" min="2000" max="1000000" step="1000" name="lastmmaxw" id="lastmmaxw" value="<?php echo $lastmmaxwold ?>">
+	             				<span class="d_label">lastmmaxw </span>				
 									<span class="form-text small">Gültige Werte: 2000-1000000W in ganzen 1000W-Schritten. Definiert die maximal erlaubten bezogenen Watt des Hausanschlusses im Sofort Laden Modus, sofern die Bezugsleistung bekannt ist.</span>
 								</div>
 							</div>
@@ -1409,6 +1447,7 @@
 												<input type="radio" name="loadsharinglp12" id="loadsharinglp12On" value="1"<?php if($loadsharinglp12old == 1) echo " checked=\"checked\"" ?>>Aktiviert
 											</label>
 										</div>
+             					   <span class="d_label">loadsharinglp12 </span>				
 										<span class="form-text small">
 											Wenn Ladepunkt 1 und 2 sich eine Zuleitung teilen, diese Option aktivieren. Sie stellt in jedem Lademodus sicher, dass nicht mehr als 16 bzw. 32A je Phase in der Summe von Ladepunkt 1 und 2 genutzt werden.
 											<span class="text-danger">Bei der OpenWB Duo muss diese Option aktiviert werden!</span>
@@ -1427,6 +1466,7 @@
 													<input type="radio" name="loadsharingalp12" id="loadsharingalp1232" value="32"<?php if($loadsharingalp12old == 32) echo " checked=\"checked\"" ?>>32 Ampere
 												</label>
 											</div>
+	             					   <span class="d_label">loadsharingalp12 </span>				
 										</div>
 									</div>
 									<div class="alert alert-warning">

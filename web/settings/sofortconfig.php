@@ -67,6 +67,7 @@
 									<div class="col-10">
 										<input type="range" class="form-control-range rangeInput" name="minEVSECurrentAllowed" id="minEVSECurrentAllowed" min="6" max="16" step="1" value="6" data-default="6" data-topicprefix="openWB/config/get/global/">
 									</div>
+									<span class="d_label">openWB/config/get/global/minEVSECurrentAllowed minimalstromstaerke</span>				
 								</div>
 							</div>
 						</div>
@@ -87,6 +88,7 @@
 										<div class="col-10">
 											<input type="range" class="form-control-range rangeInput" name="current" id="currentLp<?php echo $chargepoint; ?>" min="6" max="32" step="1" value="16" data-default="16" data-topicprefix="openWB/config/get/sofort/" data-topicsubgroup="lp/<?php echo $chargepoint; ?>/">
 										</div>
+									   <span class="d_label">openWB/config/get/sofort/lp/<?php echo $chargepoint; ?>/current  lp<?php echo $chargepoint; ?>sofortll</span>				
 									</div>
 									<span class="form-text small">Parameter in Ampere [A] für den Ladestrom im Modus Sofortladen. Definiert den Ladestrom am Ladepunkt. Der kleinste einstellbare Wert liegt aus technischen Gründen bei 6 A, der größte bei 32 A. Er kann nie kleiner sein als die eingestellte Mindeststromstärke an den Ladepunkten.</span>
 								</div>
@@ -107,6 +109,7 @@
 											<input type="radio" name="chargeLimitationLp<?php echo $chargepoint; ?>" data-option="1" value="1"> Energiemenge
 										</label>
 									</div>
+									<span class="d_label">openWB/config/get/sofort/lp/<?php echo $chargepoint; ?>/chargeLimitation lademstatlp<?php echo $chargepoint; ?>=0|1|2</span>				
 									<span class="form-text small">Auswahl der Lademengen-Begrenzung im Modus Sofortladen.
 										<span class="text-danger">
 											Dieser Parameter kann auf der Hauptseite der openWB per Sofortzugriff im Modus Sofortladen jederzeit geändert werden.
@@ -123,6 +126,7 @@
 											<div class="col-10">
 												<input type="range" class="form-control-range rangeInput" name="energyToCharge" id="energyToChargeLp<?php echo $chargepoint; ?>" min="2" max="100" step="2" value="30" data-default="30" data-topicprefix="openWB/config/get/sofort/" data-topicsubgroup="lp/<?php echo $chargepoint; ?>/">
 											</div>
+											<span class="d_label">openWB/config/get/sofort/lp/<?php echo $chargepoint; ?>/energyToCharge  lademkwh,lademkwhs1,lademkwhs2</span>				
 										</div>
 										<span class="form-text small">
 											Parameter in Kilowattstunden [kWh] für die Lademengenbegrenzung im Modus Sofortladen. Definiert die Energiemenge, auf die der Ladevorgang begrenzt werden soll.
@@ -143,6 +147,7 @@
 											<div class="col-10">
 												<input type="range" class="form-control-range rangeInput" name="socToChargeTo" id="socToChargeToLp<?php echo $chargepoint; ?>" min="5" max="100" step="5" value="90" data-default="90" data-topicprefix="openWB/config/get/sofort/" data-topicsubgroup="lp/<?php echo $chargepoint; ?>/">
 											</div>
+  									      <span class="d_label">openWB/config/get/sofort/lp/<?php echo $chargepoint; ?>/socToChargeTo sofortsoclp<?php echo $chargepoint; ?> </span>				
 										</div>
 										<span class="form-text small">
 											Parameter in Prozent [%] für die Lademengenbegrenzung im Modus Sofortladen. Definiert den EV-SoC, auf den der Ladevorgang begrenzt werden soll.

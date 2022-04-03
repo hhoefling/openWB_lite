@@ -35,15 +35,29 @@
 	</head>
 
 	<body>
+		<div id="nav"></div> <!-- placeholder for navbar -->
 		<header>
-			<!-- Fixed navbar -->
+			<!-- Fixed navbar
 			<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
 				<div class="navbar-brand">
 					openWB
 				</div>
 			</nav>
+          -->
 		</header>
 
+		<script>
+
+			$.get(
+				{ url: 'settings/navbar.html', cache: false },
+				function(data){
+					$('#nav').replaceWith(data);
+					// disable navbar entry for current page
+					//$('#navSofortLadeeinstellungen').addClass('disabled');
+				}
+			);
+      </script>
+      
 		<div role="main" class="container" style="margin-top:20px">
 			<h1>Einstellungen werden gespeichert</h1>
 			<div id="feedbackdiv" class="alert alert-info">
@@ -65,6 +79,7 @@
 
 	// prepare key/value array
 	$settingsArray = [];
+	$debs=[];
 
 	try {
 		if ( !file_exists($myConfigFile) ) {
@@ -88,7 +103,11 @@
 		// update chosen setting in array
 		foreach($_POST as $key => $value) {
 			// only update settings already present in array
-			if( array_key_exists( $key, $settingsArray ) ){
+			if( array_key_exists( $key, $settingsArray ) )
+			{
+			   $k=$key; $a=$settingsArray[$key]; $v=$value;
+			   if( $a != $v )
+			      $debs[]=sprintf(" change %s from [%s] to [%s]", $k,$a,$v);
 				// check if loaded config entry has single quotes
 				if( (strpos( $settingsArray[$key], "'" ) === 0) && (strrpos( $settingsArray[$key], "'" ) === strlen( $settingsArray[$key])-1) ){
 					$settingsArray[$key] = "'".$value."'";
@@ -182,13 +201,25 @@
 	}
 
 	// return to theme
-	?>
-		<script>
-			window.setTimeout( function(){
-				window.location.href='index.php';
-			}, 3000);
+	if( $settingsArray['debug'] < 1 )
+	{
+/*	  echo " <script>
+			window.setTimeout( function(){ window.location.href='index.php'; }, 1000);
 		</script>
-	<?php
-?>
+		";
+*/
+	} else
+	{
+		foreach($debs as $d)
+	 	{
+		   echo "$d<br>";
+		 }
+/*
+		 echo "<script>\n
+				window.setTimeout( function(){ window.location.href='index.php'; }, 10000);\n
+			</script>";
+*/
+	}
+	?>
 	</body>
 </html>

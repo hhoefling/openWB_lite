@@ -601,19 +601,28 @@ loadvars(){
 		fi
 		#uberschuss zur berechnung
 		uberschuss=$(printf "%.0f\n" $((-wattbezug)))
+		if (( uberschuss > 0  )) ; then
+		    openwbDebugLog "PV" 0 "1 :UEBERSCHUSS $uberschuss Watt EXPORT aus wattbezug "				
+		else
+		    openwbDebugLog "PV" 0 "1 :UEBERSCHUSS $uberschuss Watt IMPORT aus wattbezug "
+        fi			 				
 		if [[ $speichervorhanden == "1" ]]; then
 			if [[ $speicherpveinbeziehen == "1" ]]; then
-				if (( speicherleistung > 0 )); then
-					if (( speichersoc > speichersocnurpv )); then
+  			    openwbDebugLog "PV" 1 "Speicher vorhanden und speicherpveinbeziehen:$speicherpveinbeziehen"				
+				if (( speicherleistung > 0 )); then    # es wird gerade der hausakku geladen
+					if (( speichersoc > speichersocnurpv )); then  # der hausakku ist voll genug
 						speicherww=$((speicherleistung + speicherwattnurpv))
-						uberschuss=$((uberschuss + speicherww))
+						uberschuss=$((uberschuss + speicherww))          # stelle ladeleistung und erlaubte entladeleistung zur verfügung 
+					    openwbDebugLog "PV" 0 "3a:UEBERSCHUSS $uberschuss  +  ($speicherleistung + $speicherwattnurpv) Hausspeicher voll Genug, stelle ladeleistung und erlaubte Entladeleistung zur verfügung "		
 					else
 						speicherww=$((speicherleistung - speichermaxwatt))
 						uberschuss=$((uberschuss + speicherww))
+					    openwbDebugLog "PV" 0 "3b:UEBERSCHUSS $uberschuss  +  ($speicherleistung - $speicherwattnurpv) Hausspeicher nicht voll Genug, reduziere nur auf min ladeleistung"		
 					fi
 				fi
 			fi
 		fi
+		openwbDebugLog "PV" 0 "4 :UEBERSCHUSS $uberschuss now"		
 		evua1=$(cat /var/www/html/openWB/ramdisk/bezuga1)
 		evua2=$(cat /var/www/html/openWB/ramdisk/bezuga2)
 		evua3=$(cat /var/www/html/openWB/ramdisk/bezuga3)
