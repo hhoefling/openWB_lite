@@ -5,7 +5,7 @@ graphing(){
 	#echo "$(tail -100 /var/www/html/openWB/ramdisk/ladestatus.log)" > /var/www/html/openWB/ramdisk/ladestatus.log
 	
 	
-	openwbDebugLog "MAIN" 2 "graphing.sh ---- make all-live.graph"
+	
 	#Live Graphing
 	if [[ $pv2wattmodul != "none" ]]; then
 		pvwatt=$(</var/www/html/openWB/ramdisk/pvallwatt)
