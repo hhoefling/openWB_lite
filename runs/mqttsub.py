@@ -1271,34 +1271,9 @@ def on_message(client, userdata, msg):
                 if (int(msg.payload) == 1):
                     replaceAll("lademstats2=",msg.payload.decode("utf-8"))
                     #replaceAll("sofortsocstatlp2=","0")
-                #if (int(msg.payload) == 2):
-                #    replaceAll("lademstats1=","0")
-                #    replaceAll("sofortsocstatlp2=","1")
-            # if (msg.topic == "openWB/set/lp/4/DirectChargeSubMode"):
-            #     if (int(msg.payload) == 0):
-            #         replaceAll("lademstatlp4=",msg.payload.decode("utf-8"))
-            #     if (int(msg.payload) == 1):
-            #         replaceAll("lademstatlp4=",msg.payload.decode("utf-8"))
-            # if (msg.topic == "openWB/set/lp/5/DirectChargeSubMode"):
-            #     if (int(msg.payload) == 0):
-            #         replaceAll("lademstatlp5=",msg.payload.decode("utf-8"))
-            #     if (int(msg.payload) == 1):
-            #         replaceAll("lademstatlp5=",msg.payload.decode("utf-8"))
-            # if (msg.topic == "openWB/set/lp/6/DirectChargeSubMode"):
-            #     if (int(msg.payload) == 0):
-            #         replaceAll("lademstatlp6=",msg.payload.decode("utf-8"))
-            #     if (int(msg.payload) == 1):
-            #         replaceAll("lademstatlp6=",msg.payload.decode("utf-8"))
-            # if (msg.topic == "openWB/set/lp/7/DirectChargeSubMode"):
-            #     if (int(msg.payload) == 0):
-            #         replaceAll("lademstatlp7=",msg.payload.decode("utf-8"))
-            #     if (int(msg.payload) == 1):
-            #         replaceAll("lademstatlp7=",msg.payload.decode("utf-8"))
-            # if (msg.topic == "openWB/set/lp/8/DirectChargeSubMode"):
-            #     if (int(msg.payload) == 0):
-            #         replaceAll("lademstatlp8=",msg.payload.decode("utf-8"))
-            #     if (int(msg.payload) == 1):
-            #         replaceAll("lademstatlp8=",msg.payload.decode("utf-8"))
+                if (int(msg.payload) == 2):
+                    replaceAll("lademstats1=","0")
+                    replaceAll("sofortsocstatlp2=","1")
             if (msg.topic == "openWB/set/isss/ClearRfid"):
                 if (int(msg.payload) > 0 and int(msg.payload) <=1):
                     f = open('/var/www/html/openWB/ramdisk/readtag', 'w')
@@ -1500,31 +1475,6 @@ def on_message(client, userdata, msg):
                     f = open('/var/www/html/openWB/ramdisk/autolockstatuslp3', 'w')
                     f.write(msg.payload.decode("utf-8"))
                     f.close()
-#            if (msg.topic == "openWB/set/lp/4/AutolockStatus"):
-#                if (int(msg.payload) >= 0 and int(msg.payload) <=3):
-#                    f = open('/var/www/html/openWB/ramdisk/autolockstatuslp4', 'w')
-#                    f.write(msg.payload.decode("utf-8"))
-#                    f.close()
-#            if (msg.topic == "openWB/set/lp/5/AutolockStatus"):
-#                if (int(msg.payload) >= 0 and int(msg.payload) <=3):
-#                    f = open('/var/www/html/openWB/ramdisk/autolockstatuslp5', 'w')
-#                    f.write(msg.payload.decode("utf-8"))
-#                    f.close()
-#            if (msg.topic == "openWB/set/lp/6/AutolockStatus"):
-#                if (int(msg.payload) >= 0 and int(msg.payload) <=3):
-#                    f = open('/var/www/html/openWB/ramdisk/autolockstatuslp6', 'w')
-#                    f.write(msg.payload.decode("utf-8"))
-#                    f.close()
-#            if (msg.topic == "openWB/set/lp/7/AutolockStatus"):
-#                if (int(msg.payload) >= 0 and int(msg.payload) <=3):
-#                    f = open('/var/www/html/openWB/ramdisk/autolockstatuslp7', 'w')
-#                    f.write(msg.payload.decode("utf-8"))
-#                    f.close()
-#            if (msg.topic == "openWB/set/lp/8/AutolockStatus"):
-#                if (int(msg.payload) >= 0 and int(msg.payload) <=3):
-#                    f = open('/var/www/html/openWB/ramdisk/autolockstatuslp8', 'w')
-#                    f.write(msg.payload.decode("utf-8"))
-#                    f.close()
             if (( "openWB/set/lp" in msg.topic) and ("faultState" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
                 if ( (1 <= devicenumb <= numberOfSupportedLP ) and (0 <= int(payload) <= 2) ):

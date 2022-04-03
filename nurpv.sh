@@ -2,8 +2,6 @@
 # NUR PV Uberschussregelung Lademodus 2
 nurpvlademodus()
 {
-
-	## maxll=($llalt $llalts1 $llalts2 $llaltlp4 $llaltlp5 $llaltlp6 $llaltlp7 $llaltlp8)
 	maxll=($llalt $llalts1 $llalts2)
 	maxllvar=0		# hoechster Soll-Ampere Zahl
 	for v in "${maxll[@]}"; do

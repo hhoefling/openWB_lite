@@ -30,19 +30,9 @@ cd /var/www/html/openWB/
 powerLp1=$(<ramdisk/llaktuell)
 powerLp2=$(<ramdisk/llaktuells1)
 powerLp3=$(<ramdisk/llaktuells2)
-powerLp4=0 # $(<ramdisk/llaktuelllp4)
-powerLp5=0 # $(<ramdisk/llaktuelllp5)
-powerLp6=0 # $(<ramdisk/llaktuelllp6)
-powerLp7=0 # $(<ramdisk/llaktuelllp7)
-powerLp8=0 # $(<ramdisk/llaktuelllp8)
 isConfiguredLp1="1"
 isConfiguredLp2=$lastmanagement
 isConfiguredLp3=$lastmanagements2
-isConfiguredLp4=0 # $lastmanagementlp4
-isConfiguredLp5=0 # $lastmanagementlp5
-isConfiguredLp6=0 # $lastmanagementlp6
-isConfiguredLp7=0 # $lastmanagementlp7
-isConfiguredLp8=0 # $lastmanagementlp8
 
 # process current time
 timeOfDay=$(date +%H:%M)

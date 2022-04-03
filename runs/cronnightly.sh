@@ -34,11 +34,6 @@ llg=0 #$(<$RAMDISKDIR/llkwhges)  # Zählerstand Gesamt
 is_configured_cp1="1"                 #Ladepunkt 1 ist immer konfiguriert
 is_configured_cp2=$lastmanagement     # LP2 konfiguriert?
 is_configured_cp3=$lastmanagements2   # LP3 konfiguriert?
-#is_configured_cp4=$lastmanagementlp4  # LP4 konfiguriert?
-#is_configured_cp5=$lastmanagementlp5  # ...
-#is_configured_cp6=$lastmanagementlp6
-#is_configured_cp7=$lastmanagementlp7
-#is_configured_cp8=$lastmanagementlp8
 
 # wenn Pushover aktiviert, Zählerstände senden
 if (( pushbenachrichtigung == "1" )) ; then

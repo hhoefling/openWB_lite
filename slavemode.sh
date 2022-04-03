@@ -296,8 +296,8 @@ function endChargeAndAbortOnChargeLimits() {
 		energyChargedSincePlugin=$(<"ramdisk/pluggedladungbishergeladenlp2")
 	elif (( chargePoint == 3 )); then
 		energyChargedSincePlugin=$(<"ramdisk/pluggedladungbishergeladenlp3")
-	elif (( chargePoint >= 4 )); then
-		energyChargedSincePlugin=$(<"ramdisk/pluggedladungbishergeladenlp4")
+#	elif (( chargePoint >= 4 )); then
+#		energyChargedSincePlugin=$(<"ramdisk/pluggedladungbishergeladenlp4")
 	else
 		openwbDebugLog "MAIN" 0 "Slave Mode limit processing ERROR: Charge Point #${chargePoint} is not supported"
 		# returning != 0 here would abort control loop of this CP, but we don't want that just for sake of energy limits
@@ -703,8 +703,8 @@ function callSetCurrent() {
 		local chargePointString="s1"
 	elif (( chargePoint == 3 )); then
 		local chargePointString="s2"
-	elif (( chargePoint >= 4 )); then
-		local chargePointString="lp${chargePoint}"
+#	elif (( chargePoint >= 4 )); then
+#		local chargePointString="lp${chargePoint}"
 	else
 		openwbDebugLog "MAIN" 0 "Slave Mode: charge current set ERROR: Charge Point #${chargePoint} is not supported"
 		return 1

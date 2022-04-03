@@ -41,22 +41,12 @@ fi
 ll1=$(<$RAMDISKDIR/llkwh)  # Zählerstand LP1
 ll2=$(<$RAMDISKDIR/llkwhs1)  # Zählerstand LP2
 ll3=$(<$RAMDISKDIR/llkwhs2)  # Zählerstand LP3
-# ll4=$(<$RAMDISKDIR/llkwhlp4)  # Zählerstand LP4
-# ll5=$(<$RAMDISKDIR/llkwhlp5)  # Zählerstand LP5
-# ll6=$(<$RAMDISKDIR/llkwhlp6)  # Zählerstand LP6
-# ll7=$(<$RAMDISKDIR/llkwhlp7)  # Zählerstand LP7
-# ll8=$(<$RAMDISKDIR/llkwhlp8)  # Zählerstand LP8
 llg=$(<$RAMDISKDIR/llkwhges)
 
 # ins Log als Wh
 ll1=$(echo "$ll1 * 1000" | bc)
 ll2=$(echo "$ll2 * 1000" | bc)
 ll3=$(echo "$ll3 * 1000" | bc)
-# ll4=$(echo "$ll4 * 1000" | bc)
-# ll5=$(echo "$ll5 * 1000" | bc)
-# ll6=$(echo "$ll6 * 1000" | bc)
-# ll7=$(echo "$ll7 * 1000" | bc)
-# ll8=$(echo "$ll8 * 1000" | bc)
 llg=$(echo "$llg * 1000" | bc)
 
 ll4=0
