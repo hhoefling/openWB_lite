@@ -65,7 +65,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
-							Kernel: <?php echo exec('uname -ors'); ?><br>
+							Kernel: <?php echo exec('uname -ors'); echo " (", exec('/var/www/html/openWB/runs/distro.sh'), ")"; ?><br>
 							<?php echo exec('python3 -V'); ?><br>
 							openWB Version: <span id="installedVersionSpan" data-version=""></span>
 						</div>
