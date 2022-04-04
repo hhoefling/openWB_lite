@@ -1,4 +1,32 @@
-<?php header( 'Refresh:600;' ); ?>
+<?php
+ if( $_GET['do']=='export')
+ {
+   $dates=str_replace("-","",$_GET['date']);
+   $fin="/var/www/html/openWB/web/logging/data/daily/$dates.csv";
+   
+   //$head=file("/var/www/html/openWB/web/logging/data/daily/daily_header.csv");
+   $file=file($fin);
+   
+   header('Content-Type: application/csv; charset=UTF-8');
+   header('Content-Disposition: attachment;filename="'.$dates.'.csv";');
+   
+   $head[]="Date;Bezug;Einspeisung;PV;ll-LP1;ll-LP2;ll-LP3,ll-Ges;SpeicherIn;SpeicherOut;V1;V1e;V2;V2e;V3;ll4;ll5;ll6;ll7;ll8;SpeicherSoc;Soc;Soc1;tempD1_1;tempD1_2;tempD1_3;d1;d2;d3;d4;d5;d6;d7;d8;d9;d10;tempD2_1;tempD2_2;tempD2_3\n";
+
+  // kopfzeile mit ;
+   echo str_replace(",",";",$head[0]);
+   // daten mit ; und "," als dezimaltrenner
+   foreach($file as $line)
+      echo str_replace('.',',',
+             str_replace(",",";",$line)
+             );
+   exit;
+   echo "<pre>";
+   print_r($GLOBALS); 
+   echo "</pre>";
+   exit;
+ }
+header( 'Refresh:600;' ); 
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -98,6 +126,12 @@
 		<footer class="footer bg-dark text-light font-small">
 			<div class="container text-center">
 				<small>Sie befinden sich hier: Logging/Tag</small>
+            <?php
+            $date=$_GET['date'];
+            if($date=="")
+              $date = date("Y-m-d");
+            echo "<a href=\"logging/daily.php?date=" . $date . "&do=export\">Export</a>";
+            ?>
 			</div>
 		</footer>
 
