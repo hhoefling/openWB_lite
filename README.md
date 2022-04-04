@@ -29,6 +29,7 @@ Es wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vor
 - Datenexport zu Excel mit ',' und ';' statt '.' und ','
 - RCT2h weiter Optimierung, Regelschleife auf Pi3B+ von 6-7 auf 3-4 Sekunden gesenkt
 - Weiter Hilfsscript  statregel.sh und restsmat.sh
+- Der Name der Linux Distribution wird mit angezeigt (Seite System-Info)
 *******************************************************
 
 ***Die weitere Entwicklung***
