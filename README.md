@@ -28,6 +28,7 @@ Es wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vor
 - Der Modbusserver auf Port 502 ist nun abschaltbar da er von openWB selbst nicht mehr verwendet wird. 
 - Datenexport zu Excel mit ',' und ';' statt '.' und ','
 - RCT2h weiter Optimierung, Regelschleife auf Pi3B+ von 6-7 auf 3-4 Sekunden gesenkt
+- Weiter Hilfsscript  statregel.sh und restsmat.sh
 *******************************************************
 
 ***Die weitere Entwicklung***
