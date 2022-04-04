@@ -12,7 +12,7 @@ class PowerMeter {
     this.radius = this.width / 2 - this.margin;
     this.cornerRadius = 1;
     this.circleGapSize = (Math.PI / 40);
-    this.maxPower = 4000;
+    this.maxPower = 2000;
     this.showRelativeArcs = false;
     this.emptyPower = 0;
   }
@@ -128,26 +128,24 @@ class PowerMeter {
         .attr("fill", this.fgColor)
         .attr("backgroundcolor", this.bgColor)
         .style("text-anchor", "middle")
-        .style("font-size", "22")
         ;
       svg.append("text")
-        .attr("x", this.width / 2 - 44)
-        .attr("y", 2)
+        .attr("x", this.width / 2 - 55)
+        .attr("y", 5)
         .text("Peak: " + formatWatt(this.maxPower))
         .attr("fill", this.fgColor) // this.axisColor)
         .attr("backgroundcolor", this.bgColor)
         .style("text-anchor", "middle")
-        .style("font-size", "12")
+        .style("font-size", "0.8em")
         ;
     } else {
       svg.append("text")
         .attr("x", 0)
-        .attr("y", 0)
+        .attr("y", 5)
         .text("Aktueller Verbrauch: " + formatWatt(wbdata.housePower + wbdata.usageSummary.charging.power + wbdata.usageSummary.devices.power + wbdata.usageSummary.batIn.power))
         .attr("fill", this.fgColor)
         .attr("backgroundcolor", this.bgColor)
         .style("text-anchor", "middle")
-        .style("font-size", "22")
         ;
     }
     d3.select("a#meterResetButton").classed("hide", !this.showRelativeArcs);
@@ -211,7 +209,7 @@ class PowerMeter {
   }
 
   addLabel(svg, x, y, anchor, data) {
-    const labelFontSize = 22;
+	const labelFontSize ="1em";
 
     if (data.power > 2) {
       svg
@@ -227,7 +225,7 @@ class PowerMeter {
   }
 
   addLabelWithColor(svg, x, y, anchor, labeltext, color) {
-    const labelFontSize = 22;
+    const labelFontSize = "1em";
     svg.append("text")
       .attr("x", x)
       .attr("y", y)
