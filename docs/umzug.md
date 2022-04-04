@@ -31,7 +31,7 @@ cp -p openwb.conf.sav openwb.conf
 sudo chmod +x runs/*.sh
 sudo chmod +x *.sh
 # run normal after-update-handling
-./runs/update.sh
+sudo ./runs/update.sh
 
 ```
 
