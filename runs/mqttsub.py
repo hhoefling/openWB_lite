@@ -1356,56 +1356,36 @@ def on_message(client, userdata, msg):
                 client.publish("openWB/housebattery/faultStr", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (msg.topic == "openWB/set/evu/W"):
                 if (float(msg.payload) >= -100000 and float(msg.payload) <= 100000):
-                    f = open('/var/www/html/openWB/ramdisk/wattbezug', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write('wattbezug',payload)
             if (msg.topic == "openWB/set/evu/APhase1"):
                 if (float(msg.payload) >= -1000 and float(msg.payload) <= 1000):
-                    f = open('/var/www/html/openWB/ramdisk/bezuga1', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write('bezuga1',payload)
             if (msg.topic == "openWB/set/evu/APhase2"):
                 if (float(msg.payload) >= -1000 and float(msg.payload) <= 1000):
-                    f = open('/var/www/html/openWB/ramdisk/bezuga2', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write('bezuga2',payload)
             if (msg.topic == "openWB/set/evu/APhase3"):
                 if (float(msg.payload) >= -1000 and float(msg.payload) <= 1000):
-                    f = open('/var/www/html/openWB/ramdisk/bezuga3', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write('bezuga3',payload)
             if (msg.topic == "openWB/set/evu/VPhase1"):
                 if (float(msg.payload) >= -1000 and float(msg.payload) <= 1000):
-                    f = open('/var/www/html/openWB/ramdisk/evuv1', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write('evuv1',payload)
             if (msg.topic == "openWB/set/evu/VPhase2"):
                 if (float(msg.payload) >= -1000 and float(msg.payload) <= 1000):
-                    f = open('/var/www/html/openWB/ramdisk/evuv2', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write('evuv2',payload)
             if (msg.topic == "openWB/set/evu/VPhase3"):
                 if (float(msg.payload) >= -1000 and float(msg.payload) <= 1000):
-                    f = open('/var/www/html/openWB/ramdisk/evuv3', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write('evuv3',payload)
             if (msg.topic == "openWB/set/evu/HzFrequenz"):
                 if (float(msg.payload) >= 0 and float(msg.payload) <= 80):
-                    f = open('/var/www/html/openWB/ramdisk/evuhz', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write('evuhz',payload)
             if (msg.topic == "openWB/set/evu/WhImported"):
                 if (float(msg.payload) >= 0 and float(msg.payload) <= 10000000000):
-                    f = open('/var/www/html/openWB/ramdisk/bezugkwh', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write('bezugkwh',payload)
             if (msg.topic == "openWB/set/evu/WhExported"):
                 if (float(msg.payload) >= 0 and float(msg.payload) <= 10000000000):
-                    f = open('/var/www/html/openWB/ramdisk/einspeisungkwh', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write('einspeisungkwh',payload)
             if (msg.topic == "openWB/set/evu/faultState"):
-                if (int(msg.payload) >= 0 and int(msg.payload) <= 2):
+                if (int(msg.payload) >= 0 and int(msg.payload) <= 9):
                     client.publish("openWB/evu/faultState", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (msg.topic == "openWB/set/evu/faultStr"):
                 client.publish("openWB/evu/faultStr", msg.payload.decode("utf-8"), qos=0, retain=True)
@@ -1565,9 +1545,7 @@ def on_message(client, userdata, msg):
                         filename = "llvs11"
                     elif ( devicenumb == 3 ):
                         filename = "llvs21"
-                    f = open('/var/www/html/openWB/ramdisk/'+str(filename), 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write(str(filename),payload)
             if (( "openWB/set/lp" in msg.topic) and ("VPhase2" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
                 if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 300) ):
@@ -1577,9 +1555,7 @@ def on_message(client, userdata, msg):
                         filename = "llvs12"
                     elif ( devicenumb == 3 ):
                         filename = "llvs22"
-                    f = open('/var/www/html/openWB/ramdisk/'+str(filename), 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write(str(filename),payload)
             if (( "openWB/set/lp" in msg.topic) and ("VPhase3" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
                 if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 300) ):
@@ -1589,9 +1565,7 @@ def on_message(client, userdata, msg):
                         filename = "llvs13"
                     elif ( devicenumb == 3 ):
                         filename = "llvs23"
-                    f = open('/var/www/html/openWB/ramdisk/'+str(filename), 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write(str(filename),payload)
             if (( "openWB/set/lp" in msg.topic) and ("APhase1" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
                 if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 3000) ):
@@ -1601,9 +1575,7 @@ def on_message(client, userdata, msg):
                         filename = "llas11"
                     elif ( devicenumb == 3 ):
                         filename = "llas21"
-                    f = open('/var/www/html/openWB/ramdisk/'+str(filename), 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write(str(filename),payload)
             if (( "openWB/set/lp" in msg.topic) and ("APhase2" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
                 if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 3000) ):
@@ -1613,9 +1585,7 @@ def on_message(client, userdata, msg):
                         filename = "llas12"
                     elif ( devicenumb == 3 ):
                         filename = "llas22"
-                    f = open('/var/www/html/openWB/ramdisk/'+str(filename), 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write(str(filename),payload)
             if (( "openWB/set/lp" in msg.topic) and ("APhase3" in msg.topic)):
                 devicenumb = int(re.sub(r'\D.', '', msg.topic))
                 if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 3000) ):
@@ -1625,9 +1595,7 @@ def on_message(client, userdata, msg):
                         filename = "llas13"
                     elif ( devicenumb == 3 ):
                         filename = "llas23"
-                    f = open('/var/www/html/openWB/ramdisk/'+str(filename), 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write(str(filename),payload)
             if (( "openWB/set/lp" in msg.topic) and ("HzFrequenz" in msg.topic)):
                 devicenumb = int(re.sub(r'\D', '', msg.topic))
                 if ( (1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(msg.payload) <= 80) ):
@@ -1637,9 +1605,7 @@ def on_message(client, userdata, msg):
                         filename = "llhzs1"
                     elif ( devicenumb == 3 ):
                         filename = "llhzs2"
-                    f = open('/var/www/html/openWB/ramdisk/'+str(filename), 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+                    ramdisk.write(str(filename),payload)
 
             # clear all set topics if not already done
             if ( not(setTopicCleared) ):
