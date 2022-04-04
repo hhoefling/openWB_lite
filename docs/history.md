@@ -24,4 +24,4 @@ Einige Steps der Entwicklung
 - rct2h hinzugefügt um nicht mit rct2 (von peter.O ) zu kollidieren. Regelschleife nun 3-4 Sekunden. 
 - Der Name der Distribution wird im System-Info mit angezeigt. 
 - Hilfscript statregel.sh im die Laufzeitstatistik der Regelschleife anzuzeigen.
-- Hoffendlich nun alle referenten auf LP4-LP8 entfernt. 
+- Hoffendlich nun alle referenten auf LP4-LP8 entfernt. Dadurch schnelle Ladezeiten der Weboberfläche
