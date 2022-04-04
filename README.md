@@ -30,6 +30,8 @@ Es wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vor
 - RCT2h weiter Optimierung, Regelschleife auf Pi3B+ von 6-7 auf 3-4 Sekunden gesenkt
 - Weiter Hilfsscript  statregel.sh und restsmat.sh
 - Der Name der Linux Distribution wird mit angezeigt (Seite System-Info)
+- Das Colour Thema wurde leicht angepasst. (neue 4 Farbe)
+
 *******************************************************
 
 ***Die weitere Entwicklung***
