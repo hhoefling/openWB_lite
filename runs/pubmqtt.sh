@@ -172,7 +172,8 @@ done
 timestamp="$(date +%s)"
 tempPubList="openWB/system/Date=$(date)"
 tempPubList="${tempPubList}\nopenWB/system/Timestamp=${timestamp}"
-[ -f  /sys/class/thermal/thermal_zone0/temp ] &&  tempPubList="openWB/global/cpuTemp=$(echo "scale=2; `cat /sys/class/thermal/thermal_zone0/temp` / 1000" | bc)"
+
+[ -f  /sys/class/thermal/thermal_zone0/temp ] &&  tempPubList="${tempPubList}\nopenWB/global/cpuTemp=$(echo "scale=2; `cat /sys/class/thermal/thermal_zone0/temp` / 1000" | bc)"
 
 for mq in "${!mqttvar[@]}"; do
 	declare o${mqttvar[$mq]}
