@@ -19,7 +19,7 @@ Python 3.5.3
 - Reduktion auf LP1-LP3, dies ist weitgehend abgeschlossen.
 - Nicht übernommen wurde die Umwidmung der mqtt Zuweisungen zur pv Leistung. Bei der 1.9'er bis hin zur 254 wurde dort ein negativer Wert von der Datenquelle abgelegt. Irgendwann Dez/Jan 2022 wurde das umgestellt auf eine positive Zahl. Dadurch werden alle MQTT-PV Datequellen ungültig und es müste die openWB Version berücksichtig werden um zu entscheiden ob eine posivie oder einen negaive Zahl an openWB zu übegeben sei. Diese Inkompatibilität behindert den Vergleichenden Test mit einer ältern Version.
 Auch verlieren älter Backups dann ihr gültigkeit wenn die MQTT Quelle notgedrungen auf posivive Werte umgestellt wurde. Daher wird in meiner Lite weiterhin ein negavtive Zahl via MQTT übergeben.
-- Seit der 1.9.259 (24.3.2022) ist der MQTT Patch bei der originalen openWB nicht negr nötig, es kann wie bisher eine negative Zahl übegeben werden.
+- Seit der 1.9.259 (24.3.2022) ist der MQTT Patch bei der originalen openWB nicht mehr nötig, es kann wie bisher eine negative Zahl übegeben werden.
 - Ladelog um KM ergänzen. wird via MQTT aus dem Skoda-SoC Module übergeben.
 - Nachladen.
 Die Startzeit für das Nachladen kann nun von 17:00 bis 4:00 Uhr Nachts gesetzt werden.
