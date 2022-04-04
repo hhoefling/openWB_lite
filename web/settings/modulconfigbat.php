@@ -77,6 +77,7 @@
 										<option <?php if($speichermodulold == "speicher_fems") echo "selected" ?> value="speicher_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option>
 										<option <?php if($speichermodulold == "speicher_rct") echo "selected" ?> value="speicher_rct">RCT</option>
 										<option <?php if($speichermodulold == "speicher_rct2") echo "selected" ?> value="speicher_rct2">RCT V.2</option>
+										<option <?php if($speichermodulold == "speicher_rct2h") echo "selected" ?> value="speicher_rct2h">RCT V.2h</option>
 										<option <?php if($speichermodulold == "speicher_siemens") echo "selected" ?> value="speicher_siemens">Siemens</option>
 										<option <?php if($speichermodulold == "speicher_sbs25") echo "selected" ?> value="speicher_sbs25">SMA Sunny Boy Storage</option>
 										<option <?php if($speichermodulold == "speicher_sunnyisland") echo "selected" ?> value="speicher_sunnyisland">SMA Sunny Island</option>
@@ -286,7 +287,12 @@
 											$lines=[];
 											exec('/var/www/html/openWB/modules/speicher_rct2/info.sh', $lines);
 											echo implode('<br>',$lines);
-										} else echo "<span class=\"text-warning text-center\">Kein RCT Speicher-Module konfiguriert.</span>";
+										} 
+										else if( $wattbezugmodulold == "bezug_rct2h"  && $speichermodulold == "speicher_rct2h" && isset($bezug1_ipold) ) {
+											$lines=[];
+											exec('/var/www/html/openWB/modules/bezug_rct2h/info.sh', $lines);
+											echo implode('<br>',$lines);
+										} else echo "<span class=\"text-warning text-center\">Kein RCT V2 Speicher-Module konfiguriert.</span>";
 										?></pre>
 									</div>
 								</div>
@@ -676,6 +682,10 @@
 									showSection('#divspeicherrct');
 								}
 								if($('#speichermodul').val() == 'speicher_rct2') {
+									showSection('#divspeicherrct');
+									showSection('#divspeicherrct2');
+								}
+								if($('#speichermodul').val() == 'speicher_rct2h') {
 									showSection('#divspeicherrct');
 									showSection('#divspeicherrct2');
 								}

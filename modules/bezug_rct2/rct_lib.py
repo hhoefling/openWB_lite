@@ -50,6 +50,11 @@ class rct_id():
 # local variables
 id_tab = []
 bVerbose = False
+bb=False
+wr=False
+sp=False
+bm5=False
+
 host = 'localhost'
 port = 8899
 receive_timeout = 2.0
@@ -458,7 +463,6 @@ def init(argv):
     global bb
     global wr
     global sp
-    global ii
     global bm5
 
     # parse command line arguments
@@ -470,11 +474,8 @@ def init(argv):
         errlog('usage: ', argv[0], '[--ip_addr=<host>] [--verbose] [--port=<portnr>] [--id=0xXXXXXXXX|--name=<string>] ')
         sys.exit(-1)
 
-    bb=False
-    wr=False
-    sp=False
-    ii=False
-    bm5=False
+    
+    
     for opt, arg in options:
         dbglog("arg " + str(opt) +" :" + str(arg) )
         if opt in ('-b'):
