@@ -26,7 +26,8 @@ Die Startzeit für das Nachladen kann nun von 17:00 bis 4:00 Uhr Nachts gesetzt 
 Die Endzeit für das Nachladen kann nun von 20:00 bis 9:00 Uhr Morgens gesetzt werden.
 Es wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vorher)
 - Der Modbusserver auf Port 502 ist nun abschaltbar da er von openWB selbst nicht mehr verwendet wird. 
-
+- Datenexport zu Excel mit ',' und ';' statt '.' und ','
+- RCT2h weiter Optimierung, Regelschleife auf Pi3B+ von 6-7 auf 3-4 Sekunden gesenkt
 *******************************************************
 
 ***Die weitere Entwicklung***
@@ -34,6 +35,7 @@ Es wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vor
 - Ladesteuerung an meine Wünsche anpassen, insbesonder Nachtladen und Zielladen.
 - 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
 - Ladelog, Ein Eintrag je Ab/AnStecken, nicht je Ladeunterbrechung
+- Es wird eine EMail Benachrichtigung eingebau
 
 **[Umzug auf openwb_lite](docs/umzug.md)**
 
