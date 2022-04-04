@@ -499,7 +499,6 @@
 								hideSection('#lp2aktdiv');
 								hideSection('#loadsharingdiv');
 								showSection('#loadsharingoffdiv');
-								hideSection('#nachtladenlp2div');
 								hideSection('#durchslp2div');
 							} else {
 								showSection('#lp2aktdiv');
