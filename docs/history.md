@@ -21,5 +21,7 @@ Einige Steps der Entwicklung
 - Alle Versuche die RCT2 Module mit dem Legathy-Run-Server zu betreiben sind bisher fehlgeschlagen. Ich bleibe bei den normalen Pyhton Modules. Durch reduktion auf ein einziges Phyton module für EVU/WR/BAT singt die Laufzeit der Regelschleife weiter von 7/8 auf 5/6 Sekunden.
 
 4.2022 
-- rct2h hinzugefügt um nicht mit rct2 (von peter.O ) zu kollidieren. Regelschleife nun 3-4 Sekunden. Der Name der Distribution wird im System-Info mit angezeigt. 
+- rct2h hinzugefügt um nicht mit rct2 (von peter.O ) zu kollidieren. Regelschleife nun 3-4 Sekunden. 
+- Der Name der Distribution wird im System-Info mit angezeigt. 
 - Hilfscript statregel.sh im die Laufzeitstatistik der Regelschleife anzuzeigen.
+- Hoffendlich nun alle referenten auf LP4-LP8 entfernt. 
