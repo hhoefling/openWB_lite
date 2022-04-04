@@ -11,7 +11,7 @@ git remote -v  # Anzeigen der aktuellen Basis
 origin  https://github.com/snaptec/openWB.git (fetch)
 origin  https://github.com/snaptec/openWB.git (push)
 
-git remote set-url origin https://github.com/hhoefling/owb1.9.250x.git
+git remote set-url origin https://github.com/hhoefling/openWB_lite.git
 git remote -v
 origin  https://github.com/hhoefling/openWB_litegit (fetch)
 origin  https://github.com/hhoefling/openWB_lite.git (push)
@@ -31,7 +31,7 @@ cp -p openwb.conf.sav openwb.conf
 sudo chmod +x runs/*.sh
 sudo chmod +x *.sh
 # run normal after-update-handling
-./runs/update.sh
+sudo ./runs/update.sh
 
 ```
 
