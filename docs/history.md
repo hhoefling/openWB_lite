@@ -17,3 +17,5 @@ Einige Steps der Entwicklung
 - 1.2022 Der Ladelog enthält den Km Stand des PKW sofern dieser verfügbar ist. (Soc-Skoda macht es)
 
 - 3.2022 alle Versuche die RCT2 Module mit dem Legathy-Run-Server zu betreiben sind bisher fehlgeschlagen. Ich bleibe bei den normalen Pyhton Modules. Durch reduktion auf ein einziges Phyton module für EVU/WR/BAT singt die Laufzeit der Regelschleife weiter von 7/8 auf 5/6 Sekunden.
+
+- 4.2022 rct2h hinzugefügt um nicht mit rct2 (von peter.O ) zu kollidieren. Regelschleife nun 3-4 Sekunden
