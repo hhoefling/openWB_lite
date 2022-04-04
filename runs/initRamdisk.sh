@@ -100,6 +100,9 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/progevsedinlp2
 	echo 0 > $RamdiskPath/progevsedinlp22000
 	echo 0 > $RamdiskPath/progevsedinlp22007
+	echo 0 > $RamdiskPath/progevsedinlp3
+	echo 0 > $RamdiskPath/progevsedinlp32000
+	echo 0 > $RamdiskPath/progevsedinlp32007
 	echo 0 > $RamdiskPath/cpulp1counter
 	echo 0 > $RamdiskPath/soc
 #NC	echo 0 > $RamdiskPath/soc-live.graph
@@ -243,12 +246,14 @@ initRamdisk(){
 	echo -1 > $RamdiskPath/mqttrfidlasttag
 	echo -1 > $RamdiskPath/mqttrfidlp1
 	echo -1 > $RamdiskPath/mqttrfidlp2
+	echo -1 > $RamdiskPath/mqttrfidlp3
 
 	# rfid
 	echo $rfidlist > $RamdiskPath/rfidlist
 	echo 0 > $RamdiskPath/rfidlasttag
 	echo 0 > $RamdiskPath/rfidlp1
 	echo 0 > $RamdiskPath/rfidlp2
+	echo 0 > $RamdiskPath/rfidlp3
 	echo 0 > $RamdiskPath/readtag
 
 	# SmartHome 1.0
@@ -486,8 +491,10 @@ initRamdisk(){
 		"mqttsocvorhanden:-1" \
 		"mqttsofortsoclp1:-1" \
 		"mqttsofortsoclp2:-1" \
+		"mqttsofortsoclp3:-1" \
 		"mqttsofortsocstatlp1:-1" \
 		"mqttsofortsocstatlp2:-1" \
+		"mqttsofortsocstatlp3:-1" \
 		"mqttspeichermaxwatt:-1" \
 		"mqttspeicherpveinbeziehen:-1" \
 		"mqttspeicherpvui:-1" \
@@ -497,8 +504,10 @@ initRamdisk(){
 		"mqttspeicherwattnurpv:-1" \
 		"mqttstopchargepvatpercentlp1:-1" \
 		"mqttstopchargepvatpercentlp2:-1" \
+		"mqttstopchargepvatpercentlp3:-1" \
 		"mqttstopchargepvpercentagelp1:-1" \
 		"mqttstopchargepvpercentagelp2:-1" \
+		"mqttstopchargepvpercentagelp3:-1" \
 		"mqttu1p3paktiv:-1" \
 		"mqttu1p3pminundpv:-1" \
 		"mqttu1p3pnl:-1" \
