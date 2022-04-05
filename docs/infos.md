@@ -162,7 +162,7 @@ Integrierter Zähle SDM72D-M (modbus id = 105)
 40000-- Write Register u.a mit Passwort/Reset/baudrate etc
 ```
 
-**Chargemode
+**Chargemode**
 ```
 Sofort	0
 Min+PV	1
