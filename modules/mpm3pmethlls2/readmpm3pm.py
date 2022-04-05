@@ -9,7 +9,7 @@ import struct
 # import binascii
 from pymodbus.client.sync import ModbusTcpClient
 
-client = ModbusTcpClient('192.168.193.26', port=8899)
+client = ModbusTcpClient('192.168.192.26', port=8899)
 
 #resp = client.read_input_registers(0x0002,2, unit=5)
 #ikwh = resp.registers[1]

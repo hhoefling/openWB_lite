@@ -5,7 +5,7 @@
 # import getopt
 import struct
 from pymodbus.client.sync import ModbusTcpClient
-client = ModbusTcpClient('192.168.193.15', port=8899)
+client = ModbusTcpClient('192.168.192.15', port=8899)
 
 # Counters
 resp = client.read_input_registers(0x1a1f,2, unit=0x08)

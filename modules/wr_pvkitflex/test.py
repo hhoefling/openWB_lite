@@ -7,7 +7,7 @@ import struct
 from pymodbus.client.sync import ModbusTcpClient
 
 ##PV Kit Defaults
-mbip='192.168.193.13'
+mbip='192.168.192.13'
 mbport=8899
 mbid = 115
 numpv=1
