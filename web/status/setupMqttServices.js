@@ -50,6 +50,7 @@ var topicsToSubscribe = [
 	["openWB/lp/1/faultStr", 1],
 	["openWB/lp/1/socFaultState", 1],
 	["openWB/lp/1/socFaultStr", 1],
+	["openWB/lp/1/MeterSerialNumber", 1],
 
 	["openWB/lp/2/boolChargePointConfigured", 0],
 	["openWB/lp/2/AConfigured", 1], 
@@ -67,6 +68,7 @@ var topicsToSubscribe = [
 	["openWB/lp/2/faultStr", 1],
 	["openWB/lp/2/socFaultState", 1],
 	["openWB/lp/2/socFaultStr", 1],
+	["openWB/lp/2/MeterSerialNumber", 1],
 
 	["openWB/lp/3/boolChargePointConfigured", 0],
 	["openWB/lp/3/AConfigured", 1], 
@@ -84,6 +86,7 @@ var topicsToSubscribe = [
 	["openWB/lp/3/faultStr", 1],
 	["openWB/lp/3/socFaultState", 1],
 	["openWB/lp/3/socFaultStr", 1],
+	["openWB/lp/3/MeterSerialNumber", 1],
 
 //	["openWB/lp/4/boolChargePointConfigured", 0],
 //	["openWB/lp/4/AConfigured", 1], 

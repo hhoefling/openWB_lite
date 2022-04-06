@@ -305,6 +305,9 @@ function processLpMsg (mqttmsg, mqttpayload) {
 	else if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/socFaultStr$/i ) ) {
 		textShow(mqttpayload, '#lp' + index + ' .faultStrSocLp');
 	}
+	else if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/MeterSerialNumber$/i ) ) {
+		textShow('(SN:'+mqttpayload+')', '#lp' + index + ' .MeterSerialNumber');
+	}
 	else {
 		switch (mqttmsg) {
 			case "openWB/lp/1/PfPhase1":
@@ -475,3 +478,4 @@ function visibilityCard(card, mqttpayload) {
 		}
 	}
 }
+

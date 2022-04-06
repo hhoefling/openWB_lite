@@ -191,7 +191,7 @@
 											<td class="ladeleistung">--</td>
 										</tr>
 										<tr class="kWhCounterRow">
-											<th scope="row">Zählerstand [kWh]</th>
+											<th scope="row">Zählerstand [kWh] <span class="MeterSerialNumber"></span></th>
 											<td class="kWhCounter">--</td>
 										</tr>
 										<tr class="socRow hide">
