@@ -215,7 +215,9 @@ fi
 evsedintest
 
 #u1p3p switch
-u1p3pswitch
+if (( u1p3paktiv == 1 )); then
+    u1p3pswitch
+fi
 
 #hooks - externe geraete
 hook
