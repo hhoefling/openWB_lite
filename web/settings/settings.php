@@ -579,6 +579,37 @@
 										<span class="form-text small">Ampere mit denen geladen werden soll um den Ziel SoC zu erreichen.</span>
 									</div>
 								</div>
+								<div class="form-row mb-1">
+									<label class="col-md-4 col-form-label">Anzahl genutzter Phasen</label>
+									<div class="col">
+										<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+											<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 1) echo " active" ?>">
+												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp11" value="1"<?php if($zielladenphasenlp1old == 1) echo " checked=\"checked\"" ?>>1
+											</label>
+											<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 2) echo " active" ?>">
+												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp12" value="2"<?php if($zielladenphasenlp1old == 2) echo " checked=\"checked\"" ?>>2
+											</label>
+											<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 3) echo " active" ?>">
+												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp13" value="3"<?php if($zielladenphasenlp1old == 3) echo " checked=\"checked\"" ?>>3
+											</label>
+										</div>
+							         <span class="d_label">zielladenphasenlp1</span>				
+										<span class="form-text small">Achtung wenn mehr als eine Phase genutzt wird, muss für Standby auf 3-Phasig stehen.</span>
+									</div>
+								</div>
+								<div class="form-row mb-1">
+									<label for="zielladenmaxalp1" class="col-md-4 col-form-label">maximale Stromstärke</label>
+									<div class="col-md-8">
+										<div class="form-row vaRow mb-1">
+											<label for="zielladenmaxalp1" class="col-2 col-form-label valueLabel" suffix="A"><?php echo $zielladenmaxalp1old; ?> A</label>
+											<div class="col-10">
+												<input type="range" class="form-control-range rangeInput" name="zielladenmaxalp1" id="zielladenmaxalp1" min="6" max="32" step="1" value="<?php echo $zielladenmaxalp1old; ?>">
+											</div>
+										</div>
+							         <span class="d_label">zielladenmaxalp1</span>				
+										<span class="form-text small">Ampere mit denen geladen werden kann, um den Ziel SoC zu erreichen. Orientiert an der Leistung der Hausinstallation, oder der des zu ladenden Autos.</span>
+									</div>
+								</div>								
 							</div>
 						</div>
 					</div>
@@ -628,37 +659,6 @@
 										<input class="form-control" type="number" min="1" step="1" name="akkuglp1" id="akkuglp1" value="<?php echo $akkuglp1old ?>">
 							         <span class="d_label">akkuglp1</span>				
 										<span class="form-text small">Gültige Werte xx, z.B. 41. Dient zur Berechnung der benötigten Ladezeit.</span>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label class="col-md-4 col-form-label">Anzahl genutzter Phasen</label>
-									<div class="col">
-										<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-											<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 1) echo " active" ?>">
-												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp11" value="1"<?php if($zielladenphasenlp1old == 1) echo " checked=\"checked\"" ?>>1
-											</label>
-											<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 2) echo " active" ?>">
-												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp12" value="2"<?php if($zielladenphasenlp1old == 2) echo " checked=\"checked\"" ?>>2
-											</label>
-											<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 3) echo " active" ?>">
-												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp13" value="3"<?php if($zielladenphasenlp1old == 3) echo " checked=\"checked\"" ?>>3
-											</label>
-										</div>
-							         <span class="d_label">zielladenphasenlp1</span>				
-										<span class="form-text small">Nur für Zielladen relevant.</span>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label for="zielladenmaxalp1" class="col-md-4 col-form-label">maximale Stromstärke</label>
-									<div class="col-md-8">
-										<div class="form-row vaRow mb-1">
-											<label for="zielladenmaxalp1" class="col-2 col-form-label valueLabel" suffix="A"><?php echo $zielladenmaxalp1old; ?> A</label>
-											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="zielladenmaxalp1" id="zielladenmaxalp1" min="6" max="32" step="1" value="<?php echo $zielladenmaxalp1old; ?>">
-											</div>
-										</div>
-							         <span class="d_label">zielladenmaxalp1</span>				
-										<span class="form-text small">Ampere mit denen geladen werden kann, um den Ziel SoC zu erreichen. Orientiert an der Leistung der Hausinstallation, oder der des zu ladenden Autos.</span>
 									</div>
 								</div>
 							</div>
