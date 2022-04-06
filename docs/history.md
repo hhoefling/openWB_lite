@@ -26,3 +26,4 @@ Einige Steps der Entwicklung
 - Hilfscript statregel.sh im die Laufzeitstatistik der Regelschleife anzuzeigen.
 - Hoffendlich nun alle referenten auf LP4-LP8 entfernt. Dadurch schnelle Ladezeiten der Weboberfläche
 - Alle internen IP Adressen von 192.168.193.x zu 192.168.192.x gewechselt
+- Die Statuszeite zeigt die Seriennummer der Ladepunktzähler an, wenn verfügbar
