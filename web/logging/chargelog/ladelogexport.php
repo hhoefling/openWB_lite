@@ -1,3 +1,63 @@
+<?php
+ if( $_GET['do']=='export')
+ {
+   $dates=str_replace("-","",$_GET['date']);
+   $fin="/var/www/html/openWB/web/logging/data/ladelog/$dates.csv";
+   //$head=file("/var/www/html/openWB/web/logging/data/daily/daily_header.csv");
+   $file=file($fin);
+   
+   header('Content-Type: application/csv; charset=UTF-8');
+   header('Content-Disposition: attachment;filename="'.$dates.'.csv";');
+   
+   $head[]="Start;Ende;Km;Kwh;Lade KW;Ladezeit;Ladepunkt;Lademodus;RFID;Km\n";
+  // kopfzeile mit ;
+   echo str_replace(",",";",$head[0]);
+   // daten mit ; und "," als dezimaltrenner
+   foreach($file as $line)
+    {
+     $fields=explode(",",$line);
+     $idx=0;
+     foreach($fields as $f)
+      { $idx++;
+        $f=trim($f);
+        switch($idx)
+        {
+         case 1:
+         case 2: echo $f.";";
+                 break;
+         case 6:  echo str_replace('H','Std',$f).";";
+                  break;
+         case 8:
+                switch ((int)$f) 
+                {
+                  case 0: echo "Sofort;";
+                          break;
+                  case 1: echo "Min+PV;";
+                          break;
+                  case 2: echo "PV;";
+                          break;
+                  case 7: echo "Nachtladen;";
+                           break;
+                  default:
+                        echo str_replace('.',',',$f).";";
+                }
+                break;
+        default: 
+               echo str_replace('.',',',$f).";";
+               break;
+         }
+      }
+      echo "\n";
+    }
+   exit;
+   echo "<pre>";
+   print_r($GLOBALS); 
+   echo "</pre>";
+   exit;
+ }
+
+//header( 'Refresh:600;' ); 
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -72,6 +132,7 @@
 				<div class="card-body">
 					<?php
 						$files = glob($_SERVER['DOCUMENT_ROOT'] . "/openWB/web/logging/data/ladelog/*.csv");
+                        arsort($files);
 						$rowClasses = "";
 						foreach ($files as $current) {
 					?>
@@ -86,7 +147,10 @@
 								?>
 							</label>
 							<div class="col-6 text-right">
-								<a class="btn downloadBtn btn-info" style="margin-bottom:12px" href=<?php echo preg_split('/\/var\/www\/html\/openWB\/web\//', $current)[1]; ?> download><i class="fas fa-download"></i> Download</a>
+								<a class="btn downloadBtn btn-info" style="margin-bottom:12px" 
+                                   href="logging/chargelog/ladelogexport.php<?php
+                          			echo "?date=" . pathinfo($current)['filename'] ."&do=export\">";
+                        		   ?><i class="fas fa-download"></i> Download</a>
 							</div>
 						</div>
 					<?php
