@@ -190,7 +190,7 @@ openwbDebugLog "MAIN" 1 "Zeit zum abfragen aller Werte $timeloadvars Sekunden"
 if (( u1p3paktiv == 1 )); then
 	blockall=$(<ramdisk/blockall)
 	if (( blockall == 1 )); then
-		openwbDebugLog "MAIN" 1 "Phasen Umschaltung noch aktiv... beende"
+		openwbDebugLog "MAIN" 1 "Phasen Umschaltung noch aktiv... beende (exit 0)"
 		exit 0
 	fi
 fi
@@ -211,7 +211,7 @@ if (( lp3enabled == 0)); then
 fi
 # LP4-LP8
 
-#EVSE DIN Modbus test
+#EVSE DIN Modbus test, wenn "Ausstehend" eingertragen ist (evsedinttest.php)
 evsedintest
 
 #u1p3p switch
@@ -236,7 +236,7 @@ if (( cpunterbrechunglp1 == 1 )); then
 						openwbDebugLog "MAIN" 0 "CP Unterbrechung an LP1 wird durchgeführt"
 						if [[ $evsecon == "simpleevsewifi" ]]; then
 							curl --silent --connect-timeout $evsewifitimeoutlp1 -s http://$evsewifiiplp1/interruptCp > /dev/null
-						elif [[ $evsecon == "ipevse" ]]; then
+						elif [[ $evsecon == "ipevse" ]]; then ## Alter Satellit ohne Pi3
 							openwbDebugLog "MAIN" 0 "Dauer der Unterbrechung: ${cpunterbrechungdauerlp1}s"
 							python runs/cpuremote.py -a $evseiplp1 -i 4 -d $cpunterbrechungdauerlp1
 						elif [[ $evsecon == "extopenwb" ]]; then
@@ -274,7 +274,7 @@ if (( cpunterbrechunglp2 == 1 )); then
 						openwbDebugLog "MAIN" 0 "CP Unterbrechung an LP2 wird durchgeführt"
 						if [[ $evsecons1 == "simpleevsewifi" ]]; then
 							curl --silent --connect-timeout $evsewifitimeoutlp2 -s http://$evsewifiiplp2/interruptCp > /dev/null
-						elif [[ $evsecons1 == "ipevse" ]]; then
+						elif [[ $evsecons1 == "ipevse" ]]; then ## Alter Satellit ohne Pi3
 							openwbDebugLog "MAIN" 0 "Dauer der Unterbrechung: ${cpunterbrechungdauerlp2}s"
 							python runs/cpuremote.py -a $evseiplp2 -i 7 -d $cpunterbrechungdauerlp2
 						elif [[ $evsecons1 == "extopenwb" ]]; then
