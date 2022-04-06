@@ -64,7 +64,7 @@ else:
 # Versuche Daten von Shelly abzurufen.
 try:
     if (gen == "1"):
-    answer = json.loads(str(urllib.request.urlopen("http://"+str(ipadr)+"/status", timeout=3).read().decode("utf-8")))
+        answer = json.loads(str(urllib.request.urlopen("http://"+str(ipadr)+"/status", timeout=3).read().decode("utf-8")))
         #answer.update(a_dictionary)  
         # fake new gen
         #gen = '2'
@@ -79,7 +79,7 @@ except:
 # Versuche Werte aus der Antwort zu extrahieren.
 try:
     if (gen == "1"):
-    aktpower = totalPowerFromShellyJson(answer)
+        aktpower = totalPowerFromShellyJson(answer)
     else:
         aktpower = int(answer['switch:0'] ['apower'])
 except:
@@ -87,7 +87,7 @@ except:
 
 try:
     if (gen == "1"):
-    relais = int(answer['relays'][0]['ison'])
+        relais = int(answer['relays'][0]['ison'])
     else:
         relais = int(answer['switch:0'] ['output'])
 except:
