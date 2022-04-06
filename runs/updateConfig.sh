@@ -1447,7 +1447,7 @@ updateConfig(){
 		echo "soc_zeronglp2_intervall=20" >> $ConfigFile
 	fi
 	if ! grep -Fq "alphaessip=" $ConfigFile; then
-		echo "alphaessip=192.168.193.31" >> $ConfigFile
+		echo "alphaessip=192.168.192.31" >> $ConfigFile
 	fi
 	if ! grep -Fq "solarview_hostname=" $ConfigFile; then
 		echo "solarview_hostname=192.168.0.31" >> $ConfigFile
@@ -1592,12 +1592,12 @@ updateConfig(){
 		echo "ess_api_ver=01.2020" >> $ConfigFile
 	fi
 	if ! grep -Fq "evseiplp1=" $ConfigFile; then
-		echo "evseiplp1=192.168.193.41" >> $ConfigFile
-		echo "evseiplp2=192.168.193.42" >> $ConfigFile
-		echo "evseiplp3=192.168.193.43" >> $ConfigFile
-		echo "mpmlp1ip=192.168.193.51" >> $ConfigFile
-		echo "mpmlp2ip=192.168.193.52" >> $ConfigFile
-		echo "mpmlp3ip=192.168.193.53" >> $ConfigFile
+		echo "evseiplp1=192.168.192.41" >> $ConfigFile
+		echo "evseiplp2=192.168.192.42" >> $ConfigFile
+		echo "evseiplp3=192.168.192.43" >> $ConfigFile
+		echo "mpmlp1ip=192.168.192.51" >> $ConfigFile
+		echo "mpmlp2ip=192.168.192.52" >> $ConfigFile
+		echo "mpmlp3ip=192.168.192.53" >> $ConfigFile
 		echo "evseidlp1=21" >> $ConfigFile
 		echo "evseidlp2=22" >> $ConfigFile
 		echo "evseidlp3=23" >> $ConfigFile
@@ -2000,10 +2000,10 @@ updateConfig(){
 		echo "alphav123=0" >> $ConfigFile
 	fi
 	if ! grep -Fq "virtual_ip_eth0=" $ConfigFile; then
-		echo "virtual_ip_eth0='192.168.193.5'" >> $ConfigFile
+		echo "virtual_ip_eth0='192.168.192.5'" >> $ConfigFile
 	fi
 	if ! grep -Fq "virtual_ip_wlan0=" $ConfigFile; then
-		echo "virtual_ip_wlan0='192.168.193.6'" >> $ConfigFile
+		echo "virtual_ip_wlan0='192.168.192.6'" >> $ConfigFile
 	fi
 
 	newlines=$(wc -l $ConfigFile | cut -f 1 -d " ")

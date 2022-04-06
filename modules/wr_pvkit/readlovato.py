@@ -7,7 +7,7 @@ import struct
 from pymodbus.client.sync import ModbusTcpClient
 
 ##PV Kit Defaults
-mbip='192.168.193.13'
+mbip='192.168.192.13'
 mbport=8899
 mbid=0x08
 numpv = 1
@@ -25,7 +25,7 @@ if len(sys.argv) >= 4:
 if len(sys.argv) >= 5:
 	mbid=int(sys.argv[4])
 
-#client = ModbusTcpClient('192.168.193.13', port=8899)
+#client = ModbusTcpClient('192.168.192.13', port=8899)
 client = ModbusTcpClient(mbip,port=mbport)
 #client.host(mbip)
 #client.port(mbport)

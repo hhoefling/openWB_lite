@@ -12,7 +12,7 @@ from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.constants import Endian
 from pymodbus.client.sync import ModbusTcpClient
 
-client = ModbusTcpClient('192.168.193.125', port=8899)
+client = ModbusTcpClient('192.168.192.125', port=8899)
 
 sdmid = int(85)
 resp = client.read_holding_registers(0x0012,4, unit=sdmid)

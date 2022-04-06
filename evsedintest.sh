@@ -30,9 +30,9 @@ evsedintest() {
 				sleep 1
 			fi
 			if [[ $evsecon == "masterethframer" ]]; then
-				sudo python runs/evsewritembusethframerdev.py 192.168.193.18 1 1000 9
+				sudo python runs/evsewritembusethframerdev.py 192.168.192.18 1 1000 9
 				sleep 1
-				evsedinstat=$(sudo python runs/readmodbusethframer.py 192.168.193.18 1 1000 1)
+				evsedinstat=$(sudo python runs/readmodbusethframer.py 192.168.192.18 1 1000 1)
 				if [[ $evsedinstat == "[9]" ]]; then
 					openwbDebugLog "MAIN" 0 "EVSE LP1 Prüfung erfolgreich"
 					echo "erfolgreich" > ramdisk/evsedintestlp1
@@ -41,7 +41,7 @@ evsedintest() {
 					echo "Fehler" > ramdisk/evsedintestlp1
 				fi
 				sleep 1
-				sudo python runs/evsewritembusethframerdev.py 192.168.193.18 1 1000 0
+				sudo python runs/evsewritembusethframerdev.py 192.168.192.18 1 1000 0
 				sleep 1
 			fi
 		else
@@ -135,10 +135,10 @@ evsedintest() {
 			fi
 			if [[ $evsecon == "masterethframer" ]]; then
 				sleep 1
-				evselp12000=$(sudo python runs/readmodbusethframer.py 192.168.193.18 1 2000 1)
+				evselp12000=$(sudo python runs/readmodbusethframer.py 192.168.192.18 1 2000 1)
 				echo $evselp12000 > /var/www/html/openWB/ramdisk/progevsedinlp12000
 				sleep 1
-				evselp12007=$(sudo python runs/readmodbusethframer.py 192.168.193.18 1 2007 1)
+				evselp12007=$(sudo python runs/readmodbusethframer.py 192.168.192.18 1 2007 1)
 				echo $evselp12007 > /var/www/html/openWB/ramdisk/progevsedinlp12007
 				sleep 1
 			fi
@@ -188,10 +188,10 @@ evsedintest() {
 			fi
 			if [[ $evsecon == "masterethframer" ]]; then
 				lp12000=$(<ramdisk/progevsedinlp12000)
-				sudo python runs/evsewritembusethframerdev.py 192.168.193.18 1 2000 $lp12000
+				sudo python runs/evsewritembusethframerdev.py 192.168.192.18 1 2000 $lp12000
 				sleep 1
 				lp12007=$(<ramdisk/progevsedinlp12007)
-				sudo python runs/evsewritembusethframerdev.py 192.168.193.18 1 2007 $lp12007
+				sudo python runs/evsewritembusethframerdev.py 192.168.192.18 1 2007 $lp12007
 			fi
 		fi
 		echo 0 > ramdisk/progevsedinlp1

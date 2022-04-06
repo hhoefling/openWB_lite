@@ -85,5 +85,16 @@ sudo chmod 777 /var/www/html/openWB/ramdisk/*
 sudo chmod 777 /var/www/html/openWB/web/lade.log
 sleep 2
 
+# check links for standart theme
+(
+ cd /var/www/html/openWB/web/themes/standard
+ [ ! -r helperFunction ]       && ln -s  ../dark/helperFunctions.js .
+ [ ! -r livechart.js ]         && ln -s  ../dark/livechart.js .
+ [ ! -r processAllMqttMsg.js ] && ln -s  ../dark/processAllMqttMsg.js .
+ [ ! -r setupMqttServices.js ] && ln -s  ../dark/setupMqttServices.js .
+ [ ! -r theme.html ]           && ln -s  ../dark/theme.html .
+)
+
+
 # now treat system as in booting state
 nohup sudo /var/www/html/openWB/runs/atreboot.sh > /var/log/openWB.log 2>&1 &

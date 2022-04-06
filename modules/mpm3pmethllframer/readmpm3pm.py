@@ -10,7 +10,7 @@ import struct
 from pymodbus.transaction import ModbusRtuFramer
 from pymodbus.client.sync import ModbusTcpClient
 
-client = ModbusTcpClient('192.168.193.18', port=8899, framer=ModbusRtuFramer)
+client = ModbusTcpClient('192.168.192.18', port=8899, framer=ModbusRtuFramer)
 
 resp = client.read_input_registers(0x0002,4, unit=5)
 value1 = resp.registers[0] 
