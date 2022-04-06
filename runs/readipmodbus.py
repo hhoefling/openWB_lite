@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# used for Satellit (ohne PI, ipevse)
 import sys
 import os
 import time

@@ -102,7 +102,7 @@ function setChargingCurrentDaemon () {
 	# set desired charging current
 	# Is handled in lldaemon.py
 }
-# function for setting the current - IP modbusevse
+# function for setting the current - IP modbusevse ## Alter Satellit ohne Pi3
 # Parameters:
 # 1: current
 # 2: evseip

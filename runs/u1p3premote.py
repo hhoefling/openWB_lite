@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# used for Satellit (ohne PI, ipevse)
+
 from pymodbus.client.sync import ModbusTcpClient
 import sys
 import os

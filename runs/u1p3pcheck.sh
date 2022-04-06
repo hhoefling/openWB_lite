@@ -14,7 +14,7 @@ if [[ "$1" == "1" ]]; then
 		openwbDebugLog "MAIN" 0 "Pause nach Umschaltung: ${u1p3ppause}s"
 		sudo python runs/trigopen.py -d $u1p3ppause -c 1
 	fi
-	if [[ $evsecon == "ipevse" ]]; then
+	if [[ $evsecon == "ipevse" ]]; then 	## Alter Satellit ohne Pi3
 		sudo python runs/u1p3premote.py -a $evseiplp1 -i $u1p3plp2id -p 1 -d $u1p3ppause
 	fi
 	if [[ $evsecon == "extopenwb" ]]; then
@@ -88,7 +88,7 @@ if [[ "$1" == "3" ]]; then
 
 # lp4-lp8
 
-	if [[ $evsecon == "ipevse" ]]; then
+	if [[ $evsecon == "ipevse" ]]; then	## Alter Satellit ohne Pi3
 		sudo python runs/u1p3premote.py -a $evseiplp1 -i $u1p3plp2id -p 3 -d $u1p3ppause
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "ipevse" && $u1p3plp2aktiv == "1" ]]; then
@@ -136,7 +136,7 @@ if [[ "$1" == "stop" ]]; then
 	fi
 # lp4-lp8
 
-	if [[ $evsecon == "ipevse" ]]; then
+	if [[ $evsecon == "ipevse" ]]; then ## Alter Satellit ohne Pi3
 		oldll=$(<ramdisk/llsoll)
 		echo $oldll > ramdisk/tmpllsoll
 		runs/set-current.sh 0 m
@@ -170,7 +170,7 @@ if [[ "$1" == "start" ]]; then
 		runs/set-current.sh $oldll m
 	fi
 
-	if [[ $evsecon == "ipevse" ]]; then
+	if [[ $evsecon == "ipevse" ]]; then ## Alter Satellit ohne Pi3
 		oldll=$(<ramdisk/tmpllsoll)
 		runs/set-current.sh $oldll m
 	fi
@@ -226,7 +226,7 @@ if [[ "$1" == "startslow" ]]; then
 		mosquitto_pub -r -t openWB/set/isss/Current -h $chargep3ip -m "$minimalapv"
 	fi
 # lp4-lp8
-	if [[ $evsecon == "ipevse" ]]; then
+	if [[ $evsecon == "ipevse" ]]; then ## Alter Satellit ohne Pi3
 		runs/set-current.sh $minimalapv m
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "modbusevse" && $u1p3plp2aktiv == "1" ]]; then
