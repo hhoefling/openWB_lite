@@ -77,7 +77,7 @@ openwbModulePublishState() {
 export -f openwbModulePublishState
 
 openwbDebugLog() {
-	# $1: Channel (MAIN=default, EVSOC, PV, MQTT, RFID, SMARTHOME, CHARGESTAT)
+	# $1: Channel (MAIN=default, EVSOC, PV, MQTT, RFID, SMARTHOME, CHARGESTAT, DEB)
 	# $2: Level (0=Info, 1=Regelwerte , 2=Berechnungsgrundlage)
 	# $3: Meldung (String)
 	LOGFILE="/var/log/openWB.log"
@@ -92,6 +92,9 @@ openwbDebugLog() {
 	# echo "LVL: $2 DEBUG: $debug DEBUGLEVEL: $DEBUGLEVEL" >> $LOGFILE
 	if (( $2 <= DEBUGLEVEL )); then
 		case $1 in
+			"DEB")
+				LOGFILE="/var/www/html/openWB/ramdisk/dbg.log"
+				;;
 			"EVSOC")
 				LOGFILE="/var/www/html/openWB/ramdisk/soc.log"
 				;;
