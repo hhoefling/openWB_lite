@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# 1000: Configured Current
 evsedintest() {
 	evsedintestlp1=$(<ramdisk/evsedintestlp1)
 	if [[ $evsedintestlp1 == "ausstehend" ]]; then
