@@ -27,4 +27,4 @@ Einige Steps der Entwicklung
 - Hoffendlich nun alle referenten auf LP4-LP8 entfernt. Dadurch schnelle Ladezeiten der Weboberfläche
 - Alle internen IP Adressen von 192.168.193.x zu 192.168.192.x gewechselt
 - Die Statuszeite zeigt die Seriennummer der Ladepunktzähler an, wenn verfügbar
-- Ladelog-Export an deutsches Excel angepasst (; als Trenner und , als Komma)
+- Ladelog-Export an deutsches Excel angepasst (; als Trenner und , als Komma) dadurch kann die Ausgabe direkt an Excel übergeben werden. 
