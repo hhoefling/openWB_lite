@@ -602,7 +602,7 @@ class PowerGraph {
         .tickFormat((d, i) => (d == 0) ? "" : (Math.round(d / 100) / 10)))
       ;
     yAxis.selectAll(".tick")
-      .attr("font-size", 12);
+      .attr("font-size", 12+6);
 
     if (wbdata.showGrid) {
       yAxis.selectAll(".tick line")
@@ -673,7 +673,7 @@ class PowerGraph {
         .tickFormat((d, i) => (d == 0) ? "" : (Math.round(d / 100) / 10))
       );
     yAxis.selectAll(".tick")
-      .attr("font-size", 12);
+      .attr("font-size", 12+6);
     if (wbdata.showGrid) {
       yAxis.selectAll(".tick line")
         .attr("stroke", this.gridcolor)
@@ -687,7 +687,7 @@ class PowerGraph {
   }
 
   drawXAxis(svg, width, height) {
-    const fontsize = 12;
+    const fontsize = 12+4;
     const xScale = d3.scaleTime().range([0, width - this.margin.right]);
     xScale.domain(d3.extent(this.graphData, (d) => d.date));
 
@@ -864,7 +864,7 @@ class PowerGraph {
         .ticks(5)
         .tickFormat((d) => (d + "%")))
       ;
-    socAxis.selectAll(".tick").attr("font-size", 12);
+    socAxis.selectAll(".tick").attr("font-size", 12+6);
     socAxis.selectAll(".tick line").attr("stroke", this.bgcolor);
     socAxis.select(".domain")
       .attr("stroke", this.bgcolor)

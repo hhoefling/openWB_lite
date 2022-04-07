@@ -39,25 +39,25 @@ class WbData {
 		this.sourceSummary = {
 			"evuIn": { name: "Netz", power: 0, energy: 0, color: "white" },
 			"pv": { name: "PV", power: 0, energy: 0, color: "white" },			
-			"batOut": { name: "Bat Entl",   power: 0, energy: 0, color: "white" }
+			"batOut": { name: "Bat--",   power: 0, energy: 0, color: "white" }
 		};
 
 		this.usageSummary = {
-			"evuOut": { name: "Export", power: 0, energy: 0, color: "white" },
-			"charging":{ name: "Laden",  power: 0, energy: 0, color: "white" },
+			"evuOut": { name: "Einsp.", power: 0, energy: 0, color: "white" },
+			"charging":{ name: "PKW",  power: 0, energy: 0, color: "white" },
 			"devices": { name: "Geräte", power: 0, energy: 0, color: "white" },
-			"batIn":   { name: "Bat Lad",    power: 0, energy: 0, color: "white" },
+			"batIn":   { name: "Bat++",    power: 0, energy: 0, color: "white" },
 			"house": { name: "Haus", power: 0, energy: 0, color: "white" }
 		};
 
 		this.historicSummary = {
 			"evuIn": { name: "Netz", power: 0, energy: 0, color: "white" },
 			"pv": { name: "PV", power: 0, energy: 0, color: "white" },
-			"batOut": { name: "Bat Entl", power: 0, energy: 0, color: "white" },
-			"evuOut": { name: "Export", power: 0, energy: 0, color: "white" },
-			"charging": { name: "Laden", power: 0, energy: 0, color: "white" },
+			"batOut": { name: "Bat--", power: 0, energy: 0, color: "white" },
+			"evuOut": { name: "Einsp.", power: 0, energy: 0, color: "white" },
+			"charging": { name: "PKW", power: 0, energy: 0, color: "white" },
 			"devices": { name: "Geräte", power: 0, energy: 0, color: "white" },
-			"batIn": { name: "Bat Lad", power: 0, energy: 0, color: "white" },
+			"batIn": { name: "Bat++", power: 0, energy: 0, color: "white" },
 			"house": { name: "Haus", power: 0, energy: 0, color: "white" }
 		};
 		
@@ -474,6 +474,25 @@ function formatWattH(watt) {
 			case 3: return (Math.round(watt) /* / 1000*/).toLocaleString('de-DE')  + ' Wh';
 					break;
 			default:return (Math.round(watt / 100) / 10).toLocaleString('de-DE') + ' kWh';
+					break;
+		}
+	} else {
+		return (Math.round(watt).toLocaleString('de-DE') + " Wh");
+	}
+}
+
+function formatWattHX(watt) {
+	if (watt >= 1000) {
+		switch (wbdata.decimalPlaces) {
+			case 0:	return Math.round(watt / 1000).toLocaleString('de-DE');
+					break;
+			case 1: return (Math.round(watt / 100) / 10).toLocaleString('de-DE');
+					break;
+			case 2: return (Math.round(watt / 10) / 100).toLocaleString('de-DE');
+					break;
+			case 3: return (Math.round(watt) /* / 1000*/).toLocaleString('de-DE')  + ' Wh';
+					break;
+			default:return (Math.round(watt / 100) / 10).toLocaleString('de-DE');
 					break;
 		}
 	} else {

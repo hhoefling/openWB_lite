@@ -136,7 +136,7 @@ class YieldMeter {
 
 		svg.append("text")
 			.attr("x", -this.margin.left)
-			.attr("y", -15)
+			.attr("y", -5)
 			.style("fill", this.axisColor)
 			.attr("font-size", this.axisFontSize)
 			.text("kWh")
@@ -152,7 +152,7 @@ class YieldMeter {
 			.attr("font-size", this.labelfontsize)
 			.attr("text-anchor", "middle")
 			.attr("fill", (d) => d.color)
-			.text((d) => (formatWattH(d.energy * 1000)));
+			.text((d) => (formatWattHX(d.energy * 1000)));
 
 		const categories = svg.selectAll(".category")
 			.data(this.plotdata)
@@ -193,24 +193,24 @@ class YieldMeter {
 	adjustLabelSize() {
 		let xCount = this.plotdata.length
 		if (xCount <= 5) {
-			this.maxTextLength = 12;
-			this.labelfontsize = 16
+			       this.maxTextLength = 12;
+			       this.labelfontsize = 16+6
 		} else if (xCount == 6) {
-			this.maxTextLength = 11;
-			this.labelfontsize = 14
-		} else if (xCount > 6 && xCount <= 8) {
-			this.maxTextLength = 8;
-			this.labelfontsize = 13
+			       this.maxTextLength = 11;
+			       this.labelfontsize = 14+6
+		} else if (xCount >=7 && xCount <= 8) {
+			       this.maxTextLength = 8;
+			       this.labelfontsize = 13+6
 		} else if (xCount == 9) {
-			this.maxTextLength = 8;
-			this.labelfontsize = 11;
+			       this.maxTextLength = 8;
+			       this.labelfontsize = 11+6;
 		} else if (xCount == 10) {
-			this.maxTextLength = 7;
-			this.labelfontsize = 10;
+			       this.maxTextLength = 7;
+			       this.labelfontsize = 10+4;
 		}
 		else {
 			this.maxTextLength = 6;
-			this.labelfontsize = 9
+			this.labelfontsize = 9+4
 		}
 	}
 
