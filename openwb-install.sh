@@ -31,7 +31,7 @@ fi
 echo "check for initial git clone"
 if [ ! -d /var/www/html/openWB/web ]; then
 	cd /var/www/html/
-	git clone https://github.com/hhoefling/openWB_lite.git --branch master
+	git clone https://github.com/hhoefling/openWB_lite.git --branch master openWB
 	chown -R pi:pi openWB 
 	echo "... git cloned"
 else
@@ -57,15 +57,35 @@ else
 	echo "...created"
 fi
 
-echo "check for crontab"
-if grep -Fxq "@reboot /var/www/html/openWB/runs/atreboot.sh &" /var/spool/cron/crontabs/root
+echo "check for crontab root"
+if grep -Fxq "@reboot sleep 10 && /home/pi/wlan.sh" /var/spool/cron/crontabs/root
 then
 	echo "...ok"
 else
-	echo "@reboot /var/www/html/openWB/runs/atreboot.sh &" >> /tmp/tocrontab
+	echo "@reboot sleep 10 && /home/pi/wlan.sh" > /tmp/tocrontab
 	crontab -l -u root | cat - /tmp/tocrontab | crontab -u root -
 	rm /tmp/tocrontab
 	echo "...added"
+	crontab -l -u root
+fi
+echo "check for crontab pi"
+if grep -Fxq "@reboot /var/www/html/openWB/runs/atreboot.sh &" /var/spool/cron/crontabs/pi
+then
+	echo "...ok"
+else
+	echo "* * * * * /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 " > /tmp/tocrontab
+	echo "* * * * * sleep 10 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 " >> /tmp/tocrontab
+	echo "* * * * * sleep 20 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 " >> /tmp/tocrontab
+	echo "* * * * * sleep 30 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 " >> /tmp/tocrontab
+	echo "* * * * * sleep 40 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 " >> /tmp/tocrontab
+	echo "* * * * * sleep 50 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 " >> /tmp/tocrontab
+	echo "1 0 * * * /var/www/html/openWB/runs/cronnightly.sh >> /var/log/openWB.log 2>&1 " >> /tmp/tocrontab
+	echo "*/5 * * * * /var/www/html/openWB/runs/cron5min.sh >> /var/log/openWB.log 2>&1 " >> /tmp/tocrontab
+	echo "@reboot /var/www/html/openWB/runs/atreboot.sh >> /var/log/openWB.log 2>&1 " >> /tmp/tocrontab
+	crontab -l -u pi | cat - /tmp/tocrontab | crontab -u pi -
+	rm /tmp/tocrontab
+	echo "...added"
+	crontab -l -u pi
 fi
 
 # start mosquitto
