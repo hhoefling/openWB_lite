@@ -39,14 +39,14 @@ class WbData {
 		this.sourceSummary = {
 			"evuIn": { name: "Netz", power: 0, energy: 0, color: "white" },
 			"pv": { name: "PV", power: 0, energy: 0, color: "white" },			
-			"batOut": { name: "Bat--",   power: 0, energy: 0, color: "white" }
+			"batOut": { name: "Bat-",   power: 0, energy: 0, color: "white" }
 		};
 
 		this.usageSummary = {
 			"evuOut": { name: "Einsp.", power: 0, energy: 0, color: "white" },
 			"charging":{ name: "PKW",  power: 0, energy: 0, color: "white" },
 			"devices": { name: "Geräte", power: 0, energy: 0, color: "white" },
-			"batIn":   { name: "Bat++",    power: 0, energy: 0, color: "white" },
+			"batIn":   { name: "Bat+",    power: 0, energy: 0, color: "white" },
 			"house": { name: "Haus", power: 0, energy: 0, color: "white" }
 		};
 
