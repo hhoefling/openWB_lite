@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 echo "install required packages..."
 apt-get update
@@ -97,7 +97,9 @@ if [ ! -f /etc/mosquitto/conf.d/openwb.conf ]; then
 	echo "updating mosquitto config file"
 	sudo cp /var/www/html/openWB/web/files/mosquitto.conf /etc/mosquitto/conf.d/openwb.conf
 	sudo service mosquitto reload
+	sudo service mosquitto restart
 fi
+
 
 echo "disable cronjob logging"
 if grep -Fxq "EXTRA_OPTS=\"-L 0\"" /etc/default/cron
