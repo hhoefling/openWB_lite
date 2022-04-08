@@ -125,6 +125,7 @@ fi
 
 echo "installing pymodbus"
 sudo pip install  -U pymodbus
+sudo pip3 install --upgrade requests
 
 echo "check for paho-mqtt"
 if python3 -c "import paho.mqtt.publish as publish" &> /dev/null; then
