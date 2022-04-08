@@ -1,4 +1,5 @@
 #!/bin/bash
+exit 0
 # Remove OpenWB from Raspi
 cd /var/www/html
 
