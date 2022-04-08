@@ -147,4 +147,19 @@ chmod +x /var/www/html/openWB/runs/*
 chmod +x /var/www/html/openWB/*.sh
 touch /var/log/openWB.log
 chmod 777 /var/log/openWB.log
+
+
+# check links for standart theme
+(
+ cd /var/www/html/openWB/web/themes/standard
+ [ ! -r helperFunction ]       && ln -s  ../dark/helperFunctions.js .
+ [ ! -r livechart.js ]         && ln -s  ../dark/livechart.js .
+ [ ! -r processAllMqttMsg.js ] && ln -s  ../dark/processAllMqttMsg.js .
+ [ ! -r setupMqttServices.js ] && ln -s  ../dark/setupMqttServices.js .
+ [ ! -r theme.html ]           && ln -s  ../dark/theme.html .
+)
+
+echo
+echo Now calling atreboot.sh... 
+echo
 /var/www/html/openWB/runs/atreboot.sh
