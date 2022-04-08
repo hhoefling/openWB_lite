@@ -193,7 +193,7 @@ fi
 python3 /var/www/html/openWB/runs/mqttsub.py &
 
 
-### check crontab for user pi   ***OLD***
+## # check crontab for user pi   ***OLD***
 ## echo "crontab 1..."
 ## crontab -l -u pi > /var/www/html/openWB/ramdisk/tmpcrontab
 ## if grep -Fq "lade.log" /var/www/html/openWB/ramdisk/tmpcrontab
@@ -204,14 +204,14 @@ python3 /var/www/html/openWB/runs/mqttsub.py &
 ##	cat /var/www/html/openWB/ramdisk/tmpcrontab | crontab -u pi -
 ## fi
 
-# check crontab for user root and remove old @reboot entry
-sudo crontab -l > /var/www/html/openWB/ramdisk/tmprootcrontab
-if grep -Fq "atreboot.sh" /var/www/html/openWB/ramdisk/tmprootcrontab
-then
-	log "executed"
-	sed -i '/atreboot.sh/d' /var/www/html/openWB/ramdisk/tmprootcrontab
-	cat /var/www/html/openWB/ramdisk/tmprootcrontab | sudo crontab -
-fi
+## # check crontab for user root and remove old @reboot entry
+## sudo crontab -l > /var/www/html/openWB/ramdisk/tmprootcrontab
+## if grep -Fq "atreboot.sh" /var/www/html/openWB/ramdisk/tmprootcrontab
+## then
+##	log "executed"
+##	sed -i '/atreboot.sh/d' /var/www/html/openWB/ramdisk/tmprootcrontab
+##	cat /var/www/html/openWB/ramdisk/tmprootcrontab | sudo crontab -
+## fi
 
 # check for LAN/WLAN connection
 log "LAN/WLAN..."
