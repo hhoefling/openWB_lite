@@ -252,7 +252,7 @@ if [[ -x /usr/bin/msmtp ]] ; then
   log "msmtp found. Please check config"
 else
   log "install a simple smtp client"
-  sudo apt install bsd-mailx msmtp msmtp-mta
+  sudo apt-get -q -y install bsd-mailx msmtp msmtp-mta
   # check for configuration
    if [ ! -f /etc/msmtprc ] ; then
 	log "updating global msmtprc config file"
