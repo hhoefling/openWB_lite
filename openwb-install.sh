@@ -3,6 +3,8 @@
 echo "install required packages..."
 apt-get update
 apt-get -q -y install vim bc apache2 php php-gd php-curl php-xml php-json libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients socat python-pip python3-pip sshpass
+apt-get -q -y install whois dnsmasq hostapd openssl   
+apt-get -q -y install -y libcurl3-gnutls curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 libapache2-mod-php7.3 php-curl php7.3-cli php7.3-gd php7.3-opcache php7.3 php7.3-common php7.3-json php7.3-readline php7.3-xml php7.3-curl php7.3-xml 
 echo "...done"
 
 echo "check for timezone"
