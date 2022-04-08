@@ -72,7 +72,12 @@ loadvars(){
 
 			fi
 		fi
+### 64  modbusevsesource=/dev/ttyUSB0 modbusevseid=1
+		
+##################### 1002 get Vehicle Status
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/readmodbus.py $modbusevsesource $modbusevseid 1002 1"
 		evseplugstate=$(sudo python runs/readmodbus.py $modbusevsesource $modbusevseid 1002 1)
+#########################################################################						
 		if [ -z "${evseplugstate}" ] || ! [[ "${evseplugstate}" =~ $IsNumberRegex ]]; then
 			# EVSE read returned empty or non-numeric value --> use last state for this loop
 			evseplugstate=$(</var/www/html/openWB/ramdisk/evseplugstate)
@@ -87,7 +92,10 @@ loadvars(){
 				if [[ $plugstat == "0" ]] ; then
 					if [[ $pushbplug == "1" ]] && [[ $ladestatuslp1 == "0" ]] && [[ $pushbenachrichtigung == "1" ]] ; then
 						message="Fahrzeug eingesteckt. Ladung startet bei erfüllter Ladebedingung automatisch."
+#########################################################################						
+					    openwbDebugLog "MAIN" 0 "EXEC: /var/www/html/openWB/runs/pushover.sh"
 						/var/www/html/openWB/runs/pushover.sh "$message"
+#########################################################################						
 					fi
 					if [[ $displayconfigured == "1" ]] && [[ $displayEinBeimAnstecken == "1" ]] ; then
 						export DISPLAY=:0 && xset dpms force on && xset dpms $displaysleep $displaysleep $displaysleep
@@ -109,11 +117,14 @@ loadvars(){
 			fi
 		fi
 	else
-		pluggedin=$(</var/www/html/openWB/ramdisk/pluggedin)
+		pluggedin=$(</var/www/html/openWB/ramdisk/pluggedin)    # nur vonn isss.py auf 1 gesetzt
 		if [ "$pluggedin" -gt "0" ]; then
 			if [[ $pushbplug == "1" ]] && [[ $ladestatuslp1 == "0" ]] && [[ $pushbenachrichtigung == "1" ]] ; then
 				message="Fahrzeug eingesteckt. Ladung startet bei erfüllter Ladebedingung automatisch."
+#########################################################################						
+				openwbDebugLog "MAIN" 0 "EXEC: /var/www/html/openWB/runs/pushover.sh"
 				/var/www/html/openWB/runs/pushover.sh "$message"
+#########################################################################						
 			fi
 			if [[ $displayconfigured == "1" ]] && [[ $displayEinBeimAnstecken == "1" ]] ; then
 				export DISPLAY=:0 && xset dpms force on && xset dpms $displaysleep $displaysleep $displaysleep
@@ -125,8 +136,11 @@ loadvars(){
 		plugstat=$(<ramdisk/plugstat)
 		chargestat=$(<ramdisk/chargestat)
 	fi
-	if [[ $evsecon == "ipevse" ]]; then
+	if [[ $evsecon == "ipevse" ]]; then   ## Alter Satellit ohne Pi3
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/readipmodbus.py $evseiplp1 $evseidlp1 1002 1"
 		evseplugstatelp1=$(sudo python runs/readipmodbus.py $evseiplp1 $evseidlp1 1002 1)
+#########################################################################						
 		if [ -z "${evseplugstate}" ] || ! [[ "${evseplugstate}" =~ $IsNumberRegex ]]; then
 			evseplugstate=$(</var/www/html/openWB/ramdisk/evseplugstate)
 			openwbDebugLog "MAIN" 0 "IP EVSE read CP1 issue - using previous state '${evseplugstate}'"
@@ -149,7 +163,10 @@ loadvars(){
 	if [[ $lastmanagement == "1" ]]; then
 		ConfiguredChargePoints=2
 		if [[ $evsecons1 == "modbusevse" ]]; then
+#########################################################################						
+			openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/readmodbus.py $evsesources1 $evseids1 1002 1"
 			evseplugstatelp2=$(sudo python runs/readmodbus.py $evsesources1 $evseids1 1002 1)
+#########################################################################						
 			if [ -z "${evseplugstatelp2}" ] || ! [[ "${evseplugstatelp2}" =~ $IsNumberRegex ]]; then
 				evseplugstatelp2=$(</var/www/html/openWB/ramdisk/evseplugstatelp2)
 				openwbDebugLog "MAIN" 0 "Modbus EVSE read CP2 issue - using previous state '${evseplugstatelp2}'"
@@ -184,7 +201,10 @@ loadvars(){
 			fi
 		fi
 		if [[ $evsecons1 == "slaveeth" ]]; then
+#########################################################################						
+			openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/readslave.py 1002 1"
 			evseplugstatelp2=$(sudo python runs/readslave.py 1002 1)
+#########################################################################						
 			if [ -z "${evseplugstatelp2}" ] || ! [[ "${evseplugstatelp2}" =~ $IsNumberRegex ]]; then
 				evseplugstatelp2=$(</var/www/html/openWB/ramdisk/evseplugstatelp2)
 				openwbDebugLog "MAIN" 0 "Slaveeth EVSE read CP2 issue - using previous state '${evseplugstatelp2}'"
@@ -204,8 +224,11 @@ loadvars(){
 				echo 0 > /var/www/html/openWB/ramdisk/chargestats1
 			fi
 		fi
-		if [[ $evsecons1 == "ipevse" ]]; then
+		if [[ $evsecons1 == "ipevse" ]]; then ## Alter Satellit ohne Pi3
+#########################################################################						
+			openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/readipmodbus.py $evseiplp2 $evseidlp2 1002 1"
 			evseplugstatelp2=$(sudo python runs/readipmodbus.py $evseiplp2 $evseidlp2 1002 1)
+#########################################################################						
 			if [ -z "${evseplugstatelp2}" ] || ! [[ "${evseplugstatelp2}" =~ $IsNumberRegex ]]; then
 				evseplugstatelp2=$(</var/www/html/openWB/ramdisk/evseplugstatelp2)
 				openwbDebugLog "MAIN" 0 "IP EVSE read CP2 issue - using previous state '${evseplugstatelp2}'"
@@ -235,8 +258,11 @@ loadvars(){
 
 	if [[ $lastmanagements2 == "1" ]]; then
 		ConfiguredChargePoints=3
-		if [[ $evsecons2 == "ipevse" ]]; then
+		if [[ $evsecons2 == "ipevse" ]]; then ## Alter Satellit ohne Pi3
+#########################################################################						
+			openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/readipmodbus.py $evseiplp3 $evseidlp3 1002 1"
 			evseplugstatelp3=$(sudo python runs/readipmodbus.py $evseiplp3 $evseidlp3 1002 1)
+#########################################################################						
 			if [ -z "${evseplugstatelp3}" ] || ! [[ "${evseplugstatelp3}" =~ $IsNumberRegex ]]; then
 				evseplugstatelp3=$(</var/www/html/openWB/ramdisk/evseplugstatelp3)
 				openwbDebugLog "MAIN" 0 "IP EVSE read CP3 issue - using previous state '${evseplugstatelp3}'"
@@ -259,7 +285,10 @@ loadvars(){
 
 
 		if [[ $evsecons2 == "modbusevse" ]]; then
+#########################################################################						
+			openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/readmodbus.py $evsesources2 $evseids2 1002 1"
 			evseplugstatelp3=$(sudo python runs/readmodbus.py $evsesources2 $evseids2 1002 1)
+#########################################################################						
 			if [ -z "${evseplugstatelp3}" ] || ! [[ "${evseplugstatelp3}" =~ $IsNumberRegex ]]; then
 				evseplugstatelp3=$(</var/www/html/openWB/ramdisk/evseplugstatelp3)
 				openwbDebugLog "MAIN" 0 "Modbus EVSE read CP3 issue - using previous state '${evseplugstatelp3}'"
@@ -315,7 +344,10 @@ loadvars(){
 	if [[ $pvwattmodul != "none" ]]; then
 		pv1vorhanden="1"
 		echo 1 > /var/www/html/openWB/ramdisk/pv1vorhanden
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: modules/$pvwattmodul/main.sh"
 		pvwatt=$(modules/$pvwattmodul/main.sh || true)
+#########################################################################						
 		if ! [[ $pvwatt =~ $re ]] ; then
 			openwbDebugLog "MAIN" 0 "ungültiger Wert für pvwatt: $pvwatt"
 			pvwatt="0"
@@ -330,7 +362,10 @@ loadvars(){
 	if [[ $pv2wattmodul != "none" ]]; then
 		pv2vorhanden="1"
 		echo 1 > /var/www/html/openWB/ramdisk/pv2vorhanden
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: modules/$pv2wattmodul/main.sh"
 		pv2watt=$(modules/$pv2wattmodul/main.sh || true)
+#########################################################################						
 		if ! [[ $pv2watt =~ $re ]] ; then
 			openwbDebugLog "MAIN" 0 "ungültiger Wert für pv2watt: $pv2watt"
 			pv2watt="0"
@@ -356,7 +391,10 @@ loadvars(){
 
 	#Speicher werte
 	if [[ $speichermodul != "none" ]] ; then
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: timeout 5 modules/$speichermodul/main.sh"
 		timeout 5 modules/$speichermodul/main.sh
+#########################################################################						
 		if [[ $? -eq 124 ]] ; then
 			openwbModulePublishState "BAT" 2 "Die Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen."
 		fi
@@ -406,7 +444,10 @@ loadvars(){
 
 	#Ladeleistung ermitteln
 	if [[ $ladeleistungmodul != "none" ]]; then
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: timeout 10 modules/$ladeleistungmodul/main.sh"
 		timeout 10 modules/$ladeleistungmodul/main.sh || true
+#########################################################################						
 		llkwh=$(</var/www/html/openWB/ramdisk/llkwh)
 		llkwhges=$llkwh
 		lla1=$(cat /var/www/html/openWB/ramdisk/lla1)
@@ -463,7 +504,10 @@ loadvars(){
 	#zweiter ladepunkt
 	if [[ $lastmanagement == "1" ]]; then
 		if [[ $socmodul1 != "none" ]]; then
+#########################################################################						
+			openwbDebugLog "MAIN" 0 "EXEC: modules/$socmodul1/main.sh &"
 			modules/$socmodul1/main.sh &
+#########################################################################						
 			soc1=$(</var/www/html/openWB/ramdisk/soc1)
 			tmpsoc1=$(</var/www/html/openWB/ramdisk/tmpsoc1)
 			if ! [[ $soc1 =~ $re ]] ; then
@@ -479,7 +523,10 @@ loadvars(){
 			soc1=0
 			soc1vorhanden=0
 		fi
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: timeout 10 modules/$ladeleistungs1modul/main.sh"
 		timeout 10 modules/$ladeleistungs1modul/main.sh || true
+#########################################################################						
 		llkwhs1=$(</var/www/html/openWB/ramdisk/llkwhs1)
 		llkwhges=$(echo "$llkwhges + $llkwhs1" |bc)
 		llalts1=$(cat /var/www/html/openWB/ramdisk/llsolls1)
@@ -516,7 +563,10 @@ loadvars(){
 
 	#dritter ladepunkt
 	if [[ $lastmanagements2 == "1" ]]; then
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: timeout 10 modules/$ladeleistungs2modul/main.sh"
 		timeout 10 modules/$ladeleistungs2modul/main.sh || true
+#########################################################################						
 		llkwhs2=$(</var/www/html/openWB/ramdisk/llkwhs2)
 		llkwhges=$(echo "$llkwhges + $llkwhs2" |bc)
 		llalts2=$(cat /var/www/html/openWB/ramdisk/llsolls2)
@@ -561,7 +611,10 @@ loadvars(){
 	#Schuko-Steckdose an openWB
 	if [[ $standardSocketInstalled == "1" ]]; then
 
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: timeout 10 modules/sdm120modbusSocket/main.sh"
 		timeout 10 modules/sdm120modbusSocket/main.sh || true
+#########################################################################						
 		socketkwh=$(</var/www/html/openWB/ramdisk/socketkwh)
 		socketp=$(cat /var/www/html/openWB/ramdisk/socketp)
 		socketa=$(cat /var/www/html/openWB/ramdisk/socketa)
@@ -575,7 +628,10 @@ loadvars(){
 
 	#Wattbezug
 	if [[ $wattbezugmodul != "none" ]]; then
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: modules/$wattbezugmodul/main.sh"
 		wattbezug=$(modules/$wattbezugmodul/main.sh || true)
+#########################################################################						
 		if ! [[ $wattbezug =~ $re ]] ; then
 			openwbDebugLog "MAIN" 0 "ungültiger Wert für wattbezug: $wattbezug"
 			wattbezug="0"
@@ -666,7 +722,10 @@ loadvars(){
 			soctimer=$(</var/www/html/openWB/ramdisk/soctimer)
 			# if (( plugstat == 1 )); then
 			if [[ "$plugstat" == "1" || "$soctimer" == "20005" ]]; then # force soc update button sends 20005
+#########################################################################						
+				openwbD	ebugLog "MAIN" 0 "EXEC: modules/$socmodul/main.sh &"
 				"modules/$socmodul/main.sh" &
+#########################################################################					
 				soc=$(</var/www/html/openWB/ramdisk/soc)
 				tmpsoc=$(</var/www/html/openWB/ramdisk/tmpsoc)
 				if ! [[ $soc =~ $re ]] ; then
@@ -680,7 +739,10 @@ loadvars(){
 				soc=$(</var/www/html/openWB/ramdisk/soc)
 			fi
 		else
+#########################################################################						
+			openwbDebugLog "MAIN" 0 "EXEC: modules/$socmodul/main.sh &"
 			"modules/$socmodul/main.sh" &
+#########################################################################						
 			soc=$(</var/www/html/openWB/ramdisk/soc)
 			tmpsoc=$(</var/www/html/openWB/ramdisk/tmpsoc)
 			if ! [[ $soc =~ $re ]] ; then
@@ -765,7 +827,10 @@ loadvars(){
 			openwbDebugLog "MAIN" 0 "loadvars read openWB/evu/WHExport_temp from mosquito $exporttemp"
 			echo $exporttemp > /var/www/html/openWB/ramdisk/bezugwatt0neg
 		fi
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python /var/www/html/openWB/runs/simcount.py $watt2 bezug bezugkwh einspeisungkwh"
 		sudo python /var/www/html/openWB/runs/simcount.py $watt2 bezug bezugkwh einspeisungkwh
+#########################################################################						
 		importtemp1=$(</var/www/html/openWB/ramdisk/bezugwatt0pos)
 		exporttemp1=$(</var/www/html/openWB/ramdisk/bezugwatt0neg)
 		if [[ $importtemp !=  $importtemp1 ]]; then
@@ -803,7 +868,10 @@ loadvars(){
 			openwbDebugLog "MAIN" 0 "loadvars read openWB/pv/WHExport_temp from mosquito $exporttemp"
 			echo $exporttemp > /var/www/html/openWB/ramdisk/pvwatt0neg
 		fi
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python /var/www/html/openWB/runs/simcount.py $watt3 pv pvposkwh pvkwh"
 		sudo python /var/www/html/openWB/runs/simcount.py $watt3 pv pvposkwh pvkwh
+#########################################################################						
 		importtemp1=$(</var/www/html/openWB/ramdisk/pvwatt0pos)
 		exporttemp1=$(</var/www/html/openWB/ramdisk/pvwatt0neg)
 		if [[ $importtemp !=  $importtemp1 ]]; then
@@ -841,7 +909,10 @@ loadvars(){
 			openwbDebugLog "MAIN" 0 "loadvars read openWB/pv/WH2Export_temp from mosquito $exporttemp"
 			echo $exporttemp > /var/www/html/openWB/ramdisk/pv2watt0neg
 		fi
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python /var/www/html/openWB/runs/simcount.py $watt4 pv2 pv2poskwh pv2kwh"
 		sudo python /var/www/html/openWB/runs/simcount.py $watt4 pv2 pv2poskwh pv2kwh
+#########################################################################						
 		importtemp1=$(</var/www/html/openWB/ramdisk/pv2watt0pos)
 		exporttemp1=$(</var/www/html/openWB/ramdisk/pv2watt0neg)
 		if [[ $importtemp !=  $importtemp1 ]]; then
@@ -885,7 +956,10 @@ loadvars(){
 			openwbDebugLog "MAIN" 0 "loadvars read openWB/housebattery/WHExport_temp from mosquito $exporttemp"
 			echo $exporttemp > /var/www/html/openWB/ramdisk/speicherwatt0neg
 		fi
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python /var/www/html/openWB/runs/simcount.py $watt2 speicher speicherikwh speicherekwh"
 		sudo python /var/www/html/openWB/runs/simcount.py $watt2 speicher speicherikwh speicherekwh
+#########################################################################						
 		importtemp1=$(</var/www/html/openWB/ramdisk/speicherwatt0pos)
 		exporttemp1=$(</var/www/html/openWB/ramdisk/speicherwatt0neg)
 		if [[ $importtemp !=  $importtemp1 ]]; then
@@ -921,7 +995,10 @@ loadvars(){
 			openwbDebugLog "MAIN" 0 "loadvars read openWB/verbraucher/1/WHExport_temp from mosquito $exporttemp"
 			echo $exporttemp > /var/www/html/openWB/ramdisk/verbraucher1watt0neg
 		fi
+#########################################################################						
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python /var/www/html/openWB/runs/simcount.py $watt3 verbraucher1 verbraucher1_wh verbraucher1_whe"
 		sudo python /var/www/html/openWB/runs/simcount.py $watt3 verbraucher1 verbraucher1_wh verbraucher1_whe
+#########################################################################						
 		importtemp1=$(</var/www/html/openWB/ramdisk/verbraucher1watt0pos)
 		exporttemp1=$(</var/www/html/openWB/ramdisk/verbraucher1watt0neg)
 		if [[ $importtemp !=  $importtemp1 ]]; then
@@ -1499,8 +1576,12 @@ loadvars(){
 echo "loadvars.Publist:"
 echo -e $tempPubList
 #echo "Running Python: runs/mqttpub.py -q 0 -r &"
+#########################################################################						
 echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
+#########################################################################						
 
+#########################################################################						
 runs/pubmqtt.sh &
+#########################################################################						
 
 }

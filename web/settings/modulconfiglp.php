@@ -73,16 +73,16 @@
 							<div class="col">
 								<select name="evsecon" id="evsecon" class="form-control">
 									<optgroup label="openWB">
-										<option <?php if($evseconold == "daemon") echo "selected" ?> value="daemon">openWB Daemon</option>
-										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/ttyUSB0" && $mpm3pmllidold == "0") echo "selected" ?> value="modbusevse" data-id="openwb auto">Series1/2 Autoerkennung</option>
-										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/ttyUSB0" && $mpm3pmllidold == "5") echo "selected" ?> value="modbusevse" data-id="openwb series1/2">Series1/2</option>
-										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/ttyUSB0" && $mpm3pmllidold == "105") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 mid v1">Series1/2 mit geeichtem Zähler Variante 1</option>
-										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/serial0" && $mpm3pmllidold == "105") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 mid v2">Series1/2 mit geeichtem Zähler Variante 2</option>
+										<option <?php if($evseconold == "daemon") echo "selected" ?> value="daemon">openWB Daemon (DUO)</option>
+										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/ttyUSB0" && $mpm3pmllidold == "0") echo "selected" ?> value="modbusevse" data-id="openwb auto">Series1/2 Autoerkennung(0 USB0) </option>
+										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/ttyUSB0" && $mpm3pmllidold == "5") echo "selected" ?> value="modbusevse" data-id="openwb series1/2">Series1/2 (5 USB0)</option>
+										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/ttyUSB0" && $mpm3pmllidold == "105") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 mid v1">Series1/2 mit geeichtem Zähler Variante 1 (105 USB0)</option>
+										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/serial0" && $mpm3pmllidold == "105") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 mid v2">Series1/2 mit geeichtem Zähler Variante 2 (105 Serial0)</option>
 										<option <?php if($evseconold == "buchse") echo "selected" ?> value="buchse">Buchse</option>
 										<option <?php if($evseconold == "extopenwb") echo "selected" ?> value="extopenwb">externe openWB</option>
 										<option <?php if($evseconold == "owbpro") echo "selected" ?> value="owbpro">openWB Pro</option>
 										<option <?php if($evseconold == "masterethframer") echo "selected" ?> value="masterethframer">Ladepunkt in Verbindung mit Standalone</option>
-										<option <?php if($evseconold == "ipevse") echo "selected" ?> value="ipevse">Satellit </option>
+										<option <?php if($evseconold == "ipevse") echo "selected" ?> value="ipevse">Satellit (ohne Pi, ipevse)</option>
 									</optgroup>
 									<optgroup label="andere Ladepunkte">
 										<option <?php if($evseconold == "goe") echo "selected" ?> value="goe">Go-e</option>
@@ -141,7 +141,7 @@
 							<input type="hidden" name="ladeleistungmodul" value="lldaemonlp1">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich.<br>
-								Dies ist die richtige Option für eine fertige openWB und bietet eine optimale und schnelle Auslesung.
+								Dies ist die richtige Option für eine fertige openWB DUO und bietet eine optimale und schnelle Auslesung.
 							</div>
 						</div>
 
@@ -435,7 +435,7 @@
 									<select name="ladeleistungmodul" id="ladeleistungmodul" class="form-control">
 										<option <?php if($ladeleistungmodulold == "none") echo "selected" ?> value="none">Nicht vorhanden</option>
 										<optgroup label="openWB">
-											<option <?php if($ladeleistungmodulold == "mpm3pmlllp1") echo "selected" ?> value="mpm3pmlllp1">openWB Satellit</option>
+											<option <?php if($ladeleistungmodulold == "mpm3pmlllp1") echo "selected" ?> value="mpm3pmlllp1">openWB Satellit (ohne Pi)</option>
 											<option <?php if($ladeleistungmodulold == "mpm3pmtripple") echo "selected" ?> value="mpm3pmtripple">openWB Tripple</option>
 										</optgroup>
 										<optgroup label="andere Messgeräte">
@@ -2438,13 +2438,13 @@
 							<div class="col">
 								<select name="evsecons1" id="evsecons1" class="form-control">
 									<optgroup label="openWB">
-										<option <?php if($evsecons1old == "modbusevse" && $evseids1old == "1" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB1" && $mpm3pmlls1idold == "6" && $evsesources1old == "/dev/ttyUSB1") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 duo v1">Series1/2 Duo 1. Version</option>
-										<option <?php if($evsecons1old == "modbusevse" && $evseids1old == "2" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB0" && $mpm3pmlls1idold == "106" && $evsesources1old == "/dev/ttyUSB0") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 duo v2">Series1/2 Duo (ab Herbst 2020)</option>
+										<option <?php if($evsecons1old == "modbusevse" && $evseids1old == "1" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB1" && $mpm3pmlls1idold == "6" && $evsesources1old == "/dev/ttyUSB1") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 duo v1">Series1/2 Duo 1. Version (6 USB1)</option>
+										<option <?php if($evsecons1old == "modbusevse" && $evseids1old == "2" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB0" && $mpm3pmlls1idold == "106" && $evsesources1old == "/dev/ttyUSB0") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 duo v2">Series1/2 Duo (106 USB0 ab Herbst 2020)</option>
 										<option <?php if($evsecons1old == "owbpro") echo "selected" ?> value="owbpro">openWB Pro</option>
 										<option <?php if($evsecons1old == "extopenwb") echo "selected" ?> value="extopenwb">externe openWB</option>
 										<option <?php if($evsecons1old == "daemon") echo "selected" ?> value="daemon">openWB Duo Daemon </option>
 										<option <?php if($evsecons1old == "slaveeth") echo "selected" ?> value="slaveeth">Slave</option>
-										<option <?php if($evsecons1old == "ipevse") echo "selected" ?> value="ipevse">Satellit</option>
+										<option <?php if($evsecons1old == "ipevse") echo "selected" ?> value="ipevse">Satellit (ohne Pi, ipevse)</option>
 									</optgroup>
 									<optgroup label="andere Ladepunkte">
 										<option <?php if($evsecons1old == "goe") echo "selected" ?> value="goe">Go-e</option>
@@ -2725,7 +2725,7 @@
 								<div class="col">
 									<select name="ladeleistungs1modul" id="ladeleistungs1modul" class="form-control">
 										<optgroup label="openWB">
-											<option <?php if($ladeleistungs1modulold == "mpm3pmlllp2") echo "selected" ?> value="mpm3pmlllp2">openWB Satelit</option>
+											<option <?php if($ladeleistungs1modulold == "mpm3pmlllp2") echo "selected" ?> value="mpm3pmlllp2">openWB Satellit (ohne Pi)</option>
 											<option <?php if($ladeleistungs1modulold == "mpm3pmtripplelp2") echo "selected" ?> value="mpm3pmtripplelp2">openWB Tripple</option>
 										</optgroup>
 										<optgroup label="andere Messgeräte">
@@ -4417,7 +4417,7 @@
 										<option <?php if($evsecons2old == "extopenwb") echo "selected" ?> value="extopenwb">externe openWB</option>
 										<option <?php if($evsecons2old == "owbpro") echo "selected" ?> value="owbpro">openWB Pro</option>
 										<option <?php if($evsecons2old == "thirdeth") echo "selected" ?> value="thirdeth">dritter Ladepunkt</option>
-										<option <?php if($evsecons2old == "ipevse") echo "selected" ?> value="ipevse">Satellit</option>
+										<option <?php if($evsecons2old == "ipevse") echo "selected" ?> value="ipevse">Satellit (ohne Pi, ipevse)</option>
 									</optgroup>
 									<optgroup label="andere Ladepunkte">
 										<option <?php if($evsecons2old == "goe") echo "selected" ?> value="goe">Go-e</option>
@@ -4608,7 +4608,7 @@
 								<div class="col">
 									<select name="ladeleistungs2modul" id="ladeleistungs2modul" class="form-control">
 										<optgroup label="openWB">
-											<option <?php if($ladeleistungs2modulold == "mpm3pmlllp3") echo "selected" ?> value="mpm3pmlllp3">openWB Satellit</option>
+											<option <?php if($ladeleistungs2modulold == "mpm3pmlllp3") echo "selected" ?> value="mpm3pmlllp3">openWB Satellit (ohne Pi)</option>
 											<option <?php if($ladeleistungs2modulold == "mpm3pmtripplelp3") echo "selected" ?> value="mpm3pmtripplelp3">openWB Tripple</option>
 										</optgroup>
 										<optgroup label="andere Messgeräte">
@@ -4908,7 +4908,7 @@
 										<optgroup label="openWB">
 											<option <?php if(${'evseconlp'.$chargepointNum.'old'} == "extopenwb") echo "selected" ?> value="extopenwb">externe openWB</option>
 											<option <?php if(${'evseconlp'.$chargepointNum.'old'} == "owbpro") echo "selected" ?> value="owbpro">openWB Pro</option>
-											<option <?php if(${'evseconlp'.$chargepointNum.'old'} == "ipevse") echo "selected" ?> value="ipevse">Satellit</option>
+											<option <?php if(${'evseconlp'.$chargepointNum.'old'} == "ipevse") echo "selected" ?> value="ipevse">Satellit (ohne Pi, ipevse)</option>
 										</optgroup>
 									</select>
 								</div>
