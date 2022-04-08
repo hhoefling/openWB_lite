@@ -2,9 +2,8 @@
 
 echo "install required packages..."
 apt-get update
-apt-get -q -y install vim bc apache2 php php-gd php-curl php-xml php-json libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients socat python-pip python3-pip sshpass
-apt-get -q -y install whois dnsmasq hostapd openssl   
-apt-get -q -y install -y libcurl3-gnutls curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 libapache2-mod-php7.3 php-curl php7.3-cli php7.3-gd php7.3-opcache php7.3 php7.3-common php7.3-json php7.3-readline php7.3-xml php7.3-curl php7.3-xml 
+apt-get -q -y install whois dnsmasq hostapd openssl vim bc sshpass apache2 php php-gd php-curl php-xml php-json  
+apt-get -q -y install libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients socat python-pip python3-pip 
 echo "...done"
 
 echo "check for timezone"
@@ -112,10 +111,12 @@ fi
 echo -n "fix upload limit..."
 if [ -d "/etc/php/7.0/" ]; then
 	echo "OS Stretch"
+	apt-get -q -y install -y libcurl3 curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 libapache2-mod-php7.0 php-curl php7.0-cli php7.0-gd php7.0-opcache php7.0 php7.0-common php7.0-json php7.0-readline php7.0-xml php7.0-curl php7.0-xml 
 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
 elif [ -d "/etc/php/7.3/" ]; then
 	echo "OS Buster"
+	apt-get -q -y install -y libcurl3-gnutls curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 libapache2-mod-php7.3 php-curl php7.3-cli php7.3-gd php7.3-opcache php7.3 php7.3-common php7.3-json php7.3-readline php7.3-xml php7.3-curl php7.3-xml 
 	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
 	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
 fi
