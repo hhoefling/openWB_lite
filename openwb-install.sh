@@ -142,6 +142,7 @@ else
 	sudo pip install Adafruit_MCP4725
 fi
 
+echo "pi ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/010_pi-nopasswd
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/010_pi-nopasswd
 
 chmod 777 /var/www/html/openWB/openwb.conf
