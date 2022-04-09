@@ -34,6 +34,7 @@ Es wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vor
 - Weiter Hilfsscript  statregel.sh und restsmat.sh
 - Der Name der Linux Distribution wird mit angezeigt (Seite System-Info)
 - Das Colour Thema wurde leicht angepasst. Sowohl eine neue 4 Farbe (Schwarz) als auch größer Schriften.
+- Die openWB.Coud funktioniert bei mir. Mit eingriffen in die Firefox-Konfiguartion und die mosquitto Konfiguration
 
 Weiter Info **[History](docs/history.md)**
 
