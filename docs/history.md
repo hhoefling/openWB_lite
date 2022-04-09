@@ -28,3 +28,11 @@ Einige Steps der Entwicklung
 - Alle internen IP Adressen von 192.168.193.x zu 192.168.192.x gewechselt
 - Die Statuszeite zeigt die Seriennummer der Ladepunktzähler an, wenn verfügbar
 - Ladelog-Export an deutsches Excel angepasst (; als Trenner und , als Komma) dadurch kann die Ausgabe direkt an Excel übergeben werden. 
+- Um die Grafiken in der Cloud-Version von web.openwb.de angezeigt zu bekommen sollte man die Fernwartung aktivieren. Das ist mir zuviel. Daher habe ich nur das "graph" Subtopic erlaubt und voila, die Grafiken sind auch ohne Scheunentor verfügbar (abschaltbar sind sie ja schon) 
+
+![firefox_for_openWBCloud2_ff](https://user-images.githubusercontent.com/89247538/162584594-13cdf614-d317-4a75-95ba-29594fc64b7e.png)
+
+Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config folgendes Einstellen:
+![firefox_for_openWBCloud](https://user-images.githubusercontent.com/89247538/162584648-74edda22-49f4-41cc-8a3b-dde2aa2f192b.png)
+
+
