@@ -247,7 +247,7 @@ topic openWB/config/get/# out 2 "" $remotePrefix
 topic openWB/SmartHome/# out 2 "" $remotePrefix
 
 # Allow write Access for request for Graphs and selection of Date 
-topic openWB/set/graph# both 2 "" $remotePrefix
+topic openWB/set/graph/# both 2 "" $remotePrefix
 
 EOS
 	);
