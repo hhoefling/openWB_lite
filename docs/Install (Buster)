@@ -1,4 +1,4 @@
-***Installation auf einer .....***
+** Installation auf einer .....**
 
 Vorbereiten
 - ssh aktivieren (ssh in boot ablegen)
@@ -8,7 +8,7 @@ Vorbereiten
 
 curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-install.sh | sudo bash
 
-## Backports
+## Backports ##
 
 Abfrage des Ist-Zustandes
 ```
