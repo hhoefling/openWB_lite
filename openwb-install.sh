@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 echo "install required packages..."
 apt-get update
@@ -125,6 +125,7 @@ fi
 
 echo "installing pymodbus"
 sudo pip install  -U pymodbus
+sudo pip3 install --upgrade requests
 
 echo "check for paho-mqtt"
 if python3 -c "import paho.mqtt.publish as publish" &> /dev/null; then
@@ -141,6 +142,7 @@ else
 	sudo pip install Adafruit_MCP4725
 fi
 
+echo "pi ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/010_pi-nopasswd
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/010_pi-nopasswd
 
 chmod 777 /var/www/html/openWB/openwb.conf
