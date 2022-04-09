@@ -13,11 +13,10 @@ Raspberry Pi 3 Model B Plus Rev 1.3
 Kernel: Linux 4.19.66-v7+ GNU/Linux
 Python 3.5.3
 ```
-Da die Firma openWB keine stabile Version der Software auf basis der 1.9'er mehr zur verfügung stellt bleibt mir nur
-auf Basis der inzwischen veraltetetn Stretch (Kenel:4.19.66-v7) weiterzumachen. 
+Da die Firma openWB keine stabile Version der Software auf Basis der 1.9'er mehr zur verfügung stellt bei der die rchtigen RCT2 Module enthalten sind bleibt mir nur auf Basis der alten Stretch (Kenel:4.19.66-v7) meine eigene Version zu Pflegen.
 Man kann sich zwar die open-Source Variante der openWB Software selbst installieren, auch auf Buster oder als Beta sogar auf Bullseye
 doch dort fehlt dann die Unterstürzung für das interne Display der original Hardware.
-Wie der intern X-Server konfiguriert wird, wie der Brower und der Deskstop configueriert wird um das interne Display zum leben zu erwecken
+Wie der intern X-Server konfiguriert wird, wie der Browser und der Deskstop konfiguriert wird um das interne Display zum leben zu erwecken
 ist leider nicht dokumentiert. Hier habe ich nur das laufende Origanl System als Referenz 
 
 ## Abweichungen zur normalen openWB
