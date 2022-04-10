@@ -34,7 +34,7 @@ Wie der intern X-Server konfiguriert wird, wie der Browser und der Deskstop konf
 - Module die ich weiterhin mitpflegen werde da ich sie selbst verwende sind:
 - - Bezug/Pv/Speicher  **RCT** / **RCT2** / **RCT2h**,  **MQTT**, **HTTP**
 - - LP   die verschiedeen openWB varianten **HTTP** / **MQTT** 
-- - SOC **SOC_Manual** /  **SOC_SKoda** / **MQTT** / **HTTP**
+- - SOC **Manual** /  **Citigo** / **MQTT** / **HTTP**
 	
 Weiter Info **[History](docs/history.md)**
 
