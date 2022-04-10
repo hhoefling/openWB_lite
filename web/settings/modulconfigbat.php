@@ -68,7 +68,7 @@
 										<option <?php if($speichermodulold == "speicher_mpm3pm") echo "selected" ?> value="speicher_mpm3pm">openWB Speicher Kit</option>
 									</optgroup>
 									<optgroup label="andere Hersteller">
-										<option <?php if($speichermodulold == "speicher_alphaess") echo "selected" ?> value="speicher_alphaess">Alpha ESS</option>
+							<!--		<option <?php if($speichermodulold == "speicher_alphaess") echo "selected" ?> value="speicher_alphaess">Alpha ESS</option> -->
 										<option <?php if($speichermodulold == "speicher_bydhv") echo "selected" ?> value="speicher_bydhv">BYD</option>
 										<option <?php if($speichermodulold == "speicher_e3dc") echo "selected" ?> value="speicher_e3dc">E3DC Speicher</option>
 										<option <?php if($speichermodulold == "speicher_fronius") echo "selected" ?> value="speicher_fronius">Fronius Speicher (Solar Battery oder BYD HV/HVS/HVM)</option>
@@ -320,7 +320,7 @@
 								</div>
 							</div>
 						</div>
-
+<!--
 						<div id="divspeicheralphaess" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -334,7 +334,7 @@
 								</div>
 							</div>
 						</div>
-
+--->
 						<div id="divspeicherpw" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -661,7 +661,7 @@
 								hideSection('#divspeicherseco');
 								hideSection('#divspeicherkit');
 								hideSection('#divspeichervarta');
-								hideSection('#divspeicheralphaess');
+<!--				 		    hideSection('#divspeicheralphaess');  -->
 								hideSection('#divspeichervictron');
 								hideSection('#divspeicherstuder');
 								hideSection('#divspeicherlgessv1');
@@ -705,9 +705,9 @@
 									showSection('#divspeicherip');
 									showSection('#divspeichersungrow');
 								}
-								if($('#speichermodul').val() == 'speicher_alphaess') {
-									showSection('#divspeicheralphaess');
-								}
+//								if($('#speichermodul').val() == 'speicher_alphaess') {
+//									showSection('#divspeicheralphaess');
+//								}
 								if($('#speichermodul').val() == 'speicher_mqtt') {
 									showSection('#divspeichermqtt');
 								}

@@ -1446,9 +1446,9 @@ updateConfig(){
 	if ! grep -Fq "soc_zeronglp2_intervall=" $ConfigFile; then
 		echo "soc_zeronglp2_intervall=20" >> $ConfigFile
 	fi
-	if ! grep -Fq "alphaessip=" $ConfigFile; then
-		echo "alphaessip=192.168.192.31" >> $ConfigFile
-	fi
+#	if ! grep -Fq "alphaessip=" $ConfigFile; then
+#		echo "alphaessip=192.168.192.31" >> $ConfigFile
+#	fi
 	if ! grep -Fq "solarview_hostname=" $ConfigFile; then
 		echo "solarview_hostname=192.168.0.31" >> $ConfigFile
 	fi
@@ -1461,20 +1461,20 @@ updateConfig(){
 	if ! grep -Fq "solarview_command_wr=" $ConfigFile; then
 		echo "solarview_command_wr=00*" >> $ConfigFile
 	fi
-	if ! grep -Fq "discovergyuser=" $ConfigFile; then
-		echo "discovergyuser=name@mail.de" >> $ConfigFile
-	fi
-	if ! grep -Fq "discovergypass=" $ConfigFile; then
-		echo "discovergypass=''" >> $ConfigFile
-	else
-		sed -i "/discovergypass='/b; s/^discovergypass=\(.*\)/discovergypass=\'\1\'/g" $ConfigFile
-	fi
-	if ! grep -Fq "discovergyevuid=" $ConfigFile; then
-		echo "discovergyevuid=idesmeters" >> $ConfigFile
-	fi
-	if ! grep -Fq "discovergypvid=" $ConfigFile; then
-		echo "discovergypvid=idesmeters" >> $ConfigFile
-	fi
+#	if ! grep -Fq "discovergyuser=" $ConfigFile; then
+#	echo "discovergyuser=name@mail.de" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "discovergypass=" $ConfigFile; then
+#		echo "discovergypass=''" >> $ConfigFile
+#	else
+#		sed -i "/discovergypass='/b; s/^discovergypass=\(.*\)/discovergypass=\'\1\'/g" $ConfigFile
+#	fi
+#	if ! grep -Fq "discovergyevuid=" $ConfigFile; then
+#		echo "discovergyevuid=idesmeters" >> $ConfigFile
+#	fi
+# 	if ! grep -Fq "discovergypvid=" $ConfigFile; then
+#		echo "discovergypvid=idesmeters" >> $ConfigFile
+#	fi
 	if ! grep -Fq "powerfoxuser=" $ConfigFile; then
 		echo "powerfoxuser=name@mail.de" >> $ConfigFile
 	fi

@@ -70,7 +70,7 @@
 										<option <?php if($pvwattmodulold == "wr_ethsdm120") echo "selected" ?> value="wr_ethsdm120">SDM120 an openWB Modbus Lan Konverter</option>
 									</optgroup>
 									<optgroup label="andere Hersteller">
-										<option <?php if($pvwattmodulold == "wr_discovergy") echo "selected" ?> value="wr_discovergy">Discovergy</option>
+										<!-- <option <?php if($pvwattmodulold == "wr_discovergy") echo "selected" ?> value="wr_discovergy">Discovergy</option> -->
 										<option <?php if($pvwattmodulold == "wr_fronius") echo "selected" ?> value="wr_fronius">Fronius WR</option>
 										<option <?php if($pvwattmodulold == "wr_huawei") echo "selected" ?> value="wr_huawei">Huawei</option>
 										<option <?php if($pvwattmodulold == "wr_kostalpiko") echo "selected" ?> value="wr_kostalpiko">Kostal Piko</option>
@@ -223,6 +223,7 @@
 								</div>
 							</div>
 						</div>
+<!--
 						<div id="pvdiscovergy" class="hide">
 							<div class="form-row mb-1">
 								<label for="discovergypvid" class="col-md-4 col-form-label">Meter ID des Zählers</label>
@@ -235,6 +236,7 @@
 								</div>
 							</div>
 						</div>
+-->						
 						<div id="pvsolarview" class="hide">
 							<div class="form-row mb-1">
 								<label for="solarview_hostname" class="col-md-4 col-form-label">Hostname/IP des SolarView TCP-Servers</label>
@@ -815,7 +817,7 @@
 								hideSection('#pvkitdiv');
 								hideSection('#pvethsdm120');
 								hideSection('#pvsolarview');
-								hideSection('#pvdiscovergy');
+								//hideSection('#pvdiscovergy');
 								hideSection('#pvyouless');
 								hideSection('#pvlgessv1');
 								hideSection('#pvmqtt');
@@ -871,9 +873,9 @@
 								if($('#pvwattmodul').val() == 'wr_solarview') {
 									showSection('#pvsolarview');
 								}
-								if($('#pvwattmodul').val() == 'wr_discovergy') {
-									showSection('#pvdiscovergy');
-								}
+								//if($('#pvwattmodul').val() == 'wr_discovergy') {
+								//	showSection('#pvdiscovergy');
+								//}
 								if($('#pvwattmodul').val() == 'wr_ethsdm120') {
 									showSection('#pvethsdm120');
 								}

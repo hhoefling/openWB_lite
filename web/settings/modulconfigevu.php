@@ -68,9 +68,9 @@
 										<option <?php if($wattbezugmodulold == "bezug_ethmpm3pm") echo "selected" ?> value="bezug_ethmpm3pm">openWB EVU Kit</option>
 									</optgroup>
 									<optgroup label="andere Hersteller">
-										<option <?php if($wattbezugmodulold == "bezug_alphaess") echo "selected" ?> value="bezug_alphaess">Alpha ESS</option>
-										<option <?php if($wattbezugmodulold == "bezug_carlogavazzilan") echo "selected" ?> value="bezug_carlogavazzilan">Carlo Gavazzi EM24 LAN</option>
-										<option <?php if($wattbezugmodulold == "bezug_discovergy") echo "selected" ?> value="bezug_discovergy">Discovergy</option>
+						<!--				<option <?php if($wattbezugmodulold == "bezug_alphaess") echo "selected" ?> value="bezug_alphaess">Alpha ESS</option> -->
+						<!--				<option <?php if($wattbezugmodulold == "bezug_carlogavazzilan") echo "selected" ?> value="bezug_carlogavazzilan">Carlo Gavazzi EM24 LAN</option> -->
+						<!--				<option <?php if($wattbezugmodulold == "bezug_discovergy") echo "selected" ?> value="bezug_discovergy">Discovergy</option> -->
 										<option <?php if($wattbezugmodulold == "bezug_e3dc") echo "selected" ?> value="bezug_e3dc">E3DC Speicher</option>
 										<option <?php if($wattbezugmodulold == "bezug_fronius_sm") echo "selected" ?> value="bezug_fronius_sm">Fronius Energy Meter</option>
 										<option <?php if($wattbezugmodulold == "bezug_fronius_s0") echo "selected" ?> value="bezug_fronius_s0">Fronius WR mit S0 Meter</option>
@@ -113,11 +113,13 @@
 								</select>
 							</div>
 						</div>
+<!--
 						<div id="wattbezugalphaess" class="hide">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich.
 							</div>
 						</div>
+-->						
 						<div id="wattbezugsungrow" class="hide">
 							<div class="form-row mb-1">
 								<label for="sungrowsr" class="col-md-4 col-form-label">Version des Sungrow</label>
@@ -149,12 +151,13 @@
 								Ausgelesen wird Register 19026 auf Port 502. ModbusTCP muss im Janitza aktiv sein und die ID 1 vergeben sein.
 							</div>
 						</div>
+<!--	
 						<div id="wattbezugcarlogavazzilan" class="hide">
 							<div class="card-text alert alert-info">
 								Ausgelesen wird ID 1 auf Port 502. ModbusTCP muss aktiviert sein.
 							</div>
 						</div>
-
+-->
 						<div id="wattbezugsolarwatt" class="hide">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich. Es muss beim Speicher Solarwatt / My Reserve ausgewählt werden.
@@ -305,6 +308,7 @@
 								</div>
 							</div>
 						</div>
+<!--
 						<div id="wattbezugdiscovergy" class="hide">
 							<div class="form-row mb-1">
 								<label for="discovergyuser" class="col-md-4 col-form-label">Discovergy Username (Email)</label>
@@ -329,6 +333,7 @@
 								</div>
 							</div>
 						</div>
+-->						
 						<div id="wattbezugkostalsmartenergymeter" class="hide">
 							<div class="form-row mb-1">
 								<label for="ksemip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -876,7 +881,7 @@
 								hideSection('#wattbezugpowerwall');
 								hideSection('#wattbezugvictrongx');
 								hideSection('#wattbezugsolarview');
-								hideSection('#wattbezugdiscovergy');
+								//hideSection('#wattbezugdiscovergy');
 								hideSection('#wattbezuglgessv1');
 								hideSection('#wattbezugmqtt');
 								hideSection('#wattbezugsonneneco');
@@ -887,11 +892,11 @@
 								hideSection('#wattbezugpowerfox');
 								hideSection('#wattbezugrct');
 								hideSection('#wattbezugip');
-								hideSection('#wattbezugalphaess');
+								// hideSection('#wattbezugalphaess');
 								hideSection('#wattbezugsungrow');
 								hideSection('#wattbezugsolarwatt');
 								hideSection('#wattbezugjanitza');
-								hideSection('#wattbezugcarlogavazzilan');
+								// hideSection('#wattbezugcarlogavazzilan');
 								// Auswahl PV-Modul generell erlauben
 								//enable_pv_selector();
 								if($('#wattbezugmodul').val() != 'none') {
@@ -900,9 +905,9 @@
 								} else {
 									showSection('#wattbezugnone');
 								}
-								if($('#wattbezugmodul').val() == 'bezug_alphaess') {
-									showSection('#wattbezugalphaess');
-								}
+								// if($('#wattbezugmodul').val() == 'bezug_alphaess') {
+								// 	showSection('#wattbezugalphaess');
+								// }
 								if($('#wattbezugmodul').val() == 'bezug_sungrow') {
 									showSection('#wattbezugsungrow');
 								}
@@ -920,10 +925,10 @@
 									showSection('#wattbezugjanitza');
 									showSection('#wattbezugip');
 								}
-								if($('#wattbezugmodul').val() == 'bezug_carlogavazzilan') {
-									showSection('#wattbezugcarlogavazzilan');
-									showSection('#wattbezugip');
-								}
+								//if($('#wattbezugmodul').val() == 'bezug_carlogavazzilan') {
+								//	showSection('#wattbezugcarlogavazzilan');
+								//	showSection('#wattbezugip');
+								//}
 								if($('#wattbezugmodul').val() == 'bezug_solax') {
 									showSection('#wattbezugsolax');
 								}
@@ -955,9 +960,9 @@
 								if($('#wattbezugmodul').val() == 'bezug_solarview') {
 									showSection('#wattbezugsolarview');
 								}
-								if($('#wattbezugmodul').val() == 'bezug_discovergy') {
-									showSection('#wattbezugdiscovergy');
-								}
+								//if($('#wattbezugmodul').val() == 'bezug_discovergy') {
+								//	showSection('#wattbezugdiscovergy');
+								//}
 								if($('#wattbezugmodul').val() == 'bezug_mqtt') {
 									showSection('#wattbezugmqtt');
 								}
