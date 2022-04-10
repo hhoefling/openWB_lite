@@ -1,13 +1,9 @@
 #!/bin/bash
 
-#datenauslesung erfolgt im PV Modul
-watt=$(</var/www/html/openWB/ramdisk/huaweibezugwatt)
-a1=$(</var/www/html/openWB/ramdisk/huaweievua1)
-a2=$(</var/www/html/openWB/ramdisk/huaweievua2)
-a3=$(</var/www/html/openWB/ramdisk/huaweievua3)
-echo $a1 > /var/www/html/openWB/ramdisk/bezuga1
-echo $a2 > /var/www/html/openWB/ramdisk/bezuga2
-echo $a3 > /var/www/html/openWB/ramdisk/bezuga3
+wattbezug=0
 
-echo $watt > /var/www/html/openWB/ramdisk/wattbezug
-echo $watt
+openwbDebugLog MAIN  0 "wattbezug: ${wattbezug} Module not supportet"
+openwbModulePublishState "EVU" 2 "Module: <bezug_huawei> aktuell nicht unterstuetzt"
+
+echo $wattbezug
+

@@ -79,7 +79,7 @@
 										<option <?php if($wattbezugmodulold == "bezug_ksem") echo selected ?> value="bezug_ksem">Kostal Smart Energy Meter oder TQ EM410</option>
 										<option <?php if($wattbezugmodulold == "bezug_lgessv1") echo "selected" ?> value="bezug_lgessv1">LG ESS 1.0VI</option>
 										<option <?php if($wattbezugmodulold == "bezug_janitza") echo "selected" ?> value="bezug_janitza">Janitza</option>
-										<option <?php if($wattbezugmodulold == "bezug_fems") echo "selected" ?> value="bezug_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option>
+						<!--			<option <?php if($wattbezugmodulold == "bezug_fems") echo "selected" ?> value="bezug_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option> -->
 										<option <?php if($wattbezugmodulold == "bezug_powerdog") echo "selected" ?> value="bezug_powerdog">Powerdog</option>
 										<option <?php if($wattbezugmodulold == "bezug_powerfox") echo "selected" ?> value="bezug_powerfox">Powerfox</option>
 										<option <?php if($wattbezugmodulold == "bezug_rct") echo "selected" ?> value="bezug_rct">RCT</option>
@@ -275,6 +275,7 @@
 								</div>
 							</div>
 						</div>
+<!--
 						<div id="wattbezugfems" class="hide">
 							<div class="form-row mb-1">
 								<label for="femsip" class="col-md-4 col-form-label">Fenecon IP</label>
@@ -296,6 +297,7 @@
 								</div>
 							</div>
 						</div>
+-->						
 						<div id="wattbezugsolarworld" class="hide">
 							<div class="form-row mb-1">
 								<label for="solarworld_emanagerip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -886,7 +888,7 @@
 								hideSection('#wattbezugmqtt');
 								hideSection('#wattbezugsonneneco');
 								hideSection('#wattbezugvarta');
-								hideSection('#wattbezugfems');
+								//hideSection('#wattbezugfems');
 								hideSection('#wattbezugsiemens');
 								hideSection('#wattbezugpowerdog');
 								hideSection('#wattbezugpowerfox');
@@ -951,9 +953,9 @@
 								if($('#wattbezugmodul').val() == 'bezug_powerfox') {
 									showSection('#wattbezugpowerfox');
 								}
-								if($('#wattbezugmodul').val() == 'bezug_fems') {
-									showSection('#wattbezugfems');
-								}
+								//if($('#wattbezugmodul').val() == 'bezug_fems') {
+								//	showSection('#wattbezugfems');
+								//}
 								if($('#wattbezugmodul').val() == 'bezug_solarworld') {
 									showSection('#wattbezugsolarworld');
 								}

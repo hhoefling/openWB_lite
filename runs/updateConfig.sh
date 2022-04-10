@@ -1682,12 +1682,12 @@ updateConfig(){
 	if ! grep -Fq "solarworld_emanagerip=" $ConfigFile; then
 		echo "solarworld_emanagerip=192.192.192.192" >> $ConfigFile
 	fi
-	if ! grep -Fq "femsip=" $ConfigFile; then
-		echo "femsip=192.168.1.23" >> $ConfigFile
-	fi
-	if ! grep -Fq "femskacopw=" $ConfigFile; then
-		echo "femskacopw=user" >> $ConfigFile
-	fi
+#	if ! grep -Fq "femsip=" $ConfigFile; then
+#		echo "femsip=192.168.1.23" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "femskacopw=" $ConfigFile; then
+#		echo "femskacopw=user" >> $ConfigFile
+#	fi
 	if ! grep -Fq "pv2wattmodul=" $ConfigFile; then
 		echo "pv2wattmodul=none" >> $ConfigFile
 	fi
@@ -1938,9 +1938,9 @@ updateConfig(){
 	else
 		sed -i "/speicherpwpass='/b; s/^speicherpwpass=\(.*\)/speicherpwpass=\'\1\'/g" $ConfigFile
 	fi
-	if ! grep -Fq "multifems=" $ConfigFile; then
-		echo "multifems=0" >> $ConfigFile
-	fi
+#	if ! grep -Fq "multifems=" $ConfigFile; then
+#		echo "multifems=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "solaredgezweiterspeicher=" $ConfigFile; then
 		echo "solaredgezweiterspeicher=0" >> $ConfigFile
 	fi

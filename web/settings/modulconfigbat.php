@@ -74,7 +74,7 @@
 										<option <?php if($speichermodulold == "speicher_fronius") echo "selected" ?> value="speicher_fronius">Fronius Speicher (Solar Battery oder BYD HV/HVS/HVM)</option>
 										<option <?php if($speichermodulold == "speicher_kostalplenticore") echo "selected" ?> value="speicher_kostalplenticore">Kostal Plenticore mit Speicher</option>
 										<option <?php if($speichermodulold == "speicher_lgessv1") echo "selected" ?> value="speicher_lgessv1">LG ESS 1.0VI</option>
-										<option <?php if($speichermodulold == "speicher_fems") echo "selected" ?> value="speicher_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option>
+							<!--		<option <?php if($speichermodulold == "speicher_fems") echo "selected" ?> value="speicher_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option> -->
 										<option <?php if($speichermodulold == "speicher_rct") echo "selected" ?> value="speicher_rct">RCT</option>
 										<option <?php if($speichermodulold == "speicher_rct2") echo "selected" ?> value="speicher_rct2">RCT V.2</option>
 										<option <?php if($speichermodulold == "speicher_rct2h") echo "selected" ?> value="speicher_rct2h">RCT V.2h</option>
@@ -219,6 +219,7 @@
 							</div>
 						</div>
 						
+<!--						
 						<div id="divspeicherfems" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -232,7 +233,7 @@
 								</div>
 							</div>
 						</div>
-
+-->
 						<div id="divspeicherip" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -665,7 +666,7 @@
 								hideSection('#divspeichervictron');
 								hideSection('#divspeicherstuder');
 								hideSection('#divspeicherlgessv1');
-								hideSection('#divspeicherfems');
+<!--							hideSection('#divspeicherfems'); -->
 								hideSection('#divspeicherip');
 								hideSection('#divspeichersiemens');
 								hideSection('#divspeicherrct');
@@ -675,9 +676,9 @@
 								hideSection('#divspeichersolarwatt');
 								hideSection('#divspeicherip2');
 
-								if($('#speichermodul').val() == 'speicher_fems') {
-									showSection('#divspeicherfems');
-								}
+								//if($('#speichermodul').val() == 'speicher_fems') {
+								//	showSection('#divspeicherfems');
+								//}
 								if($('#speichermodul').val() == 'speicher_rct') {
 									showSection('#divspeicherrct');
 								}

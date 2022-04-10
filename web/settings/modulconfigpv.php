@@ -72,12 +72,12 @@
 									<optgroup label="andere Hersteller">
 										<!-- <option <?php if($pvwattmodulold == "wr_discovergy") echo "selected" ?> value="wr_discovergy">Discovergy</option> -->
 										<option <?php if($pvwattmodulold == "wr_fronius") echo "selected" ?> value="wr_fronius">Fronius WR</option>
-										<option <?php if($pvwattmodulold == "wr_huawei") echo "selected" ?> value="wr_huawei">Huawei</option>
+										<!-- <option <?php if($pvwattmodulold == "wr_huawei") echo "selected" ?> value="wr_huawei">Huawei</option> -->
 										<option <?php if($pvwattmodulold == "wr_kostalpiko") echo "selected" ?> value="wr_kostalpiko">Kostal Piko</option>
 										<option <?php if($pvwattmodulold == "wr_kostalpikovar2") echo "selected" ?> value="wr_kostalpikovar2">Kostal Piko alt</option>
 										<option <?php if($pvwattmodulold == "wr_plenticore") echo "selected" ?> value="wr_plenticore">Kostal Plenticore</option>
 										<option <?php if($pvwattmodulold == "wr_lgessv1") echo "selected" ?> value="wr_lgessv1">LG ESS 1.0VI</option>
-										<option <?php if($pvwattmodulold == "wr_fems") echo "selected" ?> value="wr_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option>
+										<!-- <option <?php if($pvwattmodulold == "wr_fems") echo "selected" ?> value="wr_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option> -->
 										<option <?php if($pvwattmodulold == "wr_powerdog") echo "selected" ?> value="wr_powerdog">Powerdog</option>
 										<option <?php if($pvwattmodulold == "wr_rct") echo "selected" ?> value="wr_rct">RCT</option>
 										<option <?php if($pvwattmodulold == "wr_rct2") echo "selected" ?> value="wr_rct2">RCT V.2</option>
@@ -158,11 +158,13 @@
 								Konfiguration im zugehörigen EVU Modul.
 							</div>
 						</div>
+<!--
 						<div id="pvfems" class="hide">
 							<div class="card-text alert alert-info">
 								Konfiguration im zugehörigen EVU Modul des FEMS erforderlich.
 							</div>
 						</div>
+-->						
 						<div id="pvsolarworld" class="hide">
 							<div class="card-text alert alert-info">
 								Konfiguration im zugehörigen EVU Modul des Solarworld erforderlich.
@@ -822,7 +824,7 @@
 								hideSection('#pvlgessv1');
 								hideSection('#pvmqtt');
 								hideSection('#pvsunways');
-								hideSection('#pvfems');
+								//hideSection('#pvfems');
 								hideSection('#pvsolarworld');
 								hideSection('#pvip');
 								hideSection('#pvsiemens');
@@ -837,9 +839,9 @@
 								if($('#pvwattmodul').val() == 'wr_victron') {
 									showSection('#pvip');
 								}
-								if($('#pvwattmodul').val() == 'wr_huawei') {
-									showSection('#pvip');
-								}
+								//if($('#pvwattmodul').val() == 'wr_huawei') {
+								//	showSection('#pvip');
+								//}
 								if($('#pvwattmodul').val() == 'wr_shelly') {
 									showSection('#pvip');
 								}
@@ -855,9 +857,9 @@
 								if($('#pvwattmodul').val() == 'wr_rct2h') {
 									showSection('#pvrct');
 								}
-								if($('#pvwattmodul').val() == 'wr_fems') {
-									showSection('#pvfems');
-								}
+								//if($('#pvwattmodul').val() == 'wr_fems') {
+								//	showSection('#pvfems');
+								//}
 								if($('#pvwattmodul').val() == 'wr_solarworld') {
 									showSection('#pvsolarworld');
 								}
