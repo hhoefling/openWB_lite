@@ -32,7 +32,7 @@ Wie der intern X-Server konfiguriert wird, wie der Browser und der Deskstop konf
 - Das Colour Thema wurde leicht angepasst. Sowohl eine neue 4 Farbe (Schwarz) als auch größer Schriften.
 - Die openWB.Coud funktioniert bei mir. Mit eingriffen in die Firefox-Konfiguartion und die mosquitto Konfiguration
 - Module die ich weiterhin mitpflegen werde da ich sie selbst verwende sind:
-- - Bezug/Pv/Speicher  **RCT** / **RCT2** / **RCT2h**,  **MQTT**, **HTTP**
+- - Bezug/Pv/Speicher  **RCT** / **RCT2** / **RCT2h** /  **MQTT** / **HTTP**
 - - LP   die verschiedeen openWB varianten **HTTP** / **MQTT** 
 - - SOC **Manual** /  **Citigo** / **MQTT** / **HTTP**
 	
