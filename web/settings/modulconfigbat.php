@@ -81,9 +81,9 @@
 							<!--		<option <?php if($speichermodulold == "speicher_siemens") echo "selected" ?> value="speicher_siemens">Siemens</option> -->
 							<!--		<option <?php if($speichermodulold == "speicher_sbs25") echo "selected" ?> value="speicher_sbs25">SMA Sunny Boy Storage</option> -->
 							<!--		<option <?php if($speichermodulold == "speicher_sunnyisland") echo "selected" ?> value="speicher_sunnyisland">SMA Sunny Island</option> -->
-										<option <?php if($speichermodulold == "speicher_solaredge") echo "selected" ?> value="speicher_solaredge">Solaredge Speicher</option>
-										<option <?php if($speichermodulold == "speicher_solarwatt") echo "selected" ?> value="speicher_solarwatt">Solarwatt My Reserve</option>
-										<option <?php if($speichermodulold == "speicher_solax") echo "selected" ?> value="speicher_solax">Solax Speicher</option>
+							<!--		<option <?php if($speichermodulold == "speicher_solaredge") echo "selected" ?> value="speicher_solaredge">Solaredge Speicher</option> -->
+							<!--		<option <?php if($speichermodulold == "speicher_solarwatt") echo "selected" ?> value="speicher_solarwatt">Solarwatt My Reserve</option> -->
+							<!--		<option <?php if($speichermodulold == "speicher_solax") echo "selected" ?> value="speicher_solax">Solax Speicher</option> -->
 										<option <?php if($speichermodulold == "speicher_sonneneco") echo "selected" ?> value="speicher_sonneneco">Sonnen eco</option>
 										<option <?php if($speichermodulold == "speicher_studer") echo "selected" ?> value="speicher_studer">Studer-Innotec System</option>
 										<option <?php if($speichermodulold == "speicher_sungrow") echo "selected" ?> value="speicher_sungrow">Sungrow Hybrid</option>
@@ -160,7 +160,7 @@
 								<span class="text-info">openWB/set/houseBattery/%Soc</span> Ladestand des Speichers, int, 0-100
 							</div>
 						</div>
-						
+<!--						
 						<div id="divspeichersolarwatt" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -181,20 +181,21 @@
 									</div>									
 								</div>
 							</div>
+-->
 							<script>
-								function visibility_solarwatt_ip2() {
-									if($('#solarwattmethod1').prop("checked")) {
-										hideSection('#divspeicherip2');
-									} else {
-										showSection('#divspeicherip2');
-									}
-								}
+								// function visibility_solarwatt_ip2() {
+								// 	if($('#solarwattmethod1').prop("checked")) {
+								// 		hideSection('#divspeicherip2');
+								// 	} else {
+								// 		showSection('#divspeicherip2');
+								// 	}
+								// }
 								
-								$(function() {	
-									$('input[type=radio][name=solarwattmethod]').change(function(){
-										visibility_solarwatt_ip2();
-									});
-								});
+								// $(function() {	
+								// 	$('input[type=radio][name=solarwattmethod]').change(function(){
+								// 		visibility_solarwatt_ip2();
+								// 	});
+								// });
 							</script>
 						</div>
 
@@ -456,6 +457,7 @@
 							</div>
 						</div>
 
+<!--
 						<div id="divspeichersolaredge" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -481,12 +483,14 @@
 								</div>
 							</div>
 						</div>
-
+-->
+<!--
 						<div id="divspeichersolax" class="hide">
 							<div class="alert alert-info">
 								Die IP des Wechselrichters wird im dazugehörigen Solax PV-Modul eingestellt.
 							</div>
 						</div>
+-->
 <!--
 						<div id="divspeicherplenti" class="hide">
 							<div class="alert alert-info">
@@ -656,8 +660,8 @@
 								//hideSection('#divspeicherfronius');
 								//hideSection('#divspeichere3dc');
 								//hideSection('#divspeichersbs25');
-								hideSection('#divspeichersolaredge');
-								hideSection('#divspeichersolax');
+								//hideSection('#divspeichersolaredge');
+								//hideSection('#divspeichersolax');
 								hideSection('#divspeicherpw');
 								hideSection('#divspeicherplenti');
 								hideSection('#divspeichersunnyisland');
@@ -675,7 +679,7 @@
 								hideSection('#divspeicherrct2');
 								hideSection('#divspeichersungrow');
 								hideSection('#divspeicherjson');
-								hideSection('#divspeichersolarwatt');
+								//hideSection('#divspeichersolarwatt');
 								hideSection('#divspeicherip2');
 
 								//if($('#speichermodul').val() == 'speicher_fems') {
@@ -696,11 +700,11 @@
 								//	showSection('#divspeicherip');
 								//	showSection('#divspeichersiemens');
 								//}
-								if($('#speichermodul').val() == 'speicher_solarwatt') {
-									showSection('#divspeichersolarwatt');
-									showSection('#divspeicherip');
-									visibility_solarwatt_ip2();
-								}
+								//if($('#speichermodul').val() == 'speicher_solarwatt') {
+								//	showSection('#divspeichersolarwatt');
+								//	showSection('#divspeicherip');
+								//	visibility_solarwatt_ip2();
+								//}
 								if($('#speichermodul').val() == 'speicher_tesvoltsma') {
 									showSection('#divspeicherip');
 								}
@@ -747,12 +751,12 @@
 								//if($('#speichermodul').val() == 'speicher_sbs25')   {
 								//	showSection('#divspeichersbs25');
 								//}
-								if($('#speichermodul').val() == 'speicher_solaredge')   {
-									showSection('#divspeichersolaredge');
-								}
-								if($('#speichermodul').val() == 'speicher_solax')   {
-									showSection('#divspeichersolax');
-								}
+								//if($('#speichermodul').val() == 'speicher_solaredge')   {
+								//	showSection('#divspeichersolaredge');
+								//}
+								//if($('#speichermodul').val() == 'speicher_solax')   {
+								//	showSection('#divspeichersolax');
+								//}
 								if($('#speichermodul').val() == 'speicher_varta')   {
 									showSection('#divspeichervarta');
 								}

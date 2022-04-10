@@ -86,12 +86,12 @@
 										<!-- <option <?php if($pvwattmodulold == "smaemd_pv") echo "selected" ?> value="smaemd_pv">SMA Energy Meter</option> -->
 										<option <?php if($pvwattmodulold == "wr_tripower9000") echo "selected" ?> value="wr_tripower9000">SMA ModbusTCP WR</option>
 										<!-- <option <?php if($pvwattmodulold == "wr_smartme") echo "selected" ?> value="wr_smartme">SmartMe</option> -->
-										<option <?php if($pvwattmodulold == "wr_solaredge") echo "selected" ?> value="wr_solaredge">SolarEdge WR</option>
-										<option <?php if($pvwattmodulold == "wr_solarlog") echo "selected" ?> value="wr_solarlog">SolarLog</option>
-										<option <?php if($pvwattmodulold == "wr_solarview") echo "selected" ?> value="wr_solarview">Solarview</option>
-										<option <?php if($pvwattmodulold == "wr_solarwatt") echo "selected" ?> value="wr_solarwatt">Solarwatt / My Reserver Speicher</option>
-										<option <?php if($pvwattmodulold == "wr_solarworld") echo "selected" ?> value="wr_solarworld">Solarworld</option>
-										<option <?php if($pvwattmodulold == "wr_solax") echo "selected" ?> value="wr_solax">Solax WR</option>
+										<!-- <option <?php if($pvwattmodulold == "wr_solaredge") echo "selected" ?> value="wr_solaredge">SolarEdge WR</option> -->
+										<!-- <option <?php if($pvwattmodulold == "wr_solarlog") echo "selected" ?> value="wr_solarlog">SolarLog</option> -->
+										<!-- <option <?php if($pvwattmodulold == "wr_solarview") echo "selected" ?> value="wr_solarview">Solarview</option> -->
+										<!-- <option <?php if($pvwattmodulold == "wr_solarwatt") echo "selected" ?> value="wr_solarwatt">Solarwatt / My Reserver Speicher</option>  -->
+										<!-- <option <?php if($pvwattmodulold == "wr_solarworld") echo "selected" ?> value="wr_solarworld">Solarworld</option> -->
+										<!-- <option <?php if($pvwattmodulold == "wr_solax") echo "selected" ?> value="wr_solax">Solax WR</option> -->
 										<option <?php if($pvwattmodulold == "wr_studer") echo "selected" ?> value="wr_studer">Studer-Innotec System</option>
 										<option <?php if($pvwattmodulold == "wr_sungrow") echo "selected" ?> value="wr_sungrow">Sungrow</option>
 										<option <?php if($pvwattmodulold == "wr_sunways") echo "selected" ?> value="wr_sunways">Sunways</option>
@@ -130,12 +130,14 @@
 								Konfiguration im zugehörigen Speichermodul des LG ESS 1.0VI erforderlich. Als EVU-Modul auch LG ESS 1.0VI wählen!
 							</div>
 						</div>
--->						
+-->					
+<!--
 						<div id="pvsolarwatt" class="hide">
 							<div class="card-text alert alert-info">
 								Konfiguration im zugehörigen Speichermodul des Solarwatt/My Reserve erforderlich.
 							</div>
 						</div>
+-->
 						<div id="pvip" class="hide">
 							<div class="form-row mb-1">
 								<label for="pv1_ipa" class="col-md-4 col-form-label">IP Adresse</label>
@@ -171,11 +173,13 @@
 							</div>
 						</div>
 -->						
+<!--
 						<div id="pvsolarworld" class="hide">
 							<div class="card-text alert alert-info">
 								Konfiguration im zugehörigen EVU Modul des Solarworld erforderlich.
 							</div>
 						</div>
+-->
 						<div id="pvyouless" class="hide">
 							<div class="form-row mb-1">
 								<label for="wryoulessip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -219,6 +223,7 @@
 								</div>
 							</div>
 						</div>
+<!--
 						<div id="pvsolarlog" class="hide">
 							<div class="form-row mb-1">
 								<label for="bezug_solarlog_ip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -231,6 +236,7 @@
 								</div>
 							</div>
 						</div>
+-->
 <!--
 						<div id="pvdiscovergy" class="hide">
 							<div class="form-row mb-1">
@@ -245,6 +251,7 @@
 							</div>
 						</div>
 -->						
+<!--
 						<div id="pvsolarview" class="hide">
 							<div class="form-row mb-1">
 								<label for="solarview_hostname" class="col-md-4 col-form-label">Hostname/IP des SolarView TCP-Servers</label>
@@ -265,6 +272,7 @@
 								</div>
 							</div>
 						</div>
+-->
 <!--
 						<div id="pvpowerwall" class="hide">
 							<div class="card-text alert alert-info">
@@ -495,6 +503,7 @@
 								</div>
 							</div>
 						</div>
+<!--
 						<div id="pvwrsolaredge" class="hide">
 							<div class="form-row mb-1">
 								<label for="solaredgepvip" class="col-md-4 col-form-label">WR Solaredge IP</label>
@@ -585,6 +594,7 @@
 								</div>
 							</div>
 						</div>
+-->
 						<div id="pvwrstuder" class="hide">
 							<div class="form-row mb-1">
 								<label for="studer_ip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -624,6 +634,7 @@
 								</div>
 							</div>
 						</div> 
+<!--
 						<div id="pvwrsolax" class="hide">
 							<div class="form-row mb-1">
 								<label for="solaxip" class="col-md-4 col-form-label">WR Solax IP</label>
@@ -635,6 +646,7 @@
 								</div>
 							</div>
 						</div> 
+-->
 <!--
 						<div id="pvwrfronius" class="hide">
 							<div class="form-row mb-1">
@@ -825,24 +837,24 @@
 								hideSection('#pvwrjson');
 								hideSection('#pvmpm3pm');
 								//hideSection('#pvwrkostalpiko');
-								hideSection('#pvwrsolaredge');
-								hideSection('#pvwrsolax');
+								//hideSection('#pvwrsolaredge');
+								//hideSection('#pvwrsolax');
 								//hideSection('#pvsmartme');
 								hideSection('#pvwrtri9000');
 								hideSection('#pvplenti');
-								hideSection('#pvsolarlog');
+								//hideSection('#pvsolarlog');
 								hideSection('#pvpiko2');
 								//hideSection('#pvpowerwall');
 								hideSection('#pvkitdiv');
 								hideSection('#pvethsdm120');
-								hideSection('#pvsolarview');
+								//hideSection('#pvsolarview');
 								//hideSection('#pvdiscovergy');
 								hideSection('#pvyouless');
 								//hideSection('#pvlgessv1');
 								hideSection('#pvmqtt');
 								hideSection('#pvsunways');
 								//hideSection('#pvfems');
-								hideSection('#pvsolarworld');
+								//hideSection('#pvsolarworld');
 								hideSection('#pvip');
 								//hideSection('#pvsiemens');
 								hideSection('#pvrct');
@@ -877,9 +889,9 @@
 								//if($('#pvwattmodul').val() == 'wr_fems') {
 								//	showSection('#pvfems');
 								//}
-								if($('#pvwattmodul').val() == 'wr_solarworld') {
-									showSection('#pvsolarworld');
-								}
+								//if($('#pvwattmodul').val() == 'wr_solarworld') {
+								//	showSection('#pvsolarworld');
+								//}
 								if($('#pvwattmodul').val() == 'wr_sunways') {
 									showSection('#pvsunways');
 								}
@@ -889,9 +901,9 @@
 								if($('#pvwattmodul').val() == 'wr_youless120') {
 									showSection('#pvyouless');
 								}
-								if($('#pvwattmodul').val() == 'wr_solarview') {
-									showSection('#pvsolarview');
-								}
+								//if($('#pvwattmodul').val() == 'wr_solarview') {
+								//	showSection('#pvsolarview');
+								//}
 								//if($('#pvwattmodul').val() == 'wr_discovergy') {
 								//	showSection('#pvdiscovergy');
 								//}
@@ -928,27 +940,27 @@
 								//if($('#pvwattmodul').val() == 'wr_kostalpiko')   {
 								//	showSection('#pvwrkostalpiko');
 								//}
-								if($('#pvwattmodul').val() == 'wr_solaredge')   {
-									showSection('#pvwrsolaredge');
-								}
-                                if($('#pvwattmodul').val() == 'wr_studer')   {
+								//if($('#pvwattmodul').val() == 'wr_solaredge')   {
+								//	showSection('#pvwrsolaredge');
+								//}
+                        if($('#pvwattmodul').val() == 'wr_studer')   {
 									showSection('#pvwrstuder');
 								}
-								if($('#pvwattmodul').val() == 'wr_solax')   {
-									showSection('#pvwrsolax');
-								}
+								//if($('#pvwattmodul').val() == 'wr_solax')   {
+								//	showSection('#pvwrsolax');
+								//}
 								//if($('#pvwattmodul').val() == 'wr_smartme')   {
 								//	showSection('#pvsmartme');
 								//}
 								//if($('#pvwattmodul').val() == 'wr_tripower9000')   {
 								//	showSection('#pvwrtri9000');
 								//}
-								if($('#pvwattmodul').val() == 'wr_plenticore')   {
-									showSection('#pvplenti');
-								}
-								if($('#pvwattmodul').val() == 'wr_solarlog')   {
-									showSection('#pvsolarlog');
-								}
+								//if($('#pvwattmodul').val() == 'wr_plenticore')   {
+								//	showSection('#pvplenti');
+								//}
+								//if($('#pvwattmodul').val() == 'wr_solarlog')   {
+								//	showSection('#pvsolarlog');
+								//}
 								//if($('#pvwattmodul').val() == 'wr_kostalpikovar2')   {
 								//	showSection('#pvpiko2');
 								//}
@@ -958,9 +970,9 @@
 								//if($('#pvwattmodul').val() == 'wr_lgessv1')   {
 								//	showSection('#pvlgessv1');
 								//}
-								if($('#pvwattmodul').val() == 'wr_solarwatt')   {
-									showSection('#pvsolarwatt');
-								}
+								//if($('#pvwattmodul').val() == 'wr_solarwatt')   {
+								//	showSection('#pvsolarwatt');
+								//}
 								if($('#pvsungrow').val() == 'wr_sungrow')   {
 									showSection('#pvsungrow');
 								}
@@ -997,8 +1009,8 @@
 										<!-- <option <?php if($pv2wattmodulold == "wr2_kostalpikovar2") echo "selected" ?> value="wr2_kostalpikovar2">Kostal Piko alt</option> -->
 										<!-- <option <?php if($pv2wattmodulold == "wr2_kostalsteca") echo "selected" ?> value="wr2_kostalsteca">Kostal Piko MP oder Steca Grid Coolcept</option> -->
 										<!-- <option <?php if($pv2wattmodulold == "wr2_smamodbus") echo "selected" ?> value="wr2_smamodbus">SMA Wechselrichter</option> -->
-										<option <?php if($pv2wattmodulold == "wr2_solaredge") echo "selected" ?> value="wr2_solaredge">Solaredge</option>
-										<option <?php if($pv2wattmodulold == "wr2_solax") echo "selected" ?> value="wr2_solax">Solax</option>
+										<!-- <option <?php if($pv2wattmodulold == "wr2_solaredge") echo "selected" ?> value="wr2_solaredge">Solaredge</option>  -->
+										<!-- <option <?php if($pv2wattmodulold == "wr2_solax") echo "selected" ?> value="wr2_solax">Solax</option> -->
 										<option <?php if($pv2wattmodulold == "wr2_sungrow") echo "selected" ?> value="wr2_sungrow">Sungrow</option>
 										<option <?php if($pv2wattmodulold == "wr2_victron") echo "selected" ?> value="wr2_victron">Victron MPPT</option>
 									</optgroup>
@@ -1120,9 +1132,9 @@
 								//if($('#pv2wattmodul').val() == 'wr2_smamodbus') {
 								//	showSection('#pv2ipdiv');
 								//}
-								if($('#pv2wattmodul').val() == 'wr2_solax') {
-									showSection('#pv2ipdiv');
-								}
+								//if($('#pv2wattmodul').val() == 'wr2_solax') {
+								//	showSection('#pv2ipdiv');
+								//}
 								if($('#pv2wattmodul').val() == 'wr2_sungrow') {
 									showSection('#pv2ipdiv');
 								}
@@ -1137,10 +1149,10 @@
 									showSection('#pv2ipdiv');
 									showSection('#pv2iddiv');
 								}
-								if($('#pv2wattmodul').val() == 'wr2_solaredge') {
-									showSection('#pv2ipdiv');
-									showSection('#pv2iddiv');
-								}
+								//if($('#pv2wattmodul').val() == 'wr2_solaredge') {
+								//	showSection('#pv2ipdiv');
+								//	showSection('#pv2iddiv');
+								//}
 								if($('#pv2wattmodul').val() == 'wr2_ethsdm120') {
 									showSection('#pv2ipdiv');
 									showSection('#pv2iddiv');

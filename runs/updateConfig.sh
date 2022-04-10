@@ -438,15 +438,15 @@ updateConfig(){
 	if ! grep -Fq "livegraph=" $ConfigFile; then
 		echo "livegraph=20" >> $ConfigFile
 	fi
-	if ! grep -Fq "bezug_solarlog_ip=" $ConfigFile; then
-		echo "bezug_solarlog_ip=192.168.0.10" >> $ConfigFile
-	fi
+#	if ! grep -Fq "bezug_solarlog_ip=" $ConfigFile; then
+#		echo "bezug_solarlog_ip=192.168.0.10" >> $ConfigFile
+#	fi
 	if ! grep -Fq "bezug_id=" $ConfigFile; then
 		echo "bezug_id=30" >> $ConfigFile
 	fi
-	if ! grep -Fq "bezug_solarlog_speicherv=" $ConfigFile; then
-		echo "bezug_solarlog_speicherv=0" >> $ConfigFile
-	fi
+#	if ! grep -Fq "bezug_solarlog_speicherv=" $ConfigFile; then
+#		echo "bezug_solarlog_speicherv=0" >> $ConfigFile
+#	fi
 #	if ! grep -Fq "wrfronius2ip=" $ConfigFile; then
 #		echo "wrfronius2ip=none" >> $ConfigFile
 #	fi
@@ -513,27 +513,27 @@ updateConfig(){
 	if ! grep -Fq "releasetrain=" $ConfigFile; then
 		echo "releasetrain=stable" >> $ConfigFile
 	fi
-	if ! grep -Fq "solaredgeip=" $ConfigFile; then
-		echo "solaredgeip=192.168.0.10" >> $ConfigFile
-	fi
-	if ! grep -Fq "solaredgemodbusport=" $ConfigFile; then
-		echo "solaredgemodbusport=502" >> $ConfigFile
-	fi
-	if ! grep -Fq "solaredgepvip=" $ConfigFile; then
-		echo "solaredgepvip=192.168.0.10" >> $ConfigFile
-	fi
-	if ! grep -Fq "solaredgepvslave1=" $ConfigFile; then
-		echo "solaredgepvslave1=1" >> $ConfigFile
-	fi
-	if ! grep -Fq "solaredgepvslave2=" $ConfigFile; then
-		echo "solaredgepvslave2=none" >> $ConfigFile
-	fi
-	if ! grep -Fq "solaredgepvslave3=" $ConfigFile; then
-		echo "solaredgepvslave3=none" >> $ConfigFile
-	fi
-	if ! grep -Fq "solaredgepvslave4=" $ConfigFile; then
-		echo "solaredgepvslave4=none" >> $ConfigFile
-	fi
+#	if ! grep -Fq "solaredgeip=" $ConfigFile; then
+#		echo "solaredgeip=192.168.0.10" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "solaredgemodbusport=" $ConfigFile; then
+#		echo "solaredgemodbusport=502" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "solaredgepvip=" $ConfigFile; then
+#		echo "solaredgepvip=192.168.0.10" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "solaredgepvslave1=" $ConfigFile; then
+#		echo "solaredgepvslave1=1" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "solaredgepvslave2=" $ConfigFile; then
+#		echo "solaredgepvslave2=none" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "solaredgepvslave3=" $ConfigFile; then
+#		echo "solaredgepvslave3=none" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "solaredgepvslave4=" $ConfigFile; then
+#		echo "solaredgepvslave4=none" >> $ConfigFile
+#   fi
 	if ! grep -Fq "lllaniplp2=" $ConfigFile; then
 		echo "lllaniplp2=192.168.0.10" >> $ConfigFile
 	fi
@@ -805,9 +805,9 @@ updateConfig(){
 	if ! grep -Fq "tri9000ip=" $ConfigFile; then
 		echo "tri9000ip=192.168.10.12" >> $ConfigFile
 	fi
-	if ! grep -Fq "solaredgespeicherip=" $ConfigFile; then
-		echo "solaredgespeicherip='192.168.0.31'" >> $ConfigFile
-	fi
+#	if ! grep -Fq "solaredgespeicherip=" $ConfigFile; then
+#		echo "solaredgespeicherip='192.168.0.31'" >> $ConfigFile
+#	fi
 	if ! grep -Fq "offsetpv=" $ConfigFile; then
 		echo "offsetpv=0" >> $ConfigFile
 	fi
@@ -1140,9 +1140,9 @@ updateConfig(){
 	if ! grep -Fq "theme=" $ConfigFile; then
 		echo "theme=standard" >> $ConfigFile
 	fi
-	if ! grep -Fq "solaredgewr2ip=" $ConfigFile; then
-		echo "solaredgewr2ip=none" >> $ConfigFile
-	fi
+#	if ! grep -Fq "solaredgewr2ip=" $ConfigFile; then
+#		echo "solaredgewr2ip=none" >> $ConfigFile
+#	fi
 	if ! grep -Fq "heutegeladen=" $ConfigFile; then
 		echo "heutegeladen=1" >> $ConfigFile
 	fi
@@ -1458,18 +1458,18 @@ updateConfig(){
 #	if ! grep -Fq "alphaessip=" $ConfigFile; then
 #		echo "alphaessip=192.168.192.31" >> $ConfigFile
 #	fi
-	if ! grep -Fq "solarview_hostname=" $ConfigFile; then
-		echo "solarview_hostname=192.168.0.31" >> $ConfigFile
-	fi
-	if ! grep -Fq "solarview_port=" $ConfigFile; then
-		echo "solarview_port=15000" >> $ConfigFile
-	fi
-	if ! grep -Fq "solarview_timeout=" $ConfigFile; then
-		echo "solarview_timeout=1" >> $ConfigFile
-	fi
-	if ! grep -Fq "solarview_command_wr=" $ConfigFile; then
-		echo "solarview_command_wr=00*" >> $ConfigFile
-	fi
+#	if ! grep -Fq "solarview_hostname=" $ConfigFile; then
+#		echo "solarview_hostname=192.168.0.31" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "solarview_port=" $ConfigFile; then
+#		echo "solarview_port=15000" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "solarview_timeout=" $ConfigFile; then
+#		echo "solarview_timeout=1" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "solarview_command_wr=" $ConfigFile; then
+#		echo "solarview_command_wr=00*" >> $ConfigFile
+#	fi
 #	if ! grep -Fq "discovergyuser=" $ConfigFile; then
 #	echo "discovergyuser=name@mail.de" >> $ConfigFile
 #	fi
@@ -1685,9 +1685,9 @@ updateConfig(){
 	if ! grep -Fq "sdm120modbussocketid=" $ConfigFile; then
 		echo "sdm120modbussocketid=9" >> $ConfigFile
 	fi
-	if ! grep -Fq "solarworld_emanagerip=" $ConfigFile; then
-		echo "solarworld_emanagerip=192.192.192.192" >> $ConfigFile
-	fi
+#	if ! grep -Fq "solarworld_emanagerip=" $ConfigFile; then
+#		echo "solarworld_emanagerip=192.192.192.192" >> $ConfigFile
+#	fi
 #	if ! grep -Fq "femsip=" $ConfigFile; then
 #		echo "femsip=192.168.1.23" >> $ConfigFile
 #	fi
@@ -1870,9 +1870,9 @@ updateConfig(){
 	if ! grep -Fq "wirkungsgradlp2=" $ConfigFile; then
 		echo "wirkungsgradlp2=90" >> $ConfigFile
 	fi
-	if ! grep -Fq "solaxip=" $ConfigFile; then
-		echo "solaxip=192.168.1.1" >> $ConfigFile
-	fi
+#	if ! grep -Fq "solaxip=" $ConfigFile; then
+#		echo "solaxip=192.168.1.1" >> $ConfigFile
+#	fi
 	if ! grep -Fq "mypeugeot_soccalclp1=" $ConfigFile; then
 		echo "mypeugeot_soccalclp1=0" >> $ConfigFile
 	fi
@@ -1947,12 +1947,12 @@ updateConfig(){
 #	if ! grep -Fq "multifems=" $ConfigFile; then
 #		echo "multifems=0" >> $ConfigFile
 #	fi
-	if ! grep -Fq "solaredgezweiterspeicher=" $ConfigFile; then
-		echo "solaredgezweiterspeicher=0" >> $ConfigFile
-	fi
-	if ! grep -Fq "solaredgesubbat=" $ConfigFile; then
-		echo "solaredgesubbat=0" >> $ConfigFile
-	fi
+#	if ! grep -Fq "solaredgezweiterspeicher=" $ConfigFile; then
+#		echo "solaredgezweiterspeicher=0" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "solaredgesubbat=" $ConfigFile; then
+#		echo "solaredgesubbat=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "studer_ip=" $ConfigFile; then
 		echo "studer_ip=192.168.1.1" >> $ConfigFile
 		echo "studer_xt=1" >> $ConfigFile
@@ -1990,9 +1990,9 @@ updateConfig(){
 		echo "cpunterbrechungmindestlaufzeitaktiv=0" >> $ConfigFile
 		echo "cpunterbrechungmindestlaufzeit=30" >> $ConfigFile
 	fi
-	if ! grep -Fq "solarwattmethod=" $ConfigFile; then
-		echo "solarwattmethod=0" >> $ConfigFile
-	fi
+#	if ! grep -Fq "solarwattmethod=" $ConfigFile; then
+#		echo "solarwattmethod=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "sungrowsr=" $ConfigFile; then
 		echo "sungrowsr=0" >> $ConfigFile
 	fi

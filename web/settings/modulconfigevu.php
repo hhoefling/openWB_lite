@@ -90,12 +90,12 @@
 						<!--			<option <?php if($wattbezugmodulold == "bezug_sbs25") echo "selected" ?> value="bezug_sbs25">SMA Sunny Boy Storage </option> -->
 						<!--			<option <?php if($wattbezugmodulold == "bezug_smartfox") echo "selected" ?> value="bezug_smartfox">Smartfox</option> -->
 						<!--			<option <?php if($wattbezugmodulold == "bezug_smartme") echo "selected" ?> value="bezug_smartme">Smartme</option> -->
-										<option <?php if($wattbezugmodulold == "bezug_solaredge") echo "selected" ?> value="bezug_solaredge">Solaredge</option>
-										<option <?php if($wattbezugmodulold == "bezug_solarlog") echo "selected" ?> value="bezug_solarlog">SolarLog</option>
-										<option <?php if($wattbezugmodulold == "bezug_solarview") echo "selected" ?> value="bezug_solarview">Solarview</option>
-										<option <?php if($wattbezugmodulold == "bezug_solarwatt") echo "selected" ?> value="bezug_solarwatt">Solarwatt / My Reserve Speicher</option>
-										<option <?php if($wattbezugmodulold == "bezug_solarworld") echo "selected" ?> value="bezug_solarworld">Solarworld</option>
-										<option <?php if($wattbezugmodulold == "bezug_solax") echo "selected" ?> value="bezug_solax">Solax</option>
+						<!--			<option <?php if($wattbezugmodulold == "bezug_solaredge") echo "selected" ?> value="bezug_solaredge">Solaredge</option> -->
+						<!--			<option <?php if($wattbezugmodulold == "bezug_solarlog") echo "selected" ?> value="bezug_solarlog">SolarLog</option> -->
+						<!--			<option <?php if($wattbezugmodulold == "bezug_solarview") echo "selected" ?> value="bezug_solarview">Solarview</option> -->
+						<!--			<option <?php if($wattbezugmodulold == "bezug_solarwatt") echo "selected" ?> value="bezug_solarwatt">Solarwatt / My Reserve Speicher</option>  -->
+						<!--			<option <?php if($wattbezugmodulold == "bezug_solarworld") echo "selected" ?> value="bezug_solarworld">Solarworld</option>  -->
+						<!--			<option <?php if($wattbezugmodulold == "bezug_solax") echo "selected" ?> value="bezug_solax">Solax</option> -->
 										<option <?php if($wattbezugmodulold == "bezug_sonneneco") echo "selected" ?> value="bezug_sonneneco">Sonnen eco</option>
 										<option <?php if($wattbezugmodulold == "bezug_sungrow") echo "selected" ?> value="bezug_sungrow">Sungrow Speicher</option>
 										<option <?php if($wattbezugmodulold == "bezug_powerwall") echo "selected" ?> value="bezug_powerwall">Tesla Powerwall</option>
@@ -160,11 +160,13 @@
 							</div>
  						</div>
 -->
+<!--
 						<div id="wattbezugsolarwatt" class="hide">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich. Es muss beim Speicher Solarwatt / My Reserve ausgewählt werden.
 							</div>
 						</div>
+-->
 						<div id="wattbezugmqtt" class="hide">
 							<div class="alert alert-info">
 								Keine Konfiguration erforderlich.<br>
@@ -253,11 +255,13 @@
 								</div>
 							</div>
 						</div>
+<!--
 						<div id="wattbezugsolarview" class="hide">
 							<div class="card-text alert alert-info">
 								Konfiguration im zugehörigen PV Modul erforderlich.
 							</div>
 						</div>
+-->
 <!--
 						<div id="wattbezugpowerwall" class="hide">
 							<div class="card-text alert alert-info">
@@ -307,6 +311,7 @@
 							</div>
 						</div>
 -->						
+<!--
 						<div id="wattbezugsolarworld" class="hide">
 							<div class="form-row mb-1">
 								<label for="solarworld_emanagerip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -319,6 +324,7 @@
 								</div>
 							</div>
 						</div>
+-->
 <!--
 						<div id="wattbezugdiscovergy" class="hide">
 							<div class="form-row mb-1">
@@ -776,6 +782,7 @@
 								</div>
 							</div>
 						</div>
+<!--
 						<div id="wattbezugsolarlog" class="hide">
 							<div class="card-text alert alert-info">
 								Die zugehörige IP Adresse ist im PV Modul einzustellen.
@@ -796,6 +803,8 @@
 								</div>
 							</div>
 						</div>
+-->
+<!--
 						<div id="wattbezugsolaredge" class="hide">
 							<div class="form-row mb-1">
 								<label for="solaredgeip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -820,11 +829,14 @@
 								</div>
 							</div>
 						</div>
+-->
+<!--
 						<div id="wattbezugsolax" class="hide">
 							<div class="alert alert-info">
 								Die IP des Wechselrichters wird im dazugehörigen Solax PV-Modul eingestellt.
 							</div>
 						</div>
+-->
 <!--
 						<div id="wattbezuge3dc" class="hide">
 							<div class="card-text alert alert-info">
@@ -893,13 +905,13 @@
 								hideSection('#wattbezugnone');
 								hideSection('#wattbezughttp');
 								//hideSection('#wattbezugsma');
-								hideSection('#wattbezugsolarworld');
+								//hideSection('#wattbezugsolarworld');
 								//hideSection('#wattbezugfronius');
 								hideSection('#wattbezugjson');
 								hideSection('#wattbezugmpm3pm');
-								hideSection('#wattbezugsolarlog');
-								hideSection('#wattbezugsolaredge');
-								hideSection('#wattbezugsolax');
+								//hideSection('#wattbezugsolarlog');
+								//hideSection('#wattbezugsolaredge');
+								//hideSection('#wattbezugsolax');
 								hideSection('#wattbezugshm');
 								//hideSection('#wattbezugsmartme');
 								//hideSection('#wattbezugsbs25');
@@ -911,7 +923,7 @@
 								//hideSection('#wattbezugsmartfox');
 								//hideSection('#wattbezugpowerwall');
 								hideSection('#wattbezugvictrongx');
-								hideSection('#wattbezugsolarview');
+								//hideSection('#wattbezugsolarview');
 								//hideSection('#wattbezugdiscovergy');
 								//hideSection('#wattbezuglgessv1');
 								hideSection('#wattbezugmqtt');
@@ -925,7 +937,7 @@
 								hideSection('#wattbezugip');
 								// hideSection('#wattbezugalphaess');
 								hideSection('#wattbezugsungrow');
-								hideSection('#wattbezugsolarwatt');
+								//hideSection('#wattbezugsolarwatt');
 								//hideSection('#wattbezugjanitza');
 								// hideSection('#wattbezugcarlogavazzilan');
 								// Auswahl PV-Modul generell erlauben
@@ -960,9 +972,9 @@
 								//	showSection('#wattbezugcarlogavazzilan');
 								//	showSection('#wattbezugip');
 								//}
-								if($('#wattbezugmodul').val() == 'bezug_solax') {
-									showSection('#wattbezugsolax');
-								}
+								//if($('#wattbezugmodul').val() == 'bezug_solax') {
+								//	showSection('#wattbezugsolax');
+								//}
 								if($('#wattbezugmodul').val() == 'bezug_rct') {
 									showSection('#wattbezugrct');
 									showSection('#wattbezugip');
@@ -985,12 +997,12 @@
 								//if($('#wattbezugmodul').val() == 'bezug_fems') {
 								//	showSection('#wattbezugfems');
 								//}
-								if($('#wattbezugmodul').val() == 'bezug_solarworld') {
-									showSection('#wattbezugsolarworld');
-								}
-								if($('#wattbezugmodul').val() == 'bezug_solarview') {
-									showSection('#wattbezugsolarview');
-								}
+								//if($('#wattbezugmodul').val() == 'bezug_solarworld') {
+								//	showSection('#wattbezugsolarworld');
+								//}
+								//if($('#wattbezugmodul').val() == 'bezug_solarview') {
+								//	showSection('#wattbezugsolarview');
+								//}
 								//if($('#wattbezugmodul').val() == 'bezug_discovergy') {
 								//	showSection('#wattbezugdiscovergy');
 								//}
@@ -1024,12 +1036,12 @@
 								if($('#wattbezugmodul').val() == 'bezug_mpm3pm')   {
 									showSection('#wattbezugmpm3pm');
 								}
-								if($('#wattbezugmodul').val() == 'bezug_solarlog')   {
-									showSection('#wattbezugsolarlog');
-								}
-								if($('#wattbezugmodul').val() == 'bezug_solaredge')   {
-									showSection('#wattbezugsolaredge');
-								}
+								//if($('#wattbezugmodul').val() == 'bezug_solarlog')   {
+								//	showSection('#wattbezugsolarlog');
+								//}
+								//if($('#wattbezugmodul').val() == 'bezug_solaredge')   {
+								//	showSection('#wattbezugsolaredge');
+								//}
 								//if($('#wattbezugmodul').val() == 'bezug_smashm')   {
 								//	showSection('#wattbezugshm');
 								//}
@@ -1073,9 +1085,9 @@
 								//if($('#wattbezugmodul').val() == 'bezug_lgessv1')   {
 								//	showSection('#wattbezuglgessv1');
 								//}
-								if($('#wattbezugmodul').val() == 'bezug_solarwatt')   {
-									showSection('#wattbezugsolarwatt');
-								}
+								//if($('#wattbezugmodul').val() == 'bezug_solarwatt')   {
+								//	showSection('#wattbezugsolarwatt');
+								//}
 							}
 
 							$(function() {
