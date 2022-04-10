@@ -100,7 +100,6 @@ if [ ! -f /etc/mosquitto/conf.d/openwb.conf ]; then
 	sudo service mosquitto restart
 fi
 
-
 echo "disable cronjob logging"
 if grep -Fxq "EXTRA_OPTS=\"-L 0\"" /etc/default/cron
 then

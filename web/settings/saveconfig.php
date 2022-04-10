@@ -158,19 +158,20 @@
 		}
 
 		// update smashm.conf if in POST data
-		if( array_key_exists( 'smashmbezugid', $_POST ) ){
-			$result = '';
-			$lines = file($_SERVER['DOCUMENT_ROOT'].'/openWB/web/files/smashm.conf');
-			foreach($lines as $line) {
-				if( (strpos($line, "serials=") !== false) and (strpos($line, "serials=") == 0) ) {
-						$result .= 'serials='.$_POST['smashmbezugid']."\n";
-				} else {
-					$result .= $line;
-				}
-			}
-			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/web/files/smashm.conf', $result);
-		}
-
+		//
+		//if( array_key_exists( 'smashmbezugid', $_POST ) ){
+		//	$result = '';
+		//	$lines = file($_SERVER['DOCUMENT_ROOT'].'/openWB/web/files/smashm.conf');
+		//	foreach($lines as $line) {
+		//		if( (strpos($line, "serials=") !== false) and (strpos($line, "serials=") == 0) ) {
+		//				$result .= 'serials='.$_POST['smashmbezugid']."\n";
+		//		} else {
+		//			$result .= $line;
+		//		}
+		//	}
+		//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/web/files/smashm.conf', $result);
+		//}
+		
 		// start etprovider update if in POST data
 		if( array_key_exists( 'etprovideraktiv', $_POST ) && ($_POST['etprovideraktiv'] == 1) ){ ?>
 			<script>$('#feedbackdiv').append("<br>Update des Stromtarifanbieters gestartet.");</script>

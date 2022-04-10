@@ -21,15 +21,15 @@ updateConfig(){
 	if ! grep -Fq "wr_http_kwh_url=" $ConfigFile; then
 		echo "wr_http_kwh_url=http://192.168.0.17/pvwh.txt" >> $ConfigFile
 	fi
-	if ! grep -Fq "smaemdbezugid=" $ConfigFile; then
-		echo "smaemdbezugid=1900123456" >> $ConfigFile
-	fi
-	if ! grep -Fq "smaemdpvid=" $ConfigFile; then
-		echo "smaemdpvid=1900123456" >> $ConfigFile
-	fi
-	if ! grep -Fq "smaemdllid=" $ConfigFile; then
-		echo "smaemdllid=1900123456" >> $ConfigFile
-	fi
+#	if ! grep -Fq "smaemdbezugid=" $ConfigFile; then
+#		echo "smaemdbezugid=1900123456" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "smaemdpvid=" $ConfigFile; then
+#		echo "smaemdpvid=1900123456" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "smaemdllid=" $ConfigFile; then
+#		echo "smaemdllid=1900123456" >> $ConfigFile
+#	fi
 	if ! grep -Fq "bezug_http_w_url=" $ConfigFile; then
 		echo "bezug_http_w_url=http://192.168.0.17/bezugwatt.txt" >> $ConfigFile
 	fi
@@ -447,9 +447,24 @@ updateConfig(){
 	if ! grep -Fq "bezug_solarlog_speicherv=" $ConfigFile; then
 		echo "bezug_solarlog_speicherv=0" >> $ConfigFile
 	fi
-	if ! grep -Fq "wrfronius2ip=" $ConfigFile; then
-		echo "wrfronius2ip=none" >> $ConfigFile
-	fi
+#	if ! grep -Fq "wrfronius2ip=" $ConfigFile; then
+#		echo "wrfronius2ip=none" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "froniuserzeugung=" $ConfigFile; then
+#		echo "froniuserzeugung=0" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "froniusprimo=" $ConfigFile; then
+#		echo "froniusprimo=0" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "froniusvar2=" $ConfigFile; then
+#		echo "froniusvar2=0" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "froniusmeterlocation=" $ConfigFile; then
+#		echo "froniusmeterlocation=0" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "wrfroniusisgen24=" $ConfigFile; then
+#		echo "wrfroniusisgen24=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "speichermodul=" $ConfigFile; then
 		echo "speichermodul=none" >> $ConfigFile
 	fi
@@ -497,9 +512,6 @@ updateConfig(){
 	fi
 	if ! grep -Fq "releasetrain=" $ConfigFile; then
 		echo "releasetrain=stable" >> $ConfigFile
-	fi
-	if ! grep -Fq "wrkostalpikoip=" $ConfigFile; then
-		echo "wrkostalpikoip=192.168.0.10" >> $ConfigFile
 	fi
 	if ! grep -Fq "solaredgeip=" $ConfigFile; then
 		echo "solaredgeip=192.168.0.10" >> $ConfigFile
@@ -588,9 +600,9 @@ updateConfig(){
 	if ! grep -Fq "pushbstopl=" $ConfigFile; then
 		echo "pushbstopl=1" >> $ConfigFile
 	fi
-	if ! grep -Fq "smashmbezugid=" $ConfigFile; then
-		echo "smashmbezugid=1234567789" >> $ConfigFile
-	fi
+#	if ! grep -Fq "smashmbezugid=" $ConfigFile; then
+#		echo "smashmbezugid=1234567789" >> $ConfigFile
+#	fi
 	if ! grep -Fq "mpm3pmspeichersource=" $ConfigFile; then
 		echo "mpm3pmspeichersource=/dev/tty2" >> $ConfigFile
 	fi
@@ -660,28 +672,28 @@ updateConfig(){
 	if ! grep -Fq "zielladenaktivlp1=" $ConfigFile; then
 		echo "zielladenaktivlp1=0" >> $ConfigFile
 	fi
-	if ! grep -Fq "bezug_smartme_user=" $ConfigFile; then
-		echo "bezug_smartme_user='user'" >> $ConfigFile
-	fi
-	if ! grep -Fq "bezug_smartme_pass=" $ConfigFile; then
-		echo "bezug_smartme_pass=''" >> $ConfigFile
-	else
-		sed -i "/bezug_smartme_pass='/b; s/^bezug_smartme_pass=\(.*\)/bezug_smartme_pass=\'\1\'/g" $ConfigFile
-	fi
-	if ! grep -Fq "bezug_smartme_url=" $ConfigFile; then
-		echo "bezug_smartme_url='https://smart-me.com:443/api/Devices/[ID]'" >> $ConfigFile
-	fi
-	if ! grep -Fq "wr_smartme_user=" $ConfigFile; then
-		echo "wr_smartme_user='user'" >> $ConfigFile
-	fi
-	if ! grep -Fq "wr_smartme_pass=" $ConfigFile; then
-		echo "wr_smartme_pass=''" >> $ConfigFile
-	else
-		sed -i "/wr_smartme_pass='/b; s/^wr_smartme_pass=\(.*\)/wr_smartme_pass=\'\1\'/g" $ConfigFile
-	fi
-	if ! grep -Fq "wr_smartme_url=" $ConfigFile; then
-		echo "wr_smartme_url='https://smart-me.com:443/api/Devices/[ID]'" >> $ConfigFile
-	fi
+#	if ! grep -Fq "bezug_smartme_user=" $ConfigFile; then
+#		echo "bezug_smartme_user='user'" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "bezug_smartme_pass=" $ConfigFile; then
+#		echo "bezug_smartme_pass=''" >> $ConfigFile
+#	else
+#		sed -i "/bezug_smartme_pass='/b; s/^bezug_smartme_pass=\(.*\)/bezug_smartme_pass=\'\1\'/g" $ConfigFile
+#	fi
+#	if ! grep -Fq "bezug_smartme_url=" $ConfigFile; then
+#		echo "bezug_smartme_url='https://smart-me.com:443/api/Devices/[ID]'" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "wr_smartme_user=" $ConfigFile; then
+#		echo "wr_smartme_user='user'" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "wr_smartme_pass=" $ConfigFile; then
+#		echo "wr_smartme_pass=''" >> $ConfigFile
+#	else
+#		sed -i "/wr_smartme_pass='/b; s/^wr_smartme_pass=\(.*\)/wr_smartme_pass=\'\1\'/g" $ConfigFile
+#	fi
+#	if ! grep -Fq "wr_smartme_url=" $ConfigFile; then
+#		echo "wr_smartme_url='https://smart-me.com:443/api/Devices/[ID]'" >> $ConfigFile
+#	fi
 	if ! grep -Fq "wr_piko2_user=" $ConfigFile; then
 		echo "wr_piko2_user='user'" >> $ConfigFile
 	fi
@@ -758,23 +770,26 @@ updateConfig(){
 		echo "soc_Skoda_intervallladen2=10" >> $ConfigFile
 	fi
 	
-	if ! grep -Fq "bydhvuser=" $ConfigFile; then
-		echo "bydhvuser=benutzer" >> $ConfigFile
-	fi
-	if ! grep -Fq "bydhvpass=" $ConfigFile; then
-		echo "bydhvpass=''" >> $ConfigFile
-	else
-		sed -i "/bydhvpass='/b; s/^bydhvpass=\(.*\)/bydhvpass=\'\1\'/g" $ConfigFile
-	fi
-	if ! grep -Fq "bydhvip=" $ConfigFile; then
-		echo "bydhvip=192.168.10.12" >> $ConfigFile
-	fi
-	if ! grep -Fq "e3dcip=" $ConfigFile; then
-		echo "e3dcip=192.168.10.12" >> $ConfigFile
-	fi
-	if ! grep -Fq "e3dc2ip=" $ConfigFile; then
-		echo "e3dc2ip=none" >> $ConfigFile
-	fi
+#	if ! grep -Fq "bydhvuser=" $ConfigFile; then
+#		echo "bydhvuser=benutzer" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "bydhvpass=" $ConfigFile; then
+#		echo "bydhvpass=''" >> $ConfigFile
+#	else
+#		sed -i "/bydhvpass='/b; s/^bydhvpass=\(.*\)/bydhvpass=\'\1\'/g" $ConfigFile
+#	fi
+#	if ! grep -Fq "bydhvip=" $ConfigFile; then
+#		echo "bydhvip=192.168.10.12" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "e3dcip=" $ConfigFile; then
+#		echo "e3dcip=192.168.10.12" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "e3dc2ip=" $ConfigFile; then
+#		echo "e3dc2ip=none" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "e3dcextprod=" $ConfigFile; then
+#		echo "e3dcextprod=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "bezug_http_l1_url=" $ConfigFile; then
 		echo "bezug_http_l1_url='http://192.168.0.17/bezuga1'" >> $ConfigFile
 	fi
@@ -796,15 +811,24 @@ updateConfig(){
 	if ! grep -Fq "offsetpv=" $ConfigFile; then
 		echo "offsetpv=0" >> $ConfigFile
 	fi
-	if ! grep -Fq "kostalplenticoreip=" $ConfigFile; then
-		echo "kostalplenticoreip=192.168.0.30" >> $ConfigFile
-	fi
-	if ! grep -Fq "kostalplenticoreip2=" $ConfigFile; then
-		echo "kostalplenticoreip2=none" >> $ConfigFile
-	fi
-	if ! grep -Fq "kostalplenticoreip3=" $ConfigFile; then
-		echo "kostalplenticoreip3=none" >> $ConfigFile
-	fi
+#	if ! grep -Fq "kostalplenticoreip=" $ConfigFile; then
+#		echo "kostalplenticoreip=192.168.0.30" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "kostalplenticoreip2=" $ConfigFile; then
+#		echo "kostalplenticoreip2=none" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "kostalplenticoreip3=" $ConfigFile; then
+#		echo "kostalplenticoreip3=none" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "wrkostalpikoip=" $ConfigFile; then
+#		echo "wrkostalpikoip=192.168.0.10" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "kostalplenticorehaus=" $ConfigFile; then
+#	echo "kostalplenticorehaus=0" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "kostalplenticorebatt=" $ConfigFile; then
+#	echo "kostalplenticorebatt=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "name_wechselrichter1=" $ConfigFile; then
 		echo "name_wechselrichter1=WR1" >> $ConfigFile
 	fi
@@ -1083,21 +1107,6 @@ updateConfig(){
 	if ! grep -Fq "nrgkickpwlp1=" $ConfigFile; then
 		echo "nrgkickpwlp1=1234" >> $ConfigFile
 	fi
-	if ! grep -Fq "kostalplenticorehaus=" $ConfigFile; then
-		echo "kostalplenticorehaus=0" >> $ConfigFile
-	fi
-	if ! grep -Fq "kostalplenticorebatt=" $ConfigFile; then
-		echo "kostalplenticorebatt=0" >> $ConfigFile
-	fi
-	if ! grep -Fq "froniuserzeugung=" $ConfigFile; then
-		echo "froniuserzeugung=0" >> $ConfigFile
-	fi
-	if ! grep -Fq "froniusprimo=" $ConfigFile; then
-		echo "froniusprimo=0" >> $ConfigFile
-	fi
-	if ! grep -Fq "froniusvar2=" $ConfigFile; then
-		echo "froniusvar2=0" >> $ConfigFile
-	fi
 	if ! grep -Fq "kebaiplp1=" $ConfigFile; then
 		echo "kebaiplp1=192.168.25.25" >> $ConfigFile
 	fi
@@ -1107,9 +1116,9 @@ updateConfig(){
 	if ! grep -Fq "graphinteractiveam=" $ConfigFile; then
 		echo "graphinteractiveam=1" >> $ConfigFile
 	fi
-	if ! grep -Fq "bezug_smartfox_ip=" $ConfigFile; then
-		echo "bezug_smartfox_ip=192.168.0.50" >> $ConfigFile
-	fi
+#	if ! grep -Fq "bezug_smartfox_ip=" $ConfigFile; then
+#		echo "bezug_smartfox_ip=192.168.0.50" >> $ConfigFile
+#	fi
 	if ! grep -Fq "chartlegendmain=" $ConfigFile; then
 		echo "chartlegendmain=1" >> $ConfigFile
 	fi
@@ -1486,9 +1495,9 @@ updateConfig(){
 	if ! grep -Fq "powerfoxid=" $ConfigFile; then
 		echo "powerfoxid=idesmeters" >> $ConfigFile
 	fi
-	if ! grep -Fq "ksemip=" $ConfigFile; then
-		echo "ksemip=ipdesmeters" >> $ConfigFile
-	fi
+#	if ! grep -Fq "ksemip=" $ConfigFile; then
+#		echo "ksemip=ipdesmeters" >> $ConfigFile
+#	fi
 	if ! grep -Fq "mollp1moab=" $ConfigFile; then
 		echo "mollp1moab=06:00" >> $ConfigFile
 	fi
@@ -1580,14 +1589,14 @@ updateConfig(){
 	if ! grep -Fq "soc2pin=" $ConfigFile; then
 		echo "soc2pin=pin" >> $ConfigFile
 	fi
-	if ! grep -Fq "lgessv1ip=" $ConfigFile; then
-		echo "lgessv1ip=youripaddress" >> $ConfigFile
-	fi
-	if ! grep -Fq "lgessv1pass=" $ConfigFile; then
-		echo "lgessv1pass='regnum_as_default_password'" >> $ConfigFile
-	else
-		sed -i "/lgessv1pass='/b; s/^lgessv1pass=\(.*\)/lgessv1pass=\'\1\'/g" $ConfigFile
-	fi
+#	if ! grep -Fq "lgessv1ip=" $ConfigFile; then
+#		echo "lgessv1ip=youripaddress" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "lgessv1pass=" $ConfigFile; then
+#		echo "lgessv1pass='regnum_as_default_password'" >> $ConfigFile
+#	else
+#		sed -i "/lgessv1pass='/b; s/^lgessv1pass=\(.*\)/lgessv1pass=\'\1\'/g" $ConfigFile
+#	fi
 	if ! grep -Fq "ess_api_ver=" $ConfigFile; then
 		echo "ess_api_ver=01.2020" >> $ConfigFile
 	fi
@@ -1641,9 +1650,6 @@ updateConfig(){
 	fi
 	if ! grep -Fq "wrsunwayspw=" $ConfigFile; then
 		echo "wrsunwayspw=''" >> $ConfigFile
-	fi
-	if ! grep -Fq "e3dcextprod=" $ConfigFile; then
-		echo "e3dcextprod=0" >> $ConfigFile
 	fi
 	if ! grep -Fq "schieflastmaxa=" $ConfigFile; then
 		echo "schieflastmaxa=20" >> $ConfigFile
@@ -1956,9 +1962,6 @@ updateConfig(){
 	if ! grep -Fq "pingcheckactive=" $ConfigFile; then
 		echo "pingcheckactive=0" >> $ConfigFile
 	fi
-	if ! grep -Fq "froniusmeterlocation=" $ConfigFile; then
-		echo "froniusmeterlocation=0" >> $ConfigFile
-	fi
 	if ! grep -Fq "soc_tronity_client_id_lp1=" $ConfigFile; then
 		echo "soc_tronity_client_id_lp1=''" >> $ConfigFile
 		echo "soc_tronity_client_secret_lp1=''" >> $ConfigFile
@@ -1982,9 +1985,6 @@ updateConfig(){
 		echo "soc_evcc_password_lp2=''" >> $ConfigFile
 		echo "soc_evcc_vin_lp2=''" >> $ConfigFile
 		echo "soc_evcc_token_lp2=''" >> $ConfigFile
-	fi
-	if ! grep -Fq "wrfroniusisgen24=" $ConfigFile; then
-		echo "wrfroniusisgen24=0" >> $ConfigFile
 	fi
 	if ! grep -Fq "cpunterbrechungmindestlaufzeitaktiv=" $ConfigFile; then
 		echo "cpunterbrechungmindestlaufzeitaktiv=0" >> $ConfigFile

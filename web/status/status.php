@@ -608,11 +608,11 @@
 				}
 			);
 
-			$(function() {
-				if('<?php echo $kostalplenticoreip2old ?>' == 'none') {
-					$('#pvinverter1and2div').hide();
-				}
-			});
+			//$(function() {
+			//	if('<?php echo $kostalplenticoreip2old ?>' == 'none') {
+			//		$('#pvinverter1and2div').hide();
+			//	}
+			//});
 
 			var timeOfLastMqttMessage = 0;  // holds timestamp of last received message
 			var landingpageShown = false;  // holds flag for landing page being shown

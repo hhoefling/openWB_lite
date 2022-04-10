@@ -443,7 +443,7 @@
 											<option <?php if($ladeleistungmodulold == "mpm3pmll") echo "selected" ?> value="mpm3pmll">MPM3PM</option>
 											<option <?php if($ladeleistungmodulold == "sdm120modbusll") echo "selected" ?> value="sdm120modbusll">SDM 120 Modbus</option>
 											<option <?php if($ladeleistungmodulold == "sdm630modbusll") echo "selected" ?> value="sdm630modbusll">SDM 630 Modbus</option>
-											<option <?php if($ladeleistungmodulold == "smaemd_ll") echo "selected" ?> value="smaemd_ll">SMA Energy Meter</option>
+											<!--<option <?php if($ladeleistungmodulold == "smaemd_ll") echo "selected" ?> value="smaemd_ll">SMA Energy Meter</option> -->
 											<option <?php if($ladeleistungmodulold == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">Simple EVSE Wifi</option>
 										</optgroup>
 										<optgroup label="generische Module">
@@ -657,6 +657,7 @@
 									Keine Konfiguration erforderlich.
 								</div>
 							</div>
+<!--							
 							<div id="llsma" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -670,6 +671,7 @@
 									</div>
 								</div>
 							</div>
+-->							
 							<div id="mqttll" class="hide">
 								<div class="alert alert-info">
 									Keine Konfiguration erforderlich.<br>
@@ -2221,9 +2223,9 @@
 								showSection('#llmsdm');
 								showSection('#rs485lanlp1');
 							}
-							if($('#ladeleistungmodul').val() == 'smaemd_ll') {
-								showSection('#llsma');
-							}
+							//if($('#ladeleistungmodul').val() == 'smaemd_ll') {
+							//	showSection('#llsma');
+							//}
 							if($('#ladeleistungmodul').val() == 'sdm120modbusll') {
 								showSection('#sdm120div');
 								showSection('#rs485lanlp1');

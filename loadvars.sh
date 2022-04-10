@@ -410,12 +410,11 @@ loadvars(){
 #			echo 1 > /var/www/html/openWB/ramdisk/pv1vorhanden
 #			pv1vorhanden="1"
 #		fi
-		if [[ $speichermodul == "speicher_e3dc" ]] ; then
-			pvwatt=$(</var/www/html/openWB/ramdisk/pvwatt)
-			echo 1 > /var/www/html/openWB/ramdisk/pv1vorhanden
-			pv1vorhanden="1"
-
-		fi
+#		if [[ $speichermodul == "speicher_e3dc" ]] ; then
+#			pvwatt=$(</var/www/html/openWB/ramdisk/pvwatt)
+#			echo 1 > /var/www/html/openWB/ramdisk/pv1vorhanden
+#			pv1vorhanden="1"
+# 		fi
 		if [[ $speichermodul == "speicher_sonneneco" ]] ; then
 			pvwatt=$(</var/www/html/openWB/ramdisk/pvwatt)
 			echo 1 > /var/www/html/openWB/ramdisk/pv1vorhanden
@@ -800,7 +799,7 @@ loadvars(){
 		echo "0" > /var/www/html/openWB/ramdisk/hausverbrauch.invalid
 	fi
 	echo $hausverbrauch > /var/www/html/openWB/ramdisk/hausverbrauch
-	fronius_sm_bezug_meterlocation=$(</var/www/html/openWB/ramdisk/fronius_sm_bezug_meterlocation)
+	#fronius_sm_bezug_meterlocation=$(</var/www/html/openWB/ramdisk/fronius_sm_bezug_meterlocation)
 
 
 	usesimbezug=$( (test ! -r modules/$wattbezugmodul/usesim && echo "0") || cat  modules/$wattbezugmodul/usesim   )

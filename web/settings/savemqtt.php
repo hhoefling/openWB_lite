@@ -235,6 +235,7 @@ topic openWB/housebattery/# out 2 "" $remotePrefix
 
 # export all charge point data to remote
 topic openWB/pv/# out 2 "" $remotePrefix
+
 EOS
 	);
 }

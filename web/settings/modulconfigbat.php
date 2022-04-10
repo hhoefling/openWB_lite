@@ -69,18 +69,18 @@
 									</optgroup>
 									<optgroup label="andere Hersteller">
 							<!--		<option <?php if($speichermodulold == "speicher_alphaess") echo "selected" ?> value="speicher_alphaess">Alpha ESS</option> -->
-										<option <?php if($speichermodulold == "speicher_bydhv") echo "selected" ?> value="speicher_bydhv">BYD</option>
-										<option <?php if($speichermodulold == "speicher_e3dc") echo "selected" ?> value="speicher_e3dc">E3DC Speicher</option>
-										<option <?php if($speichermodulold == "speicher_fronius") echo "selected" ?> value="speicher_fronius">Fronius Speicher (Solar Battery oder BYD HV/HVS/HVM)</option>
-										<option <?php if($speichermodulold == "speicher_kostalplenticore") echo "selected" ?> value="speicher_kostalplenticore">Kostal Plenticore mit Speicher</option>
-										<option <?php if($speichermodulold == "speicher_lgessv1") echo "selected" ?> value="speicher_lgessv1">LG ESS 1.0VI</option>
+							<!--		<option <?php if($speichermodulold == "speicher_bydhv") echo "selected" ?> value="speicher_bydhv">BYD</option> -->
+							<!--		<option <?php if($speichermodulold == "speicher_e3dc") echo "selected" ?> value="speicher_e3dc">E3DC Speicher</option> -->
+							<!--		<option <?php if($speichermodulold == "speicher_fronius") echo "selected" ?> value="speicher_fronius">Fronius Speicher (Solar Battery oder BYD HV/HVS/HVM)</option> -->
+							<!--		<option <?php if($speichermodulold == "speicher_kostalplenticore") echo "selected" ?> value="speicher_kostalplenticore">Kostal Plenticore mit Speicher</option> -->
+							<!--		<option <?php if($speichermodulold == "speicher_lgessv1") echo "selected" ?> value="speicher_lgessv1">LG ESS 1.0VI</option> -->
 							<!--		<option <?php if($speichermodulold == "speicher_fems") echo "selected" ?> value="speicher_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option> -->
 										<option <?php if($speichermodulold == "speicher_rct") echo "selected" ?> value="speicher_rct">RCT</option>
 										<option <?php if($speichermodulold == "speicher_rct2") echo "selected" ?> value="speicher_rct2">RCT V.2</option>
 										<option <?php if($speichermodulold == "speicher_rct2h") echo "selected" ?> value="speicher_rct2h">RCT V.2h</option>
-										<option <?php if($speichermodulold == "speicher_siemens") echo "selected" ?> value="speicher_siemens">Siemens</option>
-										<option <?php if($speichermodulold == "speicher_sbs25") echo "selected" ?> value="speicher_sbs25">SMA Sunny Boy Storage</option>
-										<option <?php if($speichermodulold == "speicher_sunnyisland") echo "selected" ?> value="speicher_sunnyisland">SMA Sunny Island</option>
+							<!--		<option <?php if($speichermodulold == "speicher_siemens") echo "selected" ?> value="speicher_siemens">Siemens</option> -->
+							<!--		<option <?php if($speichermodulold == "speicher_sbs25") echo "selected" ?> value="speicher_sbs25">SMA Sunny Boy Storage</option> -->
+							<!--		<option <?php if($speichermodulold == "speicher_sunnyisland") echo "selected" ?> value="speicher_sunnyisland">SMA Sunny Island</option> -->
 										<option <?php if($speichermodulold == "speicher_solaredge") echo "selected" ?> value="speicher_solaredge">Solaredge Speicher</option>
 										<option <?php if($speichermodulold == "speicher_solarwatt") echo "selected" ?> value="speicher_solarwatt">Solarwatt My Reserve</option>
 										<option <?php if($speichermodulold == "speicher_solax") echo "selected" ?> value="speicher_solax">Solax Speicher</option>
@@ -101,7 +101,7 @@
 								</select>
 							</div>
 						</div>
-
+<!--
 						<div id="divspeicherlgessv1" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -134,7 +134,7 @@
 								</div>
 							</div>
 						</div>
-
+-->
 						<div id="divspeicherkit" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -218,7 +218,7 @@
 								Hier bitte die IP Adresse des ModbusGateway's eintragen.
 							</div>
 						</div>
-						
+
 <!--						
 						<div id="divspeicherfems" class="hide">
 							<div class="form-group">
@@ -257,13 +257,13 @@
 								</div>
 							</div>
 						</div>
-
+<!--
 						<div id="divspeichersiemens" class="hide">
 							<div class="alert alert-info">
 								Im Siemens Speicher muss als Schnittstelle <span class="text-info">openWB</span> gewählt werden.
 							</div>
 						</div>
-
+-->
 						<div id="divspeichersungrow" class="hide">
 							<div class="alert alert-info">
 								Es muss Sungrow als PV und EVU Modul gewählt werden.
@@ -400,7 +400,7 @@
 								</div>
 							</div>
 						</div>
-
+<!--
 						<div id="divspeichere3dc" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -431,7 +431,7 @@
 								</div>
 							</div>
 						</div>
-
+-->
 						<div id="divspeichersbs25" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -487,20 +487,21 @@
 								Die IP des Wechselrichters wird im dazugehörigen Solax PV-Modul eingestellt.
 							</div>
 						</div>
-
+<!--
 						<div id="divspeicherplenti" class="hide">
 							<div class="alert alert-info">
 								Ein am 1. Kostal Plenticore angeschlossener Speicher setzt einen EM300/KSEM voraus.
 								Nach entsprechender Auswahl im Strombezugsmessmodul und Konfiguration der IP des WR im PV-Modul erfolgt das Auslesen des Speichers über den WR ohne weitere Einstellungen.
 							</div>
 						</div>
-
+-->						
+<!--
 						<div id="divspeicherfronius" class="hide">
 							<div class="alert alert-info">
 								Die IP des Wechselrichters wird im dazugehörigen Fronius PV-Modul eingestellt.
 							</div>
 						</div>
-
+-->
 						<div id="divspeicherhttp" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -580,6 +581,7 @@
 							</div>
 						</div>
 
+<!--
 						<div id="divspeicherbydhv" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -607,7 +609,7 @@
 								</div>
 							</div>
 						</div>
-
+-->
 						<div id="divspeichermpm3pm" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -650,10 +652,10 @@
 								hideSection('#divspeichermqtt');
 								hideSection('#divspeicherhttp');
 								hideSection('#divspeichermpm3pm');
-								hideSection('#divspeicherbydhv');
-								hideSection('#divspeicherfronius');
-								hideSection('#divspeichere3dc');
-								hideSection('#divspeichersbs25');
+								//hideSection('#divspeicherbydhv');
+								//hideSection('#divspeicherfronius');
+								//hideSection('#divspeichere3dc');
+								//hideSection('#divspeichersbs25');
 								hideSection('#divspeichersolaredge');
 								hideSection('#divspeichersolax');
 								hideSection('#divspeicherpw');
@@ -662,13 +664,13 @@
 								hideSection('#divspeicherseco');
 								hideSection('#divspeicherkit');
 								hideSection('#divspeichervarta');
-<!--				 		    hideSection('#divspeicheralphaess');  -->
+//					 		    hideSection('#divspeicheralphaess');  
 								hideSection('#divspeichervictron');
 								hideSection('#divspeicherstuder');
-								hideSection('#divspeicherlgessv1');
-<!--							hideSection('#divspeicherfems'); -->
+//								//hideSection('#divspeicherlgessv1'); 
+//								//hideSection('#divspeicherfems'); 
 								hideSection('#divspeicherip');
-								hideSection('#divspeichersiemens');
+								//hideSection('#divspeichersiemens');
 								hideSection('#divspeicherrct');
 								hideSection('#divspeicherrct2');
 								hideSection('#divspeichersungrow');
@@ -690,10 +692,10 @@
 									showSection('#divspeicherrct');
 									showSection('#divspeicherrct2');
 								}
-								if($('#speichermodul').val() == 'speicher_siemens') {
-									showSection('#divspeicherip');
-									showSection('#divspeichersiemens');
-								}
+								//if($('#speichermodul').val() == 'speicher_siemens') {
+								//	showSection('#divspeicherip');
+								//	showSection('#divspeichersiemens');
+								//}
 								if($('#speichermodul').val() == 'speicher_solarwatt') {
 									showSection('#divspeichersolarwatt');
 									showSection('#divspeicherip');
@@ -733,18 +735,18 @@
 								if($('#speichermodul').val() == 'mpm3pmspeicher')   {
 									showSection('#divspeichermpm3pm');
 								}
-								if($('#speichermodul').val() == 'speicher_bydhv')   {
-									showSection('#divspeicherbydhv');
-								}
-								if($('#speichermodul').val() == 'speicher_fronius')   {
-									showSection('#divspeicherfronius');
-								}
-								if($('#speichermodul').val() == 'speicher_e3dc')   {
-									showSection('#divspeichere3dc');
-								}
-								if($('#speichermodul').val() == 'speicher_sbs25')   {
-									showSection('#divspeichersbs25');
-								}
+								//if($('#speichermodul').val() == 'speicher_bydhv')   {
+								//	showSection('#divspeicherbydhv');
+								//}
+								//if($('#speichermodul').val() == 'speicher_fronius')   {
+								//	showSection('#divspeicherfronius');
+								//}
+								//if($('#speichermodul').val() == 'speicher_e3dc')   {
+								//	showSection('#divspeichere3dc');
+								//}
+								//if($('#speichermodul').val() == 'speicher_sbs25')   {
+								//	showSection('#divspeichersbs25');
+								//}
 								if($('#speichermodul').val() == 'speicher_solaredge')   {
 									showSection('#divspeichersolaredge');
 								}
@@ -757,15 +759,15 @@
 								if($('#speichermodul').val() == 'speicher_powerwall')   {
 									showSection('#divspeicherpw');
 								}
-								if($('#speichermodul').val() == 'speicher_kostalplenticore')   {
-									showSection('#divspeicherplenti');
-								}
+								//if($('#speichermodul').val() == 'speicher_kostalplenticore')   {
+								//	showSection('#divspeicherplenti');
+								//}
 								if($('#speichermodul').val() == 'speicher_sunnyisland')   {
 									showSection('#divspeichersunnyisland');
 								}
-								if($('#speichermodul').val() == 'speicher_lgessv1')   {
-									showSection('#divspeicherlgessv1');
-								}
+								//if($('#speichermodul').val() == 'speicher_lgessv1')   {
+								//	showSection('#divspeicherlgessv1');
+								//}
 							}
 
 							$(function() {
