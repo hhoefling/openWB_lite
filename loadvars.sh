@@ -415,11 +415,11 @@ loadvars(){
 #			echo 1 > /var/www/html/openWB/ramdisk/pv1vorhanden
 #			pv1vorhanden="1"
 # 		fi
-		if [[ $speichermodul == "speicher_sonneneco" ]] ; then
-			pvwatt=$(</var/www/html/openWB/ramdisk/pvwatt)
-			echo 1 > /var/www/html/openWB/ramdisk/pv1vorhanden
-			pv1vorhanden="1"
-		fi
+#		if [[ $speichermodul == "speicher_sonneneco" ]] ; then
+#			pvwatt=$(</var/www/html/openWB/ramdisk/pvwatt)
+#			echo 1 > /var/www/html/openWB/ramdisk/pv1vorhanden
+#			pv1vorhanden="1"
+#		fi
 	else
 		speichervorhanden="0"
 		echo 0 > /var/www/html/openWB/ramdisk/speichervorhanden

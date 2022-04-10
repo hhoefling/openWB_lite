@@ -96,11 +96,11 @@
 						<!--			<option <?php if($wattbezugmodulold == "bezug_solarwatt") echo "selected" ?> value="bezug_solarwatt">Solarwatt / My Reserve Speicher</option>  -->
 						<!--			<option <?php if($wattbezugmodulold == "bezug_solarworld") echo "selected" ?> value="bezug_solarworld">Solarworld</option>  -->
 						<!--			<option <?php if($wattbezugmodulold == "bezug_solax") echo "selected" ?> value="bezug_solax">Solax</option> -->
-										<option <?php if($wattbezugmodulold == "bezug_sonneneco") echo "selected" ?> value="bezug_sonneneco">Sonnen eco</option>
-										<option <?php if($wattbezugmodulold == "bezug_sungrow") echo "selected" ?> value="bezug_sungrow">Sungrow Speicher</option>
+						<!--			<option <?php if($wattbezugmodulold == "bezug_sonneneco") echo "selected" ?> value="bezug_sonneneco">Sonnen eco</option> -->
+						<!--  		<option <?php if($wattbezugmodulold == "bezug_sungrow") echo "selected" ?> value="bezug_sungrow">Sungrow Speicher</option> -->
 										<option <?php if($wattbezugmodulold == "bezug_powerwall") echo "selected" ?> value="bezug_powerwall">Tesla Powerwall</option>
-										<option <?php if($wattbezugmodulold == "bezug_varta") echo "selected" ?> value="bezug_varta">Varta Speicher</option>
-										<option <?php if($wattbezugmodulold == "bezug_victrongx") echo "selected" ?> value="bezug_victrongx">Victron (z.B. GX)</option>
+						<!--			<option <?php if($wattbezugmodulold == "bezug_varta") echo "selected" ?> value="bezug_varta">Varta Speicher</option> -->
+						<!--			<option <?php if($wattbezugmodulold == "bezug_victrongx") echo "selected" ?> value="bezug_victrongx">Victron (z.B. GX)</option> -->
 									</optgroup>
 									<optgroup label="generische Module">
 										<option <?php if($wattbezugmodulold == "bezug_http") echo "selected" ?> value="bezug_http">HTTP</option>
@@ -120,6 +120,7 @@
 							</div>
 						</div>
 -->						
+<!--
 						<div id="wattbezugsungrow" class="hide">
 							<div class="form-row mb-1">
 								<label for="sungrowsr" class="col-md-4 col-form-label">Version des Sungrow</label>
@@ -131,7 +132,8 @@
 								</div>
 							</div>
 						</div>
-
+-->
+<!--
 						<div id="wattbezugsonneneco" class="hide">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich. Alle Einstellungen werden in dem Speicher-Modul vorgenommen.
@@ -141,11 +143,14 @@
 								Mit diesem Modul ist kein Lastmanagement möglich, da keine Ströme der einzelnen Phasen gemessen werden!
 							</div>
 						</div>
+-->
+<!--
 						<div id="wattbezugvarta" class="hide">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich. Es muss beim Speicher Varta ausgewählt werden.
 							</div>
 						</div>
+-->
 <!--
 						<div id="wattbezugjanitza" class="hide">
 							<div class="card-text alert alert-info">
@@ -269,6 +274,7 @@
 							</div>
 						</div>
 -->
+<!--
 						<div id="wattbezugvictrongx" class="hide">
 							<div class="form-row mb-1">
 								<label for="bezug_victronip" class="col-md-4 col-form-label">Victron IP</label>
@@ -288,6 +294,7 @@
 								</div>
 							</div>
 						</div>
+-->
 <!--
 						<div id="wattbezugfems" class="hide">
 							<div class="form-row mb-1">
@@ -922,13 +929,13 @@
 								//hideSection('#wattbezugkostalsmartenergymeter');
 								//hideSection('#wattbezugsmartfox');
 								//hideSection('#wattbezugpowerwall');
-								hideSection('#wattbezugvictrongx');
+								//hideSection('#wattbezugvictrongx');
 								//hideSection('#wattbezugsolarview');
 								//hideSection('#wattbezugdiscovergy');
 								//hideSection('#wattbezuglgessv1');
 								hideSection('#wattbezugmqtt');
-								hideSection('#wattbezugsonneneco');
-								hideSection('#wattbezugvarta');
+								//hideSection('#wattbezugsonneneco');
+								//hideSection('#wattbezugvarta');
 								//hideSection('#wattbezugfems');
 								//hideSection('#wattbezugsiemens');
 								//hideSection('#wattbezugpowerdog');
@@ -936,7 +943,7 @@
 								hideSection('#wattbezugrct');
 								hideSection('#wattbezugip');
 								// hideSection('#wattbezugalphaess');
-								hideSection('#wattbezugsungrow');
+								//hideSection('#wattbezugsungrow');
 								//hideSection('#wattbezugsolarwatt');
 								//hideSection('#wattbezugjanitza');
 								// hideSection('#wattbezugcarlogavazzilan');
@@ -951,15 +958,15 @@
 								// if($('#wattbezugmodul').val() == 'bezug_alphaess') {
 								// 	showSection('#wattbezugalphaess');
 								// }
-								if($('#wattbezugmodul').val() == 'bezug_sungrow') {
-									showSection('#wattbezugsungrow');
-								}
-								if($('#wattbezugmodul').val() == 'bezug_sonneneco') {
-									showSection('#wattbezugsonneneco');
-								}
-								if($('#wattbezugmodul').val() == 'bezug_varta') {
-									showSection('#wattbezugvarta');
-								}
+								//if($('#wattbezugmodul').val() == 'bezug_sungrow') {
+								//	showSection('#wattbezugsungrow');
+								//}
+								//if($('#wattbezugmodul').val() == 'bezug_sonneneco') {
+								//	showSection('#wattbezugsonneneco');
+								//}
+								//if($('#wattbezugmodul').val() == 'bezug_varta') {
+								//	showSection('#wattbezugvarta');
+								//}
 								//if($('#wattbezugmodul').val() == 'bezug_siemens') {
 								//	showSection('#wattbezugsiemens');
 								//	showSection('#wattbezugip');
@@ -1009,9 +1016,9 @@
 								if($('#wattbezugmodul').val() == 'bezug_mqtt') {
 									showSection('#wattbezugmqtt');
 								}
-								if($('#wattbezugmodul').val() == 'bezug_victrongx') {
-									showSection('#wattbezugvictrongx');
-								}
+								//if($('#wattbezugmodul').val() == 'bezug_victrongx') {
+								//	showSection('#wattbezugvictrongx');
+								//}
 								if($('#wattbezugmodul').val() == 'vzlogger') {
 									showSection('#wattbezugvz');
 								}

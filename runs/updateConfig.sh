@@ -1146,9 +1146,9 @@ updateConfig(){
 	if ! grep -Fq "heutegeladen=" $ConfigFile; then
 		echo "heutegeladen=1" >> $ConfigFile
 	fi
-	if ! grep -Fq "sunnyislandip=" $ConfigFile; then
-		echo "sunnyislandip=192.168.0.17" >> $ConfigFile
-	fi
+#	if ! grep -Fq "sunnyislandip=" $ConfigFile; then
+#		echo "sunnyislandip=192.168.0.17" >> $ConfigFile
+#	fi
 	if ! grep -Fq "bezug1_ip=" $ConfigFile; then
 		echo "bezug1_ip=192.168.0.17" >> $ConfigFile
 		echo "pv1_ipa=192.168.0.17" >> $ConfigFile
@@ -1328,9 +1328,9 @@ updateConfig(){
 	if ! grep -Fq "wr_sdm120id=" $ConfigFile; then
 		echo "wr_sdm120id=2" >> $ConfigFile
 	fi
-	if ! grep -Fq "bezug_victronip=" $ConfigFile; then
-		echo "bezug_victronip=192.168.15.3" >> $ConfigFile
-	fi
+#	if ! grep -Fq "bezug_victronip=" $ConfigFile; then
+#		echo "bezug_victronip=192.168.15.3" >> $ConfigFile
+#	fi
 	if ! grep -Fq "pushbsmarthome=" $ConfigFile; then
 		echo "pushbsmarthome=1" >> $ConfigFile
 	fi
@@ -1906,12 +1906,12 @@ updateConfig(){
 	if ! grep -Fq "stopsocnotpluggedlp1=" $ConfigFile; then
 		echo "stopsocnotpluggedlp1=0" >> $ConfigFile
 	fi
-	if ! grep -Fq "sonnenecoip=" $ConfigFile; then
-		echo "sonnenecoip=192.168.15.3" >> $ConfigFile
-	fi
-	if ! grep -Fq "sonnenecoalternativ=" $ConfigFile; then
-		echo "sonnenecoalternativ=0" >> $ConfigFile
-	fi
+#	if ! grep -Fq "sonnenecoip=" $ConfigFile; then
+#		echo "sonnenecoip=192.168.15.3" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "sonnenecoalternativ=" $ConfigFile; then
+#		echo "sonnenecoalternativ=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "abschaltverzoegerung=" $ConfigFile; then
 		echo "abschaltverzoegerung=600" >> $ConfigFile
 	fi
@@ -1953,12 +1953,12 @@ updateConfig(){
 #	if ! grep -Fq "solaredgesubbat=" $ConfigFile; then
 #		echo "solaredgesubbat=0" >> $ConfigFile
 #	fi
-	if ! grep -Fq "studer_ip=" $ConfigFile; then
-		echo "studer_ip=192.168.1.1" >> $ConfigFile
-		echo "studer_xt=1" >> $ConfigFile
-		echo "studer_vc=1" >> $ConfigFile
-		echo "studer_vc_type=VS" >> $ConfigFile
-	fi
+#	if ! grep -Fq "studer_ip=" $ConfigFile; then
+#		echo "studer_ip=192.168.1.1" >> $ConfigFile
+#		echo "studer_xt=1" >> $ConfigFile
+#		echo "studer_vc=1" >> $ConfigFile
+#		echo "studer_vc_type=VS" >> $ConfigFile
+#	fi
 	if ! grep -Fq "pingcheckactive=" $ConfigFile; then
 		echo "pingcheckactive=0" >> $ConfigFile
 	fi
@@ -1993,12 +1993,12 @@ updateConfig(){
 #	if ! grep -Fq "solarwattmethod=" $ConfigFile; then
 #		echo "solarwattmethod=0" >> $ConfigFile
 #	fi
-	if ! grep -Fq "sungrowsr=" $ConfigFile; then
-		echo "sungrowsr=0" >> $ConfigFile
-	fi
-	if ! grep -Fq "alphav123=" $ConfigFile; then
-		echo "alphav123=0" >> $ConfigFile
-	fi
+#	if ! grep -Fq "sungrowsr=" $ConfigFile; then
+#		echo "sungrowsr=0" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "alphav123=" $ConfigFile; then
+#		echo "alphav123=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "virtual_ip_eth0=" $ConfigFile; then
 		echo "virtual_ip_eth0='192.168.192.5'" >> $ConfigFile
 	fi
