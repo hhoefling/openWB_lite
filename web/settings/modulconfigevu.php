@@ -98,7 +98,7 @@
 						<!--			<option <?php if($wattbezugmodulold == "bezug_solax") echo "selected" ?> value="bezug_solax">Solax</option> -->
 						<!--			<option <?php if($wattbezugmodulold == "bezug_sonneneco") echo "selected" ?> value="bezug_sonneneco">Sonnen eco</option> -->
 						<!--  		<option <?php if($wattbezugmodulold == "bezug_sungrow") echo "selected" ?> value="bezug_sungrow">Sungrow Speicher</option> -->
-										<option <?php if($wattbezugmodulold == "bezug_powerwall") echo "selected" ?> value="bezug_powerwall">Tesla Powerwall</option>
+						<!--			<option <?php if($wattbezugmodulold == "bezug_powerwall") echo "selected" ?> value="bezug_powerwall">Tesla Powerwall</option> -->
 						<!--			<option <?php if($wattbezugmodulold == "bezug_varta") echo "selected" ?> value="bezug_varta">Varta Speicher</option> -->
 						<!--			<option <?php if($wattbezugmodulold == "bezug_victrongx") echo "selected" ?> value="bezug_victrongx">Victron (z.B. GX)</option> -->
 									</optgroup>
@@ -108,7 +108,7 @@
 										<option <?php if($wattbezugmodulold == "bezug_mpm3pm") echo "selected" ?> value="bezug_mpm3pm">MPM3PM</option>
 										<option <?php if($wattbezugmodulold == "bezug_mqtt") echo "selected" ?> value="bezug_mqtt">MQTT</option>
 										<option <?php if($wattbezugmodulold == "sdm630modbusbezug") echo "selected" ?> value="sdm630modbusbezug">SDM 630</option>
-										<option <?php if($wattbezugmodulold == "vzlogger") echo "selected" ?> value="vzlogger">VZLogger</option>
+										<!-- <option <?php if($wattbezugmodulold == "vzlogger") echo "selected" ?> value="vzlogger">VZLogger</option> -->
 									</optgroup>
 								</select>
 							</div>
@@ -494,6 +494,7 @@
 								</div>
 							</div>
 						</div>
+<!--
 						<div id="wattbezugvz" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -538,6 +539,8 @@
 								</div>
 							</div>
 						</div>
+-->
+	
 						<div id="wattbezughttp" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -1019,9 +1022,9 @@
 								//if($('#wattbezugmodul').val() == 'bezug_victrongx') {
 								//	showSection('#wattbezugvictrongx');
 								//}
-								if($('#wattbezugmodul').val() == 'vzlogger') {
-									showSection('#wattbezugvz');
-								}
+								//if($('#wattbezugmodul').val() == 'vzlogger') {
+								//	showSection('#wattbezugvz');
+								//}
 								if($('#wattbezugmodul').val() == 'sdm630modbusbezug')   {
 									showSection('#wattbezugsdm');
 								}

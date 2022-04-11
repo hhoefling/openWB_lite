@@ -150,13 +150,13 @@ if (( rfidakt == 2 ))&& (( rfidenabled )) ; then
 	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid2.py $displayaktiv) &
 fi
 
-# check if tesla wall connector is configured and start daemon
-if [[ $evsecon == twcmanager ]]; then
-	log "twcmanager..."
-	if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
-		screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
-	fi
-fi
+## check if tesla wall connector is configured and start daemon
+#if [[ $evsecon == twcmanager ]]; then#
+#	log "twcmanager..."
+#	if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
+#		screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
+#	fi
+#fi
 
 
 
@@ -377,8 +377,8 @@ if python3 -c "import lxml" &> /dev/null; then
 else
 	sudo pip3 install lxml
 fi
-# update outdated urllib3 for Tesla Powerwall
-pip3 install --upgrade urllib3
+### update outdated urllib3 for Tesla Powerwall
+# pip3 install --upgrade urllib3
 
 
 # update version

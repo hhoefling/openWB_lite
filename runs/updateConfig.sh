@@ -369,33 +369,33 @@ updateConfig(){
 	if ! grep -Fq "hausbezugnone=" $ConfigFile; then
 		echo "hausbezugnone=200" >> $ConfigFile
 	fi
-	if ! grep -Fq "twcmanagerlp1ip=" $ConfigFile; then
-		echo "twcmanagerlp1ip='192.168.0.15'" >> $ConfigFile
-	fi
+#	if ! grep -Fq "twcmanagerlp1ip=" $ConfigFile; then
+#		echo "twcmanagerlp1ip='192.168.0.15'" >> $ConfigFile
+#	fi
 	if ! grep -Fq "httpevseip=" $ConfigFile; then
 		echo "httpevseip='192.168.0.15'" >> $ConfigFile
 	fi
-	if ! grep -Fq "twcmanagerlp1phasen=" $ConfigFile; then
-		echo "twcmanagerlp1phasen=3" >> $ConfigFile
-	fi
-	if ! grep -Fq "twcmanagerlp1httpcontrol=" $ConfigFile; then
-		echo "twcmanagerlp1httpcontrol=0" >> $ConfigFile
-	fi
-	if ! grep -Fq "twcmanagerlp1port=" $ConfigFile; then
-		echo "twcmanagerlp1port=8080" >> $ConfigFile
-	fi
-	if ! grep -Fq "twcmanagerlp2ip=" $ConfigFile; then
-		echo "twcmanagerlp2ip='127.0.0.1'" >> $ConfigFile
-	fi
-	if ! grep -Fq "twcmanagerlp2port=" $ConfigFile; then
-		echo "twcmanagerlp2port=8080" >> $ConfigFile
-	fi
-	if ! grep -Fq "twcmanagerlp2phasen=" $ConfigFile; then
-		echo "twcmanagerlp2phasen=3" >> $ConfigFile
-	fi
-	if ! grep -Fq "twcmanagerlp2httpcontrol=" $ConfigFile; then
-		echo "twcmanagerlp2httpcontrol=0" >> $ConfigFile
-	fi
+#	if ! grep -Fq "twcmanagerlp1phasen=" $ConfigFile; then
+#		echo "twcmanagerlp1phasen=3" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "twcmanagerlp1httpcontrol=" $ConfigFile; then
+#		echo "twcmanagerlp1httpcontrol=0" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "twcmanagerlp1port=" $ConfigFile; then
+#		echo "twcmanagerlp1port=8080" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "twcmanagerlp2ip=" $ConfigFile; then
+#		echo "twcmanagerlp2ip='127.0.0.1'" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "twcmanagerlp2port=" $ConfigFile; then
+#		echo "twcmanagerlp2port=8080" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "twcmanagerlp2phasen=" $ConfigFile; then
+#		echo "twcmanagerlp2phasen=3" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "twcmanagerlp2httpcontrol=" $ConfigFile; then
+#		echo "twcmanagerlp2httpcontrol=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "mpm3pmpvsource=" $ConfigFile; then
 		echo "mpm3pmpvsource=/dev/ttyUSB0" >> $ConfigFile
 	fi
@@ -1077,12 +1077,12 @@ updateConfig(){
 	if ! grep -Fq "speicherpwip=" $ConfigFile; then
 		echo "speicherpwip=192.168.0.10" >> $ConfigFile
 	fi
-	if ! grep -Fq "vartaspeicherip=" $ConfigFile; then
-		echo "vartaspeicherip=192.168.0.10" >> $ConfigFile
-	fi
-	if ! grep -Fq "usevartamodbus=" $ConfigFile; then
-		echo "usevartamodbus=0" >> $ConfigFile
-	fi
+#	if ! grep -Fq "vartaspeicherip=" $ConfigFile; then
+#		echo "vartaspeicherip=192.168.0.10" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "usevartamodbus=" $ConfigFile; then
+#		echo "usevartamodbus=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "adaptpv=" $ConfigFile; then
 		echo "adaptpv=0" >> $ConfigFile
 	fi
@@ -1561,12 +1561,12 @@ updateConfig(){
 	if ! grep -Fq "mollp1soll=" $ConfigFile; then
 		echo "mollp1soll=13" >> $ConfigFile
 	fi
-	if ! grep -Fq "wryoulessip=" $ConfigFile; then
-		echo "wryoulessip=192.168.0.3" >> $ConfigFile
-	fi
-	if ! grep -Fq "wryoulessalt=" $ConfigFile; then
-		echo "wryoulessalt=0" >> $ConfigFile
-	fi
+#	if ! grep -Fq "wryoulessip=" $ConfigFile; then
+#		echo "wryoulessip=192.168.0.3" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "wryoulessalt=" $ConfigFile; then
+#		echo "wryoulessalt=0" >> $ConfigFile
+#	fi
 	if ! grep -Fq "soc_audi_username=" $ConfigFile; then
 		echo "soc_audi_username=demo@demo.de" >> $ConfigFile
 	fi
@@ -1648,18 +1648,18 @@ updateConfig(){
 	if ! grep -Fq "pv2kitversion=" $ConfigFile; then
 		echo "pv2kitversion=0" >> $ConfigFile
 	fi
-	if ! grep -Fq "wrsunwayspw=" $ConfigFile; then
-		echo "wrsunwayspw=''" >> $ConfigFile
-	fi
+#	if ! grep -Fq "wrsunwayspw=" $ConfigFile; then
+#		echo "wrsunwayspw=''" >> $ConfigFile
+#	fi
 	if ! grep -Fq "schieflastmaxa=" $ConfigFile; then
 		echo "schieflastmaxa=20" >> $ConfigFile
 	fi
 	if ! grep -Fq "schieflastaktiv=" $ConfigFile; then
 		echo "schieflastaktiv=0" >> $ConfigFile
 	fi
-	if ! grep -Fq "wrsunwaysip=" $ConfigFile; then
-		echo "wrsunwaysip=192.168.0.10" >> $ConfigFile
-	fi
+#	if ! grep -Fq "wrsunwaysip=" $ConfigFile; then
+#		echo "wrsunwaysip=192.168.0.10" >> $ConfigFile
+#	fi
 	if ! grep -Fq "lastmmaxw=" $ConfigFile; then
 		echo "lastmmaxw=44000" >> $ConfigFile
 	fi

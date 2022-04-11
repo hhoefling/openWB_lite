@@ -166,19 +166,19 @@ function setChargingCurrentWifi () {
 	fi
 }
 
-function setChargingCurrenttwcmanager () {
-	if [[ $evsecon == "twcmanager" ]]; then
-		if [[ $twcmanagerlp1httpcontrol -eq 1 ]]; then
-			if [[ $current -eq 0 ]]; then
-				curl -s --connect-timeout 3 -X POST -d '' "http://$twcmanagerlp1ip:$twcmanagerlp1port/api/cancelChargeNow" > /dev/null
-			else
-				curl -s --connect-timeout 3 -X POST -d '{ "chargeNowRate": '$current', "chargeNowDuration": 86400 }' "http://$twcmanagerlp1ip:$twcmanagerlp1port/api/chargeNow" > /dev/null
-			fi
-		else
-			curl -s --connect-timeout 3 "http://$twcmanagerlp1ip/index.php?&nonScheduledAmpsMax=$current&submit=Save" > /dev/null
-		fi
-	fi
-}
+#function setChargingCurrenttwcmanager () {
+#	if [[ $evsecon == "twcmanager" ]]; then
+#		if [[ $twcmanagerlp1httpcontrol -eq 1 ]]; then
+#			if [[ $current -eq 0 ]]; then
+#				curl -s --connect-timeout 3 -X POST -d '' "http://$twcmanagerlp1ip:$twcmanagerlp1port/api/cancelChargeNow" > /dev/null
+#			else
+#				curl -s --connect-timeout 3 -X POST -d '{ "chargeNowRate": '$current', "chargeNowDuration": 86400 }' "http://$twcmanagerlp1ip:$twcmanagerlp1port/api/chargeNow" > /dev/null
+#			fi
+#		else
+#			curl -s --connect-timeout 3 "http://$twcmanagerlp1ip/index.php?&nonScheduledAmpsMax=$current&submit=Save" > /dev/null
+#		fi
+#	fi
+#}
 
 function setChargingCurrenthttp () {
 	if [[ $evsecon == "httpevse" ]]; then
@@ -330,9 +330,9 @@ function setChargingCurrent () {
 	if [[ $evsecon == "keba" ]]; then
 		setChargingCurrentkeba $current $kebaiplp1
 	fi
-	if [[ $evsecon == "twcmanager" ]]; then
-		setChargingCurrenttwcmanager $current $twcmanagerlp1ip $twcmanagerlp1port $twcmanagerlp1httpcontrol
-	fi
+#	if [[ $evsecon == "twcmanager" ]]; then
+#		setChargingCurrenttwcmanager $current $twcmanagerlp1ip $twcmanagerlp1port $twcmanagerlp1httpcontrol
+#	fi
 	if [[ $evsecon == "ipevse" ]]; then
 		setChargingCurrentIpModbus $current $evseip $ipevseid
 	fi
@@ -483,9 +483,9 @@ if [[ $lastmanagement == "1" ]]; then
 		ipevseid=$evseidlp2
 		chargep1ip=$chargep2ip
 		chargep1cp=$chargep2cp
-		twcmanagerlp1ip=$twcmanagerlp2ip
-		twcmanagerlp1port=$twcmanagerlp2port
-		twcmanagerlp1httpcontrol=$twcmanagerlp2httpcontrol
+#		twcmanagerlp1ip=$twcmanagerlp2ip
+#		twcmanagerlp1port=$twcmanagerlp2port
+#		twcmanagerlp1httpcontrol=$twcmanagerlp2httpcontrol
 		owbpro1ip=$owbpro2ip
 		# dirty call (no parameters, all is set above...)
 		if (( lp2enabled == 0 )); then

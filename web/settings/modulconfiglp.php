@@ -89,7 +89,7 @@
 										<option <?php if($evseconold == "keba") echo "selected" ?> value="keba">Keba</option>
 										<option <?php if($evseconold == "nrgkick") echo "selected" ?> value="nrgkick">NRGKick + Connect</option>
 										<option <?php if($evseconold == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi / smartWB</option>
-										<option <?php if($evseconold == "twcmanager") echo "selected" ?> value="twcmanager">Tesla TWC mit TWCManager</option>
+										<!-- <option <?php if($evseconold == "twcmanager") echo "selected" ?> value="twcmanager">Tesla TWC mit TWCManager</option> -->
 									</optgroup>
 									<optgroup label="generische Module">
 										<option <?php if($evseconold == "dac") echo "selected" ?> value="dac">DAC</option>
@@ -331,6 +331,7 @@
 								<span class="text-info">openWB/set/lp/1/chargeStat</span> Status, ob gerade geladen wird, nur 0 (nein) oder 1 (ja)
 							</div>
 						</div>
+<!--
 						<div id="evsecontwcmanager" class="hide">
 							<input type="hidden" name="ladeleistungmodul" value="twcmanagerlp1">
 							<div class="form-group">
@@ -352,6 +353,7 @@
 								</div>
 							</div>
 						</div>
+-->
 						<div id="evsecongoe" class="hide">
 							<input type="hidden" name="ladeleistungmodul" value="goelp1">
 							<div class="form-group">
@@ -2109,7 +2111,7 @@
 							hideSection('#openwb12mid');
 							hideSection('#openwb12v2mid');
 							hideSection('#evseconhttp');
-							hideSection('#evsecontwcmanager');
+							//hideSection('#evsecontwcmanager');
 							hideSection('#evseconipevse');
 							hideSection('#openwbbuchse');
 							hideSection('#openwbdaemon');
@@ -2184,9 +2186,9 @@
 							if($('#evsecon').val() == 'keba') {
 								showSection('#evseconkeba');
 							}
-							if($('#evsecon').val() == 'twcmanager') {
-								showSection('#evsecontwcmanager');
-							}
+							//if($('#evsecon').val() == 'twcmanager') {
+							//	showSection('#evsecontwcmanager');
+							//}
 							if($('#evsecon').val() == 'ipevse') {
 								showSection('#evseconipevse');
 							}

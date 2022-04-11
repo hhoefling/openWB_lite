@@ -87,7 +87,7 @@
 							<!--		<option <?php if($speichermodulold == "speicher_sonneneco") echo "selected" ?> value="speicher_sonneneco">Sonnen eco</option> -->
 							<!--		<option <?php if($speichermodulold == "speicher_studer") echo "selected" ?> value="speicher_studer">Studer-Innotec System</option> -->
 							<!--		<option <?php if($speichermodulold == "speicher_sungrow") echo "selected" ?> value="speicher_sungrow">Sungrow Hybrid</option> -->
-										<option <?php if($speichermodulold == "speicher_powerwall") echo "selected" ?> value="speicher_powerwall">Tesla Powerwall</option>
+							<!--		<option <?php if($speichermodulold == "speicher_powerwall") echo "selected" ?> value="speicher_powerwall">Tesla Powerwall</option> -->
 							<!--		<option <?php if($speichermodulold == "speicher_tesvoltsma") echo "selected" ?> value="speicher_tesvoltsma">Tesvolt mit SMA</option> -->
 							<!--		<option <?php if($speichermodulold == "speicher_varta") echo "selected" ?> value="speicher_varta">Varta Element u.a.</option> -->
 							<!--		<option <?php if($speichermodulold == "speicher_victron") echo "selected" ?> value="speicher_victron">Victron Speicher (GX o.ä.)</option> -->
@@ -342,6 +342,7 @@
 							</div>
 						</div>
 --->
+<!--
 						<div id="divspeicherpw" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -377,6 +378,7 @@
 								</div>
 							</div>
 						</div>
+-->
 <!--
 						<div id="divspeicherseco" class="hide">
 							<div class="form-group">
@@ -767,9 +769,9 @@
 								//if($('#speichermodul').val() == 'speicher_varta')   {
 								//	showSection('#divspeichervarta');
 								//}
-								if($('#speichermodul').val() == 'speicher_powerwall')   {
-									showSection('#divspeicherpw');
-								}
+								//if($('#speichermodul').val() == 'speicher_powerwall')   {
+								//	showSection('#divspeicherpw');
+								//}
 								//if($('#speichermodul').val() == 'speicher_kostalplenticore')   {
 								//	showSection('#divspeicherplenti');
 								//}
