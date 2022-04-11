@@ -1,6 +1,6 @@
 **Hilfreiche Infos, gesamelt im Forum**
 
-***Modbus Adressen (tcp) ***
+***Modbus Adressen des OpenWB Interbeb modbus Server (tcp) (veraltet, nicht mehr benutzt) ***
 ```
 110  rse
 111  configured chardpoints
