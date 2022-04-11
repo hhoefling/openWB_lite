@@ -336,18 +336,18 @@ updateConfig(){
 	if ! grep -Fq "maxnurpvsoclp1=" $ConfigFile; then
 		echo "maxnurpvsoclp1=100" >> $ConfigFile
 	fi
-	if ! grep -Fq "evnotifyakey=" $ConfigFile; then
-		echo "evnotifyakey=abcdef" >> $ConfigFile
-	fi
-	if ! grep -Fq "evnotifytoken=" $ConfigFile; then
-		echo "evnotifytoken=token" >> $ConfigFile
-	fi
-	if ! grep -Fq "evnotifyakeylp2=" $ConfigFile; then
-		echo "evnotifyakeylp2=abcdef" >> $ConfigFile
-	fi
-	if ! grep -Fq "evnotifytokenlp2=" $ConfigFile; then
-		echo "evnotifytokenlp2=token" >> $ConfigFile
-	fi
+#	if ! grep -Fq "evnotifyakey=" $ConfigFile; then
+#		echo "evnotifyakey=abcdef" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "evnotifytoken=" $ConfigFile; then
+#		echo "evnotifytoken=token" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "evnotifyakeylp2=" $ConfigFile; then
+#		echo "evnotifyakeylp2=abcdef" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "evnotifytokenlp2=" $ConfigFile; then
+#		echo "evnotifytokenlp2=token" >> $ConfigFile
+#	fi
 	if ! grep -Fq "wrjsonwatt=" $ConfigFile; then
 		echo "wrjsonwatt='.watt'" >> $ConfigFile
 	fi
@@ -369,33 +369,33 @@ updateConfig(){
 	if ! grep -Fq "hausbezugnone=" $ConfigFile; then
 		echo "hausbezugnone=200" >> $ConfigFile
 	fi
-#	if ! grep -Fq "twcmanagerlp1ip=" $ConfigFile; then
-#		echo "twcmanagerlp1ip='192.168.0.15'" >> $ConfigFile
-#	fi
+	if ! grep -Fq "twcmanagerlp1ip=" $ConfigFile; then
+		echo "twcmanagerlp1ip='192.168.0.15'" >> $ConfigFile
+	fi
 	if ! grep -Fq "httpevseip=" $ConfigFile; then
 		echo "httpevseip='192.168.0.15'" >> $ConfigFile
 	fi
-#	if ! grep -Fq "twcmanagerlp1phasen=" $ConfigFile; then
-#		echo "twcmanagerlp1phasen=3" >> $ConfigFile
-#	fi
-#	if ! grep -Fq "twcmanagerlp1httpcontrol=" $ConfigFile; then
-#		echo "twcmanagerlp1httpcontrol=0" >> $ConfigFile
-#	fi
-#	if ! grep -Fq "twcmanagerlp1port=" $ConfigFile; then
-#		echo "twcmanagerlp1port=8080" >> $ConfigFile
-#	fi
-#	if ! grep -Fq "twcmanagerlp2ip=" $ConfigFile; then
-#		echo "twcmanagerlp2ip='127.0.0.1'" >> $ConfigFile
-#	fi
-#	if ! grep -Fq "twcmanagerlp2port=" $ConfigFile; then
-#		echo "twcmanagerlp2port=8080" >> $ConfigFile
-#	fi
-#	if ! grep -Fq "twcmanagerlp2phasen=" $ConfigFile; then
-#		echo "twcmanagerlp2phasen=3" >> $ConfigFile
-#	fi
-#	if ! grep -Fq "twcmanagerlp2httpcontrol=" $ConfigFile; then
-#		echo "twcmanagerlp2httpcontrol=0" >> $ConfigFile
-#	fi
+	if ! grep -Fq "twcmanagerlp1phasen=" $ConfigFile; then
+		echo "twcmanagerlp1phasen=3" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp1httpcontrol=" $ConfigFile; then
+		echo "twcmanagerlp1httpcontrol=0" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp1port=" $ConfigFile; then
+		echo "twcmanagerlp1port=8080" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp2ip=" $ConfigFile; then
+		echo "twcmanagerlp2ip='127.0.0.1'" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp2port=" $ConfigFile; then
+		echo "twcmanagerlp2port=8080" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp2phasen=" $ConfigFile; then
+		echo "twcmanagerlp2phasen=3" >> $ConfigFile
+	fi
+	if ! grep -Fq "twcmanagerlp2httpcontrol=" $ConfigFile; then
+		echo "twcmanagerlp2httpcontrol=0" >> $ConfigFile
+	fi
 	if ! grep -Fq "mpm3pmpvsource=" $ConfigFile; then
 		echo "mpm3pmpvsource=/dev/ttyUSB0" >> $ConfigFile
 	fi
@@ -1962,16 +1962,16 @@ updateConfig(){
 	if ! grep -Fq "pingcheckactive=" $ConfigFile; then
 		echo "pingcheckactive=0" >> $ConfigFile
 	fi
-	if ! grep -Fq "soc_tronity_client_id_lp1=" $ConfigFile; then
-		echo "soc_tronity_client_id_lp1=''" >> $ConfigFile
-		echo "soc_tronity_client_secret_lp1=''" >> $ConfigFile
-		echo "soc_tronity_vehicle_id_lp1=''" >> $ConfigFile
-		echo "soc_tronity_intervall=720" >> $ConfigFile
-		echo "soc_tronity_intervallladen=15" >> $ConfigFile
-		echo "soc_tronity_client_id_lp2=''" >> $ConfigFile
-		echo "soc_tronity_client_secret_lp2=''" >> $ConfigFile
-		echo "soc_tronity_vehicle_id_lp2=''" >> $ConfigFile
-	fi
+#	if ! grep -Fq "soc_tronity_client_id_lp1=" $ConfigFile; then
+#		echo "soc_tronity_client_id_lp1=''" >> $ConfigFile
+#		echo "soc_tronity_client_secret_lp1=''" >> $ConfigFile
+#		echo "soc_tronity_vehicle_id_lp1=''" >> $ConfigFile
+#		echo "soc_tronity_intervall=720" >> $ConfigFile
+#		echo "soc_tronity_intervallladen=15" >> $ConfigFile
+#		echo "soc_tronity_client_id_lp2=''" >> $ConfigFile
+#		echo "soc_tronity_client_secret_lp2=''" >> $ConfigFile
+#		echo "soc_tronity_vehicle_id_lp2=''" >> $ConfigFile
+#	fi
 	if ! grep -Fq "soc_evcc_type_lp1=" $ConfigFile; then
 		echo "soc_evcc_type_lp1=vw" >> $ConfigFile
 		echo "soc_evcc_username_lp1=''" >> $ConfigFile

@@ -151,12 +151,12 @@ if (( rfidakt == 2 ))&& (( rfidenabled )) ; then
 fi
 
 ## check if tesla wall connector is configured and start daemon
-#if [[ $evsecon == twcmanager ]]; then#
-#	log "twcmanager..."
-#	if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
-#		screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
-#	fi
-#fi
+if [[ $evsecon == twcmanager ]]; then#
+	log "twcmanager..."
+	if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
+		screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
+	fi
+fi
 
 
 
