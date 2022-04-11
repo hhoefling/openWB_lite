@@ -312,8 +312,19 @@ else
 fi
 
 # check if our smarthome handler is running
-if ps ax |grep -v grep |grep "python3 $OPENWBBASEDIR/runs/smarthomehandler.py" > /dev/null
-then
+
+smartmq=$(<$OPENWBBASEDIR/ramdisk/smartmq)
+
+if (( smartmq == 0 )); then
+
+	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/smarthomemq.py" > /dev/null
+	then
+		sudo kill $(ps aux |grep '[s]marthomemq.py' | awk '{print $2}')
+		openwbDebugLog "MAIN" 1 "smarthomemq handler stoped"
+	fi
+
+	if ps ax |grep -v grep |grep "python3 $OPENWBBASEDIR/runs/smarthomehandler.py" > /dev/null
+	then
 	openwbDebugLog "MAIN" 1 "smarthome handler is already running"
 	else
 	openwbDebugLog "MAIN" 0 "smarthome handler not running! restarting process"
