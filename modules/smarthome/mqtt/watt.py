@@ -18,13 +18,10 @@ def on_message(client, userdata, msg):
     global numberOfSupportedDevices
     global aktpower
     global powerc
-#    print ('%s devicenr %s message %s payload %s' % (time_string,devicenumber,msg.topic,msg.payload),file=fx)
     if (( "openWB/SmartHome/set/Device" in msg.topic) and ("Aktpower" in msg.topic)):
-#       print ('%s devicenr detected %s message %s payload %s' % (time_string,devicenumber,msg.topic,msg.payload),file=fx)
         devicenumb=re.sub(r'\D', '', msg.topic)
         if ( 1 <= int(devicenumb) <= numberOfSupportedDevices ):
             aktpower = int(msg.payload)
-#            print ('%s aktpower %6d ' % (time_string,aktpower),file=fx)
     if (( "openWB/SmartHome/set/Device" in msg.topic) and ("Powerc" in msg.topic)):
         devicenumb=re.sub(r'\D', '', msg.topic)
         if ( 1 <= int(devicenumb) <= numberOfSupportedDevices ):
@@ -41,7 +38,7 @@ else:
     fx = open( file_string , 'w')
 named_tuple = time.localtime() # getstruct_time
 time_string = time.strftime("%m/%d/%Y, %H:%M:%S mqtt watt.py", named_tuple)
-client = mqtt.Client("openWB-mqttsmarthomecust")
+client = mqtt.Client("openWB-mqttsmarthomecust" + devicenumber)
 client.on_connect = on_connect
 client.on_message = on_message
 startTime = time.time()
@@ -66,5 +63,4 @@ answer = '{"power":' + str(aktpower) + ',"powerc":' + str(powerc) + ',"on":' + s
 f1 = open('/var/www/html/openWB/ramdisk/smarthome_device_ret' + str(devicenumber), 'w')
 json.dump(answer,f1)
 f1.close()
-#print ('%s devicenr %s aktpower %6d ' % (time_string,devicenumber,aktpower),file=fx)
 fx.close()
