@@ -1,11 +1,24 @@
 #!/bin/bash
+OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
+RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
+MODULEDIR=$(cd `dirname $0` && pwd)
+#DMOD="EVU"
+DMOD="MAIN"
+Debug=$debug
 
-wattbezug=0
+#For development only
+#Debug=1
 
-openwbDebugLog MAIN  0 "wattbezug: ${wattbezug} Module not supportet"
-openwbModulePublishState "EVU" 2 "Module: <bezug_kostalpiko> aktuell nicht unterstuetzt"
+if [ $DMOD == "MAIN" ]; then
+    MYLOGFILE="$RAMDISKDIR/openWB.log"
+else
+    MYLOGFILE="$RAMDISKDIR/evu_json.log"
+fi
 
+python3 /var/www/html/openWB/modules/bezug_kostalpiko/kostal_piko.py "${wrkostalpikoip}" "${speichermodul}" >>$MYLOGFILE 2>&1
+ret=$?
+
+openwbDebugLog ${DMOD} 2 "RET: ${ret}"
+
+wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
 echo $wattbezug
-
-
-

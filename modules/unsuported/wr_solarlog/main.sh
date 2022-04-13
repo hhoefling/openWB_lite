@@ -27,9 +27,9 @@ if ! [[ $pvkwh =~ $re ]] ; then
 	openwbDebugLog ${DMOD} 2 "PVkWh: NaN get prev. Value"
 	pvkwh=$(</var/www/html/openWB/ramdisk/pvkwh)
 fi
+
 openwbDebugLog ${DMOD} 2 "pvwatt: $pvwatt"
 openwbDebugLog ${DMOD} 2 "pvkwh: $pvkwh"
 echo $pvwatt
 echo $pvwatt > /var/www/html/openWB/ramdisk/pvwatt
 echo $pvkwh > /var/www/html/openWB/ramdisk/pvkwh
-

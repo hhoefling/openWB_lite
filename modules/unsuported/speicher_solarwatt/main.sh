@@ -1,30 +1,49 @@
 #!/bin/bash
 
 OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
-RAMDISKDIR="${OPENWBBASEDIR}/ramdisk"
-#MODULEDIR=$(cd `dirname $0` && pwd)
-#DMOD="BATT"
-DMOD="MAIN"
+RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
+MODULE="Speicher"
+LOGFILE="$RAMDISKDIR/openWB.log"
 Debug=$debug
 
-#For Development only
-#Debug=1
+DebugLog(){
+	if (( Debug > 0 )); then
+		timestamp=`date +"%Y-%m-%d %H:%M:%S"`
+		echo "$timestamp: ${MODULE}: $@" >> $LOGFILE
+	fi
+}
 
-if [ ${DMOD} == "MAIN" ]; then
-    MYLOGFILE="${RAMDISKDIR}/openWB.log"
-else
-    MYLOGFILE="${RAMDISKDIR}/speicher.log"
+if (( $solarwattmethod == 0 )); then 	#Abruf über Energy Manager
+	sresponse=$(curl --connect-timeout 5 -s "http://${speicher1_ip}/rest/kiwigrid/wizard/devices")
+
+	if ((${#sresponse}  < 10)); then
+		exit 1
+	fi
+	
+	speichere=$(echo $sresponse | jq '.result.items | .[] | select(.tagValues.PowerConsumedFromStorage.value != null) | .tagValues.PowerConsumedFromStorage.value' | sed 's/\..*$//')
+	speicherein=$(echo $sresponse | jq '.result.items | .[] | select(.tagValues.PowerOutFromStorage.value != null) | .tagValues.PowerOutFromStorage.value' | sed 's/\..*$//') 
+	speicheri=$(echo $sresponse | jq '.result.items | .[] | select(.tagValues.PowerBuffered.value != null) | .tagValues.PowerBuffered.value' | sed 's/\..*$//') 
+
+	speicherleistung=$(echo "scale=0; ($speichere + $speicherin - $speicheri) *-1" | bc) 
+	speichersoc=$(echo $sresponse | jq '.result.items | .[] | select(.tagValues.StateOfCharge.value != null) | .tagValues.StateOfCharge.value' | sed 's/\..*$//') 
 fi
 
-openwbDebugLog ${DMOD} 2 "Speicher Methode: ${solarwattmethod}"
-openwbDebugLog ${DMOD} 2 "Speicher IP1: ${speicher1_ip}"
-openwbDebugLog ${DMOD} 2 "Speicher IP2: ${speicher1_ip2}"
+if (( $solarwattmethod == 1 )); then 	#Abruf über Gateway
+	sresponse=$(curl --connect-timeout 3 -s "http://${speicher1_ip2}:8080/")
 
-python3 /var/www/html/openWB/modules/speicher_solarwatt/solarwatt.py "${solarwattmethod}" "${speicher1_ip}" "${speicher1_ip2}" >>$MYLOGFILE 2>&1
-ret=$?
+	if ((${#sresponse}  < 10)); then
+		exit 1
+	fi
 	
-openwbDebugLog ${DMOD} 2 "RET: ${ret}"
+	ibat=$(echo $sresponse | jq '.FData.IBat') 
+	vbat=$(echo $sresponse | jq '.FData.VBat') 
+	speicherleistung=$(echo "($ibat * $vbat)" | bc) 
+	speicherleistung=$(echo "scale=0; ($speicherleistung) / (-1)" | bc)
+	speichersoc=$(echo $sresponse | jq '.SData.SoC' | sed 's/\..*$//')
+fi
 
-speicherleistung=$(<${RAMDISKDIR}/speicherleistung)
+DebugLog "Speicherleistung: ${speicherleistung} W"
+echo $speicherleistung > /var/www/html/openWB/ramdisk/speicherleistung 
 
-openwbDebugLog ${DMOD} 1 "BattLeistung: ${speicherleistung}"
+DebugLog "SpeicherSoC: ${speichersoc} %"
+echo $speichersoc > /var/www/html/openWB/ramdisk/speichersoc 

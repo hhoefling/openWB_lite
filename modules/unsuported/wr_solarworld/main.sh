@@ -9,7 +9,7 @@ wr_watt=$(LC_ALL=C printf "%.0f\n" $(echo $emanagerantwort | jq '.PowerTotalPV')
 ra='^-?[0-9]+$'
 
 if ! [[ $wr_watt =~ $ra ]] ; then
-	 wr_watt="0"
+	wr_watt="0"
 fi
 
 # PV ezeugte Leistung muss negativ sein

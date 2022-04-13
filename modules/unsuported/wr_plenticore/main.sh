@@ -8,7 +8,7 @@
 #
 # 2019 Michael Ortenstein
 # This file is part of openWB
-#
+# 
 # 01.09.2021	skl	Python3 , Anpassung auf neue .py
 #########################################################
 

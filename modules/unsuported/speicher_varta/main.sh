@@ -19,6 +19,3 @@ if [[ "$usevartamodbus" != "1" ]]; then
 else 
 	python /var/www/html/openWB/modules/speicher_varta/varta.py $vartaspeicherip $vartaspeicher2ip
 fi
-
-
-

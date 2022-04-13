@@ -17,17 +17,15 @@ pvkwh=$(echo "scale=3 ; $pvkwh * 1000" | bc)
 # Prüfen ob Werte gültig
 re='^[-+]?[0-9]+\.?[0-9]*$'
 if ! [[ $wattwr =~ $re ]] ; then
-	   wattwr=$(</var/www/html/openWB/ramdisk/pvwatt)
+	wattwr=$(</var/www/html/openWB/ramdisk/pvwatt)
 fi
 if ! [[ $pvkwh =~ $re ]] ; then
-	   pvkwh=$(</var/www/html/openWB/ramdisk/pvkwh)
+	pvkwh=$(</var/www/html/openWB/ramdisk/pvkwh)
 fi
 
 # Ausgabe
 echo $wattwr
 echo $wattwr > /var/www/html/openWB/ramdisk/pvwatt
-
 echo $pvkwh > /var/www/html/openWB/ramdisk/pvkwh
-
 pvkwhk=$(echo "scale=3 ; $pvkwh / 1000" | bc)
 echo $pvkwhk > /var/www/html/openWB/ramdisk/pvkwhk
