@@ -97,6 +97,7 @@
 										<option <?php if($speichermodulold == "speicher_json") echo "selected" ?> value="speicher_json">JSON Abfrage BETA!!!!</option>
 										<option <?php if($speichermodulold == "mpm3pmspeicher") echo "selected" ?> value="mpm3pmspeicher">MPM3PM</option>
 										<option <?php if($speichermodulold == "speicher_mqtt") echo "selected" ?> value="speicher_mqtt">MQTT</option>
+										<option <?php if($speichermodulold == "speicher_mqttpuller") echo "selected" ?> value="speicher_mqttpuller">MQTT mit Puller</option>
 									</optgroup>
 								</select>
 							</div>
@@ -160,6 +161,19 @@
 								<span class="text-info">openWB/set/houseBattery/%Soc</span> Ladestand des Speichers, int, 0-100
 							</div>
 						</div>
+						<div id="divspeichermqttpuller" class="hide">
+							<label for="bat_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
+								<div class="col">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="bat_pullerip" id="bat_pullerip" value="<?php echo $bat_pulleripold ?>">
+									<span class="form-text small">
+										Gültige Werte IP Adresse im Format: 192.168.0.12
+									</span>
+								</div>						
+							<div class="alert alert-info">
+								IP Adresse der Master OpenWB Webbox von der die Wrte per MQTT abgeholt werden sollen
+							</div>
+						</div>
+						
 <!--						
 						<div id="divspeichersolarwatt" class="hide">
 							<div class="form-group">
@@ -662,7 +676,6 @@
 
 						<script>
 							function display_speichermodul() {
-								hideSection('#divspeichermqtt');
 								hideSection('#divspeicherhttp');
 								hideSection('#divspeichermpm3pm');
 								//hideSection('#divspeicherbydhv');
@@ -726,6 +739,10 @@
 //								}
 								if($('#speichermodul').val() == 'speicher_mqtt') {
 									showSection('#divspeichermqtt');
+								}
+								if($('#speichermodul').val() == 'speicher_mqttpuller') {
+										showSection('#divspeichermqtt');
+										showSection('#divspeichermqttpuller');
 								}
 								//if($('#speichermodul').val() == 'speicher_victron') {
 								//	showSection('#divspeichervictron');

@@ -444,6 +444,16 @@ updateConfig(){
 	if ! grep -Fq "bezug_id=" $ConfigFile; then
 		echo "bezug_id=30" >> $ConfigFile
 	fi
+	if ! grep -Fq "evu_pullerip=" $ConfigFile; then
+		echo "evu_pullerip=192.168.208.64" >> $ConfigFile
+	fi
+	if ! grep -Fq "wr_pullerip=" $ConfigFile; then
+		echo "wr_pullerip=192.168.208.64" >> $ConfigFile
+	fi
+	if ! grep -Fq "bat_pullerip=" $ConfigFile; then
+		echo "bat_pullerip=192.168.208.64" >> $ConfigFile
+	fi
+	
 #	if ! grep -Fq "bezug_solarlog_speicherv=" $ConfigFile; then
 #		echo "bezug_solarlog_speicherv=0" >> $ConfigFile
 #	fi

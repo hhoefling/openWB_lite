@@ -104,6 +104,7 @@
 										<option <?php if($pvwattmodulold == "wr_json") echo "selected" ?> value="wr_json">Json</option>
 										<option <?php if($pvwattmodulold == "mpm3pmpv") echo "selected" ?> value="mpm3pmpv">MPM3PM </option>
 										<option <?php if($pvwattmodulold == "wr_mqtt") echo "selected" ?> value="wr_mqtt">MQTT</option>
+										<option <?php if($pvwattmodulold == "wr_mqttpuller") echo "selected" ?> value="wr_mqttpuller">MQTT mit Puller</option>
 										<option <?php if($pvwattmodulold == "sdm630modbuswr") echo "selected" ?> value="sdm630modbuswr">SDM 630 Modbus</option>
 										<!-- <option <?php if($pvwattmodulold == "wr_shelly") echo "selected" ?> value="wr_shelly">Shelly</option> -->
 										<!-- <option <?php if($pvwattmodulold == "vzloggerpv") echo "selected" ?> value="vzloggerpv">VZLogger</option> -->
@@ -119,6 +120,19 @@
 								<span class="text-info">openWB/set/pv/1/WhCounter</span> Erzeugte Energie in Wh, float, nur positiv
 							</div>
 						</div>
+						<div id="pvmqttpuller" class="hide">
+							<label for="wr_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
+								<div class="col">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wr_pullerip" id="wr_pullerip" value="<?php echo $wr_pulleripold ?>">
+									<span class="form-text small">
+										Gültige Werte IP Adresse im Format: 192.168.0.12
+									</span>
+								</div>						
+							<div class="alert alert-info">
+								IP Adresse der Master OpenWB Webbox von der die Wrte per MQTT abgeholt werden sollen
+							</div>
+						</div>
+						
 <!--
 						<div id="pvsungrow" class="hide">
 							<div class="card-text alert alert-info">
@@ -862,6 +876,7 @@
 								//hideSection('#pvyouless');
 								//hideSection('#pvlgessv1');
 								hideSection('#pvmqtt');
+								hideSection('#pvmqttpuller');
 								//hideSection('#pvsunways');
 								//hideSection('#pvfems');
 								//hideSection('#pvsolarworld');
@@ -907,6 +922,10 @@
 								//}
 								if($('#pvwattmodul').val() == 'wr_mqtt') {
 									showSection('#pvmqtt');
+								}
+								if($('#pvwattmodul').val() == 'wr_mqttpuller') {
+									showSection('#pvmqtt');
+									showSection('#pvmqttpuller');
 								}
 								//if($('#pvwattmodul').val() == 'wr_youless120') {
 								//	showSection('#pvyouless');

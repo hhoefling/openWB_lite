@@ -34,6 +34,36 @@
 		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
 	</head>
 
+<?php	
+	// receives chosen modulconfig pages via POST-request,
+	// writes value to config file and returns to theme
+	// author: M. Ortenstein, L. Bender
+	$myConfigFile = $_SERVER['DOCUMENT_ROOT'].'/openWB/openwb.conf';
+
+	// prepare key/value array
+	$settingsArray = [];
+	$debs=[];
+
+	try {
+		if ( !file_exists($myConfigFile) ) {
+			throw new Exception('Konfigurationsdatei nicht gefunden.');
+		}
+		// first read config-lines in array
+		$settingsFile = file($myConfigFile);
+
+		// convert lines to key/value array for faster manipulation
+		foreach($settingsFile as $line) {
+			// split line at char '='
+			$splitLine = explode('=', $line, 2);
+			// trim parts
+			$splitLine[0] = trim($splitLine[0]);
+			$splitLine[1] = trim($splitLine[1]); // do not trim single quotes, we will need them later
+			// push key/value pair to new array
+			$settingsArray[$splitLine[0]] = $splitLine[1];
+		}
+		// now values can be accessed by $settingsArray[$key] = $value;
+?>
+
 	<body>
 		<div id="nav"></div> <!-- placeholder for navbar -->
 		<header>
@@ -62,43 +92,13 @@
 			<h1>Einstellungen werden gespeichert</h1>
 			<div id="feedbackdiv" class="alert alert-info">
 				Bitte warten ... <i class="fas fa-cog fa-spin"></i>
+				<?php if( $settingsArray['debug'] < 1 )
+  				          echo "<small>&nbsp;&nbsp;(1 Sekunde)</small> "; 
+				     else echo "<small>&nbsp;&nbsp;(10 Sekunden)</small>"; 
+				?>
 			</div>
-		</div>  <!-- container -->
 
-		<footer class="footer bg-dark text-light font-small">
-			<div class="container text-center">
-				<small>Sie befinden sich hier: System/Einstellungen</small>
-			</div>
-		</footer>
 <?php
-	// receives chosen modulconfig pages via POST-request,
-	// writes value to config file and returns to theme
-	// author: M. Ortenstein, L. Bender
-
-	$myConfigFile = $_SERVER['DOCUMENT_ROOT'].'/openWB/openwb.conf';
-
-	// prepare key/value array
-	$settingsArray = [];
-	$debs=[];
-
-	try {
-		if ( !file_exists($myConfigFile) ) {
-			throw new Exception('Konfigurationsdatei nicht gefunden.');
-		}
-		// first read config-lines in array
-		$settingsFile = file($myConfigFile);
-
-		// convert lines to key/value array for faster manipulation
-		foreach($settingsFile as $line) {
-			// split line at char '='
-			$splitLine = explode('=', $line, 2);
-			// trim parts
-			$splitLine[0] = trim($splitLine[0]);
-			$splitLine[1] = trim($splitLine[1]); // do not trim single quotes, we will need them later
-			// push key/value pair to new array
-			$settingsArray[$splitLine[0]] = $splitLine[1];
-		}
-		// now values can be accessed by $settingsArray[$key] = $value;
 
 		// update chosen setting in array
 		foreach($_POST as $key => $value) {
@@ -200,27 +200,39 @@
 		$msg = $e->getMessage();
 		echo "<script>alert('$msg');</script>";
 	}
-
+	if( $settingsArray['debug'] >=1 )
+	{
+		echo "<div class=\"alert alert-info\">";
+	    echo "<pre>";
+		foreach($debs as $d)
+	 	 {
+		   echo "$d<br>";
+		 }
+	    echo "</pre>";
+		echo "</div>";
+	}
+?>
+		</div>  <!-- container -->
+		<footer class="footer bg-dark text-light font-small">
+			<div class="container text-center">
+				<small>Sie befinden sich hier: System/Einstellungen</small>
+			</div>
+		</footer>
+<?php
 	// return to theme
 	if( $settingsArray['debug'] < 1 )
 	{
-/*	  echo " <script>
+	  echo " <script>
 			window.setTimeout( function(){ window.location.href='index.php'; }, 1000);
 		</script>
 		";
-*/
 	} else
 	{
-		foreach($debs as $d)
-	 	{
-		   echo "$d<br>";
-		 }
-/*
 		 echo "<script>\n
 				window.setTimeout( function(){ window.location.href='index.php'; }, 10000);\n
-			</script>";
-*/
+			</script>
+			";
 	}
-	?>
+?>
 	</body>
 </html>

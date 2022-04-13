@@ -795,7 +795,8 @@
 								<div class="alert alert-info">
 									Keine Konfiguration erforderlich.<br>
 									Per MQTT zu schreiben:<br>
-									<span class="text-info">openWB/set/lp/1/%Soc</span> Ladezustand in %, int, 0-100
+									<span class="text-info">openWB/set/lp/1/%Soc</span> Ladezustand in %, int, 0-100<br>
+									<span class="text-info">openWB/set/lp/1/SocKM</span> Killometerstand des PKW bei der letzten SOC-Abfrage
 								</div>
 							</div>
 							<div id="socmtesla" class="hide">
@@ -3007,7 +3008,8 @@
 								<div class="alert alert-info">
 									Keine Konfiguration erforderlich.<br>
 									Per MQTT zu schreiben:<br>
-									<span class="text-info">openWB/set/lp/2/%Soc</span> Ladezustand in %, int, 0-100
+									<span class="text-info">openWB/set/lp/2/%Soc</span> Ladezustand in %, int, 0-100<br>
+									<span class="text-info">openWB/set/lp/2/SocKM</span> Killometerstand des PKW bei der letzten SOC-Abfrage
 								</div>
 							</div>
 							<div id="socmzeronglp2" class="hide">
