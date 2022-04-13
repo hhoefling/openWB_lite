@@ -1,9 +1,23 @@
 #!/bin/bash
+OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
+RAMDISKDIR="${OPENWBBASEDIR}/ramdisk"
+MODULEDIR=$(cd `dirname $0` && pwd)
+#DMOD="EVU"
+DMOD="MAIN"
+Debug=$debug
 
-wattbezug=0
+#For development only
+#Debug=1
 
-openwbDebugLog MAIN  0 "wattbezug: ${wattbezug} Module not supportet"
-openwbModulePublishState "EVU" 2 "Module: <bezug_alphasEss> aktuell nicht unterstützt"
+if [ ${DMOD} == "MAIN" ]; then
+        MYLOGFILE="${RAMDISKDIR}/openWB.log"
+else
+        MYLOGFILE="${RAMDISKDIR}/evu.log"
+fi
 
+python3 ${OPENWBBASEDIR}/packages/modules/alpha_ess/device.py "counter" "${alphav123}" >>${MYLOGFILE} 2>&1
+ret=$?
+
+openwbDebugLog ${DMOD} 2 "EVU RET: ${ret}"
+wattbezug=$(<${RAMDISKDIR}/wattbezug)
 echo $wattbezug
-

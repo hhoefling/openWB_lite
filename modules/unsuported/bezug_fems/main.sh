@@ -1,10 +1,5 @@
 #!/bin/bash
 
-wattbezug=0
-
-openwbDebugLog MAIN  0 "wattbezug: ${wattbezug} Module not supportet"
-openwbModulePublishState "EVU" 2 "Module: <bezug_fems> aktuell nicht unterstuetzt"
-
+sudo python3 /var/www/html/openWB/modules/bezug_fems/fems.py $femskacopw $femsip
+wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
 echo $wattbezug
-
-

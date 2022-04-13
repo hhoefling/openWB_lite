@@ -1,11 +1,5 @@
 #!/bin/bash
 
-wattbezug=0
-
-openwbDebugLog MAIN  0 "wattbezug: ${wattbezug} Module not supportet"
-openwbModulePublishState "EVU" 2 "Module: <bezug_janitza> aktuell nicht unterstuetzt"
-
+python /var/www/html/openWB/modules/bezug_janitza/readjanitza.py $bezug1_ip
+wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
 echo $wattbezug
-
-#!/bin/bash
-
