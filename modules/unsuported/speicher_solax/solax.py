@@ -18,13 +18,13 @@ def signed16(result, addr):
     return val
 
 ipaddress = str(sys.argv[1])
+
 client = ModbusTcpClient(ipaddress, port=502)
 
 resp=client.read_input_registers(0, 114)
 
 # Batterie Power
 value1 = signed16(resp, 22)
-
 f = open('/var/www/html/openWB/ramdisk/speicherleistung', 'w')
 f.write(str(value1))
 f.close()

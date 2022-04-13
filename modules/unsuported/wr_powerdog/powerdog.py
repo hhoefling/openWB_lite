@@ -8,6 +8,7 @@ import sys
 import struct
 # import binascii
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 
 client = ModbusTcpClient(ipaddress, port=502)
@@ -20,4 +21,3 @@ gridw= finaleinspeisung * -1
 f = open('/var/www/html/openWB/ramdisk/pvwatt', 'w')
 f.write(str(gridw))
 f.close()
-

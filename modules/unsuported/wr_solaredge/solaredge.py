@@ -8,6 +8,7 @@ import sys
 import struct
 # import binascii
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 slave1id = int(sys.argv[2])
 batwrsame = int(sys.argv[3])
@@ -49,18 +50,17 @@ if fmultiplint == fmult2iplint:
         rawprodw = rawprodw / 10000
     if fmultiplint == -5:
         rawprodw = rawprodw / 100000
-    if extprodakt == 1:    
-            resp= client.read_holding_registers(40380,1,unit=slave1id)
-            value1 = resp.registers[0]
-            all = format(value1, '04x')
-            extprod = int(struct.unpack('>h', all.decode('hex'))[0]) * -1
+    if extprodakt == 1:
+        resp= client.read_holding_registers(40380,1,unit=slave1id)
+        value1 = resp.registers[0]
+        all = format(value1, '04x')
+        extprod = int(struct.unpack('>h', all.decode('hex'))[0]) * -1
     else:
-            extprod = 0
+        extprod = 0
     rawprodw = rawprodw + extprod - storagepower    
     f = open('/var/www/html/openWB/ramdisk/pvwatt', 'w')
     f.write(str(rawprodw))
     f.close()
-
 
 resp= client.read_holding_registers(40093,2,unit=slave1id)
 value1 = resp.registers[0]
@@ -74,7 +74,3 @@ pvkwhk= final / 1000
 f = open('/var/www/html/openWB/ramdisk/pvkwhk', 'w')
 f.write(str(pvkwhk))
 f.close()
-
-
-
-

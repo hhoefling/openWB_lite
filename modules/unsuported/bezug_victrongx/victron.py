@@ -10,6 +10,7 @@ import sys
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 modbid = int(sys.argv[2])
 
@@ -111,6 +112,4 @@ f = open('/var/www/html/openWB/ramdisk/einspeisungkwh', 'w')
 f.write(str(whes))
 f.close()
 
-
 client.close()
-

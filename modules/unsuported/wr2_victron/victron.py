@@ -10,12 +10,12 @@ import sys
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 mid = int(sys.argv[2])
 
 client = ModbusTcpClient(ipaddress, port=502)
 connection = client.connect()
-
 
 # mppt watt
 resp= client.read_holding_registers(789,1,unit=mid)

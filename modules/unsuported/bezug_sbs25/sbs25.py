@@ -8,6 +8,7 @@ import sys
 import struct
 # import binascii
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 
 client = ModbusTcpClient(ipaddress, port=502)
@@ -24,13 +25,9 @@ value2 = resp.registers[1]
 all = format(value1, '04x') + format(value2, '04x')
 einsp = int(struct.unpack('>i', all.decode('hex'))[0])
 if bezug > 5:
-        final=bezug
+    final=bezug
 else:
-        final=einsp * -1
+    final=einsp * -1
 f = open('/var/www/html/openWB/ramdisk/wattbezug', 'w')
 f.write(str(final))
 f.close()
-
-
-
-

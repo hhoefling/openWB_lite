@@ -53,7 +53,6 @@ if fmultiplint == fmult2iplint:
         rawprodw = rawprodw / 100000
     rawprodwwr1 = rawprodw - storagepower    
 
-
 resp= client.read_holding_registers(40093,2,unit=slave1id)
 value1 = resp.registers[0]
 value2 = resp.registers[1]
@@ -92,19 +91,18 @@ if fmultiplint == fmult2iplint:
         rawprodw = rawprodw / 100000
     rawprodwwr2 = rawprodw  
 
-if extprodakt == 1:    
-	resp= client.read_holding_registers(40380,1,unit=slave1id)
-	value1 = resp.registers[0]
-	all = format(value1, '04x')
-	extprod = int(struct.unpack('>h', all.decode('hex'))[0]) * -1
+if extprodakt == 1:
+    resp= client.read_holding_registers(40380,1,unit=slave1id)
+    value1 = resp.registers[0]
+    all = format(value1, '04x')
+    extprod = int(struct.unpack('>h', all.decode('hex'))[0]) * -1
 else:
-	extprod = 0
+    extprod = 0
 
 rawprodw = extprod + rawprodwwr1 + rawprodwwr2    
 f = open('/var/www/html/openWB/ramdisk/pvwatt', 'w')
 f.write(str(rawprodw))
 f.close()
-
 
 resp= client.read_holding_registers(40093,2,unit=slave1id)
 value1 = resp.registers[0]
@@ -119,7 +117,3 @@ pvkwhk= final / 1000
 f = open('/var/www/html/openWB/ramdisk/pvkwhk', 'w')
 f.write(str(pvkwhk))
 f.close()
-
-
-
-

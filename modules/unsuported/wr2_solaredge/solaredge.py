@@ -8,6 +8,7 @@ import sys
 import struct
 # import binascii
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 slave1id = int(sys.argv[2])
 
@@ -41,9 +42,6 @@ f = open('/var/www/html/openWB/ramdisk/pv2watt', 'w')
 f.write(str(fwr1watt))
 f.close()
 
-
-
-
 resp= client.read_holding_registers(40093,2,unit=slave1id)
 value1 = resp.registers[0]
 value2 = resp.registers[1]
@@ -56,7 +54,3 @@ pvkwhk= final / 1000
 f = open('/var/www/html/openWB/ramdisk/pv2kwhk', 'w')
 f.write(str(pvkwhk))
 f.close()
-
-
-
-

@@ -10,12 +10,14 @@ import sys
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress		= str(sys.argv[1])	# IP-Address Modbus Gateway
 xtcount 		= int(sys.argv[2])	# studer_xt (count XT* Devices)
 vccount 		= int(sys.argv[3])	# studer_vc (count MPPT Devices)
 studervctype 	= str(sys.argv[4])	# studer_vc_type (MPPT type VS or VT)
 
 client = ModbusTcpClient(ipaddress, port=502)
+
 connection = client.connect()
 
 def func_pvwatt():
@@ -73,9 +75,7 @@ def func_pvkwh():
 	f.write(str(pvkwh*1000000))
 	f.close()
 
-
 func_pvwatt()
 func_pvkwh()
 
 client.close()
-

@@ -10,6 +10,7 @@ from pymodbus.client.sync import ModbusTcpClient
 from pymodbus.factory import ClientDecoder
 
 ipaddress = str(sys.argv[1])
+
 def unsigned32(result, addr):
    low  = result.registers[addr]
    high = result.registers[addr + 1]
@@ -26,7 +27,6 @@ def signed16(result, addr):
     return val
 
 client = ModbusTcpClient(ipaddress, port=502)
-
 
 resp=client.read_input_registers(10, 2)
 pv1 = unsigned16(resp, 0)

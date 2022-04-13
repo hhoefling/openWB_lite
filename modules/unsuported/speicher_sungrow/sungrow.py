@@ -8,6 +8,7 @@ import sys
 import struct
 # import binascii
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 
 client = ModbusTcpClient(ipaddress, port=502)
@@ -19,7 +20,6 @@ final = int(struct.unpack('>h', all.decode('hex'))[0] / 10 )
 f = open('/var/www/html/openWB/ramdisk/speichersoc', 'w')
 f.write(str(final))
 f.close()
-
 
 resp= client.read_input_registers(13000,1,unit=1)
 value1 = resp.registers[0]
@@ -35,7 +35,3 @@ if (binary[5] == "1"):
 f = open('/var/www/html/openWB/ramdisk/speicherleistung', 'w')
 f.write(str(final))
 f.close()
-
-
-
-

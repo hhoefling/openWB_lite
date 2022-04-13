@@ -8,6 +8,7 @@ import sys
 import struct
 # import binascii
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 ip2address = str(sys.argv[2])
 
@@ -21,7 +22,7 @@ value2 = resp.registers[1]
 all = format(value1, '04x') + format(value2, '04x')
 wr1w = int(struct.unpack('>i', all.decode('hex'))[0])
 # if final < 0:
-#    final = 0
+#     final = 0
 # final = final * -1
 # f = open('/var/www/html/openWB/ramdisk/pvwatt', 'w')
 # f.write(str(final))
@@ -61,9 +62,3 @@ final = wr1wh + wr2wh
 f = open('/var/www/html/openWB/ramdisk/pvkwh', 'w')
 f.write(str(final))
 f.close()
-
-
-
-
-
-

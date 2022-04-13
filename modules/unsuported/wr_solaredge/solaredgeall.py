@@ -8,6 +8,7 @@ import sys
 import struct
 # import binascii
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 try:
     slave1id = int(sys.argv[2])
@@ -29,6 +30,7 @@ batwrsame = int(sys.argv[6])
 extprodakt = int(sys.argv[7])
 zweiterspeicher = int(sys.argv[8])
 subbat = int(sys.argv[9])
+
 storage2power = 0
 
 client = ModbusTcpClient(ipaddress, port=502)
@@ -67,7 +69,6 @@ if batwrsame == 1:
     f = open('/var/www/html/openWB/ramdisk/speicherleistung', 'w')
     f.write(str(final))
     f.close()
-
 
 try:
     resp= client.read_holding_registers(40083,2,unit=slave1id)
@@ -147,7 +148,6 @@ if slave3id != 0:
             fwr3watt = wr3watt * 100
         if fmultiplier == 1:
             fwr3watt = wr3watt * 10
-
         if fmultiplier == 0:
             fwr3watt = wr3watt
         if fmultiplier == -1:
@@ -182,7 +182,6 @@ if slave4id != 0:
             fwr4watt = wr4watt * 100
         if fmultiplier == 1:
             fwr4watt = wr4watt * 10
-
         if fmultiplier == 0:
             fwr4watt = wr4watt
         if fmultiplier == -1:
@@ -205,8 +204,7 @@ if slave4id != 0:
 else:
     fwr4watt=0
 
-
-if extprodakt == 1:    
+if extprodakt == 1:
     try:
         resp= client.read_holding_registers(40380,1,unit=slave1id)
         value1 = resp.registers[0]
@@ -229,9 +227,6 @@ if allwatt > 0:
 f = open('/var/www/html/openWB/ramdisk/pvwatt', 'w')
 f.write(str(allwatt))
 f.close()
-
-
-
 f = open('/var/www/html/openWB/ramdisk/pvkwh', 'w')
 f.write(str(final))
 f.close()
@@ -239,5 +234,3 @@ pvkwhk= final / 1000
 f = open('/var/www/html/openWB/ramdisk/pvkwhk', 'w')
 f.write(str(pvkwhk))
 f.close()
-
-

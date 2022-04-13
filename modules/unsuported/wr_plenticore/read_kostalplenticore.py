@@ -54,7 +54,7 @@ class myLogging:
         try:
             #print(log)
             # Versuche in ramdisk log zu schreiben
-    with open('/var/www/html/openWB/ramdisk/openWB.log', 'a') as f:
+            with open('/var/www/html/openWB/ramdisk/openWB.log', 'a') as f:
                 f.write(log)
         except:
             #2. Versuch mit print 
@@ -518,7 +518,7 @@ def main(argv=None):
                   #", Leistung Hausverbrauch Bat actual = " + str(WR1.attr_WR.P_Home_Cons_Bat))          
         else:
             P_Charge_corrected = WR1.attr_Bat.P_charge_discharge            
-
+                
         # Nachfolgende Werte nur in temporäre ramdisk, da die Module
         # Speicher und Bezug für die globalen Variablen zuständig sind
         # und dort die Übernahme in die entsprechende ramdisk erfolgt
@@ -535,7 +535,7 @@ def main(argv=None):
         f.write(str(PV_power_total*-1))
         #print("PV Leistung alle WR =" + str(PV_power_total*-1))    
     
-        # Gesamtertrag in Wattstunden
+    # Gesamtertrag in Wattstunden
     # schreibe den Wert nur wenn kein Speicher vorhanden ist. Wenn er da ist nutze die openWB PV Watt beschränkung
     if Battery!=1:
         with open('/var/www/html/openWB/ramdisk/pvkwh', 'w') as f:
@@ -550,7 +550,7 @@ def main(argv=None):
     # Monatsertrag in Kilowattstunden
     with open('/var/www/html/openWB/ramdisk/monthly_pvkwhk', 'w') as f:
         f.write(str(Monthly_yield))
-
+    
     # Werte WR 1
     # Leistung DC PV-Module
     # die Variablen dürfen nicht der Nomenklatur openWB enstprechen
@@ -572,21 +572,21 @@ def main(argv=None):
         f.write(str(WR1.attr_WR.Monthly_yield))    
 
     if WR2 is not None:
-    # Werte WR 2
+        # Werte WR 2
         # Leistung DC PV-Module
-    with open('/var/www/html/openWB/ramdisk/pvwatt2', 'w') as f:
+        with open('/var/www/html/openWB/ramdisk/pvwatt2', 'w') as f:
             f.write(str(WR2.attr_WR.P_PV_AC_total*-1))
-    # Gesamtertrag in Wattstunden
-    with open('/var/www/html/openWB/ramdisk/pvkwh2', 'w') as f:
+        # Gesamtertrag in Wattstunden
+        with open('/var/www/html/openWB/ramdisk/pvkwh2', 'w') as f:
             f.write(str(WR2.attr_WR.Total_yield))
-    # Gesamtertrag in Kilowattstunden
-    with open('/var/www/html/openWB/ramdisk/pvkwhk2', 'w') as f:
+        # Gesamtertrag in Kilowattstunden
+        with open('/var/www/html/openWB/ramdisk/pvkwhk2', 'w') as f:
             f.write(str(WR2.attr_WR.Total_yield / 1000))
-    # Jahresertrag in Kilowattstunden
-    with open('/var/www/html/openWB/ramdisk/yearly_pvkwhk2', 'w') as f:
+        # Jahresertrag in Kilowattstunden
+        with open('/var/www/html/openWB/ramdisk/yearly_pvkwhk2', 'w') as f:
             f.write(str(WR2.attr_WR.Yearly_yield))
-    # Monatsertrag in Kilowattstunden
-    with open('/var/www/html/openWB/ramdisk/monthly_pvkwhk2', 'w') as f:
+        # Monatsertrag in Kilowattstunden
+        with open('/var/www/html/openWB/ramdisk/monthly_pvkwhk2', 'w') as f:
             f.write(str(WR2.attr_WR.Monthly_yield))
 
     if WR3 is not None:
@@ -606,7 +606,7 @@ def main(argv=None):
         # Monatsertrag in Kilowattstunden
         with open('/var/www/html/openWB/ramdisk/monthly_pvkwhk3', 'w') as f:
             f.write(str(WR3.attr_WR.Monthly_yield))
-
+    
     # Bezug EVU
     with open('/var/www/html/openWB/ramdisk/temp_wattbezug', 'w') as f:
         f.write(str(WR1.attr_KSEM.P_active_total))

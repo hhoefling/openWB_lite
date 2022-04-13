@@ -10,6 +10,7 @@ import sys
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.client.sync import ModbusTcpClient
+
 ipaddress = str(sys.argv[1])
 
 client = ModbusTcpClient(ipaddress, port=502)
