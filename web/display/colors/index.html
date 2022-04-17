@@ -195,6 +195,9 @@
                                         <div class="col">
                                             <span class="systemIpAddress"></span>
                                         </div>
+                                        <div class="col">
+                                            <span class="iplan" id="iplan">--</span>
+                                        </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="col-4">
@@ -209,8 +212,8 @@
                                             Prozessor:
                                         </div>
                                         <div class="col">
-                                            <meter id="cpu" high="85" min="0" max="100" value="0"></meter> <span
-                                                id='cpuuse'>--</span>%
+                                            <meter id="cpu" high="85" min="0" max="100" value="0"></meter> 
+                                            <span id='cpuuse'>--</span>%
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -228,6 +231,7 @@
                                         </div>
                                         <div class="col">
                                             <span id='diskuse'>--</span>, <span id='diskfree'>--</span> verfügbar.
+                                            <span id='tmpuse'>--</span>, <span id='tmpfree'>--</span> verfügbar.
                                         </div>
                                     </div>
                                 </div>
@@ -292,6 +296,41 @@
                     $('#memfree').html(json.memfree);
                     $('#diskuse').html(json.diskuse);
                     $('#diskfree').html(json.diskfree);
+					//	$('#board').text(json.board);
+					//	$('#cputemp').text((json.cputemp/1000).toFixed(2));
+					//	$('#cpufreq').text((json.cpufreq/1000));
+					//	$('#memtot').text(json.memtot);
+					//	$('#memused').text(json.memuse);
+					//	$('#disktot').text(json.disktot);
+					//	$('#diskusedprz').text(json.diskusedprz);
+					//	$('#disk').val(json.diskusedprz);
+					//	$('#tmptot').text(json.tmptot);
+						$('#tmpuse').text(json.tmpuse);
+						$('#tmpfree').text(json.tmpfree);
+					//	$('#tmpusedprz').text(json.tmpusedprz);
+					//	$('#tmp').val(json.tmpusedprz);
+					//	$('#memMeter').attr({'max': json.memtot, 'high': (json.memtot*0.85)});
+					//	$('#memMeter').val(json.memuse);
+						if (json.ethaddr != '') {
+							$('#iplan').text( json.ethaddr   + ( (json.ethaddr2=='')? '' :' ,  ' ) + json.ethaddr2 );
+						} else {
+							$('#iplan').text('- - -');
+						}
+					//	if (json.wlanaddr != '') {
+					//		$('#wifidata').show();
+					//		$('#ipwifi').text( json.wlanaddr + ( (json.wlanaddr2=='')? '' :' ,  ' )  + json.wlanaddr2 );
+					//		$('#wifiqualy').text(json.wlanqualy);
+					//		$('#wifissid').text(json.wlanssid);
+					//		$('#wifimode').text(json.wlanmode);
+					//		$('#wifibitrate').text(json.wlanbitrate);
+					//		$('#wifipower').text(json.wlanpower);
+					//		$('#wifirx').text(json.wlanrx);
+					//		$('#wifitx').text(json.wlantx);
+					//	} else {
+					//		$('#wifidata').hide();
+					//		$('#ipwifi').text('--');
+					//	}
+
                 })
             };
 
