@@ -34,7 +34,6 @@ def main():
     rct_lib.dbglog("EVU bb=" , str(rct_lib.bb) )
     rct_lib.dbglog("WR  wr=" , str(rct_lib.wr) )
     rct_lib.dbglog("BAT sp=" , str(rct_lib.sp) )
-    rct_lib.dbglog("IN  ii=" , str(rct_lib.ii), " Info - not used" )
     rct_lib.dbglog('5M  bm5 ', str(rct_lib.bm5), " get all counter every 5 minutes" )
     clientsocket = rct_lib.connect_to_server()
     if clientsocket is not None:
@@ -236,11 +235,6 @@ def main():
 
 #
 ######################################################
-#
-     if  rct_lib.ii and rct_lib.bb:
-        # Info-Speicher 
-        faultStr=' '
-        faultState=0
 #
 ######################################################
 #

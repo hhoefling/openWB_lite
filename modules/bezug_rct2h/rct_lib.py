@@ -62,6 +62,12 @@ start_time = 0
 search_id = 0
 search_name = None
 
+def sort_by_id():
+    id_tab.sort(key=operator.attrgetter('id'))
+
+def sort_by_name():
+    id_tab.sort(key=operator.attrgetter('name'))
+
 # find a table entry by using the 32 bit ID
 def find_by_id(id, tab = id_tab):
     for l in tab:
@@ -559,6 +565,8 @@ def init(argv):
     global port
     global search_id
     global search_name
+    global param_len
+    global desc_len
     global bb
     global wr
     global sp
@@ -603,7 +611,15 @@ def init(argv):
 
 
     id_tab_setup()
+    param_len = 0
+    desc_len = 0
+    for obj in id_tab:
+        if len(obj.name) > param_len:
+            param_len = len(obj.name)
+        if len(obj.desc) > desc_len:
+            desc_len = len(obj.desc)
 
+    sort_by_name()
 
 def id_tab_setup():
     # add all known id's with name, data type, description and unit to the id table
@@ -702,7 +718,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x1B39A3A3,  93, 'battery.bms_power_version',                        rct_data.t_uint32,  'Software version BMS Power'))
     id_tab.append(rct_id(0x1B5445C4,  94, 'io_board.check_rse_result',                        rct_data.t_uint16,  'io_board.check_rse_result'))
     id_tab.append(rct_id(0x1BFA5A33,  95, 'energy.e_grid_load_total_sum',                     rct_data.t_float,   'energy.e_grid_load_total_sum'))
-    id_tab.append(rct_id(0x1C4A665F,  96, 'grid_pll[0].f',                                    rct_data.t_float,   'Grid frequency [Hz]'))
+    id_tab.append(rct_id(0x1C4A665F,  96, 'grid_pll[0].f',                                    rct_data.t_float,   'Grid frequency [Hz] openWB freq'))
     id_tab.append(rct_id(0x1D0623D6,  97, 'wifi.dns_address',                                 rct_data.t_string,  'DNS address'))
     id_tab.append(rct_id(0x1D2994EA,  98, 'power_mng.soc_charge_power',                       rct_data.t_float,   'Maintenance charge power [W]'))
     id_tab.append(rct_id(0x1D49380A,  99, 'logger.minutes_eb_log_ts',                         rct_data.t_int32,   'logger.minutes_eb_log_ts'))
@@ -726,7 +742,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x226A23A4, 117, 'dc_conv.dc_conv_struct[0].u_target',               rct_data.t_float,   'MPP on input A [V]'))
     id_tab.append(rct_id(0x2295401F, 118, 'battery_placeholder[0].cells_stat[3].u_max.time',  rct_data.t_uint32,  'battery_placeholder[0].cells_stat[3].u_max.time'))
     id_tab.append(rct_id(0x22CC80C6, 119, 'frt.u_min_end',                                    rct_data.t_float,   'FRT end undervoltage threshold [V]'))
-    id_tab.append(rct_id(0x234B4736, 120, 'fault[1].flt',                                     rct_data.t_uint32,  'Error bit field 2'))
+    id_tab.append(rct_id(0x234B4736, 120, 'fault[1].flt',                                     rct_data.t_uint32,  'Error bit field 2 openWB State'))
     id_tab.append(rct_id(0x234DD4DF, 121, 'switch_on_cond.f_min',                             rct_data.t_float,   'Min. frequency'))
     id_tab.append(rct_id(0x235E0DF5, 122, 'battery_placeholder[0].stack_software_version[1]', rct_data.t_uint32,  'Software version stack 1'))
     id_tab.append(rct_id(0x236D2178, 123, 'frt.t_min[1]',                                     rct_data.t_float,   'Point 2 time [s]'))
@@ -737,7 +753,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x241CFA0A, 128, 'battery_placeholder[0].min_cell_temperature',      rct_data.t_float,   'battery_placeholder[0].min_cell_temperature'))
     id_tab.append(rct_id(0x241F1F98, 129, 'energy.e_dc_day_sum[1]',                           rct_data.t_float,   'energy.e_dc_day_sum[1]'))
     id_tab.append(rct_id(0x24AC4CBB, 130, 'battery_placeholder[0].cells_resist[6]',           rct_data.t_string,  'battery_placeholder[0].cells_resist[6]'))
-    id_tab.append(rct_id(0x2545E22D, 131, 'g_sync.u_l_rms[2]',                                rct_data.t_float,   'AC voltage phase 3 [V]'))
+    id_tab.append(rct_id(0x2545E22D, 131, 'g_sync.u_l_rms[2]',                                rct_data.t_float,   'AC voltage phase 3 [V]  openWB VPhase3 '))
     id_tab.append(rct_id(0x257B5945, 132, 'battery.cells_stat[2].u_min.index',                rct_data.t_uint8,   'battery.cells_stat[2].u_min.index'))
     id_tab.append(rct_id(0x257B7612, 133, 'battery.module_sn[3]',                             rct_data.t_string,  'Module 3 Serial Number'))
     id_tab.append(rct_id(0x26260419, 134, 'nsm.cos_phi_p[1][0]',                              rct_data.t_float,   'Point 2 [P/Pn]'))
@@ -748,7 +764,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x27116260, 139, 'battery_placeholder[0].cells_stat[5].u_min.value', rct_data.t_float,   'battery_placeholder[0].cells_stat[5].u_min.value'))
     id_tab.append(rct_id(0x27650FE2, 140, 'rb485.version_main',                               rct_data.t_uint32,  'Power Switch software version'))
     id_tab.append(rct_id(0x2788928C, 141, 'g_sync.p_ac_load[1]',                              rct_data.t_float,   'Load household phase 2 [W]'))
-    id_tab.append(rct_id(0x27BE51D9, 142, 'g_sync.p_ac_sc[0]',                                rct_data.t_float,   'Grid power phase 1 [W]'))
+    id_tab.append(rct_id(0x27BE51D9, 142, 'g_sync.p_ac_sc[0]',                                rct_data.t_float,   'Grid power phase 1 [W] openWB bezug_watt1'))
     id_tab.append(rct_id(0x27C39CEA, 143, 'battery.stack_cycles[6]',                          rct_data.t_uint16,  'battery.stack_cycles[6]'))
     id_tab.append(rct_id(0x27C828F4, 144, 'energy.e_grid_feed_total_sum',                     rct_data.t_float,   'energy.e_grid_feed_total_sum'))
     id_tab.append(rct_id(0x27EC8487, 145, 'performance_free[0]',                              rct_data.t_uint32,  'performance_free[0]'))
@@ -758,7 +774,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x2A30A97E, 149, 'battery.stack_cycles[5]',                          rct_data.t_uint16,  'battery.stack_cycles[5]'))
     id_tab.append(rct_id(0x2A449E89, 150, 'logger.year_log_ts',                               rct_data.t_int32,   'logger.year_log_ts'))
     id_tab.append(rct_id(0x2AACCAA7, 151, 'battery.max_cell_voltage',                         rct_data.t_float,   'battery.max_cell_voltage'))
-    id_tab.append(rct_id(0x2AE703F2, 152, 'energy.e_dc_day[0]',                               rct_data.t_float,   'Solar generator A day energy [Wh]'))
+    id_tab.append(rct_id(0x2AE703F2, 152, 'energy.e_dc_day[0]',                               rct_data.t_float,   'Solar generator A day energy [Wh] openWB XXX'))
     id_tab.append(rct_id(0x2BC1E72B, 153, 'battery.discharged_amp_hours',                     rct_data.t_float,   'Total charge flow from battery [Ah]'))
     id_tab.append(rct_id(0x2E06172D, 154, 'net.net_tunnel_id',                                rct_data.t_uint32,  'net.net_tunnel_id'))
     id_tab.append(rct_id(0x2E0C6220, 155, 'io_board.home_relay_sw_off_delay',                 rct_data.t_float,   'Switching off delay [s]'))
@@ -792,7 +808,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x365D12DA, 183, 'p_rec_req[2]',                                     rct_data.t_float,   'Required Pac [W]'))
     id_tab.append(rct_id(0x36A9E9A6, 184, 'power_mng.use_grid_power_enable',                  rct_data.t_bool,    'Utilize external Inverter energy'))
     id_tab.append(rct_id(0x374B5DD6, 185, 'battery_placeholder[0].cells_stat[6].u_min.time',  rct_data.t_uint32,  'battery_placeholder[0].cells_stat[6].u_min.time'))
-    id_tab.append(rct_id(0x37F9D5CA, 186, 'fault[0].flt',                                     rct_data.t_uint32,  'Error bit field 1'))
+    id_tab.append(rct_id(0x37F9D5CA, 186, 'fault[0].flt',                                     rct_data.t_uint32,  'Error bit field 1 openWB State'))
     id_tab.append(rct_id(0x381B8BF9, 187, 'battery.soh',                                      rct_data.t_float,   'SOH (State of Health)'))
     id_tab.append(rct_id(0x383A3614, 188, 'db.power_board.afi_i60',                           rct_data.t_float,   'AFI 60 mA threshold [A]'))
     id_tab.append(rct_id(0x38789061, 189, 'nsm.f_low_rise_grad_storage',                      rct_data.t_float,   'Power rise gradient for P(f) under-frequency mode with battery [1/Pn*Hz]'))
@@ -811,7 +827,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x3AFEF139, 202, 'prim_sm.is_thin_layer',                            rct_data.t_bool,    'Thin-film solar module'))
     id_tab.append(rct_id(0x3B0C6A53, 203, 'bat_mng_struct.profile_pdc_max',                   rct_data.t_string,  'bat_mng_struct.profile_pdc_max'))
     id_tab.append(rct_id(0x3B5F6B9D, 204, 'rb485.f_wr[0]',                                    rct_data.t_float,   'Power Storage phase 1 frequency [Hz]'))
-    id_tab.append(rct_id(0x3B7FCD47, 205, 'fault[2].flt',                                     rct_data.t_uint32,  'Error bit field 3'))
+    id_tab.append(rct_id(0x3B7FCD47, 205, 'fault[2].flt',                                     rct_data.t_uint32,  'Error bit field 3 openWB State'))
     id_tab.append(rct_id(0x3BA1B77B, 206, 'battery.cells_stat[3].t_min.value',                rct_data.t_float,   'battery.cells_stat[3].t_min.value'))
     id_tab.append(rct_id(0x3C24F3E8, 207, 'inv_struct.cosinus_phi',                           rct_data.t_float,   'cos phi'))
     id_tab.append(rct_id(0x3C705F61, 208, 'io_board.rse_table[8]',                            rct_data.t_float,   'K4..K1: 1000'))
@@ -825,7 +841,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x3E728842, 216, 'power_spring_bat',                                 rct_data.t_float,   'power_spring_bat'))
     id_tab.append(rct_id(0x3EFEB931, 217, 'db.power_board.relays_state',                      rct_data.t_uint16,  'db.power_board.relays_state'))
     id_tab.append(rct_id(0x3F98F58A, 218, 'battery.cells_stat[5].t_max.index',                rct_data.t_uint8,   'battery.cells_stat[5].t_max.index'))
-    id_tab.append(rct_id(0x400F015B, 219, 'g_sync.p_acc_lp',                                  rct_data.t_float,   'Battery power [W]'))
+    id_tab.append(rct_id(0x400F015B, 219, 'g_sync.p_acc_lp',                                  rct_data.t_float,   'Battery power [W] openWB speicherleistung +/-'))
     id_tab.append(rct_id(0x4077335D, 220, 'g_sync.s_ac_lp[1]',                                rct_data.t_float,   'Apparent power phase 2 [VA]'))
     id_tab.append(rct_id(0x40B07CA4, 221, 'power_mng.schedule[6]',                            rct_data.t_string,  'power_mng.schedule[6]'))
     id_tab.append(rct_id(0x40FF01B7, 222, 'battery.cells[6]',                                 rct_data.t_string,  'battery.cells[6]'))
@@ -841,7 +857,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x43FF47C3, 232, 'db.power_board.afi_t60',                           rct_data.t_float,   'AFI 60 mA switching off time [s]'))
     id_tab.append(rct_id(0x442A3409, 233, 'battery.cells_stat[4].t_min.time',                 rct_data.t_uint32,  'battery.cells_stat[4].t_min.time'))
     id_tab.append(rct_id(0x4443C661, 234, 'battery.cells_stat[0].t_max.index',                rct_data.t_uint8,   'battery.cells_stat[0].t_max.index'))
-    id_tab.append(rct_id(0x44D4C533, 235, 'energy.e_grid_feed_total',                         rct_data.t_float,   'Total energy grid feed-in [Wh]'))
+    id_tab.append(rct_id(0x44D4C533, 235, 'energy.e_grid_feed_total',                         rct_data.t_float,   'Total energy grid feed-in [Wh] openWB EinspeisungkWh '))
     id_tab.append(rct_id(0x4539A6D4, 236, 'can_bus.bms_update_response[0]',                   rct_data.t_uint32,  'can_bus.bms_update_response[0]'))
     id_tab.append(rct_id(0x465DDB50, 237, 'battery_placeholder[0].cells_stat[2].t_min.value', rct_data.t_float,   'battery_placeholder[0].cells_stat[2].t_min.value'))
     id_tab.append(rct_id(0x46635546, 238, 'net.n_descendants',                                rct_data.t_int8,    'Number of descendant slaves'))
@@ -876,7 +892,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x4E0C56F2, 267, 'flash_rtc.rtc_mcc_quartz_ppm_difference',          rct_data.t_float,   'Quartz frequency difference between RTC and Microcontroller [ppm]'))
     id_tab.append(rct_id(0x4E2B42A4, 268, 'hw_test.bt_power[0]',                              rct_data.t_float,   'hw_test.bt_power[0]'))
     id_tab.append(rct_id(0x4E3CB7F8, 269, 'phase_3_mode',                                     rct_data.t_bool,    '3-phase feed in'))
-    id_tab.append(rct_id(0x4E49AEC5, 270, 'g_sync.p_ac_sum',                                  rct_data.t_float,   'Real power [W]'))
+    id_tab.append(rct_id(0x4E49AEC5, 270, 'g_sync.p_ac_sum',                                  rct_data.t_float,   'Real power [W] openWB Wattbezug'))
     id_tab.append(rct_id(0x4E699086, 271, 'battery.module_sn[4]',                             rct_data.t_string,  'Module 4 Serial Number'))
     id_tab.append(rct_id(0x4E77B2CE, 272, 'hw_test.bt_cycle',                                 rct_data.t_uint8,   'hw_test.bt_cycle'))
     id_tab.append(rct_id(0x4E9D95A6, 273, 'logger.year_eext_log_ts',                          rct_data.t_int32,   'logger.year_eext_log_ts'))
@@ -901,7 +917,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x5411CE1B, 292, 'logger.minutes_ul1_log_ts',                        rct_data.t_int32,   'logger.minutes_ul1_log_ts'))
     id_tab.append(rct_id(0x5438B68E, 293, 'grid_mon[1].u_over.threshold',                     rct_data.t_float,   'Max. voltage level 2 [V]'))
     id_tab.append(rct_id(0x54829753, 294, 'p_rec_lim[1]',                                     rct_data.t_float,   'Max. battery to grid power [W]'))
-    id_tab.append(rct_id(0x54B4684E, 295, 'g_sync.u_l_rms[1]',                                rct_data.t_float,   'AC voltage phase 2 [V]'))
+    id_tab.append(rct_id(0x54B4684E, 295, 'g_sync.u_l_rms[1]',                                rct_data.t_float,   'AC voltage phase 2 [V] openWB VPhase2'))
     id_tab.append(rct_id(0x54DBC202, 296, 'io_board.rse_table[12]',                           rct_data.t_float,   'K4..K1: 1100'))
     id_tab.append(rct_id(0x554D8FEE, 297, 'logger.minutes_eac2_log_ts',                       rct_data.t_int32,   'logger.minutes_eac2_log_ts'))
     id_tab.append(rct_id(0x5570401B, 298, 'battery.stored_energy',                            rct_data.t_float,   'Total energy flow into battery [Wh]'))
@@ -947,7 +963,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x6279F2A3, 338, 'db.power_board.version_boot',                      rct_data.t_uint32,  'PIC bootloader software version'))
     id_tab.append(rct_id(0x62B8940B, 339, 'dc_conv.start_voltage',                            rct_data.t_float,   'Inverter DC-voltage start value [V]'))
     id_tab.append(rct_id(0x62D645D9, 340, 'battery.cells[5]',                                 rct_data.t_string,  'battery.cells[5]'))
-    id_tab.append(rct_id(0x62FBE7DC, 341, 'energy.e_grid_load_total',                         rct_data.t_float,   'Total energy grid load [Wh]'))
+    id_tab.append(rct_id(0x62FBE7DC, 341, 'energy.e_grid_load_total',                         rct_data.t_float,   'Total energy grid load [Wh] openWB bezugkwh'))
     id_tab.append(rct_id(0x63476DBE, 342, 'g_sync.u_ptp_rms[0]',                              rct_data.t_float,   'Phase to phase voltage 1 [V]'))
     id_tab.append(rct_id(0x6383DEA9, 343, 'battery_placeholder[0].cells_stat[1].t_max.value', rct_data.t_float,   'battery_placeholder[0].cells_stat[1].t_max.value'))
     id_tab.append(rct_id(0x6388556C, 344, 'battery.stack_software_version[0]',                rct_data.t_uint32,  'Software version stack 0'))
@@ -973,7 +989,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x6830F6E4, 364, 'io_board.rse_table[9]',                            rct_data.t_float,   'K4..K1: 1001'))
     id_tab.append(rct_id(0x68BA92E1, 365, 'io_board.io2_s0_imp_per_kwh',                      rct_data.t_int16,   'Number of impulses per kWh for S0 signal on I/O 2'))
     id_tab.append(rct_id(0x68BC034D, 366, 'parameter_file',                                   rct_data.t_string,  'Norm'))
-    id_tab.append(rct_id(0x68EEFD3D, 367, 'energy.e_dc_total[1]',                             rct_data.t_float,   'Solar generator B total energy [Wh]'))
+    id_tab.append(rct_id(0x68EEFD3D, 367, 'energy.e_dc_total[1]',                             rct_data.t_float,   'Solar generator B total energy [Wh] openWB pvkwh'))
     id_tab.append(rct_id(0x690C32D2, 368, 'battery_placeholder[0].module_sn[0]',              rct_data.t_string,  'Module 0 Serial Number'))
     id_tab.append(rct_id(0x6974798A, 369, 'battery.stack_software_version[6]',                rct_data.t_uint32,  'Software version stack 6'))
     id_tab.append(rct_id(0x69AA598A, 370, 'can_bus.requested_id',                             rct_data.t_int32,   'can_bus.requested_id'))
@@ -1046,7 +1062,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x7A5C91F8, 437, 'nsm.p_u[1][0]',                                    rct_data.t_float,   'Point 2 P/Pn'))
     id_tab.append(rct_id(0x7A67E33B, 438, 'can_bus.bms_update_response[1]',                   rct_data.t_uint32,  'can_bus.bms_update_response[1]'))
     id_tab.append(rct_id(0x7A9091EA, 439, 'rb485.u_l_grid[1]',                                rct_data.t_float,   'Grid phase 2 voltage [V]'))
-    id_tab.append(rct_id(0x7AB9B045, 440, 'energy.e_dc_month[1]',                             rct_data.t_float,   'Solar generator B month energy [Wh]'))
+    id_tab.append(rct_id(0x7AB9B045, 440, 'energy.e_dc_month[1]',                             rct_data.t_float,   'Solar generator B month energy [Wh] openWB montly_pvkwh'))
     id_tab.append(rct_id(0x7AE87E39, 441, 'partition[2].last_id',                             rct_data.t_int32,   'partition[2].last_id'))
     id_tab.append(rct_id(0x7AF0AD03, 442, 'power_mng.schedule[9]',                            rct_data.t_string,  'power_mng.schedule[9]'))
     id_tab.append(rct_id(0x7AF779C1, 443, 'nsm.pu_mode',                                      rct_data.t_bool,    'P(U) mode 0: Pn 1: Pload'))
@@ -1064,14 +1080,14 @@ def id_tab_setup():
     id_tab.append(rct_id(0x7E590128, 455, 'battery.cells_stat[0].u_max.time',                 rct_data.t_uint32,  'battery.cells_stat[0].u_max.time'))
     id_tab.append(rct_id(0x7E75B17A, 456, 'nsm.q_u_max_u_high_rel',                           rct_data.t_float,   'Qmax at upper voltage level relative to Smax (positive = overexcited)'))
     id_tab.append(rct_id(0x7F42BB82, 457, 'battery.cells_stat[6].u_max.index',                rct_data.t_uint8,   'battery.cells_stat[6].u_max.index'))
-    id_tab.append(rct_id(0x7F813D73, 458, 'fault[3].flt',                                     rct_data.t_uint32,  'Error bit field 4'))
+    id_tab.append(rct_id(0x7F813D73, 458, 'fault[3].flt',                                     rct_data.t_uint32,  'Error bit field 4 openWB State'))
     id_tab.append(rct_id(0x7FF6252C, 459, 'battery.cells_stat[5].t_max.time',                 rct_data.t_uint32,  'battery.cells_stat[5].t_max.time'))
     id_tab.append(rct_id(0x804A3266, 460, 'battery.cells_stat[6].u_max.value',                rct_data.t_float,   'battery.cells_stat[6].u_max.value'))
     id_tab.append(rct_id(0x80835476, 461, 'db.power_board.adc_p5V_W_meas',                    rct_data.t_float,   'db.power_board.adc_p5V_W_meas'))
     id_tab.append(rct_id(0x8128228D, 462, 'battery_placeholder[0].cells_stat[1].u_max.value', rct_data.t_float,   'battery_placeholder[0].cells_stat[1].u_max.value'))
     id_tab.append(rct_id(0x812E5ADD, 463, 'energy.e_dc_total_sum[1]',                         rct_data.t_float,   'energy.e_dc_total_sum[1]'))
     id_tab.append(rct_id(0x8160539D, 464, 'battery.cells_stat[4].t_max.value',                rct_data.t_float,   'battery.cells_stat[4].t_max.value'))
-    id_tab.append(rct_id(0x81AE960B, 465, 'energy.e_dc_month[0]',                             rct_data.t_float,   'Solar generator A month energy [Wh]'))
+    id_tab.append(rct_id(0x81AE960B, 465, 'energy.e_dc_month[0]',                             rct_data.t_float,   'Solar generator A month energy [Wh] openWB montly_pvkwh'))
     id_tab.append(rct_id(0x81AF854E, 466, 'nsm.pu_use',                                       rct_data.t_bool,    'P(U) active'))
     id_tab.append(rct_id(0x82258C01, 467, 'cs_neg[0]',                                        rct_data.t_float,   'Multiply value of the current sensor 0 by'))
     id_tab.append(rct_id(0x82CD1525, 468, 'grid_mon[1].u_under.threshold',                    rct_data.t_float,   'Min. voltage level 2 [V]'))
@@ -1103,7 +1119,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x8A18539B, 494, 'g_sync.u_zk_sum_avg',                              rct_data.t_float,   'DC link voltage [V]'))
     id_tab.append(rct_id(0x8AFD1410, 495, 'battery_placeholder[0].stack_cycles[4]',           rct_data.t_uint16,  'battery_placeholder[0].stack_cycles[4]'))
     id_tab.append(rct_id(0x8B4BE168, 496, 'battery_placeholder[0].soc',                       rct_data.t_float,   'SOC (State of charge)'))
-    id_tab.append(rct_id(0x8B9FF008, 497, 'battery.soc_target',                               rct_data.t_float,   'Target SOC'))
+    id_tab.append(rct_id(0x8B9FF008, 497, 'battery.soc_target',                               rct_data.t_float,   'Target SOC openWB speicher_socsoll'))
     id_tab.append(rct_id(0x8BB08839, 498, 'battery.cells_stat[6].t_min.time',                 rct_data.t_uint32,  'battery.cells_stat[6].t_min.time'))
     id_tab.append(rct_id(0x8C6E28E4, 499, 'battery_placeholder[0].cells_stat[2].t_max.time',  rct_data.t_uint32,  'battery_placeholder[0].cells_stat[2].t_max.time'))
     id_tab.append(rct_id(0x8CA00014, 500, 'wifi.result',                                      rct_data.t_int8,    'WiFi result'))
@@ -1151,7 +1167,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x947DDC38, 542, 'battery_placeholder[0].cells_stat[0].t_min.index', rct_data.t_uint8,   'battery_placeholder[0].cells_stat[0].t_min.index'))
     id_tab.append(rct_id(0x9486134F, 543, 'battery_placeholder[0].cells_stat[1].t_max.time',  rct_data.t_uint32,  'battery_placeholder[0].cells_stat[1].t_max.time'))
     id_tab.append(rct_id(0x9558AD8A, 544, 'rb485.f_grid[0]',                                  rct_data.t_float,   'Grid phase1 frequency [Hz]'))
-    id_tab.append(rct_id(0x959930BF, 545, 'battery.soc',                                      rct_data.t_float,   'SOC (State of charge)'))
+    id_tab.append(rct_id(0x959930BF, 545, 'battery.soc',                                      rct_data.t_float,   'SOC (State of charge) openWB speichersoc'))
     id_tab.append(rct_id(0x95E1E844, 546, 'battery_placeholder[0].cells_stat[2].t_min.time',  rct_data.t_uint32,  'battery_placeholder[0].cells_stat[2].t_min.time'))
     id_tab.append(rct_id(0x961C8261, 547, 'battery_placeholder[0].cells_stat[4].u_max.time',  rct_data.t_uint32,  'battery_placeholder[0].cells_stat[4].u_max.time'))
     id_tab.append(rct_id(0x96629BB9, 548, 'can_bus.bms_update_state',                         rct_data.t_uint8,   'can_bus.bms_update_state'))
@@ -1216,7 +1232,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0xA95EE214, 607, 'power_mng.model.bat_power_change',                 rct_data.t_float,   'power_mng.model.bat_power_change'))
     id_tab.append(rct_id(0xA9CF517D, 608, 'power_spring_down',                                rct_data.t_float,   'power_spring_down'))
     id_tab.append(rct_id(0xAA911BEE, 609, 'battery_placeholder[0].cells_stat[4].t_max.value', rct_data.t_float,   'battery_placeholder[0].cells_stat[4].t_max.value'))
-    id_tab.append(rct_id(0xAA9AA253, 610, 'dc_conv.dc_conv_struct[1].p_dc',                   rct_data.t_float,   'Solar generator B power [W]'))
+    id_tab.append(rct_id(0xAA9AA253, 610, 'dc_conv.dc_conv_struct[1].p_dc',                   rct_data.t_float,   'Solar generator B power [W] openWB pv2watt'))
     id_tab.append(rct_id(0xAACAC898, 611, 'battery.cells_stat[4].t_max.time',                 rct_data.t_uint32,  'battery.cells_stat[4].t_max.time'))
     id_tab.append(rct_id(0xAACE057A, 612, 'io_board.io1_s0_min_duration',                     rct_data.t_float,   'Minimum S0 signal duration on I/O 1 [s]'))
     id_tab.append(rct_id(0xABA015FC, 613, 'battery_placeholder[0].module_sn[1]',              rct_data.t_string,  'Module 1 Serial Number'))
@@ -1235,7 +1251,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0xB1D465C7, 626, 'battery_placeholder[0].cells_stat[4].u_min.value', rct_data.t_float,   'battery_placeholder[0].cells_stat[4].u_min.value'))
     id_tab.append(rct_id(0xB1EF67CE, 627, 'energy.e_ac_total',                                rct_data.t_float,   'Total energy [Wh]'))
     id_tab.append(rct_id(0xB20D1AD6, 628, 'logger.day_egrid_feed_log_ts',                     rct_data.t_int32,   'logger.day_egrid_feed_log_ts'))
-    id_tab.append(rct_id(0xB221BCFA, 629, 'g_sync.p_ac_sc[2]',                                rct_data.t_float,   'Grid power phase 3 [W]'))
+    id_tab.append(rct_id(0xB221BCFA, 629, 'g_sync.p_ac_sc[2]',                                rct_data.t_float,   'Grid power phase 3 [W] openWB bezug_watt3'))
     id_tab.append(rct_id(0xB228EC94, 630, 'battery_placeholder[0].cells_stat[3].t_max.time',  rct_data.t_uint32,  'battery_placeholder[0].cells_stat[3].t_max.time'))
     id_tab.append(rct_id(0xB238942F, 631, 'last_successfull_flash_op',                        rct_data.t_int16,   'last_successfull_flash_op'))
     id_tab.append(rct_id(0xB298395D, 632, 'dc_conv.dc_conv_struct[0].u_sg_lp',                rct_data.t_float,   'Solar generator A voltage [V]'))
@@ -1246,7 +1262,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0xB4222BDE, 637, 'wifi.state',                                       rct_data.t_uint8,   'wifi.state'))
     id_tab.append(rct_id(0xB45FE275, 638, 'p_rec_available[0]',                               rct_data.t_float,   'Available compensation power [W]'))
     id_tab.append(rct_id(0xB4E053D4, 639, 'battery.cells_stat[1].u_min.value',                rct_data.t_float,   'battery.cells_stat[1].u_min.value'))
-    id_tab.append(rct_id(0xB5317B78, 640, 'dc_conv.dc_conv_struct[0].p_dc',                   rct_data.t_float,   'Solar generator A power [W]'))
+    id_tab.append(rct_id(0xB5317B78, 640, 'dc_conv.dc_conv_struct[0].p_dc',                   rct_data.t_float,   'Solar generator A power [W] openWB pv1watt'))
     id_tab.append(rct_id(0xB55BA2CE, 641, 'g_sync.u_sg_avg[0]',                               rct_data.t_float,   'Solar generator A voltage [V]'))
     id_tab.append(rct_id(0xB57B59BD, 642, 'battery.ah_capacity',                              rct_data.t_float,   'Battery capacity [Ah]'))
     id_tab.append(rct_id(0xB5EDA8EC, 643, 'battery_placeholder[0].cells_stat[3].u_max.value', rct_data.t_float,   'battery_placeholder[0].cells_stat[3].u_max.value'))
@@ -1340,7 +1356,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0xCE266F0F, 731, 'power_mng.soc_min',                                rct_data.t_float,   'Min SOC target'))
     id_tab.append(rct_id(0xCE49EB86, 732, 'battery_placeholder[0].cells_stat[2].t_max.index', rct_data.t_uint8,   'battery_placeholder[0].cells_stat[2].t_max.index'))
     id_tab.append(rct_id(0xCF005C54, 733, 'prim_sm.phase_3_mode',                             rct_data.t_bool,    'prim_sm.phase_3_mode'))
-    id_tab.append(rct_id(0xCF053085, 734, 'g_sync.u_l_rms[0]',                                rct_data.t_float,   'AC voltage phase 1 [V]'))
+    id_tab.append(rct_id(0xCF053085, 734, 'g_sync.u_l_rms[0]',                                rct_data.t_float,   'AC voltage phase 1 [V] openWB VPhase1 '))
     id_tab.append(rct_id(0xCF096A6B, 735, 'battery_placeholder[0].stack_software_version[4]', rct_data.t_uint32,  'Software version stack 4'))
     id_tab.append(rct_id(0xD0C47326, 736, 'battery.cells_stat[1].t_min.value',                rct_data.t_float,   'battery.cells_stat[1].t_min.value'))
     id_tab.append(rct_id(0xD143A391, 737, 'can_bus.set_cell_v_t',                             rct_data.t_uint32,  'can_bus.set_cell_v_t'))
@@ -1460,7 +1476,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0xF49F58F2, 852, 'nsm.p_u[2][1]',                                    rct_data.t_float,   'Point 3 voltage [V]'))
     id_tab.append(rct_id(0xF52C0B50, 853, 'power_mng.schedule[7]',                            rct_data.t_string,  'power_mng.schedule[7]'))
     id_tab.append(rct_id(0xF54BC06D, 854, 'battery.cells_stat[4].u_max.value',                rct_data.t_float,   'battery.cells_stat[4].u_max.value'))
-    id_tab.append(rct_id(0xF5584F90, 855, 'g_sync.p_ac_sc[1]',                                rct_data.t_float,   'Grid power phase 2 [W]'))
+    id_tab.append(rct_id(0xF5584F90, 855, 'g_sync.p_ac_sc[1]',                                rct_data.t_float,   'Grid power phase 2 [W] openWB bezug_watt2'))
     id_tab.append(rct_id(0xF644DCA7, 856, 'bat_mng_struct.k_reserve',                         rct_data.t_float,   'Main reservation coefficient [0..2]'))
     id_tab.append(rct_id(0xF677D737, 857, 'battery_placeholder[0].cells_stat[6].u_max.time',  rct_data.t_uint32,  'battery_placeholder[0].cells_stat[6].u_max.time'))
     id_tab.append(rct_id(0xF68ECC1F, 858, 'battery_placeholder[0].cells_stat[1].u_max.time',  rct_data.t_uint32,  'battery_placeholder[0].cells_stat[1].u_max.time'))
@@ -1481,13 +1497,13 @@ def id_tab_setup():
     id_tab.append(rct_id(0xFB5DE9C5, 873, 'prim_sm.minigrid_flag',                            rct_data.t_bool,    'Minigrid support'))
     id_tab.append(rct_id(0xFB796780, 874, 'battery.cells_stat[1]',                            rct_data.t_string,  'battery.cells_stat[1]'))
     id_tab.append(rct_id(0xFBD94C1F, 875, 'power_mng.amp_hours',                              rct_data.t_float,   'Battery energy [Ah]'))
-    id_tab.append(rct_id(0xFBF3CE97, 876, 'energy.e_dc_day[1]',                               rct_data.t_float,   'Solar generator B day energy [Wh]'))
+    id_tab.append(rct_id(0xFBF3CE97, 876, 'energy.e_dc_day[1]',                               rct_data.t_float,   'Solar generator B day energy [Wh] openWB XXX'))
     id_tab.append(rct_id(0xFBF6D834, 877, 'battery.module_sn[0]',                             rct_data.t_string,  'Module 0 Serial Number'))
     id_tab.append(rct_id(0xFBF8D63C, 878, 'energy.e_grid_load_day_sum',                       rct_data.t_float,   'energy.e_grid_load_day_sum'))
     id_tab.append(rct_id(0xFC1C614E, 879, 'energy.e_ac_month_sum',                            rct_data.t_float,   'energy.e_ac_month_sum'))
     id_tab.append(rct_id(0xFC1F8C65, 880, 'battery_placeholder[0].cells_stat[6].t_max.time',  rct_data.t_uint32,  'battery_placeholder[0].cells_stat[6].t_max.time'))
     id_tab.append(rct_id(0xFC5AA529, 881, 'bat_mng_struct.bat_calib_soc_threshold',           rct_data.t_float,   'SOC threshold for battery calibration in advance'))
-    id_tab.append(rct_id(0xFC724A9E, 882, 'energy.e_dc_total[0]',                             rct_data.t_float,   'Solar generator A total energy [Wh]'))
+    id_tab.append(rct_id(0xFC724A9E, 882, 'energy.e_dc_total[0]',                             rct_data.t_float,   'Solar generator A total energy [Wh] openWB pvkwh'))
     id_tab.append(rct_id(0xFCA1CBB5, 883, 'battery_placeholder[0].voltage',                   rct_data.t_float,   'Battery voltage [V]'))
     id_tab.append(rct_id(0xFCC39293, 884, 'nsm.rpm_lock_in_power',                            rct_data.t_float,   'Reactive Power Mode lock-in power [P/Pn]'))
     id_tab.append(rct_id(0xFCF4E78D, 885, 'logger.day_ea_log_ts',                             rct_data.t_int32,   'logger.day_ea_log_ts'))
