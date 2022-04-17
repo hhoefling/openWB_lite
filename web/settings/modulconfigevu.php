@@ -193,7 +193,7 @@
 							<div class="form-row mb-1">
 								<label for="evu_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="evu_pullerip" id="evu_pullerip" value="<?php echo $evu_pulleripold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name=mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12
 									</span>
