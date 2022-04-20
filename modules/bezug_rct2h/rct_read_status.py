@@ -64,14 +64,25 @@ def main():
             rct_lib.add_by_name(MyTab, 'grid_offset')
             rct_lib.add_by_name(MyTab, 'grid_pll[0].f')
             MyTab.append(rct_id(0         , 0,     '--------------------- ----- ------------------'))
+            rct_lib.add_by_name(MyTab, 'nsm.p_limit')
+            rct_lib.add_by_name(MyTab, 'buf_v_control.power_reduction_max_solar')
+            rct_lib.add_by_name(MyTab, 'buf_v_control.power_reduction_max_solar_grid')
+
+            rct_lib.add_by_name(MyTab, 'p_rec_lim[0]')
+            rct_lib.add_by_name(MyTab, 'p_rec_lim[1]')
+            rct_lib.add_by_name(MyTab, 'p_rec_lim[2]')
+            
+            
+            MyTab.append(rct_id(0         , 0,     '--------------------- ----- ------------------'))
+
 
             # read via rct_id list
             response = rct_lib.read(clientsocket, MyTab)
             rct_lib.close(clientsocket)
             
-            # output all response elements
-            rct_lib.dbglog("Overall access time: {:.3f} seconds".format(time.time() - start_time))
-            rct_lib.dbglog(rct_lib.format_list(response))
+            
+            rct_lib.dbglog(response.format_list(time.time() - start_time))
+                        
         except Exception as e:
             rct_lib.close(clientsocket)
             raise(e)
