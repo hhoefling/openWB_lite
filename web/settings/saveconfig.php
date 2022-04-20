@@ -132,6 +132,8 @@
 
 		// handling of different actions required by some modules
 
+		exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/mqttpuller.sh >> /var/log/openWB.log 2>&1 &" );
+
 		// check for manual ev soc module on lp1
 		if( array_key_exists( 'socmodul', $_POST ) ){
             if (preg_match("/^soc_manual/", $_POST['socmodul'] )) {
@@ -176,7 +178,7 @@
 		if( array_key_exists( 'etprovideraktiv', $_POST ) && ($_POST['etprovideraktiv'] == 1) ){ ?>
 			<script>$('#feedbackdiv').append("<br>Update des Stromtarifanbieters gestartet.");</script>
 			<?php
-			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['etprovider'] . "/main.sh > /var/log/openWB.log 2>&1 &" );
+			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['etprovider'] . "/main.sh >> /var/log/openWB.log 2>&1 &" );
 			exec( 'mosquitto_pub -t openWB/global/ETProvider/modulePath -r -m "' . $_POST['etprovider'] . '"' );
 		}
 

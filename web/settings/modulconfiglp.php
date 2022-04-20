@@ -96,6 +96,7 @@
 										<option <?php if($evseconold == "httpevse") echo "selected" ?> value="httpevse">HTTP</option>
 										<option <?php if($evseconold == "modbusevse" && !($ladeleistungmodulold == "mpm3pmll" && ($mpm3pmllsourceold == "/dev/ttyUSB0" || $mpm3pmllsourceold == "/dev/serial0") && ($mpm3pmllidold == "0" || $mpm3pmllidold == "5" || $mpm3pmllidold == "105"))) echo "selected" ?> value="modbusevse">Modbusevse</option>
 										<option <?php if($evseconold == "mqttevse") echo "selected" ?> value="mqttevse">MQTT</option>
+										<option <?php if($evseconold == "mqtt_puller") echo "selected" ?> value="mqtt_puller">MQTT mit Puller</option>
 									</optgroup>
 								</select>
 							</div>
@@ -330,7 +331,23 @@
 								<span class="text-info">openWB/set/lp/1/plugStat</span> Status, ob ein Fahrzeug angesteckt ist, nur 0 (nein) oder 1 (ja)<br>
 								<span class="text-info">openWB/set/lp/1/chargeStat</span> Status, ob gerade geladen wird, nur 0 (nein) oder 1 (ja)
 							</div>
+							<div id="evseconmqttpuller" class="hide">
+								<div class="form-row mb-1">
+									<label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
+									<div class="col">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
+										<span class="form-text small">
+											Gültige Werte IP Adresse im Format: 192.168.0.12
+										</span>
+									</div>
+								</div>
+								<div class="alert alert-info">
+									IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
+								</div>
+							</div>							
 						</div>
+						
+						
 						<div id="evsecontwcmanager" class="hide">
 							<input type="hidden" name="ladeleistungmodul" value="twcmanagerlp1">
 							<div class="form-group">
@@ -449,6 +466,7 @@
 										<optgroup label="generische Module">
 											<option <?php if($ladeleistungmodulold == "httpll") echo "selected" ?> value="httpll">HTTP</option>
 											<option <?php if($ladeleistungmodulold == "mqttll") echo "selected" ?> value="mqttll">MQTT</option>
+											<option <?php if($ladeleistungmodulold == "mqtt_puller") echo "selected" ?> value="mqtt_puller">MQTT mit Puller</option>
 										</optgroup>
 									</select>
 								</div>
@@ -688,6 +706,20 @@
 									<span class="text-info">openWB/set/lp/1/HzFrequenz</span> Netzfrequenz, float, Punkt als Trenner, nur positiv
 								</div>
 							</div>
+							<div id="mqttllpuller" class="hide">
+								<div class="form-row mb-1">
+									<label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
+									<div class="col">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
+										<span class="form-text small">
+											Gültige Werte IP Adresse im Format: 192.168.0.12
+										</span>
+									</div>
+								</div>
+								<div class="alert alert-info">
+									IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
+								</div>
+							</div>							
 						</div>
 
 						<hr class="border-primary">
@@ -703,6 +735,7 @@
 										<option <?php if($socmodulold == "soc_manual") echo "selected" ?> value="soc_manual">Manuell + Berechnung</option>
 										<option <?php if($socmodulold == "soc_manualSkoda") echo "selected" ?> value="soc_manualSkoda">Skoda-API & Manuell + Berechnung</option>
 										<option <?php if($socmodulold == "soc_mqtt") echo "selected" ?> value="soc_mqtt">MQTT</option>
+										<option <?php if($socmodulold == "soc_mqttpuller") echo "selected" ?> value="soc_mqttpuller">MQTT mit Puller</option>
 										<!-- <option <?php if($socmodulold == "soc_tronity") echo "selected" ?> value="soc_tronity">Tronity</option> -->
 									</optgroup>
 									<optgroup label="Fahrzeughersteller">
@@ -798,6 +831,20 @@
 									<span class="text-info">openWB/set/lp/1/%Soc</span> Ladezustand in %, int, 0-100<br>
 									<span class="text-info">openWB/set/lp/1/SocKM</span> Killometerstand des PKW bei der letzten SOC-Abfrage
 								</div>
+							    <div id="socmqttpuller" class="hide">
+								    <div class="form-row mb-1">
+									   <label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
+									   <div class="col">
+									   	<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
+										<span class="form-text small">
+											Gültige Werte IP Adresse im Format: 192.168.0.12
+										</span>
+									   </div>
+								    </div>
+								    <div class="alert alert-info">
+									   IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
+								    </div>
+							     </div>							
 							</div>
 							<div id="socmtesla" class="hide">
 								<div class="form-group">
@@ -2121,6 +2168,8 @@
 							hideSection('#evseconextopenwb');
 							hideSection('#evseconowbpro');
 							hideSection('#evseconmqtt');
+							hideSection('#evseconmqttpuller');
+							
 
 							if($('#evsecon').val() == 'modbusevse') {
 								switch( $("#evsecon option:selected").attr('data-id') ){
@@ -2177,6 +2226,12 @@
 								showSection('#llmodullp1');
 								display_llmp1();
 							}
+							if($('#evsecon').val() == 'mqtt_puller') {
+								showSection('#evseconmqtt');
+								showSection('#evseconmqttpuller');
+								showSection('#llmodullp1');
+								display_llmp1();
+							}
 							if($('#evsecon').val() == 'goe') {
 								showSection('#evsecongoe');
 							}
@@ -2210,6 +2265,7 @@
 							hideSection('#httpll');
 							hideSection('#mpm3pmlllp1div');
 							hideSection('#mqttll');
+							hideSection('#mqttllpuller');
 
 							if($('#ladeleistungmodul').val() == 'mpm3pmlllp1') {
 								showSection('#mpm3pmlllp1div');
@@ -2249,6 +2305,10 @@
 							if($('#ladeleistungmodul').val() == 'mqttll') {
 								showSection('#mqttll');
 							}
+							if($('#ladeleistungmodul').val() == 'mqtt_puller') {
+								showSection('#mqttll');
+								showSection('#mqttllpuller');
+							}
 						}
 
 						// visibility of soc modules
@@ -2270,6 +2330,7 @@
 							hideSection('#socvag');
 							hideSection('#socevcc');
 							hideSection('#socmqtt');
+							hideSection('#socmqttpuller');
 							hideSection('#socmbluelink');
 							hideSection('#socmkia');
 							hideSection('#socmuser');
@@ -2299,6 +2360,12 @@
 								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3145')
 								showSection('#socsupportinfo');
 								showSection('#socmqtt');
+							}
+							if($('#socmodul').val() == 'soc_mqttpuller') {
+								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3145')
+								showSection('#socsupportinfo');
+								showSection('#socmqtt');
+								showSection('#socmqttpuller');
 							}
 							if($('#socmodul').val() == 'soc_bluelink') {
 								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3138')
@@ -2463,6 +2530,7 @@
 										<option <?php if($evsecons1old == "dac") echo "selected" ?> value="dac">DAC</option>
 										<option <?php if($evsecons1old == "modbusevse" && !($evseids1old == "1" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB1" && $mpm3pmlls1idold == "6" && $evsesources1old == "/dev/ttyUSB1") && !($evseids1old == "2" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB0" && $mpm3pmlls1idold == "106" && $evsesources1old == "/dev/ttyUSB0") ) echo "selected" ?> value="modbusevse">Modbus</option>
 										<option <?php if($evsecons1old == "mqttevse") echo "selected" ?> value="mqttevse">MQTT</option>
+										<option <?php if($evsecons1old == "mqtt_puller") echo "selected" ?> value="mqtt_puller">MQTT mit Puller</option>
 									</optgroup>
 								</select>
 							</div>
@@ -2665,6 +2733,21 @@
 								<span class="text-info">openWB/set/lp/2/plugStat</span> Status, ob ein Fahrzeug angesteckt ist, nur 0 (nein) oder 1 (ja)<br>
 								<span class="text-info">openWB/set/lp/2/chargeStat</span> Status, ob gerade geladen wird, nur 0 (nein) oder 1 (ja)
 							</div>
+							<div id="evseconmqtts1puller" class="hide">
+								<div class="form-row mb-1">
+									<label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
+									<div class="col">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
+										<span class="form-text small">
+											Gültige Werte IP Adresse im Format: 192.168.0.12
+										</span>
+									</div>
+								</div>
+								<div class="alert alert-info">
+									IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
+								</div>
+							</div>							
+							
 						</div>
 						<div id="evsecoslaveeth" class="hide">
 							<input type="hidden" name="ladeleistungs1modul" value="mpm3pmethll">
@@ -2744,6 +2827,7 @@
 										</optgroup>
 										<optgroup label="generische Module">
 											<option <?php if($ladeleistungs1modulold == "mqttlllp2") echo "selected" ?> value="mqttlllp2">MQTT</option>
+											<option <?php if($ladeleistungs1modulold == "mqtt_puller") echo "selected" ?> value="mqtt_puller">MQTT mit puller</option>
 										</optgroup>
 									</select>
 								</div>
@@ -2762,6 +2846,20 @@
 									<span class="text-info">openWB/set/lp/2/APhase2</span> Strom Phase 2, float, Punkt als Trenner, nur positiv<br>
 									<span class="text-info">openWB/set/lp/2/APhase3</span> Strom Phase 3, float, Punkt als Trenner, nur positiv
 								</div>
+								<div id="mqttlllp2divpuller" class="hide">
+									<div class="form-row mb-1">
+										<label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
+										<div class="col">
+											<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
+											<span class="form-text small">
+												Gültige Werte IP Adresse im Format: 192.168.0.12
+											</span>
+										</div>
+									</div>
+									<div class="alert alert-info">
+										IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
+									</div>
+								</div>							
 							</div>
 							<div id="mpm3pmlllp2div" class="hide">
 								<div class="form-group">
@@ -2894,6 +2992,7 @@
 										<option <?php if($socmodul1old == "soc_manuallp2Skoda") echo "selected" ?> value="soc_manuallp2Skoda">Skoda-API & Manuell + Berechnung</option>
 										<option <?php if($socmodul1old == "soc_manuallp2") echo "selected" ?> value="soc_manuallp2">Manuell + Berechnung</option>
 										<option <?php if($socmodul1old == "soc_mqtt") echo "selected" ?> value="soc_mqtt">MQTT</option>
+										<option <?php if($socmodul1old == "soc_mqttpuller") echo "selected" ?> value="soc_mqttpuller">MQTT mit Puller</option>
 										<!-- <option <?php if($socmodul1old == "soc_tronitylp2") echo "selected" ?> value="soc_tronitylp2">Tronity</option> -->
 									</optgroup>
 									<optgroup label="Fahrzeughersteller">
@@ -3011,6 +3110,20 @@
 									<span class="text-info">openWB/set/lp/2/%Soc</span> Ladezustand in %, int, 0-100<br>
 									<span class="text-info">openWB/set/lp/2/SocKM</span> Killometerstand des PKW bei der letzten SOC-Abfrage
 								</div>
+							    <div id="socmqtt1puller" class="hide">
+								    <div class="form-row mb-1">
+									   <label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
+									   <div class="col">
+									   	<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
+										<span class="form-text small">
+											Gültige Werte IP Adresse im Format: 192.168.0.12
+										</span>
+									   </div>
+								    </div>
+								    <div class="alert alert-info">
+									   IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
+								    </div>
+							     </div>							
 							</div>
 							<div id="socmzeronglp2" class="hide">
 								<div class="form-group">
@@ -4100,6 +4213,7 @@
 							hideSection('#evsecondaemonlp2');
 							hideSection('#evseconipevselp2');
 							hideSection('#evseconmqtts1');
+							hideSection('#evseconmqtts1puller');
 
 							if($('#evsecons1').val() == 'modbusevse') {
 								switch( $("#evsecons1 option:selected").attr('data-id') ){
@@ -4127,6 +4241,12 @@
 							}
 							if($('#evsecons1').val() == 'mqttevse') {
 								showSection('#evseconmqtts1');
+								showSection('#llmodullp2');
+								display_llmp2();
+							}
+							if($('#evsecons1').val() == 'mqtt_puller') {
+								showSection('#evseconmqtts1');
+								showSection('#evseconmqtts1puller');
 								showSection('#llmodullp2');
 								display_llmp2();
 							}
@@ -4165,6 +4285,7 @@
 							hideSection('#rs485lanlp2');
 							hideSection('#mpm3pmlllp2div');
 							hideSection('#mqttlllp2div');
+							hideSection('#mqttlllp2divpuller');
 
 							if($('#ladeleistungs1modul').val() == 'sdm630modbuslls1') {
 								showSection('#sdm630s1div');
@@ -4191,12 +4312,17 @@
 							if($('#ladeleistungs1modul').val() == 'mqttlllp2') {
 								showSection('#mqttlllp2div');
 							}
+							if($('#ladeleistungs1modul').val() == 'mqtt_puller') {
+								showSection('#mqttlllp2div');
+								showSection('#mqttlllp2divpuller');
+							}
 						}
 
 						function display_socmodul1() {
 
 							hideSection('#socmodullp2');
 							hideSection('#socmqtt1');
+							hideSection('#socmqtt1puller');
 							hideSection('#socmtype2');
 							hideSection('#socmuser2');
 							hideSection('#socmpass2');
@@ -4236,6 +4362,12 @@
 								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3145')
 								showSection('#socsupportinfolp2');
 								showSection('#socmqtt1');
+							}
+							if($('#socmodul1').val() == 'soc_mqttpuller') {
+								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3145')
+								showSection('#socsupportinfolp2');
+								showSection('#socmqtt1');
+								showSection('#socmqtt1puller');
 							}
 							if($('#socmodul1').val() == 'soc_http1') {
 								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3143')
