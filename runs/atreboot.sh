@@ -482,6 +482,17 @@ mosquitto_pub -r -t openWB/SmartHome/Devices/1/TemperatureSensor2 -m ""
 mosquitto_pub -r -t openWB/SmartHome/Devices/2/TemperatureSensor0 -m ""
 mosquitto_pub -r -t openWB/SmartHome/Devices/2/TemperatureSensor1 -m ""
 mosquitto_pub -r -t openWB/SmartHome/Devices/2/TemperatureSensor2 -m ""
+# lasse die leeren Graphicn anlegen
+mosquitto_pub -r -t openWB/set/graph/RequestMonthGraph -m "0"
+mosquitto_pub -r -t openWB/set/graph/RequestLLiveGraph -m "0"
+mosquitto_pub -r -t openWB/set/graph/RequestDayGraph -m "0"
+mosquitto_pub -r -t openWB/set/graph/RequestMonthGraphv1 -m "0"
+mosquitto_pub -r -t openWB/set/graph/RequestYearGraph -m "0"
+mosquitto_pub -r -t openWB/set/graph/RequestMonthLadelog -m "0"
+
+
+
+
 rm -rf /var/www/html/openWB/web/themes/dark19_01
 (sleep 10; mosquitto_pub -t openWB/set/ChargeMode -r -m "$bootmodus") &
 (sleep 10; mosquitto_pub -t openWB/global/ChargeMode -r -m "$bootmodus") &
