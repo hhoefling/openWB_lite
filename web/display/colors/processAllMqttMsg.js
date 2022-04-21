@@ -434,8 +434,8 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 		}
 		$('#time').text(time);
 		$('#date').text(date);
-	} else if (mqttmsg == 'openWB/system/IpAddress') {
-		$('.systemIpAddress').text(mqttpayload);
+//	} else if (mqttmsg == 'openWB/system/IpAddress') {
+//		$('.systemIpAddress').text(mqttpayload);
 	} else if (mqttmsg == 'openWB/system/wizzardDone') {
 		if (mqttpayload > 99) {
 			$("#wizzardModal").modal("hide");

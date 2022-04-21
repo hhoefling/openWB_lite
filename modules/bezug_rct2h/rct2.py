@@ -74,6 +74,8 @@ def main():
                     pv1total = rct_lib.add_by_name(MyTab, 'energy.e_dc_total[0]')
                     pv2total = rct_lib.add_by_name(MyTab, 'energy.e_dc_total[1]')
                     pvEtotal = rct_lib.add_by_name(MyTab, 'energy.e_ext_total')
+                    pLimit   = rct_lib.add_by_name(MyTab, 'p_rec_lim[2]') # max. AC power according to RCT Power
+
                 pv1watt  = rct_lib.add_by_name(MyTab, 'dc_conv.dc_conv_struct[0].p_dc')
                 pv2watt  = rct_lib.add_by_name(MyTab, 'dc_conv.dc_conv_struct[1].p_dc')
                 pvEwatt  = rct_lib.add_by_name(MyTab, 'io_board.s0_external_power')
@@ -96,7 +98,7 @@ def main():
             rct_lib.close(clientsocket)
             
             # output all response elements
-            rct_lib.dbglog("Overall access time: {:.3f} seconds".format(time.time() - start_time))
+            #rct_lib.errlog("RCT2H Overall connetion time: {:.3f} seconds".format(time.time() - start_time))
             rct_lib.dbglog(rct_lib.format_list(response))
         except Exception as e:
             rct_lib.close(clientsocket)
@@ -186,11 +188,13 @@ def main():
             pvwatt = ( (pv1watt+pv2watt+pvEwatt) * -1 )
             writeRam('pvwatt', int(pvwatt), 'negative Summe von pv1/2/3watt')
             
+ 
             # Alternative wr_ac out statt dc_in summe
             #pvwatt=int(rct_lib.read(clientsocket,0x4E49AEC5) ) *-1   #  g_sync.p_ac_sum 2580.68408203125
             #writeRam('pvwatt', int(pvwatt), 'wr out')
             if rct_lib.bm5:
                 rct_lib.dbglog("--m5 set, update WR totals")
+                writeRam('maxACkW', int(pLimit.value), 'Maximale zur Ladung verwendete AC-Leistung des Wechselrichters')
                 #monthly
                 mA=int(mA.value)  # energy.e_dc_month[0]  WH
                 mB=int(mB.value)  # energy.e_dc_month[1]  WH

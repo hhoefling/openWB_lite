@@ -212,7 +212,9 @@ done
 #tempPubList="${tempPubList}\nopenWB/global/diskFree=$(echo ${sysinfo} | jq -r '.diskfree')"
 
 
-echo "pubmqtt.Publist:"
-echo -e $tempPubList
-#echo "Running Python: runs/mqttpub.py -q 0 -r &"
+if [[ $debug == "2" ]]; then	
+	echo "pubmqtt.Publist:"
+	echo -e $tempPubList
+	#echo "Running Python: runs/mqttpub.py -q 0 -r &"
+fi	
 echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
