@@ -132,8 +132,6 @@
 
 		// handling of different actions required by some modules
 
-		exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/mqttpuller.sh >> /var/log/openWB.log 2>&1 &" );
-
 		// check for manual ev soc module on lp1
 		if( array_key_exists( 'socmodul', $_POST ) ){
             if (preg_match("/^soc_manual/", $_POST['socmodul'] )) {

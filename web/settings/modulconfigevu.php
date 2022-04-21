@@ -107,7 +107,6 @@
 										<option <?php if($wattbezugmodulold == "bezug_json") echo "selected" ?> value="bezug_json">Json</option>
 										<option <?php if($wattbezugmodulold == "bezug_mpm3pm") echo "selected" ?> value="bezug_mpm3pm">MPM3PM</option>
 										<option <?php if($wattbezugmodulold == "bezug_mqtt") echo "selected" ?> value="bezug_mqtt">MQTT</option>
-										<option <?php if($wattbezugmodulold == "bezug_mqttpuller") echo "selected" ?> value="bezug_mqttpuller">MQTT mit Puller</option>
 										<option <?php if($wattbezugmodulold == "sdm630modbusbezug") echo "selected" ?> value="sdm630modbusbezug">SDM 630</option>
 										<!-- <option <?php if($wattbezugmodulold == "vzlogger") echo "selected" ?> value="vzlogger">VZLogger</option> -->
 									</optgroup>
@@ -186,10 +185,9 @@
 								<span class="text-info">openWB/set/evu/VPhase1</span> Spannung in Volt für Phase 1, float, Punkt als Trenner<br>
 								<span class="text-info">openWB/set/evu/VPhase2</span> Spannung in Volt für Phase 2, float, Punkt als Trenner<br>
 								<span class="text-info">openWB/set/evu/VPhase3</span> Spannung in Volt für Phase 3, float, Punkt als Trenner<br>
-								<span class="text-info">openWB/set/evu/HzFrequenz</span> Netzfrequenz in Hz, float, Punkt als Trenner
+								<span class="text-info">openWB/set/evu/HzFrequenz</span> Netzfrequenz in Hz, float, Punkt als Trenner<br>
+								Wenn unten eine Ip-adresse einegetrafen wird, dann werden diese Werte von dortigen MQTT Server geholt.
 							</div>
-						</div>
-						<div id="wattbezugmqttpuller" class="hide">
 							<div class="form-row mb-1">
 								<label for="evu_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
@@ -952,7 +950,6 @@
 								//hideSection('#wattbezugdiscovergy');
 								//hideSection('#wattbezuglgessv1');
 								hideSection('#wattbezugmqtt');
-								hideSection('#wattbezugmqttpuller');
 								//hideSection('#wattbezugsonneneco');
 								//hideSection('#wattbezugvarta');
 								//hideSection('#wattbezugfems');
@@ -1034,11 +1031,6 @@
 								//}
 								if($('#wattbezugmodul').val() == 'bezug_mqtt') {
 									showSection('#wattbezugmqtt');
-								}
-								if($('#wattbezugmodul').val() == 'bezug_mqttpuller') {
-									showSection('#wattbezugmqtt');
-									showSection('#wattbezugmqttpuller');
-									
 								}
 								//if($('#wattbezugmodul').val() == 'bezug_victrongx') {
 								//	showSection('#wattbezugvictrongx');
