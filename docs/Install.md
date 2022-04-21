@@ -1,5 +1,5 @@
 
-## Installation auf einer Pi3B+/Pi4B+ .##
+## Installation auf einer Pi3B+/Pi4B+ ##
 
 Vorbereiten
 - Ein Stretch oder Buster Image mit Desktop wählen.
