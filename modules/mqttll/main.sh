@@ -11,7 +11,7 @@ MODULEDIR=$(cd `dirname $0` && pwd)
 srcip=${mqtt_pullerip:-""}
 if [[ "$srcip" == "none" ]] ; then
   srcip=""
-fi)
+fi
 if [[ ! -z "$srcip" ]] ; then
    openwbDebugLog "MAIN" 0 "mqtt_pullerip[${srcip}] [${MODULEDIR}] "
    $MODULEDIR/mqttpuller.sh
