@@ -164,6 +164,10 @@ fi
 # check if display is configured and setup timeout
 if (( displayaktiv == 1 )); then
 	log "display..."
+
+	if [ ! -d /home/pi/.config/lxsession ] ; then
+ 	   cp -rp /etc/xdg/lxsession /home/pi/.config/.
+	fi
 	if ! grep -Fq "pinch" /home/pi/.config/lxsession/LXDE-pi/autostart
 	then
 		log "not found"
