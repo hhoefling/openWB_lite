@@ -181,19 +181,19 @@ Die Verschieden Speichermedien und ihre Geschwindigkeit.
 ```
 apt install hdparm
 
-auf Raspi3B+ mit 32GB
+auf Raspi3B+ mit 32GB SDHC
 hdparm -tT /dev/mmcblk0  
 /dev/mmcblk0:
  Timing cached reads:   1170 MB in  2.00 seconds = 584.59 MB/sec
  Timing buffered disk reads:  68 MB in  3.04 seconds =  22.38 MB/sec
 
-auf Raspi4B+ mit 32GB
+auf Raspi4B+ mit 32GB SDHC
 hparm -tT /dev/mmcblk0  
 /dev/mmcblk0:
  Timing cached reads:   1038 MB in  2.00 seconds = 519.06 MB/sec
  Timing buffered disk reads: 134 MB in  3.02 seconds =  44.40 MB/sec
  
- auf Raspi4B+ mit 16GB SanDisk Ultra U3-USBStick an USB3 Port 
+ auf Raspi4B+ mit 32GB SanDisk Ultra U3-USBStick an USB3 Port 
 hdparm -tT /dev/sda
  /dev/sda:
  Timing cached reads:   1226 MB in  2.00 seconds = 613.43 MB/sec
