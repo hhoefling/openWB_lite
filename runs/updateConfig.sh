@@ -1924,6 +1924,12 @@ updateConfig(){
 	if ! grep -Fq "modbus502enabled=" $ConfigFile; then
 		echo "modbus502enabled=0" >> $ConfigFile
 	fi
+	if ! grep -Fq "mqttpullerenabled=" $ConfigFile; then
+		echo "mqttpullerenabled=0" >> $ConfigFile
+	fi
+	if ! grep -Fq "mqtt_pullerip=" $ConfigFile; then
+		echo "mqtt_pullerip=none" >> $ConfigFile
+	fi
 	if ! grep -Fq "rseenabled=" $ConfigFile; then
 		echo "rseenabled=0" >> $ConfigFile
 	fi
