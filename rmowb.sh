@@ -5,6 +5,8 @@ cd /var/www/html
 
 kill $(ps aux |grep '[s]marthomehandler.py' | awk '{print $2}')
 kill $(ps aux |grep '[m]qttsub.py' | awk '{print $2}')
+kill $(ps aux |grep '[m]qttpuller.py' | awk '{print $2}')
+
 umount /var/www/html/openWB/ramdisk
 cp /etc/fstab /tmp/fstab
 cat /tmp/fstab | grep -v openWB >/etc/fstab
