@@ -4,8 +4,8 @@
 Vorbereiten
 - Ein Stretch oder Buster Image mit Desktop wählen.
 - ssh aktivieren (ssh in boot ablegen)
-- root password setzen
-- root für ssh freischalten
+- (optional) root password setzen
+- (optional) root für ssh freischalten
 - apt update/upgrade ausführen
 
 curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-install.sh | sudo bash
