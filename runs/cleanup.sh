@@ -10,7 +10,7 @@ else
         echo "$timestamp cleanup.sh: checking logfiles (without openWB.log)" >> /var/www/html/openWB/ramdisk/openWB.log
         echo "$timestamp cleanup.sh: checking logfiles (without openWB.log)"
         find /var/www/html/openWB/ramdisk/ -name "*.log" -type f -exec /var/www/html/openWB/runs/cleanupf.sh {} \;
-        echo "$timestamp cleanup.sh: checking openWB.log 512Kb" >> /var/www/html/openWB/ramdisk/openWB.log
-        echo "$timestamp cleanup.sh: checking openWB.log 512Kb"
-        /var/www/html/openWB/runs/cleanupf.sh /var/log/openWB.log  512;
+        echo "$timestamp cleanup.sh: checking openWB.log 1024Kb" >> /var/www/html/openWB/ramdisk/openWB.log
+        echo "$timestamp cleanup.sh: checking openWB.log 1024Kb"
+        /var/www/html/openWB/runs/cleanupf.sh /var/log/openWB.log  1024;
 fi

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Truncate Logfile to max 256KB each
+# Truncate Logfile to max KB each
 # Truncate only if bigger, let the file untouched if less.
 
 f=$1
-kb=${2:-256}
+kb=${2:-512}
 
 logfilesize=$(stat --format=%s "$f")
 if  (( $logfilesize > (kb * 1024) )) ; then
