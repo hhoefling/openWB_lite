@@ -329,19 +329,6 @@
 								Per MQTT zu schreiben:<br>
 								<span class="text-info">openWB/set/lp/1/plugStat</span> Status, ob ein Fahrzeug angesteckt ist, nur 0 (nein) oder 1 (ja)<br>
 								<span class="text-info">openWB/set/lp/1/chargeStat</span> Status, ob gerade geladen wird, nur 0 (nein) oder 1 (ja)<br>
-								Wenn unten eine Ip-adresse einegetrafen wird, dann werden diese Werte von dortigen MQTT Server geholt.
-								<div class="form-row mb-1">
-									<label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
-									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
-										<span class="form-text small">
-											Gültige Werte IP Adresse im Format: 192.168.0.12
-										</span>
-									</div>
-								</div>
-								<div class="alert alert-info">
-									IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
-								</div>
 							</div>							
 						</div>
 						
@@ -701,19 +688,6 @@
 									<span class="text-info">openWB/set/lp/1/APhase2</span> Strom Phase 2, float, Punkt als Trenner, nur positiv<br>
 									<span class="text-info">openWB/set/lp/1/APhase3</span> Strom Phase 3, float, Punkt als Trenner, nur positiv<br>
 									<span class="text-info">openWB/set/lp/1/HzFrequenz</span> Netzfrequenz, float, Punkt als Trenner, nur positiv<br>
-									Wenn unten eine Ip-adresse einegetrafen wird, dann werden diese Werte von dortigen MQTT Server geholt.
-								</div>
-								<div class="form-row mb-1">
-									<label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
-									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
-										<span class="form-text small">
-											Gültige Werte IP Adresse im Format: 192.168.0.12
-										</span>
-									</div>
-								</div>
-								<div class="alert alert-info">
-									IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
 								</div>
 							</div>							
 						</div>
@@ -825,19 +799,6 @@
 									Per MQTT zu schreiben:<br>
 									<span class="text-info">openWB/set/lp/1/%Soc</span> Ladezustand in %, int, 0-100<br>
 									<span class="text-info">openWB/set/lp/1/SocKM</span> Killometerstand des PKW bei der letzten SOC-Abfrage<br>
-									Wenn unten eine Ip-adresse einegetrafen wird, dann werden diese Werte von dortigen MQTT Server geholt.
-								    <div class="form-row mb-1">
-									   <label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
-									   <div class="col">
-									   	<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
-										<span class="form-text small">
-											Gültige Werte IP Adresse im Format: 192.168.0.12
-										</span>
-									   </div>
-								    </div>
-								    <div class="alert alert-info">
-									   IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
-								    </div>
 							     </div>							
 							</div>
 							<div id="socmtesla" class="hide">
@@ -2706,19 +2667,6 @@
 								Per MQTT zu schreiben:<br>
 								<span class="text-info">openWB/set/lp/2/plugStat</span> Status, ob ein Fahrzeug angesteckt ist, nur 0 (nein) oder 1 (ja)<br>
 								<span class="text-info">openWB/set/lp/2/chargeStat</span> Status, ob gerade geladen wird, nur 0 (nein) oder 1 (ja)<br>
-								Wenn unten eine Ip-adresse einegetrafen wird, dann werden diese Werte von dortigen MQTT Server geholt.
-								<div class="form-row mb-1">
-									<label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
-									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
-										<span class="form-text small">
-											Gültige Werte IP Adresse im Format: 192.168.0.12
-										</span>
-									</div>
-								</div>
-								<div class="alert alert-info">
-									IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
-								</div>
 							</div>							
 							
 						</div>
@@ -2817,19 +2765,6 @@
 									<span class="text-info">openWB/set/lp/2/APhase1</span> Strom Phase 1, float, Punkt als Trenner, nur positiv<br>
 									<span class="text-info">openWB/set/lp/2/APhase2</span> Strom Phase 2, float, Punkt als Trenner, nur positiv<br>
 									<span class="text-info">openWB/set/lp/2/APhase3</span> Strom Phase 3, float, Punkt als Trenner, nur positiv<br>
-									Wenn unten eine Ip-adresse einegetrafen wird, dann werden diese Werte von dortigen MQTT Server geholt.
-									<div class="form-row mb-1">
-										<label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
-										<div class="col">
-											<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
-											<span class="form-text small">
-												Gültige Werte IP Adresse im Format: 192.168.0.12
-											</span>
-										</div>
-									</div>
-									<div class="alert alert-info">
-										IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
-									</div>
 								</div>							
 							</div>
 							<div id="mpm3pmlllp2div" class="hide">
@@ -3079,18 +3014,6 @@
 									Per MQTT zu schreiben:<br>
 									<span class="text-info">openWB/set/lp/2/%Soc</span> Ladezustand in %, int, 0-100<br>
 									<span class="text-info">openWB/set/lp/2/SocKM</span> Killometerstand des PKW bei der letzten SOC-Abfrage
-								    <div class="form-row mb-1">
-									   <label for="mqtt_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
-									   <div class="col">
-									   	<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
-										<span class="form-text small">
-											Gültige Werte IP Adresse im Format: 192.168.0.12
-										</span>
-									   </div>
-								    </div>
-								    <div class="alert alert-info">
-									   IP Adresse der Master OpenWB Webbox von der die Werte per MQTT abgeholt werden sollen
-								    </div>
 							     </div>							
 							</div>
 							<div id="socmzeronglp2" class="hide">

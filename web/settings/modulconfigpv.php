@@ -117,18 +117,6 @@
 								Per MQTT zu schreiben:<br>
 								<span class="text-info">openWB/set/pv/1/W</span> PV-Leistung in Watt, int, negativ<br>
 								<span class="text-info">openWB/set/pv/1/WhCounter</span> Erzeugte Energie in Wh, float, nur positiv<br>
-								Wenn unten eine Ip-adresse einegetrafen wird, dann werden diese Werte von dortigen MQTT Server geholt.
-							</div>
-							<label for="wr_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
-								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
-									<span class="form-text small">
-										Gültige Werte IP Adresse im Format: 192.168.0.12
-									</span>
-								</div>						
-							<div class="alert alert-info">
-								IP Adresse der Master OpenWB Webbox von der die Wrte per MQTT abgeholt werden sollen
-							</div>
 						</div>
 						
 <!--

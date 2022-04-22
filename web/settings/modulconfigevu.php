@@ -186,19 +186,6 @@
 								<span class="text-info">openWB/set/evu/VPhase2</span> Spannung in Volt für Phase 2, float, Punkt als Trenner<br>
 								<span class="text-info">openWB/set/evu/VPhase3</span> Spannung in Volt für Phase 3, float, Punkt als Trenner<br>
 								<span class="text-info">openWB/set/evu/HzFrequenz</span> Netzfrequenz in Hz, float, Punkt als Trenner<br>
-								Wenn unten eine Ip-adresse einegetrafen wird, dann werden diese Werte von dortigen MQTT Server geholt.
-							</div>
-							<div class="form-row mb-1">
-								<label for="evu_pullerip" class="col-md-4 col-form-label">IP Adresse</label>
-								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name=mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
-									<span class="form-text small">
-										Gültige Werte IP Adresse im Format: 192.168.0.12
-									</span>
-								</div>
-							</div>
-							<div class="alert alert-info">
-								IP Adresse der Master OpenWB Webbox von der die Wrte per MQTT abgeholt werden sollen
 							</div>
 						</div>
 <!--
