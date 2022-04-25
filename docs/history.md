@@ -23,12 +23,17 @@ Einige Steps der Entwicklung
 4.2022 
 - rct2h hinzugefügt um nicht mit rct2 (von peter.O ) zu kollidieren. Regelschleife nun 3-4 Sekunden. 
 - Der Name der Distribution wird im System-Info mit angezeigt. 
-- Hilfscript statregel.sh im die Laufzeitstatistik der Regelschleife anzuzeigen.
+- Hilfscript statregel.sh um die Laufzeitstatistik der Regelschleife anzuzeigen.
 - Hoffendlich nun alle referenten auf LP4-LP8 entfernt. Dadurch schnelle Ladezeiten der Weboberfläche
 - Alle internen IP Adressen von 192.168.193.x zu 192.168.192.x gewechselt
 - Die Statuszeite zeigt die Seriennummer der Ladepunktzähler an, wenn verfügbar
 - Ladelog-Export an deutsches Excel angepasst (; als Trenner und , als Komma) dadurch kann die Ausgabe direkt an Excel übergeben werden. 
 - Um die Grafiken in der Cloud-Version von web.openwb.de angezeigt zu bekommen sollte man die Fernwartung aktivieren. Das ist mir zuviel. Daher habe ich nur das "graph" Subtopic erlaubt und voila, die Grafiken sind auch ohne Scheunentor verfügbar (abschaltbar sind sie ja schon) 
+- Die Konfiguration des integrirten Display ist in die Installatiom mit aufgenommen worden (Chrome-browser und Config)
+- Das Interne Dispaly-Thema "Color" bekommt links zu normalem Web Oberfläche und einige Detailänderungen zur besseren Lesbarkeit.
+- Mqtt-Puller zugefügt. Er kopiert die Daten aus dem MQTT der echten OpenWB und beschreibt die MQTT  Topics der Test-OpenWB.
+
+
 
 ![firefox_for_openWBCloud2_ff](https://user-images.githubusercontent.com/89247538/162584594-13cdf614-d317-4a75-95ba-29594fc64b7e.png)
 
