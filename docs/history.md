@@ -38,4 +38,4 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
 - Die Konfiguration des integrirten Display ist in die Installatiom mit aufgenommen worden (Chrome-browser und Config)
 - Das Interne Dispaly-Thema "Color" bekommt links zu normalem Web Oberfläche und einige Detailänderungen zur besseren Lesbarkeit.
 - Mqtt-Puller zugefügt. Er kopiert die Daten aus dem MQTT der echten OpenWB und beschreibt die MQTT  Topics der Test-OpenWB.
-- Meine RCT2 Module noch weiter optimiert. Die Zeit um die 23/39 Werte abzufragen liegt nun bei unter einer Sekunde. Die Gesammte regelzeit liegt bei 3 bis 4 Sekunden.
+- Meine RCT2 Module wurden noch weiter optimiert. Die Zeit um die 23/39 Werte abzufragen liegt nun bei unter einer Sekunde. Die gesamte Regelzeit liegt bei 3 bis 4 Sekunden.
