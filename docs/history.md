@@ -29,15 +29,13 @@ Einige Steps der Entwicklung
 - Die Statuszeite zeigt die Seriennummer der Ladepunktzähler an, wenn verfügbar
 - Ladelog-Export an deutsches Excel angepasst (; als Trenner und , als Komma) dadurch kann die Ausgabe direkt an Excel übergeben werden. 
 - Um die Grafiken in der Cloud-Version von web.openwb.de angezeigt zu bekommen sollte man die Fernwartung aktivieren. Das ist mir zuviel. Daher habe ich nur das "graph" Subtopic erlaubt und voila, die Grafiken sind auch ohne Scheunentor verfügbar (abschaltbar sind sie ja schon) 
-- Die Konfiguration des integrirten Display ist in die Installatiom mit aufgenommen worden (Chrome-browser und Config)
-- Das Interne Dispaly-Thema "Color" bekommt links zu normalem Web Oberfläche und einige Detailänderungen zur besseren Lesbarkeit.
-- Mqtt-Puller zugefügt. Er kopiert die Daten aus dem MQTT der echten OpenWB und beschreibt die MQTT  Topics der Test-OpenWB.
-
-
 
 ![firefox_for_openWBCloud2_ff](https://user-images.githubusercontent.com/89247538/162584594-13cdf614-d317-4a75-95ba-29594fc64b7e.png)
 
 Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config folgendes Einstellen:
 ![firefox_for_openWBCloud](https://user-images.githubusercontent.com/89247538/162584648-74edda22-49f4-41cc-8a3b-dde2aa2f192b.png)
 
-
+- Die Konfiguration des integrirten Display ist in die Installatiom mit aufgenommen worden (Chrome-browser und Config)
+- Das Interne Dispaly-Thema "Color" bekommt links zu normalem Web Oberfläche und einige Detailänderungen zur besseren Lesbarkeit.
+- Mqtt-Puller zugefügt. Er kopiert die Daten aus dem MQTT der echten OpenWB und beschreibt die MQTT  Topics der Test-OpenWB.
+- Meine RCT2 Module noch weiter optimiert. Die Zeit um die 23/39 Werte abzufragen liegt nun bei unter einer Sekunde. Die Gesammte regelzeit liegt bei 3 bis 4 Sekunden.
