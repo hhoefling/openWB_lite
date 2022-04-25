@@ -9,8 +9,14 @@ Weiterhin wird diese Version auf den Raspi 3B+ hin optimiert um die Stabilität 
 Aktuell wird getestet auf einem:
 ```
 Raspberry Pi 3 Model B Plus Rev 1.3
-Kernel: Linux 4.19.66-v7+ GNU/Linux
+Kernel: Linux 4.19.66-v7+ GNU/Linux (Stretch)
 Python 3.5.3
+```
+und auch auf
+```
+Raspberry Pi 4 Model B Rev 1.4 (2GB)
+Kernel: Linux 5.10.103-v7l+ GNU/Linux (Buster)
+Python 3.7.3
 ```
 Da die Firma openWB keine stabile Version der Software auf Basis der 1.9'er mehr zur verfügung stellt bei der die rchtigen RCT2 Module enthalten sind bleibt mir nur auf Basis der alten Stretch (Kenel:4.19.66-v7) meine eigene Version zu Pflegen.
 Man kann sich zwar die open-Source Variante der openWB Software selbst installieren, auch auf Buster oder als Beta sogar auf Bullseye
