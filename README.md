@@ -18,10 +18,8 @@ Raspberry Pi 4 Model B Rev 1.4 (2GB)
 Kernel: Linux 5.10.103-v7l+ GNU/Linux (Buster)
 Python 3.7.3
 ```
-Da die Firma openWB keine stabile Version der Software auf Basis der 1.9'er mehr zur verfügung stellt bei der die rchtigen RCT2 Module enthalten sind bleibt mir nur auf Basis der alten Stretch (Kenel:4.19.66-v7) meine eigene Version zu Pflegen.
-Man kann sich zwar die open-Source Variante der openWB Software selbst installieren, auch auf Buster oder als Beta sogar auf Bullseye
-doch dort fehlt dann die Unterstürzung für das interne Display der original Hardware.
-Wie der intern X-Server konfiguriert wird, wie der Browser und der Deskstop konfiguriert wird um das interne Display zum leben zu erwecken ist leider nicht dokumentiert. Hier habe ich nur das laufende Origanl System als Referenz 
+Da die Firma openWB keine stabile Version der Software auf Basis der 1.9'er mehr zur verfügung stellt bei der die rchtigen RCT2 Module enthalten sind bleibt mir nur auf Basis der alten Stretch (Kenel:4.19.66-v7) meine eigene Version zu Pflegen. Zu Testzwecken läuft meine Version auch auf einem Pi4 mit Buster. Wobei hier natürlich nicht die Hardware Ebene mit getestet werden kann. Also alle Module die direkt mit der Hadrware des openWB kommunizieren können so nicht getestet werden. Dies sind meist auch noch Python2.x Module. Zum testen könne mit Hilfe des Mqtt-Pullers die Hardwaremodule aus der echten OpenWB mit Daten versorgt werden.
+Inzwischen läut auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display hängt an einem Pi4. 
 
 ## Abweichungen zur normalen openWB
 - Diese Version arbeite nicht mit dem Legathy-Run-Server (LRS) der ab 12.2022 sucessive eingebaut wurde. Gerade die RCT2 Module haben damit Probleme. Daher versuche ich die jeweils letzte Version der Module zu verwenden die noch ohne den LRS auskommt.
@@ -41,6 +39,7 @@ Wie der intern X-Server konfiguriert wird, wie der Browser und der Deskstop konf
 - - Bezug/Pv/Speicher  **RCT** / **RCT2** / **RCT2h** /  **MQTT** / **HTTP**
 - - LP   die verschiedeen openWB varianten **HTTP** / **MQTT** 
 - - SOC **Manual** /  **Citigo** / **MQTT** / **HTTP**
+- Das Integrierte Display wird in seiner Funktion erweitert. Bei mir ist die openWB nicht öffentlich zugänglich (hängt auf der Innenseite der Wand). Daher kann ich auf dem Display auch die normal Oberfläche verwenden. Lediglich für die eventuell nötigen Tastattureingabe ist ein Zugang it dem Webbrowser nötig.
 	
 Weiter Info **[History](docs/history.md)**
 
