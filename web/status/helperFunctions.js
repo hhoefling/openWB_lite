@@ -29,6 +29,7 @@ function showSection(section, enableChildren=true) {
  * updateFormFields
  * checks every input and select element for a parent with class 'hide'
  * if there is a match, disable this element
+ * * Up for show/hide
 **/
 function updateFormFieldVisibility() {
     $('input').each(function() {

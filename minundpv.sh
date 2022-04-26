@@ -77,9 +77,9 @@ minundpvlademodus(){
 		speichersochystminpv=0
 		speichersocminpv=0
 	fi
-	if (( speichersoc >= speichersochystminpv )); then
+	if (( speichersoc >= speichersochystminpv )); then         # > stoppunkt
 		if (( ladestatus == 0 )); then
-			if (( speichersoc >= speichersocminpv )); then
+			if (( speichersoc >= speichersocminpv )); then    # > startpunkt soll die Ladereglung starten.
 				runs/set-current.sh $minimalampv all
 				openwbDebugLog "PV" 0 "setzte Soctimer hoch zum Abfragen des aktuellen SoC"
 				echo 20000 > /var/www/html/openWB/ramdisk/soctimer
