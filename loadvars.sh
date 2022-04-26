@@ -1573,18 +1573,6 @@ fi
 		fi
 	done
 
-	#declare -a pvarray=("speichersocminpv" "speichersochystminpv" "mindestuberschuss" "abschaltuberschuss" "abschaltverzoegerung" "einschaltverzoegerung" "minimalampv" "minimalampv" "minimalalp2pv" "minnurpvsoclp1" "minnurpvsocll" "pvbezugeinspeisung" "offsetpv" "speicherpvui" "speichermaxwatt" "speichersocnurpv" "speicherwattnurpv" "adaptpv" "adaptfaktor")
-	#for val in ${pvarray[@]}; do
-	#	declare o$val
-	#	ramdiskvar=$(<ramdisk/mqtt"$val")
-	#	actualvar=${!val}
-	#	tempname=$val
-	#	if [[ "$ramdiskvar" != "$actualvar" ]]; then
-	#		tempPubList="${tempPubList}\nopenWB/config/get/pv/${val}=${actualvar}"
-	#		echo $actualvar > ramdisk/mqtt$val
-	#	fi
-	#done
-	
 	
 if [[ $debug == "2" ]]; then	
 	echo "loadvars.Publist:"
