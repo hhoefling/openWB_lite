@@ -173,6 +173,7 @@
 					<div class="card border-primary hide" id="lp<?php echo $chargepointNum ?>">
 						<div class="card-header bg-primary">
 							Ladepunkt <?php echo $chargepointNum . " (" . ${'lp'.$chargepointNum.'nameold'} . ")"; ?>
+							<?php  if( $debugold>1 ) echo "[<small>$ladeleistungmodulold</small>]";   ?>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -267,7 +268,7 @@
 				<!-- EVU  -->
 				<div class="card border-danger <?php if($wattbezugmodulold == "none") echo "hide" ?>">
 					<div class="card-header bg-danger">
-						EVU
+						EVU <?php  if( $debugold>1 ) echo "[<small>$wattbezugmodulold</small>]";   ?>					
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -389,6 +390,7 @@
 							echo $inverterNum ;
 							if (${'name_wechselrichter'.$inverterNum.'old'} != '') {
 								echo ' (' . ${'name_wechselrichter'.$inverterNum.'old'} . ')';
+				                if( $debugold>1 ) echo "[<small>$pvwattmodulold</small>]";   
 							}
 							?>
 						</div>
@@ -430,7 +432,7 @@
 				<!-- Speicher -->
 				<div class="card border-warning hide" id="speicher">
 					<div class="card-header bg-warning">
-						Speicher
+						Speicher <?php  if( $debugold>1 ) echo "[<small>$speichermodulold</small>]";   ?>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
