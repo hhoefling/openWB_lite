@@ -333,64 +333,6 @@
 					</script>
 				</div>
 
-				<!-- Mqtt-Puller -->
-				<div class="card border-secondary">
-					<div class="card-header bg-secondary">
-						<div class="form-group mb-0">
-							<div class="form-row vaRow mb-0">
-								<div class="col-4">MQTT-Puller</div>
-								<div class="col">
-									<div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
-										<label class="btn btn-sm btn-outline-info<?php if($mqttpullerenabledold == 0) echo " active" ?>">
-											<input type="radio" name="mqttpullerenabled" id="mqttpullerenabledOff" value="0"<?php if($mqttpullerenabledold == 0) echo " checked=\"checked\"" ?>>Aus
-										</label>
-										<label class="btn btn-sm btn-outline-info<?php if($mqttpullerenabledold == 1) echo " active" ?>">
-											<input type="radio" name="mqttpullerenabled" id="mqttpullerenabledOn" value="1"<?php if($mqttpullerenabledold == 1) echo " checked=\"checked\"" ?>>An
-										</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="card-body">
-						<div class="card-text alert alert-info">
-							<p>Zum Testen der OpenWB Software kann es Sinnvoll sein das diese openWB einer andern folgt.
-							Wenn der MQTT-Puller aktiviert wird werden alle als MQTT eingerichtetetn Module mit den Daten der Master OpenWB versogt.
-							Es ist kein weiter MQTT Broker nötig. Alle Werte der Konfigurierten MQTT Module (Ladepunkte/EVU/PV/BAT) werden vom MQTT Puller bei der Master.OpenWB abgerufen und 
-							hier in diese openWB per MQTT eingetragen.</p>
-						</div>
-						<div id="mqttpullerenabledipan" class="hide">
-							<div class="form-group">
-								<div class="form-row mb-1">
-									<label for="mqtt_pullerip" class="col-md-4 col-form-label">Folge folgender Master-OpenWB<br>IP Adresse:</label>
-									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|none$" name="mqtt_pullerip" id="mqtt_pullerip" value="<?php echo $mqtt_pulleripold ?>">
-										<span class="form-text small">
-											Gültige Werte IP Adresse im Format: 192.168.0.12
-										</span>
-									</div>
-								</div>							
-							</div>
-						</div>
-					</div>
-					<script>
-						function visibility_mqttpullerenabledip() {
-							if($('#mqttpullerenabledOff').prop("checked")) {
-								hideSection('#mqttpullerenabledipan');
-							} else {
-								showSection('#mqttpullerenabledipan');
-							}
-						}
-
-						$(document).ready(function(){
-							$('input[type=radio][name=mqttpullerenabled]').change(function(){
-								visibility_mqttpullerenabledip();
-							});
-
-							visibility_mqttpullerenabledip();
-						});
-					</script>
-				</div>
 
 				<!-- RFID -->
 				<div class="card border-secondary">

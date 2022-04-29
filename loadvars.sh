@@ -53,18 +53,6 @@ loadvars(){
 	lp2enabled=$(<ramdisk/lp2enabled)
 	lp3enabled=$(<ramdisk/lp3enabled)
 
-
-if [[ "$mqttpullerenabled"  == "1" ]]; then
-    srcip=${mqtt_pullerip:-""}
-    if [[ "$srcip" == "none" ]] ; then
-        srcip=""
-    fi
-    if [[ ! -z "$srcip" ]] ; then
-        openwbDebugLog "MAIN" 0 "mqtt_pullerip[${srcip}] "
-        runs/mqttpuller.sh
-    fi   
-fi
-
 	version=$(<web/version)
 	# EVSE DIN Plug State
 	declare -r IsNumberRegex='^[0-9]+$'
