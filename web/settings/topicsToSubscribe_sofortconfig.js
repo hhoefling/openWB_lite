@@ -51,5 +51,4 @@ var topicsToSubscribe = [
 	["openWB/config/get/sofort/lp/1/socToChargeTo", 0],
 	["openWB/config/get/sofort/lp/2/socToChargeTo", 0],
 
-	["openWB/config/get/global/minEVSECurrentAllowed", 0]
 ];
