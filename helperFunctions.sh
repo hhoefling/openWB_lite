@@ -83,7 +83,7 @@ openwbDebugLog() {
 	LOGFILE="/var/log/openWB.log"
 	timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
-	if [[ -z "$debug" ]]; then
+	if [[ -z "${debug:-}" ]]; then
 		# enable all levels as global $debug is not set up yet
 		DEBUGLEVEL=2
 	else
