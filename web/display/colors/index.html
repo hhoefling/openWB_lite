@@ -205,7 +205,7 @@
                       Prozessor:
                     </div>
                     <div class="col">
-                      <meter id="cpu" high="85" min="0" max="100" value="0"></meter> <span id='cpuuse'>--</span>%
+                      <meter id="cpu" high="85" min="0" max="100" value="0"></meter> <span id='cpuuse'>--</span>% &nbsp;&nbsp;&nbsp;<span id='cputemp'>--</span> °C
                     </div>
                   </div>
                   <div class="form-row">
@@ -299,6 +299,7 @@
 
           $('#cpu').val(json.cpuuse);
           $('#cpuuse').html(json.cpuuse);
+          $('#cputemp').text((json.cputemp/1000).toFixed(2));
           $('#memtot').html(json.memtot);
           $('#mem').prop('max', json.memtot);
           $('#mem').val(json.memuse);
