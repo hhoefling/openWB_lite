@@ -128,7 +128,7 @@ ladeleistunglp8=0
 	if (( graphtimer == 1 )); then
 		openwbDebugLog "MAIN" 2 "graphing.sh ---- make long time graph"	
 	
-		if (( dpseed == "3" )); then
+		if (( dspeed == "3" )); then
 			livegraphtime="240"
 		else
 			livegraphtime="720"
