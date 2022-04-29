@@ -30,6 +30,7 @@ var topicsToSubscribe = [
 	["openWB/config/get/pv/priorityModeEVBattery", 1],
 	["openWB/config/get/pv/minCurrentMinPv", 1],
 	// system topics
+	["openWB/system/debuglevel", 1],
 	["openWB/system/Timestamp", 1],
 	["openWB/system/IpAddress", 1],
 	["openWB/system/Uptime", 1],

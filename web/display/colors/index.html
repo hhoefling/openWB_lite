@@ -152,11 +152,13 @@
 
   <!-- Status -->
   <div class="modal" id="statusModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog-wide">
       <div class="modal-content">
         <!-- modal header -->
         <div class="modal-header ">
-          <div class="col-1">&nbsp;</div>
+           <div id="homebutton" class="col-1">
+		   	<a href="/openWB/web/index.php"><i class="fas fa-home swhite" style="color: white;"></i></a>
+		   </div>
           <div class="col">
             <div class="status-title">Status</div>
           </div>
@@ -960,6 +962,7 @@
 
       // handling of display panels
       initPanels();
+	  $("#homebutton").addClass("hide");
 
 
       $('#lastmanagementShowBtn').on("click", function (event) {

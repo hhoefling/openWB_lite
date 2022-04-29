@@ -634,7 +634,19 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/system
 	// called by handlevar
 	processPreloader(mqttmsg);
-	if (mqttmsg == 'openWB/system/Timestamp') {
+	if (mqttmsg == 'openWB/system/debuglevel') {
+		var i = parseInt(mqttpayload, 10);
+		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
+	    debuglevel = i;
+		console.log('set debug level to '+debuglevel );
+		if ( debuglevel >= 2)  {
+			$("#homebutton").removeClass("hide");
+        } else {			
+			$("#homebutton").addClass("hide");
+		}	
+	    
+	}	
+	else if (mqttmsg == 'openWB/system/Timestamp') {
 		var dateObject = new Date(mqttpayload * 1000);  // Unix timestamp to date-object
 		var time = '&nbsp;';
 		var date = '&nbsp;';

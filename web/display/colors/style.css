@@ -134,6 +134,10 @@ hr {
     max-width: 600px;
 }
 
+.modal-dialog-wide {
+    max-width: 700px;
+}
+
 .modal-content,
 .modal-header,
 .modal-footer {

@@ -130,6 +130,7 @@ var topicsToSubscribe = [
 	["openWB/config/get/pv/minCurrentMinPv", 1],
 	// system topics
 	["openWB/system/Timestamp", 1],
+	["openWB/system/debuglevel", 1],	
 	["openWB/system/Uptime", 1],
 	// pv topics
 	["openWB/pv/W", 1],
