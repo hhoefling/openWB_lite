@@ -71,6 +71,7 @@ function showSection(section, enableChildren=true) {
  * updateFormFields
  * checks every input and select element for a parent with class 'hide'
  * if there is a match, disable this element
+ * * Up for show/hide
 **/
 function updateFormFieldVisibility() {
     $('input').each(function() {
@@ -197,6 +198,7 @@ function sendValues() {
 
         Object.keys(changedValues).forEach(function(topic, index) {
             var value = this[topic].toString();
+			console.log('publish[' + index+']['+topic+'] = ['+value+']');
             setTimeout(function () {
                 // console.log("publishing changed value: "+topic+": "+value);
                 // as all empty messages are not processed by mqttsub.py, we have to send something useful
@@ -237,6 +239,9 @@ function getChangedValues() {
             // topicIdentifier is the non-unique element name
             var topicIdentifier = $(this).attr('name');
         }
+        console.log('Pre:['+topicPrefix+'] grp:[' + topicSubGroup +'] id:['+topicIdentifier+']');
+		
+		
         if ( $(this).hasClass('btn-group-toggle') ) {
             if ( $('input[name="' + $(this).attr('id') + '"]:checked').attr('disabled') != 'disabled' ) {
                 var value = $('input[name="' + $(this).attr('id') + '"]:checked').data('option');
@@ -257,7 +262,7 @@ function getChangedValues() {
         if ( ( value != undefined ) && ( originalValues[topic] != value ) ) {
             topic = topic.replace('/get/', '/set/');
             changedValues[topic] = value;
-            // console.log("ChangedValue found: "+topic+": "+value);
+            console.log("ChangedValue found: "+topic+": "+value);
         }
     });
 }
