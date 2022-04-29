@@ -46,7 +46,7 @@ updateConfig(){
 		echo "minimalalp2pv=6" >> $ConfigFile
 	fi
 	if ! grep -Fq "minimalampv=" $ConfigFile; then
-		echo "minimalampv=10" >> $ConfigFile
+		echo "minimalampv=6" >> $ConfigFile
 	fi
 	if ! grep -Fq "pvbezugeinspeisung=" $ConfigFile; then
 		echo "pvbezugeinspeisung=0" >> $ConfigFile
