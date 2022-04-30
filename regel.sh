@@ -25,6 +25,8 @@
 #####
 
 set -o pipefail
+set -o nounset
+
 cd /var/www/html/openWB/
 
 source helperFunctions.sh

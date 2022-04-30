@@ -33,8 +33,13 @@
 
       <!-- Linke Spalte (Buttons)-->
       <div class="col-2 pl-1 pr-0">
+
+        <button class="btn btn-block btn-outline-secondary display-button px-0 mx-0  py3" id="backlightConfigButton"
+          type="button" onclick = "backlightConfigButtonClicked() "> 
         <h4 id="date" class="text-center text-light pt-3">11.11.2020</h4>
         <h4 id="time" class="text-center text-light pb-2 mb-1">11:11</h4>
+		  </button>
+		  
         <button class="btn btn-block btn-secondary display-button p-4" id="powerSelectButton" type="button">
           <span><i class="fas fa-bolt"></i>&nbsp;&nbsp; Aktuell</span>
         </button>
@@ -64,7 +69,7 @@
 
       <!-- Mittlere Spalte (Widgets) -->
       <div class="col-7 p-0">
-        <div class="container-fluid m-0 pb-1">
+        <div class="container-fluid m-0 "> 
           <div class="row">
             <div class="col wb-widget p-0">
               <figure id="powermeter" class=" mb-0"></figure>
@@ -341,6 +346,58 @@
 
 
 
+  <!-- modal chargepoint-config-window -->
+  <div class="modal" id="backlightConfigModal">
+    <div class="modal-dialog">
+      <div class="modal-content border-promary">
+        <!-- modal header -->
+        <div class="modal-header bg-primary">
+          <div class="col-1">&nbsp;</div>
+          <div class="col justify-content-center">
+            <div class="modal-title text-light text-center">Hintergrund Helligkeit</div>
+          </div>
+        </div>
+        <!-- modal body -->
+        <div class="modal-body">
+          <!-- options specific for charge mode Min+PV -->
+          <div class="XXchargeMode XXchargeModeMinPv">
+            <div class="form-row vaRow">
+              <div class="col-4">
+                <label for="XXminCurrentMinPv" class="modalLabel col-form-label">Min.-Strom: </label>
+                <label for="XXminCurrentMinPv" class="modalLabel labelMinPv col-form-label pull-right"
+                  data-suffix="A"></label>
+              </div>
+              <div class="col">
+                <input type="range" class="form-control-range XXminpvRangeInput" id="XXminCurrentMinPv" min="10" max="250"
+                  step="10" value="100" data-initialized="0">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col pt-1 px-3 xxenergyResetButton xhide">
+              <input class="btn btn-warning btn-lg modal-button xxresetEnergyToCharge" type="button"
+                id="lp/1/xxresetEnergyToCharge" value="zurücksetzen"
+                data-topicprefix="openWB/config/get/sofort/">
+            </div>
+            <div class="col pt-1 px-3">
+              <button type="button" class="btn btn-info btn-block btn-lg modal-button" data-dismiss="modal"><i
+                  class="fas fa-check"></i>&nbsp;&nbsp; OK</button>
+            </div>
+          </div>
+        </div> <!-- /modal body -->
+      </div>
+    </div>
+    <script>
+      $('.resetEnergyToCharge').on("click", function () {
+        var topic = getTopicToSendTo($(this).attr('id'));
+        publish("1", topic);
+      });
+    </script>
+  </div>
+
+
+
+  
   <!-- modal chargepoint-config-window -->
   <div class="modal" id="ladepunktConfigModal">
     <div class="modal-dialog">
@@ -871,6 +928,12 @@
     var lockTimeout = 60000;
     var displaylocked = true;
 
+	
+	function backlightConfigButtonClicked(index) {
+    	$('#backlightConfigModal').modal("show");
+   }
+
+	
     function lockDisplay(lock = true) {
       if (lock == false) {
         displaylocked = false;

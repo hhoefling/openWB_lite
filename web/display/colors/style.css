@@ -425,7 +425,7 @@ h3 {
 }
 
 .theme-gray {
-	--color-bg: #333333;
+	--color-bg: #010101; /* #333333; hh */
 	--color-evu: firebrick;
 	--color-pv: #33a02c;
 	--color-house: #7f7f7f;

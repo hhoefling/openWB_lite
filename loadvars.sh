@@ -384,6 +384,7 @@ loadvars(){
 	else
 		pvkwh=$(</var/www/html/openWB/ramdisk/pvkwh)
 		pv2vorhanden="0"
+        pv2watt=0
 		echo 0 > /var/www/html/openWB/ramdisk/pv2vorhanden
 		echo $pvkwh > /var/www/html/openWB/ramdisk/pvallwh
 		echo $pvwatt > /var/www/html/openWB/ramdisk/pvallwatt
@@ -558,7 +559,15 @@ loadvars(){
 	else
 		echo "$ladeleistung" > /var/www/html/openWB/ramdisk/llkombiniert
 		ladeleistunglp2=0
+        ladeleistungs1=0
 		soc1vorhanden=0
+        llalts1=0
+        ladestatuss1=0
+        llas1=0
+		llas11=0
+		llas12=0
+		llas13=0
+        soc1=0
 	fi
 
 	#dritter ladepunkt
@@ -600,6 +609,12 @@ loadvars(){
 		echo "$ladeleistung" > /var/www/html/openWB/ramdisk/llkombiniert
 		ladeleistungs2="0"
 		ladeleistunglp3=0
+        llalts2=0
+        ladestatuss2=0
+		llas21=0
+		llas22=0
+		llas23=0
+        
 	fi
 
   	#  lp3-lp8
@@ -679,6 +694,9 @@ loadvars(){
 			fi
 		fi
 		openwbDebugLog "PV" 0 "4 :UEBERSCHUSS $uberschuss now"		
+		evuv1=$(cat /var/www/html/openWB/ramdisk/evuv1)
+		evuv2=$(cat /var/www/html/openWB/ramdisk/evuv2)
+		evuv3=$(cat /var/www/html/openWB/ramdisk/evuv3)
 		evua1=$(cat /var/www/html/openWB/ramdisk/bezuga1)
 		evua2=$(cat /var/www/html/openWB/ramdisk/bezuga2)
 		evua3=$(cat /var/www/html/openWB/ramdisk/bezuga3)
@@ -1049,7 +1067,7 @@ loadvars(){
 		echo $ladeleistunglp1 > ramdisk/mqttladeleistunglp1
 	fi
 	if [[ "$oladestatus" != "$ladestatus" ]]; then
-		tempPubList="${tempPubList}\nopenWB/ChargeStatus=${ladelestatus}"
+		tempPubList="${tempPubList}\nopenWB/ChargeStatus=${ladestatus}"
 		echo $ladestatus > ramdisk/mqttlastladestatus
 	fi
 	# TODO: wann wird der Lademodus geändert?

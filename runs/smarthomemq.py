@@ -29,18 +29,17 @@ LOGLEVELERROR = 2
 def logDebug(level, msg):
     if (int(level) >= LOGLEVELDEBUG):
         local_time = datetime.now(timezone.utc).astimezone()
-        file = open('/var/www/html/openWB/ramdisk/smarthome.log', 'a',
-                    encoding='utf8')
+        with open(bp+'/ramdisk/smarthome.log', 'a', encoding='utf8',
+                  buffering=1) as f:
         if (int(level) == 0):
-            file.write(local_time.strftime(
-                format="%Y-%m-%d %H:%M:%S") + '-: ' + str(msg) + '\n')
+                f.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
+                        + '-: ' + str(msg) + '\n')
         if (int(level) == 1):
-            file.write(local_time.strftime(
-                format="%Y-%m-%d %H:%M:%S") + '-: ' + str(msg) + '\n')
+                f.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
+                        + '-: ' + str(msg) + '\n')
         if (int(level) == 2):
-            file.write(local_time.strftime(
-                format="%Y-%m-%d %H:%M:%S") + '-: ' + str(msg) + '\n')
-        file.close()
+                f.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
+                        + '-: ' + str(msg) + '\n')
 
 
 def on_connect(client, userdata, flags, rc):
@@ -59,7 +58,6 @@ def on_message(client, userdata, msg):
         keyword = re.sub('openWB/SmartHome/Devices/'
                          + str(devicenumb) + '/', '', msg.topic)
     value = str(input)
-#    print (devicenumb,keyword,value)
     parammqtt.append([devicenumb, keyword, value])
 
 
@@ -118,7 +116,7 @@ def loadregelvars():
             speicherleistung = 0
             speichersoc = 100
     except Exception as e:
-        logDebug(LOGLEVELERROR, "Fehler beim Auslesen der Ramdis k" +
+        logDebug(LOGLEVELERROR, "Fehler beim Auslesen der Ramdisk " +
                  "(speichervorhanden,speicherleistung,speichersoc): " + str(e))
         speichervorhanden = 0
         speicherleistung = 0
@@ -152,9 +150,8 @@ def loadregelvars():
     except Exception:
         reread = 1
     if (reread == 1):
-        f = open(bp+'/ramdisk/rereadsmarthomedevices', 'w')
+        with open(bp+'/ramdisk/rereadsmarthomedevices', 'w') as f:
         f.write(str(0))
-        f.close()
         logDebug(LOGLEVELERROR, "Config reRead start")
         readmq()
         logDebug(LOGLEVELERROR, "Config reRead done")
@@ -218,15 +215,13 @@ def getdevicevalues():
         mqtt_all.update(mydevice.mqtt_param)
     # device_total_watt is needed for calculation the proper überschuss
     # (including switchable smarthomedevices)
-    f = open(bp+'/ramdisk/devicetotal_watt', 'w')
+
+    with open(bp+'/ramdisk/devicetotal_watt', 'w') as f:
     f.write(str(totalwatt))
-    f.close()
-    f = open(bp+'/ramdisk/devicetotal_watt_other', 'w')
+    with open(bp+'/ramdisk/devicetotal_watt_other', 'w') as f:
     f.write(str(totalwattot))
-    f.close()
-    f = open(bp+'/ramdisk/devicetotal_watt_hausmin', 'w')
+    with open(bp+'/ramdisk/devicetotal_watt_hausmin', 'w') as f:
     f.write(str(totalminhaus))
-    f.close()
     logDebug(LOGLEVELDEBUG, "Total Watt abschaltbarer smarthomedevices: " +
              str(totalwatt))
     logDebug(LOGLEVELDEBUG, "Total Watt nichtabschaltbarer smarthomedevices: "
@@ -288,25 +283,25 @@ def update_devices():
             for mydevice in mydevices:
                 if (str(i) == str(mydevice.device_nummer)):
                     logDebug(LOGLEVELDEBUG, "(" + str(i) + ") " +
-                             "device bereits erzeugt")
+                             "Device bereits erzeugt")
                     if (device_type == mydevice.device_type):
                         logDebug(LOGLEVELDEBUG, "(" + str(i) + ") " +
-                                 "type gleich, nur Parameter update")
+                                 "Typ gleich, nur Parameter update")
                         createnew = 0
                         mydevice.updatepar(input_param)
                     else:
                         logDebug(LOGLEVELDEBUG, "(" + str(i) + ") " +
-                                 "type ungleich " + mydevice.device_type)
+                                 "Typ ungleich " + mydevice.device_type)
                         mydevice.device_nummer = 0
                         mydevice._device_configured = '9'
                         # del mydevice
                         mydevices.remove(mydevice)
                         logDebug(LOGLEVELDEBUG, "(" + str(i) + ") " +
-                                 "device gelöscht")
+                                 "Device gelöscht")
                     break
             if (createnew == 1):
                 logDebug(LOGLEVELDEBUG, "(" + str(i) +
-                         ") neues Device erzeugt oder Typ geändert. Auf " +
+                         ") Neues Devices oder Typänderung: " +
                          str(device_type))
                 if (device_type == 'shelly'):
                     mydevice = Sshelly()
@@ -336,13 +331,13 @@ def update_devices():
                 mydevices.append(mydevice)
         else:
             logDebug(LOGLEVELDEBUG, "(" + str(i) + ") " +
-                     "device nicht (länger) definiert")
+                     "Device nicht (länger) definiert")
             for mydevice in mydevices:
                 if (str(i) == str(mydevice.device_nummer)):
                     # cleant up mqtt
                     for key, value in mydevice.mqtt_param_del.items():
                         valueold = mqtt_cache.pop(key, 'not in cache')
-                        logDebug(2, " Mqtt diff " + str(key) + " " +
+                        logDebug(2, "Mq pub " + str(key) + "=" +
                                  str(value) + " old " + str(valueold))
                         client.publish(key, payload=value, qos=0, retain=True)
                         client.loop(timeout=2.0)
@@ -351,7 +346,7 @@ def update_devices():
                     # del mydevice
                     mydevices.remove(mydevice)
                     logDebug(LOGLEVELDEBUG, "(" + str(i) + ") " +
-                             "device gelöscht")
+                             "Device gelöscht")
     client.disconnect()
 
 

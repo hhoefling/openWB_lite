@@ -2,6 +2,14 @@
 ########################
 #Min Ladung + PV Uberschussregelung lademodus 1
 minundpvlademodus(){
+	maxll=($llalt $llalts1 $llalts2 ) 
+	maxllvar=0
+	for v in "${maxll[@]}"; do
+		if (( v > maxllvar )); then maxllvar=$v; fi;
+	done
+	llalt=$maxllvar
+
+	openwbDebugLog "PV" 0 "(1:$llalt 2:$llalts1 3:$llalts2):Max:[$maxllvar] (Min:$minimalapv)-> $llalt "  
 
 	if [[ $schieflastaktiv == "1" ]]; then
 		if [[ $u1p3paktiv == "1" ]]; then
@@ -9,7 +17,7 @@ minundpvlademodus(){
 			if [[ $u1p3pstat == "1" ]]; then
 				if (( schieflastmax < maximalstromstaerke )); then
 					maximalstromstaerke=$schieflastmaxa
-					openwbDebugLog "PV" 0 "Maximalstromstärke begrenzt auf $schieflastmaxa da Schieflastbegrenzung konfiguriert"
+					openwbDebugLog "PV" 0 "Lademodus MinundPV Maximalstromstärke begrenzt auf $schieflastmaxa da Schieflastbegrenzung konfiguriert"
 				fi
 			fi
 		fi
@@ -54,20 +62,17 @@ minundpvlademodus(){
 			fi
 		fi
 	fi
-	maxll=($llalt $llalts1 $llalts2 ) 
-	maxllvar=0
-	for v in "${maxll[@]}"; do
-		if (( v > maxllvar )); then maxllvar=$v; fi;
-	done
-	llalt=$maxllvar
-	if [[ $schieflastaktiv == "1" ]]; then
-		if [[ $u1p3paktiv == "1" ]]; then
-			u1p3pstat=$(<ramdisk/u1p3pstat)
-			if [[ $u1p3pstat == "1" ]]; then
-				maximalstromstaerke=$schieflastmaxa
-			fi
-		fi
-	fi
+
+# Siehe oben, fast identisch
+#	if [[ $schieflastaktiv == "1" ]]; then
+#		if [[ $u1p3paktiv == "1" ]]; then
+#			u1p3pstat=$(<ramdisk/u1p3pstat)
+#			if [[ $u1p3pstat == "1" ]]; then
+#				maximalstromstaerke=$schieflastmaxa
+#			fi
+#		fi
+#	fi
+
 	if [[ $speichervorhanden == "1" ]]; then 
 		if (( speicherleistung < 0 )); then 
 			uberschuss=$((uberschuss + speicherleistung)) 
