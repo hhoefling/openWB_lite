@@ -114,7 +114,7 @@ if [[ "$1" == "3" ]]; then
 		sudo python runs/u1p3premote.py -a "$evseiplp1" -i "$u1p3plp2id" -p 3 -d "$u1p3ppause"
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "ipevse" && $u1p3plp2aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a $evseiplp2 -i $u1p3plp2id -p 3 -d $u1p3ppause
+		sudo python runs/u1p3premote.py -a "$evseiplp2" -i "$u1p3plp2id" -p 3 -d "$u1p3ppause"
 	fi
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "ipevse" && $u1p3plp3aktiv == "1" ]]; then
 		sudo python runs/u1p3premote.py -a "$evseiplp3" -i "$u1p3plp3id" -p 3 -d "$u1p3ppause"
