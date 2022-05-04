@@ -131,6 +131,12 @@
 		fclose($fp);
 
 		// handling of different actions required by some modules
+		
+		
+		if( array_key_exists( 'debug', $_POST ) )
+		{
+		   exec( 'mosquitto_pub -t openWB/system/debuglevel -r -m "' . $settingsArray['debug'] .'"' );
+		}
 
 		// check for manual ev soc module on lp1
 		if( array_key_exists( 'socmodul', $_POST ) ){
