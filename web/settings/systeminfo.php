@@ -180,7 +180,7 @@
 						cache: false
 					})
 					.done(function(result) {
-						$('#installedVersionSpan').append(' ('+result+')');
+						$('#installedVersionSpan').append(' ('+result+') Master');
 					});
 				}
 
