@@ -16,4 +16,5 @@ reganzahl = int(sys.argv[4])
 
 client = ModbusTcpClient(ipadd, port=8899)
 rq = client.read_holding_registers(readreg,reganzahl,unit=modbusid)
+client.close()
 print(rq.registers[0])
