@@ -75,7 +75,7 @@ loadvars(){
 ### 64  modbusevsesource=/dev/ttyUSB0 modbusevseid=1
 		
 ##################### 1002 get Vehicle Status
-		openwbDebugLog "MAIN" 2 "EXEC: sudo python runs/readmodbus.py $modbusevsesource $modbusevseid 1002 1"
+		openwbDebugLog "MAIN" 2 "EXEC: modbusevse sudo python runs/readmodbus.py ip:$modbusevsesource id:$modbusevseid reg:1002 cnt:1"
 		evseplugstate=$(sudo python runs/readmodbus.py $modbusevsesource $modbusevseid 1002 1)
 #########################################################################						
 		if [ -z "${evseplugstate}" ] || ! [[ "${evseplugstate}" =~ $IsNumberRegex ]]; then
@@ -138,7 +138,7 @@ loadvars(){
 	fi
 	if [[ $evsecon == "ipevse" ]]; then   ## Alter Satellit ohne Pi3
 #########################################################################						
-		openwbDebugLog "MAIN" 2 "EXEC: sudo python runs/readipmodbus.py $evseiplp1 $evseidlp1 1002 1"
+		openwbDebugLog "MAIN" 2 "EXEC: ipevse sudo python runs/readipmodbus.py $evseiplp1 $evseidlp1 1002 1"
 		evseplugstatelp1=$(sudo python runs/readipmodbus.py $evseiplp1 $evseidlp1 1002 1)
 #########################################################################						
 		if [ -z "${evseplugstate}" ] || ! [[ "${evseplugstate}" =~ $IsNumberRegex ]]; then
@@ -164,7 +164,7 @@ loadvars(){
 		ConfiguredChargePoints=2
 		if [[ $evsecons1 == "modbusevse" ]]; then
 #########################################################################						
-			openwbDebugLog "MAIN" 2 "EXEC: sudo python runs/readmodbus.py $evsesources1 $evseids1 1002 1"
+			openwbDebugLog "MAIN" 2 "EXEC: modbusevse sudo python runs/readmodbus.py ip:$evsesources1 id:$evseids1 reg:1002 cnt:1"
 			evseplugstatelp2=$(sudo python runs/readmodbus.py $evsesources1 $evseids1 1002 1)
 #########################################################################						
 			if [ -z "${evseplugstatelp2}" ] || ! [[ "${evseplugstatelp2}" =~ $IsNumberRegex ]]; then
@@ -226,7 +226,7 @@ loadvars(){
 		fi
 		if [[ $evsecons1 == "ipevse" ]]; then ## Alter Satellit ohne Pi3
 #########################################################################						
-			openwbDebugLog "MAIN" 2 "EXEC: sudo python runs/readipmodbus.py $evseiplp2 $evseidlp2 1002 1"
+			openwbDebugLog "MAIN" 2 "EXEC: ipevse sudo python runs/readipmodbus.py ip:$evseiplp2 id:$evseidlp2 reg:1002 cnt:1"
 			evseplugstatelp2=$(sudo python runs/readipmodbus.py $evseiplp2 $evseidlp2 1002 1)
 #########################################################################						
 			if [ -z "${evseplugstatelp2}" ] || ! [[ "${evseplugstatelp2}" =~ $IsNumberRegex ]]; then
@@ -250,9 +250,13 @@ loadvars(){
 		fi
 		plugstatlp2=$(<ramdisk/plugstats1)
 		chargestatlp2=$(<ramdisk/chargestats1)
+		plugstats1=$(<ramdisk/plugstats1)
+		chargestats1=$(<ramdisk/chargestats1)
 	else
 		plugstatlp2=$(<ramdisk/plugstats1)
 		chargestatlp2=$(<ramdisk/chargestats1)
+		plugstats1=$(<ramdisk/plugstats1)
+		chargestats1=$(<ramdisk/chargestats1)
 		ConfiguredChargePoints=1
 	fi
 
@@ -260,7 +264,7 @@ loadvars(){
 		ConfiguredChargePoints=3
 		if [[ $evsecons2 == "ipevse" ]]; then ## Alter Satellit ohne Pi3
 #########################################################################						
-			openwbDebugLog "MAIN" 2 "EXEC: sudo python runs/readipmodbus.py $evseiplp3 $evseidlp3 1002 1"
+			openwbDebugLog "MAIN" 2 "EXEC: ipevse sudo python runs/readipmodbus.py ip:$evseiplp3 id:$evseidlp3 reg:1002 cnt:1"
 			evseplugstatelp3=$(sudo python runs/readipmodbus.py $evseiplp3 $evseidlp3 1002 1)
 #########################################################################						
 			if [ -z "${evseplugstatelp3}" ] || ! [[ "${evseplugstatelp3}" =~ $IsNumberRegex ]]; then
@@ -286,7 +290,7 @@ loadvars(){
 
 		if [[ $evsecons2 == "modbusevse" ]]; then
 #########################################################################						
-			openwbDebugLog "MAIN" 2 "EXEC: sudo python runs/readmodbus.py $evsesources2 $evseids2 1002 1"
+			openwbDebugLog "MAIN" 2 "EXEC: modbusevse sudo python runs/readmodbus.py ip:$evsesources2 id:$evseids2 reg:1002 cnt:1"
 			evseplugstatelp3=$(sudo python runs/readmodbus.py $evsesources2 $evseids2 1002 1)
 #########################################################################						
 			if [ -z "${evseplugstatelp3}" ] || ! [[ "${evseplugstatelp3}" =~ $IsNumberRegex ]]; then
@@ -400,9 +404,11 @@ loadvars(){
 			openwbModulePublishState "BAT" 2 "Die Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen."
 		fi
 		speicherleistung=$(</var/www/html/openWB/ramdisk/speicherleistung)
-		speicherleistung=$(echo $speicherleistung | sed 's/\..*$//')
+        speicherleistung=${speicherleistung%%[.,]*}
+		#speicherleistung=$(echo $speicherleistung | sed 's/\..*$//')
 		speichersoc=$(</var/www/html/openWB/ramdisk/speichersoc)
-		speichersoc=$(echo $speichersoc | sed 's/\..*$//')
+        speichersoc=${speichersoc%%[.,]*}
+		#speichersoc=$(echo $speichersoc | sed 's/\..*$//')
 		speichervorhanden="1"
 		echo 1 > /var/www/html/openWB/ramdisk/speichervorhanden
 		
@@ -454,9 +460,12 @@ loadvars(){
 		lla1=$(cat /var/www/html/openWB/ramdisk/lla1)
 		lla2=$(cat /var/www/html/openWB/ramdisk/lla2)
 		lla3=$(cat /var/www/html/openWB/ramdisk/lla3)
-		lla1=$(echo $lla1 | sed 's/\..*$//')
-		lla2=$(echo $lla2 | sed 's/\..*$//')
-		lla3=$(echo $lla3 | sed 's/\..*$//')
+        lla1=${lla1%%[.,]*}
+        lla2=${lla2%%[.,]*}
+        lla3=${lla3%%[.,]*}
+		#lla1=$(echo $lla1 | sed 's/\..*$//')
+		#lla2=$(echo $lla2 | sed 's/\..*$//')
+		#lla3=$(echo $lla3 | sed 's/\..*$//')
 		llv1=$(cat /var/www/html/openWB/ramdisk/llv1)
 		llv2=$(cat /var/www/html/openWB/ramdisk/llv2)
 		llv3=$(cat /var/www/html/openWB/ramdisk/llv3)
@@ -526,6 +535,7 @@ loadvars(){
 		fi
 #########################################################################						
 		openwbDebugLog "MAIN" 2 "EXEC: timeout 10 modules/$ladeleistungs1modul/main.sh"
+		openwbDebugLog "MAIN" 2 "EXEC:readmpm3pm.py $mpmlp2ip $mpmlp2id"
 		timeout 10 modules/$ladeleistungs1modul/main.sh || true
 #########################################################################						
 		llkwhs1=$(</var/www/html/openWB/ramdisk/llkwhs1)
@@ -536,9 +546,12 @@ loadvars(){
 		llas11=$(cat /var/www/html/openWB/ramdisk/llas11)
 		llas12=$(cat /var/www/html/openWB/ramdisk/llas12)
 		llas13=$(cat /var/www/html/openWB/ramdisk/llas13)
-		llas11=$(echo $llas11 | sed 's/\..*$//')
-		llas12=$(echo $llas12 | sed 's/\..*$//')
-		llas13=$(echo $llas13 | sed 's/\..*$//')
+        llas11=${llas11%%[.,]*}
+        llas12=${llas12%%[.,]*}
+        llas13=${llas13%%[.,]*}
+		#llas11=$(echo $llas11 | sed 's/\..*$//')
+		#llas12=$(echo $llas12 | sed 's/\..*$//')
+		#llas13=$(echo $llas13 | sed 's/\..*$//')
 		ladestatuss1=$(</var/www/html/openWB/ramdisk/ladestatuss1)
 		if ! [[ $ladeleistungs1 =~ $re ]] ; then
 		ladeleistungs1="0"
@@ -559,15 +572,15 @@ loadvars(){
 	else
 		echo "$ladeleistung" > /var/www/html/openWB/ramdisk/llkombiniert
 		ladeleistunglp2=0
-        ladeleistungs1=0
 		soc1vorhanden=0
-        llalts1=0
         ladestatuss1=0
         llas1=0
 		llas11=0
 		llas12=0
 		llas13=0
         soc1=0
+        ladeleistungs1=0
+        llalts1=0
 	fi
 
 	#dritter ladepunkt
@@ -584,9 +597,12 @@ loadvars(){
 		llas21=$(cat /var/www/html/openWB/ramdisk/llas21)
 		llas22=$(cat /var/www/html/openWB/ramdisk/llas22)
 		llas23=$(cat /var/www/html/openWB/ramdisk/llas23)
-		llas21=$(echo $llas21 | sed 's/\..*$//')
-		llas22=$(echo $llas22 | sed 's/\..*$//')
-		llas23=$(echo $llas23 | sed 's/\..*$//')
+        llas21=${llas21%%[.,]*}
+        llas22=${llas22%%[.,]*}
+        llas23=${llas23%%[.,]*}
+		#llas21=$(echo $llas21 | sed 's/\..*$//')
+		#llas22=$(echo $llas22 | sed 's/\..*$//')
+		#llas23=$(echo $llas23 | sed 's/\..*$//')
 		lp3phasen=0
 		if [ $llas21 -ge $llphaset ]; then
 			lp3phasen=$((lp3phasen + 1 ))
@@ -609,12 +625,10 @@ loadvars(){
 		echo "$ladeleistung" > /var/www/html/openWB/ramdisk/llkombiniert
 		ladeleistungs2="0"
 		ladeleistunglp3=0
+        llas21=0
+        llas22=0
+        llas23=0
         llalts2=0
-        ladestatuss2=0
-		llas21=0
-		llas22=0
-		llas23=0
-        
 	fi
 
   	#  lp3-lp8
@@ -633,7 +647,8 @@ loadvars(){
 		socketkwh=$(</var/www/html/openWB/ramdisk/socketkwh)
 		socketp=$(cat /var/www/html/openWB/ramdisk/socketp)
 		socketa=$(cat /var/www/html/openWB/ramdisk/socketa)
-		socketa=$(echo $socketa | sed 's/\..*$//')
+        socketa=${socketa%%[.,]*}
+		#socketa=$(echo $socketa | sed 's/\..*$//')
 		socketv=$(cat /var/www/html/openWB/ramdisk/socketv)
 		if ! [[ $socketa =~ $re ]] ; then
 			openwbDebugLog "MAIN" 0 "ungültiger Wert für socketa: $socketa"
@@ -700,9 +715,12 @@ loadvars(){
 		evua1=$(cat /var/www/html/openWB/ramdisk/bezuga1)
 		evua2=$(cat /var/www/html/openWB/ramdisk/bezuga2)
 		evua3=$(cat /var/www/html/openWB/ramdisk/bezuga3)
-		evua1=$(echo $evua1 | sed 's/\..*$//')
-		evua2=$(echo $evua2 | sed 's/\..*$//')
-		evua3=$(echo $evua3 | sed 's/\..*$//')
+        evua1=${evua1%%[.,]*}
+        evua2=${evua2%%[.,]*}
+        evua3=${evua3%%[.,]*}
+		#evua1=$(echo $evua1 | sed 's/\..*$//')
+		#evua2=$(echo $evua2 | sed 's/\..*$//')
+		#evua3=$(echo $evua3 | sed 's/\..*$//')
 		[[ $evua1 =~ $re ]] || evua1="0"
 		[[ $evua2 =~ $re ]] || evua2="0"
 		[[ $evua3 =~ $re ]] || evua3="0"
@@ -796,7 +814,7 @@ loadvars(){
 	if [ -s "ramdisk/verbraucher3_watt" ]; then verb3_w=$(<ramdisk/verbraucher3_watt); else verb3_w=0; fi
 	verb3_w=$(printf "%.0f\n" $verb3_w)
 
-	#hausverbrauch=$((wattbezugint - pvwatt - ladeleistung - speicherleistung - shd1_w - shd2_w - shd3_w - shd4_w - shd5_w - shd6_w - shd7_w - shd8_w - shd9_w - verb1_w - verb2_w - verb3_w))
+	#hausverbrauch=$((wattbezugint - pvwat1t - ladeleistung - speicherleistung - shd1_w - shd2_w - shd3_w - shd4_w - shd5_w - shd6_w - shd7_w - shd8_w - shd9_w - verb1_w - verb2_w - verb3_w))
 	hausverbrauch=$((wattbezugint - pvwatt - ladeleistung - speicherleistung - shdall_w - verb1_w - verb2_w - verb3_w))
 
 #	echo "$hausverbrauch = $wattbezugint - $pvwatt - $ladeleistung - $speicherleistung - $shd1_w - $shd2_w - $shd3_w - $shd4_w - $shd5_w - $shd6_w - $shd7_w - $shd8_w - $shd9_w - $verb1_w - $verb2_w - $verb3_w" >>/var/www/html/openWB/ramdisk/openWB.log
@@ -1564,7 +1582,8 @@ loadvars(){
 	mqttconfvar["config/get/global/slaveMode"]=slavemode
 
 	for mq in "${!mqttconfvar[@]}"; do
-		theval=${!mqttconfvar[$mq]}
+#		theval=${!mqttconfvar[$mq]}
+		theval=${!mqttconfvar[$mq]:-""}
 		declare o${mqttconfvar[$mq]}
 		declare ${mqttconfvar[$mq]}
 
@@ -1579,6 +1598,18 @@ loadvars(){
 		fi
 	done
 
+	#declare -a pvarray=("speichersocminpv" "speichersochystminpv" "mindestuberschuss" "abschaltuberschuss" "abschaltverzoegerung" "einschaltverzoegerung" "minimalampv" "minimalampv" "minimalalp2pv" "minnurpvsoclp1" "minnurpvsocll" "pvbezugeinspeisung" "offsetpv" "speicherpvui" "speichermaxwatt" "speichersocnurpv" "speicherwattnurpv" "adaptpv" "adaptfaktor")
+	#for val in ${pvarray[@]}; do
+	#	declare o$val
+	#	ramdiskvar=$(<ramdisk/mqtt"$val")
+	#	actualvar=${!val}
+	#	tempname=$val
+	#	if [[ "$ramdiskvar" != "$actualvar" ]]; then
+	#		tempPubList="${tempPubList}\nopenWB/config/get/pv/${val}=${actualvar}"
+	#		echo $actualvar > ramdisk/mqtt$val
+	#	fi
+	#done
+	
 	
 if [[ $debug == "2" ]]; then	
 	echo "loadvars.Publist:"
