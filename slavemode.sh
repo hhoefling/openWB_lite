@@ -398,6 +398,7 @@ function aggregateDataForChargePoint() {
 
 	# indication whether the given charge point is actually enabled
 	local cpenabledVar="lp${chargePoint}enabled"
+	local LpEnabled
 	eval LpEnabled=\$$cpenabledVar
 
 	# iterate the phases (index 1-3, index 0 of array will simply be untouched/ignored)
