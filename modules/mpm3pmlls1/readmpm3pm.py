@@ -138,3 +138,5 @@ else:
     f = open('/var/www/html/openWB/ramdisk/llaktuells1', 'w')
     f.write(str(llg))
     f.close()
+client.close()
+
