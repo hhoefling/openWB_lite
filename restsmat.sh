@@ -1,5 +1,5 @@
 
-cd /home/pi
+cd /home/pi/puller
 kip=$(ps aux |grep '[s]marthomehandler.py' | awk '{print $2}')
 echo "now kill $kip"
 kill $kip
