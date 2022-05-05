@@ -7,7 +7,7 @@ u1p3pswitch(){
 		nachtladenstate=$(<ramdisk/nachtladenstate)
 		nachtladen2state=$(<ramdisk/nachtladen2state)
 		if [ -z "$u1p3schaltparam" ]; then
-			u1p3schaltparam = 8
+			u1p3schaltparam=8
 		fi
 		uhwaittime=$(( $u1p3schaltparam * 60 ))
 		urwaittime=$(( (16 - $u1p3schaltparam) * 60 ))
