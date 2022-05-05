@@ -78,10 +78,10 @@
 										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/ttyUSB0" && $mpm3pmllidold == "5") echo "selected" ?> value="modbusevse" data-id="openwb series1/2">Series1/2 (5 USB0)</option>
 										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/ttyUSB0" && $mpm3pmllidold == "105") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 mid v1">Series1/2 mit geeichtem Zähler Variante 1 (105 USB0)</option>
 										<option <?php if($evseconold == "modbusevse" && $ladeleistungmodulold == "mpm3pmll" && $mpm3pmllsourceold == "/dev/serial0" && $mpm3pmllidold == "105") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 mid v2">Series1/2 mit geeichtem Zähler Variante 2 (105 Serial0)</option>
-										<option <?php if($evseconold == "buchse") echo "selected" ?> value="buchse">Buchse</option>
-										<option <?php if($evseconold == "extopenwb") echo "selected" ?> value="extopenwb">externe openWB</option>
-										<option <?php if($evseconold == "owbpro") echo "selected" ?> value="owbpro">openWB Pro</option>
-										<option <?php if($evseconold == "masterethframer") echo "selected" ?> value="masterethframer">Ladepunkt in Verbindung mit Standalone</option>
+										<option <?php if($evseconold == "buchse") echo "selected" ?> value="buchse">Buchse (buchse)</option>
+										<option <?php if($evseconold == "extopenwb") echo "selected" ?> value="extopenwb">externe openWB (extopenwb)</option>
+										<option <?php if($evseconold == "owbpro") echo "selected" ?> value="owbpro">openWB Pro (owbpro) </option>
+										<option <?php if($evseconold == "masterethframer") echo "selected" ?> value="masterethframer">Ladepunkt in Verbindung mit Standalone (masterethframer)</option>
 										<option <?php if($evseconold == "ipevse") echo "selected" ?> value="ipevse">Satellit (ohne Pi, ipevse)</option>
 									</optgroup>
 									<optgroup label="andere Ladepunkte">
@@ -93,9 +93,9 @@
 									</optgroup>
 									<optgroup label="generische Module">
 										<option <?php if($evseconold == "dac") echo "selected" ?> value="dac">DAC</option>
-										<option <?php if($evseconold == "httpevse") echo "selected" ?> value="httpevse">HTTP</option>
+										<option <?php if($evseconold == "httpevse") echo "selected" ?> value="httpevse">HTTP (httpevse)</option>
 										<option <?php if($evseconold == "modbusevse" && !($ladeleistungmodulold == "mpm3pmll" && ($mpm3pmllsourceold == "/dev/ttyUSB0" || $mpm3pmllsourceold == "/dev/serial0") && ($mpm3pmllidold == "0" || $mpm3pmllidold == "5" || $mpm3pmllidold == "105"))) echo "selected" ?> value="modbusevse">Modbusevse</option>
-										<option <?php if($evseconold == "mqttevse") echo "selected" ?> value="mqttevse">MQTT</option>
+										<option <?php if($evseconold == "mqttevse") echo "selected" ?> value="mqttevse">MQTT (mqttevse)</option>
 									</optgroup>
 								</select>
 							</div>
@@ -326,6 +326,9 @@
 								Keine Konfiguration erforderlich.<br>
 								Per MQTT zu lesen:<br>
 								<span class="text-info">openWB/lp/1/AConfigured</span> Stromvorgabe in A<br>
+								<span class="text-info">openWB/mqttevse/1/Current</span>Stromvorgabe in A<br>
+								<span class="text-info">openWB/mqttevse/1/Cpulp1</span>CP Signale, trigger 1<br>
+								<span class="text-info">openWB/mqttevse/1/U1p3p</span>1 oder 3 Phasen <br>
 								Per MQTT zu schreiben:<br>
 								<span class="text-info">openWB/set/lp/1/plugStat</span> Status, ob ein Fahrzeug angesteckt ist, nur 0 (nein) oder 1 (ja)<br>
 								<span class="text-info">openWB/set/lp/1/chargeStat</span> Status, ob gerade geladen wird, nur 0 (nein) oder 1 (ja)<br>
@@ -2450,10 +2453,10 @@
 									<optgroup label="openWB">
 										<option <?php if($evsecons1old == "modbusevse" && $evseids1old == "1" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB1" && $mpm3pmlls1idold == "6" && $evsesources1old == "/dev/ttyUSB1") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 duo v1">Series1/2 Duo 1. Version (6 USB1)</option>
 										<option <?php if($evsecons1old == "modbusevse" && $evseids1old == "2" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB0" && $mpm3pmlls1idold == "106" && $evsesources1old == "/dev/ttyUSB0") echo "selected" ?> value="modbusevse" data-id="openwb series1/2 duo v2">Series1/2 Duo (106 USB0 ab Herbst 2020)</option>
-										<option <?php if($evsecons1old == "owbpro") echo "selected" ?> value="owbpro">openWB Pro</option>
-										<option <?php if($evsecons1old == "extopenwb") echo "selected" ?> value="extopenwb">externe openWB</option>
-										<option <?php if($evsecons1old == "daemon") echo "selected" ?> value="daemon">openWB Duo Daemon </option>
-										<option <?php if($evsecons1old == "slaveeth") echo "selected" ?> value="slaveeth">Slave</option>
+										<option <?php if($evsecons1old == "owbpro") echo "selected" ?> value="owbpro">openWB Pro (owbpro)</option>
+										<option <?php if($evsecons1old == "extopenwb") echo "selected" ?> value="extopenwb">externe openWB(extopenwb)</option>
+										<option <?php if($evsecons1old == "daemon") echo "selected" ?> value="daemon">openWB Duo Daemon (daemon)</option>
+										<option <?php if($evsecons1old == "slaveeth") echo "selected" ?> value="slaveeth">Slave (slaveeth)</option>
 										<option <?php if($evsecons1old == "ipevse") echo "selected" ?> value="ipevse">Satellit (ohne Pi, ipevse)</option>
 									</optgroup>
 									<optgroup label="andere Ladepunkte">
@@ -2463,9 +2466,9 @@
 										<option <?php if($evsecons1old == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi</option>
 									</optgroup>
 									<optgroup label="generische Module">
-										<option <?php if($evsecons1old == "dac") echo "selected" ?> value="dac">DAC</option>
+										<option <?php if($evsecons1old == "dac") echo "selected" ?> value="dac">DAC (dac)</option>
 										<option <?php if($evsecons1old == "modbusevse" && !($evseids1old == "1" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB1" && $mpm3pmlls1idold == "6" && $evsesources1old == "/dev/ttyUSB1") && !($evseids1old == "2" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB0" && $mpm3pmlls1idold == "106" && $evsesources1old == "/dev/ttyUSB0") ) echo "selected" ?> value="modbusevse">Modbus</option>
-										<option <?php if($evsecons1old == "mqttevse") echo "selected" ?> value="mqttevse">MQTT</option>
+										<option <?php if($evsecons1old == "mqttevse") echo "selected" ?> value="mqttevse">MQTT (mqttevse)</option>
 									</optgroup>
 								</select>
 							</div>
@@ -2664,6 +2667,9 @@
 								Keine Konfiguration erforderlich.<br>
 								Per MQTT zu lesen:<br>
 								<span class="text-info">openWB/lp/2/AConfigured</span> Stromvorgabe in A<br>
+								<span class="text-info">openWB/mqttevse/2/Current</span>Stromvorgabe in A<br>
+								<span class="text-info">openWB/mqttevse/2/Cpulp1</span>CP Signale, trigger 1<br>
+								<span class="text-info">openWB/mqttevse/2/U1p3p</span>1 oder 3 Phasen <br>
 								Per MQTT zu schreiben:<br>
 								<span class="text-info">openWB/set/lp/2/plugStat</span> Status, ob ein Fahrzeug angesteckt ist, nur 0 (nein) oder 1 (ja)<br>
 								<span class="text-info">openWB/set/lp/2/chargeStat</span> Status, ob gerade geladen wird, nur 0 (nein) oder 1 (ja)<br>
@@ -4432,7 +4438,7 @@
 									<optgroup label="openWB">
 										<option <?php if($evsecons2old == "extopenwb") echo "selected" ?> value="extopenwb">externe openWB</option>
 										<option <?php if($evsecons2old == "owbpro") echo "selected" ?> value="owbpro">openWB Pro</option>
-										<option <?php if($evsecons2old == "thirdeth") echo "selected" ?> value="thirdeth">dritter Ladepunkt</option>
+										<option <?php if($evsecons2old == "thirdeth") echo "selected" ?> value="thirdeth">dritter Ladepunkt (thirdeth)</option>
 										<option <?php if($evsecons2old == "ipevse") echo "selected" ?> value="ipevse">Satellit (ohne Pi, ipevse)</option>
 									</optgroup>
 									<optgroup label="andere Ladepunkte">
