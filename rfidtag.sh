@@ -175,6 +175,8 @@ sendAccounting() {
 # if it has NOT, pluggedLp will be set to 0
 setLpPlugChangeState() {
 
+  set +u
+
 	if [ ! -f "ramdisk/accPlugstatChangeDetectLp1" ]; then
 		echo "$plugstat" > "ramdisk/accPlugstatChangeDetectLp1"
 	fi
@@ -231,6 +233,8 @@ setLpPlugChangeState() {
 
 		echo ${lpsPlugStat[1]} > "ramdisk/accPlugstatChangeDetectLp1"
 	fi
+
+  set -u
 }
 
 # checks if the tag stored in $lasttag is valid for socket activation (if it is, returning 0, else > 0)
