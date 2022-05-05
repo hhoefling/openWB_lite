@@ -1,4 +1,6 @@
 #!/bin/bash
+# shellcheck disable=SC2116,SC2086,SC2163,SC2181,SC2155,SC2004,SC2017,SC2009
+
 #set -e
 
 #####
@@ -70,6 +72,13 @@ openwbDebugLog "MAIN" 1 "**** Regulation loop start ****"
 
 #config file einlesen
 . /var/www/html/openWB/loadconfig.sh
+
+if [ -z $debug ] ; then
+# only for shellcheck to know the global names loadconfig.sh  loads
+# shellcheck source=/var/www/html/openWB/openwb.conf
+   source ./openwb.conf
+   openwbDebugLog "MAIN" 0 "**** WARNING **** Oh no thus shut not happend"
+fi
 
 declare -r IsFloatingNumberRegex='^-?[0-9.]+$'
 
@@ -466,6 +475,10 @@ else
 				anzahlphasen=$(cat /var/www/html/openWB/ramdisk/anzahlphasen)
 			fi
 		fi
+		if (( lademodus == $NURPV2 )); then
+				anzahlphasen=1; ## starte immer mit 1
+				openwbDebugLog "MAIN" 0 " -- NurPV Setze Anzahl Phasen fix = 1 bei NurPV bei keiner Ladung"
+		fi
 	else # nicht angesteckt oder disabled
 		anzahlphasen=0
 	fi
@@ -497,7 +510,7 @@ if (( lastmanagement == 1 )); then		# lastmanagement == 1 means that it's on ope
 			if [ ! -f /var/www/html/openWB/ramdisk/anzahlphasen ]; then
 				echo 1 > /var/www/html/openWB/ramdisk/anzahlphasen
 			fi
-			if (( u1p3plp2aktiv == 1 )); then
+			if (( u1p3plp2aktiv == 1 )); then   ## immmer false da variable unbekannt
 				lp2anzahlphasen=$(cat /var/www/html/openWB/ramdisk/u1p3pstat)
 				anzahlphasen=$((lp2anzahlphasen + anzahlphasen))
 			else
