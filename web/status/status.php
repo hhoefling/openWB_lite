@@ -173,7 +173,14 @@
 					<div class="card border-primary hide" id="lp<?php echo $chargepointNum ?>">
 						<div class="card-header bg-primary">
 							Ladepunkt <?php echo $chargepointNum . " (" . ${'lp'.$chargepointNum.'nameold'} . ")"; ?>
-							<?php  if( $debugold>1 ) echo "[<small>$ladeleistungmodulold</small>]";   ?>
+							<?php  
+							  if( $debugold>1 ) 
+							   {
+							     if ($chargepointNum==1)  echo "[<small>$ladeleistungmodulold</small>]";
+							     if ($chargepointNum==2)  echo "[<small>$ladeleistungs1modulold</small>]";
+							     if ($chargepointNum==3)  echo "[<small>$ladeleistungs2modulold</small>]";
+							   }   
+							?>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
