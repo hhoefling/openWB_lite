@@ -127,3 +127,12 @@ openwbDebugLog() {
 }
 
 export -f openwbDebugLog
+
+openwbRunLoggingOutput() {
+	$1 2>&1 | while read -r line
+	do
+		echo "$(date +"%Y-%m-%d %H:%M:%S"): $1: $line" >> "$OPENWBBASEDIR/ramdisk/openWB.log"
+	done
+}
+export -f openwbRunLoggingOutput
+
