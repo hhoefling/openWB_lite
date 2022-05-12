@@ -95,8 +95,8 @@ nurpvlademodus()
 					fi
 				fi
 				echo "Ladung mit $minnurpvsocll Ampere, da $minnurpvsoclp1 % SoC noch nicht erreicht" > ramdisk/lastregelungaktiv
-			  openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
-			    exit 0
+				openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
+		    	exit 0
 			fi
 			if (( soc >= maxnurpvsoclp1 ))  && (( maxnurpvsoclp1<100)); then
 				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
