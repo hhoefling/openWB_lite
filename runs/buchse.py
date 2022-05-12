@@ -95,10 +95,10 @@ def read_meter():
         except AttributeError:
             log_debug(2, "SDM check failed", traceback.format_exc())
             # check B23
-        try:
+            try:
                 resp = client.read_holding_registers(0x5B00, 2, unit=201)
-            voltage = resp.registers[1]
-            if int(voltage) > 20:
+                voltage = resp.registers[1]
+                if int(voltage) > 20:
                     llmeterconfiglp1 = 201
                     sdmid = 201
                     log_debug(2, "B23 Zaehler erkannt")
@@ -369,11 +369,11 @@ def load_control_values():
 def __switch_phases(gpio_cp: int, gpio_relay: int):
     GPIO.output(gpio_cp, GPIO.HIGH)  # CP on
     GPIO.output(gpio_relay, GPIO.HIGH)  # 3 on/off
-            time.sleep(2)
+    time.sleep(2)
     GPIO.output(gpio_relay, GPIO.LOW)  # 3 on/off
-            time.sleep(5)
+    time.sleep(5)
     GPIO.output(gpio_cp, GPIO.LOW)  # CP off
-            time.sleep(1)
+    time.sleep(1)
 
 
 def switch_phases_cp1(new_phases: int, old_phases: int) -> int:
@@ -437,4 +437,4 @@ with ModbusSerialClient(method="rtu", port=seradd, baudrate=9600, stopbits=1, by
     while True:
         read_meter()
         load_control_values()
-    time.sleep(1)
+        time.sleep(1)
