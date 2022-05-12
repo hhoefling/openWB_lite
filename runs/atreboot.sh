@@ -10,10 +10,6 @@ function log()
  echo $timestamp $SELF $*
 }
 
-at_reboot() {
-}
-
-
 log started
 
 (sleep 600; sudo kill $(ps aux |grep '[a]treboot.sh' | awk '{print $2}'); echo 0 > /var/www/html/openWB/ramdisk/bootinprogress; echo 0 > /var/www/html/openWB/ramdisk/updateinprogress) &
@@ -26,7 +22,7 @@ log loading config
 # no code will run here, functions need to be called
 . /var/www/html/openWB/runs/initRamdisk.sh
 . /var/www/html/openWB/runs/updateConfig.sh
-. /var/www/html/openWB/runs/rfid/rfidHelper.sh"
+. /var/www/html/openWB/runs/rfid/rfidHelper.sh
 
 if [ -d /var/www/html/openWB/ramdisk ] ; then
 	echo 1 > /var/www/html/openWB/ramdisk/bootinprogress
@@ -41,10 +37,11 @@ if [ ! -d /var/www/html/openWB/web/backup ] ; then
 else
  log "backupdir exists"  
 fi
-sudo echo "" >/var/www/html/openWB/web/backup/.donotdelete
 
 log "checking rights und modes"
 sudo chown -R www-data:www-data /var/www/html/openWB/web/backup
+sudo chown pi:pi /var/www/html/openWB/web/backup/.donotdelete
+sudo echo ""    >/var/www/html/openWB/web/backup/.donotdelete
 sudo chown -R www-data:www-data /var/www/html/openWB/web/tools/upload
 sudo chmod 777 /var/www/html/openWB/openwb.conf
 sudo chmod 777 /var/www/html/openWB/smarthome.ini
@@ -86,9 +83,9 @@ fi
 
 # initialize automatic phase switching
 if (( u1p3paktiv == 1 )); then
-	log "triginit...quick init of phase switching with default pause duration (2s)"
+	log "triginit...quick init of phase switching with default pause duration 2s"
 	# quick init of phase switching with default pause duration (2s)
-	sudo python /var/www/html/openWB/runs/triginit.py
+	sudo python /var/www/html/openWB/runs/triginit.py 2>&1 
 fi
 
 # check if buttons are configured and start daemon
@@ -105,7 +102,7 @@ if (( ladetaster == 1 )); then
 fi
 
 
-# setup rfid handler if needed
+log rfidhandler...
 rfidSetup "$rfidakt" 1 "$rfidlist"
 
 # check if tesla wall connector is configured and start daemon
@@ -140,7 +137,7 @@ else
       /var/www/html/openWB/runs/replaceinconfig.sh "displayaktiv=" "0"
     fi
     log "No LCD detcted, stop lighttdm "
-    sudo service lightdm stop
+    sudo service lightdm stop >/dev/null 2>%1 # ignore error
     displayaktiv=0
 fi
 
@@ -426,11 +423,15 @@ if [[ "$evsecon" == "buchse" ]]  && [[ "$isss" == "0" ]]; then
 fi
 
 
-# update display configuration
-log "display update..."
-if grep -Fq "@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php" /home/pi/.config/lxsession/LXDE-pi/autostart
-then
-	sed -i "s,@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php,@chromium-browser --incognito --disable-pinch --overscroll-history-navigation=0 --kiosk http://localhost/openWB/web/display.php,g" /home/pi/.config/lxsession/LXDE-pi/autostart
+if (( displayaktiv == 1 )); then
+	# update display configuration
+	log "display update..."
+	if grep -Fq "@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php" /home/pi/.config/lxsession/LXDE-pi/autostart
+	then
+		sed -i "s,@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php,@chromium-browser --incognito --disable-pinch --overscroll-history-navigation=0 --kiosk http://localhost/openWB/web/display.php,g" /home/pi/.config/lxsession/LXDE-pi/autostart
+	fi
+else 
+    log "display not active"
 fi
 
 # get local ip
@@ -518,8 +519,10 @@ fi
 sudo /usr/sbin/apachectl -k graceful
 
 # all done, remove boot and update status
-log "boot done :-)"
+log "boot done"
 echo 0 > /var/www/html/openWB/ramdisk/bootinprogress
 echo 0 > /var/www/html/openWB/ramdisk/updateinprogress
 mosquitto_pub -t openWB/system/updateInProgress -r -m "0"
 mosquitto_pub -t openWB/system/reloadDisplay -m "1"
+
+
