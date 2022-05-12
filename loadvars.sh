@@ -324,7 +324,7 @@ loadvars(){
 	# Lastmanagement var check age   Lasse Meldung 2 Minuten stehen
 	if test $(find "ramdisk/lastregelungaktiv" -mmin +2); then
 		openwbDebugLog "MAIN" 1 "Clear Lastreglegelungstext (>2Min)"
-		echo "" > ramdisk/lastregelungaktiv
+		echo " " > ramdisk/lastregelungaktiv
 	fi
 
 	# Werte für die Berechnung ermitteln
@@ -814,7 +814,7 @@ loadvars(){
 	if [ -s "ramdisk/verbraucher3_watt" ]; then verb3_w=$(<ramdisk/verbraucher3_watt); else verb3_w=0; fi
 	verb3_w=$(printf "%.0f\n" $verb3_w)
 
-	#hausverbrauch=$((wattbezugint - pvwat1t - ladeleistung - speicherleistung - shd1_w - shd2_w - shd3_w - shd4_w - shd5_w - shd6_w - shd7_w - shd8_w - shd9_w - verb1_w - verb2_w - verb3_w))
+	#hausverbrauch=$((wattbezugint - pvwatt - ladeleistung - speicherleistung - shd1_w - shd2_w - shd3_w - shd4_w - shd5_w - shd6_w - shd7_w - shd8_w - shd9_w - verb1_w - verb2_w - verb3_w))
 	hausverbrauch=$((wattbezugint - pvwatt - ladeleistung - speicherleistung - shdall_w - verb1_w - verb2_w - verb3_w))
 
 #	echo "$hausverbrauch = $wattbezugint - $pvwatt - $ladeleistung - $speicherleistung - $shd1_w - $shd2_w - $shd3_w - $shd4_w - $shd5_w - $shd6_w - $shd7_w - $shd8_w - $shd9_w - $verb1_w - $verb2_w - $verb3_w" >>/var/www/html/openWB/ramdisk/openWB.log
@@ -1598,18 +1598,6 @@ loadvars(){
 		fi
 	done
 
-	#declare -a pvarray=("speichersocminpv" "speichersochystminpv" "mindestuberschuss" "abschaltuberschuss" "abschaltverzoegerung" "einschaltverzoegerung" "minimalampv" "minimalampv" "minimalalp2pv" "minnurpvsoclp1" "minnurpvsocll" "pvbezugeinspeisung" "offsetpv" "speicherpvui" "speichermaxwatt" "speichersocnurpv" "speicherwattnurpv" "adaptpv" "adaptfaktor")
-	#for val in ${pvarray[@]}; do
-	#	declare o$val
-	#	ramdiskvar=$(<ramdisk/mqtt"$val")
-	#	actualvar=${!val}
-	#	tempname=$val
-	#	if [[ "$ramdiskvar" != "$actualvar" ]]; then
-	#		tempPubList="${tempPubList}\nopenWB/config/get/pv/${val}=${actualvar}"
-	#		echo $actualvar > ramdisk/mqtt$val
-	#	fi
-	#done
-	
 	
 if [[ $debug == "2" ]]; then	
 	echo "loadvars.Publist:"
