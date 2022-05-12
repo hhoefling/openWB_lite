@@ -12,20 +12,25 @@ class Sbase0:
     _prefixpy = _basePath+'/modules/smarthome/'
 
     def logClass(self, level, msg):
-        if (int(level) >= 2):
+        if (int(level) >= 0):
             local_time = datetime.now(timezone.utc).astimezone()
-            file = open('/var/www/html/openWB/ramdisk/smarthome.log',
-                        'a', encoding='utf8')
-            if (int(level) == 0):
-                file.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
-                           + '-: ' + str(msg) + '\n')
-            if (int(level) == 1):
-                file.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
-                           + '-: ' + str(msg) + '\n')
-            if (int(level) == 2):
-                file.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
-                           + '-: ' + str(msg) + '\n')
-            file.close
+            with open(self._basePath+'/ramdisk/smarthome.log', 'a',
+                      encoding='utf8', buffering=1) as file:
+                if (int(level) == 0):
+                    file.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
+                               + '-: ' + str(msg) + '\n')
+                if (int(level) == 1):
+                    file.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
+                               + '-: ' + str(msg) + '\n')
+                if (int(level) == 2):
+                    file.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
+                               + '-: ' + str(msg) + '\n')
+
+    def readret(self):
+        with open(self._basePath+'/ramdisk/smarthome_device_ret' +
+                  str(self.device_nummer), 'r') as f1:
+            answer = json.loads(json.load(f1))
+        return answer
 
 
 class Slbase(Sbase0):
@@ -54,6 +59,7 @@ class Slbase(Sbase0):
         self._device_measuresmaser = '123'
         self._device_measuresmaage = 15
         self._device_leistungurl = 'none'
+        self._device_stateurl = 'none'
         self._device_measureurl = 'none'
         self._device_measureurlc = 'none'
         self._device_measurejsonurl = 'none'
@@ -89,7 +95,7 @@ class Slbase(Sbase0):
                         'device_speichersocbeforestart', 'device_endTime',
                         'device_maxeinschaltdauer', 'mode',
                         'WHImported_temp', 'RunningTimeToday',
-                        'oncountnor', 'OnCntStandby',
+                        'oncountnor', 'OnCntStandby', 'device_deactivateper',
                         'device_startupDetection']):
                 pass
             elif (key == 'device_differentMeasurement'):
@@ -140,6 +146,8 @@ class Slbase(Sbase0):
                 self._device_username = value
             elif (key == 'device_password'):
                 self._device_password = value
+            elif (key == 'device_stateurl'):
+                self._device_stateurl = value
             else:
                 self.logClass(2, "(" + str(self.device_nummer) + ") "
                               + __class__.__name__ + " überlesen " + key +
@@ -169,11 +177,7 @@ class Slmqtt(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
             self.relais = int(answer['on'])
@@ -201,33 +205,29 @@ class Slshelly(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
             self.relais = int(answer['on'])
             if (self.device_temperatur_configured > 0):
                 self.temp0 = str(answer['temp0'])
-                f = open(self._basePath+'/ramdisk/device' + str(self.device_nummer) + '_temp0', 'w')
-                f.write(str(self.temp0))
-                f.close()
+                with open(self._basePath+'/ramdisk/device' +
+                          str(self.device_nummer) + '_temp0', 'w') as f:
+                    f.write(str(self.temp0))
             else:
                 self.temp0 = '300'
             if (self.device_temperatur_configured > 1):
                 self.temp1 = str(answer['temp1'])
-                f = open(self._basePath+'/ramdisk/device' + str(self.device_nummer) + '_temp1', 'w')
-                f.write(str(self.temp1))
-                f.close()
+                with open(self._basePath+'/ramdisk/device' +
+                          str(self.device_nummer) + '_temp1', 'w') as f:
+                    f.write(str(self.temp1))
             else:
                 self.temp1 = '300'
             if (self.device_temperatur_configured > 2):
                 self.temp2 = str(answer['temp2'])
-                f = open(self._basePath+'/ramdisk/device' + str(self.device_nummer) + '_temp2', 'w')
-                f.write(str(self.temp2))
-                f.close()
+                with open(self._basePath+'/ramdisk/device' +
+                          str(self.device_nummer) + '_temp2', 'w') as f:
+                    f.write(str(self.temp2))
             else:
                 self.temp2 = '300'
         except Exception as e1:
@@ -262,11 +262,7 @@ class Slavm(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
             self.relais = int(answer['on'])
@@ -294,11 +290,7 @@ class Sltasmota(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
             self.relais = int(answer['on'])
@@ -314,24 +306,25 @@ class Slhttp(Slbase):
         print('__init__ Slhttp excuted')
 
     def getwattread(self):
-        self._watt(self._device_leistungurl, 'none')
+        self._watt(self._device_leistungurl, 'none',
+                   self._device_stateurl)
 
     def sepwattread(self):
-        self._watt(self._device_measureurl, self._device_measureurlc)
+        self._watt(self._device_measureurl, self._device_measureurlc,
+                   'none')
         return self.newwatt, self.newwattk
 
-    def _watt(self, url, urlc):
+    def _watt(self, url, urlc, urls):
         argumentList = ['python3', self._prefixpy + 'http/watt.py',
-                        str(self.device_nummer), '0', str(self.devuberschuss),
-                        url, urlc]
+                        str(self.device_nummer), '0',
+                        str(self.devuberschuss), url, urlc,
+                        '0', '0', urls]
+        proc = subprocess.Popen(argumentList)
+        proc.communicate()
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
             self.relais = int(answer['on'])
@@ -359,19 +352,15 @@ class Slmystrom(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
             self.relais = int(answer['on'])
             if (self.device_temperatur_configured > 0):
                 self.temp0 = str(answer['temp0'])
-                f = open(self._basePath+'/ramdisk/device' + str(self.device_nummer) + '_temp0', 'w')
-                f.write(str(self.temp0))
-                f.close()
+                with open(self._basePath+'/ramdisk/device' +
+                          str(self.device_nummer) + '_temp0', 'w') as f:
+                    f.write(str(self.temp0))
             else:
                 self.temp0 = '300'
         except Exception as e1:
@@ -393,11 +382,7 @@ class Slsmaem(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
         except Exception as e1:
@@ -420,11 +405,7 @@ class Slwe514(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
         except Exception as e1:
@@ -449,11 +430,7 @@ class Sljson(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
         except Exception as e1:
@@ -475,11 +452,7 @@ class Slfronius(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
         except Exception as e1:
@@ -503,11 +476,7 @@ class Slsdm630(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
         except Exception as e1:
@@ -531,11 +500,7 @@ class Slsdm120(Slbase):
         try:
             proc = subprocess.Popen(argumentList)
             proc.communicate()
-            f1 = open(self._basePath+'/ramdisk/smarthome_device_ret' +
-                      str(self.device_nummer), 'r')
-            answerj = json.load(f1)
-            f1.close()
-            answer = json.loads(answerj)
+            answer = self.readret()
             self.newwatt = int(answer['power'])
             self.newwattk = int(answer['powerc'])
         except Exception as e1:
@@ -602,8 +567,9 @@ class Sbase(Sbase0):
         self._device_endtime = '00:00'
         self._device_ontime = '00:00'
         self._device_onuntiltime = '00:00'
-
+        self._device_nonewatt = 0
         self.device_manual_control = 0
+        self._device_deactivateper = 0
 
         self._oldrelais = '2'
         self._oldwatt = 0
@@ -615,7 +581,6 @@ class Sbase(Sbase0):
 
         self._wh = 0
         self._wpos = 0
-        # DeviceValues.update( {str(nummer) + "wh" : round(wattposkh, 2)})
         self._deviceconfigured = '1'
         self._deviceconfiguredold = '9'
         # not none !
@@ -668,7 +633,8 @@ class Sbase(Sbase0):
         (self.newwatt, self.newwattk) = self.sepwatt(self.newwatt,
                                                      self.newwattk)
         # bei reiner Leistungsmessung relais nur nach Watt setzten
-        if (self.newwatt > 1) and (self.device_type == 'none'):
+        if ((self.newwatt > self._device_nonewatt)
+           and (self.device_type == 'none')):
             self.relais = 1
         # bei laufender Anlauferkennung deivce nicht aktiv setzten
         if (self.relais == 1) and (self.devstatus != 20):
@@ -697,18 +663,16 @@ class Sbase(Sbase0):
                 self.logClass(2,
                               "(" + str(self.device_nummer) + ") von Manuell" +
                               " auf Automatisch gestellt oder startup," +
-                              " Uebergangsfrist laueft noch " + str(manverz) +
+                              " Übergangsfrist laueft noch " + str(manverz) +
                               " > " + str(timesince))
                 self.abschalt = 0
         self._oldwatt = self.newwatt
-        f = open(self._basePath+'/ramdisk/device' + str(self.device_nummer) +
-                 '_watt', 'w')
-        f.write(str(self._oldwatt))
-        f.close()
-        f = open(self._basePath+'/ramdisk/device' + str(self.device_nummer) +
-                 '_relais', 'w')
-        f.write(str(self.relais))
-        f.close()
+        with open(self._basePath+'/ramdisk/device' + str(self.device_nummer) +
+                  '_watt', 'w') as f:
+            f.write(str(self._oldwatt))
+        with open(self._basePath+'/ramdisk/device' + str(self.device_nummer) +
+                  '_relais', 'w') as f:
+            f.write(str(self.relais))
         try:
             with open(self._basePath+'/ramdisk/smarthome_device_' +
                       str(self.device_nummer) + 'watt0pos', 'r') as value:
@@ -720,14 +684,13 @@ class Sbase(Sbase0):
                               str(self.device_nummer), self.newwattk)
         except Exception:
             importtemp = self._whimported_tmp
-            f = open(self._basePath+'/ramdisk/smarthome_device_' +
-                     str(self.device_nummer) + 'watt0pos', 'w')
-            f.write(str(importtemp))
-            f.close()
-            f = open(self._basePath++'/ramdisk/smarthome_device_' +
-                     str(self.device_nummer) + 'watt0neg', 'w')
-            f.write(str("0"))
-            f.close()
+
+            with open(self._basePath+'/ramdisk/smarthome_device_' +
+                      str(self.device_nummer) + 'watt0pos', 'w') as f:
+                f.write(str(importtemp))
+            with open(self._basePath+'/ramdisk/smarthome_device_' +
+                      str(self.device_nummer) + 'watt0neg', 'w') as f:
+                f.write(str("0"))
         if (self.relais == 1):
             newtime = int(time.time())
             if (self.c_oldstampeinschaltdauer_f == 'Y'):
@@ -816,6 +779,8 @@ class Sbase(Sbase0):
                 self._device_einschaltverzoegerung = valueint * 60
             elif (key == 'device_ausschaltverzoegerung'):
                 self._device_ausschaltverzoegerung = valueint * 60
+            elif (key == 'device_nonewatt'):
+                self._device_nonewatt = valueint
             elif (key == 'device_type'):
                 self.device_type = value
             elif (key == 'device_configured'):
@@ -846,6 +811,8 @@ class Sbase(Sbase0):
                 self.device_manual = valueint
             elif (key == 'device_manual_control'):
                 self.device_manual_control = valueint
+            elif (key == 'device_deactivateper'):
+                self._device_deactivateper = valueint
 # openWB/config/set/SmartHome/Devices/<ID>/mode auf 1 setzen -> Gerät wird
 # als 'Manuell' in der Geräteliste geführt
 # openWB/config/set/SmartHome/Devices/<ID>/device_manual_control -> 0
@@ -896,7 +863,7 @@ class Sbase(Sbase0):
         if (self._device_differentmeasurement == 1):
             if (self._oldmeasuretype1 == self._device_measuretype):
                 self.logClass(2, "(" + str(self.device_nummer) +
-                              ") Separate Leistungsmessung. Nur Parameter" +
+                              ") Separate Messung. Nur Parameter" +
                               " update " + self._device_measuretype)
                 self._mydevicemeasure.updatepar(self._smart_param)
             else:
@@ -904,7 +871,7 @@ class Sbase(Sbase0):
                     pass
                 else:
                     self.logClass(2, "(" + str(self.device_nummer) +
-                                  ") Separate Leistungsmessung. Altes Measure"
+                                  ") Separate Messung. Altes Measure"
                                   + "device gelöscht " + self._oldmeasuretype1)
                     del self._mydevicemeasure
                 if (self._device_measuretype == 'sdm630'):
@@ -938,12 +905,12 @@ class Sbase(Sbase0):
                 self._mydevicemeasure.updatepar(self._smart_param)
                 self._oldmeasuretype1 = self._device_measuretype
                 self.logClass(2, "(" + str(self.device_nummer) +
-                              ") Separate Leistungsmessung. Neues Measure" +
+                              ") Separate Messung. Neues Measure" +
                               "device erzeugt " + self._device_measuretype)
         if ((self._device_differentmeasurement == 0) and
            (self._oldmeasuretype1 != 'empty')):
             self.logClass(2, "(" + str(self.device_nummer) +
-                          ") Separate Leistungsmessung ausgeschaltet"
+                          ") Separate Messung ausgeschaltet."
                           " Altes Measure" +
                           "device gelöscht " + self._oldmeasuretype1)
             del self._mydevicemeasure
@@ -958,17 +925,16 @@ class Sbase(Sbase0):
 
     def preturn(self, zustand, ueberschussberechnung, updatecnt):
         self.ueberschussberechnung = ueberschussberechnung
-        f = open(self._basePath+'/ramdisk/device' + str(self.device_nummer) +
-                 '_req_relais', 'w')
-        f.write(str(zustand))
-        f.close()
+        with open(self._basePath+'/ramdisk/device' + str(self.device_nummer) +
+                  '_req_relais', 'w') as f:
+            f.write(str(zustand))
         if (zustand == 1):
             if updatecnt == 1:
                 self.oncountnor = str(int(self.oncountnor) + 1)
             else:
                 self.oncntstandby = str(int(self.oncntstandby) + 1)
             self.logClass(2, "(" + str(self.device_nummer) +
-                          ") angeschaltet. Ueberschussberechnung (1 = mit " +
+                          ") angeschaltet. Überschussberechnung (1 = mit " +
                           " Speicher, 2 = mit Offset) " +
                           str(self.ueberschussberechnung))
             if updatecnt == 1:
@@ -994,9 +960,8 @@ class Sbase(Sbase0):
         file_charge = '/var/www/html/openWB/ramdisk/llkombiniert'
         testcharge = 0
         if os.path.isfile(file_charge):
-            f = open(file_charge, 'r')
-            testcharge = int(f.read())
-            f.close()
+            with open(file_charge, 'r') as f:
+                testcharge = int(f.read())
         if testcharge <= 1000:
             chargestatus = 0
         else:
@@ -1328,6 +1293,22 @@ class Sbase(Sbase0):
                               " Anlauferkennung nun aktiv, eingeschaltet ")
                 self.turndevicerelais(1, 0, 0)
                 return
+        # periodisch ausschalten
+        if (self.relais == 1) and (self._device_deactivateper > 0):
+            self.logClass(2, "(" + str(self.device_nummer) + ") " +
+                          self.device_name +
+                          " Soll periodisch ausgeschaltet werden " +
+                          " (1 = volle Stunde / " +
+                          " 2 = volle Stunde + halbe Stunde) pruefe " +
+                          str(self._device_deactivateper))
+            if (((self._device_deactivateper == 2) and (localminute == 30)) or
+               (localminute == 00)):
+                self.logClass(2, "(" + str(self.device_nummer) +
+                              ") " + self.device_name +
+                              " erfolgreich, schalte aus ")
+                self.turndevicerelais(0, 0, 1)
+                self._c_ausverz_f = 'N'
+                return
         if ((self.devuberschuss > self._device_einschaltschwelle)
            or (onnow == 1)):
             self._c_ausverz_f = 'N'
@@ -1495,47 +1476,35 @@ class Sbase(Sbase0):
             wattnegkh = 0
             wattposh = wattks * 3600
             wattnegh = 0
-            f = open(self._basePath+'/ramdisk/'+pref+'watt0pos', 'w')
-            f.write(str(wattposh))
-            f.close()
+            with open(self._basePath+'/ramdisk/'+pref+'watt0pos', 'w') as f:
+                f.write(str(wattposh))
             self._wpos = wattposh
-            f = open(self._basePath+'/ramdisk/'+pref+'watt0neg', 'w')
-            f.write(str(wattnegh))
-            f.close()
-            f = open(self._basePath+'/ramdisk/' + importfn, 'w')
-            #    f = open(basePath+'/ramdisk/speicherikwh', 'w')
+            with open(self._basePath+'/ramdisk/'+pref+'watt0neg', 'w') as f:
+                f.write(str(wattnegh))
             self._wh = round(wattposkh, 2)
-            f.write(str(round(wattposkh, 2)))
-            f.close()
-            f = open(self._basePath+'/ramdisk/' + exportfn, 'w')
-            #   f = open(basePath+'/ramdisk/speicherekwh', 'w')
-            f.write(str(wattnegkh))
-            f.close()
+            with open(self._basePath+'/ramdisk/' + importfn, 'w') as f:
+                f.write(str(round(wattposkh, 2)))
+            with open(self._basePath+'/ramdisk/' + exportfn, 'w') as f:
+                f.write(str(wattnegkh))
             return
         # emulate import  export
         seconds2 = time.time()
         watt1 = 0
         seconds1 = 0.0
         if os.path.isfile(self._basePath+'/ramdisk/'+pref+'sec0'):
-            f = open(self._basePath+'/ramdisk/'+pref+'sec0', 'r')
-            seconds1 = float(f.read())
-            f.close()
-            f = open(self._basePath+'/ramdisk/'+pref+'wh0', 'r')
-            watt1 = int(f.read())
-            f.close()
-            f = open(self._basePath+'/ramdisk/'+pref+'watt0pos', 'r')
-            wattposh = int(f.read())
-            f.close()
-            f = open(self._basePath+'/ramdisk/'+pref+'watt0neg', 'r')
-            wattnegh = int(f.read())
-            f.close()
-            f = open(self._basePath+'/ramdisk/'+pref+'sec0', 'w')
+            with open(self._basePath+'/ramdisk/'+pref+'sec0', 'r') as f:
+                seconds1 = float(f.read())
+            with open(self._basePath+'/ramdisk/'+pref+'wh0', 'r') as f:
+                watt1 = int(f.read())
+            with open(self._basePath+'/ramdisk/'+pref+'watt0pos', 'r') as f:
+                wattposh = int(f.read())
+            with open(self._basePath+'/ramdisk/'+pref+'watt0neg', 'r') as f:
+                wattnegh = int(f.read())
             value1 = "%22.6f" % seconds2
-            f.write(str(value1))
-            f.close()
-            f = open(self._basePath+'/ramdisk/'+pref+'wh0', 'w')
-            f.write(str(watt2))
-            f.close()
+            with open(self._basePath+'/ramdisk/'+pref+'sec0', 'w') as f:
+                f.write(str(value1))
+            with open(self._basePath+'/ramdisk/'+pref+'wh0', 'w') as f:
+                f.write(str(watt2))
             seconds1 = seconds1 + 1
             deltasec = seconds2 - seconds1
             deltasectrun = int(deltasec * 1000) / 1000
@@ -1561,30 +1530,22 @@ class Sbase(Sbase0):
                     wattposh = wattposh + watt1
             wattposkh = wattposh/3600
             wattnegkh = (wattnegh*-1)/3600
-            f = open(self._basePath+'/ramdisk/'+pref+'watt0pos', 'w')
-            f.write(str(wattposh))
-            f.close()
+            with open(self._basePath+'/ramdisk/'+pref+'watt0pos', 'w') as f:
+                f.write(str(wattposh))
             self._wpos = wattposh
-            f = open(self._basePath+'/ramdisk/'+pref+'watt0neg', 'w')
-            f.write(str(wattnegh))
-            f.close()
-            f = open(self._basePath+'/ramdisk/' + importfn, 'w')
-            #    f = open(basePath+'/ramdisk/speicherikwh', 'w')
+            with open(self._basePath+'/ramdisk/'+pref+'watt0neg', 'w') as f:
+                f.write(str(wattnegh))
             self._wh = round(wattposkh, 2)
-            f.write(str(round(wattposkh, 2)))
-            f.close()
-            f = open(self._basePath+'/ramdisk/' + exportfn, 'w')
-            #   f = open(basePath+'/ramdisk/speicherekwh', 'w')
-            f.write(str(wattnegkh))
-            f.close()
+            with open(self._basePath+'/ramdisk/' + importfn, 'w') as f:
+                f.write(str(round(wattposkh, 2)))
+            with open(self._basePath+'/ramdisk/' + exportfn, 'w') as f:
+                f.write(str(wattnegkh))
         else:
-            f = open(self._basePath+'/ramdisk/'+pref+'sec0', 'w')
             value1 = "%22.6f" % seconds2
-            f.write(str(value1))
-            f.close()
-            f = open(self._basePath+'/ramdisk/'+pref+'wh0', 'w')
-            f.write(str(watt2))
-            f.close()
+            with open(self._basePath+'/ramdisk/'+pref+'sec0', 'w') as f:
+                f.write(str(value1))
+            with open(self._basePath+'/ramdisk/'+pref+'wh0', 'w') as f:
+                f.write(str(watt2))
 
     def getwatt(self, uberschuss, uberschussoffset):
         self.prewatt(uberschuss, uberschussoffset)
