@@ -840,7 +840,7 @@ function processSmartHomeDevicesMessages(mqttmsg, mqttpayload) {
 		if (isNaN(actualTemp)) {
 			actualTemp = 0;
 		}
-		wbdata.updateSH(index, "temp1", actualTemp);
+		wbdata.updateSH(index, "temperatur", actualTemp);
 	}
 	else if (mqttmsg.match(/^openwb\/SmartHome\/Devices\/[1-9][0-9]*\/TemperatureSensor1$/i)) {
 		var actualTemp = parseFloat(mqttpayload);
