@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2116,SC2086,SC2163,SC2181,SC2155,SC2004,SC2017,SC2009
+# shellcheck disable=SC2116,SC2086,SC2163,SC2181,SC2155,SC2004,SC2017,SC2009,SC2046,SC2034,SC2053
 
 #set -e
 
@@ -57,7 +57,7 @@ function cleanup()
 
 	if [ "$t" -le "7" ] ; then   # 1..7 Ok
 		openwbDebugLog "MAIN" 1 "**** Regulation loop needs $t seconds"
-	elif [ "$t" -le "9" ] ; then # 8,9 Warning 
+	elif [ "$t" -le "9" ] ; then # 9 Warning 
 		openwbDebugLog "MAIN" 0 "**** WARNING **** Regulation loop needs $t seconds"
 	else                         # 10,... Fatal
 		openwbDebugLog "MAIN" 0 "**** FATAL *********************************"
@@ -73,12 +73,18 @@ openwbDebugLog "MAIN" 1 "**** Regulation loop start ****"
 #config file einlesen
 . /var/www/html/openWB/loadconfig.sh
 
+
+#######################
+# only for shellcheck to know the global names loadconfig.sh  loads,  
+# here sourced not read as file
+#######################
 if [ -z $debug ] ; then
-# only for shellcheck to know the global names loadconfig.sh  loads
 # shellcheck source=/var/www/html/openWB/openwb.conf
    source ./openwb.conf
    openwbDebugLog "MAIN" 0 "**** WARNING **** Oh no thus shut not happend"
 fi
+
+
 
 declare -r IsFloatingNumberRegex='^-?[0-9.]+$'
 
@@ -438,10 +444,11 @@ anzahlphasen=$(</var/www/html/openWB/ramdisk/anzahlphasen)
 if (( anzahlphasen > 9 )); then
 	anzahlphasen=1
 fi
-openwbDebugLog "PV" 0 "Alte Anzahl genutzter Phasen= $anzahlphasen"
-
 # mehr als 3A gelten als "Laden"
 declare -ri LLPHASENTEST=3
+
+openwbDebugLog "PV" 0 "Alte Anzahl genutzter Phasen= $anzahlphasen"
+
 
 #Anzahl genutzter Phasen ermitteln, wenn ladestrom kleiner 3 (nicht vorhanden) nutze den letzten bekannten wert
 if (( llalt > LLPHASENTEST )); then
@@ -458,6 +465,7 @@ if (( llalt > LLPHASENTEST )); then
 	echo $anzahlphasen > /var/www/html/openWB/ramdisk/anzahlphasen
 	echo $anzahlphasen > /var/www/html/openWB/ramdisk/lp1anzahlphasen
 	openwbDebugLog "PV" 0 "LP1 aktive Phasen während Ladung= $anzahlphasen"
+	openwbDebugLog "MAIN" 0 "--NurPV LP1 aktive Phasen während Ladung= $anzahlphasen"
 else
 	# wir laden nicht, könten aber daher future-phasen bestimmen 
 	if (( plugstat == 1 )) && (( lp1enabled == 1 )); then
@@ -483,6 +491,7 @@ else
 		anzahlphasen=0
 	fi
 	openwbDebugLog "PV" 0 "LP1 Anzahl Phasen während keiner Ladung= $anzahlphasen"
+	openwbDebugLog "MAIN" 0 "--NurPV LP1 Anzahl Phasen während keiner Ladung= $anzahlphasen"
 fi
 
 
@@ -548,6 +557,7 @@ if [ "$anzahlphasen" -ge "24" ]; then
 	echo $anzahlphasen > /var/www/html/openWB/ramdisk/anzahlphasen
 fi
 openwbDebugLog "PV" 0 "Gesamt Anzahl Phasen= $anzahlphasen (0..24 korrigiert)"
+openwbDebugLog "MAIN" 0 "-- NurPV regel.sh Gesamt Anzahl Phasen= $anzahlphasen (0..24 korrigiert)"
 
 ########################
 # Sofort Laden
@@ -569,6 +579,7 @@ if [[ $nurpv70dynact == "1" ]]; then
 		#abschaltuberschuss=$((minimalapv * 230 * anzahlphasen))
 		openwbDebugLog "MAIN" 1 "PV 70% aktiv! derzeit genutzter Überschuss $uberschuss"
 		openwbDebugLog "PV" 0 "70% Grenze aktiv. Alter Überschuss: $((uberschuss + nurpv70dynw)), Neuer verfügbarer Uberschuss: $uberschuss"
+		openwbDebugLog "MAIN" 0 "--NurPV 70% Grenze aktiv. Alter Überschuss: $((uberschuss + nurpv70dynw)), Neuer verfügbarer Uberschuss: $uberschuss"
 	fi
 fi
 
