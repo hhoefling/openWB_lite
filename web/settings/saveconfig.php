@@ -202,6 +202,13 @@
 			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['socmodul1'] . "/main.sh > /dev/null &" );
 		}
 
+		// check for rfid mode and start/stop handler
+		if( array_key_exists( 'rfidakt', $_POST ) ){ ?>
+			<script>$('#feedbackdiv').append("<br>RFID Konfiguration wird aktualisiert.");</script>
+			<?php
+			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/rfid/rfidSetup.sh >> /var/log/openWB.log 2>&1 &" );
+		}
+
 	} catch ( Exception $e ) {
 		$msg = $e->getMessage();
 		echo "<script>alert('$msg');</script>";
