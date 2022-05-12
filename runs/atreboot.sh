@@ -1,4 +1,7 @@
 #!/bin/bash
+OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
+. "$OPENWBBASEDIR/helperFunctions.sh"
+
 
 SELF=`basename $0`
 function log()
@@ -7,8 +10,10 @@ function log()
  echo $timestamp $SELF $*
 }
 
+at_reboot() {
+}
 
-OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
+
 log started
 
 (sleep 600; sudo kill $(ps aux |grep '[a]treboot.sh' | awk '{print $2}'); echo 0 > /var/www/html/openWB/ramdisk/bootinprogress; echo 0 > /var/www/html/openWB/ramdisk/updateinprogress) &
@@ -16,13 +21,12 @@ log started
 # read openwb.conf
 log loading config
 . /var/www/html/openWB/loadconfig.sh
-. "$OPENWBBASEDIR/helperFunctions.sh"
 
 # load functions to init ramdisk and update config
 # no code will run here, functions need to be called
 . /var/www/html/openWB/runs/initRamdisk.sh
 . /var/www/html/openWB/runs/updateConfig.sh
-
+. /var/www/html/openWB/runs/rfid/rfidHelper.sh"
 
 if [ -d /var/www/html/openWB/ramdisk ] ; then
 	echo 1 > /var/www/html/openWB/ramdisk/bootinprogress
@@ -100,6 +104,18 @@ if (( ladetaster == 1 )); then
 	fi
 fi
 
+
+# setup rfid handler if needed
+rfidSetup "$rfidakt" 1 "$rfidlist"
+
+# check if tesla wall connector is configured and start daemon
+if [[ $evsecon == twcmanager ]]; then
+	echo "twcmanager..."
+	if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
+		screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
+	fi
+fi
+
 # check for rse and start daemon
 if (( rseenabled == 1 )); then
 	log "rse..."
@@ -112,9 +128,6 @@ if (( rseenabled == 1 )); then
 		fi
 	fi
 fi
-
-# check if rfid is configured and start daemons to listen on input devices
-
 
 
 log "detect if LCD is avail."
@@ -129,25 +142,6 @@ else
     log "No LCD detcted, stop lighttdm "
     sudo service lightdm stop
     displayaktiv=0
-fi
-
-if ps ax |grep -v grep |grep "python /var/www/html/openWB/runs/readrfid.py" > /dev/null
-then
-	sudo kill $(ps aux |grep '[r]eadrfid.py' | awk '{print $2}')
-fi
-if ps ax |grep -v grep |grep "python /var/www/html/openWB/runs/readrfid2.py" > /dev/null
-then
-	sudo kill $(ps aux |grep '[r]eadrfid2.py' | awk '{print $2}')
-fi
-if (( rfidakt == 1 )) && (( rfidenabled )) ; then
-	log "rfid 1..."
-	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid.py $displayaktiv) &
-	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid2.py $displayaktiv) &
-fi
-if (( rfidakt == 2 ))&& (( rfidenabled )) ; then
-	log "rfid 2..."
-	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid.py $displayaktiv) &
-	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid2.py $displayaktiv) &
 fi
 
 # check if tesla wall connector is configured and start daemon
@@ -431,15 +425,6 @@ if [[ "$evsecon" == "buchse" ]]  && [[ "$isss" == "0" ]]; then
 	python3 /var/www/html/openWB/runs/buchse.py &
 fi
 
-# check for rfid mode 2 and start handler
-if [[ "$rfidakt" == "2" ]]; then
-	log "rfid 2 handler..."
-	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/rfid.py" > /dev/null
-	then
-		sudo kill $(ps aux |grep '[r]fid.py' | awk '{print $2}')
-	fi
-	python3 /var/www/html/openWB/runs/rfid.py &
-fi
 
 # update display configuration
 log "display update..."
