@@ -25,9 +25,9 @@ touch "$DEBUGFILE"
 	cat "$OPENWBBASEDIR/web/version"
 	cat "$OPENWBBASEDIR/web/lastcommit"
 	echo "############################ openWB.log ##############"
-	tail -1500 "$RAMDISKDIR/openWB.log"
+	tail -2500 "$RAMDISKDIR/openWB.log"
 	echo "############################ isss ##############"
-	tail -300 "$RAMDISKDIR/isss.log"
+	tail -2500 "$RAMDISKDIR/isss.log"
 	echo "############################ mqtt ##############"
 	tail -200 "$RAMDISKDIR/mqtt.log"
 	echo "############################ ladestatus.log ##############"
@@ -40,10 +40,10 @@ touch "$DEBUGFILE"
 	cat "$RAMDISKDIR/rfid.log"
 
 	for currentConfig in /etc/mosquitto/conf.d/99-bridge-*; do
-	if [ -f "$currentConfig" ]; then
+		if [ -f "$currentConfig" ]; then
 			echo "############################ mqtt bridge '$currentConfig' ######"
 			sudo grep -F -v -e password "$currentConfig" | sed '/^#/ d'
-	fi
+		fi
 	done
 
 	echo "############################ config ##############"
@@ -61,8 +61,9 @@ echo "***** NOT uploading debuglog... Please lock at ramdisk" >> "$RAMDISKDIR/op
 
 echo "***** cleanup..." >> "$RAMDISKDIR/openWB.log"
 sed -i 's/^debug=.*/debug=0/' "$OPENWBBASEDIR/openwb.conf"
+mv $DEBUGFILE $DEBUGFILE.save
 ## rm "$DEBUGFILE"
-## rm "$RAMDISKDIR/debuguser"
-## rm "$RAMDISKDIR/debugemail"
+ rm "$RAMDISKDIR/debuguser"
+ rm "$RAMDISKDIR/debugemail"
 
 echo "***** debuglog end" >> "$RAMDISKDIR/openWB.log"
