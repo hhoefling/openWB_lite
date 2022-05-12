@@ -1145,6 +1145,14 @@ function processSmartHomeDevicesMessages(mqttmsg, mqttpayload) {
 		}
 		wbdata.updateSH(index, "runningTime", rTime);
 	}
+	else if (mqttmsg.match(/^openwb\/SmartHome\/Devices\/[1-9][0-9]*\/TemperatureSensor0$/i)) {
+		var rT = parseFloat(mqttpayload);
+		console.log('Temperatur is ' + rT);
+		if (isNaN(rT)) {
+			rT = 0;
+		}
+		wbdata.updateSH(index, "temperatur", rT);
+	}
 	else if (mqttmsg.match(/^openwb\/SmartHome\/Devices\/[1-9][0-9]*\/RelayStatus$/i)) {
 		wbdata.updateSH(index, "isOn", (mqttpayload == 1));
 	}
