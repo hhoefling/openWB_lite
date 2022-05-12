@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import json
 import re
 import os
 import time
@@ -524,8 +525,10 @@ def read_meter():
                     mclient.loop(timeout=2.0)
                     DeviceValues.update({'rfidtag': str(rfidtag)})
                 if parentWB != "0":
-                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/rfid", payload=str(rfidtag),
-                                         qos=0, retain=True)
+                    if rfidtag == '0\n':
+                        rfidtag = None  # default value for 2.0 is None, not "0"
+                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/rfid",
+                                         payload=json.dumps(rfidtag), qos=0, retain=True)
                     remoteclient.loop(timeout=2.0)
             if lp2installed:
                 if "lp2countphasesinuse" in key:
@@ -658,6 +661,12 @@ def read_meter():
                         mclient.publish("openWB/lp/2/LastScannedRfidTag", payload=str(rfidtag), qos=0, retain=True)
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'rfidtag': str(rfidtag)})
+                    if parentWB != "0":
+                        if rfidtag == '0\n':
+                            rfidtag = None  # default value for 2.0 is None, not "0"
+                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/rfid",
+                                             payload=json.dumps(rfidtag), qos=0, retain=True)
+                        remoteclient.loop(timeout=2.0)
         mclient.disconnect()
         if parentWB != "0":
             remoteclient.disconnect()
@@ -724,9 +733,9 @@ def load_control_values():
 
     actorstat = get_socket_state()
     try:
-            if lp1evsehres == 0:
+        if lp1evsehres == 0:
             lp1solla = int(float(read_from_ramdisk("llsoll")))
-            else:
+        else:
             lp1solla = int(float(read_from_ramdisk("llsoll"))*100)
     except (FileNotFoundError, ValueError):
         log_debug(2, "Error reading configured current! Using default '0'.")
@@ -773,9 +782,9 @@ def load_control_values():
             writelp1evse(lp1solla)
     if lp2installed:
         try:
-                if lp2evsehres == 0:
+            if lp2evsehres == 0:
                 lp2solla = int(float(read_from_ramdisk("llsolls1")))
-                else:
+            else:
                 lp2solla = int(float(read_from_ramdisk("llsolls1"))*100)
         except (FileNotFoundError, ValueError):
             log_debug(2, "Error reading configured current for cp 2! Using default '0'.")
@@ -793,7 +802,7 @@ def load_control_values():
     except Exception:
         u1p3pstat = 3
     u1p3pstat = switch_phases_cp1(u1p3ptmpstat, u1p3pstat)
-        writelp1evse(lp1solla)
+    writelp1evse(lp1solla)
     if lp2installed:
         try:
             u1p3plp2tmpstat = int(read_from_ramdisk("u1p3plp2stat"))
@@ -815,11 +824,11 @@ def load_control_values():
 def __switch_phases(gpio_cp: int, gpio_relay: int):
     GPIO.output(gpio_cp, GPIO.HIGH)  # CP on
     GPIO.output(gpio_relay, GPIO.HIGH)  # 3 on/off
-                time.sleep(2)
+    time.sleep(2)
     GPIO.output(gpio_relay, GPIO.LOW)  # 3 on/off
-                time.sleep(5)
+    time.sleep(5)
     GPIO.output(gpio_cp, GPIO.LOW)  # CP off
-                time.sleep(1)
+    time.sleep(1)
 
 
 def switch_phases_cp1(new_phases: int, old_phases: int) -> int:
@@ -878,10 +887,10 @@ def check_for_socket() -> Tuple[bool, int]:
     try:
         with open('/home/pi/ppbuchse', 'r') as value:
             pp_value = int(value.read())
+            socket_is_configured = True
     except (FileNotFoundError, ValueError):
         pp_value = 32
-    # here we always have a socket
-    socket_is_configured = True
+        socket_is_configured = False
     log_debug(1, "check for socket: " + str(socket_is_configured) + " " + str(pp_value))
     return [socket_is_configured, pp_value]
 
@@ -895,10 +904,11 @@ def detect_modbus_usb_port() -> str:
         return "/dev/serial0"
 
 
+loglevel = 2
 try:
     loglevel = int(read_from_ramdisk("lpdaemonloglevel"))
 except (FileNotFoundError, ValueError):
-    loglevel = 1
+    pass
 
 MaxEvseError = 5
 sdmid = 105
@@ -938,4 +948,4 @@ with ModbusSerialClient(method="rtu", port=seradd, baudrate=9600, stopbits=1, by
     while True:
         read_meter()
         load_control_values()
-    time.sleep(1)
+        time.sleep(1)
