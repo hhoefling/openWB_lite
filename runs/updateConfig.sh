@@ -1337,22 +1337,22 @@ updateConfig(){
 		echo "rfidsofort=000" >> $ConfigFile
 	fi
 	if ! grep -Fq "rfidlp1start1=" $ConfigFile; then
-	  {
-		echo "rfidlp1start1=000"
-		echo "rfidlp1start2=000"
-		echo "rfidlp1start3=000"
-		echo "rfidlp2start1=000"
-		echo "rfidlp2start2=000"
-		echo "rfidlp2start3=000"
-      	} >> $ConfigFile
+		{
+			echo "rfidlp1start1=000"
+			echo "rfidlp1start2=000"
+			echo "rfidlp1start3=000"
+			echo "rfidlp2start1=000"
+			echo "rfidlp2start2=000"
+			echo "rfidlp2start3=000"
+		} >> $ConfigFile
 	fi
 	if ! grep -Fq "rfidlp1start4=" $ConfigFile; then
-	  {
-		echo "rfidlp1start4=000"
-		echo "rfidlp1start5=000"
-		echo "rfidlp2start4=000"
-		echo "rfidlp2start5=000"
-	 } >> $ConfigFile
+		{
+			echo "rfidlp1start4=000"
+			echo "rfidlp1start5=000"
+			echo "rfidlp2start4=000"
+			echo "rfidlp2start5=000"
+		} >> $ConfigFile
 	fi
 	if ! grep -Fq "rfidstandby=" $ConfigFile; then
 		echo "rfidstandby=000" >> $ConfigFile
@@ -1726,16 +1726,16 @@ updateConfig(){
 	   } >> $ConfigFile
 	fi
 	if ! grep -Fq "myrenault_userlp1=" $ConfigFile; then
-	  {
-		echo "myrenault_userlp1=Benutzername"
-		echo "myrenault_passlp1=''"
-		echo "myrenault_locationlp1=de_DE" 
-		echo "myrenault_countrylp1=DE" 
-		echo "myrenault_userlp2=Benutzername" 
-		echo "myrenault_passlp2=''" 
-		echo "myrenault_locationlp2=de_DE" 
-		echo "myrenault_countrylp2=DE" 
-	   } >> $ConfigFile
+		{
+			echo "myrenault_userlp1=Benutzername"
+			echo "myrenault_passlp1=''"
+			echo "myrenault_locationlp1=de_DE"
+			echo "myrenault_countrylp1=DE"
+			echo "myrenault_userlp2=Benutzername"
+			echo "myrenault_passlp2=''"
+			echo "myrenault_locationlp2=de_DE"
+			echo "myrenault_countrylp2=DE"
+		} >> $ConfigFile
 	else
 		sed -i "/myrenault_passlp1='/b; s/^myrenault_passlp1=\(.*\)/myrenault_passlp1=\'\1\'/g" $ConfigFile
 		sed -i "/myrenault_passlp2='/b; s/^myrenault_passlp2=\(.*\)/myrenault_passlp2=\'\1\'/g" $ConfigFile
@@ -1805,18 +1805,18 @@ updateConfig(){
 		echo "pv2wattmodul=none" >> $ConfigFile
 	fi
 	if ! grep -Fq "pv2ip2=" $ConfigFile; then
-	  {
-		echo "pv2ip2=192.168.192.192" 
-		echo "pv2id2=0" 
-	   } >> $ConfigFile
+		{
+			echo "pv2ip2=192.168.192.192"
+			echo "pv2id2=0"
+		} >> $ConfigFile
 	fi
 	if ! grep -Fq "pv2ip=" $ConfigFile; then
-	  {
-		echo "pv2ip=none" 
-		echo "pv2id=1" 
-		echo "pv2user=none" 
-		echo "pv2pass=''" 
-	 } >> $ConfigFile	
+		{
+			echo "pv2ip=none"
+			echo "pv2id=1"
+			echo "pv2user=none"
+			echo "pv2pass=''"
+		} >> $ConfigFile
 	else
 		sed -i "/pv2pass='/b; s/^pv2pass=\(.*\)/pv2pass=\'\1\'/g" $ConfigFile
 	fi
@@ -1824,12 +1824,12 @@ updateConfig(){
 		sed -i "s/^pv2id=none/pv2id=1/g" $ConfigFile
 	fi
 	if ! grep -Fq "soc_bluelink_email=" $ConfigFile; then
-	 {
-		echo "soc_bluelink_email=mail@mail.de" 
-		echo "soc_bluelink_password=''" 
-		echo "soc_bluelink_pin=1111" 
-		echo "soc_bluelink_interval=30" 
-      } >> $ConfigFile
+		{
+			echo "soc_bluelink_email=mail@mail.de"
+			echo "soc_bluelink_password=''"
+			echo "soc_bluelink_pin=1111"
+			echo "soc_bluelink_interval=30"
+		} >> $ConfigFile
 	else
 		sed -i "/soc_bluelink_password='/b; s/^soc_bluelink_password=\(.*\)/soc_bluelink_password=\'\1\'/g" $ConfigFile
 	fi
@@ -1903,46 +1903,46 @@ updateConfig(){
 		echo "displaylp3max=22000" >> $ConfigFile
 	fi
 	if ! grep -Fq "mypeugeot_userlp1=" $ConfigFile; then
-	  {
-		echo "mypeugeot_userlp1=User" 
-		echo "mypeugeot_passlp1=''" 
-		echo "mypeugeot_clientidlp1=ID" 
-		echo "mypeugeot_clientsecretlp1=Secret" 
-		echo "mypeugeot_userlp2=User" 
-		echo "mypeugeot_passlp2=''"
-		echo "mypeugeot_clientidlp2=ID" 
-		echo "mypeugeot_clientsecretlp2=Secret" 
- 	  } >> $ConfigFile	
+		{
+			echo "mypeugeot_userlp1=User"
+			echo "mypeugeot_passlp1=''"
+			echo "mypeugeot_clientidlp1=ID"
+			echo "mypeugeot_clientsecretlp1=Secret"
+			echo "mypeugeot_userlp2=User"
+			echo "mypeugeot_passlp2=''"
+			echo "mypeugeot_clientidlp2=ID"
+			echo "mypeugeot_clientsecretlp2=Secret"
+		} >> $ConfigFile
 	else
 		sed -i "/mypeugeot_passlp1='/b; s/^mypeugeot_passlp1=\(.*\)/mypeugeot_passlp1=\'\1\'/g" $ConfigFile
 		sed -i "/mypeugeot_passlp2='/b; s/^mypeugeot_passlp2=\(.*\)/mypeugeot_passlp2=\'\1\'/g" $ConfigFile
 	fi
 	if ! grep -Fq "myopel_userlp1=" $ConfigFile; then
-	  {
-		echo "myopel_userlp1=User" 
-		echo "myopel_passlp1=''" 
-		echo "myopel_clientidlp1=ID" 
-		echo "myopel_clientsecretlp1=Secret" 
-		echo "myopel_userlp2=User" 
-		echo "myopel_passlp2=''" 
-		echo "myopel_clientidlp2=ID" 
-		echo "myopel_clientsecretlp2=Secret" 
-	  } >> $ConfigFile
+		{
+			echo "myopel_userlp1=User"
+			echo "myopel_passlp1=''"
+			echo "myopel_clientidlp1=ID"
+			echo "myopel_clientsecretlp1=Secret"
+			echo "myopel_userlp2=User"
+			echo "myopel_passlp2=''"
+			echo "myopel_clientidlp2=ID"
+			echo "myopel_clientsecretlp2=Secret"
+		} >> $ConfigFile
 	else
 		sed -i "/myopel_passlp1='/b; s/^myopel_passlp1=\(.*\)/myopel_passlp1=\'\1\'/g" $ConfigFile
 		sed -i "/myopel_passlp2='/b; s/^myopel_passlp2=\(.*\)/myopel_passlp2=\'\1\'/g" $ConfigFile
 	fi
 	if ! grep -Fq "psa_userlp1=" $ConfigFile; then
-	  {
-		echo "psa_userlp1=User" 
-		echo "psa_passlp1=''" 
-		echo "psa_clientidlp1=ID" 
-		echo "psa_clientsecretlp1=Secret" 
-		echo "psa_userlp2=User"
-		echo "psa_passlp2=''" 
-		echo "psa_clientidlp2=ID" 
-		echo "psa_clientsecretlp2=Secret" 
-	  } >> $ConfigFile
+		{
+			echo "psa_userlp1=User"
+			echo "psa_passlp1=''"
+			echo "psa_clientidlp1=ID"
+			echo "psa_clientsecretlp1=Secret"
+			echo "psa_userlp2=User"
+			echo "psa_passlp2=''"
+			echo "psa_clientidlp2=ID"
+			echo "psa_clientsecretlp2=Secret"
+		} >> $ConfigFile
 	else
 		sed -i "/psa_passlp1='/b; s/^psa_passlp1=\(.*\)/psa_passlp1=\'\1\'/g" $ConfigFile
 		sed -i "/psa_passlp2='/b; s/^psa_passlp2=\(.*\)/psa_passlp2=\'\1\'/g" $ConfigFile
@@ -1960,16 +1960,16 @@ updateConfig(){
 		echo "psa_manufacturerlp2=Peugeot" >> $ConfigFile
 	fi
 	if ! grep -Fq "soc_eq_client_id_lp1=" $ConfigFile; then
-	  {
-		echo "soc_eq_client_id_lp1=ID" 
-		echo "soc_eq_client_secret_lp1=Secret" 
-		echo "soc_eq_vin_lp1=VIN" 
-		echo "soc_eq_cb_lp1='http://openWB/openWB/modules/soc_eq/callback_lp1.php'" 
-		echo "soc_eq_client_id_lp2=ID" 
-		echo "soc_eq_client_secret_lp2=Secret" 
-		echo "soc_eq_vin_lp2=VIN" 
-		echo "soc_eq_cb_lp2='http://openWB/openWB/modules/soc_eq/callback_lp2.php'" 
-       } >> $ConfigFile
+		{
+			echo "soc_eq_client_id_lp1=ID"
+			echo "soc_eq_client_secret_lp1=Secret"
+			echo "soc_eq_vin_lp1=VIN"
+			echo "soc_eq_cb_lp1='http://openWB/openWB/modules/soc_eq/callback_lp1.php'"
+			echo "soc_eq_client_id_lp2=ID"
+			echo "soc_eq_client_secret_lp2=Secret"
+			echo "soc_eq_vin_lp2=VIN"
+			echo "soc_eq_cb_lp2='http://openWB/openWB/modules/soc_eq/callback_lp2.php'"
+		} >> $ConfigFile
 	else
 		sed -i "/soc_eq_cb_lp1='/b; s/^soc_eq_cb_lp1=\(.*\)/soc_eq_cb_lp1=\'\1\'/g" $ConfigFile
 		sed -i "/soc_eq_cb_lp2='/b; s/^soc_eq_cb_lp2=\(.*\)/soc_eq_cb_lp2=\'\1\'/g" $ConfigFile
@@ -2066,11 +2066,11 @@ updateConfig(){
 		echo "soc_teslalp2_mfapasscode=''" >> $ConfigFile
 	fi
 	if ! grep -Fq "speicherpwloginneeded=" $ConfigFile; then
-	  {
-		echo "speicherpwloginneeded=0" 
-		echo "speicherpwuser=Username" 
-		echo "speicherpwpass=''" 
-      } >> $ConfigFile
+		{
+			echo "speicherpwloginneeded=0"
+			echo "speicherpwuser=Username"
+			echo "speicherpwpass=''"
+		} >> $ConfigFile
 	else
 		sed -i "/speicherpwpass='/b; s/^speicherpwpass=\(.*\)/speicherpwpass=\'\1\'/g" $ConfigFile
 	fi
@@ -2103,20 +2103,20 @@ updateConfig(){
 #		echo "soc_tronity_vehicle_id_lp2=''" >> $ConfigFile
 #	fi
 	if ! grep -Fq "soc_evcc_type_lp1=" $ConfigFile; then
-	 {
-		echo "soc_evcc_type_lp1=vw" 
-		echo "soc_evcc_username_lp1=''" 
-		echo "soc_evcc_password_lp1=''" 
-		echo "soc_evcc_vin_lp1=''" 
-		echo "soc_evcc_token_lp1=''" 
-		echo "soc_evcc_intervall=720" 
-		echo "soc_evcc_intervallladen=15" 
-		echo "soc_evcc_type_lp2=vw" 
-		echo "soc_evcc_username_lp2=''" 
-		echo "soc_evcc_password_lp2=''"
-		echo "soc_evcc_vin_lp2=''" 
-		echo "soc_evcc_token_lp2=''" 
-	} >> $ConfigFile
+		{
+			echo "soc_evcc_type_lp1=vw"
+			echo "soc_evcc_username_lp1=''"
+			echo "soc_evcc_password_lp1=''"
+			echo "soc_evcc_vin_lp1=''"
+			echo "soc_evcc_token_lp1=''"
+			echo "soc_evcc_intervall=720"
+			echo "soc_evcc_intervallladen=15"
+			echo "soc_evcc_type_lp2=vw"
+			echo "soc_evcc_username_lp2=''"
+			echo "soc_evcc_password_lp2=''"
+			echo "soc_evcc_vin_lp2=''"
+			echo "soc_evcc_token_lp2=''"
+		} >> $ConfigFile
 	fi
 	if ! grep -Fq "cpunterbrechungmindestlaufzeitaktiv=" $ConfigFile; then
 	  {
