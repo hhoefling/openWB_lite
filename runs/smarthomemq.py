@@ -14,6 +14,7 @@ from usmarthome.smartmqtt import Smqtt
 from usmarthome.smartmystrom import Smystrom
 from usmarthome.smartshelly import Sshelly
 from usmarthome.smartstiebel import Sstiebel
+from usmarthome.smartvampair import Svampair
 from usmarthome.smarttasmota import Stasmota
 from usmarthome.smartviessmann import Sviessmann
 
@@ -31,13 +32,13 @@ def logDebug(level, msg):
         local_time = datetime.now(timezone.utc).astimezone()
         with open(bp+'/ramdisk/smarthome.log', 'a', encoding='utf8',
                   buffering=1) as f:
-        if (int(level) == 0):
+            if (int(level) == 0):
                 f.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
                         + '-: ' + str(msg) + '\n')
-        if (int(level) == 1):
+            if (int(level) == 1):
                 f.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
                         + '-: ' + str(msg) + '\n')
-        if (int(level) == 2):
+            if (int(level) == 2):
                 f.write(local_time.strftime(format="%Y-%m-%d %H:%M:%S")
                         + '-: ' + str(msg) + '\n')
 
@@ -151,7 +152,7 @@ def loadregelvars():
         reread = 1
     if (reread == 1):
         with open(bp+'/ramdisk/rereadsmarthomedevices', 'w') as f:
-        f.write(str(0))
+            f.write(str(0))
         logDebug(LOGLEVELERROR, "Config reRead start")
         readmq()
         logDebug(LOGLEVELERROR, "Config reRead done")
@@ -161,8 +162,6 @@ def loadregelvars():
             with open(bp+'/ramdisk/smarthome_device_manual_'
                       + str(i), 'r') as value:
                 for mydevice in mydevices:
-                    if (mydevice._device_configured == '9'):
-                        continue
                     if (str(i) == str(mydevice.device_nummer)):
                         mydevice.device_manual = int(value.read())
         except Exception:
@@ -171,8 +170,6 @@ def loadregelvars():
             with open(bp+'/ramdisk/smarthome_device_manual_control_'
                       + str(i), 'r') as value:
                 for mydevice in mydevices:
-                    if (mydevice._device_configured == '9'):
-                        continue
                     if (str(i) == str(mydevice.device_nummer)):
                         mydevice.device_manual_control = int(value.read())
         except Exception:
@@ -185,11 +182,9 @@ def getdevicevalues():
     global uberschussoffset
     totalwatt = 0
     totalwattot = 0
-    totalminhaus = 0   
+    totalminhaus = 0
     mqtt_all = {}
     for mydevice in mydevices:
-        if (mydevice._device_configured == '9'):
-            continue
         mydevice.getwatt(uberschuss, uberschussoffset)
         watt = mydevice.newwatt
         wattk = mydevice.newwattk
@@ -217,11 +212,11 @@ def getdevicevalues():
     # (including switchable smarthomedevices)
 
     with open(bp+'/ramdisk/devicetotal_watt', 'w') as f:
-    f.write(str(totalwatt))
+        f.write(str(totalwatt))
     with open(bp+'/ramdisk/devicetotal_watt_other', 'w') as f:
-    f.write(str(totalwattot))
+        f.write(str(totalwattot))
     with open(bp+'/ramdisk/devicetotal_watt_hausmin', 'w') as f:
-    f.write(str(totalminhaus))
+        f.write(str(totalminhaus))
     logDebug(LOGLEVELDEBUG, "Total Watt abschaltbarer smarthomedevices: " +
              str(totalwatt))
     logDebug(LOGLEVELDEBUG, "Total Watt nichtabschaltbarer smarthomedevices: "
@@ -245,13 +240,13 @@ def sendmq(mqtt_input):
             pass
         #    logDebug(2, " Mqtt same " + str(key) + " " + str(value))
         else:
-            logDebug(2, " Mqtt dif " + str(key) + " " +
+            logDebug(2, "Mq pub " + str(key) + "=" +
                      str(value) + " old " + str(valueold))
             mqtt_cache[key] = value
             client.publish(key, payload=value, qos=0, retain=True)
             client.loop(timeout=2.0)
     client.disconnect()
-   
+
 
 def conditions():
     global mydevices
@@ -307,6 +302,8 @@ def update_devices():
                     mydevice = Sshelly()
                 elif (device_type == 'stiebel'):
                     mydevice = Sstiebel()
+                elif (device_type == 'vampair'):
+                    mydevice = Svampair()
                 elif (device_type == 'tasmota'):
                     mydevice = Stasmota()
                 elif (device_type == 'avm'):
@@ -372,8 +369,8 @@ def readmq():
 def resetmaxeinschaltdauerfunc():
     global resetmaxeinschaltdauer
     global numberOfSupportedDevices
-    global mydevices   
-    mqtt_reset = {}      
+    global mydevices
+    mqtt_reset = {}
     hour = time.strftime("%H")
     if (int(hour) == 0):
         if (int(resetmaxeinschaltdauer) == 0):
@@ -415,8 +412,6 @@ if __name__ == "__main__":
         # do the manual stuff
         for i in range(1, (numberOfSupportedDevices+1)):
             for mydevice in mydevices:
-                if (mydevice._device_configured == '9'):
-                    continue
                 if (str(i) == str(mydevice.device_nummer)):
                     if (mydevice.device_manual == 1):
                         if (mydevice.device_manual_control == 0):
