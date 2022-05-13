@@ -203,13 +203,14 @@ Timing buffered disk reads: 388 MB in  3.01 seconds = 128.80 MB/sec
 
 
 **Display**
-Um das Display der OpenWB aufzuwecken bin ich mit folgendem Commando zum erfolg gekommen.
+
+Um das Display der OpenWB aufzuwecken bin ich mit folgendem Kommando zum Erfolg gekommen.
 
 ```
 #/bin/bash
 XAUTHORITY=~pi/.Xauthority DISPLAY=:0 xset dpms force on
 ```
-Aufgerufen wird diese kleine Script vom in der open_Lite vom mqttssub.py 
+Aufgerufen wird diese kleine Script in der openWB_Lite von mqttssub.py 
 wenn auf openWB/set/system/reloadDisplay geschrieben wird
 
 
