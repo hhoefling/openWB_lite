@@ -202,7 +202,7 @@ Timing buffered disk reads: 388 MB in  3.01 seconds = 128.80 MB/sec
 ```
 
 
-** Display **
+**Display**
 Um das Display der OpenWB aufzuwecken bin ich mit folgendem Commando zum erfolg gekommen.
 
 ```
