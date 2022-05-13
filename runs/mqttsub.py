@@ -1090,6 +1090,12 @@ def on_message(client, userdata, msg):
             if (msg.topic == "openWB/set/system/reloadDisplay"):
                 if (int(msg.payload) >= 0 and int(msg.payload) <= 1):
                     client.publish("openWB/system/reloadDisplay", msg.payload.decode("utf-8"), qos=0, retain=True)
+                    script="/var/www/html/openWB/runs/reloadDisplay.sh"
+                    ps=Path(script)
+                    if ps.is_file():
+                       sendcommand = [script, msg.payload.decode("utf-8")]
+                       subprocess.run(sendcommand)
+                    ps=None
             if (msg.topic == "openWB/config/set/releaseTrain"):
                 if ( msg.payload.decode("utf-8") == "stable17" or msg.payload.decode("utf-8") == "master" or msg.payload.decode("utf-8") == "beta" or msg.payload.decode("utf-8").startswith("yc/")):
                     sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "releasetrain=", msg.payload.decode("utf-8")]
