@@ -519,7 +519,7 @@ fi
 sudo /usr/sbin/apachectl -k graceful
 
 # all done, remove boot and update status
-log "boot done"
+log "boot done :-)"
 echo 0 > /var/www/html/openWB/ramdisk/bootinprogress
 echo 0 > /var/www/html/openWB/ramdisk/updateinprogress
 mosquitto_pub -t openWB/system/updateInProgress -r -m "0"
