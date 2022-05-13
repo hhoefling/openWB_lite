@@ -116,27 +116,7 @@ loadvars(){
 				chargestat=0
 			fi
 		fi
-	else
-		pluggedin=$(</var/www/html/openWB/ramdisk/pluggedin)    # nur vonn isss.py auf 1 gesetzt
-		if [ "$pluggedin" -gt "0" ]; then
-			if [[ $pushbplug == "1" ]] && [[ $ladestatuslp1 == "0" ]] && [[ $pushbenachrichtigung == "1" ]] ; then
-				message="Fahrzeug eingesteckt. Ladung startet bei erfüllter Ladebedingung automatisch."
-#########################################################################						
-				openwbDebugLog "MAIN" 2 "EXEC: /var/www/html/openWB/runs/pushover.sh"
-				/var/www/html/openWB/runs/pushover.sh "$message"
-#########################################################################						
-			fi
-			if [[ $displayconfigured == "1" ]] && [[ $displayEinBeimAnstecken == "1" ]] ; then
-				export DISPLAY=:0 && xset dpms force on && xset dpms $displaysleep $displaysleep $displaysleep
-			fi
-			echo 20000 > /var/www/html/openWB/ramdisk/soctimer
-			echo 0 > /var/www/html/openWB/ramdisk/pluggedin
-		fi
-
-		plugstat=$(<ramdisk/plugstat)
-		chargestat=$(<ramdisk/chargestat)
-	fi
-	if [[ $evsecon == "ipevse" ]]; then   ## Alter Satellit ohne Pi3
+	elif [[ $evsecon == "ipevse" ]]; then   ## Alter Satellit ohne Pi3
 #########################################################################						
 		openwbDebugLog "MAIN" 2 "EXEC: ipevse sudo python runs/readipmodbus.py $evseiplp1 $evseidlp1 1002 1"
 		evseplugstatelp1=$(sudo python runs/readipmodbus.py $evseiplp1 $evseidlp1 1002 1)
@@ -158,6 +138,24 @@ loadvars(){
 		else
 			echo 0 > /var/www/html/openWB/ramdisk/chargestat
 		fi
+	else
+		pluggedin=$(</var/www/html/openWB/ramdisk/pluggedin)    # nur vonn isss.py auf 1 gesetzt
+		if [ "$pluggedin" -gt "0" ]; then
+			if [[ $pushbplug == "1" ]] && [[ $ladestatuslp1 == "0" ]] && [[ $pushbenachrichtigung == "1" ]] ; then
+				message="Fahrzeug eingesteckt. Ladung startet bei erfüllter Ladebedingung automatisch."
+#########################################################################						
+				openwbDebugLog "MAIN" 2 "EXEC: /var/www/html/openWB/runs/pushover.sh"
+				/var/www/html/openWB/runs/pushover.sh "$message"
+#########################################################################						
+			fi
+			if [[ $displayconfigured == "1" ]] && [[ $displayEinBeimAnstecken == "1" ]] ; then
+				export DISPLAY=:0 && xset dpms force on && xset dpms $displaysleep $displaysleep $displaysleep
+			fi
+			echo 20000 > /var/www/html/openWB/ramdisk/soctimer
+			echo 0 > /var/www/html/openWB/ramdisk/pluggedin
+		fi
+		plugstat=$(<ramdisk/plugstat)
+		chargestat=$(<ramdisk/chargestat)
 	fi
 
 	if [[ $lastmanagement == "1" ]]; then
