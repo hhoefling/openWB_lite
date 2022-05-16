@@ -86,10 +86,10 @@ class PowerMeter {
     this.addLabel(svg, 0, -this.height / 2 * 2 / 7, 	"middle", wbdata.usageSummary.evuOut);  // Export:
     this.addLabel(svg, 0, -this.height / 2 * 1 / 7, 	"middle", wbdata.sourceSummary.batOut);  // Batentnahme
 
-    this.addLabel(svg, 0, this.height / 2 * 1 / 9, 	"middle", wbdata.usageSummary.charging); // Laden:
-    this.addLabel(svg, 0, this.height / 2 * 2 / 9, 	"middle", wbdata.usageSummary.devices); // Geraete:
-    this.addLabel(svg, 0, this.height / 2 * 3 / 9, 	"middle", wbdata.usageSummary.house);  // Haus:
-    this.addLabel(svg, 0, this.height / 2 * 4 / 9, 	"middle", wbdata.usageSummary.batIn);  // Batladen
+    this.addLabel(svg, 0, this.height / 2 * 1 / 7, 	"middle", wbdata.usageSummary.charging); // Laden:
+    this.addLabel(svg, 0, this.height / 2 * 2 / 7, 	"middle", wbdata.usageSummary.devices); // Geraete:
+    this.addLabel(svg, 0, this.height / 2 * 3 / 7, 	"middle", wbdata.usageSummary.house);  // Haus:
+    this.addLabel(svg, 0, this.height / 2 * 4 / 7, 	"middle", wbdata.usageSummary.batIn);  // Batladen
 
 //    this.addLabel(svg, this.width / 2 - this.margin / 4, this.height / 2 - this.margin + 15, "end", wbdata.sourceSummary.batOut); // Speicher:
 //    this.addLabel(svg, this.width / 2 - this.margin / 4, this.height / 2 - this.margin + 15, "end", wbdata.usageSummary.batIn); // Bat:
