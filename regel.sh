@@ -183,6 +183,7 @@ if (( displayaktiv == 1 )); then
 	if (( execdisplay == 1 )); then
 		export DISPLAY=:0 && xset s $displaysleep && xset dpms $displaysleep $displaysleep $displaysleep
 		echo 0 > ramdisk/execdisplay
+		sudo runs/displaybacklight.sh $displayLight
 	fi
 fi
 
