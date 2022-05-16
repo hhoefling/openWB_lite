@@ -219,6 +219,7 @@ var topicsToSubscribe = [
 	["openWB/pv/bool70PVDynStatus", 1],
 	["openWB/config/get/pv/nurpv70dynact", 1],
 	// Display configuration
+	["openWB/config/get/display/displayLight", 1],
 	["openWB/config/get/display/chartEvuMinMax", 1],
 	["openWB/config/get/display/chartBatteryMinMax", 1],
 	["openWB/config/get/display/chartPvMax", 1],
@@ -348,7 +349,9 @@ client.onConnectionLost = function (responseObject) {
 };
 //Gets called whenever you receive a message
 client.onMessageArrived = function (message) {
+	//console.log('message arrive:'+message.destinationName+ ' ' +message.payloadString);
 	handlevar(message.destinationName, message.payloadString);
+	
 };
 
 //Creates a new Messaging.Message Object and sends it
@@ -358,6 +361,8 @@ function publish(payload, topic) {
 	message.qos = 2;
 	message.retained = true;
 	client.send(message);
+	console.log('publish ' + topic + ' ' + payload);
+
 	var message = new Messaging.Message("local client uid: " + clientuid + " sent: " + topic);
 	message.destinationName = "openWB/set/system/topicSender";
 	message.qos = 2;

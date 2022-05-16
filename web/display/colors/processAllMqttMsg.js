@@ -59,6 +59,7 @@ function handlevar(mqttmsg, mqttpayload) {
 	else if (mqttmsg.match(/^openwb\/system\//i)) { processSystemMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/pv\//i)) { processPvMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/lp\//i)) { processLpMessages(mqttmsg, mqttpayload); }
+	else if (mqttmsg.match(/^openwb\/config\/get\/display\//i)) { processDisplayMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/config\/get\/sofort\/lp\//i)) { processSofortConfigMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/config\/get\/pv\//i)) { processPvConfigMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/SmartHome\/Status\//i)) { processSmartHomeDevicesStatusMessages(mqttmsg, mqttpayload); }
@@ -132,6 +133,7 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	}
  */}
 
+	
 function processPvConfigMessages(mqttmsg, mqttpayload) {
 	// color theme
 	if (mqttmsg == 'openWB/config/get/pv/priorityModeEVBattery') {
@@ -160,7 +162,7 @@ function processPvConfigMessages(mqttmsg, mqttpayload) {
 		}
 	}
 	else if (mqttmsg == 'openWB/config/get/pv/minCurrentMinPv') {
-	//	setInputValue('minCurrentMinPv', mqttpayload);
+	//                         setInputValue('minCurrentMinPv', mqttpayload);
 	} else if ( mqttmsg == 'openWB/config/get/pv/priorityModeEVBattery' ) {
 		// sets button color in charge mode modal and sets icon in mode select button
 		switch (mqttpayload) {
@@ -179,6 +181,17 @@ function processPvConfigMessages(mqttmsg, mqttpayload) {
 		}
 	}
 }
+
+function processDisplayMessages(mqttmsg, mqttpayload) 
+{
+  console.log('Get Message ' + mqttmsg + ' ' + mqttpayload);
+  
+  if (mqttmsg == 'openWB/config/get/display/displayLight') 
+	{
+	  setInputValue('DisplayLightInput', mqttpayload);
+	}
+}
+
 
 function processSofortConfigMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/config/get/sofort/

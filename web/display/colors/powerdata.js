@@ -129,7 +129,9 @@ class WbData {
 			.on("click", showStatus);
 		d3.select("button#codeButton")
 			.on("click", showCode);
-			
+
+		d3.select(".DisplayLightInput")
+			.on("input", function () { updateDisplayLightInput(this.value) });
 		d3.select(".minpvRangeInput")
 			.on("input", function () { updateMinpvRangeInput(this.value) });
 		d3.select(".sofortRangeInput")
@@ -487,6 +489,16 @@ function updateMinpvRangeInput(value) {
 		publish(value, "openWB/config/set/pv/minCurrentMinPv")
 	}, 2000)
 }
+
+function updateDisplayLightInput(value) {
+	const label = d3.select(".labeDisplayLight").text(value);
+	label.classed("text-danger", true)
+	setTimeout(() => {
+		label.classed("text-danger", false)
+		publish(value, "openWB/config/set/display/displayLight")
+	}, 2000)
+}
+
 
 function updateSofortRangeInput(value) {
 	const label = d3.select(".labelSofortCurrent").text(value + " A");

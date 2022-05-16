@@ -363,36 +363,24 @@
           <div class="XXchargeMode XXchargeModeMinPv">
             <div class="form-row vaRow">
               <div class="col-4">
-                <label for="XXminCurrentMinPv" class="modalLabel col-form-label">Min.-Strom: </label>
-                <label for="XXminCurrentMinPv" class="modalLabel labelMinPv col-form-label pull-right"
-                  data-suffix="A"></label>
+                <label for="DisplayLightInput" class="modalLabel col-form-label">Helligkeit:</label>
+                <label for="DisplayLightInput" class="modalLabel labeDisplayLight col-form-label pull-right"data-suffix=""></label>
               </div>
               <div class="col">
-                <input type="range" class="form-control-range XXminpvRangeInput" id="XXminCurrentMinPv" min="10" max="250"
-                  step="10" value="100" data-initialized="0">
+                <input type="range" class="form-control-range DisplayLightInput" id="DisplayLightInput" min="40" max="250"
+                  step="10" value="100" data-initialized="100">
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col pt-1 px-3 xxenergyResetButton xhide">
-              <input class="btn btn-warning btn-lg modal-button xxresetEnergyToCharge" type="button"
-                id="lp/1/xxresetEnergyToCharge" value="zurücksetzen"
-                data-topicprefix="openWB/config/get/sofort/">
-            </div>
             <div class="col pt-1 px-3">
-              <button type="button" class="btn btn-info btn-block btn-lg modal-button" data-dismiss="modal"><i
-                  class="fas fa-check"></i>&nbsp;&nbsp; OK</button>
+              <button type="button" class="btn btn-info btn-block btn-lg modal-button" data-dismiss="modal">
+			     <i class="fas fa-check"></i>&nbsp;&nbsp; OK</button>
             </div>
           </div>
         </div> <!-- /modal body -->
       </div>
     </div>
-    <script>
-      $('.resetEnergyToCharge').on("click", function () {
-        var topic = getTopicToSendTo($(this).attr('id'));
-        publish("1", topic);
-      });
-    </script>
   </div>
 
 

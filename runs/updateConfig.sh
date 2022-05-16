@@ -1474,6 +1474,9 @@ updateConfig(){
 	if ! grep -Fq "displaysleep=" $ConfigFile; then
 		echo "displaysleep=60" >> $ConfigFile
 	fi
+	if ! grep -Fq "displayLight=" $ConfigFile; then
+		echo "displayLight=120" >> $ConfigFile
+	fi
 	if ! grep -Fq "displayevumax=" $ConfigFile; then
 		echo "displayevumax=5000" >> $ConfigFile
 	fi
