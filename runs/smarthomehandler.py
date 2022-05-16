@@ -770,9 +770,10 @@ def getdevicevalues():
                         DeviceValues.update( {str(numberOfDevices) : "error"})
                         logDebug(LOGLEVELERROR, "Device " + str(switchtyp) + str(numberOfDevices) + str(devicename) + " Fehlermeldung (zugriff return file (2)): " + str(e) + str(answerj))
                     #Shelly temp sensor
-                    if (switchtyp == "shelly")  and (canswitch == 1):
+                    if (switchtyp == "shelly"): #  and (canswitch == 1):
                         try:
                             anzahltemp = int(config.get('smarthomedevices', 'device_temperatur_configured_'+str(numberOfDevices)))
+                            logDebug(LOGLEVELERROR, "Device AnzTemps" + str(anzahltemp) )
                             if ( anzahltemp > 0):
                                 for i in range(anzahltemp):
                                     temp = str(answer['temp' +  str(i)])
