@@ -26,7 +26,8 @@ Inzwischen läut auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display hängt
 - Reduktion auf LP1-LP3, dies ist weitgehend abgeschlossen.
 - Ich werde alle Module die ich nicht selbst verwende aus dem Repository herausnehmen. Wenn jemand dieser Version verwenden, oder sogar daran mitarbeiten möchte,  kann ich gerne die benötigten Module in der letzen (vor LRS) Version heraussuchen und wieder hinzufügen. so "auf Vorrat" werde ich die Module nicht mitpflegen. Im Einzelfall muss dann geprüft werden ob Aktualisierungen in der officzellen OpenWB vorgenommen wurden und bei relevanz diese dann Nachpflegen. Rausgenommen wird ebenfalls die Preismodule. Mein Ziel ist einfaches PV-Überschuss laden. Strombezug ist zweitrangig.
 - Nicht übernommen wurde die Umwidmung der mqtt Zuweisungen zur pv Leistung. Bei der 1.9'er bis hin zur 254 wurde dort ein negativer Wert von der Datenquelle abgelegt. Diese Version behält dies verhalten bei  da sonst auch älter Backups dann ihr gültigkeit verlieren würden. OpenwWB selbst hatte dies dann mit der 1.9.259 auch wieder zurückgenommen.
-- Ladelog um KM ergänzen. wird via MQTT aus dem Skoda-SoC Module übergeben.
+- Ladelog um KM ergänzen. wird via MQTT aus dem Skoda-SoC Module übergeben. 
+- Ladelog Export nach Excel an die deutsche Variante der Trennzeichen angepasst. Ausserdem Jahresexport zugefügt
 - Nachladen. Die Startzeit für das Nachladen kann nun von 17:00 bis 4:00 Uhr Nachts gesetzt werden. Die Endzeit für das Nachladen kann nun von 20:00 bis 9:00 Uhr Morgens gesetzt werden. Es wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vorher)
 - Der Modbusserver auf Port 502 ist nun abschaltbar da er von openWB selbst nicht mehr verwendet wird. 
 - Datenexport zu Excel mit ',' und ';' statt '.' und ','
