@@ -136,3 +136,31 @@ openwbRunLoggingOutput() {
 }
 export -f openwbRunLoggingOutput
 
+
+
+# Increment var with Name $1 to $2 (0..n) default 5
+function incvar()
+{
+ local -n pvar=$1
+ local -i toval=${2:-"5"}
+ local fn="/var/www/html/openWB/ramdisk/${!pvar}"
+ openwbDebugLog "MAIN" 2 "incvar:  increment file $fn  '${!pvar}'  to $toval"
+ pvar=$(cat "$fn" 2>/dev/null); rc=$?
+ if [ ! $rc -eq  0 ] ; then
+   openwbDebugLog "MAIN" 2 "incvar: file $fn not found, use 0"
+   pvar=0
+ fi
+ if (( pvar < toval )); then
+	 pvar=$((pvar + 1))
+ else
+	 pvar=0
+ fi
+ echo $pvar >"$fn"
+ openwbDebugLog "MAIN" 1 "incvar: '${!pvar}' now $pvar"
+}
+
+export -f incvar
+# sample
+# incvar testtimer 5
+
+
