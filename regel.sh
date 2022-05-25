@@ -29,7 +29,7 @@
 set -o pipefail
 set -o nounset
 
-cd /var/www/html/openWB/
+cd /var/www/html/openWB/ || exit 1
 
 source helperFunctions.sh
 
@@ -81,7 +81,7 @@ openwbDebugLog "MAIN" 1 "**** Regulation loop start ****"
 if [ -z $debug ] ; then
 # shellcheck source=/var/www/html/openWB/openwb.conf
    source ./openwb.conf
-   openwbDebugLog "MAIN" 0 "**** WARNING **** Oh no thus shut not happend"
+   openwbDebugLog "MAIN" 0 "**** WARNING **** Oh no shit happens"
 fi
 
 
@@ -98,7 +98,7 @@ fi
 if (( slavemode == 1)); then
 	randomSleep=$(<ramdisk/randomSleepValue)
 	if [[ -z $randomSleep ]] || [[ "${randomSleep}" == "0" ]] || ! [[ "${randomSleep}" =~ $IsFloatingNumberRegex ]]; then
-		randomSleep=`shuf --random-source=/dev/urandom -i 0-8 -n 1`.`shuf --random-source=/dev/urandom -i 0-9 -n 1`
+		randomSleep=$(shuf --random-source=/dev/urandom -i 0-8 -n 1).$(shuf --random-source=/dev/urandom -i 0-9 -n 1)
 		openwbDebugLog "MAIN" 0 "slavemode=$slavemode: ramdisk/randomSleepValue missing or 0 - creating new one containing $randomSleep"
 		echo "$randomSleep" > ramdisk/randomSleepValue
 	fi
@@ -148,6 +148,7 @@ if [[ $dspeed == "1" ]]; then
 		echo 0 > ramdisk/5sec
 	fi
 fi
+# halbe (20Sec)
 if [[ $dspeed == "2" ]]; then
 
 	if [ -e ramdisk/5sec ]; then
@@ -158,24 +159,25 @@ if [[ $dspeed == "2" ]]; then
 		echo 0 > ramdisk/5sec
 	fi
 fi
+# dspeed=3 weiter unten
 
 # process autolock
 ./processautolock.sh &
 
 #ladelog ausfuehren
-( [ -e ./ladelog.sh ] ) &&  ( ./ladelog.sh & )
-( [ -e ./ladelog2.sh ] ) &&  ( ./ladelog2.sh & )
+ [ -e ./ladelog.sh ]  &&  ( ./ladelog.sh &  )
+ [ -e ./ladelog2.sh ] &&  ( ./ladelog2.sh & )
 # ./ladelog.sh &
 
-
-graphtimer=$(<ramdisk/graphtimer)
-if (( graphtimer < 5 )); then
-	graphtimer=$((graphtimer+1))
-	echo $graphtimer > ramdisk/graphtimer
-else
-	graphtimer=0
-	echo $graphtimer > ramdisk/graphtimer
-fi
+incvar graphtimer 5 
+#graphtimer=$(<ramdisk/graphtimer)
+#if (( graphtimer < 5 )); then
+#	graphtimer=$((graphtimer+1))
+#	echo $graphtimer > ramdisk/graphtimer
+#else
+#	graphtimer=0
+#	echo $graphtimer > ramdisk/graphtimer
+#fi
 #######################################
 
 if (( displayaktiv == 1 )); then
@@ -319,21 +321,35 @@ if (( cpunterbrechunglp2 == 1 )); then
 	fi
 fi
 
+
+# 0,2,3  Norm=10S,Langsam=20S,sehr langsam=1Min
 if [[ $dspeed == "3" ]]; then
-	if [ -e ramdisk/5sec ]; then
-		regeltimer=$(<ramdisk/5sec)
-		if (( regeltimer < 5 )); then
-			regeltimer=$((regeltimer+1))
-			echo $regeltimer > ramdisk/5sec
-			exit 0
-		else
-			regeltimer=0
-			echo $regeltimer > ramdisk/5sec
-		fi
-	else
-		echo 0 > ramdisk/5sec
+    regeltimer=0 
+	incvar regeltimer 5
+	if (( regeltimer!=0 )) ; then 
+		openwbDebugLog "MAIN" 0 "DSpeed=3, EXIT 0  Now ($regeltimer) "
+		exit 0
+ 	else 		
+		openwbDebugLog "MAIN" 0 "DSpeed=3, run at ($regeltimer) "
 	fi
 fi
+
+
+#if [[ $dspeed == "3" ]]; then
+#	if [ -e ramdisk/5sec ]; then
+#		regeltimer=$(<ramdisk/5sec)
+#		if (( regeltimer < 5 )); then
+#			regeltimer=$((regeltimer+1))
+#			echo $regeltimer > ramdisk/5sec
+#			exit 0
+#		else
+#			regeltimer=0
+#			echo $regeltimer > ramdisk/5sec
+#		fi
+#	else
+#		echo 0 > ramdisk/5sec
+#	fi
+#fi
 
 if (( ledsakt == 1 )); then
 	ledsteuerung
@@ -363,16 +379,22 @@ if (( rseenabled == 1 )); then
 	fi
 fi
 
-#evse modbus check
-evsemodbustimer=$(<ramdisk/evsemodbustimer)
-if (( evsemodbustimer < 30 )); then
-	evsemodbustimer=$((evsemodbustimer+1))
-	echo $evsemodbustimer > ramdisk/evsemodbustimer
-else
-	evsemodbustimer=0
-	echo $evsemodbustimer > ramdisk/evsemodbustimer
-	evsemodbuscheck
+evsemodbustimer=0
+incvar evsemodbustimer 30
+if (( evsemodbustimer == 0 )) ; then
+   openwbDebugLog "MAIN" 1 "call evse modbus check, every 5 minutes"
+   evsemodbuscheck
 fi
+
+#evsemodbustimer=$(<ramdisk/evsemodbustimer)
+#if (( evsemodbustimer < 30 )); then
+#	evsemodbustimer=$((evsemodbustimer+1))
+#	echo $evsemodbustimer > ramdisk/evsemodbustimer
+#else
+#	evsemodbustimer=0
+#	echo $evsemodbustimer > ramdisk/evsemodbustimer
+#	evsemodbuscheck
+#fi
 
 # Slave Mode, openWB als Ladepunkt nutzen
 
@@ -520,10 +542,10 @@ if (( lastmanagement == 1 )); then		# lastmanagement == 1 means that it's on ope
 			if [ ! -f /var/www/html/openWB/ramdisk/anzahlphasen ]; then
 				echo 1 > /var/www/html/openWB/ramdisk/anzahlphasen
 			fi
-			if (( u1p3plp2aktiv == 1 )); then   ## immmer false da variable unbekannt
-				lp2anzahlphasen=$(cat /var/www/html/openWB/ramdisk/u1p3pstat)
-				anzahlphasen=$((lp2anzahlphasen + anzahlphasen))
-			else
+#			if (( u1p3plp2aktiv == 1 )); then   ## immmer false da variable unbekannt
+#				lp2anzahlphasen=$(cat /var/www/html/openWB/ramdisk/u1p3pstat)
+#				anzahlphasen=$((lp2anzahlphasen + anzahlphasen))
+#			else
 				if [ ! -f /var/www/html/openWB/ramdisk/lp2anzahlphasen ]; then
 					echo 1 > /var/www/html/openWB/ramdisk/lp2anzahlphasen
 					anzahlphasen=$((anzahlphasen + 1 ))
@@ -531,7 +553,7 @@ if (( lastmanagement == 1 )); then		# lastmanagement == 1 means that it's on ope
 					lp2anzahlphasen=$(cat /var/www/html/openWB/ramdisk/lp2anzahlphasen)
 					anzahlphasen=$((lp2anzahlphasen + anzahlphasen))
 				fi
-			fi
+#			fi
 		fi
 		openwbDebugLog "PV" 0 "LP2 Anzahl Phasen während keiner Ladung= $lp2anzahlphasen"
 	fi

@@ -552,7 +552,7 @@ loadvars(){
 		#llas13=$(echo $llas13 | sed 's/\..*$//')
 		ladestatuss1=$(</var/www/html/openWB/ramdisk/ladestatuss1)
 		if ! [[ $ladeleistungs1 =~ $re ]] ; then
-		ladeleistungs1="0"
+			ladeleistungs1="0"
 		fi
 		ladeleistung=$(( ladeleistung + ladeleistungs1 ))
 		echo "$ladeleistung" > /var/www/html/openWB/ramdisk/llkombiniert
