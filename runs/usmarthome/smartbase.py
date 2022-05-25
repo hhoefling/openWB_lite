@@ -597,7 +597,7 @@ class Sbase(Sbase0):
         self._c_ausverz_f = 'N'
         self._c_einverz = 0
         self._c_einverz_f = 'N'
-
+        self._dynregel = 0
 
     def __del__(self):
 
@@ -1176,13 +1176,24 @@ class Sbase(Sbase0):
                                 self.turndevicerelais(0, 0, 1)
                                 return
                             else:
-                                self.logClass(2, "(" + str(self.device_nummer)
-                                              + ") " + self.device_name +
+                                if (self._dynregel == 0):
+                                    self.logClass(2, "(" +
+                                                  str(self.device_nummer) +
+                                                  ") " + self.device_name +
+                                                  " Mindesteinschaltdauer " +
+                                                  "erreicht, " +
+                                                  "Ausschaltschwelle 0 " +
+                                                  "gesetzt")
+                                    work_ausschaltverzoegerung = 0
+                                    if (work_ausschaltschwelle < 0):
+                                        work_ausschaltschwelle = 0
+                                else:
+                                    self.logClass(2, "(" +
+                                                  str(self.device_nummer)
+                                                  + ") " + self.device_name +
+                                                  " Gerät mit dyn Regelung")
                                               " Mindesteinschaltdauer erreicht"
                                               + ",Ausschaltschwelle 0 gesetzt")
-                                work_ausschaltverzoegerung = 0
-                                if (work_ausschaltschwelle < 0):
-                                    work_ausschaltschwelle = 0
                         else:
                             self.logClass(2, "(" + str(self.device_nummer) +
                                           ") " + self.device_name +
@@ -1199,14 +1210,22 @@ class Sbase(Sbase0):
                             self.turndevicerelais(0, 0, 1)
                             return
                         else:
-                            self.logClass(2, "(" + str(self.device_nummer) +
-                                          ") " + self.device_name +
-                                          " Mindesteinschaltdauer nicht" +
-                                          " bekannt,setze Ausschaltschwelle" +
-                                          " auf 0")
-                            work_ausschaltverzoegerung = 0
-                            if (work_ausschaltschwelle < 0):
-                                work_ausschaltschwelle = 0
+                            if (self._dynregel == 0):
+                                self.logClass(2, "(" +
+                                              str(self.device_nummer) +
+                                              ") " + self.device_name +
+                                              " Mindesteinschaltdauer " +
+                                              "nicht bekannt, " +
+                                              "Ausschaltschwelle 0 " +
+                                              "gesetzt")
+                                work_ausschaltverzoegerung = 0
+                                if (work_ausschaltschwelle < 0):
+                                    work_ausschaltschwelle = 0
+                            else:
+                                self.logClass(2, "(" +
+                                              str(self.device_nummer)
+                                              + ") " + self.device_name +
+                                              " Gerät mit dyn Regelung")
                 else:
                     self.logClass(2, "(" + str(self.device_nummer) + ") " +
                                   self.device_name +
