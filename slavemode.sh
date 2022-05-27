@@ -113,10 +113,10 @@ openwbisslave() {
 				# CP3 does exist
 				:
 			elif (( currentCp >= 4)); then
-				local cpPresentVar="lastmanagementlp${currentCp}"
-				eval cpPresent=\$$cpPresentVar
-				if (( cpPresent == 0 )); then
-
+				#local cpPresentVar="lastmanagementlp${currentCp}"
+				#eval cpPresent=\$$cpPresentVar
+				declare -n cpPresent="lastmanagementlp${currentCp}"
+				if (( $cpPresent == 0 )); then
 					# CPx (x >= 4) does not actually exist
 					continue
 				fi
