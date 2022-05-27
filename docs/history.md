@@ -34,6 +34,7 @@ Einige Steps der Entwicklung
 - Display Helligkeit auf dem Intern Display einstellbar. Hierzuf  im Color-Thema oben links auf das Datum/Uhrzeit Element tippen.
 - Color Thema hat nun eine möglichkeit zur normalen Darstellung zu wechseln. (Home Button). Nur bei Debuglevel=2 sichtbar.
 - In Hauptmenue verzweigung zum Display-Thema im Debuglevel=2
+- Ladelog Jahresexport zugefügt
 
 ![firefox_for_openWBCloud2_ff](https://user-images.githubusercontent.com/89247538/162584594-13cdf614-d317-4a75-95ba-29594fc64b7e.png)
 
