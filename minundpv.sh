@@ -2,7 +2,7 @@
 ########################
 #Min Ladung + PV Uberschussregelung lademodus 1
 minundpvlademodus(){
-	maxll=($llalt $llalts1 $llalts2 ) 
+	maxll=("$llalt" "$llalts1" "$llalts2" ) 
 	maxllvar=0
 	for v in "${maxll[@]}"; do
 		if (( v > maxllvar )); then maxllvar=$v; fi;
@@ -15,7 +15,7 @@ minundpvlademodus(){
 		if [[ $u1p3paktiv == "1" ]]; then
 			u1p3pstat=$(<ramdisk/u1p3pstat)
 			if [[ $u1p3pstat == "1" ]]; then
-				if (( schieflastmax < maximalstromstaerke )); then
+				if (( schieflastmaxa < maximalstromstaerke )); then
 					maximalstromstaerke=$schieflastmaxa
 					openwbDebugLog "PV" 0 "Lademodus MinundPV Maximalstromstärke begrenzt auf $schieflastmaxa da Schieflastbegrenzung konfiguriert"
 				fi

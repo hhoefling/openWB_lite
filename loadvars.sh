@@ -87,7 +87,7 @@ loadvars(){
 		fi
 		ladestatuslp1=$(</var/www/html/openWB/ramdisk/ladestatus)
 		if [ "$evseplugstate" -ge "0" ] && [ "$evseplugstate" -le "10" ] ; then
-			if [[ $evseplugstate > "1" ]]; then
+			if [[ $evseplugstate -gt 1 ]]; then
 				plugstat=$(</var/www/html/openWB/ramdisk/plugstat)
 				if [[ $plugstat == "0" ]] ; then
 					if [[ $pushbplug == "1" ]] && [[ $ladestatuslp1 == "0" ]] && [[ $pushbenachrichtigung == "1" ]] ; then
@@ -108,7 +108,7 @@ loadvars(){
 				echo 0 > /var/www/html/openWB/ramdisk/plugstat
 				plugstat=0
 			fi
-			if [[ $evseplugstate > "2" ]] && [[ $ladestatuslp1 == "1" ]] && [[ $lp1enabled == "1" ]]; then
+			if [[ $evseplugstate -gt 2 ]] && [[ $ladestatuslp1 == "1" ]] && [[ $lp1enabled == "1" ]]; then
 				echo 1 > /var/www/html/openWB/ramdisk/chargestat
 				chargestat=1
 			else
@@ -128,19 +128,19 @@ loadvars(){
 			echo $evseplugstate > /var/www/html/openWB/ramdisk/evseplugstate
 		fi
 		ladestatuslp1=$(</var/www/html/openWB/ramdisk/ladestatus)
-		if [[ $evseplugstatelp1 > "1" ]]; then
+		if [[ $evseplugstatelp1 -gt 1 ]]; then
 			echo 1 > /var/www/html/openWB/ramdisk/plugstat
 		else
 			echo 0 > /var/www/html/openWB/ramdisk/plugstat
 		fi
-		if [[ $evseplugstatelp1 > "2" ]] && [[ $ladestatuslp1 == "1" ]] && [[ $lp1enabled == "1" ]]; then
+		if [[ $evseplugstatelp1 -gt 2 ]] && [[ $ladestatuslp1 == "1" ]] && [[ $lp1enabled == "1" ]]; then
 			echo 1 > /var/www/html/openWB/ramdisk/chargestat
 		else
 			echo 0 > /var/www/html/openWB/ramdisk/chargestat
 		fi
 	else
 		pluggedin=$(</var/www/html/openWB/ramdisk/pluggedin)    # nur vonn isss.py auf 1 gesetzt
-		if [ "$pluggedin" -gt "0" ]; then
+		if [ "$pluggedin" -gt 0 ]; then
 			if [[ $pushbplug == "1" ]] && [[ $ladestatuslp1 == "0" ]] && [[ $pushbenachrichtigung == "1" ]] ; then
 				message="Fahrzeug eingesteckt. Ladung startet bei erfüllter Ladebedingung automatisch."
 #########################################################################						
@@ -172,8 +172,8 @@ loadvars(){
 				echo $evseplugstatelp2 > /var/www/html/openWB/ramdisk/evseplugstatelp2
 			fi
 			ladestatuss1=$(</var/www/html/openWB/ramdisk/ladestatuss1)
-			if [[ $evseplugstatelp2 > "0" ]] && [[ $evseplugstatelp2 < "7" ]] ; then
-				if [[ $evseplugstatelp2 > "1" ]]; then
+			if [[ $evseplugstatelp2 -gt 0 ]] && [[ $evseplugstatelp2 < "7" ]] ; then
+				if [[ $evseplugstatelp2 -gt  1 ]]; then
 					plugstat2=$(</var/www/html/openWB/ramdisk/plugstats1)
 
 					if [[ $plugstat2 == "0" ]] ; then
@@ -190,7 +190,7 @@ loadvars(){
 					plugstat2=0
 					plugstats1=$plugstat2
 				fi
-				if [[ $evseplugstatelp2 > "2" ]] && [[ $ladestatuss1 == "1" ]] ; then
+				if [[ $evseplugstatelp2 -gt 2 ]] && [[ $ladestatuss1 == "1" ]] ; then
 					echo 1 > /var/www/html/openWB/ramdisk/chargestats1
 				else
 					echo 0 > /var/www/html/openWB/ramdisk/chargestats1
@@ -211,12 +211,12 @@ loadvars(){
 			fi
 			ladestatuss1=$(</var/www/html/openWB/ramdisk/ladestatuss1)
 
-			if [[ $evseplugstatelp2 > "1" ]]; then
+			if [[ $evseplugstatelp2 -gt 1 ]]; then
 				echo 1 > /var/www/html/openWB/ramdisk/plugstats1
 			else
 				echo 0 > /var/www/html/openWB/ramdisk/plugstats1
 			fi
-			if [[ $evseplugstatelp2 > "2" ]] && [[ $ladestatuss1 == "1" ]] ; then
+			if [[ $evseplugstatelp2 -gt 2 ]] && [[ $ladestatuss1 == "1" ]] ; then
 				echo 1 > /var/www/html/openWB/ramdisk/chargestats1
 			else
 				echo 0 > /var/www/html/openWB/ramdisk/chargestats1
@@ -235,12 +235,12 @@ loadvars(){
 			fi
 			ladestatuslp2=$(</var/www/html/openWB/ramdisk/ladestatuss1)
 
-			if [[ $evseplugstatelp2 > "1" ]]; then
+			if [[ $evseplugstatelp2 -gt 1 ]]; then
 				echo 1 > /var/www/html/openWB/ramdisk/plugstats1
 			else
 				echo 0 > /var/www/html/openWB/ramdisk/plugstats1
 			fi
-			if [[ $evseplugstatelp2 > "2" ]] && [[ $ladestatuslp2 == "1" ]] && [[ $lp2enabled == "1" ]]; then
+			if [[ $evseplugstatelp2 -gt 2 ]] && [[ $ladestatuslp2 == "1" ]] && [[ $lp2enabled == "1" ]]; then
 				echo 1 > /var/www/html/openWB/ramdisk/chargestats1
 			else
 				echo 0 > /var/www/html/openWB/ramdisk/chargestats1
@@ -273,12 +273,12 @@ loadvars(){
 			fi
 			ladestatuslp3=$(</var/www/html/openWB/ramdisk/ladestatuss2)
 
-			if [[ $evseplugstatelp3 > "1" ]]; then
+			if [[ $evseplugstatelp3 -gt 1 ]]; then
 				echo 1 > /var/www/html/openWB/ramdisk/plugstatlp3
 			else
 				echo 0 > /var/www/html/openWB/ramdisk/plugstatlp3
 			fi
-			if [[ $evseplugstatelp3 > "2" ]] && [[ $ladestatuslp3 == "1" ]] && [[ $lp3enabled == "1" ]]; then
+			if [[ $evseplugstatelp3 -gt 2 ]] && [[ $ladestatuslp3 == "1" ]] && [[ $lp3enabled == "1" ]]; then
 				echo 1 > /var/www/html/openWB/ramdisk/chargestatlp3
 			else
 				echo 0 > /var/www/html/openWB/ramdisk/chargestatlp3
@@ -298,12 +298,12 @@ loadvars(){
 				echo $evseplugstatelp3 > /var/www/html/openWB/ramdisk/evseplugstatelp3
 			fi
 			ladestatuss2=$(</var/www/html/openWB/ramdisk/ladestatuss2)
-			if [[ $evseplugstatelp3 > "1" ]]; then
+			if [[ $evseplugstatelp3 -gt 1 ]]; then
 				echo 1 > /var/www/html/openWB/ramdisk/plugstatlp3
 			else
 				echo 0 > /var/www/html/openWB/ramdisk/plugstatlp3
 			fi
-			if [[ $evseplugstatelp3 > "2" ]] && [[ $ladestatuss2 == "1" ]] ; then
+			if [[ $evseplugstatelp3 -gt 2 ]] && [[ $ladestatuss2 == "1" ]] ; then
 				echo 1 > /var/www/html/openWB/ramdisk/chargestatlp3
 			else
 					echo 0 > /var/www/html/openWB/ramdisk/chargestatlp3
@@ -315,6 +315,7 @@ loadvars(){
 		plugstatlp3=$(<ramdisk/plugstatlp3)
 		chargestatlp3=$(<ramdisk/chargestatlp3)
 	fi
+	
 
 	# LP4 - LP8
 
