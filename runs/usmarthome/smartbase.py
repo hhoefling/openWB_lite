@@ -1191,7 +1191,7 @@ class Sbase(Sbase0):
                                     self.logClass(2, "(" +
                                                   str(self.device_nummer)
                                                   + ") " + self.device_name +
-                                                  " Gerät mit dyn Regelung")
+                                                  " Gerät mit dyn Regelung" +
                                               " Mindesteinschaltdauer erreicht"
                                               + ",Ausschaltschwelle 0 gesetzt")
                         else:
