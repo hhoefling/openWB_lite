@@ -40,8 +40,8 @@ fi
 
 log "checking rights und modes"
 sudo chown -R www-data:www-data /var/www/html/openWB/web/backup
+sudo touch /var/www/html/openWB/web/backup/.donotdelete
 sudo chown pi:pi /var/www/html/openWB/web/backup/.donotdelete
-sudo echo ""    >/var/www/html/openWB/web/backup/.donotdelete
 sudo chown -R www-data:www-data /var/www/html/openWB/web/tools/upload
 sudo chmod 777 /var/www/html/openWB/openwb.conf
 sudo chmod 777 /var/www/html/openWB/smarthome.ini
