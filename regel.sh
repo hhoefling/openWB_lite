@@ -185,6 +185,7 @@ if (( displayaktiv == 1 )); then
 	if (( execdisplay == 1 )); then
 		export DISPLAY=:0 && xset s "$displaysleep" && xset dpms "$displaysleep" "$displaysleep" "$displaysleep"
 		echo 0 > ramdisk/execdisplay
+		openwbDebugLog "MAIN" 1 "exec  runs/displaybacklight.sh $displayLight"
 		sudo runs/displaybacklight.sh $displayLight
 	fi
 fi
