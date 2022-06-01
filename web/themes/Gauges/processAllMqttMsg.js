@@ -497,7 +497,7 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
 	    debuglevel = i;
 		console.log('set debug level to '+debuglevel );
-		if ( debuglevel >= 2)  {
+		if ( debuglevel >= 0)  {
 			$("#homebutton").removeClass("hide");
         } else {			
 			$("#homebutton").addClass("hide");

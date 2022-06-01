@@ -125,10 +125,15 @@ ladeleistunglp8=0
 	mosquitto_pub -t openWB/graph/15alllivevalues -r -m "$([ ${#all15livevalues} -ge 10 ] && echo "$all15livevalues" || echo "-")" &
 	mosquitto_pub -t openWB/graph/16alllivevalues -r -m "$([ ${#all16livevalues} -ge 10 ] && echo "$all16livevalues" || echo "-")" &
 
-	#Long Time Graphing, ein mal je Minute bzw jeden 5 call		
+	
+# Bleibe bim Inc. ind regel.sh
+# graphtimer=$(<ramdisk/graphtimer)
+# echo $(( graphtimer = (graphtimer+1)%6 )) >/var/www/html/openWB/ramdisk/graphtimer
+#
+	
+	#Long Time Graphing, ein mal je Minute bzw jeden 6 call		
 	if (( graphtimer == 1 )); then
 		openwbDebugLog "MAIN" 2 "graphing.sh ---- make long time graph"	
-	
 		if (( dspeed == "3" )); then
 			livegraphtime="240"
 		else
