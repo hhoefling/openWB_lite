@@ -31,7 +31,8 @@ Einige Steps der Entwicklung
 - Um die Grafiken in der Cloud-Version von web.openwb.de angezeigt zu bekommen sollte man die Fernwartung aktivieren. Das ist mir zuviel. Daher habe ich nur das "graph" Subtopic erlaubt und voila, die Grafiken sind auch ohne Scheunentor verfügbar (abschaltbar sind sie ja schon) 
 
 5.2022
-- Display Helligkeit auf dem Intern Display einstellbar. Hierzuf  im Color-Thema oben links auf das Datum/Uhrzeit Element tippen.
+- Display Helligkeit auf dem Intern Display ist jetzt einstellbar. Hierzuf  im Color-Thema oben links auf das Datum/Uhrzeit Element tippen.
+ ![display_color_Helligkeit](https://user-images.githubusercontent.com/89247538/171632336-a993bf4a-72f0-4677-bd8f-d5394fc75627.png)
 - Color Thema hat nun eine möglichkeit zur normalen Darstellung zu wechseln. (Home Button). Nur bei Debuglevel=2 sichtbar.
 - In Hauptmenue verzweigung zum Display-Thema im Debuglevel=2
 - Ladelog Jahresexport zugefügt
@@ -45,3 +46,4 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
 - Das Interne Dispaly-Thema "Color" bekommt links zu normalem Web Oberfläche und einige Detailänderungen zur besseren Lesbarkeit.
 - Mqtt-Puller zugefügt. Er kopiert die Daten aus dem MQTT der echten OpenWB und beschreibt die MQTT  Topics der Test-OpenWB.
 - Meine RCT2 Module wurden noch weiter optimiert. Die Zeit um die 23/39 Werte abzufragen liegt nun bei unter einer Sekunde. Die gesamte Regelzeit liegt bei 3 bis 4 Sekunden.
+
