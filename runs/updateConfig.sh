@@ -1789,12 +1789,12 @@ updateConfig(){
 #	then
 #		echo "standardSocketInstalled=0" >> /var/www/html/openWB/openwb.conf
 #	fi
-	if ! grep -Fq "sdm120modbussocketsource=" $ConfigFile; then
-		echo "sdm120modbussocketsource=/dev/ttyUSB0" >> $ConfigFile
-	fi
-	if ! grep -Fq "sdm120modbussocketid=" $ConfigFile; then
-		echo "sdm120modbussocketid=9" >> $ConfigFile
-	fi
+#	if ! grep -Fq "sdm120modbussocketsource=" $ConfigFile; then
+#		echo "sdm120modbussocketsource=/dev/ttyUSB0" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "sdm120modbussocketid=" $ConfigFile; then
+#		echo "sdm120modbussocketid=9" >> $ConfigFile
+#	fi
 #	if ! grep -Fq "solarworld_emanagerip=" $ConfigFile; then
 #		echo "solarworld_emanagerip=192.192.192.192" >> $ConfigFile
 #	fi

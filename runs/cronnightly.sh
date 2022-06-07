@@ -121,15 +121,16 @@ curl --connect-timeout 10 -s https://raw.githubusercontent.com/hhoefling/openWB_
 curl --connect-timeout 10 -s https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version > /var/www/html/openWB/ramdisk/vbeta
 curl --connect-timeout 10 -s https://raw.githubusercontent.com/hhoefling/openWB_lite/stable/web/version > /var/www/html/openWB/ramdisk/vstable
 
-if [[ -s /var/www/html/openWB/ramdisk/randomSleepValue ]]; then
-	randomSleep=$(</var/www/html/openWB/ramdisk/randomSleepValue)
-fi
-if [[ -n $randomSleep ]] && (( $(echo "$randomSleep != 0" | bc) == 1 )); then
-	echo "$(date +%s)": Deleting randomSleepValue to force new randomization
-	rm /var/www/html/openWB/ramdisk/randomSleepValue
-else
-	echo "Not deleting randomSleepValue of \"$randomSleep\""
-fi
+#if [[ -s /var/www/html/openWB/ramdisk/randomSleepValue ]]; then
+#	randomSleep=$(</var/www/html/openWB/ramdisk/randomSleepValue)
+#fi
+#if [[ -n $randomSleep ]] && (( $(echo "$randomSleep != 0" | bc) == 1 )); then
+#	echo "$(date +%s)": Deleting randomSleepValue to force new randomization
+#	rm /var/www/html/openWB/ramdisk/randomSleepValue
+#else
+#	echo "Not deleting randomSleepValue of \"$randomSleep\""
+#fi
+
 #set heartbeat openWB Pro
 owbpro_num=1
 for i in evsecon evsecons{1..2} evseconlp{4..8}

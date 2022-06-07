@@ -240,7 +240,7 @@ setLpPlugChangeState() {
 }
 
 # checks if the tag stored in $lasttag is valid for socket activation (if it is, returning 0, else > 0)
-checkTagValidForSocket() {
+none_checkTagValidForSocket() {
 
 	if [[ $lasttag == "0" ]]; then
 		return 1
