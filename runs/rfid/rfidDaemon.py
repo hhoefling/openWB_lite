@@ -15,19 +15,19 @@ Values = {
     'newplugstatlp1': str(0),
     'newplugstatlp2': str(0),
     'newplugstatlp3': str(0),
-    'newplugstatlp4': str(0),
-    'newplugstatlp5': str(0),
-    'newplugstatlp6': str(0),
-    'newplugstatlp7': str(0),
-    'newplugstatlp8': str(0),
+#    'newplugstatlp4': str(0),
+#    'newplugstatlp5': str(0),
+#    'newplugstatlp6': str(0),
+#    'newplugstatlp7': str(0),
+#    'newplugstatlp8': str(0),
     'oldplugstatlp1': str(0),
     'oldplugstatlp2': str(0),
     'oldplugstatlp3': str(0),
-    'oldplugstatlp4': str(0),
-    'oldplugstatlp5': str(0),
-    'oldplugstatlp6': str(0),
-    'oldplugstatlp7': str(0),
-    'oldplugstatlp8': str(0),
+#    'oldplugstatlp4': str(0),
+#    'oldplugstatlp5': str(0),
+#    'oldplugstatlp6': str(0),
+#    'oldplugstatlp7': str(0),
+#    'oldplugstatlp8': str(0),
     'lastpluggedlp': str(0),
     'lastscannedtag': str(0),
     'rfidlasttag': str(0)
@@ -70,7 +70,7 @@ def read_rfid_list():
 
 
 def get_plugstat():
-    for chargepoint in range(1, 9):
+    for chargepoint in range(1, 4): # 9):
         if chargepoint == 1:
             ramdisk_file = "plugstat"
         elif chargepoint == 2:
@@ -89,9 +89,13 @@ def get_plugstat():
                 Values.update({"oldplugstatlp" + str(chargepoint): Values["newplugstatlp" + str(chargepoint)]})
         except (FileNotFoundError, ValueError):
             pass
-    log_debug(0, "Plugstat: " + str(Values["newplugstatlp1"]) + str(Values["newplugstatlp2"]) +
-              str(Values["newplugstatlp3"]) + str(Values["newplugstatlp4"]) + str(Values["newplugstatlp5"]) +
-              str(Values["newplugstatlp6"]) + str(Values["newplugstatlp7"]) + str(Values["newplugstatlp8"]))
+    log_debug(0, "Plugstat: " + str(Values["newplugstatlp1"]) + str(Values["newplugstatlp2"]) + str(Values["newplugstatlp3"]) 
+			  #+ str(Values["newplugstatlp4"]) 
+			  #+ str(Values["newplugstatlp5"]) 
+			  #+ str(Values["newplugstatlp6"]) 
+			  #+ str(Values["newplugstatlp7"]) 
+			  #+ str(Values["newplugstatlp8"])			  
+			  + " ")
 
 
 def conditions():
