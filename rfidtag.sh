@@ -2,7 +2,7 @@
 
 # Allow 3 minutes between RFID scan and plugin - else the CP gets disabled again
 declare -r MaximumSecondsAfterRfidScanToAssignCp=180
-declare -r SocketActivationFile="ramdisk/socketActivationRequested"
+declare -r none_SocketActivationFile="ramdisk/socketActivationRequested"
 
 # lastmanagement == 1 means that it's on openWB duo
 if (( lastmanagement > 0 )); then

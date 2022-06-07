@@ -1519,12 +1519,12 @@ loadvars(){
 		echo $auiplast > ramdisk/mqttupdateinprogress
 	fi
 
-	arandomSleep=$(<ramdisk/randomSleepValue)
-	orandomSleepValue=$(<ramdisk/mqttRandomSleepValue)
-	if [[ "$orandomSleepValue" != "$arandomSleep" ]]; then
-		tempPubList="${tempPubList}\nopenWB/system/randomSleep=${arandomSleep}"
-		echo $arandomSleep > ramdisk/mqttRandomSleepValue
-	fi
+#	arandomSleep=$(<ramdisk/randomSleepValue)
+#	orandomSleepValue=$(<ramdisk/mqttRandomSleepValue)
+#	if [[ "$orandomSleepValue" != "$arandomSleep" ]]; then
+#		tempPubList="${tempPubList}\nopenWB/system/randomSleep=${arandomSleep}"
+#		echo $arandomSleep > ramdisk/mqttRandomSleepValue
+#	fi
 
 	declare -A mqttconfvar
 	mqttconfvar["config/get/pv/minFeedinPowerBeforeStart"]=mindestuberschuss
