@@ -505,7 +505,11 @@ loadvars(){
 		lla1=0
 		lla2=0
 		lla3=0
+		llv1=0
+		llv2=0
+		llv3=0
 		ladeleistung=0
+		ladeleistunglp1=0
 		llkwh=0
 		llkwhges=$llkwh
 	fi
@@ -637,23 +641,22 @@ loadvars(){
 	echo $llkwhges > ramdisk/llkwhges
 
 	#Schuko-Steckdose an openWB
-	if [[ $standardSocketInstalled == "1" ]]; then
-
+#	if [[ $standardSocketInstalled == "1" ]]; then
 #########################################################################						
-		openwbDebugLog "MAIN" 2 "EXEC: timeout 10 modules/sdm120modbusSocket/main.sh"
-		timeout 10 modules/sdm120modbusSocket/main.sh || true
+#		openwbDebugLog "MAIN" 2 "EXEC: timeout 10 modules/sdm120modbusSocket/main.sh"
+#		timeout 10 modules/sdm120modbusSocket/main.sh || true
 #########################################################################						
-		socketkwh=$(</var/www/html/openWB/ramdisk/socketkwh)
-		socketp=$(cat /var/www/html/openWB/ramdisk/socketp)
-		socketa=$(cat /var/www/html/openWB/ramdisk/socketa)
-        socketa=${socketa%%[.,]*}
-		#socketa=$(echo $socketa | sed 's/\..*$//')
-		socketv=$(cat /var/www/html/openWB/ramdisk/socketv)
-		if ! [[ $socketa =~ $re ]] ; then
-			openwbDebugLog "MAIN" 0 "ungültiger Wert für socketa: $socketa"
-			socketa="0"
-		fi
-	fi
+#		socketkwh=$(</var/www/html/openWB/ramdisk/socketkwh)
+#		socketp=$(cat /var/www/html/openWB/ramdisk/socketp)
+#		socketa=$(cat /var/www/html/openWB/ramdisk/socketa)
+#       socketa=${socketa%%[.,]*}
+#		#socketa=$(echo $socketa | sed 's/\..*$//')
+#		socketv=$(cat /var/www/html/openWB/ramdisk/socketv)
+#		if ! [[ $socketa =~ $re ]] ; then
+#			openwbDebugLog "MAIN" 0 "ungültiger Wert für socketa: $socketa"
+#			socketa="0"
+#		fi
+#	fi
 
 	#Wattbezug
 	if [[ $wattbezugmodul != "none" ]]; then
@@ -1065,9 +1068,9 @@ loadvars(){
 	openwbDebugLog "MAIN" 1 "$(echo -e lp1enabled "$lp1enabled"'\t'lp2enabled "$lp2enabled"'\t'lp3enabled "$lp3enabled")"
 	openwbDebugLog "MAIN" 1 "$(echo -e plugstatlp1 "$plugstat"'\t'plugstatlp2 "$plugstatlp2"'\t'plugstatlp3 "$plugstatlp3")"
 	openwbDebugLog "MAIN" 1 "$(echo -e chargestatlp1 "$chargestat"'\t'chargestatlp2 "$chargestatlp2"'\t'chargestatlp3 "$chargestatlp3")"
-	if [[ $standardSocketInstalled == "1" ]]; then
-		openwbDebugLog "MAIN" 1 "socketa $socketa socketp $socketp socketkwh $socketkwh socketv $socketv"
-	fi
+#	if [[ $standardSocketInstalled == "1" ]]; then
+#		openwbDebugLog "MAIN" 1 "socketa $socketa socketp $socketp socketkwh $socketkwh socketv $socketv"
+#	fi
 
 	tempPubList="openWB/system/Uptime=$(uptime)"
 

@@ -1776,19 +1776,19 @@ updateConfig(){
 	if ! grep -Fq "slavemode=" $ConfigFile; then
 		echo "slavemode=0" >> $ConfigFile
 	fi
-	if ! grep -Fq "slaveModeUseLastChargingPhase=" $ConfigFile; then
-		echo "slaveModeUseLastChargingPhase=1" >> $ConfigFile
-	fi
-	if ! grep -Fq "slaveModeSlowRamping=" $ConfigFile; then
-		echo "slaveModeSlowRamping=1" >> $ConfigFile
-	fi
-	if ! grep -Fq "slaveModeMinimumAdjustmentInterval=" $ConfigFile; then
-    	echo "slaveModeMinimumAdjustmentInterval=15" >> $ConfigFile
-	fi
-	if ! grep -Fq "standardSocketInstalled=" /var/www/html/openWB/openwb.conf
-	then
-		echo "standardSocketInstalled=0" >> /var/www/html/openWB/openwb.conf
-	fi
+#	if ! grep -Fq "slaveModeUseLastChargingPhase=" $ConfigFile; then
+#		echo "slaveModeUseLastChargingPhase=1" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "slaveModeSlowRamping=" $ConfigFile; then
+#		echo "slaveModeSlowRamping=1" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "slaveModeMinimumAdjustmentInterval=" $ConfigFile; then
+#    	echo "slaveModeMinimumAdjustmentInterval=15" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "standardSocketInstalled=" /var/www/html/openWB/openwb.conf
+#	then
+#		echo "standardSocketInstalled=0" >> /var/www/html/openWB/openwb.conf
+#	fi
 	if ! grep -Fq "sdm120modbussocketsource=" $ConfigFile; then
 		echo "sdm120modbussocketsource=/dev/ttyUSB0" >> $ConfigFile
 	fi

@@ -95,20 +95,20 @@ then
 fi
 
 
-if (( slavemode == 1)); then
-	randomSleep=$(<ramdisk/randomSleepValue)
-	if [[ -z $randomSleep ]] || [[ "${randomSleep}" == "0" ]] || ! [[ "${randomSleep}" =~ $IsFloatingNumberRegex ]]; then
-		randomSleep=$(shuf --random-source=/dev/urandom -i 0-8 -n 1).$(shuf --random-source=/dev/urandom -i 0-9 -n 1)
-		openwbDebugLog "MAIN" 0 "slavemode=$slavemode: ramdisk/randomSleepValue missing or 0 - creating new one containing $randomSleep"
-		echo "$randomSleep" > ramdisk/randomSleepValue
-	fi
-
-	openwbDebugLog "MAIN" 1 "Slave mode regulation spread: Waiting ${randomSleep}s"
-
-	sleep "$randomSleep"
-
-	openwbDebugLog "MAIN" 1 "Slave mode regulation spread: Wait end"
-fi
+#if (( slavemode == 1)); then
+#	randomSleep=$(<ramdisk/randomSleepValue)
+#	if [[ -z $randomSleep ]] || [[ "${randomSleep}" == "0" ]] || ! [[ "${randomSleep}" =~ $IsFloatingNumberRegex ]]; then
+#		randomSleep=$(shuf --random-source=/dev/urandom -i 0-8 -n 1).$(shuf --random-source=/dev/urandom -i 0-9 -n 1)
+#		openwbDebugLog "MAIN" 0 "slavemode=$slavemode: ramdisk/randomSleepValue missing or 0 - creating new one containing $randomSleep"
+#		echo "$randomSleep" > ramdisk/randomSleepValue
+#	fi
+#
+#	openwbDebugLog "MAIN" 1 "Slave mode regulation spread: Waiting ${randomSleep}s"
+#
+#	sleep "$randomSleep"
+#
+#	openwbDebugLog "MAIN" 1 "Slave mode regulation spread: Wait end"
+#fi
 
 source minundpv.sh
 source nurpv.sh
@@ -125,7 +125,7 @@ source u1p3p.sh
 source nrgkickcheck.sh
 source rfidtag.sh
 source leds.sh
-source slavemode.sh
+# source slavemode.sh
 
 date=$(date)
 re='^-?[0-9]+$'
@@ -398,10 +398,9 @@ fi
 #fi
 
 # Slave Mode, openWB als Ladepunkt nutzen
-
-if (( slavemode == 1 )); then
-	openwbisslave
-fi
+#if (( slavemode == 1 )); then
+#	openwbisslave
+#fi
 
 #Lademodus STOP3 == Aus
 if (( lademodus == $STOP3 )); then

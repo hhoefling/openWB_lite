@@ -79,9 +79,9 @@ rfid() {
 	#
 	if (( slavemode == 1 )); then
 
-		if (( standardSocketInstalled > 0 )); then
-			checkTagValidForSocket
-		fi
+#HH		if (( standardSocketInstalled > 0 )); then
+#			checkTagValidForSocket
+#		fi
 
 		# handle plugin only if we have valid un-assigned start data (i.e. an RFID-scan that has not yet been assigned to a CP)
 		if [ -f "${StartScanDataLocation}" ]; then
@@ -246,10 +246,10 @@ checkTagValidForSocket() {
 		return 1
 	fi
 
-	local ramdiskFileForSocket="ramdisk/AllowedRfidsForSocket"
-	if [ ! -f "$ramdiskFileForSocket" ]; then
-		return 1
-	fi
+#	local ramdiskFileForSocket="ramdisk/AllowedRfidsForSocket"
+#	if [ ! -f "$ramdiskFileForSocket" ]; then
+#		return 1
+#	fi
 
 	local rfidlist
 	rfidlist=$(<"$ramdiskFileForSocket")

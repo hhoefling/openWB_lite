@@ -141,17 +141,17 @@ mqttvar["config/get/SmartHome/Devices/9/mode"]=smarthome_device_manual_9
 mqttvar["system/CommitHash"]=currentCommitHash
 mqttvar["system/CommitBranches"]=currentCommitBranches
 
-if [[ "$standardSocketInstalled" == "1" ]]; then
-	mqttvar["config/get/slave/SocketActivated"]=socketActivated
-	mqttvar["config/get/slave/SocketRequested"]=socketActivationRequested
-	mqttvar["config/get/slave/SocketApproved"]=socketApproved
-	mqttvar["socket/A"]=socketa
-	mqttvar["socket/V"]=socketv
-	mqttvar["socket/W"]=socketp
-	mqttvar["socket/kWhCounter"]=socketkwh
-	mqttvar["socket/Pf"]=socketpf
-	mqttvar["socket/MeterSerialNumber"]=socketSerial
-fi
+#if [[ "$standardSocketInstalled" == "1" ]]; then
+#	mqttvar["config/get/slave/SocketActivated"]=socketActivated
+#	mqttvar["config/get/slave/SocketRequested"]=socketActivationRequested
+#	mqttvar["config/get/slave/SocketApproved"]=socketApproved
+#	mqttvar["socket/A"]=socketa
+#	mqttvar["socket/V"]=socketv
+#	mqttvar["socket/W"]=socketp
+#	mqttvar["socket/kWhCounter"]=socketkwh
+#	mqttvar["socket/Pf"]=socketpf
+#	mqttvar["socket/MeterSerialNumber"]=socketSerial
+#fi
 
 #for i in $(seq 1 8);
 for i in $(seq 1 3);
