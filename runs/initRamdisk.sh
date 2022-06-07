@@ -106,7 +106,7 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/cpulp1counter
 	echo 0 > $RamdiskPath/soc
 #NC	echo 0 > $RamdiskPath/soc-live.graph
-	echo 0 > $RamdiskPath/soc.graph
+#NC	echo 0 > $RamdiskPath/soc.graph
 	echo 0 > $RamdiskPath/soc1
 	echo 0 > $RamdiskPath/soc1vorhanden
 	echo 0 > $RamdiskPath/tmpsoc
@@ -161,7 +161,7 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/bezugw3
 	echo 0 > $RamdiskPath/einspeisungkwh
 #NC	echo 0 > $RamdiskPath/evu-live.graph
-	echo 0 > $RamdiskPath/evu.graph
+#NC	echo 0 > $RamdiskPath/evu.graph
 	echo 0 > $RamdiskPath/evuhz
 	echo 0 > $RamdiskPath/evupf1
 	echo 0 > $RamdiskPath/evupf2
@@ -180,7 +180,7 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/monthly_pvkwhk2
 	echo 0 > $RamdiskPath/nurpv70dynstatus
 #NC	echo 0 > $RamdiskPath/pv-live.graph
-	echo 0 > $RamdiskPath/pv.graph
+#NC	echo 0 > $RamdiskPath/pv.graph
 	echo 0 > $RamdiskPath/pv1watt
 	echo 0 > $RamdiskPath/pv2a1
 	echo 0 > $RamdiskPath/pv2a2
@@ -284,23 +284,23 @@ initRamdisk(){
 	touch $RamdiskPath/abgesteckthooklp1aktiv # benötigt damit der Abgesteckt-WebHook nicht beim Neustart auslöst
 
 	# standard socket
-	echo 0 > $RamdiskPath/socketa
-	echo 0 > $RamdiskPath/socketv
-	echo 0 > $RamdiskPath/socketp
-	echo 0 > $RamdiskPath/socketpf
-	echo 0 > $RamdiskPath/socketkwh
-	echo 0 > $RamdiskPath/socketApproved
-	echo 0 > $RamdiskPath/socketActivated
-	echo 0 > $RamdiskPath/socketActivationRequested
+#	echo 0 > $RamdiskPath/socketa
+#	echo 0 > $RamdiskPath/socketv
+#	echo 0 > $RamdiskPath/socketp
+#	echo 0 > $RamdiskPath/socketpf
+#	echo 0 > $RamdiskPath/socketkwh
+#	echo 0 > $RamdiskPath/socketApproved
+#	echo 0 > $RamdiskPath/socketActivated
+#	echo 0 > $RamdiskPath/socketActivationRequested
 
 	# diverse Dateien
-	echo 0 > $RamdiskPath/AllowedTotalCurrentPerPhase
-	echo 0 > $RamdiskPath/ChargingVehiclesOnL1
-	echo 0 > $RamdiskPath/ChargingVehiclesOnL2
-	echo 0 > $RamdiskPath/ChargingVehiclesOnL3
-	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL1
-	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL2
-	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL3
+#NC	echo 0 > $RamdiskPath/AllowedTotalCurrentPerPhase
+#NC	echo 0 > $RamdiskPath/ChargingVehiclesOnL1
+#NC	echo 0 > $RamdiskPath/ChargingVehiclesOnL2
+#NC	echo 0 > $RamdiskPath/ChargingVehiclesOnL3
+#NC	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL1
+#NC	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL2
+#NC	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL3
 	echo 0 > $RamdiskPath/autolocktimer
 	echo 0 > $RamdiskPath/blockall
 #NC	echo 0 > $RamdiskPath/date-live.graph
@@ -310,14 +310,14 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/etproviderprice
 	touch $RamdiskPath/etprovidergraphlist
 #NC	echo 0 > $RamdiskPath/ev-live.graph
-	echo 0 > $RamdiskPath/ev.graph
+#NC	echo 0 > $RamdiskPath/ev.graph
 	echo 0 > $RamdiskPath/evseausgelesen
 	echo 0 > $RamdiskPath/glattwattbezug
 	echo 0 > $RamdiskPath/hausverbrauch
 	echo 0 > $RamdiskPath/ipaddress
 	echo 0 > $RamdiskPath/ledstatus
 	echo 0 > $RamdiskPath/netzschutz
-	echo 0 > $RamdiskPath/randomSleepValue
+#NC	echo 0 > $RamdiskPath/randomSleepValue
 	echo 0 > $RamdiskPath/renewmqtt
 	echo 0 > $RamdiskPath/rseaktiv
 	echo 0 > $RamdiskPath/rsestatus
@@ -424,11 +424,11 @@ initRamdisk(){
 #		"mqttlademstatlp6:-1" \
 #		"mqttlademstatlp7:-1" \
 #		"mqttlademstatlp8:-1" \
+#		"mqttRandomSleepValue:-1" \
 
 # init other files
 	for f in \
 		"mqttCp1Configured:-1" \
-		"mqttRandomSleepValue:-1" \
 		"mqttabschaltuberschuss:-1" \
 		"mqttabschaltverzoegerung:-1" \
 		"mqttadaptfaktor:-1" \
