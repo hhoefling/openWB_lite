@@ -1,4 +1,4 @@
-**Service unter Streatch**
+**Service unter Stretch**
 
 ```
 /etc# service --status-all
