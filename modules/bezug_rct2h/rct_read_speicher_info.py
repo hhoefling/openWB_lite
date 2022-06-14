@@ -32,7 +32,14 @@ def main():
             ms4       = rct_lib.add_by_name(MyTab, "battery.module_sn[3]") 
             ms5       = rct_lib.add_by_name(MyTab, "battery.module_sn[4]") 
             ms6       = rct_lib.add_by_name(MyTab, "battery.module_sn[5]") 
-            rct_lib.add_by_name(MyTab, "battery.module_sn[6]") 
+            ms7		  = rct_lib.add_by_name(MyTab, "battery.module_sn[6]") 
+            sc1		  = rct_lib.add_by_name(MyTab, "battery.stack_cycles[0]")
+            sc2 	  = rct_lib.add_by_name(MyTab, "battery.stack_cycles[1]")
+            sc3       = rct_lib.add_by_name(MyTab, "battery.stack_cycles[2]")
+            sc4       = rct_lib.add_by_name(MyTab, "battery.stack_cycles[3]")
+            sc5       = rct_lib.add_by_name(MyTab, "battery.stack_cycles[4]")
+            sc6       = rct_lib.add_by_name(MyTab, "battery.stack_cycles[5]")
+            sc7       = rct_lib.add_by_name(MyTab, "battery.stack_cycles[6]")
             Stat1     = rct_lib.add_by_name(MyTab, "battery.status")
             Stat2     = rct_lib.add_by_name(MyTab, "battery.status2") 
             Stor      = rct_lib.add_by_name(MyTab, "battery.stored_energy") 
@@ -44,13 +51,6 @@ def main():
             rct_lib.add_by_name(MyTab, "battery.soc_target_high")
             rct_lib.add_by_name(MyTab, "battery.soc_target_low")
             rct_lib.add_by_name(MyTab, "battery.soc_update_since")
-            rct_lib.add_by_name(MyTab, "battery.stack_cycles[0]")
-            rct_lib.add_by_name(MyTab, "battery.stack_cycles[1]")
-            rct_lib.add_by_name(MyTab, "battery.stack_cycles[2]")
-            rct_lib.add_by_name(MyTab, "battery.stack_cycles[3]")
-            rct_lib.add_by_name(MyTab, "battery.stack_cycles[4]")
-            rct_lib.add_by_name(MyTab, "battery.stack_cycles[5]")
-            rct_lib.add_by_name(MyTab, "battery.stack_cycles[6]")
             rct_lib.add_by_name(MyTab, "battery.stack_software_version[0]")
             rct_lib.add_by_name(MyTab, "battery.stack_software_version[1]")
             rct_lib.add_by_name(MyTab, "battery.stack_software_version[2]")
@@ -83,18 +83,17 @@ def main():
             print( "Max Cell Temp.       : "  + str(temp) + ' Grad' )
 
             if  str(ms1.value)>"  ":
-                print( "Batt.Pack 1 SN       : "  + str(ms1.value) )
+                print( "Batt.Pack 1 SN       : "  + str(ms1.value) + " (" + str(sc1.value) + " Zyklen)")
             if  str(ms2.value)>"  ":
-                print( "Batt.Pack 2 SN       : "  + str(ms2.value) )
+                print( "Batt.Pack 2 SN       : "  + str(ms2.value) + " (" + str(sc2.value) + " Zyklen)")
             if  str(ms3.value)>"  ":
-                print( "Batt.Pack 3 SN       : "  + str(ms3.value) )
+                print( "Batt.Pack 3 SN       : "  + str(ms3.value) + " (" + str(sc3.value) + " Zyklen)")
             if  str(ms4.value)>"  ":
-                print( "Batt.Pack 4 SN       : "  + str(ms4.value) )
+                print( "Batt.Pack 4 SN       : "  + str(ms4.value) + " (" + str(sc4.value) + " Zyklen)")
             if  str(ms5.value)>"  ":
-                print( "Batt.Pack 5 SN       : "  + str(ms5.value) )
+                print( "Batt.Pack 5 SN       : "  + str(ms5.value) + " (" + str(sc5.value) + " Zyklen)")
             if  str(ms6.value)>"  ":
-                print( "Batt.Pack 6 SN       : "  + str(ms6.value) )
-
+                print( "Batt.Pack 6 SN       : "  + str(ms6.value) + " (" + str(sc6.value) + " Zyklen)")
 
             print( "Batt Status 1        : "  + str(Stat1.value) )
             print( "Batt Status 2        : "  + str(Stat2.value) )
