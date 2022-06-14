@@ -356,26 +356,48 @@ else
 	openwbDebugLog "MAIN" 1 "external openWB or daemon mode not configured; checking network setup"
 	ethstate=$(</sys/class/net/eth0/carrier)
 	if (( ethstate == 1 )); then
+		eth00ip=$(ifconfig eth0:0 |grep 'inet ' |awk '{print $2}' )
+		openwbDebugLog "MAIN" 1 "check virt ip for eth0  [$eth00ip] = [$virtual_ip_eth0] "
+		if [ "$eth00ip" != "$virtual_ip_eth0" ]  ; then
+			openwbDebugLog "MAIN" 1 "virt ip changed, set it "
 		sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 up
+		else
+				openwbDebugLog "MAIN" 1 "virt ip same, nothing to do"
+		fi
+
 		if [ -d /sys/class/net/wlan0 ]; then  # wlanchip found
 			wlanstate=$(</sys/class/net/wlan0/carrier)
-			openwbDebugLog "MAIN" 1 "eth0 and wlan0 exists wlancarrier:$wlanstate"
+			openwbDebugLog "MAIN" 1 "eth0 and wlan0 exists check wlancarrier:$wlanstate"
 			if (( wlanstate == 1 )); then
-				openwbDebugLog "MAIN" 1 "now stop wlan"
+				wlan00ip=$(ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
+				openwbDebugLog "MAIN" 1 "ip wlan0:0 is [$wlan00ip]"
+				if [ "$wlan00ip" != "" ] ; then
+					openwbDebugLog "MAIN" 1 "remove virt ip for wlan"
 				sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 down
 				wlanstate=$(</sys/class/net/wlan0/carrier)
 				if (( wlanstate == 1 )); then
-					sudo systemctl stop hostapd
-					sudo systemctl stop dnsmasq
+						openwbDebugLog "MAIN" 1 "now stop hostapd and dnsmasq"
+						sudo systemctl stop hostapd >/dev/null 2>&1
+						sudo systemctl stop dnsmasq >/dev/null 2>&1
+					fi
 				fi
 			fi
 		fi
+		
 	else
-		if [ -d /sys/class/net/wlan0 ]; then
-			sudo ifconfig wlan0:0 $virtual_ip_wlan0 netmask 255.255.255.0 up
+		if [ -d /sys/class/net/wlan0 ]; then  # Wlan Chip found
+			openwbDebugLog "MAIN" 1 "set virt ip for wlan"
+			wlan00ip=$(ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
+			openwbDebugLog "MAIN" 1 "ip wlan0:0 [$wlan00ip]"
+			if [ "$wlan00ip" != "$virtual_ip_wlan0" ]  ; then
+				openwbDebugLog "MAIN" 1 "virt ip changed, set it "
+				sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 up
+	else
+				openwbDebugLog "MAIN" 1 "virt ip same, nothing to do"
 		fi
-		sudo ifconfig eth0:0 $virtual_ip_eth0 netmask 255.255.255.0 down
 	fi
+	fi
+
 	# check for obsolete isss handler
 	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/isss.py" > /dev/null
 	then
