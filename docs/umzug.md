@@ -79,6 +79,15 @@ session     [success=1 default=ignore] pam_succeed_if.so service in cron quiet u
 session required        pam_unix.so
 ```
 
+File: **/etc/pam.d/sudo**
+
+Oben einfügen
+```
+session [success=done default=ignore] pam_succeed_if.so quiet uid = 0 user = root ruser = pi
+session    required   pam_env.so readenv=1 user_readenv=0
+session    required   pam_env.so readenv=1 envfile=/etc/default/locale user_readenv=0
+```
+
 File: **/etc/sudoers**
 
 Oben unter den anderen "Defaults" Zeilen folgen drei Zeilen einfügen
