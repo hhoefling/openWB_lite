@@ -1,5 +1,6 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+	error_log('Diese Seite muss als HTTP-POST aufgerufen werden.');
 	exit('Diese Seite muss als HTTP-POST aufgerufen werden.');
 }
 ?>
@@ -95,8 +96,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		// return to theme on error
 		echo "<script>window.location.href='index.php';</script>";
 	}
-//HH	// if successfully saved to config, start update
-//HH  	echo "<script>window.location.href='settings/executeupdate.php';</script>";
 ?>
 	</body>
 </html>
