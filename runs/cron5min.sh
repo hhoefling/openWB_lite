@@ -360,12 +360,12 @@ else
 		openwbDebugLog "MAIN" 1 "check virt ip for eth0  [$eth00ip] = [$virtual_ip_eth0] "
 		if [ "$eth00ip" != "$virtual_ip_eth0" ]  ; then
 			openwbDebugLog "MAIN" 1 "virt ip changed, set it "
-		sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 up
+			sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 up
 		else
 				openwbDebugLog "MAIN" 1 "virt ip same, nothing to do"
 		fi
 
-		if [ -d /sys/class/net/wlan0 ]; then  # wlanchip found
+		if [ -d /sys/class/net/wlan0 ]; then  			# wlanchip found
 			wlanstate=$(</sys/class/net/wlan0/carrier)
 			openwbDebugLog "MAIN" 1 "eth0 and wlan0 exists check wlancarrier:$wlanstate"
 			if (( wlanstate == 1 )); then
@@ -373,9 +373,9 @@ else
 				openwbDebugLog "MAIN" 1 "ip wlan0:0 is [$wlan00ip]"
 				if [ "$wlan00ip" != "" ] ; then
 					openwbDebugLog "MAIN" 1 "remove virt ip for wlan"
-				sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 down
-				wlanstate=$(</sys/class/net/wlan0/carrier)
-				if (( wlanstate == 1 )); then
+					sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 down
+					wlanstate=$(</sys/class/net/wlan0/carrier)
+					if (( wlanstate == 1 )); then
 						openwbDebugLog "MAIN" 1 "now stop hostapd and dnsmasq"
 						sudo systemctl stop hostapd >/dev/null 2>&1
 						sudo systemctl stop dnsmasq >/dev/null 2>&1
@@ -392,18 +392,19 @@ else
 			if [ "$wlan00ip" != "$virtual_ip_wlan0" ]  ; then
 				openwbDebugLog "MAIN" 1 "virt ip changed, set it "
 				sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 up
-	else
+			else
 				openwbDebugLog "MAIN" 1 "virt ip same, nothing to do"
+			fi
 		fi
-	fi
 	fi
 
 	# check for obsolete isss handler
 	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/isss.py" > /dev/null
-	then
-		sudo kill $(ps aux |grep '[i]sss.py' | awk '{print $2}')
+		then
+			sudo kill $(ps aux |grep '[i]sss.py' | awk '{print $2}')
 	fi
 fi
+
 
 # if this is a socket system check for our handler to control the socket lock
 if [[ "$evsecon" == "buchse" ]] && [[ "$isss" == "0" ]]; then
