@@ -15,7 +15,6 @@ if($arch=="x86_64")
 	$cputemp = 44440;
 	$cpufreq = 1111000;
 	$wlanaddr = '';
-	$ethaddr2 = '';
 	$wlanaddr2 = '';
 	$wlanqualy ='';
 	$wlanbitrate = '';
@@ -31,7 +30,6 @@ else
 	$cputemp = exec("cat /sys/class/thermal/thermal_zone0/temp");	
 	$cpufreq = exec("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq");
 	$wlanaddr = exec("ifconfig wlan0 |grep 'inet ' |awk '{print $2}'");
-	$ethaddr2 = exec("ifconfig eth0:0 |grep 'inet ' |awk '{print $2}'");
 	$wlanaddr2 = exec("ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}'");
 	$wlanqualy = exec("iwconfig wlan0 |grep 'Link'");
 	$wlanbitrate = exec("iwconfig wlan0 |grep 'Bit'");
@@ -53,6 +51,7 @@ $tmpfree=exec("df -h | grep  ramdisk | awk '{print $4}'");
 $tmpusedprz=exec("df -h | grep  ramdisk | awk '{print $5}'");
 
 $ethaddr = exec("ifconfig eth0 |grep 'inet ' |awk '{print $2}'");
+$ethaddr2 = exec("ifconfig eth0:0 |grep 'inet ' |awk '{print $2}'");
 
 $arr = array(
 	'board' => trim($board),
