@@ -1248,9 +1248,9 @@ function processSmartHomeDevicesConfigMessages(mqttmsg, mqttpayload) {
 		var parent = $('[data-dev="' + index + '"]');  // get parent row element for SH Device
 		var element = parent.find('.actualModeDevice');  // now get parents respective child element
 		if (mqttpayload == 0) {
-			actualMode = "Automatik"
+			actualMode = "Auto"
 		} else {
-			actualMode = "Manuell"
+			actualMode = "Man."
 		}
 		element.text(actualMode);
 		$('.nameDevice').each(function () {  // check all elements of class '.nameDevice'

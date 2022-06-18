@@ -53,19 +53,6 @@ Der Test-Raspi wurde mit einer Kopie der original-SD Karte betrieben.
 
 **Reduzierung der /var/log/auth.log die sonst pro Minute um mehrer Zeilen wächst.**
 
-File: **/etc/pam.d/sudo**
-
-```
-#%PAM-1.0
-#>>>--- Added.
-session [success=done default=ignore] pam_succeed_if.so quiet uid = 0 user = root ruser = pi
-session    required   pam_env.so readenv=1 user_readenv=0
-session    required   pam_env.so readenv=1 envfile=/etc/default/locale user_readenv=0
-#<<<--End Added
-@include common-auth
-@include common-account
-@include common-session-noninteractive
-```
 
 File: **/etc/pam.d/common-session-noninteractive**
 

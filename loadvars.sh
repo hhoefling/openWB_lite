@@ -628,6 +628,7 @@ loadvars(){
 		echo "$ladeleistung" > /var/www/html/openWB/ramdisk/llkombiniert
 		ladeleistungs2="0"
 		ladeleistunglp3=0
+		ladestatuss2=0
         llas21=0
         llas22=0
         llas23=0
