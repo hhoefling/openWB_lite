@@ -147,7 +147,7 @@ def decode_value(data_type, data):
         else:
             return binascii.hexlify(data)
     except Exception  as e:
-        raise(e)
+        #raise(e)
         return binascii.hexlify(data)
 
 # encode a value according to the id data type
