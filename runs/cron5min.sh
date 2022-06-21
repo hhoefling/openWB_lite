@@ -69,9 +69,8 @@ speichere=$(<$RAMDISKDIR/speicherekwh)
 speichersoc=$(<$RAMDISKDIR/speichersoc)
 verbraucher1=$(<$RAMDISKDIR/verbraucher1_wh)
 verbraucher2=$(<$RAMDISKDIR/verbraucher2_wh)
-verbraucher3=$(<$RAMDISKDIR/verbraucher3_wh)
-verbrauchere1=$(<$RAMDISKDIR/verbraucher1_whe)
-verbrauchere2=$(<$RAMDISKDIR/verbraucher2_whe)
+# verbraucher3=$(<$RAMDISKDIR/verbraucher3_wh)
+verbraucher3NC=0  # NC
 temp1=$(<$RAMDISKDIR/device1_temp0)
 temp2=$(<$RAMDISKDIR/device1_temp1)
 temp3=$(<$RAMDISKDIR/device1_temp2)
@@ -103,7 +102,7 @@ if ! [[ -e "$headfile.csv" ]] ; then
   echo "date,bezug,einspeisung,pv,ll1,ll2,ll3,llg,speicheri,speichere,verbraucher1,verbrauchere1,verbraucher2,verbrauchere2,verbraucher3,ll4,ll5,ll6,ll7,ll8,speichersoc,soc,soc1,temp1,temp2,temp3,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,temp4,temp5,temp6" >> $headfile.csv
   openwbDebugLog "MAIN" 1 "daily headline created: $headfile.csv"
 fi
-echo $(date +%H%M),$bezug,$einspeisung,$pv,$ll1,$ll2,$ll3,$llg,$speicheri,$speichere,$verbraucher1,$verbrauchere1,$verbraucher2,$verbrauchere2,$verbraucher3,$ll4,$ll5,$ll6,$ll7,$ll8,$speichersoc,$soc,$soc1,$temp1,$temp2,$temp3,$d1,$d2,$d3,$d4,$d5,$d6,$d7,$d8,$d9,$d10,$temp4,$temp5,$temp6 >> $dailyfile.csv
+echo $(date +%H%M),$bezug,$einspeisung,$pv,$ll1,$ll2,$ll3,$llg,$speicheri,$speichere,$verbraucher1,$verbrauchere1,$verbraucher2,$verbrauchere2,$verbraucher3NC,$ll4,$ll5,$ll6,$ll7,$ll8,$speichersoc,$soc,$soc1,$temp1,$temp2,$temp3,$d1,$d2,$d3,$d4,$d5,$d6,$d7,$d8,$d9,$d10,$temp4,$temp5,$temp6 >> $dailyfile.csv
 openwbDebugLog "MAIN" 1 "daily csv updated: $dailyfile.csv"
 
 # grid protection
@@ -170,11 +169,11 @@ fi
 openwbDebugLog "MAIN" 1 "updating daily yield stats"
 pvkwh=$pv
 pvdailyyieldstart=$(head -n 1 $dailyfile.csv)
-
+# Komma getrennte Integer und floats mit .
 pvyieldcount=0
 for i in ${pvdailyyieldstart//,/ }
 do
-	# pv
+
 	pvyieldcount=$((pvyieldcount + 1 ))
 	if (( pvyieldcount == 2 )); then
 		bezugdailyyield=$(echo "scale=2;($bezug - $i) / 1000" |bc)
@@ -219,10 +218,11 @@ do
 		verbrauchere2dailyyield=$(echo "scale=2;($verbrauchere2 - $i) / 1000" |bc)
 		echo "$verbrauchere2dailyyield" > "$RAMDISKDIR/daily_verbraucher2ekwh"
 	fi
-	if (( pvyieldcount == 15 )); then
-		verbraucher3dailyyield=$(echo "scale=2;($verbraucher3 - $i) / 1000" |bc)
-		echo "$verbraucher3dailyyield" > "$RAMDISKDIR/daily_verbraucher3ikwh"
-	fi
+#	if (( pvyieldcount == 15 )); then
+#		verbraucher3dailyyield=$(echo "scale=2;($verbraucher3NC - $i) / 1000" |bc)
+#		echo "$verbraucher3dailyyield" > "$RAMDISKDIR/daily_verbraucher3ikwh"
+#	fi
+     verbraucher3dailyyieldNC=0 # NC
 	# smarthome 2.0 devices
 	if (( pvyieldcount == 27 )); then
 		d1dailyyield=$(echo "scale=2;($d1 - $i) / 1000" |bc)
@@ -293,8 +293,8 @@ if (( d9haus == 1 )); then
 fi
 #echo $(date +%H%M),$d1haus,$d2haus,$d3haus,$d4haus,$d5haus,$d6haus,$d7haus,$d8haus,$d9haus, $d1dailyyield ,$d2dailyyield , $d3dailyyield , $d4dailyyield , $d5dailyyield , $d6dailyyield , $d7dailyyield , $d8dailyyield , $d9dailyyield  >> $RAMDISKDIR/alog.log
 # now calculate the house consumption daily yield as difference of measured input and output
-#echo $(date +%H%M),$bezugdailyyield + $pvdailyyield - $lladailyyield + $sedailyyield - $sidailyyield - $einspeisungdailyyield - $d1dailyyield - $d2dailyyield - $d3dailyyield - $d4dailyyield - $d5dailyyield - $d6dailyyield - $d7dailyyield - $d8dailyyield - $d9dailyyield - $verbraucher1dailyyield + $verbrauchere1dailyyield - $verbraucher2dailyyield + $verbrauchere2dailyyield - $verbraucher3dailyyield   >> $RAMDISKDIR/alog.log
-hausdailyyield=$(echo "scale=2;$bezugdailyyield + $pvdailyyield - $lladailyyield + $sedailyyield - $sidailyyield - $einspeisungdailyyield - $d1dailyyield - $d2dailyyield - $d3dailyyield - $d4dailyyield - $d5dailyyield - $d6dailyyield - $d7dailyyield - $d8dailyyield - $d9dailyyield - $verbraucher1dailyyield + $verbrauchere1dailyyield - $verbraucher2dailyyield + $verbrauchere2dailyyield - $verbraucher3dailyyield" | bc)
+#echo $(date +%H%M),$bezugdailyyield + $pvdailyyield - $lladailyyield + $sedailyyield - $sidailyyield - $einspeisungdailyyield - $d1dailyyield - $d2dailyyield - $d3dailyyield - $d4dailyyield - $d5dailyyield - $d6dailyyield - $d7dailyyield - $d8dailyyield - $d9dailyyield - $verbraucher1dailyyield + $verbrauchere1dailyyield - $verbraucher2dailyyield + $verbrauchere2dailyyield - $verbraucher3dailyyieldNC   >> $RAMDISKDIR/alog.log
+hausdailyyield=$(echo "scale=2;$bezugdailyyield + $pvdailyyield - $lladailyyield + $sedailyyield - $sidailyyield - $einspeisungdailyyield - $d1dailyyield - $d2dailyyield - $d3dailyyield - $d4dailyyield - $d5dailyyield - $d6dailyyield - $d7dailyyield - $d8dailyyield - $d9dailyyield - $verbraucher1dailyyield + $verbrauchere1dailyyield - $verbraucher2dailyyield + $verbrauchere2dailyyield - $verbraucher3dailyyieldNC" | bc)
 echo "$hausdailyyield" > "$RAMDISKDIR/daily_hausverbrauchkwh"
 
 # get our current ip address (prepared for Buster)

@@ -100,9 +100,9 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/progevsedinlp2
 	echo 0 > $RamdiskPath/progevsedinlp22000
 	echo 0 > $RamdiskPath/progevsedinlp22007
-	echo 0 > $RamdiskPath/progevsedinlp3
-	echo 0 > $RamdiskPath/progevsedinlp32000
-	echo 0 > $RamdiskPath/progevsedinlp32007
+#NC	echo 0 > $RamdiskPath/progevsedinlp3
+#NC	echo 0 > $RamdiskPath/progevsedinlp32000
+#NC	echo 0 > $RamdiskPath/progevsedinlp32007
 	echo 0 > $RamdiskPath/cpulp1counter
 	echo 0 > $RamdiskPath/soc
 #NC	echo 0 > $RamdiskPath/soc-live.graph
@@ -271,13 +271,14 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/hook2akt
 	echo 0 > $RamdiskPath/hook2einschaltverzcounter
 	echo 0 > $RamdiskPath/hook3akt
+	echo 0 > $RamdiskPath/hook3einschaltverzcounter      # fehlte
 	echo $verbraucher1_name > $RamdiskPath/verbraucher1_name
 	echo $verbraucher2_name > $RamdiskPath/verbraucher2_name
 	echo 0 > $RamdiskPath/daily_verbraucher1ekwh
 	echo 0 > $RamdiskPath/daily_verbraucher1ikwh
 	echo 0 > $RamdiskPath/daily_verbraucher2ekwh
 	echo 0 > $RamdiskPath/daily_verbraucher2ikwh
-	echo 0 > $RamdiskPath/daily_verbraucher3ikwh
+#	echo 0 > $RamdiskPath/daily_verbraucher3ikwh
 	echo 0 > $RamdiskPath/verbraucher1_watt
 	echo 0 > $RamdiskPath/verbraucher1_wh
 	echo 0 > $RamdiskPath/verbraucher1_whe
@@ -286,9 +287,10 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/verbraucher2_wh
 	echo 0 > $RamdiskPath/verbraucher2_whe
 	echo 0 > $RamdiskPath/verbraucher2vorhanden
-	echo 0 > $RamdiskPath/verbraucher3_watt
-	echo 0 > $RamdiskPath/verbraucher3_wh
-	echo 0 > $RamdiskPath/verbraucher3vorhanden
+#	echo 0 > $RamdiskPath/verbraucher3_watt
+#	echo 0 > $RamdiskPath/verbraucher3_wh
+#	echo 0 > $RamdiskPath/verbraucher3_whe
+#	echo 0 > $RamdiskPath/verbraucher3vorhanden
 	touch $RamdiskPath/ladestophooklp1aktiv # benötigt damit der Ladestopp-WebHook nicht beim Neustart auslöst
 	touch $RamdiskPath/abgesteckthooklp1aktiv # benötigt damit der Abgesteckt-WebHook nicht beim Neustart auslöst
 
