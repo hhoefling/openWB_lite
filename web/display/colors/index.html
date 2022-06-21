@@ -256,7 +256,7 @@
                     </div>
                   </div>
                   <div class="form-row justify-content-end">
-                    <div class="col-4 hide" id="homebutton>
+                    <div class="col-4 hide" id="homebutton">
                       <button class="btn btn-block btn-danger displayButton homeBtn" type="button">
                         Home
                       </button>
@@ -927,12 +927,13 @@
         displaylocked = false;
         $('#displaylock').find('.fa-lock').addClass('hide');
         $('#displaylock').find('.fa-unlock').removeClass('hide');
+        $("#homebutton").removeClass("hide");
         lockTimeoutHandler = window.setTimeout(lockDisplay, lockTimeout);
       } else {
         displaylocked = true;
         $('#displaylock').find('.fa-lock').removeClass('hide');
         $('#displaylock').find('.fa-unlock').addClass('hide');
-
+		$("#homebutton").addClass("hide");
         window.clearTimeout(lockTimeoutHandler);
         lockTimeoutHandler = null;
       }
