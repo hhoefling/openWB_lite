@@ -169,7 +169,7 @@ if (( displayaktiv == 1 )); then
 	fi
 	log "deleting browser cache"
 	rm -rf /home/pi/.cache/chromium
-	sudo runs/displaybacklight.sh $displayLight
+	sudo /var/www/html/openWB/runs/displaybacklight.sh $displayLight
 fi
 
 # restart smarthomehandler
