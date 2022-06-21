@@ -116,7 +116,7 @@ function makedatetime($start,$f)
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>OpenWB Ladelog</title>
+		<title>OpenWB Ladelog Excel Export</title>
 		<meta name="description" content="Control your charge" />
 		<meta name="author" content="Kevin Wieland" />
 		<!-- Favicons (created with http://realfavicongenerator.net/)-->
@@ -171,7 +171,7 @@ function makedatetime($start,$f)
 	<body>
 		<div id="nav"></div> <!-- placeholder for navbar -->
 		<div role="main" class="container">
-			<h1>Lade-Log Export</h1>
+			<h1>Lade-Log Excel-Export</h1>
 			<div class="card border-secondary">
 				<div class="card-header bg-secondary">
 					Aufgezeichnete Logdateien
@@ -225,7 +225,7 @@ function makedatetime($start,$f)
 
 		<footer class="footer bg-dark text-light font-small">
 			<div class="container text-center">
-				<small>Sie befinden sich hier: <a href="logging/chargelog/ladelog.php">Lade-Log</a> - Lade-Log Export</small>
+				<small>Sie befinden sich hier: <a href="logging/chargelog/ladelog.php">Lade-Log</a> - Lade-Log Excel Export</small>
 			</div>
 		</footer>
 

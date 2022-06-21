@@ -1,25 +1,8 @@
 <?php
-
-function makedatetime($start,$f)
-{
-  //echo "$start;$f;";
-  
-   preg_match('/(.*)-(.*)/',$start,$xx);
-   $day=$xx[1];
-   $vonuhr=$xx[2];
-   preg_match('/(.*)-(.*)/',$f,$xx);
-   $bisuhr=$xx[2];
-   
-   echo "$day;$vonuhr - $bisuhr;";
-}
-
-
-
  if( $_GET['do']=='export')
  {
    $dates='';
    $year=0;
-   $fn='';
 
    if( isset($_GET['date']) )
    {
@@ -27,7 +10,9 @@ function makedatetime($start,$f)
       $fin="/var/www/html/openWB/web/logging/data/ladelog/$dates.csv";
       $file=file($fin);
       asort($file);
-      $fn='Ladelog_'.$dates.'.csv';
+   	  header('Content-Type: application/csv; charset=UTF-8');
+   	  header('Content-Disposition: attachment;filename="Ladelog_'.$dates.'.csv";');
+	  
    }
    else if ( isset($_GET['year']) )
    {
@@ -49,21 +34,13 @@ function makedatetime($start,$f)
                $file[]=$line;
         }  
       }
-      $fn='Ladelog_'.$year.'.csv';
+   header('Content-Type: application/csv; charset=UTF-8');
+      header('Content-Disposition: attachment;filename="ladelog_'.$year.'.csv";');
    }
 
-   
-   header('Content-Type: application/csv; charset=UTF-8');
-   header('Content-Disposition: attachment;filename="'.$fn.'";');
-
-   // Haben wir den Kilometerstand vom Ladestart im Ladelog ?   
-   if(file_exists('/var/www/html/openWB/ramdisk/soc1KM'))
-       $head="Tag;Zeit;Km;Kwh;Lade Kw;Ladezeit;Ladepunkt;Lademodus;RFID;Km-Stand\n";
-   else 
-       $head="Tag;Zeit;Km;Kwh;Lade Kw;Ladezeit;Ladepunkt;Lademodus;RFID\n";
-
+   		$head[]="Start;Ende;Km;Kwh;Lade KW;Ladezeit;Ladepunkt;Lademodus;RFID;Km\n";
   // kopfzeile mit ;
-   echo str_replace(",",";",$head);
+   		echo str_replace(",",";",$head[0]);
    // daten mit ; und "," als dezimaltrenner
    foreach($file as $line)
      {
@@ -75,9 +52,8 @@ function makedatetime($start,$f)
               $f=trim($f);
               switch($idx)
               {
-               case 1: $starts=$f;
-                       break;
-               case 2: makedatetime($starts,$f);
+         		case 1:
+         		case 2: echo $f.";";
                        break;
                case 6: echo str_replace('H','Std',$f).";";
                        break;
@@ -88,7 +64,7 @@ function makedatetime($start,$f)
                                 break;
                         case 1: echo "Min+PV;";
                                 break;
-                        case 2: echo "Nur PV;";
+		                  case 2: echo "PV;";
                                 break;
                         case 7: echo "Nachtladen;";
                                 break;
@@ -103,6 +79,11 @@ function makedatetime($start,$f)
         } 
         echo "\n";
     }
+ 		
+   exit;
+   echo "<pre>";
+   print_r($GLOBALS); 
+   echo "</pre>";
     exit;
  }
 
