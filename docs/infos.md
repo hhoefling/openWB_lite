@@ -101,7 +101,7 @@ Die neue OLC-Auflösung mit 0,01A (ab FW18 mgl.)
 2002: Min. Current Value 6
 2003: Analog Input Config 1
 2004: Amps after boot (evse-button) 0
-2005: Register 2005 8192
+2005: Register 2005 8192    bit 7 enables 0.01A Steps in 1000 ab FW17
 2006: Current Sharing Mode 0
 2007: PP-Detection 0 
 2009: BootFirmware;  (??)
