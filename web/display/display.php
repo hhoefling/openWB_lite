@@ -13,6 +13,9 @@ if ($isssold == 1) {
 	} else {
 		// das gewählte Theme einbinden
 		switch ($displaythemeold) {
+			case -1:
+				include 'simple/index.php';
+		        break;
 			case 1:
 				include './gauges/index.php';
 				break;
@@ -26,7 +29,7 @@ if ($isssold == 1) {
 				include './yourcharge/index.php';
 				break;
 			case 5:
-				include './colors/index.php';
+				include './colors/index.html';
 				break;
 			default:
 				include './cards/index.html';

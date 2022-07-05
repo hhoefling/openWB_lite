@@ -101,19 +101,19 @@ isnacht()  # $1 $2 $3
         ok=1
        fi ;;
   esac
-  openwbDebugLog "MAIN" 0 "isnacht ($abuhr -- $bisuhr) m:$mode ---> $ok" 
+  openwbDebugLog "MAIN" 1 "isnacht ($abuhr -- $bisuhr) m:$mode ---> $ok" 
   return $ok
 }
 
 
 
-nachtlademodus(){
+private_nachtlademodus(){
 	if [[ $nachtladen == "1" ]]; then
         isnacht 10#$H 10#$nachtladenabuhr 10#$nachtladenbisuhr
         doit=$?
 		if [ $doit -eq 1 ] ; then
 #		if (( nachtladenabuhr <= 10#$H && 10#$H <= 24 )) || (( 0 <= 10#$H && 10#$H < nachtladenbisuhr )); then
-      openwbDebugLog "MAIN" 0 "nachtladen Year doit LP1" 
+      		openwbDebugLog "MAIN" 0 "nachtladen Year doit LP1" 
 			nachtladenstate=1
 			dayoftheweek=$(date +%w)
 			currenthour=$(date +%k)
@@ -125,29 +125,29 @@ nachtlademodus(){
 			if [[ $socmodul != "none" ]]; then
 			  openwbDebugLog "MAIN" 1 "nachtladen LP1 mit socmodul $socmodul (soc:$soc ds:$disersoc ns:$nachtsoc ns2:$nachtsoc1)"
 			  if (( soc < diesersoc ||  diesersoc == 100 )) ; then
-					if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+					if grep -q 0 ramdisk/ladestatus; then
 						llnachtneu=$nachtll
 						#runs/set-current.sh "$nachtll" m
 						openwbDebugLog "MAIN" 1 "soc $soc ladeleistung nachtladen bei $nachtll"
 					fi
-					if ! grep -q $nachtll "/var/www/html/openWB/ramdisk/llsoll"; then
+					if ! grep -q $nachtll ramdisk/llsoll; then
 						llnachtneu=$nachtll
 						#runs/set-current.sh "$nachtll" m
 						openwbDebugLog "MAIN" 1 "aendere nacht Ladeleistung auf $nachtll"
 					fi
 				else
-					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
+					if grep -q 1 ramdisk/ladestatus; then
 						llnachtneu=0
 						#runs/set-current.sh 0 m
 					fi
 				fi
 			else
-				if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 0 ramdisk/ladestatus; then
 					llnachtneu=$nachtll
 					#runs/set-current.sh "$nachtll" m
 					openwbDebugLog "MAIN" 1 "soc $soc ladeleistung nachtladen $nachtll A"
 				else
-					if ! grep -q $nachtll "/var/www/html/openWB/ramdisk/llsoll"; then
+					if ! grep -q $nachtll ramdisk/llsoll; then
 						llnachtneu=$nachtll
 						#runs/set-current.sh "$nachtll" m
 						openwbDebugLog "MAIN" 1 "aendere nacht Ladeleistung auf $nachtll"
@@ -167,12 +167,12 @@ nachtlademodus(){
 		if (( dayoftheweek == 0 )); then
 			if [[ "$currenttime" > "$mollp1soab" ]] && [[ "$currenttime" < "$mollp1sobis" ]]; then
 				nachtladen2state=1
-				if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 0 ramdisk/ladestatus; then
 					llnachtneu=$mollp1soll
 					openwbDebugLog "CHARGESTAT" 0 "Sonntag morgens Laden gestartet mit $mollp1soll A"
 					openwbDebugLog "MAIN" 1 "ladeleistung Sonntag morgens Laden $mollp1soll A"
 				else
-					if ! grep -q $mollp1soll "/var/www/html/openWB/ramdisk/llsoll"; then
+					if ! grep -q $mollp1soll ramdisk/llsoll; then
 						llnachtneu=$mollp1soll
 						openwbDebugLog "MAIN" 1 "aendere ladeleistung Sonntag morgens Laden $mollp1soll A"
 					fi
@@ -189,12 +189,12 @@ nachtlademodus(){
 		if (( dayoftheweek == 1 )); then
 			if [[ "$currenttime" > "$mollp1moab" ]] && [[ "$currenttime" < "$mollp1mobis" ]]; then
 				nachtladen2state=1
-				if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 0 ramdisk/ladestatus; then
 					llnachtneu=$mollp1moll
 					openwbDebugLog "CHARGESTAT" 0 "Montag morgens Laden gestartet mit $mollp1moll A"
 					openwbDebugLog "MAIN" 1 "ladeleistung Sonntag morgens Laden $mollp1moll A"
 				else
-					if ! grep -q $mollp1moll "/var/www/html/openWB/ramdisk/llsoll"; then
+					if ! grep -q $mollp1moll ramdisk/llsoll; then
 						llnachtneu=$mollp1moll
 						openwbDebugLog "MAIN" 1 "aendere ladeleistung Montag morgens Laden $mollp1moll A"
 					fi
@@ -211,12 +211,12 @@ nachtlademodus(){
 		if (( dayoftheweek == 2 )); then
 			if [[ "$currenttime" > "$mollp1diab" ]] && [[ "$currenttime" < "$mollp1dibis" ]]; then
 				nachtladen2state=1
-				if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 0 ramdisk/ladestatus; then
 					llnachtneu=$mollp1dill
 					openwbDebugLog "CHARGESTAT" 0 "Dienstag morgens Laden gestartet mit $mollp1dill A"
 					openwbDebugLog "MAIN" 1 "ladeleistung Dienstag morgens Laden $mollp1dill A"
 				else
-					if ! grep -q $mollp1dill "/var/www/html/openWB/ramdisk/llsoll"; then
+					if ! grep -q $mollp1dill ramdisk/llsoll; then
 						llnachtneu=$mollp1dill
 						openwbDebugLog "MAIN" 1 "aendere ladeleistung Dienstag morgens Laden $mollp1dill A"
 					fi
@@ -233,12 +233,12 @@ nachtlademodus(){
 		if (( dayoftheweek == 3 )); then
 			if [[ "$currenttime" > "$mollp1miab" ]] && [[ "$currenttime" < "$mollp1mibis" ]]; then
 				nachtladen2state=1
-				if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 0 ramdisk/ladestatus; then
 					llnachtneu=$mollp1mill
 					openwbDebugLog "CHARGESTAT" 0 "Mittwoch morgens Laden gestartet mit $mollp1mill A"
 					openwbDebugLog "MAIN" 1 "ladeleistung Mittwoch morgens Laden $mollp1mill A"
 				else
-					if ! grep -q $mollp1mill "/var/www/html/openWB/ramdisk/llsoll"; then
+					if ! grep -q $mollp1mill ramdisk/llsoll; then
 						llnachtneu=$mollp1mill
 						openwbDebugLog "MAIN" 1 "aendere ladeleistung Mittwoch morgens Laden $mollp1mill A"
 					fi
@@ -255,12 +255,12 @@ nachtlademodus(){
 		if (( dayoftheweek == 4 )); then
 			if [[ "$currenttime" > "$mollp1doab" ]] && [[ "$currenttime" < "$mollp1dobis" ]]; then
 				nachtladen2state=1
-				if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 0 ramdisk/ladestatus; then
 					llnachtneu=$mollp1doll
 					openwbDebugLog "CHARGESTAT" 0 "Donnerstag morgens Laden gestartet mit $mollp1doll A"
 					openwbDebugLog "MAIN" 1 "ladeleistung Donnerstag morgens Laden $mollp1doll A"
 				else
-					if ! grep -q $mollp1doll "/var/www/html/openWB/ramdisk/llsoll"; then
+					if ! grep -q $mollp1doll ramdisk/llsoll; then
 						llnachtneu=$mollp1doll
 						openwbDebugLog "MAIN" 1 "aendere ladeleistung Donnerstag morgens Laden $mollp1doll A"
 					fi
@@ -277,12 +277,12 @@ nachtlademodus(){
 		if (( dayoftheweek == 5 )); then
 			if [[ "$currenttime" > "$mollp1frab" ]] && [[ "$currenttime" < "$mollp1frbis" ]]; then
 				nachtladen2state=1
-				if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 0 ramdisk/ladestatus; then
 					llnachtneu=$mollp1frll
 					openwbDebugLog "CHARGESTAT" 0 "Freitag morgens Laden gestartet mit $mollp1frll A"
 					openwbDebugLog "MAIN" 1 "ladeleistung Freitag morgens Laden $mollp1frll A"
 				else
-					if ! grep -q $mollp1frll "/var/www/html/openWB/ramdisk/llsoll"; then
+					if ! grep -q $mollp1frll ramdisk/llsoll; then
 						llnachtneu=$mollp1frll
 						openwbDebugLog "MAIN" 1 "aendere ladeleistung Freitag morgens Laden $mollp1frll A"
 					fi
@@ -299,12 +299,12 @@ nachtlademodus(){
 		if (( dayoftheweek == 6 )); then
 			if [[ "$currenttime" > "$mollp1saab" ]] && [[ "$currenttime" < "$mollp1sabis" ]]; then
 				nachtladen2state=1
-				if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 0 ramdisk/ladestatus; then
 					llnachtneu=$mollp1sall
 					openwbDebugLog "CHARGESTAT" 0 "Samstag morgens Laden gestartet mit $mollp1sall A"
 					openwbDebugLog "MAIN" 1 "ladeleistung Samstag morgens Laden $mollp1sall A"
 				else
-					if ! grep -q $mollp1sall "/var/www/html/openWB/ramdisk/llsoll"; then
+					if ! grep -q $mollp1sall ramdisk/llsoll; then
 						llnachtneu=$mollp1sall
 						openwbDebugLog "MAIN" 1 "aendere ladeleistung Samstag morgens Laden $mollp1sall A"
 					fi
@@ -341,30 +341,30 @@ nachtlademodus(){
 			if [[ $socmodul1 != "none" ]]; then
 				openwbDebugLog "MAIN" 1 "nachtladen LP2 mit socmodul $socmodul1"
 				if ((  soc1 < diesersocs1  ||  diesersocs1 == 100 )) ; then
-					if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
+					if grep -q 0 ramdisk/ladestatuss1; then
 						llnachts1neu=$nachtlls1
 						#runs/set-current.sh "$nachtlls1" s1
 						openwbDebugLog "MAIN" 1 "soc $soc1 ladeleistung nachtladen bei $nachtlls1"
 					fi
-					if ! grep -q $nachtlls1 "/var/www/html/openWB/ramdisk/llsolls1"; then
+					if ! grep -q $nachtlls1 ramdisk/llsolls1; then
 						llnachts1neu=$nachtlls1
 						#runs/set-current.sh "$nachtlls1" s1
 						openwbDebugLog "MAIN" 1 "aendere nacht Ladeleistung auf $nachtlls1"
 					fi
 				else
-					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
+					if grep -q 1 ramdisk/ladestatuss1; then
 						llnachts1neu=0
 						#runs/set-current.sh 0 s1
 					fi
 				fi
 			else
-				if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
+				if grep -q 0 ramdisk/ladestatuss1; then
 					llnachts1neu=$nachtlls1
 					#runs/set-current.sh "$nachtlls1" s1
 					openwbDebugLog "MAIN" 1 "soc $soc1 ladeleistung nachtladen $nachtlls1 A"
 					openwbDebugLog "CHARGESTAT" 0 "start Nachtladung mit $nachtlls1"
 				else
-					if ! grep -q $nachtlls1 "/var/www/html/openWB/ramdisk/llsolls1"; then
+					if ! grep -q $nachtlls1 ramdisk/llsolls1; then
 						llnachts1neu=$nachtlls1
 						#runs/set-current.sh "$nachtlls1" s1
 						openwbDebugLog "MAIN" 1 "aendere nacht Ladeleistung auf $nachtlls1"
@@ -381,12 +381,12 @@ nachtlademodus(){
 			nachtladen2states1=1
 			dayoftheweek=$(date +%w)
 
-			if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
+			if grep -q 0 ramdisk/ladestatuss1; then
 				llnachts1neu=$nacht2lls1
 				#runs/set-current.sh "$nacht2lls1" s1
 				openwbDebugLog "MAIN" 1 "soc $soc1 ladeleistung nachtladen $nacht2lls1 A"
 			else
-				if ! grep -q $nacht2lls1 "/var/www/html/openWB/ramdisk/llsolls1"; then
+				if ! grep -q $nacht2lls1 ramdisk/llsolls1; then
 					llnachts1neu=$nacht2lls1
 					#runs/set-current.sh "$nacht2lls1" m
 					openwbDebugLog "MAIN" 1 "aendere nacht Ladeleistung auf $nacht2lls1"
@@ -402,10 +402,10 @@ nachtlademodus(){
 		nachtladenstates1=0
 		nachtladen2states1=0
 	fi
-	echo $nachtladenstate > /var/www/html/openWB/ramdisk/nachtladenstate
-	echo $nachtladenstates1 > /var/www/html/openWB/ramdisk/nachtladenstates1
-	echo $nachtladen2state > /var/www/html/openWB/ramdisk/nachtladen2state
-	echo $nachtladen2states1 > /var/www/html/openWB/ramdisk/nachtladen2states1
+	echo $nachtladenstate > ramdisk/nachtladenstate
+	echo $nachtladenstates1 > ramdisk/nachtladenstates1
+	echo $nachtladen2state > ramdisk/nachtladen2state
+	echo $nachtladen2states1 > ramdisk/nachtladen2states1
 	if (( nachtladenstate == 1 )) || (( nachtladenstates1 == 1 )) || (( nachtladen2state == 1 )) || (( nachtladen2states1 == 1 )); then
 		if (( nachtladenstate == 1 )) || (( nachtladen2state == 1 )); then
 			lastmnacht $llalt $llnachtneu 
@@ -421,13 +421,18 @@ nachtlademodus(){
 				openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Nachtladen. Ladung mit $llnachtreturn Ampere, Zielsoc: $diesersocs1 % soc: $soc1 "
 			fi
 		fi
+		openwbDebugLog "MAIN" 0 "*** exit 0"
 		exit 0
 	fi
 }
 
-prenachtlademodus(){
-	if { (( lademodus == 0 )) && (( nlakt_sofort == 1 )); } || { (( lademodus == 1 )) && (( nlakt_minpv == 1 )); } || { (( lademodus == 2 )) && (( nlakt_nurpv == 1 )); } || { (( lademodus == 4 )) && (( nlakt_standby == 1 )); } then
-		nachtlademodus
+prenachtlademodus()
+{
+	if { (( lademodus == $SOFORT0 ))  && (( nlakt_sofort  == 1 )); } \
+	|| { (( lademodus == $MINPV1 ))   && (( nlakt_minpv   == 1 )); } \
+	|| { (( lademodus == $NURPV2 ))   && (( nlakt_nurpv   == 1 )); } \
+	|| { (( lademodus == $STANDBY4 )) && (( nlakt_standby == 1 )); } then
+		private_nachtlademodus
 	else
 		echo 0 > ramdisk/nachtladenstate
 		echo 0 > ramdisk/nachtladen2state

@@ -1,4 +1,7 @@
 #!/bin/bash
+OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
+. "$OPENWBBASEDIR/helperFunctions.sh"
+
 
 SELF=`basename $0`
 function log()
@@ -7,8 +10,6 @@ function log()
  echo $timestamp $SELF $*
 }
 
-
-OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
 log started
 
 (sleep 600; sudo kill $(ps aux |grep '[a]treboot.sh' | awk '{print $2}'); echo 0 > /var/www/html/openWB/ramdisk/bootinprogress; echo 0 > /var/www/html/openWB/ramdisk/updateinprogress) &
@@ -21,7 +22,7 @@ log loading config
 # no code will run here, functions need to be called
 . /var/www/html/openWB/runs/initRamdisk.sh
 . /var/www/html/openWB/runs/updateConfig.sh
-
+. /var/www/html/openWB/runs/rfid/rfidHelper.sh
 
 if [ -d /var/www/html/openWB/ramdisk ] ; then
 	echo 1 > /var/www/html/openWB/ramdisk/bootinprogress
@@ -36,10 +37,11 @@ if [ ! -d /var/www/html/openWB/web/backup ] ; then
 else
  log "backupdir exists"  
 fi
-echo "" >/var/www/html/openWB/web/backup/.donotdelete
 
 log "checking rights und modes"
 sudo chown -R www-data:www-data /var/www/html/openWB/web/backup
+sudo touch /var/www/html/openWB/web/backup/.donotdelete
+sudo chown pi:pi /var/www/html/openWB/web/backup/.donotdelete
 sudo chown -R www-data:www-data /var/www/html/openWB/web/tools/upload
 sudo chmod 777 /var/www/html/openWB/openwb.conf
 sudo chmod 777 /var/www/html/openWB/smarthome.ini
@@ -74,16 +76,16 @@ fi
 initRamdisk
 
 # standard socket - activated after reboot due to RASPI init defaults so we need to disable it as soon as we can
-if [[ $standardSocketInstalled == "1" ]]; then
-	log "turning off standard socket ..."
-	sudo python /var/www/html/openWB/runs/standardSocket.py off
-fi
+#if [[ $standardSocketInstalled == "1" ]]; then
+#	log "turning off standard socket ..."
+#	sudo python /var/www/html/openWB/runs/standardSocket.py off
+#fi
 
 # initialize automatic phase switching
 if (( u1p3paktiv == 1 )); then
-	log "triginit..."
+	log "triginit...quick init of phase switching with default pause duration 2s"
 	# quick init of phase switching with default pause duration (2s)
-	sudo python /var/www/html/openWB/runs/triginit.py
+	sudo python /var/www/html/openWB/runs/triginit.py 2>&1 
 fi
 
 # check if buttons are configured and start daemon
@@ -96,6 +98,18 @@ if (( ladetaster == 1 )); then
 		else
 			sudo python /var/www/html/openWB/runs/ladetaster.py &
 		fi
+	fi
+fi
+
+
+log rfidhandler...
+rfidSetup "$rfidakt" 1 "$rfidlist"
+
+# check if tesla wall connector is configured and start daemon
+if [[ $evsecon == twcmanager ]]; then
+	echo "twcmanager..."
+	if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
+		screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
 	fi
 fi
 
@@ -112,26 +126,19 @@ if (( rseenabled == 1 )); then
 	fi
 fi
 
-# check if rfid is configured and start daemons to listen on input devices
 
-
-if ps ax |grep -v grep |grep "python /var/www/html/openWB/runs/readrfid.py" > /dev/null
-then
-	sudo kill $(ps aux |grep '[r]eadrfid.py' | awk '{print $2}')
-fi
-if ps ax |grep -v grep |grep "python /var/www/html/openWB/runs/readrfid2.py" > /dev/null
-then
-	sudo kill $(ps aux |grep '[r]eadrfid2.py' | awk '{print $2}')
-fi
-if (( rfidakt == 1 )) && (( rfidenabled )) ; then
-	log "rfid 1..."
-	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid.py $displayaktiv) &
-	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid2.py $displayaktiv) &
-fi
-if (( rfidakt == 2 ))&& (( rfidenabled )) ; then
-	log "rfid 2..."
-	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid.py $displayaktiv) &
-	(sleep 10; sudo python /var/www/html/openWB/runs/readrfid2.py $displayaktiv) &
+log "detect if LCD is avail."
+ 
+if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
+     log "LCD detected"
+else
+    if (( displayaktiv == 1 )) ; then
+      log "No LCD detcted, disable displayaktiv"
+      /var/www/html/openWB/runs/replaceinconfig.sh "displayaktiv=" "0"
+    fi
+    log "No LCD detcted, stop lighttdm "
+    sudo service lightdm stop >/dev/null 2>%1 # ignore error
+    displayaktiv=0
 fi
 
 # check if tesla wall connector is configured and start daemon
@@ -142,9 +149,16 @@ if [[ $evsecon == twcmanager ]]; then
 	fi
 fi
 
+
+
+
 # check if display is configured and setup timeout
 if (( displayaktiv == 1 )); then
 	log "display..."
+
+	if [ ! -d /home/pi/.config/lxsession ] ; then
+ 	   cp -rp /etc/xdg/lxsession /home/pi/.config/.
+	fi
 	if ! grep -Fq "pinch" /home/pi/.config/lxsession/LXDE-pi/autostart
 	then
 		log "not found"
@@ -155,15 +169,31 @@ if (( displayaktiv == 1 )); then
 	fi
 	log "deleting browser cache"
 	rm -rf /home/pi/.cache/chromium
+	sudo /var/www/html/openWB/runs/displaybacklight.sh $displayLight
 fi
 
-# restart smarthomehandler
-log "smarthome handler..."
-if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/smarthomehandler.py" > /dev/null
-then
-	sudo kill $(ps aux |grep '[s]marthomehandler.py' | awk '{print $2}')
-fi
-python3 /var/www/html/openWB/runs/smarthomehandler.py >> /var/www/html/openWB/ramdisk/smarthome.log 2>&1 &
+
+	# restart smarthomehandler
+	echo "smarthome handler..."
+	pkill -f '^python.*/smarthomehandler.py'
+	pkill -f '^python.*/smarthomemq.py'
+	smartmq=$(<"/var/www/html/openWB/ramdisk/smartmq")
+	if (( smartmq == 0 )); then
+		echo "starting legacy smarthome handler"
+		python3 "/var/www/html/openWB/runs/smarthomehandler.py" >> "/var/www/html/openWB/ramdisk/smarthome.log" 2>&1 &
+	else
+		echo "starting smarthomemq handler"
+		python3 "/var/www/html/openWB/runs/smarthomemq.py" >> "/var/www/html/openWB/ramdisk/smarthome.log" 2>&1 &
+	fi
+
+
+# old restart smarthomehandler
+##log "smarthome handler..."
+##if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/smarthomehandler.py" > /dev/null
+##then
+##	sudo kill $(ps aux |grep '[s]marthomehandler.py' | awk '{print $2}')
+##fi
+##python3 /var/www/html/openWB/runs/smarthomehandler.py >> /var/www/html/openWB/ramdisk/smarthome.log 2>&1 &
 
 # restart mqttsub handler
 log "mqtt handler..."
@@ -174,7 +204,7 @@ fi
 python3 /var/www/html/openWB/runs/mqttsub.py &
 
 
-### check crontab for user pi   ***OLD***
+## # check crontab for user pi   ***OLD***
 ## echo "crontab 1..."
 ## crontab -l -u pi > /var/www/html/openWB/ramdisk/tmpcrontab
 ## if grep -Fq "lade.log" /var/www/html/openWB/ramdisk/tmpcrontab
@@ -185,14 +215,14 @@ python3 /var/www/html/openWB/runs/mqttsub.py &
 ##	cat /var/www/html/openWB/ramdisk/tmpcrontab | crontab -u pi -
 ## fi
 
-# check crontab for user root and remove old @reboot entry
-sudo crontab -l > /var/www/html/openWB/ramdisk/tmprootcrontab
-if grep -Fq "atreboot.sh" /var/www/html/openWB/ramdisk/tmprootcrontab
-then
-	log "executed"
-	sed -i '/atreboot.sh/d' /var/www/html/openWB/ramdisk/tmprootcrontab
-	cat /var/www/html/openWB/ramdisk/tmprootcrontab | sudo crontab -
-fi
+## # check crontab for user root and remove old @reboot entry
+## sudo crontab -l > /var/www/html/openWB/ramdisk/tmprootcrontab
+## if grep -Fq "atreboot.sh" /var/www/html/openWB/ramdisk/tmprootcrontab
+## then
+##	log "executed"
+##	sed -i '/atreboot.sh/d' /var/www/html/openWB/ramdisk/tmprootcrontab
+##	cat /var/www/html/openWB/ramdisk/tmprootcrontab | sudo crontab -
+## fi
 
 # check for LAN/WLAN connection
 log "LAN/WLAN..."
@@ -205,7 +235,7 @@ fi
 
 # check for apache configuration
 log "apache..."
-if grep -Fxq "AllowOverride" /etc/apache2/sites-available/000-default.conf
+if ( sudo grep -Fq "AllowOverride" /etc/apache2/sites-available/000-default.conf )
 then
 	log "...ok"
 else
@@ -228,6 +258,22 @@ then
 	(crontab -l -u pi ; echo "@reboot /var/www/html/openWB/runs/atreboot.sh >> /var/log/openWB.log 2>&1")| crontab -u pi -
 fi
 
+# check for email
+#if [[ -x /usr/bin/msmtp ]] ; then
+#  log "msmtp found. Please check config"
+#else
+#  log "install a simple smtp client"
+#  sudo apt-get -q -y install bsd-mailx msmtp msmtp-mta
+#  # check for configuration
+#   if [ ! -f /etc/msmtprc ] ; then
+#	log "updating global msmtprc config file"
+#	sudo cp /var/www/html/openWB/web/files/msmtprc /etc/msmtprc
+#    sudo chown root:mail /etc/msmtprc
+#    sudo chmod 0640 /etc/msmtprc
+#   fi
+#fi
+
+
 # check for needed packages
 log "packages 1..."
 if python -c "import evdev" &> /dev/null; then
@@ -248,7 +294,12 @@ then
 	sleep 1
 	sudo apt-get -qq install -y php7.0-xml
 fi
-
+# required package for soc_vwid
+if [ $(dpkg-query -W -f='${Status}' libxslt1-dev 2>/dev/null | grep -c "ok installed") -eq 0 ];
+then
+	sudo apt-get -qq update 
+	sudo apt-get -qq install -y libxslt1-dev
+fi
 # no need to reload config
 # . /var/www/html/openWB/loadconfig.sh
 
@@ -267,7 +318,7 @@ sudo cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 if [ ! -f /home/pi/ssl_patched ]; then
 	log "ssh patch neeeded" 
-	sudo apt-get update 
+	sudo apt-get -qq update 
 	sudo apt-get -qq install -y openssl libcurl3 curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 php7.0-cli php7.0-gd php7.0-opcache php7.0 php7.0-common php7.0-json php7.0-readline php7.0-xml php7.0-curl libapache2-mod-php7.0 
 	touch /home/pi/ssl_patched 
 fi
@@ -275,7 +326,7 @@ fi
 # check for mosquitto packages
 log "mosquitto..."
 if [ ! -f /etc/mosquitto/mosquitto.conf ]; then
-	sudo apt-get update
+	sudo apt-get -qq update
 	sudo apt-get -qq install -y mosquitto mosquitto-clients
 	sudo service mosquitto start
 fi
@@ -332,8 +383,14 @@ if python3 -c "import ipparser" &> /dev/null; then
 else
 	sudo pip3 install ipparser
 fi
-# update outdated urllib3 for Tesla Powerwall
-pip3 install --upgrade urllib3
+#Prepare for lxml used in soc module libvwid in Python
+if python3 -c "import lxml" &> /dev/null; then
+	log 'lxml installed...'
+else
+	sudo pip3 install lxml
+fi
+### update outdated urllib3 for Tesla Powerwall
+# pip3 install --upgrade urllib3
 
 
 # update version
@@ -345,9 +402,15 @@ owbv=$(</var/www/html/openWB/web/version)
 
 # all done, remove warning in display
 log "clear warning..."
-echo "" > /var/www/html/openWB/ramdisk/lastregelungaktiv
+echo " " > /var/www/html/openWB/ramdisk/lastregelungaktiv
+chmod 777 /var/www/html/openWB/ramdisk/lastregelungaktiv
 echo "" > /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
 chmod 777 /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
+
+echo " " > /var/www/html/openWB/ramdisk/LadereglerTxt
+chmod 777 /var/www/html/openWB/ramdisk/LadereglerTxt
+echo "" > /var/www/html/openWB/ramdisk/mqttLadereglerTxt
+chmod 777 /var/www/html/openWB/ramdisk/mqttLadereglerTxt
 
 # check for slave config and start handler
 if (( isss == 1 )); then
@@ -381,31 +444,21 @@ if [[ "$evsecon" == "buchse" ]]  && [[ "$isss" == "0" ]]; then
 	python3 /var/www/html/openWB/runs/buchse.py &
 fi
 
-# check for rfid mode 2 and start handler
-if [[ "$rfidakt" == "2" ]]; then
-	log "rfid 2 handler..."
-	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/rfid.py" > /dev/null
-	then
-		sudo kill $(ps aux |grep '[r]fid.py' | awk '{print $2}')
-	fi
-	python3 /var/www/html/openWB/runs/rfid.py &
-fi
 
-# update display configuration
-log "display update..."
-if grep -Fq "@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php" /home/pi/.config/lxsession/LXDE-pi/autostart
-then
-	sed -i "s,@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php,@chromium-browser --incognito --disable-pinch --overscroll-history-navigation=0 --kiosk http://localhost/openWB/web/display.php,g" /home/pi/.config/lxsession/LXDE-pi/autostart
+if (( displayaktiv == 1 )); then
+	# update display configuration
+	log "display update..."
+	if grep -Fq "@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php" /home/pi/.config/lxsession/LXDE-pi/autostart
+	then
+		sed -i "s,@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php,@chromium-browser --incognito --disable-pinch --overscroll-history-navigation=0 --kiosk http://localhost/openWB/web/display.php,g" /home/pi/.config/lxsession/LXDE-pi/autostart
+	fi
+else 
+    log "display not active"
 fi
 
 # get local ip
 ip route get 1 | awk '{print $7;exit}' > /var/www/html/openWB/ramdisk/ipaddress
 
-# update current published versions
-log "load versions..."
-curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/web/version > /var/www/html/openWB/ramdisk/vnightly
-curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version > /var/www/html/openWB/ramdisk/vbeta
-curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/stable17/web/version > /var/www/html/openWB/ramdisk/vstable
 
 # update our local version
 sudo git -C /var/www/html/openWB show --pretty='format:%ci [%h]' | head -n1 > /var/www/html/openWB/web/lastcommit
@@ -427,6 +480,7 @@ do
 done
 mosquitto_pub -r -t openWB/graph/boolDisplayLiveGraph -m "1"
 mosquitto_pub -t openWB/global/strLastmanagementActive -r -m ""
+mosquitto_pub -t openWB/global/strLaderegler -r -m ""
 mosquitto_pub -t openWB/lp/1/W -r -m "0"
 mosquitto_pub -t openWB/lp/2/W -r -m "0"
 mosquitto_pub -t openWB/lp/3/W -r -m "0"
@@ -437,6 +491,17 @@ mosquitto_pub -r -t openWB/SmartHome/Devices/1/TemperatureSensor2 -m ""
 mosquitto_pub -r -t openWB/SmartHome/Devices/2/TemperatureSensor0 -m ""
 mosquitto_pub -r -t openWB/SmartHome/Devices/2/TemperatureSensor1 -m ""
 mosquitto_pub -r -t openWB/SmartHome/Devices/2/TemperatureSensor2 -m ""
+# lasse die leeren Graphicn anlegen
+mosquitto_pub -r -t openWB/set/graph/RequestMonthGraph -m "0"
+mosquitto_pub -r -t openWB/set/graph/RequestLLiveGraph -m "0"
+mosquitto_pub -r -t openWB/set/graph/RequestDayGraph -m "0"
+mosquitto_pub -r -t openWB/set/graph/RequestMonthGraphv1 -m "0"
+mosquitto_pub -r -t openWB/set/graph/RequestYearGraph -m "0"
+mosquitto_pub -r -t openWB/set/graph/RequestMonthLadelog -m "0"
+
+
+
+
 rm -rf /var/www/html/openWB/web/themes/dark19_01
 (sleep 10; mosquitto_pub -t openWB/set/ChargeMode -r -m "$bootmodus") &
 (sleep 10; mosquitto_pub -t openWB/global/ChargeMode -r -m "$bootmodus") &
@@ -477,3 +542,5 @@ echo 0 > /var/www/html/openWB/ramdisk/bootinprogress
 echo 0 > /var/www/html/openWB/ramdisk/updateinprogress
 mosquitto_pub -t openWB/system/updateInProgress -r -m "0"
 mosquitto_pub -t openWB/system/reloadDisplay -m "1"
+
+

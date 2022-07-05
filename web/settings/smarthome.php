@@ -232,6 +232,7 @@
 											<label class="btn btn-outline-info<?php if(${"hook" . $deviceNum . "_aktivold"} == 1) echo " active" ?>">
 												<input type="radio" name="hook<?php echo $deviceNum; ?>_aktiv" id="hook<?php echo $deviceNum; ?>_aktivOn" value="1"<?php if(${"hook" . $deviceNum . "_aktivold"} == 1) echo " checked=\"checked\"" ?>>An
 											</label>
+											<?php if($debugold>1)	{ echo "<span class=\"d_label\"> hook".$deviceNum."_aktiv </span>";  } ?>
 										</div>
 									</div>
 								</div>
@@ -241,6 +242,7 @@
 										<div class="col">
 											<input class="form-control" type="number" min="0" step="10" name="hook<?php echo $deviceNum; ?>ein_watt" id="hook<?php echo $deviceNum; ?>ein_watt" value="<?php echo ${"hook" . $deviceNum . "ein_wattold"} ?>">
 											<span class="form-text small">Einschaltschwelle in Watt, bei deren Erreichen das Gerät eingeschaltet werden soll.</span>
+											<?php if($debugold>1)	{ echo "<span class=\"d_label\"> hook".$deviceNum."ein_watt </span>";  } ?>
 										</div>
 									</div>
 									<div class="form-row mb-1">
@@ -248,20 +250,23 @@
 										<div class="col">
 											<input class="form-control" type="number" min="0" step="1" name="hook<?php echo $deviceNum; ?>einschaltverz" id="hook<?php echo $deviceNum; ?>einschaltverz" value="<?php echo ${"hook" . $deviceNum . "einschaltverzold"} ?>">
 											<span class="form-text small">Bestimmt die Dauer in Sekunden, für die die Einschaltschwelle überschritten werden muss bevor eingeschaltet wird.</span>
+											<?php if($debugold>1)	{ echo "<span class=\"d_label\"> hook".$deviceNum."einschaltverz </span>";  } ?>
 										</div>
 									</div>
 									<div class="form-row mb-1">
 										<label for="hook<?php echo $deviceNum; ?>ein_url" class="col-md-4 col-form-label">Einschalt-URL</label>
 										<div class="col">
 											<input class="form-control" type="text" name="hook<?php echo $deviceNum; ?>ein_url" id="hook<?php echo $deviceNum; ?>ein_url" value="<?php echo htmlspecialchars(${"hook" . $deviceNum . "ein_urlold"}) ?>">
-											<span class="form-text small">Einschalturl die aufgerufen wird bei entsprechendem Überschuss.</span>
+											<span class="form-text small">Einschalt-Url die aufgerufen wird bei entsprechendem Überschuss.</span>
+											<?php if($debugold>1)	{ echo "<span class=\"d_label\"> hook".$deviceNum."ein_url </span>";  } ?>
 										</div>
 									</div>
 									<div class="form-row mb-1">
 										<label for="hook<?php echo $deviceNum; ?>_dauer" class="col-md-4 col-form-label">Einschaltdauer</label>
 										<div class="col">
 											<input class="form-control" type="number" min="0" step="1" name="hook<?php echo $deviceNum; ?>_dauer" id="hook<?php echo $deviceNum; ?>_dauer" value="<?php echo ${"hook" . $deviceNum . "_dauerold"} ?>">
-											<span class="form-text small">Einschaltdauer in Minuten. Gibt an, wie lange das Gerät nach Start mindestens aktiv bleiben muss, ehe die Ausschalturl aufgerufen wird.</span>
+											<span class="form-text small">Einschaltdauer in Minuten. Gibt an, wie lange das Gerät nach Start mindestens aktiv bleiben muss, ehe die Ausschalt-Url aufgerufen wird.</span>
+											<?php if($debugold>1)	{ echo "<span class=\"d_label\"> hook".$deviceNum."_dauer </span>";  } ?>
 										</div>
 									</div>
 									<div class="form-row mb-1">
@@ -269,13 +274,15 @@
 										<div class="col">
 											<input class="form-control" type="number" step="10" name="hook<?php echo $deviceNum; ?>aus_watt" id="hook<?php echo $deviceNum; ?>aus_watt" value="<?php echo ${"hook" . $deviceNum . "aus_wattold"} ?>">
 											<span class="form-text small">Ausschaltschwelle in Watt bei die unten stehende URL aufgerufen wird. Soll die Abschaltung bei Bezug stattfinden eine negative Zahl eingeben.</span>
+											<?php if($debugold>1)	{ echo "<span class=\"d_label\"> hook".$deviceNum."aus_watt </span>";  } ?>
 										</div>
 									</div>
 									<div class="form-row mb-1">
 										<label for="hook<?php echo $deviceNum; ?>aus_url" class="col-md-4 col-form-label">Ausschalt-URL</label>
 										<div class="col">
 											<input class="form-control" type="text" name="hook<?php echo $deviceNum; ?>aus_url" id="hook<?php echo $deviceNum; ?>aus_url" value="<?php echo htmlspecialchars(${"hook" . $deviceNum . "aus_urlold"}) ?>">
-											<span class="form-text small">Ausschalturl, die aufgerufen wird bei entsprechendem Überschuss.</span>
+											<span class="form-text small">Ausschalt-Url, die aufgerufen wird bei entsprechendem Überschuss.</span>
+											<?php if($debugold>1)	{ echo "<span class=\"d_label\"> hook".$deviceNum."aus_url </span>";  } ?>
 										</div>
 									</div>
 									<div class="form-row mb-1">
@@ -283,6 +290,7 @@
 										<div class="col">
 											<input class="form-control" type="number" min="0" step="1" name="hook<?php echo $deviceNum; ?>_ausverz" id="hook<?php echo $deviceNum; ?>_ausverz" value="<?php echo ${"hook" . $deviceNum . "_ausverzold"} ?>">
 											<span class="form-text small">Bestimmt die Dauer in Sekunden, für die die Ausschaltschwelle unterschritten werden muss, bevor ausgeschaltet wird.</span>
+											<?php if($debugold>1)	{ echo "<span class=\"d_label\"> hook".$deviceNum."_ausverz </span>";  } ?>
 										</div>
 									</div>
 								</div>
@@ -363,7 +371,7 @@
 											<label for="verbraucher<?php echo $deviceNum; ?>_urlw" class="col-md-4 col-form-label">URL Leistung</label>
 											<div class="col">
 												<input class="form-control" type="text" name="verbraucher<?php echo $deviceNum; ?>_urlw" id="verbraucher<?php echo $deviceNum; ?>_urlw" value="<?php echo htmlspecialchars(${"verbraucher" . $deviceNum . "_urlwold"}) ?>">
-												<span class="form-text small">URL des Verbrauchers, welche die Momentanleistung in Watt zurück gibt.</span>
+												<span class="form-text small">URL des Verbrauchers, welche die aktuelle Leistung in Watt zurück gibt.</span>
 											</div>
 										</div>
 										<div class="form-row mb-1">

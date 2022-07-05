@@ -1,5 +1,5 @@
 class PowerGraph {
-  
+
 
   constructor() {
     this.graphData = [];
@@ -63,8 +63,6 @@ class PowerGraph {
     this.svg = figure.append("svg")
       .attr("viewBox", `0 0 500 500`);
 
-   
-
   }
 
   activateLive() {
@@ -87,18 +85,14 @@ class PowerGraph {
     }
   }
 
-  
-
   updateHeading() {
     var heading = "";
     heading = heading + this.liveGraphMinutes + " min";
     d3.select("h3#widgetheading").text(heading);
   }
 
-  
-
   updateLive(topic, payload) {
-    if (wbdata.graphMode == 'live') { // only udpdate if live graph is active
+    if (wbdata.graphMode == 'live') { // only update if live graph is active
       if (this.initialized) { // steady state
         if (topic === "openWB/graph/lastlivevalues") {
           const values = this.extractLiveValues(payload.toString());
@@ -118,7 +112,7 @@ class PowerGraph {
           var bulkdata = payload.toString().split("\n");
           if (bulkdata.length <= 1) {
             bulkdata = [];
-          }
+          } 
           
           if (serialNo != "") {
             if (typeof (this.initialGraphData[+serialNo - 1]) === 'undefined') {
@@ -146,12 +140,6 @@ class PowerGraph {
     }
   }
 
-  
-
-  
-
-  
-
   extractLiveValues(payload) {
     const elements = payload.split(",");
     const now = new Date (Date.now());
@@ -161,11 +149,10 @@ class PowerGraph {
     values.date.setDate (now.getDate())
     values.date.setMonth (now.getMonth())
     values.date.setFullYear (now.getFullYear())
-
     if (values.date.getHours() > now.getHours()) { // this is an entry from yesterday
       values.date = new Date (values.date.getTime() - mSecondsPerDay) // change date to yesterday
-    } 
-   
+    }
+  
     // evu
     if (+elements[1] > 0) {
       values.gridPull = +elements[1];
@@ -192,8 +179,11 @@ class PowerGraph {
     var i;
     values.lp0 = +elements[4];
     values.lp1 = +elements[5];
-    for (i = 2; i < 9; i++) {
+    for (i = 2; i < 3; i++) {	// 3
       values["lp" + i] = +elements[11 + i];
+    }
+    for (i = 3; i < 8; i++) {	// 4..8
+      values["lp" + i] = 0; 
     }
     values.soc1 = +elements[9];
     values.soc2 = +elements[10];
@@ -225,11 +215,8 @@ class PowerGraph {
     return values;
   }
 
-  
-  
   reset() {
     this.resetLiveGraph();
-    
   }
 
   resetLiveGraph() {
@@ -241,9 +228,6 @@ class PowerGraph {
     this.graphRefreshCounter = 0;
   }
 
-  
-
-
   calcValue(i, array, oldArray) {
     var val = (array[i] - oldArray[i]) * 12;
     if (val < 0 || val > 150000) {
@@ -251,6 +235,7 @@ class PowerGraph {
     }
     return val;
   }
+
   calcMonthlyValue(i, array, oldArray) {
     var val = (array[i] - oldArray[i]);
 
@@ -290,9 +275,8 @@ class PowerGraph {
   drawSourceGraph(svg, width, height) {
     var keys = (wbdata.graphMode == 'month') ? ["gridPull", "batOut", "selfUsage", "gridPush"] : ["selfUsage", "gridPush", "batOut", "gridPull"];
 
-   
-      this.xScale = d3.scaleTime().domain(d3.extent(this.graphData, d => d.date));
-    
+    this.xScale = d3.scaleTime().domain(d3.extent(this.graphData, d => d.date));
+
     this.xScale.range([0, width - this.margin.right]);
     const yScale = d3.scaleLinear().range([height - 10, 0]);
     const extent = d3.extent(this.graphData, (d) =>
@@ -303,17 +287,17 @@ class PowerGraph {
     const stackGen = d3.stack().keys(keys);
     const stackedSeries = stackGen(this.graphData);
 
-   
-      svg.selectAll(".sourceareas")
-        .data(stackedSeries)
-        .join("path")
-        .attr("d", d3.area()
-          .x((d, i) => this.xScale(this.graphData[i].date))
-          .y0((d) => yScale(d[0]))
-          .y1((d) => yScale(d[1]))
-        )
-        .attr("fill", (d, i) => this.colors[keys[i]]);
-    
+
+    svg.selectAll(".sourceareas")
+      .data(stackedSeries)
+      .join("path")
+      .attr("d", d3.area()
+        .x((d, i) => this.xScale(this.graphData[i].date))
+        .y0((d) => yScale(d[0]))
+        .y1((d) => yScale(d[1]))
+      )
+      .attr("fill", (d, i) => this.colors[keys[i]]);
+
 
     const yAxis = svg.append("g")
       .attr("class", "axis")

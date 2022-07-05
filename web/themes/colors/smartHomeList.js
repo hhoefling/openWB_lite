@@ -30,8 +30,7 @@ class SmartHomeList {
       d3.select("div#smartHomeWidget").classed("hide", false);
       var table = this.div.append("table")
         .attr("class", "table table-borderless table-condensed p-0 m-0");
-
-      const headers = ["Gerät", "Verbrauch", "Laufzeit", "Modus"];
+      const headers = ["Gerät", "Verbrauch", "Laufzeit", "Modus", "Temp."];
       const thead = table.append("thead");
       thead
         .selectAll("headers")
@@ -62,7 +61,7 @@ class SmartHomeList {
       rows.append("td")
         .attr("class", "tablecell py-1 px-1")
         .attr("style", "vertical-align: middle;color:var(--color-fg)")
-        .text(row => formatTime(row.runningTime))
+        .text(row => formatTime(row.runningTime));
       // Automatic mode button
       rows.append("td")
         .attr("class", "tablecell py-1 px-1")
@@ -72,7 +71,13 @@ class SmartHomeList {
         .attr("style", "color:var(--color-fg); text-align:center;")
         .attr("onClick", (row) => "shModeClicked(" + row.id + ")")
         .classed("disabled", false)
-        .text(row => row.isAutomatic ? "Automatik" : "Manuell");
+        .text(row => row.isAutomatic ? "Auto" : "Man.");
+      // temp 
+      rows.append("td")
+        .attr("class", "tablecell py-1 px-1")
+        .attr("style", "vertical-align: middle;color:var(--color-fg)")
+        .text(row => row.temperatur);
+
       // select graph display
       rows.append("td")
         .attr("class", "tablecell py-1 px-1")

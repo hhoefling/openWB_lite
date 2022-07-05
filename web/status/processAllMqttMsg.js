@@ -7,8 +7,20 @@
  * @author Lena Kümmel
  */
 
+function formatJsonString(str) {
+	try {
+		parsed = JSON.parse(str)
+		if (typeof parsed === 'string') {
+			return parsed
+		}
+		// if it is not a string, we just use the json as supplied
+	} catch (e) {
+		// ignore error - just use the original text
+	}
+	return str
+}
 function getIndex(topic) {
-	// get occurence of numbers between / / in topic
+	// get occurrence of numbers between / / in topic
 	// since this is supposed to be the index like in openwb/lp/4/w
 	// no lookbehind supported by safari, so workaround with replace needed
 	var index = topic.match(/(?:\/)([0-9]+)(?=\/)/g)[0].replace(/[^0-9]+/g, '');
@@ -118,7 +130,7 @@ function processEvuMsg (mqttmsg, mqttpayload) {
 			setWarningLevel(mqttpayload, '#faultStrEvuRow');
 			break;
 		case "openWB/evu/faultStr":
-			textShow(mqttpayload, '#faultStrEvu');
+			textShow(formatJsonString(mqttpayload), '#faultStrEvu');
 			break;
 	}
 }
@@ -154,7 +166,7 @@ function processPvMsg (mqttmsg, mqttpayload) {
 		}
 		else if ( mqttmsg.match(/^openWB\/pv\/[0-9]+\/faultStr$/i) )
 		{
-			textShow(mqttpayload, '#inverter' + index + ' .faultStrPv');
+			textShow(formatJsonString(mqttpayload), '#inverter' + index + ' .faultStrPv');
 		}
 		else if ( mqttmsg.match(/^openWB\/pv\/[0-9]+\/boolPVConfigured$/i) )
 		{
@@ -209,7 +221,7 @@ function processBatMsg (mqttmsg, mqttpayload) {
 			setWarningLevel(mqttpayload, '#faultStrBatRow');
 			break;
 		case "openWB/housebattery/faultStr":
-			textShow(mqttpayload, '#faultStrBat');
+			textShow(formatJsonString(mqttpayload), '#faultStrBat');
 			break;
 	}
 }
@@ -252,6 +264,7 @@ function processVerbraucherMsg (mqttmsg, mqttpayload) {
 
 function processLpMsg (mqttmsg, mqttpayload) {
 	var index = getIndex(mqttmsg);  // extract number between two / /
+	if( index > 3 ){ return; }
 	if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/boolChargePointConfigured$/i ) ) {
 		visibilityCard('#lp' + index, mqttpayload);
 	}
@@ -296,13 +309,16 @@ function processLpMsg (mqttmsg, mqttpayload) {
 		setWarningLevel(mqttpayload, '#lp' + index + ' .faultStrLpRow');
 	}
 	else if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/faultStr$/i ) ) {
-		textShow(mqttpayload, '#lp' + index + ' .faultStrLp');
+		textShow(formatJsonString(mqttpayload), '#lp' + index + ' .faultStrLp');
 	}
 	else if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/socFaultState$/i ) ) {
 		setWarningLevel(mqttpayload, '#lp' + index + ' .faultStrSocLpRow');
 	}
 	else if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/socFaultStr$/i ) ) {
-		textShow(mqttpayload, '#lp' + index + ' .faultStrSocLp');
+		textShow(formatJsonString(mqttpayload), '#lp' + index + ' .faultStrSocLp');
+	}
+	else if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/MeterSerialNumber$/i ) ) {
+		textShow('(SN:'+mqttpayload+')', '#lp' + index + ' .MeterSerialNumber');
 	}
 	else {
 		switch (mqttmsg) {
@@ -351,12 +367,11 @@ function impExpShow(mqttpayload, variable) {
 	// zur Anzeige Wert um "Bezug"/"Einspeisung" ergänzen
 	var value = parseInt(mqttpayload);
 	var valueStr = Math.abs(value).toLocaleString(undefined);
-	if(value < 0) {
-		valueStr += " (Exp.)";
-	} else if (value > 0) {
-		valueStr += " (Imp.)";
-	}
-	$(variable).text(valueStr);
+    if(value > 0)
+       h = '<span style="background-color:#FFCFD0"> <small>Imp</small> ' + valueStr + '</span>'; 
+    else
+       h = '<span style="background-color:#ACFFAB"> <small>Exp</small> ' + valueStr + '</span>'; 
+	$(variable).html(h);
 }
 
 // show value as kilo
@@ -457,7 +472,7 @@ function visibilityCard(card, mqttpayload) {
 		hideSection(card);
 	} else {
 		showSection(card);
-		if ( (card.match( /^[#]lp[2-8]$/i)) && lpGesCardShown == false ) {
+		if ( (card.match( /^[#]lp[2-3]$/i)) && lpGesCardShown == false ) {
 			showSection('#lpges');
 			lpGesCardShown = true;
 		} else if ( card.match(/^[#]inverter[1-2]+$/i) ) {
@@ -475,3 +490,4 @@ function visibilityCard(card, mqttpayload) {
 		}
 	}
 }
+

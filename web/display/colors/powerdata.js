@@ -33,6 +33,7 @@ class WbData {
 		this.etMaxPrice = 0;
 		this.etPriceList = "";
 		this.isEtEnabled = false;
+		this.rfidConfigured = false;
 		this.consumer = [new Consumer(), new Consumer()];
 		this.chargePoint = Array.from({ length: 9 }, (v, i) => new ChargePoint(i));
 		this.shDevice = Array.from({ length: 9 }, (v, i) => new SHDevice(i));
@@ -85,10 +86,10 @@ class WbData {
 		this.usageSummary.batIn.color = 'var(--color-battery)';
 		this.usageSummary.house.color = 'var(--color-house)';
 		var i;
-		for (i = 0; i < 8; i++) {
+		for (i = 0; i < 3; i++) {	// 0,1,2=1..3
 			this.chargePoint[i].color = 'var(--color-lp' + (i + 1) + ')';
 		}
-		for (i = 0; i < 9; i++) {
+		for (i = 0; i < 9; i++) {   // 0..9=1..10
 			this.shDevice[i].color = 'var(--color-sh' + (i + 1) + ')';
 		}
 		this.consumer[0].color = 'var(--color-co1)';
@@ -126,6 +127,11 @@ class WbData {
 			.on("click", switchToEnergyView);
 		d3.select("button#statusButton")
 			.on("click", showStatus);
+		d3.select("button#codeButton")
+			.on("click", showCode);
+
+		d3.select(".DisplayLightInput")
+			.on("input", function () { updateDisplayLightInput(this.value) });
 		d3.select(".minpvRangeInput")
 			.on("input", function () { updateMinpvRangeInput(this.value) });
 		d3.select(".sofortRangeInput")
@@ -136,7 +142,7 @@ class WbData {
 			.on("input", function () { updateEnergyRangeInput(this.value) });
 		d3.select(".maxPriceInput")
 			.on("input", function () { updateMaxPriceInput(this.value) });
-
+		d3.select("#codeButton").classed ("hide", !this.rfidConfigured)
 		powerMeter.init()
 		powerGraph.init()
 		yieldMeter.init()
@@ -165,7 +171,7 @@ class WbData {
 	}
 
 	updateGlobal(field, value) {
-		this[field] = value;
+		this[field] = value;	// loadMgtText unsed 
 		switch (field) {
 			case 'housePower':
 				this.updateUsageSummary("house", "power", value);
@@ -183,11 +189,15 @@ class WbData {
 				this.updateConsumerSummary();
 				powerMeter.update();
 				break;
-			case 'currentPowerPrice':
+			case 'currentPowerPrice':		// NC
 				chargePointList.updateValues();
 				break;
 			case 'chargeMode':
 				chargePointList.updateValues();
+				break;
+			case 'rfidConfigured':
+				d3.select('#codeButton').classed ("hide", (!value))
+				break
 			default:
 				break;
 		}
@@ -391,18 +401,22 @@ class SHDevice {
 };
 
 function formatWatt(watt) {
-	if (watt >= 1000) {
-		return ((Math.round(watt / 100) / 10) + " kW");
+	if (watt >= 10000) {
+		return (Math.round(watt / 1000).toLocaleString('de-DE') + " kW");
+	} else if (watt >= 1000) {
+		return ((Math.round(watt / 100) / 10).toLocaleString('de-DE') + " kW");
 	} else {
 		return (watt + " W");
 	}
 }
 
-function formatWattH(watt) {
-	if (watt >= 1000) {
-		return ((Math.round(watt / 100) / 10) + " kWh");
+function formatWattH(watth) {
+	if (watth >= 10000) {
+		return (Math.round(watth / 1000).toLocaleString('de-DE') + " kWh");
+	} else if (watth >= 1000) {
+		return ((Math.round(watth / 100) / 10).toLocaleString('de-DE') + " kWh");
 	} else {
-		return (Math.round(watt) + " Wh");
+		return (Math.round(watth).toLocaleString('de-DE') + " Wh");
 	}
 }
 function formatTime(seconds) {
@@ -420,7 +434,7 @@ function formatMonth(month, year) {
 	return (months[month] + " " + year);
 }
 
-// required for pricechart to work
+// required for price chart to work
 var evuCol;
 var xgridCol;
 var gridCol;
@@ -462,6 +476,11 @@ function showStatus() {
 	$("#statusModal").modal("show");
 }
 
+function showCode() {
+	$("#codeModal").modal("show");
+	
+}
+
 function updateMinpvRangeInput(value) {
 	const label = d3.select(".labelMinPv").text(value + " A");
 	label.classed("text-danger", true)
@@ -470,6 +489,16 @@ function updateMinpvRangeInput(value) {
 		publish(value, "openWB/config/set/pv/minCurrentMinPv")
 	}, 2000)
 }
+
+function updateDisplayLightInput(value) {
+	const label = d3.select(".labeDisplayLight").text(value);
+	label.classed("text-danger", true)
+	setTimeout(() => {
+		label.classed("text-danger", false)
+		publish(value, "openWB/config/set/display/displayLight")
+	}, 2000)
+}
+
 
 function updateSofortRangeInput(value) {
 	const label = d3.select(".labelSofortCurrent").text(value + " A");
@@ -509,7 +538,7 @@ function updateMaxPriceInput(value) {
 	}
 	wbdata.maxPriceDelayTimer = setTimeout(() => {
 		label.classed("text-danger", false)
-		publish(value, "openWB/global/awattar/MaxPriceForCharging" )
+		publish(value, "openWB/set/awattar/MaxPriceForCharging" )
 		wbdata.maxPriceDelayTimer = null;
 	}, 2000)
 

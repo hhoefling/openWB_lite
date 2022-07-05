@@ -69,7 +69,7 @@
 							}, 3000);
 						</script>
 						<?php
-					break;
+						break;
 					case 'wlanreset':
 						// reset wlan credentials
 						$result1 = file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tmp/wssid', '');
@@ -177,7 +177,7 @@
 										<span class="text-danger">
 											Achtung!<br>
 											Wenn hier ungültige Daten eingetragen werden, funktioniert die Verbindung zu einem openWB EVU-/PV-/Speicher-/AlphaESS-Kit nicht mehr! Ein externes Display kann ebenfalls keine Verbindung mehr aufbauen!<br>
-											Die Standardeinstellung ist <span class="text-primary">192.168.193.5</span> und sollte nur in Ausnahmefällen geändert werden!<br>
+											Die Standardeinstellung ist <span class="text-primary">192.168.192.5</span> und sollte nur in Ausnahmefällen geändert werden!<br>
 											Die openWB wird direkt nach der Änderung neu gestartet! Alle Fahrzeuge sind vorher abzustecken!
 										</span>
 									</span>
@@ -192,7 +192,7 @@
 										<span class="text-danger">
 											Achtung!<br>
 											Wenn hier ungültige Daten eingetragen werden, funktioniert die Verbindung zu einem openWB EVU-/PV-/Speicher-/AlphaESS-Kit nicht mehr! Ein externes Display kann ebenfalls keine Verbindung mehr aufbauen!<br>
-											Die Standardeinstellung ist <span class="text-primary">192.168.193.6</span> und sollte nur in Ausnahmefällen geändert werden!<br>
+											Die Standardeinstellung ist <span class="text-primary">192.168.192.6</span> und sollte nur in Ausnahmefällen geändert werden!<br>
 											Die openWB wird direkt nach der Änderung neu gestartet! Alle Fahrzeuge sind vorher abzustecken!
 										</span>
 									</span>

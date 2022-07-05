@@ -1,3 +1,5 @@
+/* NC */
+
 var doInterval;
 function getfile() {
 

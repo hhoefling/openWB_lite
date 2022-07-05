@@ -38,7 +38,7 @@ function convertToKw(dataColum) {
 }
 
 function getIndex(topic) {
-	// get occurence of numbers between / / in topic
+	// get occurrence of numbers between / / in topic
 	// since this is supposed to be the index like in openwb/lp/4/w
 	// no lookbehind supported by safari, so workaround with replace needed
 	var index = topic.match(/(?:\/)([0-9]+)(?=\/)/g)[0].replace(/[^0-9]+/g, '');
@@ -59,19 +59,20 @@ function handlevar(mqttmsg, mqttpayload) {
 	else if (mqttmsg.match(/^openwb\/system\//i)) { processSystemMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/pv\//i)) { processPvMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/lp\//i)) { processLpMessages(mqttmsg, mqttpayload); }
+	else if (mqttmsg.match(/^openwb\/config\/get\/display\//i)) { processDisplayMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/config\/get\/sofort\/lp\//i)) { processSofortConfigMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/config\/get\/pv\//i)) { processPvConfigMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/SmartHome\/Status\//i)) { processSmartHomeDevicesStatusMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/SmartHome\/Devices\//i)) { processSmartHomeDevicesMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/config\/get\/SmartHome\/Devices\//i)) { processSmartHomeDevicesConfigMessages(mqttmsg, mqttpayload); }
-
+	
 }  // end handlevar
 
 function processETProviderMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/global
 	// called by handlevar
 	//processPreloader(mqttmsg);
-
+	
 	// colors theme
 	if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
 		wbdata.updateET ('etProviderName', mqttpayload);
@@ -132,6 +133,7 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	}
  */}
 
+	
 function processPvConfigMessages(mqttmsg, mqttpayload) {
 	// color theme
 	if (mqttmsg == 'openWB/config/get/pv/priorityModeEVBattery') {
@@ -160,16 +162,43 @@ function processPvConfigMessages(mqttmsg, mqttpayload) {
 		}
 	}
 	else if (mqttmsg == 'openWB/config/get/pv/minCurrentMinPv') {
-	//	setInputValue('minCurrentMinPv', mqttpayload);
+	//                         setInputValue('minCurrentMinPv', mqttpayload);
+	} else if ( mqttmsg == 'openWB/config/get/pv/priorityModeEVBattery' ) {
+		// sets button color in charge mode modal and sets icon in mode select button
+		switch (mqttpayload) {
+			case '0':
+				// battery priority
+				$('#evPriorityBtn').removeClass('btn-success');
+				$('#batteryPriorityBtn').addClass('btn-success');
+				$('.priorityEvBatteryIcon').removeClass('fa-car').addClass('fa-car-battery')
+				break;
+			case '1':
+				// ev priority
+				$('#evPriorityBtn').addClass('btn-success');
+				$('#batteryPriorityBtn').removeClass('btn-success');
+				$('.priorityEvBatteryIcon').removeClass('fa-car-battery').addClass('fa-car')
+				break;
+		}
 	}
 }
+
+function processDisplayMessages(mqttmsg, mqttpayload) 
+{
+  console.log('Get Message ' + mqttmsg + ' ' + mqttpayload);
+  
+  if (mqttmsg == 'openWB/config/get/display/displayLight') 
+	{
+	  setInputValue('DisplayLightInput', mqttpayload);
+	}
+}
+
 
 function processSofortConfigMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/config/get/sofort/
 	// called by handlevar
 
 	// colors theme
-	var index = getIndex(mqttmsg); // extraxt number between two / /
+	var index = getIndex(mqttmsg); // extract number between two / /
 	if (mqttmsg.match(/^openwb\/config\/get\/sofort\/lp\/[1-9][0-9]*\/current$/i)) {
 		var current = parseInt(mqttpayload, 10);
 		if (isNaN(current)) {
@@ -271,6 +300,9 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 		// '3': mode stop
 		// '4': mode standby
 	}
+	else if ( mqttmsg == 'openWB/global/rfidConfigured' ) {
+		wbdata.updateGlobal("rfidConfigured", (mqttpayload == 1))
+	}
 	else if (mqttmsg == 'openWB/global/DailyYieldAllChargePointsKwh') {
 		wbdata.updateGlobal("chargeEnergy", makeFloat(mqttpayload));
 	}
@@ -289,17 +321,16 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 			$('#lastregelungaktiv').text('');
 			$('#lastmanagementShowBtn').addClass('hide');
 		}
-	}
-	else if (mqttmsg == 'openWB/global/ChargeMode') {
+	} else if ( mqttmsg == 'openWB/global/ChargeMode' ) {
 		// set modal button colors depending on charge mode
 		// set visibility of divs
 		// set visibility of priority icon depending on charge mode
-		// (priority icon is encapsulated in another element hidden/shown by housebattery configured or not)
+		// (priority icon is encapsulated in another element hidden/shown by house battery configured or not)
 		switch (mqttpayload) {
 			case '0':
 				// mode sofort
-				$('.chargeModeSelectBtnText').text('Sofort');  // text btn mainpage
-				$('.chargeModeBtn').removeClass('btn-success');  // changes to select btns in modal
+				$('.chargeModeSelectBtnText').text('Sofort');  // text btn main page
+				$('.chargeModeBtn').removeClass('btn-success');  // changes to select buttons in modal
 				$('.chargeModeBtnSofort').addClass('btn-success');
 				$('.priorityEvBatteryIcon').addClass('hide');  // visibility of priority icon
 				$('.chargeMode').addClass('hide'); // modal chargepoint config
@@ -400,7 +431,19 @@ function processHousebatteryMessages(mqttmsg, mqttpayload) {
 function processSystemMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/system
 	// called by handlevar
-	if (mqttmsg == 'openWB/system/Timestamp') {
+	if (mqttmsg == 'openWB/system/debuglevel') {
+		var i = parseInt(mqttpayload, 10);
+		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
+	    debuglevel = i;
+		console.log('set debug level to '+debuglevel );
+//		if ( debuglevel >= 2)  {
+//			$("#homebutton").removeClass("hide");
+//        } else {			
+//			$("#homebutton").addClass("hide");
+//		}	
+	    
+	}
+	else if (mqttmsg == 'openWB/system/Timestamp') {
 		var dateObject = new Date(mqttpayload * 1000);  // Unix timestamp to date-object
 		var time = '&nbsp;';
 		var date = '&nbsp;';
@@ -416,8 +459,8 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 		}
 		$('#time').text(time);
 		$('#date').text(date);
-	} else if (mqttmsg == 'openWB/system/IpAddress') {
-		$('.systemIpAddress').text(mqttpayload);
+//	} else if (mqttmsg == 'openWB/system/IpAddress') {
+//		$('.systemIpAddress').text(mqttpayload);
 	} else if (mqttmsg == 'openWB/system/wizzardDone') {
 		if (mqttpayload > 99) {
 			$("#wizzardModal").modal("hide");
@@ -517,7 +560,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
 
 	// color theme
 
-	var index = getIndex(mqttmsg); // extraxt number between two / /
+	var index = getIndex(mqttmsg); // extract number between two / /
 	if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/w$/i)) {
 		var actualPower = parseInt(mqttpayload, 10);
 		if (isNaN(actualPower)) {
@@ -738,7 +781,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
 	}
 }
 function processSmartHomeDevicesConfigMessages(mqttmsg, mqttpayload) {
-	// processes mqttmsg for topic openWB/config/get/SmartHome/Devices - config variables (Name / configured only!), actual Variables in proccessSMartHomeDevices
+	// processes mqttmsg for topic openWB/config/get/SmartHome/Devices - config variables (Name / configured only!), actual Variables in proccessSmartHomeDevices
 	// called by handlevar
 	// color theme
 	var index = getIndex(mqttmsg);  // extract number between two / /
@@ -810,7 +853,7 @@ function processSmartHomeDevicesMessages(mqttmsg, mqttpayload) {
 		if (isNaN(actualTemp)) {
 			actualTemp = 0;
 		}
-		wbdata.updateSH(index, "temp1", actualTemp);
+		wbdata.updateSH(index, "temperatur", actualTemp);
 	}
 	else if (mqttmsg.match(/^openwb\/SmartHome\/Devices\/[1-9][0-9]*\/TemperatureSensor1$/i)) {
 		var actualTemp = parseFloat(mqttpayload);

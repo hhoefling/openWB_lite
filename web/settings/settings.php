@@ -76,6 +76,7 @@
 							</div>
 						</div>
 					</div>
+					<span class="d_label">&nbsp;isss   </span>				
 					<div class="card-body">
 						<div class="card-text alert alert-info">
 							Wird hier Ja gewählt ist diese openWB nur ein Ladepunkt und übernimmt keine eigene Regelung.
@@ -94,6 +95,7 @@
 										</select>
 									</div>
 								</div>
+							  	<span class="d_label">&nbsp;ssdisplay   </span>				
 							</div>
 						</div>
 					</div>
@@ -135,6 +137,7 @@
 							</div>
 						</div>
 					</div>
+					<span class="d_label"> etprovideraktiv  </span>				
 					<div class="card-body">
 						<div class="card-text alert alert-info">
 							Ermöglicht Laden nach Strompreis. Hierfür wird ein unterstützter Anbieter benötigt. Die Funktion ist nur im Modus Sofortladen aktiv!
@@ -144,11 +147,13 @@
 								<label for="etprovider" class="col-md-4 col-form-label">Anbieter</label>
 								<div class="col">
 									<select name="etprovider" id="etprovider" class="form-control">
-										<option <?php if($etproviderold == "et_awattar") echo "selected" ?> value="et_awattar">aWATTar</option>
+										<option <?php if($etproviderold == "et_awattar") echo "selected" ?> value="et_awattar">aWATTar Hourly</option>
+										<option <?php if($etproviderold == "et_awattarcap") echo "selected" ?> value="et_awattarcap">aWATTar Hourly-CAP</option>
 										<option <?php if($etproviderold == "et_tibber") echo "selected" ?> value="et_tibber">Tibber</option>
 									</select>
 								</div>
 							</div>
+						   <div class="d_label">openWB/global/ETProvider/modulePath etprovider </div>				
 							<div id="awattardiv" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -160,6 +165,7 @@
 											</select>
 										</div>
 									</div>
+						         <div class="d_label">awattarlocation</div>				
 								</div>
 							</div>
 							<div id="tibberdiv" class="hide">
@@ -170,7 +176,7 @@
 									</p>
 									<p>
 										Behandeln Sie Ihren Token wie ein Passwort, da sich darüber auch persönliche Daten aus Ihrem Tibber-Account abfragen lassen! Die Home-ID können Sie (wenn bekannt)
-										in das Eingebafeld selbst eintragen oder <b>nach Eingabe Ihres Token</b> durch Klick auf den Button von der openWB ermitteln lassen. Unerlaubte Zeichen werden aus dem Token und der Home-ID automatisch gelöscht.
+										in das Eingabefeld selbst eintragen oder <b>nach Eingabe Ihres Token</b> durch Klick auf den Button von der openWB ermitteln lassen. Unerlaubte Zeichen werden aus dem Token und der Home-ID automatisch gelöscht.
 									</p>
 									<p>
 										Bei einer fehlerhaften Tibber-Abfrage wird der Strompreis von der openWB bis zur nächsten erfolgreichen Abfrage mit 99.99ct/kWh festgelegt.
@@ -184,12 +190,14 @@
 											<input class="form-control" type="text" name="tibbertoken" id="tibbertoken" value="<?php echo $tibbertokenold; ?>">
 										</div>
 									</div>
+									<div class="d_label">tibbertoken</div>				
 									<div class="form-row mb-1">
 										<label for="tibberhomeid" class="col-md-4 col-form-label">Home-ID</label>
 										<div class="col">
 											<input class="form-control" type="text" name="tibberhomeid" id="tibberhomeid" value="<?php echo $tibberhomeidold; ?>">
 										</div>
 									</div>
+									<div class="d_label">tibberhomeid</div>				
 								</div>
 								<div class="row justify-content-center">
 									<button id="getTibberHomeIdBtn" type="button" class="btn btn-primary m-2">Home-ID ermitteln</button>
@@ -446,6 +454,7 @@
 										<input type="radio" name="stopchargeafterdisclp1" id="stopchargeafterdisclp1On" value="1"<?php if($stopchargeafterdisclp1old == 1) echo " checked=\"checked\"" ?>>Ja
 									</label>
 								</div>
+							   <div class="d_label">stopchargeafterdisclp1</div>				
 							</div>
 							<div id="lp2aktdiv" class="hide">
 								<div class="form-row vaRow mb-1">
@@ -460,6 +469,7 @@
 											<input type="radio" name="stopchargeafterdisclp2" id="stopchargeafterdisclp2On" value="1"<?php if($stopchargeafterdisclp2old == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
 									</div>
+							      <div class="d_label">stopchargeafterdisclp2</div>				
 								</div>
 							</div>
 							<div id="lp3aktdiv" class="hide">
@@ -475,81 +485,7 @@
 											<input type="radio" name="stopchargeafterdisclp3" id="stopchargeafterdisclp3On" value="1"<?php if($stopchargeafterdisclp3old == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
 									</div>
-								</div>
-							</div>
-							<div id="lp4aktdiv" class="hide">
-								<div class="form-row vaRow mb-1">
-									<div class="col-md-4">
-										Ladepunkt 4
-									</div>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp4old == 0) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp4" id="stopchargeafterdisclp4Off" value="0"<?php if($stopchargeafterdisclp4old == 0) echo " checked=\"checked\"" ?>>Nein
-										</label>
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp4old == 1) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp4" id="stopchargeafterdisclp4On" value="1"<?php if($stopchargeafterdisclp4old == 1) echo " checked=\"checked\"" ?>>Ja
-										</label>
-									</div>
-								</div>
-							</div>
-							<div id="lp5aktdiv" class="hide">
-								<div class="form-row vaRow mb-1">
-									<div class="col-md-4">
-										Ladepunkt 5
-									</div>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp5old == 0) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp5" id="stopchargeafterdisclp5Off" value="0"<?php if($stopchargeafterdisclp5old == 0) echo " checked=\"checked\"" ?>>Nein
-										</label>
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp5old == 1) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp5" id="stopchargeafterdisclp5On" value="1"<?php if($stopchargeafterdisclp5old == 1) echo " checked=\"checked\"" ?>>Ja
-										</label>
-									</div>
-								</div>
-							</div>
-							<div id="lp6aktdiv" class="hide">
-								<div class="form-row vaRow mb-1">
-									<div class="col-md-4">
-										Ladepunkt 6
-									</div>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp6old == 0) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp6" id="stopchargeafterdisclp6Off" value="0"<?php if($stopchargeafterdisclp6old == 0) echo " checked=\"checked\"" ?>>Nein
-										</label>
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp6old == 1) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp6" id="stopchargeafterdisclp6On" value="1"<?php if($stopchargeafterdisclp6old == 1) echo " checked=\"checked\"" ?>>Ja
-										</label>
-									</div>
-								</div>
-							</div>
-							<div id="lp7aktdiv" class="hide">
-								<div class="form-row vaRow mb-1">
-									<div class="col-md-4">
-										Ladepunkt 7
-									</div>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp7old == 0) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp7" id="stopchargeafterdisclp7Off" value="0"<?php if($stopchargeafterdisclp7old == 0) echo " checked=\"checked\"" ?>>Nein
-										</label>
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp7old == 1) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp7" id="stopchargeafterdisclp7On" value="1"<?php if($stopchargeafterdisclp7old == 1) echo " checked=\"checked\"" ?>>Ja
-										</label>
-									</div>
-								</div>
-							</div>
-							<div id="lp8aktdiv" class="hide">
-								<div class="form-row vaRow mb-1">
-									<div class="col-md-4">
-										Ladepunkt 8
-									</div>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp8old == 0) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp8" id="stopchargeafterdisclp8Off" value="0"<?php if($stopchargeafterdisclp8old == 0) echo " checked=\"checked\"" ?>>Nein
-										</label>
-										<label class="btn btn-outline-info<?php if($stopchargeafterdisclp8old == 1) echo " active" ?>">
-											<input type="radio" name="stopchargeafterdisclp8" id="stopchargeafterdisclp8On" value="1"<?php if($stopchargeafterdisclp8old == 1) echo " checked=\"checked\"" ?>>Ja
-										</label>
-									</div>
+						    	   <span class="d_label">stopchargeafterdisclp3</span>			
 								</div>
 							</div>
 						</div>
@@ -558,23 +494,16 @@
 						$(function() {
 							var lp2akt = <?php echo $lastmanagementold ?>;
 							var lp3akt = <?php echo $lastmanagements2old ?>;
-							var lp4akt = <?php echo $lastmanagementlp4old ?>;
-							var lp5akt = <?php echo $lastmanagementlp5old ?>;
-							var lp6akt = <?php echo $lastmanagementlp6old ?>;
-							var lp7akt = <?php echo $lastmanagementlp7old ?>;
-							var lp8akt = <?php echo $lastmanagementlp8old ?>;
 
 							if(lp2akt == '0') {
 								hideSection('#lp2aktdiv');
 								hideSection('#loadsharingdiv');
 								showSection('#loadsharingoffdiv');
-								hideSection('#nachtladenlp2div');
 								hideSection('#durchslp2div');
 							} else {
 								showSection('#lp2aktdiv');
 								showSection('#loadsharingdiv');
 								hideSection('#loadsharingoffdiv');
-								showSection('#nachtladenlp2div');
 								showSection('#durchslp2div');
 							}
 							if(lp3akt == '0') {
@@ -584,111 +513,6 @@
 								showSection('#lp3aktdiv');
 								showSection('#durchslp3div');
 							}
-							if(lp4akt == '0') {
-								hideSection('#lp4aktdiv');
-							} else {
-								showSection('#lp4aktdiv');
-							}
-							if(lp5akt == '0') {
-								hideSection('#lp5aktdiv');
-							} else {
-								showSection('#lp5aktdiv');
-							}
-							if(lp6akt == '0') {
-								hideSection('#lp6aktdiv');
-							} else {
-								showSection('#lp6aktdiv');
-							}
-							if(lp7akt == '0') {
-								hideSection('#lp7aktdiv');
-							} else {
-								showSection('#lp7aktdiv');
-							}
-							if(lp8akt == '0') {
-								hideSection('#lp8aktdiv');
-							} else {
-								showSection('#lp8aktdiv');
-							}
-						});
-					</script>
-				</div>
-
-				<!-- Zielladen -->
-				<div class="card border-secondary">
-					<div class="card-header bg-secondary">
-						Zielladen (Beta)
-					</div>
-					<div class="card-body">
-						<div class="form-group">
-							<div class="form-row vaRow mb-1">
-								<label class="col-md-4 col-form-label">Ladepunkt 1</label>
-								<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-									<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 0) echo " active" ?>">
-										<input type="radio" name="zielladenaktivlp1" id="zielladenaktivlp1Off" value="0"<?php if($zielladenaktivlp1old == 0) echo " checked=\"checked\"" ?>>Aus
-									</label>
-									<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 1) echo " active" ?>">
-										<input type="radio" name="zielladenaktivlp1" id="zielladenaktivlp1On" value="1"<?php if($zielladenaktivlp1old == 1) echo " checked=\"checked\"" ?>>An
-									</label>
-								</div>
-							</div>
-							<div id="zielladenaktivlp1div" class="hide">
-								<div class="card-text alert alert-info">
-									Gewünschten SoC, Ziel Uhrzeit sowie Ladegeschwindigkeit einstellen. Sicherstellen das die Akkugröße wie auch die richtige Anzahl der Phasen konfiguriert sind.
-								</div>
-								<div class="form-row mb-1">
-									<label for="zielladensoclp1" class="col-md-4 col-form-label">Ziel-SoC</label>
-									<div class="col-md-8">
-										<div class="form-row vaRow mb-1">
-											<label for="zielladensoclp1" class="col-2 col-form-label valueLabel" suffix="%"><?php echo $zielladensoclp1old; ?> %</label>
-											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="zielladensoclp1" id="zielladensoclp1" min="0" max="100" step="1" value="<?php echo $zielladensoclp1old; ?>">
-											</div>
-										</div>
-										<span class="form-text small">Der SoC Wert auf den geladen werden soll.</span>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label for="zielladenuhrzeitlp1" class="col-md-4 col-form-label">Ziel-Zeitpunkt</label>
-									<div class="col">
-										<input class="form-control" type="text" pattern="20[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31)) (0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])" name="zielladenuhrzeitlp1" id="zielladenuhrzeitlp1" value="<?php echo $zielladenuhrzeitlp1old; ?>">
-										<span class="form-text small">Gültige Werte YYYY-MM-DD HH:MM, z.B. 2018-12-16 06:15. Ende der gewünschten Ladezeit. Das Datum muss exakt in diesem Format mit Leerzeichen zwischen Monat und Stunde eingegeben werden.</span>
-										<!--
-											test datetime input (not supported by all Browsers)
-											value format: YYY-MM-DDTHH:MM needs to be handled before passing to config file!
-										<input class="form-control" type="datetime-local" name="zielladenuhrzeitlp1_test" id="zielladenuhrzeitlp1_test" value="<?php echo str_replace( ' ', 'T', $zielladenuhrzeitlp1old ); ?>">
-										-->
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label for="zielladenalp1" class="col-md-4 col-form-label">Stromstärke</label>
-									<div class="col-md-8">
-										<div class="form-row vaRow mb-1">
-											<label for="zielladenalp1" class="col-2 col-form-label valueLabel" suffix="A"><?php echo $zielladenalp1old; ?> A</label>
-											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="zielladenalp1" id="zielladenalp1" min="6" max="32" step="1" value="<?php echo $zielladenalp1old; ?>">
-											</div>
-										</div>
-										<span class="form-text small">Ampere mit denen geladen werden soll um den Ziel SoC zu erreichen.</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<script>
-						$(function() {
-							function visibility_zielladenaktivlp1() {
-								if($('#zielladenaktivlp1Off').prop("checked")) {
-									hideSection('#zielladenaktivlp1div');
-								} else {
-									showSection('#zielladenaktivlp1div');
-								}
-							}
-
-							$('input[type=radio][name=zielladenaktivlp1]').change(function(){
-								visibility_zielladenaktivlp1();
-							});
-
-							visibility_zielladenaktivlp1();
 						});
 					</script>
 				</div>
@@ -710,6 +534,7 @@
 									<label for="durchslp1" class="col-md-4 col-form-label">Durchschnittsverbrauch in kWh/100km</label>
 									<div class="col">
 										<input class="form-control" type="number" min="1" step="0.1" name="durchslp1" id="durchslp1" value="<?php echo $durchslp1old ?>">
+							         <span class="d_label">durchslp1</span>				
 										<span class="form-text small">Gültige Werte xx.xx, z.B. 14.5. Dient zur Berechnung der geladenen Strecke.</span>
 									</div>
 								</div>
@@ -717,36 +542,8 @@
 									<label for="akkuglp1" class="col-md-4 col-form-label">Akkugröße in kWh</label>
 									<div class="col">
 										<input class="form-control" type="number" min="1" step="1" name="akkuglp1" id="akkuglp1" value="<?php echo $akkuglp1old ?>">
+							         <span class="d_label">akkuglp1</span>				
 										<span class="form-text small">Gültige Werte xx, z.B. 41. Dient zur Berechnung der benötigten Ladezeit.</span>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label class="col-md-4 col-form-label">Anzahl genutzter Phasen</label>
-									<div class="col">
-										<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-											<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 1) echo " active" ?>">
-												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp11" value="1"<?php if($zielladenphasenlp1old == 1) echo " checked=\"checked\"" ?>>1
-											</label>
-											<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 2) echo " active" ?>">
-												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp12" value="2"<?php if($zielladenphasenlp1old == 2) echo " checked=\"checked\"" ?>>2
-											</label>
-											<label class="btn btn-outline-info<?php if($zielladenaktivlp1old == 3) echo " active" ?>">
-												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp13" value="3"<?php if($zielladenphasenlp1old == 3) echo " checked=\"checked\"" ?>>3
-											</label>
-										</div>
-										<span class="form-text small">Nur für Zielladen relevant.</span>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label for="zielladenmaxalp1" class="col-md-4 col-form-label">maximale Stromstärke</label>
-									<div class="col-md-8">
-										<div class="form-row vaRow mb-1">
-											<label for="zielladenmaxalp1" class="col-2 col-form-label valueLabel" suffix="A"><?php echo $zielladenmaxalp1old; ?> A</label>
-											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="zielladenmaxalp1" id="zielladenmaxalp1" min="6" max="32" step="1" value="<?php echo $zielladenmaxalp1old; ?>">
-											</div>
-										</div>
-										<span class="form-text small">Ampere mit denen geladen werden kann, um den Ziel SoC zu erreichen. Orientiert an der Leistung der Hausinstallation, oder der des zu ladenden Autos.</span>
 									</div>
 								</div>
 							</div>
@@ -763,6 +560,7 @@
 									<label for="durchslp2" class="col-md-4 col-form-label">Durchschnittsverbrauch in kWh/100km</label>
 									<div class="col">
 										<input class="form-control" type="number" min="1" step=".1" name="durchslp2" id="durchslp2" value="<?php echo $durchslp2old ?>">
+							         <span class="d_label">durchslp2</span>				
 										<span class="form-text small">Gültige Werte xx.xx, z.B. 14.5. Dient zur Berechnung der geladenen Strecke.</span>
 									</div>
 								</div>
@@ -770,6 +568,7 @@
 									<label for="akkuglp2" class="col-md-4 col-form-label">Akkugröße in kWh</label>
 									<div class="col">
 										<input class="form-control" type="number" min="1" step="1" name="akkuglp2" id="akkuglp2" value="<?php echo $akkuglp2old ?>">
+							         <span class="d_label">akkuglp2</span>				
 										<span class="form-text small">Gültige Werte xx, z.B. 41. Dient zur Berechnung der benötigten Ladezeit.</span>
 									</div>
 								</div>
@@ -787,6 +586,7 @@
 									<label for="durchslp3" class="col-md-4 col-form-label">Durchschnittsverbrauch in kWh/100km</label>
 									<div class="col">
 										<input class="form-control" type="number" min="1" step=".1" name="durchslp3" id="durchslp3" value="<?php echo $durchslp3old ?>">
+							         <span class="d_label">durchslp3</span>				
 										<span class="form-text small">Gültige Werte xx.xx, z.B. 14.5. Dient zur Berechnung der geladenen Strecke.</span>
 									</div>
 								</div>
@@ -814,6 +614,7 @@
 							</div>
 						</div>
 					</div>
+					<span class="d_label">u1p3paktiv</span>				
 					<div class="card-body">
 						<div class="card-text alert alert-info">
 							Automatisierte Umschaltung von 1- und 3-phasiger Ladung. Nur aktivieren, wenn diese Option in der OpenWB verbaut ist. Je nach gekaufter Hardwareoption gültig für alle Ladepunkte!
@@ -830,6 +631,7 @@
 											<input type="radio" name="u1p3psofort" id="u1p3psofort3" value="3"<?php if($u1p3psofortold == 3) echo " checked=\"checked\"" ?>>dreiphasig
 										</label>
 									</div>
+								   <span class="d_label">u1p3psofort</span>				
 								</div>
 								<div class="form-row mb-1">
 									<label class="col-md-4 col-form-label">Standby</label>
@@ -841,6 +643,7 @@
 											<input type="radio" name="u1p3pstandby" id="u1p3pstandby3" value="3"<?php if($u1p3pstandbyold == 3) echo " checked=\"checked\"" ?>>dreiphasig
 										</label>
 									</div>
+								   <span class="d_label">u1p3pstandby</span>				
 								</div>
 								<div class="form-row mb-1">
 									<label class="col-md-4 col-form-label">Nachtladen</label>
@@ -852,6 +655,7 @@
 											<input type="radio" name="u1p3pnl" id="u1p3pnl3" value="3"<?php if($u1p3pnlold == 3) echo " checked=\"checked\"" ?>>dreiphasig
 										</label>
 									</div>
+								   <span class="d_label">u1p3pnl</span>				
 								</div>
 								<div class="form-row mb-1">
 									<label class="col-md-4 col-form-label">Min + PV Laden</label>
@@ -866,6 +670,7 @@
 											<input type="radio" name="u1p3pminundpv" id="u1p3pminundpv4" value="4"<?php if($u1p3pminundpvold == 4) echo " checked=\"checked\"" ?>>Automatikmodus
 										</label>
 									</div>
+								   <span class="d_label">u1p3pminundpv</span>				
 								</div>
 								<div class="form-row mb-1">
 									<label class="col-md-4 col-form-label">Nur PV Laden</label>
@@ -880,6 +685,7 @@
 											<label class="btn btn-outline-info<?php if($u1p3pnurpvold == 4) echo " active" ?>">
 												<input type="radio" name="u1p3pnurpv" id="u1p3pnurpv4" value="4"<?php if($u1p3pnurpvold == 4) echo " checked=\"checked\"" ?>>Automatikmodus
 											</label>
+   								   <span class="d_label">u1p3pnurpv</span>				
 										</div>
 									</div>
 								</div>
@@ -892,6 +698,7 @@
 												<input type="range" class="form-control-range rangeInput" name="u1p3schaltparam" id="u1p3schaltparam" min="1" max="15" step="1" value="<?php echo $u1p3schaltparamold; ?>">
 											</div>
 										</div>
+   								   <span class="d_label">u1p3schaltparam</span>				
 										<span class="form-text small">Im Automatikmodus wird die PV Ladung einphasig begonnen. Um zu viele Schaltungen zu vermeiden wird Anhand dieses Wertes definiert wann die Umschaltung erfolgen soll. Ist für durchgehend x Minuten die Maximalstromstärke erreicht, wird auf dreiphasige Ladung umgestellt. Ist die Ladung nur für ein Intervall unterhalb der Maximalstromstärke, beginnt der Counter für die Umschaltung erneut. Ist die Ladung im dreiphasigen Modus für 16 - x Minuten bei der Minimalstromstärke, wird wieder auf einphasige Ladung gewechselt. Standardmäßig ist dieser Wert bei 8 min, sprich nach 8 min Maximalstromstärke wird auf 3 Phasige Ladung umgestellt und nach 16 - 8 = 8 min bei Minimalstromstärke wird wieder auf einphasige Ladung gewechselt.</span>
 									</div>
 								</div>
@@ -904,6 +711,7 @@
 												<input type="range" class="form-control-range rangeInput" name="u1p3ppause" id="u1p3ppause" min="2" max="150" step="1" value="<?php echo $u1p3ppauseold; ?>">
 											</div>
 										</div>
+   								   <span class="d_label">u1p3ppause</span>				
 										<span class="form-text small">
 											Die Standardeinstellung ist 2 Sekunden. Falls ein Fahrzeug den Ladevorgang nach einer Umschaltung nicht zuverlässig startet, kann dieser Wert erhöht werden.
 											<span class="text-danger">Achtung: experimentelle Einstellung!</span>
@@ -924,6 +732,7 @@
 										</label>
 									</div>
 								</div>
+   							<span class="d_label">schieflastaktiv</span>				
 								<div class="form-row mb-1 hide" id="schieflastan">
 									<label for="schieflastmaxa" class="col-md-4 col-form-label">Schieflastbegrenzung</label>
 									<div class="col-md-8">
@@ -933,6 +742,7 @@
 												<input type="range" class="form-control-range rangeInput" name="schieflastmaxa" id="schieflastmaxa" min="10" max="32" step="1" value="<?php echo $schieflastmaxaold; ?>">
 											</div>
 										</div>
+            						<span class="d_label">schieflastmaxa</span>				
 										<span class="form-text small">Gibt an mit wieviel Ampere maximal geladen wird wenn die automatische Umschaltung aktiv ist und mit einer Phase lädt.</span>
 									</div>
 								</div>
@@ -971,467 +781,6 @@
 					</script>
 				</div>
 
-				<!-- Nachtlademodus -->
-				<div class="card border-info">
-					<div class="card-header bg-info">
-						Nachtlademodus
-					</div>
-					<div class="card-body">
-						<div class="form-group">
-							<div class="form-row vaRow mb-1">
-								<div class="col">
-									Aktivierung je Lademodus
-								</div>
-							</div>
-							<div class="form-row vaRow mb-1">
-								<label class="col-md-4 col-form-label">Sofort</label>
-								<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-									<label class="btn btn-outline-info<?php if($nlakt_sofortold == 0) echo " active" ?>">
-										<input type="radio" name="nlakt_sofort" id="nlakt_sofortOff" value="0"<?php if($nlakt_sofortold == 0) echo " checked=\"checked\"" ?>>Aus
-									</label>
-									<label class="btn btn-outline-info<?php if($nlakt_sofortold == 1) echo " active" ?>">
-										<input type="radio" name="nlakt_sofort" id="nlakt_sofortOn" value="1"<?php if($nlakt_sofortold == 1) echo " checked=\"checked\"" ?>>An
-									</label>
-								</div>
-							</div>
-							<div class="form-row vaRow mb-1">
-								<label class="col-md-4 col-form-label">Min+PV</label>
-								<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-									<label class="btn btn-outline-info<?php if($nlakt_minpvold == 0) echo " active" ?>">
-										<input type="radio" name="nlakt_minpv" id="nlakt_minpvOff" value="0"<?php if($nlakt_minpvold == 0) echo " checked=\"checked\"" ?>>Aus
-									</label>
-									<label class="btn btn-outline-info<?php if($nlakt_minpvold == 1) echo " active" ?>">
-										<input type="radio" name="nlakt_minpv" id="nlakt_minpvOn" value="1"<?php if($nlakt_minpvold == 1) echo " checked=\"checked\"" ?>>An
-									</label>
-								</div>
-							</div>
-							<div class="form-row vaRow mb-1">
-								<label class="col-md-4 col-form-label">Nur PV</label>
-								<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-									<label class="btn btn-outline-info<?php if($nlakt_nurpvold == 0) echo " active" ?>">
-										<input type="radio" name="nlakt_nurpv" id="nlakt_nurpvOff" value="0"<?php if($nlakt_nurpvold == 0) echo " checked=\"checked\"" ?>>Aus
-									</label>
-									<label class="btn btn-outline-info<?php if($nlakt_nurpvold == 1) echo " active" ?>">
-										<input type="radio" name="nlakt_nurpv" id="nlakt_nurpvOn" value="1"<?php if($nlakt_nurpvold == 1) echo " checked=\"checked\"" ?>>An
-									</label>
-								</div>
-							</div>
-							<div class="form-row vaRow mb-1">
-								<label class="col-md-4 col-form-label">Standby</label>
-								<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-									<label class="btn btn-outline-info<?php if($nlakt_standbyold == 0) echo " active" ?>">
-										<input type="radio" name="nlakt_standby" id="nlakt_standbyOff" value="0"<?php if($nlakt_standbyold == 0) echo " checked=\"checked\"" ?>>Aus
-									</label>
-									<label class="btn btn-outline-info<?php if($nlakt_standbyold == 1) echo " active" ?>">
-										<input type="radio" name="nlakt_standby" id="nlakt_standbyOn" value="1"<?php if($nlakt_standbyold == 1) echo " checked=\"checked\"" ?>>An
-									</label>
-								</div>
-							</div>
-						</div>
-						<hr class="border-info">
-						<div class="form-group">
-							<div class="form-row vaRow mb-1">
-								<label class="col-md-4 col-form-label">Ladepunkt 1</label>
-								<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-									<label class="btn btn-outline-info<?php if($nachtladenold == 0) echo " active" ?>">
-										<input type="radio" name="nachtladen" id="nachtladenOff" value="0"<?php if($nachtladenold == 0) echo " checked=\"checked\"" ?>>Aus
-									</label>
-									<label class="btn btn-outline-info<?php if($nachtladenold == 1) echo " active" ?>">
-										<input type="radio" name="nachtladen" id="nachtladenOn" value="1"<?php if($nachtladenold == 1) echo " checked=\"checked\"" ?>>An
-									</label>
-								</div>
-							</div>
-							<div id="nachtladenan" class="hide">
-								<div class="form-row mb-1">
-									<div class="col">
-										Nachtladen
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label for="nachtll" class="col-md-4 col-form-label">Stromstärke in A</label>
-									<div class="col-md-8">
-										<div class="form-row vaRow mb-1">
-											<label for="nachtll" class="col-2 col-form-label valueLabel" suffix="A"><?php echo $nachtllold; ?> A</label>
-											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="nachtll" id="nachtll" min="6" max="32" step="1" value="<?php echo $nachtllold; ?>">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<div class="col-md-4">
-										Zeitspanne
-									</div>
-									<div class="col">
-										<div class="form-row">
-											<div class="col-sm-6">
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<div class="input-group-text">
-															Anfang
-														</div>
-													</div>
-													<select name="nachtladenabuhr" id="nachtladenabuhr" class="form-control">
-														<option <?php if($nachtladenabuhrold == 17) echo "selected" ?> value="17">17:00</option>
-														<option <?php if($nachtladenabuhrold == 18) echo "selected" ?> value="18">18:00</option>
-														<option <?php if($nachtladenabuhrold == 19) echo "selected" ?> value="19">19:00</option>
-														<option <?php if($nachtladenabuhrold == 20) echo "selected" ?> value="20">20:00</option>
-														<option <?php if($nachtladenabuhrold == 21) echo "selected" ?> value="21">21:00</option>
-														<option <?php if($nachtladenabuhrold == 22) echo "selected" ?> value="22">22:00</option>
-														<option <?php if($nachtladenabuhrold == 23) echo "selected" ?> value="23">23:00</option>
-														<option <?php if($nachtladenabuhrold == 0) echo "selected" ?> value="0">0:00</option>
-														<option <?php if($nachtladenabuhrold == 1) echo "selected" ?> value="1">1:00</option>
-														<option <?php if($nachtladenabuhrold == 2) echo "selected" ?> value="2">2:00</option>
-														<option <?php if($nachtladenabuhrold == 3) echo "selected" ?> value="3">3:00</option>
-														<option <?php if($nachtladenabuhrold == 4) echo "selected" ?> value="4">4:00</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<div class="input-group-text">
-															Ende
-														</div>
-													</div>
-													<select name="nachtladenbisuhr" id="nachtladenbisuhr" class="form-control">
-														<option <?php if($nachtladenbisuhrold == 20) echo "selected" ?> value="20">20:00</option>
-														<option <?php if($nachtladenbisuhrold == 21) echo "selected" ?> value="21">21:00</option>
-														<option <?php if($nachtladenbisuhrold == 22) echo "selected" ?> value="22">22:00</option>
-														<option <?php if($nachtladenbisuhrold == 23) echo "selected" ?> value="23">23:00</option>
-														<option <?php if($nachtladenbisuhrold == 0) echo "selected" ?> value="0">0:00</option>
-														<option <?php if($nachtladenbisuhrold == 1) echo "selected" ?> value="1">1:00</option>
-														<option <?php if($nachtladenbisuhrold == 2) echo "selected" ?> value="2">2:00</option>
-														<option <?php if($nachtladenbisuhrold == 3) echo "selected" ?> value="3">3:00</option>
-														<option <?php if($nachtladenbisuhrold == 4) echo "selected" ?> value="4">4:00</option>
-														<option <?php if($nachtladenbisuhrold == 5) echo "selected" ?> value="5">5:00</option>
-														<option <?php if($nachtladenbisuhrold == 6) echo "selected" ?> value="6">6:00</option>
-														<option <?php if($nachtladenbisuhrold == 7) echo "selected" ?> value="7">7:00</option>
-														<option <?php if($nachtladenbisuhrold == 8) echo "selected" ?> value="8">8:00</option>
-														<option <?php if($nachtladenbisuhrold == 9) echo "selected" ?> value="9">9:00</option>
-													</select>
-												</div>
-											</div>
-										</div>
-										<span class="form-text small">Zeitspanne, in der nachts geladen werden soll.</span>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label for="nachtsoc" class="col-md-4 col-form-label">SoC Sonntag bis Donnerstag</label>
-									<div class="col-md-8">
-										<div class="form-row vaRow mb-1">
-											<label for="nachtsoc" class="col-2 col-form-label valueLabel" suffix="%"><?php echo $nachtsocold; ?> %</label>
-											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="nachtsoc" id="nachtsoc" min="5" max="100" step="1" value="<?php echo $nachtsocold; ?>">
-											</div>
-										</div>
-										<span class="form-text small">Wenn SoC Modul vorhanden wird Nachts bis xx% SoC geladen in dem angegebenen Zeitfenster. Das SoC Fenster is von von Sonntag Abend bis Freitag Morgen aktiv.</span>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label for="nachtsoc1" class="col-md-4 col-form-label">SoC Freitag bis Sonntag</label>
-									<div class="col-md-8">
-										<div class="form-row vaRow mb-1">
-											<label for="nachtsoc1" class="col-2 col-form-label valueLabel" suffix="%"><?php echo $nachtsoc1old; ?> %</label>
-											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="nachtsoc1" id="nachtsoc1" min="5" max="100" step="1" value="<?php echo $nachtsoc1old; ?>">
-											</div>
-										</div>
-										<span class="form-text small">Wenn SoC Modul vorhanden wird Nachts bis xx% SoC geladen in dem angegebenen Zeitfenster. Das SoC Fenster is von von Freitag Morgen bis Sonntag Abend aktiv.</span>
-									</div>
-								</div>
-								<hr class="border-info">
-								<div class="form-row mb-1">
-									<div class="col">
-										Morgensladen
-									</div>
-								</div>
-								<?php
-									function generateTimeOptions($hourStart, $minuteStart, $hourStop, $minuteStop, $minuteStep, $selectedValue) {
-										$minutesOfDayStop = $hourStop * 60 + $minuteStop;
-										for($minutesOfDay = $hourStart * 60 + $minuteStart; $minutesOfDay <= $minutesOfDayStop; $minutesOfDay += $minuteStep) {
-											$formattedTime = sprintf('%02d:%02d', (int)($minutesOfDay / 60), $minutesOfDay  % 60);
-											echo '<option value="', $formattedTime, '"', $formattedTime == $selectedValue ? ' selected' : '', '>', $formattedTime, "</option>\n";
-										}
-									}
-									function generateMorningChargeDayOptions($dayName, $dayShortcut) {
-										// mollp1 = "MOrgens Laden LadePunkt 1"
-										$prefix = "mollp1$dayShortcut"
-								?>
-								<div class="form-row mb-1">
-									<div class="col">
-										<?php echo $dayName; ?>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label for="<?php echo $prefix; ?>ll" class="col-md-4 col-form-label">Stromstärke in A</label>
-									<div class="col-md-8">
-										<div class="form-row vaRow mb-1">
-											<label for="<?php echo $prefix; ?>ll" class="col-2 col-form-label valueLabel" suffix="A"><?php echo $GLOBALS["${prefix}llold"]; ?> A</label>
-											<div class="col-10">
-												<input type="range" class="form-control-range rangeInput" name="<?php echo $prefix; ?>ll" id="<?php echo $prefix; ?>ll" min="6" max="32" step="1" value="<?php echo $GLOBALS["${prefix}llold"]; ?>">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<div class="col-md-4">
-										Zeitspanne
-									</div>
-									<div class="col">
-										<div class="form-row">
-											<div class="col-sm-6">
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<div class="input-group-text">
-															Anfang
-														</div>
-													</div>
-													<select name="<?php echo $prefix; ?>ab" id="<?php echo $prefix; ?>ab" class="form-control">
-														<?php generateTimeOptions(3, 0, 10, 45, 15, $GLOBALS["${prefix}abold"]); ?>
-													</select>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<div class="input-group-text">
-															Ende
-														</div>
-													</div>
-													<select name="<?php echo $prefix; ?>bis" id="<?php echo $prefix; ?>bis" class="form-control">
-														<?php generateTimeOptions(3, 0, 11, 0, 15, $GLOBALS["${prefix}bisold"]); ?>
-													</select>
-												</div>
-											</div>
-										</div>
-										<span class="form-text small">Zeitspanne, in der am <?php echo $dayName; ?> morgens geladen werden soll.</span>
-									</div>
-								</div>
-								<?php
-									}
-									generateMorningChargeDayOptions('Montag', 'mo');
-									generateMorningChargeDayOptions('Dienstag', 'di');
-									generateMorningChargeDayOptions('Mittwoch', 'mi');
-									generateMorningChargeDayOptions('Donnerstag', 'do');
-									generateMorningChargeDayOptions('Freitag', 'fr');
-									generateMorningChargeDayOptions('Samstag', 'sa');
-									generateMorningChargeDayOptions('Sonntag', 'so');
-								?>
-							</div>
-						</div>
-
-						<div id="nachtladenlp2div" class="hide">
-							<hr class="border-info">
-							<div class="form-group">
-								<div class="form-row vaRow mb-1">
-									<label class="col-md-4 col-form-label">Ladepunkt 2</label>
-									<div class="btn-group btn-group-toggle col" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($nachtladens1old == 0) echo " active" ?>">
-											<input type="radio" name="nachtladens1" id="nachtladens1Off" value="0"<?php if($nachtladens1old == 0) echo " checked=\"checked\"" ?>>Aus
-										</label>
-										<label class="btn btn-outline-info<?php if($nachtladens1old == 1) echo " active" ?>">
-											<input type="radio" name="nachtladens1" id="nachtladens1On" value="1"<?php if($nachtladens1old == 1) echo " checked=\"checked\"" ?>>An
-										</label>
-									</div>
-								</div>
-								<div id="nachtladenans1" class="hide">
-									<div class="form-row mb-1">
-										<div class="col">
-											Nachtladen
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<label for="nachtlls1" class="col-md-4 col-form-label">Stromstärke in A</label>
-										<div class="col-md-8">
-											<div class="form-row vaRow mb-1">
-												<label for="nachtlls1" class="col-2 col-form-label valueLabel" suffix="A"><?php echo $nachtlls1old; ?> A</label>
-												<div class="col-10">
-													<input type="range" class="form-control-range rangeInput" name="nachtlls1" id="nachtlls1" min="6" max="32" step="1" value="<?php echo $nachtlls1old; ?>">
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="col-md-4">
-											Zeitspanne
-										</div>
-										<div class="col">
-											<div class="form-row">
-												<div class="col-sm-6">
-													<div class="input-group">
-														<div class="input-group-prepend">
-															<div class="input-group-text">
-																Anfang
-															</div>
-														</div>
-														<select name="nachtladenabuhrs1" id="nachtladenabuhrs1" class="form-control">
-															<option <?php if($nachtladenabuhrs1old == 17) echo "selected" ?> value="17">17:00</option>
-															<option <?php if($nachtladenabuhrs1old == 18) echo "selected" ?> value="18">18:00</option>
-															<option <?php if($nachtladenabuhrs1old == 19) echo "selected" ?> value="19">19:00</option>
-															<option <?php if($nachtladenabuhrs1old == 20) echo "selected" ?> value="20">20:00</option>
-															<option <?php if($nachtladenabuhrs1old == 21) echo "selected" ?> value="21">21:00</option>
-															<option <?php if($nachtladenabuhrs1old == 22) echo "selected" ?> value="22">22:00</option>
-															<option <?php if($nachtladenabuhrs1old == 23) echo "selected" ?> value="23">23:00</option>
-															<option <?php if($nachtladenabuhrs1old == 0)  echo "selected" ?> value="0">0:00</option>
-															<option <?php if($nachtladenabuhrs1old == 1)  echo "selected" ?> value="1">1:00</option>
-															<option <?php if($nachtladenabuhrs1old == 2)  echo "selected" ?> value="2">2:00</option>
-															<option <?php if($nachtladenabuhrs1old == 3)  echo "selected" ?> value="3">3:00</option>
-															<option <?php if($nachtladenabuhrs1old == 4)  echo "selected" ?> value="4">4:00</option>
-														</select>
-													</div>
-												</div>
-												<div class="col-sm-6">
-													<div class="input-group">
-														<div class="input-group-prepend">
-															<div class="input-group-text">
-																Ende
-															</div>
-														</div>
-														<select name="nachtladenbisuhrs1" id="nachtladenbisuhrs1" class="form-control">
-															<option <?php if($nachtladenbisuhrs1old == 20) echo "selected" ?> value="20">20:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 21) echo "selected" ?> value="21">21:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 22) echo "selected" ?> value="22">22:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 23) echo "selected" ?> value="23">23:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 0) echo "selected" ?> value="0">0:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 1) echo "selected" ?> value="1">1:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 2) echo "selected" ?> value="2">2:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 3) echo "selected" ?> value="3">3:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 4) echo "selected" ?> value="4">4:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 5) echo "selected" ?> value="5">5:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 6) echo "selected" ?> value="6">6:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 7) echo "selected" ?> value="7">7:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 8) echo "selected" ?> value="8">8:00</option>
-															<option <?php if($nachtladenbisuhrs1old == 9) echo "selected" ?> value="9">9:00</option>
-														</select>
-													</div>
-												</div>
-											</div>
-											<span class="form-text small">Zeitspanne, in der nachts geladen werden soll.</span>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<label for="nachtsocs1" class="col-md-4 col-form-label">SoC Sonntag bis Donnerstag</label>
-										<div class="col-md-8">
-											<div class="form-row vaRow mb-1">
-												<label for="nachtsocs1" class="col-2 col-form-label valueLabel" suffix="%"><?php echo $nachtsocs1old; ?> %</label>
-												<div class="col-10">
-													<input type="range" class="form-control-range rangeInput" name="nachtsocs1" id="nachtsocs1" min="5" max="100" step="1" value="<?php echo $nachtsocs1old; ?>">
-												</div>
-											</div>
-											<span class="form-text small">Wenn SoC Modul vorhanden wird Nachts bis xx% SoC geladen in dem angegebenen Zeitfenster. Das SoC Fenster is von von Sonntag Abend bis Freitag Morgen aktiv.</span>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<label for="nachtsoc1s1" class="col-md-4 col-form-label">SoC Freitag bis Sonntag</label>
-										<div class="col-md-8">
-											<div class="form-row vaRow mb-1">
-												<label for="nachtsoc1s1" class="col-2 col-form-label valueLabel" suffix="%"><?php echo $nachtsoc1s1old; ?> %</label>
-												<div class="col-10">
-													<input type="range" class="form-control-range rangeInput" name="nachtsoc1s1" id="nachtsoc1s1" min="5" max="100" step="1" value="<?php echo $nachtsoc1s1old; ?>">
-												</div>
-											</div>
-											<span class="form-text small">Wenn SoC Modul vorhanden wird Nachts bis xx% SoC geladen in dem angegebenen Zeitfenster. Das SoC Fenster is von von Freitag Morgen bis Sonntag Abend aktiv.</span>
-										</div>
-									</div>
-									<hr class="border-info">
-									<div class="form-row mb-1">
-										<div class="col">
-											Morgensladen
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<label for="nacht2lls1" class="col-md-4 col-form-label">Stromstärke in A</label>
-										<div class="col-md-8">
-											<div class="form-row vaRow mb-1">
-												<label for="nacht2lls1" class="col-2 col-form-label valueLabel" suffix="A"><?php echo $nacht2lls1old; ?> A</label>
-												<div class="col-10">
-													<input type="range" class="form-control-range rangeInput" name="nacht2lls1" id="nacht2lls1" min="6" max="32" step="1" value="<?php echo $nacht2lls1old; ?>">
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="col-md-4">
-											Zeitspanne
-										</div>
-										<div class="col">
-											<div class="form-row">
-												<div class="col-sm-6">
-													<div class="input-group">
-														<div class="input-group-prepend">
-															<div class="input-group-text">
-																Anfang
-															</div>
-														</div>
-														<select name="nachtladen2abuhrs1" id="nachtladen2abuhrs1" class="form-control">
-															<option <?php if($nachtladen2abuhrs1old == 3) echo "selected" ?> value="3">03:00</option>
-															<option <?php if($nachtladen2abuhrs1old == 4) echo "selected" ?> value="4">04:00</option>
-															<option <?php if($nachtladen2abuhrs1old == 5) echo "selected" ?> value="5">05:00</option>
-															<option <?php if($nachtladen2abuhrs1old == 6) echo "selected" ?> value="6">06:00</option>
-															<option <?php if($nachtladen2abuhrs1old == 7) echo "selected" ?> value="7">07:00</option>
-															<option <?php if($nachtladen2abuhrs1old == 8) echo "selected" ?> value="8">08:00</option>
-															<option <?php if($nachtladen2abuhrs1old == 9) echo "selected" ?> value="9">09:00</option>
-														</select>
-													</div>
-												</div>
-												<div class="col-sm-6">
-													<div class="input-group">
-														<div class="input-group-prepend">
-															<div class="input-group-text">
-																Ende
-															</div>
-														</div>
-														<select name="nachtladen2bisuhrs1" id="nachtladen2bisuhrs1" class="form-control">
-															<option <?php if($nachtladen2bisuhrs1old == 4) echo "selected" ?> value="4">04:00</option>
-															<option <?php if($nachtladen2bisuhrs1old == 5) echo "selected" ?> value="5">05:00</option>
-															<option <?php if($nachtladen2bisuhrs1old == 6) echo "selected" ?> value="6">06:00</option>
-															<option <?php if($nachtladen2bisuhrs1old == 7) echo "selected" ?> value="7">07:00</option>
-															<option <?php if($nachtladen2bisuhrs1old == 8) echo "selected" ?> value="8">08:00</option>
-															<option <?php if($nachtladen2bisuhrs1old == 9) echo "selected" ?> value="9">09:00</option>
-															<option <?php if($nachtladen2bisuhrs1old == 10) echo "selected" ?> value="10">10:00</option>
-														</select>
-													</div>
-												</div>
-											</div>
-											<span class="form-text small">Zeitspanne, in der morgens geladen werden soll.</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<script>
-						$(function() {
-							function visibility_nachtladen() {
-								if($('#nachtladenOff').prop("checked")) {
-									hideSection('#nachtladenan');
-								} else {
-									showSection('#nachtladenan');
-								}
-							}
-
-							function visibility_nachtladens1() {
-								if($('#nachtladens1Off').prop("checked")) {
-									hideSection('#nachtladenans1');
-								} else {
-									showSection('#nachtladenans1');
-								}
-							}
-
-							$('input[type=radio][name=nachtladen]').change(function(){
-								visibility_nachtladen();
-							});
-
-							$('input[type=radio][name=nachtladens1]').change(function(){
-								visibility_nachtladens1();
-							});
-
-							visibility_nachtladen();
-							visibility_nachtladens1()
-						});
-					</script>
-				</div>
 
 				<!-- EVU basiertes Lastmanagement -->
 				<div class="card border-warning">
@@ -1477,6 +826,7 @@
 											</div>
 										</div>
 									</div>
+	             				<span class="d_label">lastmaxap1 lastmaxap2 lastmaxap3 </span>				
 									<span class="form-text small">Gültige Werte: ganze Zahl größer 7. Definiert die maximal erlaubte Stromstärke der einzelnen Phasen des <b>Hausanschlusses</b> im Sofort Laden Modus, sofern das EVU Modul die Werte je Phase zur Verfügung stellt. Hiermit ist nicht der Anschluss der openWB gemeint! Übliche Werte für ein EFH/MFH sind im Bereich 35 bis 63A.</span>
 								</div>
 							</div>
@@ -1484,6 +834,7 @@
 								<label for="lastmmaxw" class="col-md-4 col-form-label">maximaler Bezug in W</label>
 								<div class="col">
 									<input class="form-control" type="number" min="2000" max="1000000" step="1000" name="lastmmaxw" id="lastmmaxw" value="<?php echo $lastmmaxwold ?>">
+	             				<span class="d_label">lastmmaxw </span>				
 									<span class="form-text small">Gültige Werte: 2000-1000000W in ganzen 1000W-Schritten. Definiert die maximal erlaubten bezogenen Watt des Hausanschlusses im Sofort Laden Modus, sofern die Bezugsleistung bekannt ist.</span>
 								</div>
 							</div>
@@ -1513,6 +864,7 @@
 												<input type="radio" name="loadsharinglp12" id="loadsharinglp12On" value="1"<?php if($loadsharinglp12old == 1) echo " checked=\"checked\"" ?>>Aktiviert
 											</label>
 										</div>
+             					   <span class="d_label">loadsharinglp12 </span>				
 										<span class="form-text small">
 											Wenn Ladepunkt 1 und 2 sich eine Zuleitung teilen, diese Option aktivieren. Sie stellt in jedem Lademodus sicher, dass nicht mehr als 16 bzw. 32A je Phase in der Summe von Ladepunkt 1 und 2 genutzt werden.
 											<span class="text-danger">Bei der OpenWB Duo muss diese Option aktiviert werden!</span>
@@ -1531,6 +883,7 @@
 													<input type="radio" name="loadsharingalp12" id="loadsharingalp1232" value="32"<?php if($loadsharingalp12old == 32) echo " checked=\"checked\"" ?>>32 Ampere
 												</label>
 											</div>
+	             					   <span class="d_label">loadsharingalp12 </span>				
 										</div>
 									</div>
 									<div class="alert alert-warning">

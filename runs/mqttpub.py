@@ -1,11 +1,9 @@
 import re
 import sys
-import time
-import fileinput
 import argparse
 import os
 import paho.mqtt.client as mqtt
-from subprocess import Popen
+
 
 def main():
     parser = argparse.ArgumentParser(description='openWB MQTT Publisher')
@@ -21,7 +19,7 @@ def main():
     for line in sys.stdin:
         m = re.match('(.*)=(.*)', line)
         if m:
-            #print("Publishing '%s' :: '%s'" % (m.group(1), m.group(2)))
+            # print("Publishing '%s' :: '%s'" % (m.group(1), m.group(2)))
             client.publish(m.group(1), payload=m.group(2), qos=args.qos, retain=args.retain)
 
     client.loop(timeout=2.0)

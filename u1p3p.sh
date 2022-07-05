@@ -7,10 +7,10 @@ u1p3pswitch(){
 		nachtladenstate=$(<ramdisk/nachtladenstate)
 		nachtladen2state=$(<ramdisk/nachtladen2state)
 		if [ -z "$u1p3schaltparam" ]; then
-			u1p3schaltparam = 8
+			u1p3schaltparam=8
 		fi
-		uhwaittime=$(( $u1p3schaltparam * 60 ))
-		urwaittime=$(( (16 - $u1p3schaltparam) * 60 ))
+		uhwaittime=$(( u1p3schaltparam * 60 ))
+		urwaittime=$(( (16 - u1p3schaltparam) * 60 ))
 		openwbDebugLog "MAIN" 1 "automatische Umschaltung aktiv"
 		openwbDebugLog "MAIN" 1 "Timing Umschaltung: $uhwaittime / $urwaittime"
 		if (( ladestatus == 0)); then
@@ -25,7 +25,7 @@ u1p3pswitch(){
 					openwbDebugLog "MAIN" 1 "auf $u1p3pnl Phasen geaendert"
 				fi
 			else
-				if (( lademodus == 0 )); then
+				if (( lademodus == $SOFORT0 )); then
 					if (( u1p3pstat != u1p3psofort )); then
 						openwbDebugLog "MAIN" 1 "Sofortladen derzeit $u1p3pstat Phasen, auf $u1p3psofort konfiguriert, aendere..."
 						if (( u1p3psofort == 3 )); then
@@ -43,17 +43,17 @@ u1p3pswitch(){
 								runs/u1p3pcheck.sh 1
 							fi
 							if (( u1p3pstat == 3 )); then
-								urcounter=$(</var/www/html/openWB/ramdisk/urcounter)
+								urcounter=$(<ramdisk/urcounter)
 								if (( urcounter < urwaittime )); then
 									if (( urcounter < urwaittime - 60 )); then
 										urcounter=$((urwaittime - 60))
 									fi
 									urcounter=$((urcounter + 10))
-									echo $urcounter > /var/www/html/openWB/ramdisk/urcounter
+									echo $urcounter > ramdisk/urcounter
 								else
 									runs/u1p3pcheck.sh 1
 									openwbDebugLog "MAIN" 1 "Min PV Laden derzeit $u1p3pstat Phasen, auf 1 Nur PV konfiguriert, aendere..."
-									echo 0 > /var/www/html/openWB/ramdisk/urcounter
+									echo 0 > ramdisk/urcounter
 								fi
 							fi
 						else
@@ -74,17 +74,17 @@ u1p3pswitch(){
 								runs/u1p3pcheck.sh 1
 							fi
 							if (( u1p3pstat == 3 )); then
-								urcounter=$(</var/www/html/openWB/ramdisk/urcounter)
+								urcounter=$(<ramdisk/urcounter)
 								if (( urcounter < urwaittime )); then
 									if (( urcounter < urwaittime - 60 )); then
 										urcounter=$((urwaittime - 60))
 									fi
 									urcounter=$((urcounter + 10))
-									echo $urcounter > /var/www/html/openWB/ramdisk/urcounter
+									echo $urcounter > ramdisk/urcounter
 								else
 									runs/u1p3pcheck.sh 1
 									openwbDebugLog "MAIN" 1 "Nur PV Laden derzeit $u1p3pstat Phasen, auf 1 Nur PV konfiguriert, aendere..."
-									echo 0 > /var/www/html/openWB/ramdisk/urcounter
+									echo 0 > ramdisk/urcounter
 								fi
 							fi
 						else
@@ -139,7 +139,7 @@ u1p3pswitch(){
 					openwbDebugLog "MAIN" 1 "auf $u1p3pnl Phasen geaendert"
 				fi
 			else
-				if (( lademodus == 0 )); then
+				if (( lademodus == $SOFORT0 )); then
 					if (( u1p3pstat != u1p3psofort )); then
 						openwbDebugLog "MAIN" 1 "Sofortladen derzeit $u1p3pstat Phasen, auf $u1p3psofort konfiguriert, unterbreche Ladung und aendere..."
 						echo 1 > ramdisk/blockall
@@ -178,19 +178,19 @@ u1p3pswitch(){
 									fi
 								fi
 								if (( oldll == maximalstromstaerke )); then
-									uhcounter=$(</var/www/html/openWB/ramdisk/uhcounter)
+									uhcounter=$(<ramdisk/uhcounter)
 									if (( uhcounter < uhwaittime )); then
 										if (( maximalstromstaerke == 16 )); then
 											if (( uberschuss > 500 )); then
 												uhcounter=$((uhcounter + 10))
-												echo $uhcounter > /var/www/html/openWB/ramdisk/uhcounter
+												echo $uhcounter > ramdisk/uhcounter
 												openwbDebugLog "MAIN" 1 "Umschaltcounter Erhoehung auf $uhcounter erhoeht fuer Min PV Automatik Phasenumschaltung, genug uberschuss fuer 3 Phasen Ladung"
 											else
 												openwbDebugLog "MAIN" 1 "Umschaltcounter nicht erhöht fuer Min PV Automatik Phasenumschaltung, fehlender uberschuss fuer 3 Phasen Ladung"
 											fi
 										else
 											uhcounter=$((uhcounter + 10))
-											echo $uhcounter > /var/www/html/openWB/ramdisk/uhcounter
+											echo $uhcounter > ramdisk/uhcounter
 											openwbDebugLog "MAIN" 1 "Umschaltcounter Erhoehung auf $uhcounter erhoeht fuer Min PV Automatik Phasenumschaltung"
 										fi
 									else
@@ -203,15 +203,15 @@ u1p3pswitch(){
 										runs/u1p3pcheck.sh startslow
 										(sleep 25 && echo 0 > ramdisk/blockall)&
 										openwbDebugLog "MAIN" 1 "auf 3 Phasen MinPV Automatik geaendert"
-										echo 0 > /var/www/html/openWB/ramdisk/uhcounter
+										echo 0 > ramdisk/uhcounter
 									fi
 								else
-									echo 0 > /var/www/html/openWB/ramdisk/uhcounter
+									echo 0 > ramdisk/uhcounter
 								fi
 							else
 								if (( ladeleistung < 100 )); then
 									if (( uberschuss < (3 * mindestuberschuss) )); then
-										echo 0 > /var/www/html/openWB/ramdisk/urcounter
+										echo 0 > ramdisk/urcounter
 										echo 1 > ramdisk/blockall
 										runs/u1p3pcheck.sh stop
 										sleep 8
@@ -223,13 +223,13 @@ u1p3pswitch(){
 									fi
 								fi
 								if (( oldll == minimalampv )); then
-									urcounter=$(</var/www/html/openWB/ramdisk/urcounter)
+									urcounter=$(<ramdisk/urcounter)
 									if (( urcounter < urwaittime )); then
 										urcounter=$((urcounter + 10))
-										echo $urcounter > /var/www/html/openWB/ramdisk/urcounter
+										echo $urcounter > ramdisk/urcounter
 										openwbDebugLog "MAIN" 1 "Umschaltcounter Reduzierung auf $urcounter erhoeht fuer Min PV Automatik Phasenumschaltung"
 									else
-										echo 0 > /var/www/html/openWB/ramdisk/urcounter
+										echo 0 > ramdisk/urcounter
 										echo 1 > ramdisk/blockall
 										runs/u1p3pcheck.sh stop
 										sleep 8
@@ -240,7 +240,7 @@ u1p3pswitch(){
 										openwbDebugLog "MAIN" 1 "auf 1 Phasen MinPV Automatik geaendert"
 									fi
 								else
-									echo 0 > /var/www/html/openWB/ramdisk/urcounter
+									echo 0 > ramdisk/urcounter
 								fi
 							fi
 						else
@@ -282,10 +282,10 @@ u1p3pswitch(){
 									fi
 								fi
 								if (( oldll == maximalstromstaerke )); then
-									uhcounter=$(</var/www/html/openWB/ramdisk/uhcounter)
+									uhcounter=$(<ramdisk/uhcounter)
 									if (( uhcounter < uhwaittime )); then
 										uhcounter=$((uhcounter + 10))
-										echo $uhcounter > /var/www/html/openWB/ramdisk/uhcounter
+										echo $uhcounter > ramdisk/uhcounter
 										openwbDebugLog "MAIN" 1 "Umschaltcounter Erhoehung auf $uhcounter erhoeht fuer PV Automatik Phasenumschaltung"
 									else
 										openwbDebugLog "MAIN" 1 "Nur PV Laden derzeit $u1p3pstat Phasen, auf NurPV Automatik konfiguriert, unterbreche Ladung und  aendere auf 3 Phasen..."
@@ -297,15 +297,15 @@ u1p3pswitch(){
 										runs/u1p3pcheck.sh startslow
 										(sleep 25 && echo 0 > ramdisk/blockall)&
 										openwbDebugLog "MAIN" 1 "auf 3 Phasen NurPV Automatik geaendert"
-										echo 0 > /var/www/html/openWB/ramdisk/uhcounter
+										echo 0 > ramdisk/uhcounter
 									fi
 								else
-									echo 0 > /var/www/html/openWB/ramdisk/uhcounter
+									echo 0 > ramdisk/uhcounter
 								fi
 							else
 								if (( ladeleistung < 100 )); then
 									if (( uberschuss < (3 * mindestuberschuss) )); then
-										echo 0 > /var/www/html/openWB/ramdisk/urcounter
+										echo 0 > ramdisk/urcounter
 										echo 1 > ramdisk/blockall
 										runs/u1p3pcheck.sh stop
 										sleep 8
@@ -317,13 +317,13 @@ u1p3pswitch(){
 									fi
 								fi
 								if (( oldll == minimalapv )); then
-									urcounter=$(</var/www/html/openWB/ramdisk/urcounter)
+									urcounter=$(<ramdisk/urcounter)
 									if (( urcounter  < urwaittime )); then
 										urcounter=$((urcounter + 10))
-										echo $urcounter > /var/www/html/openWB/ramdisk/urcounter
+										echo $urcounter > ramdisk/urcounter
 										openwbDebugLog "MAIN" 1 "Umschaltcounter Reduzierung auf $urcounter erhoeht fuer PV Automatik Phasenumschaltung"
 									else
-										echo 0 > /var/www/html/openWB/ramdisk/urcounter
+										echo 0 > ramdisk/urcounter
 										echo 1 > ramdisk/blockall
 										runs/u1p3pcheck.sh stop
 										sleep 8
@@ -334,7 +334,7 @@ u1p3pswitch(){
 										openwbDebugLog "MAIN" 1 "auf 1 Phasen NurPV Automatik geaendert"
 									fi
 								else
-									echo 0 > /var/www/html/openWB/ramdisk/urcounter
+									echo 0 > ramdisk/urcounter
 								fi
 							fi
 						else

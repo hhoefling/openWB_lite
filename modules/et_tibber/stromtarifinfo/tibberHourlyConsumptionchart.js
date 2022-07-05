@@ -1,3 +1,5 @@
+var hourlyConsumptionchart;
+
 function loadHourlyConsumptionchart(labels, dataConsumption, dataPrice) {
 	/**
 	 * creates chart for hourly consumption
@@ -80,7 +82,8 @@ function loadHourlyConsumptionchart(labels, dataConsumption, dataPrice) {
 						color: 'rgba(204, 204, 204, 1)',
 					},
 					ticks: {
-						fontColor: 'rgba(153, 153, 153, 1)'
+						fontColor: 'rgba(153, 153, 153, 1)',
+						fontSize: 15
 					}
 				}, {
 					// values price
@@ -97,13 +100,23 @@ function loadHourlyConsumptionchart(labels, dataConsumption, dataPrice) {
 						display: false,
 					},
 					ticks: {
-						fontColor: 'rgba(153, 153, 153, 1)'
+						fontColor: 'rgba(153, 153, 153, 1)',
+						fontSize: 15
 					}
 				}]
 			}
 		}
 	};
 
-	var hourlyConsumptionchart = new Chart(ctxHourlyConsumptionchart, config);
-
+	if (hourlyConsumptionchart) {
+		// if chart exists refresh chart with new data
+		hourlyConsumptionchart.data.datasets[0].data = dataPrice;
+		hourlyConsumptionchart.data.datasets[1].data = dataConsumption;
+		hourlyConsumptionchart.data.labels = labels;
+		//finally update chart var:
+		hourlyConsumptionchart.update();
+	} else {
+		// create new chart from data
+		hourlyConsumptionchart = new Chart(ctxHourlyConsumptionchart, config);
+	}
 }

@@ -71,6 +71,7 @@ function showSection(section, enableChildren=true) {
  * updateFormFields
  * checks every input and select element for a parent with class 'hide'
  * if there is a match, disable this element
+ * * Up for show/hide
 **/
 function updateFormFieldVisibility() {
     $('input').each(function() {
@@ -164,7 +165,7 @@ function setToggleBtnGroup(groupId, option) {
     /** @function setInputValue
      * sets the value-label (if exists) attached to the element to the element value
      * @param {string} elementId - the id of the button group
-     * @param {string} option - the option the group btns will be set to
+     * @param {string} option - the option the group buttons will be set to
      * @requires data-attribute 'option' (unique for group) assigned to every radio-btn
      */
     $('input[name=' + groupId + '][data-option="' + option + '"]').prop('checked', true);
@@ -197,9 +198,10 @@ function sendValues() {
 
         Object.keys(changedValues).forEach(function(topic, index) {
             var value = this[topic].toString();
+			console.log('publish[' + index+']['+topic+'] = ['+value+']');
             setTimeout(function () {
                 // console.log("publishing changed value: "+topic+": "+value);
-                // as all empty messages are not processed by mqttsub.py, we have to send something usefull
+                // as all empty messages are not processed by mqttsub.py, we have to send something useful
                 if ( value.length == 0 ) {
                     publish("none", topic);
                     // delete empty values as we will never get an answer
@@ -237,6 +239,9 @@ function getChangedValues() {
             // topicIdentifier is the non-unique element name
             var topicIdentifier = $(this).attr('name');
         }
+        console.log('Pre:['+topicPrefix+'] grp:[' + topicSubGroup +'] id:['+topicIdentifier+']');
+		
+		
         if ( $(this).hasClass('btn-group-toggle') ) {
             if ( $('input[name="' + $(this).attr('id') + '"]:checked').attr('disabled') != 'disabled' ) {
                 var value = $('input[name="' + $(this).attr('id') + '"]:checked').data('option');
@@ -257,7 +262,7 @@ function getChangedValues() {
         if ( ( value != undefined ) && ( originalValues[topic] != value ) ) {
             topic = topic.replace('/get/', '/set/');
             changedValues[topic] = value;
-            // console.log("ChangedValue found: "+topic+": "+value);
+            console.log("ChangedValue found: "+topic+": "+value);
         }
     });
 }

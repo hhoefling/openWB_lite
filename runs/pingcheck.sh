@@ -4,11 +4,12 @@ OPENWBBASEDIR=$(cd `dirname $0`/../ && pwd)
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 MYLOGFILE="$RAMDISKDIR/openWB.log"
 DEBUG=$debug
-
 DebugLog(){
 	timestamp=`date +"%Y-%m-%d %H:%M:%S"`
 	echo "$timestamp:  $@" >> $MYLOGFILE
 }
+
+
 
 #get Gateway for Connection
 gateway=$(ip route get 1 | awk '{print $3;exit}')

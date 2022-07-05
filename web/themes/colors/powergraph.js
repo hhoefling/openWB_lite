@@ -49,7 +49,7 @@ class PowerGraph {
     this.batteryColor = 'var(--color-battery)';
     this.batSocColor = 'var(--color-title)';
     var i;
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < 3; i++) {
       this.colors["lp" + i] = wbdata.chargePoint[i].color;
     }
     for (i = 0; i < 8; i++) {
@@ -89,7 +89,7 @@ class PowerGraph {
       unsubscribeMqttGraphSegments();
       unsubscribeGraphUpdates();
     } catch (err) {
-      // on intial run this method is not existing
+      // on initial run this method is not existing
     }
   }
 
@@ -138,7 +138,7 @@ class PowerGraph {
       // ignore error 
     }
   }
-  
+
   activateMonth() {
     this.resetMonthGraph();
     try {
@@ -157,9 +157,9 @@ class PowerGraph {
       // ignore error 
     }
   }
-  
+
   updateLive(topic, payload) {
-    if (wbdata.graphMode == 'live') { // only udpdate if live graph is active
+    if (wbdata.graphMode == 'live') { // only update if live graph is active
       if (this.initialized) { // steady state
         if (topic === "openWB/graph/lastlivevalues") {
           const values = this.extractLiveValues(payload.toString());
@@ -281,6 +281,7 @@ class PowerGraph {
   }
 
   updateEnergyValues() {
+    if (this.rawData.length) {
     const startValues = this.rawData[0].split(',');
     const endValues = this.rawData[this.rawData.length - 1].split(',');
     wbdata.historicSummary.pv.energy = (endValues[3] - startValues[3]) / 1000;
@@ -289,7 +290,7 @@ class PowerGraph {
     wbdata.historicSummary.evuOut.energy = (endValues[2] - startValues[2]) / 1000;
     wbdata.historicSummary.charging.energy = (endValues[7] - startValues[7]) / 1000;
     var deviceEnergy = 0;
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 9; i++) {
       if (wbdata.graphMode == 'day') {
         deviceEnergy = deviceEnergy + (endValues[26 + i] - startValues[26 + i]) / 1000;
       } else {
@@ -303,7 +304,7 @@ class PowerGraph {
     wbdata.historicSummary.house.energy = wbdata.historicSummary.evuIn.energy + wbdata.historicSummary.pv.energy + wbdata.historicSummary.batOut.energy
       - wbdata.historicSummary.evuOut.energy - wbdata.historicSummary.batIn.energy - wbdata.historicSummary.charging.energy - wbdata.historicSummary.devices.energy;
   }
-
+  }
   extractLiveValues(payload) {
     const elements = payload.split(",");
     const now = new Date (Date.now());
@@ -342,8 +343,11 @@ class PowerGraph {
     var i;
     values.lp0 = +elements[4];
     values.lp1 = +elements[5];
-    for (i = 2; i < 9; i++) {
+    for (i = 2; i <3; i++) {
       values["lp" + i] = +elements[11 + i];
+    }
+    for (i = 3; i <=8; i++) {
+      values["lp" + i] = 0;
     }
     values.soc1 = +elements[9];
     values.soc2 = +elements[10];
@@ -392,15 +396,18 @@ class PowerGraph {
     for (i = 0; i < 3; i++) {
       values["lp" + i] = this.calcValue(4 + i, elements, oldElements);
     }
-    for (i = 3; i < 8; i++) {
+    for (i = 3; i < 4; i++) {
       values["lp" + i] = this.calcValue(12 + i, elements, oldElements);
+    }
+    for (i = 4; i < 8; i++) {
+      values["lp" + i] = 0;
     }
     values.soc1 = +elements[21];
     values.soc2 = +elements[22];
     // smart home
     for (i = 0; i < 9; i++) {
       if (!(wbdata.shDevice[i].countAsHouse)) {
-      values["sh" + i] = this.calcValue(26 + i, elements, oldElements);
+        values["sh" + i] = this.calcValue(26 + i, elements, oldElements);
       } else {
         values["sh" + i] = +0;
       }
@@ -439,15 +446,18 @@ class PowerGraph {
     for (i = 0; i < 3; i++) {
       values["lp" + i] = this.calcMonthlyValue(4 + i, elements, oldElements);
     }
-    for (i = 3; i < 8; i++) {
+    for (i = 3; i < 4; i++) {
       values["lp" + i] = this.calcMonthlyValue(12 + i - 3, elements, oldElements);
+    }
+    for (i = 4; i < 8; i++) {
+      values["lp" + i] = 0;
     }
     values.soc1 = +elements[21];
     values.soc2 = +elements[22];
     // smart home
-   for (i = 0; i < 10; i++) {
+    for (i = 0; i < 10; i++) {
       values["sh" + i] = this.calcMonthlyValue(19 + i, elements, oldElements);
-    } 
+    }
     //consumers
     values.co0 = this.calcMonthlyValue(10, elements, oldElements);
     values.co1 = this.calcMonthlyValue(12, elements, oldElements);
@@ -457,7 +467,7 @@ class PowerGraph {
     values.batterySoc = +elements[20];
     // calculated values
     values.housePower = values.gridPull + values.solarPower + values.batOut
-    - values.gridPush - values.batIn - values.charging - values.co0 - values.co1
+      - values.gridPush - values.batIn - values.charging - values.co0 - values.co1
       - values.sh0 - values.sh1 - values.sh2 - values.sh3 - values.sh4 - values.sh5 - values.sh6 - values.sh7 - values.sh8 - values.sh9; if (values.housePower < 0) { values.housePower = 0; };
     values.selfUsage = values.solarPower - values.gridPush;
     if (values.selfUsage < 0) { values.selfUsage = 0; };
@@ -504,7 +514,7 @@ class PowerGraph {
   }
   calcMonthlyValue(i, array, oldArray) {
     var val = (array[i] - oldArray[i]);
-    
+
     if (val < 0 || val > 150000) {
       val = 0;
     }
@@ -540,7 +550,7 @@ class PowerGraph {
 
   drawSourceGraph(svg, width, height) {
     var keys = (wbdata.graphMode == 'month') ? ["gridPull", "batOut", "selfUsage", "gridPush"] : ["selfUsage", "gridPush", "batOut", "gridPull"];
-    
+
     if (wbdata.graphMode == 'month') {
       const dayRange = d3.extent(this.graphData, d => d.date.getDate())
       this.xScale = d3.scaleBand()
@@ -567,21 +577,21 @@ class PowerGraph {
         .selectAll("rect")
         .data((d) => d).enter()
         .append("rect")
-          .attr("x", (d) => this.xScale(d.data.date.getDate()))
-          .attr("y", d => yScale(d[1]))
-          .attr("height", d => yScale(d[0]) - yScale(d[1]))
-          .attr("width", this.xScale.bandwidth())
+        .attr("x", (d) => this.xScale(d.data.date.getDate()))
+        .attr("y", d => yScale(d[1]))
+        .attr("height", d => yScale(d[0]) - yScale(d[1]))
+        .attr("width", this.xScale.bandwidth())
       rects.append("svg:title").text((d) => formatWattH(d[1] - d[0]));
     } else {
       svg.selectAll(".sourceareas")
-      .data(stackedSeries)
-      .join("path")
-      .attr("d", d3.area()
-        .x((d, i) => this.xScale(this.graphData[i].date))
-        .y0((d) => yScale(d[0]))
-        .y1((d) => yScale(d[1]))
-      )
-      .attr("fill", (d, i) => this.colors[keys[i]]);
+        .data(stackedSeries)
+        .join("path")
+        .attr("d", d3.area()
+          .x((d, i) => this.xScale(this.graphData[i].date))
+          .y0((d) => yScale(d[0]))
+          .y1((d) => yScale(d[1]))
+        )
+        .attr("fill", (d, i) => this.colors[keys[i]]);
     }
 
     const yAxis = svg.append("g")
@@ -592,7 +602,7 @@ class PowerGraph {
         .tickFormat((d, i) => (d == 0) ? "" : (Math.round(d / 100) / 10)))
       ;
     yAxis.selectAll(".tick")
-      .attr("font-size", 12);
+      .attr("font-size", 12+6);
 
     if (wbdata.showGrid) {
       yAxis.selectAll(".tick line")
@@ -615,17 +625,17 @@ class PowerGraph {
       + d.sh5 + d.sh6 + d.sh7 + d.co0 + d.co1 + d.batIn + d.inverter)
     );
     yScale.domain([0, Math.ceil(extent[1] / 1000) * 1000]);
-    const keys = [["lp0", "lp1", "lp2", "lp3", "lp4",
-      "lp5", "lp6", "lp7",
+    const keys = [["lp0", "lp1", "lp2",
+      "lp3", "lp4", "lp5", "lp6", "lp7",
       "sh0", "sh1", "sh2", "sh3", "sh4",
       "sh5", "sh6", "sh7", "co0", "co1", "housePower", "batIn", "inverter"],
-    ["housePower", "lp0", "lp1", "lp2", "lp3", "lp4",
-      "lp5", "lp6", "lp7",
+    ["housePower", "lp0", "lp1", "lp2",
+      "lp3", "lp4", "lp5", "lp6", "lp7",
       "sh0", "sh1", "sh2", "sh3", "sh4",
       "sh5", "sh6", "sh7", "co0", "co1", "batIn", "inverter"],
     ["sh0", "sh1", "sh2", "sh3", "sh4",
-      "sh5", "sh6", "sh7", "co0", "co1", "housePower", "lp0", "lp1", "lp2", "lp3", "lp4",
-      "lp5", "lp6", "lp7",
+      "sh5", "sh6", "sh7", "co0", "co1", "housePower", "lp0", "lp1", "lp2",
+      "lp3", "lp4", "lp5", "lp6", "lp7",
       "batIn", "inverter"]
     ];
 
@@ -639,21 +649,21 @@ class PowerGraph {
         .selectAll("rect")
         .data(d => d).enter()
         .append("rect")
-          .attr("x", (d) => this.xScale(d.data.date.getDate()))
-          .attr("y", d => yScale(d[0]))
-          .attr("height", d => yScale(d[1]) - yScale(d[0]))
-          .attr("width", this.xScale.bandwidth())
+        .attr("x", (d) => this.xScale(d.data.date.getDate()))
+        .attr("y", d => yScale(d[0]))
+        .attr("height", d => yScale(d[1]) - yScale(d[0]))
+        .attr("width", this.xScale.bandwidth())
       rects2.append("svg:title").text((d) => formatWattH(d[1] - d[0]));
     } else {
       svg.selectAll(".targetareas")
-      .data(stackedSeries)
-      .join("path")
-      .attr("d", d3.area()
-        .x((d, i) => this.xScale(this.graphData[i].date))
-        .y0((d) => yScale(d[0]))
-        .y1((d) => yScale(d[1]))
-      )
-      .attr("fill", (d, i) => this.colors[keys[wbdata.usageStackOrder][i]]);
+        .data(stackedSeries)
+        .join("path")
+        .attr("d", d3.area()
+          .x((d, i) => this.xScale(this.graphData[i].date))
+          .y0((d) => yScale(d[0]))
+          .y1((d) => yScale(d[1]))
+        )
+        .attr("fill", (d, i) => this.colors[keys[wbdata.usageStackOrder][i]]);
     }
     const yAxis = svg.append("g")
       .attr("class", "axis")
@@ -663,7 +673,7 @@ class PowerGraph {
         .tickFormat((d, i) => (d == 0) ? "" : (Math.round(d / 100) / 10))
       );
     yAxis.selectAll(".tick")
-      .attr("font-size", 12);
+      .attr("font-size", 12+6);
     if (wbdata.showGrid) {
       yAxis.selectAll(".tick line")
         .attr("stroke", this.gridcolor)
@@ -677,7 +687,7 @@ class PowerGraph {
   }
 
   drawXAxis(svg, width, height) {
-    const fontsize = 12;
+    const fontsize = 12+4;
     const xScale = d3.scaleTime().range([0, width - this.margin.right]);
     xScale.domain(d3.extent(this.graphData, (d) => d.date));
 
@@ -690,10 +700,10 @@ class PowerGraph {
       .ticks(4)
       .tickSizeInner(ticksize)
 
-      if (wbdata.graphMode != 'month') {
-        xAxisGenerator.tickFormat(d3.timeFormat("%H:%M"))
-          .ticks(4);
-      } 
+    if (wbdata.graphMode != 'month') {
+      xAxisGenerator.tickFormat(d3.timeFormat("%H:%M"))
+        .ticks(4);
+    }
 
     const xAxis = svg.append("g").attr("class", "axis")
       .call(xAxisGenerator);
@@ -854,7 +864,7 @@ class PowerGraph {
         .ticks(5)
         .tickFormat((d) => (d + "%")))
       ;
-    socAxis.selectAll(".tick").attr("font-size", 12);
+    socAxis.selectAll(".tick").attr("font-size", 12+6);
     socAxis.selectAll(".tick line").attr("stroke", this.bgcolor);
     socAxis.select(".domain")
       .attr("stroke", this.bgcolor)

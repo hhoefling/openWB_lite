@@ -178,71 +178,6 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-row mb-1 lp4options hide">
-							<label class="col-md-4 col-form-label">Ladepunkt 4 Leistung</label>
-							<div class="col">
-								<div class="btn-group btn-block btn-group-toggle" id="boolDisplayLp4" name="boolDisplayLp4" data-toggle="buttons" data-default="0" data-topicprefix="openWB/graph/">
-									<label class="btn btn-outline-info btn-toggle">
-										<input type="radio" name="boolDisplayLp4" id="boolDisplayLp4Off" data-option="0" value="0">Aus
-									</label>
-									<label class="btn btn-outline-info btn-toggle">
-										<input type="radio" name="boolDisplayLp4" id="boolDisplayLp4On" data-option="1" value="1">An
-									</label>
-								</div>
-							</div>
-						</div>
-						<div class="form-row mb-1 lp5options hide">
-							<label class="col-md-4 col-form-label">Ladepunkt 5 Leistung</label>
-							<div class="col">
-								<div class="btn-group btn-block btn-group-toggle" id="boolDisplayLp5" name="boolDisplayLp5" data-toggle="buttons" data-default="0" data-topicprefix="openWB/graph/">
-									<label class="btn btn-outline-info btn-toggle">
-										<input type="radio" name="boolDisplayLp5" id="boolDisplayLp5Off" data-option="0" value="0">Aus
-									</label>
-									<label class="btn btn-outline-info btn-toggle">
-										<input type="radio" name="boolDisplayLp5" id="boolDisplayLp5On" data-option="1" value="1">An
-									</label>
-								</div>
-							</div>
-						</div>
-						<div class="form-row mb-1 lp6options hide">
-							<label class="col-md-4 col-form-label">Ladepunkt 6 Leistung</label>
-							<div class="col">
-								<div class="btn-group btn-block btn-group-toggle" id="boolDisplayLp6" name="boolDisplayLp6" data-toggle="buttons" data-default="0" data-topicprefix="openWB/graph/">
-									<label class="btn btn-outline-info btn-toggle">
-										<input type="radio" name="boolDisplayLp6" id="boolDisplayLp6Off" data-option="0" value="0">Aus
-									</label>
-									<label class="btn btn-outline-info btn-toggle">
-										<input type="radio" name="boolDisplayLp6" id="boolDisplayLp6On" data-option="1" value="1">An
-									</label>
-								</div>
-							</div>
-						</div>
-						<div class="form-row mb-1 lp7options hide">
-							<label class="col-md-4 col-form-label">Ladepunkt 7 Leistung</label>
-							<div class="col">
-								<div class="btn-group btn-block btn-group-toggle" id="boolDisplayLp7" name="boolDisplayLp7" data-toggle="buttons" data-default="0" data-topicprefix="openWB/graph/">
-									<label class="btn btn-outline-info btn-toggle">
-										<input type="radio" name="boolDisplayLp7" id="boolDisplayLp7Off" data-option="0" value="0">Aus
-									</label>
-									<label class="btn btn-outline-info btn-toggle">
-										<input type="radio" name="boolDisplayLp7" id="boolDisplayLp7On" data-option="1" value="1">An
-									</label>
-								</div>
-							</div>
-						</div>
-						<div class="form-row mb-1 lp8options hide">
-							<label class="col-md-4 col-form-label">Ladepunkt 8 Leistung</label>
-							<div class="col">
-								<div class="btn-group btn-block btn-group-toggle" id="boolDisplayLp8" name="boolDisplayLp8" data-toggle="buttons" data-default="0" data-topicprefix="openWB/graph/">
-									<label class="btn btn-outline-info btn-toggle">
-										<input type="radio" name="boolDisplayLp8" id="boolDisplayLp8Off" data-option="0" value="0">Aus
-									</label>
-									<label class="btn btn-outline-info btn-toggle">
-										<input type="radio" name="boolDisplayLp8" id="boolDisplayLp8On" data-option="1" value="1">An
-									</label>
-								</div>
-							</div>
-						</div>
 						<div class="soclpoptions">
 							<hr class="border-primary">
 							<div class="form-row mb-1 soclp1options hide">
@@ -459,46 +394,6 @@
 						publish("0", "openWB/graph/boolDisplayLp3");
 					} else {
 						showSection('.lp3options');
-					}
-				}
-				if ( elementId == "boolChargePointConfiguredLp4") {
-					if ( mqttpayload == 0 ) {
-						hideSection('.lp4options');
-						publish("0", "openWB/graph/boolDisplayLp4");
-					} else {
-						show('.lp4options');
-					}
-				}
-				if ( elementId == "boolChargePointConfiguredLp5") {
-					if ( mqttpayload == 0 ) {
-						hideSection('.lp5options');
-						publish("0", "openWB/graph/boolDisplayLp5");
-					} else {
-						show('.lp5options');
-					}
-				}
-				if ( elementId == "boolChargePointConfiguredLp6") {
-					if ( mqttpayload == 0 ) {
-						hideSection('.lp6options');
-						publish("0", "openWB/graph/boolDisplayLp6");
-					} else {
-						showSection('.lp6options');
-					}
-				}
-				if ( elementId == "boolChargePointConfiguredLp7") {
-					if ( mqttpayload == 0 ) {
-						hideSection('.lp7options');
-						publish("0", "openWB/graph/boolDisplayLp7");
-					} else {
-						show('.lp7options');
-					}
-				}
-				if ( elementId == "boolChargePointConfiguredLp8") {
-					if ( mqttpayload == 0 ) {
-						hideSection('.lp8options');
-						publish("0", "openWB/graph/boolDisplayLp8");
-					} else {
-						showSection('.lp8options');
 					}
 				}
 				// Verbraucher

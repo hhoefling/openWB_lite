@@ -134,6 +134,10 @@ hr {
     max-width: 600px;
 }
 
+.modal-dialog-wide {
+    max-width: 700px;
+}
+
 .modal-content,
 .modal-header,
 .modal-footer {
@@ -421,7 +425,7 @@ h3 {
 }
 
 .theme-gray {
-	--color-bg: #333333;
+	--color-bg: #010101; /* #333333; hh */
 	--color-evu: firebrick;
 	--color-pv: #33a02c;
 	--color-house: #7f7f7f;
@@ -444,7 +448,7 @@ h3 {
 	--color-lp6: #deebf7;
 	--color-lp7: #08519c;
 	--color-lp8: #6baed6;
-		--color-co1: #bf3caf;
+	--color-co1: #bf3caf;
 	--color-co2: #963db3;
 	--padding-widget: 0px;
 }

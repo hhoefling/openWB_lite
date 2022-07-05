@@ -13,6 +13,7 @@ var topicsToSubscribe = [
 	["openWB/housebattery/boolHouseBatteryConfigured", 0],
 	["openWB/config/get/SmartHome/logLevel", 0],
 	["openWB/config/get/SmartHome/maxBatteryPower", 0],
+	["openWB/config/get/SmartHome/smartmq", 0],
 	// SmartHome configuration
 	["openWB/config/get/SmartHome/Devices/+/device_configured", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_canSwitch", 0],
@@ -36,6 +37,7 @@ var topicsToSubscribe = [
 	["openWB/config/get/SmartHome/Devices/+/device_einschalturl", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_ausschalturl", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_leistungurl", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_stateurl", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_measureurl", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_measureurlc", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_username", 0],
@@ -46,8 +48,26 @@ var topicsToSubscribe = [
 	["openWB/config/get/SmartHome/Devices/+/device_measurejsonurl", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_measurejsonpower", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_measurejsoncounter", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_measureavmusername", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_measureavmpassword", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_measureavmactor", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_finishTime", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_startupDetection", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_standbyPower", 0],
-	["openWB/config/get/SmartHome/Devices/+/device_standbyDuration", 0]
+	["openWB/config/get/SmartHome/Devices/+/device_standbyDuration", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_startupMulDetection", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_measurePortSdm", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_startTime", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_endTime", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_homeConsumtion", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_measuresmaser", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_onTime", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_onuntilTime", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_nonewatt", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_idmnav", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_deactivateper", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_pbtype", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_pbip", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_measuresmaage", 0]
+
 ];

@@ -1,4 +1,36 @@
-<?php header( 'Refresh:600;' ); ?>
+<?php 
+ if( $_GET['do']=='export')
+ {
+   $dates=str_replace("-","",$_GET['date']);
+   $fin="/var/www/html/openWB/ramdisk/all.graph";
+   
+   //$head=file("/var/www/html/openWB/web/logging/data/daily/daily_header.csv");
+   $file=file($fin);
+   
+   header('Content-Type: application/csv; charset=UTF-8');
+   header('Content-Disposition: attachment;filename="all_graph.csv";');
+   
+   $head[]="Date;Bezug;LadeLeistung;PV;llLP1;llLP2;llLP3;LLLP4;LLLP5;LLLP6;LLLP7;LLLP8;BAT;BATSOC;Soc;Soc1;Haus;V1;V2\n";
+
+
+  // kopfzeile mit ;
+   echo str_replace(",",";",$head[0]);
+   // daten mit ; und "," als dezimaltrenner
+   foreach($file as $line)
+      echo str_replace('.',',',
+             str_replace(",",";",$line)
+             );
+   exit;
+   echo "<pre>";
+   print_r($GLOBALS); 
+   echo "</pre>";
+   exit;
+ }
+ 
+
+  header( 'Refresh:600;' ); 
+  
+  ?>
 <!doctype html>
 <html lang="de">
 
@@ -8,7 +40,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<title>Logging Langzeitansicht</title>
-		<meta name="author" content="Kevin Wieland, Michael Ortestein" />
+		<meta name="author" content="Kevin Wieland, Michael Ortenstein" />
 		<link rel="apple-touch-icon" sizes="57x57" href="img/favicons/apple-touch-icon-57x57.png">
 		<link rel="apple-touch-icon" sizes="60x60" href="img/favicons/apple-touch-icon-60x60.png">
 		<link rel="icon" type="image/png" href="img/favicons/favicon-32x32.png" sizes="32x32">
@@ -115,6 +147,9 @@
 		<footer class="footer bg-dark text-light font-small">
 			<div class="container text-center">
 				<small>Sie befinden sich hier: Logging/Langzeit</small>
+            <?php
+            echo "<a href=\"logging/index.php?do=export\">Export</a>";
+            ?>
 			</div>
 		</footer>
 

@@ -25,7 +25,7 @@ function convertToKw(dataColum) {
 }
 
 function getIndex(topic) {
-	// get occurence of numbers between / / in topic
+	// get occurrence of numbers between / / in topic
 	// since this is supposed to be the index like in openwb/lp/4/w
 	// no lookbehind supported by safari, so workaround with replace needed
 	var index = topic.match(/(?:\/)([0-9]+)(?=\/)/g)[0].replace(/[^0-9]+/g, '');
@@ -60,12 +60,22 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	// called by handlevar
 	processPreloader(mqttmsg);
 
-	// color theme
-	if (mqttmsg == 'openWB/global/awattar/boolAwattarEnabled') {
-		wbdata.updateGlobal("isPriceChartEnabled", (mqttpayload == '1'));
-	} else if (mqttmsg == 'openWB/global/awattar/ActualPriceForCharging') {
-		wbdata.updateGlobal("currentPowerPrice", parseFloat(mqttpayload));
-	}
+// colors theme
+if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
+	wbdata.updateET ('etProviderName', mqttpayload);
+} else if ( mqttmsg == 'openWB/global/ETProvider/modulePath' ) {
+	wbdata.updateET ('etModulePath', mqttpayload);
+} else if ( mqttmsg == 'openWB/global/awattar/boolAwattarEnabled' ) {
+	wbdata.updateET('isEtEnabled' ,(mqttpayload == '1'))
+} else if ( mqttmsg == 'openWB/global/awattar/pricelist' ) {
+	wbdata.updateET('etPriceList',mqttpayload);
+} else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
+	wbdata.updateET ('etMaxPrice', parseFloat(mqttpayload));
+} else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
+	wbdata.updateET ('etPrice', parseFloat(mqttpayload));
+}
+
+
 	// end color theme
 
 	if (mqttmsg == 'openWB/global/ETProvider/providerName') {
@@ -88,29 +98,7 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 			$('#navStromtarifInfo').addClass('hide');
 		}
 	}
-	else if (mqttmsg == 'openWB/global/awattar/pricelist') {
-		// read etprovider values and trigger graph creation
-		// loadElectricityPriceChart will show electricityPriceChartCanvas if etprovideraktiv=1 in openwb.conf
-		// graph will be redrawn after 5 minutes (new data pushed from cron5min.sh)
-		var csvData = [];
-		var rawcsv = mqttpayload.split(/\r?\n|\r/);
-		// skip first entry: it is module-name responsible for list
-		for (var i = 1; i < rawcsv.length; i++) {
-			csvData.push(rawcsv[i].split(','));
-		}
-		// Timeline (x-Achse) ist UNIX Timestamp in UTC, deshalb Umrechnung (*1000) in Javascript-Timestamp (mit Millisekunden)
-		electricityPriceTimeline = getCol(csvData, 0).map(function (x) { return x * 1000; });
-		// Chartline (y-Achse) ist Preis in ct/kWh
-		electricityPriceChartline = getCol(csvData, 1);
-
-		loadElectricityPriceChart();
-	}
-	else if (mqttmsg == 'openWB/global/awattar/MaxPriceForCharging') {
-		setInputValue('MaxPriceForCharging', mqttpayload);
-	}
-	else if (mqttmsg == 'openWB/global/awattar/ActualPriceForCharging') {
-		$('#aktuellerStrompreis').text(parseFloat(mqttpayload).toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' ct/kWh');
-	}
+	
 }
 
 function processPvConfigMessages(mqttmsg, mqttpayload) {
@@ -140,7 +128,7 @@ function processPvConfigMessages(mqttmsg, mqttpayload) {
 				$('#70ModeBtn').hide();
 				break;
 			case '1':
-				// activiert
+				// aktiviert
 				$('#70ModeBtn').show();
 				break;
 		}
@@ -422,7 +410,6 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/global
 	// called by handlevar
 	processPreloader(mqttmsg);
-
 	// color theme
 	if (mqttmsg == 'openWB/global/WHouseConsumption') {
 		wbdata.updateGlobal("housePower", makeInt(mqttpayload));
@@ -441,6 +428,9 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 		// '3': mode stop
 		// '4': mode standby
 	}
+	else if ( mqttmsg == 'openWB/global/rfidConfigured' ) {
+		wbdata.updateGlobal("rfidConfigured", (mqttpayload == 1))
+	}
 	else if (mqttmsg == 'openWB/global/DailyYieldAllChargePointsKwh') {
 		wbdata.updateGlobal("chargeEnergy", makeFloat(mqttpayload));
 	}
@@ -456,6 +446,16 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 		} else {
 			// if there is no text, show nothing (hides row)
 			$('#lastregelungaktiv').text('');
+		}
+	}
+	if (mqttmsg == 'openWB/global/strLaderegler') {
+		console.log('laderegler:'+mqttpayload )
+		if (mqttpayload.length >= 5) {
+			// if there is info-text in payload for topic, show the text
+			$('#LadereglerTxt').text(mqttpayload);
+		} else {
+			// if there is no text, show nothing (hides row)
+			$('#LadereglerTxt').text('');
 		}
 	}
 	else if (mqttmsg == 'openWB/global/awattar/boolAwattarEnabled') {
@@ -638,15 +638,25 @@ function processHousebatteryMessages(mqttmsg, mqttpayload) {
 			$('#priorityModeBtns').hide();
 		}
 	}
-
-
 }
 
 function processSystemMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/system
 	// called by handlevar
 	processPreloader(mqttmsg);
-	if (mqttmsg == 'openWB/system/Timestamp') {
+	if (mqttmsg == 'openWB/system/debuglevel') {
+		var i = parseInt(mqttpayload, 10);
+		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
+	    debuglevel = i;
+		console.log('set debug level to '+debuglevel );
+		if ( debuglevel >= 0)  {
+			$("#homebutton").removeClass("hide");
+        } else {			
+			$("#homebutton").addClass("hide");
+		}	
+	    
+	}	
+	else if (mqttmsg == 'openWB/system/Timestamp') {
 		var dateObject = new Date(mqttpayload * 1000);  // Unix timestamp to date-object
 		var time = '&nbsp;';
 		var date = '&nbsp;';
@@ -838,6 +848,15 @@ function processLpMessages(mqttmsg, mqttpayload) {
 	// color theme
 
 	var index = getIndex(mqttmsg); // extraxt number between two / /
+
+        if( index > 3 )
+        {
+          console.log('ignore mqtttopic ', mqttmsg, ' ',mqttpayload);
+          return;
+        }
+        //console.log('use mqtttopic ', mqttmsg, ' ',mqttpayload);
+
+
 	if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/w$/i)) {
 		var actualPower = parseInt(mqttpayload, 10);
 		if (isNaN(actualPower)) {
@@ -1136,6 +1155,14 @@ function processSmartHomeDevicesMessages(mqttmsg, mqttpayload) {
 		}
 		wbdata.updateSH(index, "runningTime", rTime);
 	}
+	else if (mqttmsg.match(/^openwb\/SmartHome\/Devices\/[1-9][0-9]*\/TemperatureSensor0$/i)) {
+		var rT = parseFloat(mqttpayload);
+		console.log('Temperatur is ' + rT);
+		if (isNaN(rT)) {
+			rT = 0;
+		}
+		wbdata.updateSH(index, "temperatur", rT);
+	}
 	else if (mqttmsg.match(/^openwb\/SmartHome\/Devices\/[1-9][0-9]*\/RelayStatus$/i)) {
 		wbdata.updateSH(index, "isOn", (mqttpayload == 1));
 	}
@@ -1231,9 +1258,9 @@ function processSmartHomeDevicesConfigMessages(mqttmsg, mqttpayload) {
 		var parent = $('[data-dev="' + index + '"]');  // get parent row element for SH Device
 		var element = parent.find('.actualModeDevice');  // now get parents respective child element
 		if (mqttpayload == 0) {
-			actualMode = "Automatik"
+			actualMode = "Auto"
 		} else {
-			actualMode = "Manuell"
+			actualMode = "Man."
 		}
 		element.text(actualMode);
 		$('.nameDevice').each(function () {  // check all elements of class '.nameDevice'

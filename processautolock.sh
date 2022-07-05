@@ -24,25 +24,16 @@ set -eo pipefail
 #
 #####
 
-cd /var/www/html/openWB/
+# reducdant
+# cd /var/www/html/openWB/
 
 # sets variables necessary due to inconsistent naming
 powerLp1=$(<ramdisk/llaktuell)
 powerLp2=$(<ramdisk/llaktuells1)
 powerLp3=$(<ramdisk/llaktuells2)
-powerLp4=$(<ramdisk/llaktuelllp4)
-powerLp5=$(<ramdisk/llaktuelllp5)
-powerLp6=$(<ramdisk/llaktuelllp6)
-powerLp7=$(<ramdisk/llaktuelllp7)
-powerLp8=$(<ramdisk/llaktuelllp8)
 isConfiguredLp1="1"
 isConfiguredLp2=$lastmanagement
 isConfiguredLp3=$lastmanagements2
-isConfiguredLp4=$lastmanagementlp4
-isConfiguredLp5=$lastmanagementlp5
-isConfiguredLp6=$lastmanagementlp6
-isConfiguredLp7=$lastmanagementlp7
-isConfiguredLp8=$lastmanagementlp8
 
 # process current time
 timeOfDay=$(date +%H:%M)
@@ -58,13 +49,13 @@ second=$(date +%S)
 if [ "$second" -lt "10" ]; then
 	# once a minute at new minute check if (un)lock-time is up
 
-	for chargePoint in {1..8}
+	for chargePoint in {1..3} # 8 
 	do
 		variableConfiguredLpName="isConfiguredLp${chargePoint}"  # name of variable for lp configured
 		if [ "${!variableConfiguredLpName}" = "1" ]; then
 			# charge point is configured, so process it
-			statusFlagFilename="/var/www/html/openWB/ramdisk/autolockstatuslp${chargePoint}"  # name autolock status file
-			lpFilename="/var/www/html/openWB/ramdisk/lp${chargePoint}enabled"  # name lp enable file
+			statusFlagFilename="ramdisk/autolockstatuslp${chargePoint}"  # name autolock status file
+			lpFilename="ramdisk/lp${chargePoint}enabled"  # name lp enable file
 			locktimeSettingName="lockTimeLp${chargePoint}_${dayOfWeek}"  # name of variable of lock time for today
 
 			if [ -z "${!locktimeSettingName}" ]; then
@@ -87,6 +78,7 @@ if [ "$second" -lt "10" ]; then
 	done
 fi
 
+# Input chargePoint 1..3
 function checkDisableLp {
 	powerVarName="powerLp${chargePoint}"
 	if [ "$waitUntilFinished" = "off" ] || [ "${!powerVarName}" -lt "200" ]; then
@@ -99,12 +91,12 @@ function checkDisableLp {
 	fi
 }
 
-for chargePoint in {1..8}
+for chargePoint in {1..3}   # 8 
 do
 	# every 10 seconds check if flag is set to disable charge point
 	# or if unlock time is up
 	variableConfiguredLpName="isConfiguredLp${chargePoint}"  # name of variable for lp configured
-	statusFlagFilename="/var/www/html/openWB/ramdisk/autolockstatuslp${chargePoint}"  # name autolock status file
+	statusFlagFilename="ramdisk/autolockstatuslp${chargePoint}"  # name autolock status file
 	if [ "${!variableConfiguredLpName}" = "1" ]; then
 		# charge point is configured, so process it
 		statusFlag=$(<$statusFlagFilename)  # read ramdisk value for autolock wait flag
@@ -129,7 +121,7 @@ do
 			fi
 		done
 
-		configuredFlagFilename="/var/www/html/openWB/ramdisk/autolockconfiguredlp${chargePoint}"  # name of file for flag: autolock configured
+		configuredFlagFilename="ramdisk/autolockconfiguredlp${chargePoint}"  # name of file for flag: autolock configured
 		if $isAutolockConfigured ; then
 			echo "1" > $configuredFlagFilename  # set flag in ramdisk
 		else
@@ -177,7 +169,7 @@ do
 		elif [ $timeOfDay = "$unlockTime" ] && [ $statusFlag != "3" ]; then
 			# charge point not waiting for lock and not already unlocked
 			# but unlock time is now, so enable charge point
-			mqttTopic="openWB/set/lp$chargePoint/ChargePointEnabled"
+			mqttTopic="openWB/set/lp/$chargePoint/ChargePointEnabled"
 			mosquitto_pub -r -t $mqttTopic -m 1
 			# and set flag "auto-unlock performed"
 			mqttTopic="openWB/set/lp/$chargePoint/AutolockStatus"

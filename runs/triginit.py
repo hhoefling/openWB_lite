@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 #coding: utf8
+#
+# Up atreboot.sh
+# Hardware ebene
+#
 
 import time
 import RPi.GPIO as GPIO
@@ -11,7 +15,7 @@ parser.add_argument("-v", "--verbose", action="store_true", help="verbose debug 
 args = parser.parse_args()
 
 if(args.verbose):
-    print("Wartezeit vor und nach 1p/3p Umschaltung: %fs"%(args.duration))
+    print("Wartezeit vor und nach 1p/3p Umschaltung: %fs" % (args.duration))
 
 # setup GPIOs
 GPIO.setwarnings(False)
@@ -38,3 +42,4 @@ time.sleep(float(args.duration))
 # enable CP
 GPIO.output(22, GPIO.LOW)
 GPIO.output(15, GPIO.LOW)
+

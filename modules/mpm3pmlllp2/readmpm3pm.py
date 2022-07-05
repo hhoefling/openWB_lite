@@ -1,20 +1,21 @@
 #!/usr/bin/python
 import sys
-import os
-import time
-import getopt
-import socket
-import ConfigParser
+# import os
+# import time
+# import getopt
+# import socket
+# import ConfigParser
 import struct
-import binascii
+# import binascii
+from pymodbus.client.sync import ModbusTcpClient
+
 ipadd = str(sys.argv[1])
 idadd = int(sys.argv[2])
 
-from pymodbus.client.sync import ModbusTcpClient
 client = ModbusTcpClient(ipadd, port=8899)
 
-
-if ( idadd < 100 ): 
+if ( idadd < 100 ):
+    # MDM3MP(id?1)
     #resp = client.read_input_registers(0x0002,2, unit=idadd)
     #ikwh = resp.registers[1]
     resp = client.read_input_registers(0x0002,4, unit=idadd)
@@ -80,6 +81,7 @@ if ( idadd < 100 ):
     f.write(str(voltage))
     f.close()
 else:
+	# SDM72D-M(id?105)  mdm630
     resp = client.read_input_registers(0x00,2, unit=idadd)
     voltage = struct.unpack('>f',struct.pack('>HH',*resp.registers))[0]
     voltage = float("%.1f" % voltage)
@@ -138,4 +140,5 @@ else:
     f = open('/var/www/html/openWB/ramdisk/llaktuells1', 'w')
     f.write(str(llg))
     f.close()
-
+	
+client.close()	

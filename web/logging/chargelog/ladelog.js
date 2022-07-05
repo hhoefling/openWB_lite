@@ -9,7 +9,7 @@ var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 // general helper functions
 
 function getIndex(topic) {
-	// get occurence of numbers between / / in topic
+	// get occurrence of numbers between / / in topic
 	// since this is supposed to be the index like in openwb/lp/4/w
 	// no lookbehind supported by safari, so workaround with replace needed
 	var index = topic.match(/(?:\/)([0-9]+)(?=\/)/g)[0].replace(/[^0-9]+/g, '');
@@ -20,7 +20,7 @@ function getIndex(topic) {
 }
 
 function getLadelogIndex(topic) {
-	// get occurence of numbers between / / in topic
+	// get occurrence of numbers between / / in topic
 	// since this is supposed to be the index like in openwb/lp/4/w
 	// no lookbehind supported by safari, so workaround with replace needed
 	var index = topic.match(/[1-9][0-9]*$/g)[0];
@@ -51,11 +51,11 @@ var thevalues = [
 	["openWB/lp/1/boolChargePointConfigured"],
 	["openWB/lp/2/boolChargePointConfigured"],
 	["openWB/lp/3/boolChargePointConfigured"],
-	["openWB/lp/4/boolChargePointConfigured"],
-	["openWB/lp/5/boolChargePointConfigured"],
-	["openWB/lp/6/boolChargePointConfigured"],
-	["openWB/lp/7/boolChargePointConfigured"],
-	["openWB/lp/8/boolChargePointConfigured"]
+//	["openWB/lp/4/boolChargePointConfigured"],
+//	["openWB/lp/5/boolChargePointConfigured"],
+//	["openWB/lp/6/boolChargePointConfigured"],
+//	["openWB/lp/7/boolChargePointConfigured"],
+//	["openWB/lp/8/boolChargePointConfigured"]
 ];
 
 var options = {
@@ -195,7 +195,12 @@ function putladelogtogether() {
 			var writelp = 0;
 			var writemodus = 0;
 			var writerfid = 0;
-			row.forEach(function(cell) {
+
+			if (row.length == 9) {  // KM fehlt, dann sind es 10
+			   row.push(""); // dann 10
+			}
+			row.forEach(function(cell) 
+			{
 				cellcount+=1;
 				temparr.push(cell);
 				if ( cellcount == 7) {
@@ -239,20 +244,36 @@ function putladelogtogether() {
 						testout.push(temparr);
 					}
 				}
-				if ( cellcount == 9 && writelp == 1 && writemodus == 1 && writerfid == 1) {
+				if ( cellcount == 10 && writelp == 1 && writemodus == 1 && writerfid == 1) {
 					testout.push(temparr);
 				}
 			});
 		});
 
 		if ( testout.length >= 1 ) {
-			var content = '<table class="table"> <thead><tr><th scope="col">Startzeit</th><th scope="col">Endzeit</th><th scope="col" class="text-right">geladene km</th><th scope="col" class="text-right">kWh</th><th scope="col" class="text-right">mit kW</th><th scope="col" class="text-right">Ladedauer</th><th scope="col">Ladepunkt</th><th scope="col">Lademodus</th><th scope="col">RFID Tag</th><th scope="col" class="text-right">Kosten</th></tr></thead> <tbody>';
+			var content = '<table class="table"> <thead><tr>'+
+                          '<th scope="col">Startzeit</th>'+
+                          '<th scope="col">Endzeit</th>'+
+                          '<th scope="col" class="text-right">geladene km</th>'+
+                          '<th scope="col" class="text-right">kWh</th>'+
+                          '<th scope="col" class="text-right">mit kW</th>'+
+                          '<th scope="col" class="text-right">Ladedauer</th>'+
+                          '<th scope="col">Ladepunkt</th>'+
+                          '<th scope="col">Lademodus</th>'+
+                          '<th scope="col">RFID Tag</th>'+
+                          '<th scope="col">Km</th>'+
+                          '<th scope="col" class="text-right">Kosten</th>'+
+                          '</tr></thead> <tbody>';
 			var rowcount=0;
 			var avgkw="0";
 			var totalprice="0";
+            var maxkm=0
+            var minkm=9999999
+            var gefahrkm=0;
 
 			testout.forEach(function(row) {
-				var price = "0"
+				var price = "0";
+                var km=0;
 				rowcount+=1;
 				content += "<tr>";
 				var cellcount=0;
@@ -310,6 +331,17 @@ function putladelogtogether() {
 								content += "<td>" + cell + "</td>" ;
 							}
 							break;
+						case 9: // rfid
+							 content += "<td>" + cell + "</td>";
+							 break;
+						case 10: // km
+                            km=(cell *1);
+                            if( km> maxkm) maxkm=km;
+                            if (km< minkm) minkm=km;
+                            gefahrkm = maxkm-minkm;
+                             console.log('cell:',cell,' gefahrkm:', gefahrkm, 'Km');
+							 content += "<td>" + cell + "</td>";
+							break;
 						default:
 							content += "<td>" + cell + "</td>";
 					}
@@ -318,7 +350,18 @@ function putladelogtogether() {
 				content += "</tr>";
 			});
 
-			content += '</tbody><tfoot><tr><th scope="col">Startzeit</th><th scope="col">Endzeit</th><th scope="col" class="text-right">' + totalkm.toFixed(0) + ' geladene km</th><th scope="col" class="text-right">' + totalkwh.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kWh </th><th scope="col" class="text-right">mit ' + (avgkw / rowcount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kW</th><th scope="col" class="text-right">Ladedauer</th><th scope="col">Ladepunkt</th><th scope="col">Lademodus</th><th scope="col">RFID Tag</th><th scope="col" class="text-right">' + totalprice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '€ Kosten</th></tr></thead>';
+			content +=  '</tbody><tfoot><tr><th scope="col">Startzeit</th>'+
+                        '<th scope="col">Endzeit</th>'+
+                        '<th scope="col" class="text-right">' + totalkm.toFixed(0) + ' geladene km</th>'+
+                        '<th scope="col" class="text-right">' + totalkwh.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kWh </th>'+
+                        '<th scope="col" class="text-right">mit ' + (avgkw / rowcount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kW</th>'+
+                        '<th scope="col" class="text-right">Ladedauer</th>'+
+                        '<th scope="col">Ladepunkt</th>'+
+                        '<th scope="col">Lademodus</th>'+
+                        '<th scope="col">RFID Tag</th>'+
+                        '<th scope="col" class="text-right">' + gefahrkm.toFixed(0) + ' gefahrene km</th>'+
+                        '<th scope="col" class="text-right">' + totalprice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '€ Kosten</th>'+
+                        '</tr></thead>';
 			content += "</tfoot></table>";
 			$("#ladelogtablediv").html(content);
 		} else {

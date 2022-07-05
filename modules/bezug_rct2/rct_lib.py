@@ -50,6 +50,11 @@ class rct_id():
 # local variables
 id_tab = []
 bVerbose = False
+bb=False
+wr=False
+sp=False
+bm5=False
+
 host = 'localhost'
 port = 8899
 receive_timeout = 2.0
@@ -79,10 +84,10 @@ def get_type_by_id(id):
     return obj.data_type
     
 
-# decode a value according to the id data type
-def decode_value(id, data):
+# decode a value according to the data type
+def decode_value(data_type, data):
     try:
-        data_type = get_type_by_id(id)
+        ### data_type = get_type_by_id(id)
         if data_type == rct_id.t_bool:
             value = struct.unpack(">B", data)[0]
             if value != 0:
@@ -115,7 +120,7 @@ def decode_value(id, data):
 # encode a value according to the id data type
 def encode_value(id, value):
     data_type = get_type_by_id(id)
-    return encode_by_type(data_type)
+    return encode_by_type(data_type)   
 
 
 # encode a value according to the id data type
@@ -190,7 +195,7 @@ class Frame:
     # consume a data fragment until frame is complete
     # The function returns the number of consumed bytes in data
     def consume(self, data):
-        i = 0;
+        i = 0
         for d in data:
             c = bytes([d])
             i += 1
@@ -248,17 +253,19 @@ class Frame:
     
             self.id = struct.unpack(">I", self.stream[idx:idx+4])[0]
             self.id_obj = find_by_id(self.id)
+            dtype=self.id_obj.data_type
             idx += 4
             if self.frame_type == FRAME_TYPE_PLANT:
                 self.address = struct.unpack(">I", self.stream[idx:idx+4])[0]
                 idx += 4
             self.data = self.stream[idx:idx+data_length]
-            self.data_dump = binascii.hexlify(self.data)                # just for debugging
+            ### self.data_dump = binascii.hexlify(self.data) 
+            ### just for debugging
+            ### dbglog('decode ', dtype, str(self.data_dump) )
             idx += data_length
-
             # decode data using id and id data type
             if data_length > 0 and (self.command == cmd_response or self.command == cmd_long_response or self.command == cmd_write or self.command == cmd_long_write):
-                self.value = decode_value(self.id, self.data) 
+                self.value = decode_value(dtype, self.data) 
         
     # encode a transmit stream using the frame values    
     def encode(self):
@@ -341,12 +348,12 @@ class Frame:
 
 # helper function to print and error
 def errlog(*args):
-    sys.stderr.write(' '.join(map(str,args)) + '\n')
+    sys.stderr.write('rct2: ' + ' '.join(map(str,args)) + '\n')
     
 # helper function to print debug messages
 def dbglog(*args):
     if bVerbose == True:
-        sys.stdout.write(' '.join(map(str,args)) + '\n')
+        sys.stdout.write('rct2: ' +  ' '.join(map(str,args)) + '\n')
         
     return bVerbose
         
@@ -453,17 +460,35 @@ def init(argv):
     global search_name
     global param_len
     global desc_len
+    global bb
+    global wr
+    global sp
+    global bm5
 
     # parse command line arguments
     try:
-        options, remainder = getopt.getopt(argv[1:], 'p:i:v', ['port=', 'ip=', 'verbose', 'id=', 'name='])
+        options, remainder = getopt.getopt(argv[1:], 'p:i:v:b:w:s:i:m', ['port=', 'ip=', 'verbose', 'id=', 'name=', 'm5' ])
     except getopt.GetoptError as err:
         # print help information and exit:
         errlog(err) # will print something like "option -a not recognized"
         errlog('usage: ', argv[0], '[--ip_addr=<host>] [--verbose] [--port=<portnr>] [--id=0xXXXXXXXX|--name=<string>] ')
         sys.exit(-1)
+
+    
     
     for opt, arg in options:
+        dbglog("arg " + str(opt) +" :" + str(arg) )
+        if opt in ('-b'):
+            if arg == '=bezug_rct2':
+                bb=True
+        if opt in ('-w'):
+            if arg == '=wr_rct2':
+                wr=True
+        if opt in ('-s'):
+            if arg == '=speicher_rct2':
+               sp=True
+        if opt in ('-i'):
+               ii =True
         if opt in ('-p', '--port'):
             port = int(arg, base=10)
         elif opt in ('-i', '--ip'):
@@ -474,6 +499,8 @@ def init(argv):
             search_name = arg
         elif opt in ('-v', '--verbose'):
             bVerbose = True
+        elif opt in ('--m5'):
+            bm5 = True
 
     id_tab_setup()
     param_len = 0

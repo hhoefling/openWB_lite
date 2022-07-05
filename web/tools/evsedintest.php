@@ -1,4 +1,5 @@
 <?php
+# Never no Link, only manueller direct-Link
 if(isset($_POST["testlp1"])) {
 	file_put_contents('/var/www/html/openWB/ramdisk/evsedintestlp1', ausstehend);
 }

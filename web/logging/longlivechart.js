@@ -17,11 +17,6 @@ var boolDisplayLp2Soc;
 var boolDisplayLp1;
 var boolDisplayLp2;
 var boolDisplayLp3;
-var boolDisplayLp4;
-var boolDisplayLp5;
-var boolDisplayLp6;
-var boolDisplayLp7;
-var boolDisplayLp8;
 var boolDisplayLpAll;
 var boolDisplaySpeicherSoc;
 var boolDisplaySpeicher;
@@ -159,7 +154,7 @@ function loadgraph() {
 				mm = String(currentTimestamp.getMonth() + 1).padStart(2, '0'); //January is 0!
 				HH = String(currentTimestamp.getHours()).padStart(2, '0');
 				MM = String(currentTimestamp.getMinutes()).padStart(2, '0');
-				SS = String(currentTimestamp.getSeconds() - 1).padStart(2, '0');  // // substract a second from current timestamp
+				SS = String(currentTimestamp.getSeconds() - 1).padStart(2, '0');  // // subtract a second from current timestamp
 				// set timestamp
 				valueArrayRight[0] = currentTimestamp.getFullYear() + '/' + mm + '/' + dd + ' ' + HH + ':' + MM + ':' + SS;
 				// insert into csvData
@@ -176,11 +171,6 @@ function loadgraph() {
 	alp1 = convertToKw(getCol(csvData, 4));
 	alp2 = convertToKw(getCol(csvData, 5));
 	alp3 = convertToKw(getCol(csvData, 6));
-	alp4 = convertToKw(getCol(csvData, 7));
-	alp5 = convertToKw(getCol(csvData, 8));
-	alp6 = convertToKw(getCol(csvData, 9));
-	alp7 = convertToKw(getCol(csvData, 10));
-	alp8 = convertToKw(getCol(csvData, 11));
 	aspeicherl = convertToKw(getCol(csvData, 12));
 	aspeichersoc = getCol(csvData, 13);
 	asoc = getCol(csvData, 14);
@@ -194,11 +184,6 @@ function loadgraph() {
 	visibility(alp1,'hidelp1','Lp1',boolDisplayLp1);
 	visibility(alp2,'hidelp2','Lp2',boolDisplayLp2);
 	visibility(alp3,'hidelp3','Lp3',boolDisplayLp3);
-	visibility(alp4,'hidelp4','Lp4',boolDisplayLp4);
-	visibility(alp5,'hidelp5','Lp5',boolDisplayLp5);
-	visibility(alp6,'hidelp6','Lp6',boolDisplayLp6);
-	visibility(alp7,'hidelp7','Lp7',boolDisplayLp7);
-	visibility(alp8,'hidelp8','Lp8',boolDisplayLp8);
 	visibility(aspeicherl,'hidespeicher','Speicherleistung',boolDisplaySpeicher);
 	visibility(aspeichersoc,'hidespeichersoc','Speicher SoC',boolDisplaySpeicherSoc);
 	visibility(asoc,'hidelp1soc','LP1 SoC',boolDisplayLp1Soc);
@@ -327,52 +312,7 @@ function loadgraph() {
 			data: alp3,
 			yAxisID: 'y-axis-1',
 			hidden: boolDisplayLp3
-		} , {
-			label: 'Lp4',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			data: alp4,
-			borderWidth: 2,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp4
-		} , {
-			label: 'Lp5',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp5,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp5
-		} , {
-			label: 'Lp6',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp6,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp6
-		} , {
-			label: 'Lp7',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp7,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp7
-		} , {
-			label: 'Lp8',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp8,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp8
-		}]
+		} ]
 	}
 	var canvas = $('#canvas').get(0);
     var ctx = canvas.getContext('2d');
@@ -388,41 +328,41 @@ function loadgraph() {
 					radius: 0
 				},
 				line: {
-            		tension: 0
-        		}
+					tension: 0
+				}
 			},
 			plugins: {
-			    zoom: {
+				zoom: {
 					// Container for pan options
 					pan: {
-					    // Boolean to enable panning
-					    enabled: true,
+						// Boolean to enable panning
+						enabled: true,
 
-					    // Panning directions. Remove the appropriate direction to disable
-					    // Eg. 'y' would only allow panning in the y direction
-					    mode: 'x',
-					    rangeMin: {
-						    x: null
-					    },
-					    rangeMax: {
-						    x: null
-					    },
-					    speed: 1000
+						// Panning directions. Remove the appropriate direction to disable
+						// Eg. 'y' would only allow panning in the y direction
+						mode: 'x',
+						rangeMin: {
+							x: null
+						},
+						rangeMax: {
+							x: null
+						},
+						speed: 1000
 					},
 
 					// Container for zoom options
 					zoom: {
-					    // Boolean to enable zooming
-					    enabled: true,
+						// Boolean to enable zooming
+						enabled: true,
 
-					    // Zooming directions. Remove the appropriate direction to disable
-					    // Eg. 'y' would only allow zooming in the y direction
-					    mode: 'x',
+						// Zooming directions. Remove the appropriate direction to disable
+						// Eg. 'y' would only allow zooming in the y direction
+						mode: 'x',
 
-					    sensitivity: 0.01
+						sensitivity: 0.01
 
 					}
-				    }
+				}
 			},
 			responsive: true,
 			maintainAspectRatio: false,
@@ -434,10 +374,13 @@ function loadgraph() {
 				display: true,
 				position: 'bottom',
 				labels: {
-					// middle grey, opacy = 100% (visible)
+					// middle grey, opacity = 100% (visible)
 					fontColor: "rgba(153, 153, 153, 1)",
 					filter: function(item,chart) {
-						if ( item.text.includes(hidehaus) || item.text.includes(hideload2) || item.text.includes(hideload1) || item.text.includes(hidelp2soc) || item.text.includes(hidelp1soc) || item.text.includes(hidelp1) || item.text.includes(hidelp2) || item.text.includes(hidelp3) || item.text.includes(hidelp4) || item.text.includes(hidelp5) || item.text.includes(hidelp6) || item.text.includes(hidelp7) || item.text.includes(hidelp8) || item.text.includes(hidespeichersoc) || item.text.includes(hidespeicher) || item.text.includes(hidelpa) || item.text.includes(hidepv) || item.text.includes(hidebezug) ) {
+						if ( item.text.includes(hidehaus) || item.text.includes(hideload2) || item.text.includes(hideload1) || item.text.includes(hidelp2soc) || item.text.includes(hidelp1soc) 
+						  || item.text.includes(hidelp1) || item.text.includes(hidelp2) || item.text.includes(hidelp3) 
+						  //|| item.text.includes(hidelp4) || item.text.includes(hidelp5) || item.text.includes(hidelp6) || item.text.includes(hidelp7) || item.text.includes(hidelp8) 
+						  || item.text.includes(hidespeichersoc) || item.text.includes(hidespeicher) || item.text.includes(hidelpa) || item.text.includes(hidepv) || item.text.includes(hidebezug) ) {
 							return false
 						} else {
 							return true
@@ -450,71 +393,71 @@ function loadgraph() {
 			},
 			scales: {
 				xAxes: [
-                    {
-    					type: 'time',
-    					time: {
-    						parser: 'YYYY/MM/DD HH:mm:ss',
-    						unit: 'minute',
-    						displayFormats: {
-    							'minute': 'DD.MM.YY - HH:mm',
-    						},
-    						distribution: 'linear',
-    						precision: 60
-    					},
-    					ticks: {
-    						//source: 'data',
-    						maxTicksLimit: 25,
-    						fontColor: "rgba(153, 153, 153, 1)"  // middle grey, opacy = 100% (visible)
-    					}
-          			}
-                ],
+					{
+						type: 'time',
+						time: {
+							parser: 'YYYY/MM/DD HH:mm:ss',
+							unit: 'minute',
+							displayFormats: {
+								'minute': 'DD.MM.YY - HH:mm',
+							},
+							distribution: 'linear',
+							precision: 60
+						},
+						ticks: {
+							//source: 'data',
+							maxTicksLimit: 25,
+							fontColor: "rgba(153, 153, 153, 1)"  // middle grey, opacity = 100% (visible)
+						}
+					}
+				],
 				yAxes: [
-                    {
-    					// horizontal line for values displayed on the left side (power)
-    					position: 'left',
-    					id: 'y-axis-1',
-    					type: 'linear',
-    					avoidFirstLastClippingEnabled: true,
-    					display: true,
-    					scaleLabel: {
-    	        			display: true,
-    	        			labelString: 'Leistung [kW]',
-    						// middle grey, opacy = 100% (visible)
-    						fontColor: "rgba(153, 153, 153, 1)"
-    	      			},
-    					gridLines: {
-    						// light grey, opacy = 100% (visible)
-    						color: "rgba(204, 204, 204, 1)",
-    					},
-    					ticks: {
-    						// middle grey, opacy = 100% (visible)
-    						fontColor: "rgba(153, 153, 153, 1)"
-    					}
-                    },
-                    {
-    					// horizontal line for values displayed on the right side (SoC)
-    					position: 'right',
-    					id: 'y-axis-2',
-    					type: 'linear',
-    					display: true,
-    					scaleLabel: {
-    						display: true,
-    						labelString: 'SoC [%]',
-    						// middle grey, opacy = 100% (visible)
-    						fontColor: "rgba(153, 153, 153, 1)"
-    					},
-    					gridLines: {
-    						// black, opacy = 0% (invisible)
-    						color: "rgba(0, 0, 0, 0)",
-    					},
-    					ticks: {
-    						min: 1,
-    						suggestedMax: 100,
-    						// middle grey, opacy = 100% (visible)
-    						fontColor: "rgba(153, 153, 153, 1)"
-    					}
-                    }
-                ]
+					{
+						// horizontal line for values displayed on the left side (power)
+						position: 'left',
+						id: 'y-axis-1',
+						type: 'linear',
+						avoidFirstLastClippingEnabled: true,
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Leistung [kW]',
+							// middle grey, opacity = 100% (visible)
+							fontColor: "rgba(153, 153, 153, 1)"
+						},
+						gridLines: {
+							// light grey, opacity = 100% (visible)
+							color: "rgba(204, 204, 204, 1)",
+						},
+						ticks: {
+							// middle grey, opacity = 100% (visible)
+							fontColor: "rgba(153, 153, 153, 1)"
+						}
+					},
+					{
+						// horizontal line for values displayed on the right side (SoC)
+						position: 'right',
+						id: 'y-axis-2',
+						type: 'linear',
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'SoC [%]',
+							// middle grey, opacity = 100% (visible)
+							fontColor: "rgba(153, 153, 153, 1)"
+						},
+						gridLines: {
+							// black, opacity = 0% (invisible)
+							color: "rgba(0, 0, 0, 0)",
+						},
+						ticks: {
+							min: 1,
+							suggestedMax: 100,
+							// middle grey, opacity = 100% (visible)
+							fontColor: "rgba(153, 153, 153, 1)"
+						}
+					}
+				]
 			}
 		}
 	});

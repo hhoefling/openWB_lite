@@ -1,5 +1,6 @@
 /**
  * Functions to update graph and gui values via MQTT-messages
+ * utf8  äöüÄÖÜäöü zur auto-erkennung durch editor
  *
  * @author Kevin Wieland
  * @author Michael Ortenstein
@@ -100,7 +101,7 @@ function convertToKw(dataColum) {
 }
 
 function getIndex(topic) {
-  // get occurence of numbers between / / in topic
+  // get occurrence of numbers between / / in topic
   // since this is supposed to be the index like in openwb/lp/4/w
   // no lookbehind supported by safari, so workaround with replace needed
   var index = topic.match(/(?:\/)([0-9]+)(?=\/)/g)[0].replace(/[^0-9]+/g, "");
@@ -168,6 +169,7 @@ function processDisplayConfigMessages(mqttmsg, mqttpayload) {
     mqttmsg.match(/^openwb\/config\/get\/display\/chartLp\/[1-9][0-9]*\/max$/i)
   ) {
     var index = getIndex(mqttmsg); // extract number between two / /
+    if( index > 3) { return; }
     var chartElement = $(
       ".sparkline[data-chartname=ladepunkt" + index + "llchart]"
     );
@@ -204,7 +206,7 @@ function processPvConfigMessages(mqttmsg, mqttpayload) {
         $("#70ModeBtn").addClass("hide");
         break;
       case "1":
-        // activiert
+        // aktiviert
         $("#70ModeBtn").removeClass("hide");
         break;
     }
@@ -353,12 +355,12 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
     // set modal button colors depending on charge mode
     // set visibility of divs
     // set visibility of priority icon depending on charge mode
-    // (priority icon is encapsulated in another element hidden/shown by housebattery configured or not)
+    // (priority icon is encapsulated in another element hidden/shown by house battery configured or not)
     switch (mqttpayload) {
       case "0":
         // mode sofort
-        $(".chargeModeSelectBtnText").text("Sofort"); // text btn mainpage
-        $(".chargeModeBtn").removeClass("btn-success"); // changes to select btns in modal
+        $(".chargeModeSelectBtnText").text("Sofort"); // text btn main page
+        $(".chargeModeBtn").removeClass("btn-success"); // changes to select buttons in modal
         $(".chargeModeBtnSofort").addClass("btn-success");
         $(".priorityEvBatteryIcon").addClass("hide"); // visibility of priority icon
         $(".chargeMode").addClass("hide"); // modal chargepoint config
@@ -624,8 +626,10 @@ function processLpMessages(mqttmsg, mqttpayload) {
   // processes mqttmsg for topic openWB/lp
   // called by handlevar
 
+  var index = getIndex(mqttmsg); // extract number between two / /
+  if( index > 3) { return; }
+
   if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/w$/i)) {
-    var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".ladepunktll"); // now get parents respective child element
     var actualPower = parseInt(mqttpayload, 10);
@@ -703,7 +707,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
       lockDisplay(false);
     }
   } else if (mqttmsg.match(/^openwb\/lp\/1*\/countPhasesInUse$/i)) {
-    const index = getIndex(mqttmsg);
+    //const index = getIndex(mqttmsg);
     const phases = Number(mqttpayload);
     $(`.status-indicator.status-${index}`)
       .addClass("inactive")
@@ -720,7 +724,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
         .removeClass("inactive");
     }
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/kWhDailyCharged$/i)) {
-    const index = getIndex(mqttmsg);
+    //const index = getIndex(mqttmsg);
     var energyCharged = parseFloat(mqttpayload, 10);
     if (isNaN(energyCharged)) {
       energyCharged = 0;
@@ -735,7 +739,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
       }) + " kWh"
     );
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/kWhCounter$/i)) {
-    const index = getIndex(mqttmsg);
+    //const index = getIndex(mqttmsg);
     var kWhCounter = parseFloat(mqttpayload, 10);
     if (isNaN(kWhCounter)) {
       kWhCounter = 0;
@@ -751,7 +755,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
   ) {
     // energy charged since ev was plugged in
     // also calculates and displays km charged
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".energyChargedLp"); // now get parents respective child element
     var energyCharged = parseFloat(mqttpayload, 10);
@@ -787,12 +791,12 @@ function processLpMessages(mqttmsg, mqttpayload) {
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/kWhactualcharged$/i)) {
     // TODO!
     // energy charged since reset of limitation
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     if (isNaN(mqttpayload)) {
       mqttpayload = 0;
     }
     var parent = $('[data-lp="' + index + '"]'); // get parent div element for charge limitation
-    var element = parent.find(".limit-progress-bar"); // now get parents progressbar
+    var element = parent.find(".limit-progress-bar"); // now get parents progress bar
     element.data("actualCharged", mqttpayload); // store value received
     var limitElementId = "lp/" + index + "/energyToCharge";
     var actualCharged = parseFloat(mqttpayload, 10);
@@ -815,7 +819,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
     // parent.find(".limit-progress-label").text(progress + "%");
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/\%soc$/i)) {
     // soc of ev at respective charge point
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".socLp"); // now get parents respective child element
     var soc = parseInt(mqttpayload, 10);
@@ -825,12 +829,12 @@ function processLpMessages(mqttmsg, mqttpayload) {
     element.text(soc + " %");
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/timeremaining$/i)) {
     // time remaining for charging to target value
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent div element for charge limitation
     var element = parent.find(".restzeitLp"); // get element
     element.text(mqttpayload);
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/boolchargeatnight$/i)) {
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".nightChargingLp"); // now get parents respective child element
     if (mqttpayload == 1) {
@@ -840,7 +844,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
     }
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/boolplugstat$/i)) {
     // status ev plugged in or not
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".plugstatLp"); // now get parents respective child element
     if (mqttpayload == 1) {
@@ -849,7 +853,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
       element.addClass("hide");
     }
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/boolchargestat$/i)) {
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".plugstatLp"); // now get parents respective child element
     if (mqttpayload == 1) {
@@ -858,13 +862,13 @@ function processLpMessages(mqttmsg, mqttpayload) {
       element.removeClass("text-success").addClass("text-warning");
     }
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/strchargepointname$/i)) {
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     if (mqttpayload != "LP" + index) {
       parent.find(".nameLp").text(mqttpayload + " (LP" + index + ")");
     }
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/chargepointenabled$/i)) {
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".enableLp"); // now get parents respective child element
     if (mqttpayload == 0) {
@@ -873,7 +877,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
       element.removeClass("lpDisabledStyle");
     }
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/countphasesinuse/i)) {
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".phasesInUseLp"); // now get parents respective child element
     var phasesInUse = parseInt(mqttpayload, 10);
@@ -885,7 +889,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
     }
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/aconfigured$/i)) {
     // target current value at charge point
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".targetCurrentLp"); // now get parents respective child element
     var targetCurrent = parseInt(mqttpayload, 10);
@@ -896,7 +900,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
     }
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/boolsocconfigured$/i)) {
     // soc-module configured for respective charge point
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var elementIsConfigured = $(parent).find(".socConfiguredLp"); // now get parents respective child element
     var elementIsNotConfigured = $(parent).find(".socNotConfiguredLp"); // now get parents respective child element
@@ -910,7 +914,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/boolsocmanual$/i)) {
     // console.log(mqttmsg+': '+mqttpayload);
     // manual soc-module configured for respective charge point
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var elementIsConfigured = $(parent).find(".socConfiguredLp"); // now get parents respective child element
     if (mqttpayload == 1) {
@@ -926,7 +930,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
     mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/boolchargepointconfigured$/i)
   ) {
     // respective charge point configured
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var element = $('[data-lp="' + index + '"]');
     // now show/hide element containing data-lp attribute with value=index
     switch (mqttpayload) {
@@ -940,7 +944,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
         break;
     }
   } else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
-    var index = getIndex(mqttmsg); // extract first match = number from
+    //var index = getIndex(mqttmsg); // extract first match = number from
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".autolockConfiguredLp"); // now get parents respective child element
     if (mqttpayload == 0) {
@@ -954,7 +958,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
     // 1 = waiting for autolock
     // 2 = autolock performed
     // 3 = auto-unlock performed
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".autolockConfiguredLp"); // now get parents respective child element
     switch (mqttpayload) {
@@ -988,7 +992,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
   ) {
     // store configured value in element attribute
     // to calculate charged km upon receipt of charged energy
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".kmChargedLp"); // now get parents respective child element
     var consumption = parseFloat(mqttpayload);
@@ -1015,7 +1019,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
     mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/boolfinishattimechargeactive$/i)
   ) {
     // respective charge point configured
-    var index = getIndex(mqttmsg); // extract number between two / /
+    //var index = getIndex(mqttmsg); // extract number between two / /
     var parent = $('[data-lp="' + index + '"]'); // get parent row element for charge point
     var element = parent.find(".targetChargingLp"); // now get parents respective child element
     if (mqttpayload == 1) {

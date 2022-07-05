@@ -5,7 +5,7 @@ import time
 import getopt
 import struct
 from pymodbus.client.sync import ModbusTcpClient
-client = ModbusTcpClient('192.168.193.15', port=8899)
+client = ModbusTcpClient('192.168.192.15', port=8899)
 sdmid = 115
 
 

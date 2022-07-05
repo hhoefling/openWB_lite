@@ -24,16 +24,6 @@ var lpgesamtCol = style.getPropertyValue('--lpgesamtCol');
 var lpgesamtbgCol = style.getPropertyValue('--lpgesamtbgCol');
 var lp3Col = style.getPropertyValue('--lp3Col');
 var lp3bgCol = style.getPropertyValue('--lp3bgCol');
-var lp4Col = style.getPropertyValue('--lp4Col');
-var lp4bgCol = style.getPropertyValue('--lp4bgCol');
-var lp5Col = style.getPropertyValue('--lp5Col');
-var lp5bgCol = style.getPropertyValue('--lp5bgCol');
-var lp6Col = style.getPropertyValue('--lp6Col');
-var lp6bgCol = style.getPropertyValue('--lp6bgCol');
-var lp7Col = style.getPropertyValue('--lp7Col');
-var lp7bgCol = style.getPropertyValue('--lp7bgCol');
-var lp8Col = style.getPropertyValue('--lp8Col');
-var lp8bgCol = style.getPropertyValue('--lp8bgCol');
 var verbraucher1Col = style.getPropertyValue('--verbraucher1Col');
 var verbraucher1bgCol = style.getPropertyValue('--verbraucher1bgCol');
 var verbraucher2Col = style.getPropertyValue('--verbraucher2Col');
@@ -67,11 +57,6 @@ var boolDisplayLp2Soc;
 var boolDisplayLp1;
 var boolDisplayLp2;
 var boolDisplayLp3;
-var boolDisplayLp4;
-var boolDisplayLp5;
-var boolDisplayLp6;
-var boolDisplayLp7;
-var boolDisplayLp8;
 var boolDisplayLpAll;
 var boolDisplaySpeicherSoc;
 var boolDisplaySpeicher;
@@ -267,56 +252,6 @@ function loadgraph(animationDuration = 1000) {
 			data: alp3,
 			yAxisID: 'y-axis-1',
 			hidden: boolDisplayLp3
-		} , {
-			label: 'Lp4',
-			borderColor: lp4Col,
-			backgroundColor: lp4bgCol,
-			fill: false,
-			lineTension: 0.2,
-			data: alp4,
-			borderWidth: 2,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp4
-		} , {
-			label: 'Lp5',
-			borderColor: lp5Col,
-			backgroundColor: lp5bgCol,
-			fill: false,
-			lineTension: 0.2,
-			borderWidth: 2,
-			data: alp5,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp5
-		} , {
-			label: 'Lp6',
-			borderColor: lp6Col,
-			backgroundColor: lp6bgCol,
-			fill: false,
-			lineTension: 0.2,
-			borderWidth: 2,
-			data: alp6,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp6
-		} , {
-			label: 'Lp7',
-			borderColor: lp7Col,
-			backgroundColor: lp7bgCol,
-			fill: false,
-			lineTension: 0.2,
-			borderWidth: 2,
-			data: alp7,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp7
-		} , {
-			label: 'Lp8',
-			borderColor: lp8Col,
-			backgroundColor: lp8bgCol,
-			fill: false,
-			lineTension: 0.2,
-			borderWidth: 2,
-			data: alp8,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp8
 		}, {
 			label: d1name,
 			borderColor: d1Col,
@@ -521,7 +456,19 @@ function loadgraph(animationDuration = 1000) {
 				labels: {
 					fontColor: fontCol,
 					filter: function(item,chart) {
-						if ( item.text.includes(hidehaus) || item.text.includes(hideload2) || item.text.includes(hideload1) || item.text.includes(hidelp2soc) || item.text.includes(hidelp1soc) || item.text.includes(hidelp1) || item.text.includes(hidelp2) || item.text.includes(hidelp3) || item.text.includes(hidelp4) || item.text.includes(hidelp5) || item.text.includes(hidelp6) || item.text.includes(hidelp7) || item.text.includes(hidelp8) || item.text.includes(hidespeichersoc) || item.text.includes(hidespeicher) || item.text.includes(hidelpa) || item.text.includes(hidepv) || item.text.includes(hideevu) || item.text.includes(hideshd1)|| item.text.includes(hideshd2)|| item.text.includes(hideshd3)|| item.text.includes(hideshd4)|| item.text.includes(hideshd5)|| item.text.includes(hideshd6) || item.text.includes(hideshd7) || item.text.includes(hideshd8)|| item.text.includes(hideshd9) ) { return false } else { return true}
+						if ( item.text.includes(hidehaus) || item.text.includes(hideload2) || item.text.includes(hideload1) 
+						|| item.text.includes(hidelp2soc) || item.text.includes(hidelp1soc) || item.text.includes(hidelp1) 
+						|| item.text.includes(hidelp2) || item.text.includes(hidelp3) 
+						// || item.text.includes(hidelp4) || item.text.includes(hidelp5) 
+						// || item.text.includes(hidelp6) || item.text.includes(hidelp7) 
+						// || item.text.includes(hidelp8) 
+						|| item.text.includes(hidespeichersoc) || item.text.includes(hidespeicher) 
+						|| item.text.includes(hidelpa) || item.text.includes(hidepv) 
+						|| item.text.includes(hideevu) || item.text.includes(hideshd1)
+						|| item.text.includes(hideshd2)|| item.text.includes(hideshd3)
+						|| item.text.includes(hideshd4)|| item.text.includes(hideshd5)
+						|| item.text.includes(hideshd6) || item.text.includes(hideshd7) 
+						|| item.text.includes(hideshd8)|| item.text.includes(hideshd9) ) { return false } else { return true}
 					}
 				}
 			},
@@ -571,7 +518,7 @@ function loadgraph(animationDuration = 1000) {
 							fontColor: fontCol
 						},
 						gridLines: {
-							// black, opacy = 0% (invisible)
+							// black, opacity = 0% (invisible)
 							color: gridSocCol,
 						},
 						ticks: {
@@ -588,6 +535,7 @@ function loadgraph(animationDuration = 1000) {
 	$('#waitforgraphloadingdiv').hide();
 }  // end loadgraph
 // Sichtbarkeit für SmartHome Devices im Graph
+// setvisibility(alp3,'hidelp3','Lp3');
 function setvisibility(datarr,hidevar,hidevalue,booldisplay){
 	var arrayLength = datarr.length;
 	var vis=0
@@ -606,8 +554,13 @@ function setvisibility(datarr,hidevar,hidevalue,booldisplay){
 	}
 }
 function putgraphtogether() {
-	if ( (all1 == 1) && (all2 == 1) && (all3 == 1) && (all4 == 1) && (all5 == 1) && (all6 == 1) && (all7 == 1) && (all8 == 1) && (all9 == 1) && (all10 == 1) && (all11 == 1) && (all12 == 1) && (all13 == 1) && (all14 == 1) && (all15 == 1) && (all16 == 1) ){
-		var alldata = all1p + "\n" + all2p + "\n" + all3p + "\n" + all4p + "\n" + all5p + "\n" + all6p + "\n" + all7p + "\n" + all8p + "\n" + all9p + "\n" + all10p + "\n" + all11p + "\n" + all12p + "\n" + all13p + "\n" + all14p + "\n" + all15p + "\n" + all16p;
+	if ( (all1 == 1) && (all2 == 1) && (all3 == 1) && (all4 == 1) && (all5 == 1) 
+	  && (all6 == 1) && (all7 == 1) && (all8 == 1) && (all9 == 1) && (all10 == 1)
+	  && (all11 == 1) && (all12 == 1) && (all13 == 1) && (all14 == 1) && (all15 == 1) && (all16 == 1) )
+	  {
+		var alldata = all1p + "\n" + all2p + "\n" + all3p + "\n" + all4p + "\n" + all5p + "\n" + all6p + "\n" 
+		            + all7p + "\n" + all8p + "\n" + all9p + "\n" + all10p + "\n" + all11p + "\n" + all12p + "\n" 
+					+ all13p + "\n" + all14p + "\n" + all15p + "\n" + all16p;
 		alldata = alldata.replace(/^\s*[\n]/gm, "");
 		alldata = alldata.replace(/^\s*-[\n]/gm, "");
 		var csvData = [];
@@ -616,7 +569,7 @@ function putgraphtogether() {
 			  csvData.push(rawcsv[i].split(","));
 		}
 		csvData.pop();
-		// Retrived data from csv file content
+		// Retrieved data from csv file content
 		var splittime = [];
 		getCol(csvData, 0).forEach(function(zeit){
 			splittime.push(zeit.substring(0, zeit.length -3));
@@ -637,11 +590,13 @@ function putgraphtogether() {
 			averbraucher1 = convertToKw(getCol(csvData, 12));
 			averbraucher2 = convertToKw(getCol(csvData, 13));
 			alp3 = convertToKw(getCol(csvData, 14));
+/*
 			alp4 = convertToKw(getCol(csvData, 15));
 			alp5 = convertToKw(getCol(csvData, 16));
 			alp6 = convertToKw(getCol(csvData, 17));
 			alp7 = convertToKw(getCol(csvData, 18));
 			alp8 = convertToKw(getCol(csvData, 19));
+*/
 			ashd1 = convertToKw(getCol(csvData, 20));
 			ashd2 = convertToKw(getCol(csvData, 21));
 			ashd3 = convertToKw(getCol(csvData, 22));
@@ -654,12 +609,14 @@ function putgraphtogether() {
 			//ashd1t0 = getCol(csvData, 29);
 			//ashd1t1 = getCol(csvData, 30);
 			//ashd1t2 = getCol(csvData, 31);
+/*
 			setvisibility(alp3,'hidelp3','Lp3');
 			setvisibility(alp4,'hidelp4','Lp4');
 			setvisibility(alp5,'hidelp5','Lp5');
 			setvisibility(alp6,'hidelp6','Lp6');
 			setvisibility(alp7,'hidelp7','Lp7');
 			setvisibility(alp8,'hidelp8','Lp8');
+*/
 			setvisibility(ashd1,'hideshd1',d1name,'boolDisplayshd1');
 			setvisibility(ashd2,'hideshd2',d2name,'boolDisplayshd2');
 			setvisibility(ashd3,'hideshd3',d3name,'boolDisplayshd3');
@@ -716,11 +673,13 @@ function updateGraph(dataset) {
 		var lverbraucher1 = lines[i].split(",")[12];
 		var lverbraucher2 = lines[i].split(",")[13];
 		var lp3 = lines[i].split(",")[14];
+/*
 		var lp4 = lines[i].split(",")[15];
 		var lp5 = lines[i].split(",")[16];
 		var lp6 = lines[i].split(",")[17];
 		var lp7 = lines[i].split(",")[18];
 		var lp8 = lines[i].split(",")[19];
+*/
 		var shd1 = lines[i].split(",")[20];
 		var shd2 = lines[i].split(",")[21];
 		var shd3 = lines[i].split(",")[22];
@@ -749,11 +708,13 @@ function updateGraph(dataset) {
 	myLine.data.datasets[10].data.push(lverbraucher2 / 1000);
 	myLine.data.datasets[11].data.push(lpa / 1000);
 	myLine.data.datasets[12].data.push(lp3 / 1000);
+/*
 	myLine.data.datasets[13].data.push(lp4 / 1000);
 	myLine.data.datasets[14].data.push(lp5 / 1000);
 	myLine.data.datasets[15].data.push(lp6 / 1000);
 	myLine.data.datasets[16].data.push(lp7 / 1000);
 	myLine.data.datasets[17].data.push(lp8 / 1000);
+*/
 	myLine.data.datasets[18].data.push(shd1 / 1000);
 	myLine.data.datasets[19].data.push(shd2 / 1000);
 	myLine.data.datasets[20].data.push(shd3 / 1000);
@@ -787,11 +748,13 @@ function checkgraphload(){
 		typeof boolDisplayLp1 === "boolean" &&
 		typeof boolDisplayLp2 === "boolean" &&
 		typeof boolDisplayLp3 === "boolean" &&
+/*
 		typeof boolDisplayLp4 === "boolean" &&
 		typeof boolDisplayLp5 === "boolean" &&
 		typeof boolDisplayLp6 === "boolean" &&
 		typeof boolDisplayLp7 === "boolean" &&
 		typeof boolDisplayLp8 === "boolean" &&
+*/
 		typeof boolDisplayLpAll === "boolean" &&
 		typeof boolDisplaySpeicherSoc === "boolean" &&
 		typeof boolDisplaySpeicher === "boolean" &&
@@ -839,6 +802,7 @@ function forcegraphload() {
 		if ( !(typeof boolDisplayLp3 === "boolean") ) {
 			showhidedataset('boolDisplayLp3');
 		}
+/*
 		if ( !(typeof boolDisplayLp4 === "boolean") ) {
 			showhidedataset('boolDisplayLp4');
 		}
@@ -854,6 +818,7 @@ function forcegraphload() {
 		if ( !(typeof boolDisplayLp8 === "boolean") ) {
 			showhidedataset('boolDisplayLp8');
 		}
+*/
 		if ( !(typeof boolDisplayLpAll === "boolean") ) {
 			showhidedataset('boolDisplayLpAll');
 		}

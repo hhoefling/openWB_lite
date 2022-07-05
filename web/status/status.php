@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
-
 	<head>
 		<base href="/openWB/web/">
-
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,12 +19,10 @@
 		<meta name="msapplication-TileColor" content="#00a8ff">
 		<meta name="msapplication-config" content="img/favicons/browserconfig.xml">
 		<meta name="theme-color" content="#ffffff">
-
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-4.4.1/bootstrap.min.css">
 		<!-- Normalize -->
 		<link rel="stylesheet" type="text/css" href="css/normalize-8.0.1.css">
-
 		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5.8.2/css/all.css">
 		<!-- include settings-style -->
 		<link rel="stylesheet" type="text/css" href="status/status_style.css?ver=20210209">
@@ -173,10 +169,18 @@
 			<div class="wrapper">
 
 				<!-- Ladepunkte-->
-				<?php for( $chargepointNum = 1; $chargepointNum <= 8; $chargepointNum++ ){ ?>
+				<?php for( $chargepointNum = 1; $chargepointNum <= 3; $chargepointNum++ ){ ?>
 					<div class="card border-primary hide" id="lp<?php echo $chargepointNum ?>">
 						<div class="card-header bg-primary">
 							Ladepunkt <?php echo $chargepointNum . " (" . ${'lp'.$chargepointNum.'nameold'} . ")"; ?>
+							<?php  
+							  if( $debugold>1 ) 
+							   {
+							     if ($chargepointNum==1)  echo "[<small>$ladeleistungmodulold</small>]";
+							     if ($chargepointNum==2)  echo "[<small>$ladeleistungs1modulold</small>]";
+							     if ($chargepointNum==3)  echo "[<small>$ladeleistungs2modulold</small>]";
+							   }   
+							?>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -195,7 +199,7 @@
 											<td class="ladeleistung">--</td>
 										</tr>
 										<tr class="kWhCounterRow">
-											<th scope="row">Zählerstand [kWh]</th>
+											<th scope="row">Zählerstand [kWh] <span class="MeterSerialNumber"></span></th>
 											<td class="kWhCounter">--</td>
 										</tr>
 										<tr class="socRow hide">
@@ -271,7 +275,7 @@
 				<!-- EVU  -->
 				<div class="card border-danger <?php if($wattbezugmodulold == "none") echo "hide" ?>">
 					<div class="card-header bg-danger">
-						EVU
+						EVU <?php  if( $debugold>1 ) echo "[<small>$wattbezugmodulold</small>]";   ?>					
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -393,6 +397,7 @@
 							echo $inverterNum ;
 							if (${'name_wechselrichter'.$inverterNum.'old'} != '') {
 								echo ' (' . ${'name_wechselrichter'.$inverterNum.'old'} . ')';
+				                if( $debugold>1 ) echo "[<small>$pvwattmodulold</small>]";   
 							}
 							?>
 						</div>
@@ -434,7 +439,7 @@
 				<!-- Speicher -->
 				<div class="card border-warning hide" id="speicher">
 					<div class="card-header bg-warning">
-						Speicher
+						Speicher <?php  if( $debugold>1 ) echo "[<small>$speichermodulold</small>]";   ?>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -465,7 +470,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- Smarthome -->
 				<div class="card border-info " id="Smarthome">
 					<div class="card-header bg-info">
@@ -495,12 +500,12 @@
 										<th scope="row">Maximale Speicherladung [W]</th>
 										<td><div id="wmaxspeicherladung"></div></td>
 									</tr>
-								</tbody>								
+								</tbody>
 							</table>
 						</div>
 					</div>
-				</div>			
-				
+				</div>
+
 				<!--Verbraucher-->
 				<?php for( $loadsNum = 1; $loadsNum <= 2; $loadsNum++ ){ ?>
 					<div class="card border-secondary hide" id="loads<?php echo $loadsNum ?>">
@@ -612,11 +617,11 @@
 				}
 			);
 
-			$(function() {
-				if('<?php echo $kostalplenticoreip2old ?>' == 'none') {
-					$('#pvinverter1and2div').hide();
-				}
-			});
+			//$(function() {
+			//	if('<?php echo $kostalplenticoreip2old ?>' == 'none') {
+			//		$('#pvinverter1and2div').hide();
+			//	}
+			//});
 
 			var timeOfLastMqttMessage = 0;  // holds timestamp of last received message
 			var landingpageShown = false;  // holds flag for landing page being shown

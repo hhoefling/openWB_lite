@@ -1,3 +1,4 @@
+/* NC */
 
 am4core.useTheme(am4themes_animated);
 // Create chart instance

@@ -191,10 +191,11 @@ nav.navbar-fixed-top .navbar-nav > li > a:not(.btn) {
 
 .btn {
 	font-size: 14px;
+	text-align: center;	
 	display: inline-block;
-	padding: 15px 30px;
+	padding: 15px 4px;
 	color: white;
-	border: 2px solid transparent;
+	border: 1px solid; /*transparent;*/
 	border-radius: 2px;
 	background: transparent;
 	-webkit-transition: all 0.3s ease;

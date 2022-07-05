@@ -85,7 +85,6 @@ class PriceChart {
     const xAxisGenerator = d3.axisBottom(this.xScale)
       .ticks(4)
       .tickFormat(d3.timeFormat("%H:%M"))
-
     const xAxis = this.svg.append("g")
       .attr("class", "axis")
       .call(xAxisGenerator);

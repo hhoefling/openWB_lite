@@ -1,3 +1,5 @@
+/* used by display/gauges display/simple */ 
+
 function loadgraph() {
 	var lineChartData = {
 		labels: atime,
@@ -119,52 +121,7 @@ function loadgraph() {
 			data: alp3,
 			yAxisID: 'y-axis-1',
 			hidden: boolDisplayLp3,
-		} , {
-			label: 'Lp4',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			data: alp4,
-			borderWidth: 2,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp4,
-		} , {
-			label: 'Lp5',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp5,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp5,
-		} , {
-			label: 'Lp6',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp6,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp6,
-		} , {
-			label: 'Lp7',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp7,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp7,
-		} , {
-			label: 'Lp8',
-			borderColor: "rgba(50, 50, 55, 0.7)",
-			backgroundColor: 'blue',
-			fill: false,
-			borderWidth: 2,
-			data: alp8,
-			yAxisID: 'y-axis-1',
-			hidden: boolDisplayLp8,
-		}]
+		} ]
 	}
 
 	var ctx = document.getElementById('canvas').getContext('2d');
@@ -189,7 +146,7 @@ function loadgraph() {
 			legend: {
 				display: boolDisplayLegend,
 				labels: {
-					// middle grey, opacy = 100% (visible)
+					// middle grey, opacity = 100% (visible)
 					fontColor: "rgba(153, 153, 153, 1)",
 					filter: function(item,chart) {
 						if ( item.text.includes(hidehaus) || item.text.includes(hideload2) || item.text.includes(hideload1) || item.text.includes(hidelp2soc) || item.text.includes(hidelp1soc) || item.text.includes(hidelp1) || item.text.includes(hidelp2) || item.text.includes(hidelp3) || item.text.includes(hidelp4) || item.text.includes(hidelp5) || item.text.includes(hidelp6) || item.text.includes(hidelp7) || item.text.includes(hidelp8) || item.text.includes(hidespeichersoc) || item.text.includes(hidespeicher) || item.text.includes(hidelpa) || item.text.includes(hidepv) || item.text.includes(hideevu) ) { return false } else { return true}
@@ -202,11 +159,11 @@ function loadgraph() {
 			scales: {
 				xAxes: [
 					{
-         				ticks: {
-							// middle grey, opacy = 100% (visible)
+						ticks: {
+							// middle grey, opacity = 100% (visible)
 							fontColor: "rgba(153, 153, 153, 1)"
-         				}
-      				}],
+						}
+					}],
 				yAxes: [
 					{
 						// horizontal line for values displayed on the left side (power)
@@ -215,17 +172,17 @@ function loadgraph() {
 						type: 'linear',
 						display: true,
 						scaleLabel: {
-		        			display: true,
-		        			labelString: 'Leistung [W]',
-							// middle grey, opacy = 100% (visible)
+							display: true,
+							labelString: 'Leistung [W]',
+							// middle grey, opacity = 100% (visible)
 							fontColor: "rgba(153, 153, 153, 1)"
-		      			},
+						},
 						gridLines: {
-							// light grey, opacy = 100% (visible)
+							// light grey, opacity = 100% (visible)
 							color: "rgba(204, 204, 204, 1)",
 						},
 						ticks: {
-							// middle grey, opacy = 100% (visible)
+							// middle grey, opacity = 100% (visible)
 							fontColor: "rgba(153, 153, 153, 1)"
 						}
 
@@ -238,17 +195,17 @@ function loadgraph() {
 						scaleLabel: {
 							display: true,
 							labelString: 'SoC [%]',
-							// middle grey, opacy = 100% (visible)
+							// middle grey, opacity = 100% (visible)
 							fontColor: "rgba(153, 153, 153, 1)"
 						},
 						gridLines: {
-							// black, opacy = 0% (invisible)
+							// black, opacity = 0% (invisible)
 							color: "rgba(0, 0, 0, 0)",
 						},
 						ticks: {
 							min: 1,
 							suggestedMax: 100,
-							// middle grey, opacy = 100% (visible)
+							// middle grey, opacity = 100% (visible)
 							fontColor: "rgba(153, 153, 153, 1)"
 						}
 					}
@@ -262,7 +219,7 @@ function loadgraph() {
 
 function checkgraphload(){
 	if ( graphloaded == 1) {
-       	myLine.destroy();
+		myLine.destroy();
 		loadgraph();
 	} else {
 		if (( boolDisplayHouseConsumption == true  ||  boolDisplayHouseConsumption == false) && (boolDisplayLoad1 == true || boolDisplayLoad1 == false ) && (boolDisplayLp1Soc == true || boolDisplayLp1Soc == false ) && (boolDisplayLp2Soc == true || boolDisplayLp2Soc == false ) && (boolDisplayLoad2 == true || boolDisplayLoad2 == false ) && (boolDisplayLp1 == true || boolDisplayLp1 == false ) && (boolDisplayLp2 == true || boolDisplayLp2 == false ) && (boolDisplayLp3 == true || boolDisplayLp3 == false ) && (boolDisplayLp4 == true || boolDisplayLp4 == false ) && (boolDisplayLp5 == true || boolDisplayLp5 == false ) && (boolDisplayLp6 == true || boolDisplayLp6 == false ) && (boolDisplayLp7 == true || boolDisplayLp7 == false ) && (boolDisplayLp8 == true || boolDisplayLp8 == false ) && (boolDisplayLpAll == true || boolDisplayLpAll == false ) && (boolDisplaySpeicherSoc == true || boolDisplaySpeicherSoc == false ) && (boolDisplaySpeicher == true || boolDisplaySpeicher == false ) && (boolDisplayEvu == true || boolDisplayEvu == false ) && (boolDisplayPv == true || boolDisplayPv == false ) && (boolDisplayLegend == true || boolDisplayLegend == false ))  {
@@ -270,10 +227,10 @@ function checkgraphload(){
 				if ( graphloaded == 0 ) {
 					graphloaded += 1;
 				} else {
-		       		myLine.destroy();
+					myLine.destroy();
 				}
 				loadgraph();
-	 		}
+			}
 		}
 	}
 }
@@ -307,21 +264,6 @@ function forcegraphload() {
 		}
 		if ( !( boolDisplayLp3 == true  ||  boolDisplayLp3 == false) ) {
 			showhidedataset('boolDisplayLp3');
-		}
-		if ( !( boolDisplayLp4 == true  ||  boolDisplayLp4 == false) ) {
-			showhidedataset('boolDisplayLp4');
-		}
-		if ( !( boolDisplayLp5 == true  ||  boolDisplayLp5 == false) ) {
-			showhidedataset('boolDisplayLp5');
-		}
-		if ( !( boolDisplayLp6 == true  ||  boolDisplayLp6 == false) ) {
-			showhidedataset('boolDisplayLp6');
-		}
-		if ( !( boolDisplayLp7 == true  ||  boolDisplayLp7 == false) ) {
-			showhidedataset('boolDisplayLp7');
-		}
-		if ( !( boolDisplayLp8 == true  ||  boolDisplayLp8 == false) ) {
-			showhidedataset('boolDisplayLp8');
 		}
 		if ( !( boolDisplayLpAll == true  ||  boolDisplayLpAll == false)){
 			showhidedataset('boolDisplayLpAll');

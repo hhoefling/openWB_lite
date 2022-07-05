@@ -51,7 +51,7 @@
 				// if no releasetrain set, set stable
 				$releasetrain="stable";
 			}
-
+			
 		?>
 
 		<div id="nav-placeholder"></div>
@@ -65,7 +65,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
-							Kernel: <?php echo exec('uname -ors'); ?><br>
+							Kernel: <?php echo exec('uname -ors'); echo " (", exec('/var/www/html/openWB/runs/distro.sh'), ")"; ?><br>
 							<?php echo exec('python3 -V'); ?><br>
 							openWB Version: <span id="installedVersionSpan" data-version=""></span>
 						</div>
@@ -81,9 +81,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
-							<p>
-								Board: <?php echo trim( exec('cat /sys/firmware/devicetree/base/model') ); ?>
-							</p>
+							Board: <span id="board">--</span><br>
 							CPU: <?php echo exec('cat /proc/cpuinfo | grep -m 1 "model name" | sed "s/^.*: //"'); ?><br>
 							CPU-Kerne: <?php echo exec('cat /proc/cpuinfo | grep processor | wc -l'); ?><br>
 						</div>
@@ -114,7 +112,11 @@
 								<meter id="memMeter" min=0 max=0 value=0></meter> (<span id='memused'>--</span>MB genutzt)
 							</p>
 							<p>
-								SD-Karte: <span id="diskuse">--</span>, <span id="diskfree">--</span> verfügbar
+                                SD-Karte: <span id="disktot">--</span>, <span id="diskfree">--</span> verfügbar / <span id="diskusedprz">--</span>% belegt
+								<meter id="disk" high=65 min=0 max=100 value=0></meter><br>
+                                TMP Filesystem: <span id="tmptot">--</span>, <span id="tmpfree">--</span> verfügbar /  <span id="tmpusedprz">--</span>% belegt
+								<meter id="tmp" high=65 min=0 max=100 value=0></meter><br>
+
 							</p>
 							IP-Adresse LAN: <span id="iplan">--</span><br>
 							IP-Adresse WLAN: <span id="ipwifi">--</span>
@@ -178,7 +180,7 @@
 						cache: false
 					})
 					.done(function(result) {
-						$('#installedVersionSpan').append(' ('+result+')');
+						$('#installedVersionSpan').append(' ('+result+') Master');
 					});
 				}
 
@@ -190,26 +192,36 @@
 							return result + ', ';
 						} else return '';
 					}
+
 					$.getJSON('tools/programmloggerinfo.php', function(data){
 						json = eval(data);
+						$('#board').text(json.board);
 						$('#cpu').val(json.cpuuse);
 						$('#cpuuse').text(json.cpuuse);
 						$('#cputemp').text((json.cputemp/1000).toFixed(2));
 						$('#cpufreq').text((json.cpufreq/1000));
 						$('#memtot').text(json.memtot);
 						$('#memused').text(json.memuse);
+						$('#disktot').text(json.disktot);
 						$('#diskuse').text(json.diskuse);
 						$('#diskfree').text(json.diskfree);
+						$('#diskusedprz').text(json.diskusedprz);
+						$('#disk').val(json.diskusedprz);
+						$('#tmptot').text(json.tmptot);
+						$('#tmpuse').text(json.tmpuse);
+						$('#tmpfree').text(json.tmpfree);
+						$('#tmpusedprz').text(json.tmpusedprz);
+						$('#tmp').val(json.tmpusedprz);
 						$('#memMeter').attr({'max': json.memtot, 'high': (json.memtot*0.85)});
 						$('#memMeter').val(json.memuse);
 						if (json.ethaddr != '') {
-							$('#iplan').text( json.ethaddr   + ', ' + json.ethaddr2 );
+							$('#iplan').text( json.ethaddr   + ( (json.ethaddr2=='')? '' :' ,  ' ) + json.ethaddr2 );
 						} else {
 							$('#iplan').text('--');
 						}
 						if (json.wlanaddr != '') {
 							$('#wifidata').show();
-							$('#ipwifi').text(json.wlanaddr + ', ' + json.wlanaddr2 );
+							$('#ipwifi').text( json.wlanaddr + ( (json.wlanaddr2=='')? '' :' ,  ' )  + json.wlanaddr2 );
 							$('#wifiqualy').text(json.wlanqualy);
 							$('#wifissid').text(json.wlanssid);
 							$('#wifimode').text(json.wlanmode);

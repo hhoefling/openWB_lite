@@ -1,5 +1,31 @@
 #!/bin/bash
 
+
+writeifchanged()
+{
+ sollstate=$1
+ solltxt=$2
+ token=$3
+ cf="/var/www/html/openWB/ramdisk/${4}_scache"
+ t1=${5:-faultState}
+ t2=${6:-faultStr}
+ checktxt="${sollstate}##${solltxt}"
+ 
+ if ! [ -f $cf ]; then
+	  cached=""
+ else
+    cached=$(<$cf)
+ fi
+ #openwbDebugLog "MAIN" 0 "checkcache [$checktxt] [$cf] [$cached] $t1 $t2"
+ if [[ "$cached" != "$checktxt" ]] ; then
+		echo $checktxt >$cf
+		mosquitto_pub -t "openWB/set/${token}/$t1" -r -m "$sollstate"
+		mosquitto_pub -t "openWB/set/${token}/$t2" -r -m "$solltxt"
+ fi
+}
+
+export -f writeifchanged
+
 openwbModulePublishState() {
 	# $1: Modultyp (EVU, LP, EVSOC, PV, BAT)
 	# $2: Status (0=Ok, 1=Warning, 2=Error)
@@ -10,40 +36,35 @@ openwbModulePublishState() {
 			if (( $# != 3 )); then
 				echo "openwbPublishStatus: Wrong number of arguments: EVU $#"
 			else
-				mosquitto_pub -t openWB/set/evu/faultState -r -m "$2"
-				mosquitto_pub -t openWB/set/evu/faultStr -r -m "$3"
+		    writeifchanged "$2" "$3" "evu" "evu"
 			fi
 			;;
 		"LP")
 			if (( $# != 4 )); then
 				echo "openwbPublishStatus: Wrong number of arguments: LP $#"
 			else
-				mosquitto_pub -t openWB/set/lp/${4}/faultState -r -m "$2"
-				mosquitto_pub -t openWB/set/lp/${4}/faultStr -r -m "$3"
+		    writeifchanged "$2" "$3" "lp/${4}" "lp_${4}"
 			fi
 			;;
 		"EVSOC")
 			if (( $# != 4 )); then
 				echo "openwbPublishStatus: Wrong number of arguments: EVSOC $#"
 			else
-				mosquitto_pub -t openWB/set/lp/${4}/socFaultState -r -m "$2"
-				mosquitto_pub -t openWB/set/lp/${4}/socFaultStr -r -m "$3"
+		    writeifchanged "$2" "$3" "lp/${4}" "lp_${4}" "socFaultState" "socFaultStr"
 			fi
 			;;
 		"PV")
 			if (( $# != 4 )); then
 				echo "openwbPublishStatus: Wrong number of arguments: PV $#"
 			else
-				mosquitto_pub -t openWB/set/pv/${4}/faultState -r -m "$2"
-				mosquitto_pub -t openWB/set/pv/${4}/faultStr -r -m "$3"
+		    writeifchanged "$2" "$3" "pv/${4}" "pv_${4}"
 			fi
 			;;
 		"BAT")
 			if (( $# != 3 )); then
 				echo "openwbPublishStatus: Wrong number of arguments: BAT $#"
 			else
-				mosquitto_pub -t openWB/set/houseBattery/faultState -r -m "$2"
-				mosquitto_pub -t openWB/set/houseBattery/faultStr -r -m "$3"
+		    writeifchanged "$2" "$3" "houseBattery" "houseBattery"
 			fi
 			;;
 		*)
@@ -52,24 +73,28 @@ openwbModulePublishState() {
 	esac
 }
 
+
 export -f openwbModulePublishState
 
 openwbDebugLog() {
-	# $1: Channel (MAIN=default, EVSOC, PV, MQTT, RFID, SMARTHOME, CHARGESTAT)
+	# $1: Channel (MAIN=default, EVSOC, PV, MQTT, RFID, SMARTHOME, CHARGESTAT, DEB)
 	# $2: Level (0=Info, 1=Regelwerte , 2=Berechnungsgrundlage)
 	# $3: Meldung (String)
 	LOGFILE="/var/log/openWB.log"
-	timestamp=`date +"%Y-%m-%d %H:%M:%S"`
+	timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
-	if [[ -z "$debug" ]]; then
+	if [[ -z "${debug:-}" ]]; then
 		# enable all levels as global $debug is not set up yet
 		DEBUGLEVEL=2
 	else
 		DEBUGLEVEL=$debug
 	fi
 	# echo "LVL: $2 DEBUG: $debug DEBUGLEVEL: $DEBUGLEVEL" >> $LOGFILE
-	if (( $2 <= $DEBUGLEVEL )); then
+	if (( $2 <= DEBUGLEVEL )); then
 		case $1 in
+			"DEB")
+				LOGFILE="/var/www/html/openWB/ramdisk/dbg.log"
+				;;
 			"EVSOC")
 				LOGFILE="/var/www/html/openWB/ramdisk/soc.log"
 				;;
@@ -93,12 +118,55 @@ openwbDebugLog() {
 				LOGFILE="/var/log/openWB.log"
 				;;
 		esac
-		if (( $DEBUGLEVEL > 0 )); then
+		if (( DEBUGLEVEL > 0 )); then
 			echo "$timestamp: $$ $3 (LV$2) at $(caller 0)" >> $LOGFILE
 		else
 			echo "$timestamp: $$ $3 (LV$2)" >> $LOGFILE
 		fi
 	fi
+	
+	
+	if ! realpath -e ramdisk >/dev/null 2>&1 ; then
+	    echo "$timestamp: $$ Oh no!, wrong basedir: $(pwd) " >> $LOGFILE
+	fi
+	
 }
 
 export -f openwbDebugLog
+
+openwbRunLoggingOutput() {
+	$1 2>&1 | while read -r line
+	do
+		echo "$(date +"%Y-%m-%d %H:%M:%S"): $1: $line" >> "$OPENWBBASEDIR/ramdisk/openWB.log"
+	done
+}
+export -f openwbRunLoggingOutput
+
+
+
+# Increment var with Name $1 to $2 (0..n) default 5
+function incvar()
+{
+ local -n pvar=$1
+ local -i toval=${2:-"5"}
+ local fn="/var/www/html/openWB/ramdisk/${!pvar}"
+ openwbDebugLog "MAIN" 2 "incvar:  increment file $fn  '${!pvar}'  to $toval"
+ pvar=$(cat "$fn" 2>/dev/null); rc=$?
+ if [ ! $rc -eq  0 ] ; then
+   openwbDebugLog "MAIN" 2 "incvar: file $fn not found, use 0"
+   pvar=0
+ fi
+ if (( pvar < toval )); then
+	 pvar=$((pvar + 1))
+ else
+	 pvar=0
+ fi
+ echo $pvar >"$fn"
+ openwbDebugLog "MAIN" 1 "incvar: '${!pvar}' now $pvar"
+}
+
+export -f incvar
+# sample
+# incvar testtimer 5
+
+

@@ -63,14 +63,14 @@ incrementTimer(){
 
 getAndWriteSoc(){
 	re='^-?[0-9]+$'
-	openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: Requesting SoC"
+	openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: Requesting SoC $ip"
 	echo 0 > $soctimerfile
 	soc=$(curl --connect-timeout 15 -s $ip | cut -f1 -d".")
 		
 	if  [[ $soc =~ $re ]] ; then
 		if (( $soc != 0 )) ; then
 			echo $soc > $socfile
-			openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: SoC: $soc"
+			openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: SoC: $soc"
 		else
 		# we have a problem
 		openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: Error from http call"
@@ -82,17 +82,22 @@ getAndWriteSoc(){
 }
 
 soctimer=$(<$soctimerfile)
-openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer"
+
+#openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer"
 if (( ladeleistung > 500 )); then
 	if (( soctimer < intervallladen )); then
-		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Charging, but nothing to do yet. Incrementing timer."
+        if [[  $(($soctimer % 6 )) -eq 0 ]] ; then   # nur einmal je 6 calls also je minute melden
+		 openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Charging, but nothing to do yet. Incrementing timer. $soctimer $intervallladen"
+        fi
 		incrementTimer
 	else
 		getAndWriteSoc
 	fi
 else
 	if (( soctimer < intervall )); then
-		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Nothing to do yet. Incrementing timer."
+        if [[  $(($soctimer % 6 )) -eq 0 ]] ; then # nur einmal je 6 calls also je minute melden
+		  openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Nothing to do yet. Incrementing timer. $soctimer $soctimer $intervall"
+        fi  
 		incrementTimer
 	else
 		getAndWriteSoc

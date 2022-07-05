@@ -27,16 +27,19 @@
 
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbardropSettings2" data-toggle="dropdown">
-						Ladeeinstellungen
+						Laden
 					</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" id="navGeneralLadeeinstellungen" href="./settings/generalchargeconfig.html">Übergreifendes</a>
-						<a class="dropdown-item" id="navSofortLadeeinstellungen" href="./settings/sofortconfig.php">Sofortladen</a>
-						<a class="dropdown-item" id="navPVLadeeinstellungen" href="./settings/pvconfig.html">PV & Min+PV</a>
-						<!-- <a class="dropdown-item" id="navNachtladen" href="./settings/nachtladenconfig.html">Nachtladen</a> -->
+						<a class="dropdown-item" id="navSofortLadeeinstellungen" href="./settings/sofortconfig.php">Sofortladen (0)</a>
+						<a class="dropdown-item" id="navPVLadeeinstellungen" href="./settings/pvconfig.html">PV & Min+PV (1/2)</a>
+						<a class="dropdown-item" id="navNachtladen" href="./settings/nachtladenconfig.php">Nachtladen (7)</a>
+						<a class="dropdown-item" id="navZielladen" href="./settings/zielladenconfig.php">Zielladen</a>
 					</div>
 				</li>
-
+				<li class="nav-item">
+					<a class="nav-link" id="navStatus" href="status/status.php">Status</a>
+				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbardropSettings2" data-toggle="dropdown">
 						Erscheinungsbild
@@ -49,7 +52,7 @@
 
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbardropModulconfig" data-toggle="dropdown">
-						Modulkonfiguration
+						Module
 					</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" id="navModulkonfigurationLp" data-toggle="modal" data-target="#modulconfigConfirmationLPModal" style="cursor: pointer;">Ladepunkte</a>
@@ -77,9 +80,9 @@
 					</div>
 				</li>
 				
-				<li class="nav-item">
+				<!--li class="nav-item">
 					<a class="nav-link" href="https://github.com/snaptec/openWB/wiki" target="_blank" >Wiki</a>
-				</li>
+				</li-->
 				<li class="nav-item">
 					<a class="nav-link" href="./logout.html" id="navbarLogout">Abmelden</a>
 				</li>
@@ -193,7 +196,7 @@
 	</div>
 </div>
 
-<!-- modal modulkonfig-lp-confirmation window -->
+<!-- modal modulconfig-lp-confirmation window -->
 <div class="modal fade" id="modulconfigConfirmationLPModal" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -216,7 +219,7 @@
 	</div>
 </div>
 
-<!-- modal modulkonfig-evu-confirmation window -->
+<!-- modal modulconfig-evu-confirmation window -->
 <div class="modal fade" id="modulconfigConfirmationEVUModal" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -240,7 +243,7 @@
 	</div>
 </div>
 
-<!-- modal modulkonfig-pv-confirmation window -->
+<!-- modal modulconfig-pv-confirmation window -->
 <div class="modal fade" id="modulconfigConfirmationPVModal" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -264,7 +267,7 @@
 	</div>
 </div>
 
-<!-- modal modulkonfig-bat-confirmation window -->
+<!-- modal modulconfig-bat-confirmation window -->
 <div class="modal fade" id="modulconfigConfirmationBATModal" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">

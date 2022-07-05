@@ -19,10 +19,8 @@ def main():
             
             value = rct.read(clientsocket, obj.id)
             if rct.dbglog(fmt.format(obj.id, obj.name), value) == False:
-                print value
-
+                print(value)
         rct.close(clientsocket)
-
     sys.exit(0)
     
 if __name__ == "__main__":

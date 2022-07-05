@@ -5,7 +5,7 @@ import rct_lib
 import fnmatch
 
 # Author Heinz Hoefling
-# Version 1.0 Okt.2021
+# Version 1.1 Jan.2022
 
 # Entry point with parameter check
 def main():

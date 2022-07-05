@@ -1,33 +1,46 @@
 #!/bin/bash
 
+# called from loadvar.sh timeout 10 modules/$ladeleistungmodul/main.sh
+
+# check if config file is already in env
+if [[ -z "$debug" ]]; then
+	OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
+	echo "httpll/main.sh: Seems like openwb.conf is not loaded. Reading file."
+	. $OPENWBBASEDIR/loadconfig.sh
+	. $OPENWBBASEDIR/helperFunctions.sh
+	
+fi
+
 re='^[-+]?[0-9]+\.?[0-9]*$'
 r2e='^-?[0-9]+$'
-wattll=$(curl --connect-timeout 3 -s $httpll_w_url)
-if ! [[ $wattll =~ $re ]] ; then
-	   wattll="0"
-fi
-echo $wattll > /var/www/html/openWB/ramdisk/llaktuell
-kwhll=$(curl --connect-timeout 3 -s $httpll_kwh_url)
-if ! [[ $kwhll =~ $re ]] ; then
-	   kwhll="0"
-fi
-echo $kwhll > /var/www/html/openWB/ramdisk/llkwh
 
-a1ll=$(curl --connect-timeout 3 -s $httpll_a1_url)
-if ! [[ $a1ll =~ $re ]] ; then
-	   a1ll="0"
-fi
-echo $a1ll > /var/www/html/openWB/ramdisk/lla1
-a2ll=$(curl --connect-timeout 3 -s $httpll_a2_url)
-if ! [[ $a2ll =~ $re ]] ; then
-	   a1ll="0"
-fi
-echo $a2ll > /var/www/html/openWB/ramdisk/lla2
-a3ll=$(curl --connect-timeout 3 -s $httpll_a3_url)
-if ! [[ $a3ll =~ $re ]] ; then
-	   a3ll="0"
-fi
-echo $a3ll > /var/www/html/openWB/ramdisk/lla3
+function getone()  # url, ramdisk
+{
+  declare -r url=${1:-http://url}
+  declare -r ram=$2
+  local erg
+ 
+  if [[ "$url" == "http://url" ]] ;  then
+	#openwbDebugLog "MAIN" 2 "httpll  [$url] irgnore"
+	#echo "0" >"/var/www/html/openWB/ramdisk/$ram"
+	return
+  fi
+  erg=$(curl --connect-timeout 3 -s $url)
+  if ! [[ $erg =~ $re ]] ; then
+	openwbDebugLog "MAIN" 2 "httpll  [$url]->[$erg] illegal, use 0"
+    echo "0" >"/var/www/html/openWB/ramdisk/$ram"
+	return
+  fi
+  openwbDebugLog "MAIN" 2 "httpll  curl [$url] -> [$erg] to [$ram]"
+  echo $erg >"/var/www/html/openWB/ramdisk/$ram"
+}
+
+
+getone "$httpll_w_url"   "llaktuell"
+getone "$httpll_kwh_url" "llkwh"
+getone "$httpll_a1_url"  "lla1"
+getone "$httpll_a2_url"  "lla2"
+getone "$httpll_a3_url"  "lla3"
 
 plugstat=$(curl --connect-timeout 2 -s $httpll_ip/plugstat)
 chargestat=$(curl --connect-timeout 2 -s $httpll_ip/chargestat)
@@ -39,5 +52,3 @@ if ! [[ $chargestat =~ $r2e ]] ; then
 fi
 echo $plugstat > /var/www/html/openWB/ramdisk/plugstat
 echo $chargestat > /var/www/html/openWB/ramdisk/chargestat
-
-

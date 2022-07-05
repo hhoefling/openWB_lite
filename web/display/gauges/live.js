@@ -23,11 +23,6 @@ var boolDisplayLp2Soc;
 var boolDisplayLp1;
 var boolDisplayLp2;
 var boolDisplayLp3;
-var boolDisplayLp4;
-var boolDisplayLp5;
-var boolDisplayLp6;
-var boolDisplayLp7;
-var boolDisplayLp8;
 var boolDisplayLpAll;
 var boolDisplaySpeicherSoc;
 var boolDisplaySpeicher;
@@ -44,29 +39,19 @@ var all5 = 0;
 var all6 = 0;
 var all7 = 0;
 var all8 = 0;
-var all1p;
-var all2p;
-var all3p;
-var all4p;
-var all5p;
-var all6p;
-var all7p;
-var all8p;
+var all1p =0;
+var all2p =0;
+var all3p =0;
+var all4p =0;
+var all5p =0;
+var all6p =0;
+var all7p =0;
+var all8p =0;
 var hidehaus;
 $('#lp2div').hide();
 $('#lp3div').hide();
-$('#lp4div').hide();
-$('#lp5div').hide();
-$('#lp6div').hide();
-$('#lp7div').hide();
-$('#lp8div').hide();
 $('#slider2div').hide();
 $('#slider3div').hide();
-$('#slider4div').hide();
-$('#slider5div').hide();
-$('#slider6div').hide();
-$('#slider7div').hide();
-$('#slider8div').hide();
 var thevalues = [
 	["openWB/graph/lastlivevalues", "#"],
 	["openWB/graph/1alllivevalues", "#"],
@@ -84,12 +69,7 @@ var thevalues = [
 	["openWB/graph/boolDisplayLp2Soc", "#"],
 	["openWB/graph/boolDisplayLp1", "#"],
 	["openWB/graph/boolDisplayLp2", "#"],
-	["openWB/graph/boolDisplayLp3", "#"],
-	["openWB/graph/boolDisplayLp4", "#"],
-	["openWB/graph/boolDisplayLp5", "#"],
-	["openWB/graph/boolDisplayLp6", "#"],
-	["openWB/graph/boolDisplayLp7", "#"],
-	["openWB/graph/boolDisplayLp8", "#"],
+  	["openWB/graph/boolDisplayLp3", "#"],
 	["openWB/graph/boolDisplayLpAll", "#"],
 	["openWB/graph/boolDisplaySpeicherSoc", "#"],
 	["openWB/graph/boolDisplaySpeicher", "#"],
@@ -111,35 +91,15 @@ var thevalues = [
 	["openWB/lp/1/W", "#"],
 	["openWB/lp/2/W", "#"],
 	["openWB/lp/3/W", "#"],
-	["openWB/lp/4/W", "#"],
-	["openWB/lp/5/W", "#"],
-	["openWB/lp/6/W", "#"],
-	["openWB/lp/7/W", "#"],
-	["openWB/lp/8/W", "#"],
 	["openWB/lp/1/boolPlugStat", "#"],
 	["openWB/lp/2/boolPlugStat", "#"],
 	["openWB/lp/3/boolPlugStat", "#"],
-	["openWB/lp/4/boolPlugStat", "#"],
-	["openWB/lp/5/boolPlugStat", "#"],
-	["openWB/lp/6/boolPlugStat", "#"],
-	["openWB/lp/7/boolPlugStat", "#"],
-	["openWB/lp/8/boolPlugStat", "#"],
 	["openWB/lp/1/boolChargeStat", "#"],
 	["openWB/lp/2/boolChargeStat", "#"],
 	["openWB/lp/3/boolChargeStat", "#"],
-	["openWB/lp/4/boolChargeStat", "#"],
-	["openWB/lp/5/boolChargeStat", "#"],
-	["openWB/lp/6/boolChargeStat", "#"],
-	["openWB/lp/7/boolChargeStat", "#"],
-	["openWB/lp/8/boolChargeStat", "#"],
 	["openWB/lp/1/AConfigured", "#llsolllp1div"],
 	["openWB/lp/2/AConfigured", "#llsolllp2div"],
 	["openWB/lp/3/AConfigured", "#llsolllp3div"],
-	["openWB/lp/8/AConfigured", "#llsolllp8div"],
-	["openWB/lp/4/AConfigured", "#llsolllp4div"],
-	["openWB/lp/5/AConfigured", "#llsolllp5div"],
-	["openWB/lp/6/AConfigured", "#llsolllp6div"],
-	["openWB/lp/7/AConfigured", "#llsolllp7div"],
 	["openWB/lp/1/TimeRemaining", "#restzeitlp1div"],
 	["openWB/lp/2/TimeRemaining", "#restzeitlp2div"],
 	["openWB/lp/3/TimeRemaining", "#restzeitlp3div"],
@@ -150,19 +110,9 @@ var thevalues = [
 	["openWB/lp/1/ChargeStatus", "#"],
 	["openWB/lp/2/ChargeStatus", "#"],
 	["openWB/lp/3/ChargeStatus", "#"],
-	["openWB/lp/4/ChargeStatus", "#"],
-	["openWB/lp/5/ChargeStatus", "#"],
-	["openWB/lp/6/ChargeStatus", "#"],
-	["openWB/lp/7/ChargeStatus", "#"],
-	["openWB/lp/8/ChargeStatus", "#"],
 	["openWB/lp/1/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp1div"],
 	["openWB/lp/2/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp2div"],
 	["openWB/lp/3/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp3div"],
-	["openWB/lp/4/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp4div"],
-	["openWB/lp/5/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp5div"],
-	["openWB/lp/6/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp6div"],
-	["openWB/lp/7/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp7div"],
-	["openWB/lp/8/kWhChargedSincePlugged", "#pluggedladungbishergeladenlp8div"],
 	["openWB/global/ChargeMode", "#"],
 	["openWB/global/WAllChargePoints", "#"],
 	["openWB/global/rfidConfigured", "#"],
@@ -172,35 +122,15 @@ var thevalues = [
 	["openWB/lp/1/boolChargePointConfigured", "#"],
 	["openWB/lp/2/boolChargePointConfigured", "#"],
 	["openWB/lp/3/boolChargePointConfigured", "#"],
-	["openWB/lp/4/boolChargePointConfigured", "#"],
-	["openWB/lp/5/boolChargePointConfigured", "#"],
-	["openWB/lp/6/boolChargePointConfigured", "#"],
-	["openWB/lp/7/boolChargePointConfigured", "#"],
-	["openWB/lp/8/boolChargePointConfigured", "#"],
 	["openWB/lp/1/ChargePointEnabled", "#lp1enabled"],
 	["openWB/lp/2/ChargePointEnabled", "#lp2enabled"],
 	["openWB/lp/3/ChargePointEnabled", "#lp3enabled"],
-	["openWB/lp/4/ChargePointEnabled", "#lp4enabled"],
-	["openWB/lp/5/ChargePointEnabled", "#lp5enabled"],
-	["openWB/lp/6/ChargePointEnabled", "#lp6enabled"],
-	["openWB/lp/7/ChargePointEnabled", "#lp7enabled"],
-	["openWB/lp/8/ChargePointEnabled", "#lp8enabled"],
 	["openWB/lp/1/strChargePointName", "#lp1name"],
 	["openWB/lp/2/strChargePointName", "#lp2name"],
 	["openWB/lp/3/strChargePointName", "#lp3name"],
-	["openWB/lp/4/strChargePointName", "#lp4name"],
-	["openWB/lp/5/strChargePointName", "#lp5name"],
-	["openWB/lp/6/strChargePointName", "#lp6name"],
-	["openWB/lp/7/strChargePointName", "#lp7name"],
-	["openWB/lp/8/strChargePointName", "#lp8name"],
 	["openWB/config/get/sofort/lp/1/current", "#"],
 	["openWB/config/get/sofort/lp/2/current", "#"],
 	["openWB/config/get/sofort/lp/3/current", "#"],
-	["openWB/config/get/sofort/lp/4/current", "#"],
-	["openWB/config/get/sofort/lp/5/current", "#"],
-	["openWB/config/get/sofort/lp/6/current", "#"],
-	["openWB/config/get/sofort/lp/7/current", "#"],
-	["openWB/config/get/sofort/lp/8/current", "#"],
 	["openWB/system/reloadDisplay", "#"]
 ];
 
@@ -244,7 +174,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		intbezugarrow = intbezug;
 			if (intbezug > 0) {
 			if (intbezug > 999) {
-				intbezug = (intbezug / 1000).toFixed(2);
+				intbezug = (intbezug / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 					wattbezug = intbezug + " kW Bezug";
 			} else {
 			wattbezug = intbezug + " W Bezug";
@@ -252,7 +182,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		} else {
 				intbezug = intbezug * -1;
 			if (intbezug > 999) {
-				intbezug = (intbezug / 1000).toFixed(2);
+				intbezug = (intbezug / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 					wattbezug = intbezug + " kW Einspeisung";
 			} else {
 			wattbezug = intbezug + " W Einspeisung";
@@ -583,7 +513,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		intspeicherarrow = intspeicherw;
 		if (intspeicherw > 0) {
 			if (intspeicherw > 999) {
-				intspeicherw = (intspeicherw / 1000).toFixed(2);
+				intspeicherw = (intspeicherw / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 				speicherwatt = intspeicherw + " kW Ladung";
 			} else {
 				speicherwatt = intspeicherw + " W Ladung";
@@ -591,7 +521,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		} else {
 				intspeicherw = intspeicherw * -1;
 			if (intspeicherw > 999) {
-				intspeicherw = (intspeicherw / 1000).toFixed(2);
+				intspeicherw = (intspeicherw / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 				speicherwatt = intspeicherw + " kW Entladung";
 			} else {
 				speicherwatt = intspeicherw + " W Entladung";
@@ -601,7 +531,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 	}
 	else if ( mqttmsg == "openWB/global/WHouseConsumption" ) {
 		if (mqttpayload > 999) {
-			mqttpayload = (mqttpayload / 1000).toFixed(2);
+			mqttpayload = (mqttpayload / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 				mqttpayload = mqttpayload + " kW";
 		} else {
 			mqttpayload = mqttpayload + " W";
@@ -652,7 +582,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 			pvwattarrow = pvwatt;
 			// adjust and add unit
 			if (pvwatt > 999) {
-				pvwattStr = (pvwatt / 1000).toFixed(2) + " kW";
+				pvwattStr = (pvwatt / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})  + " kW";
 			} else {
 				pvwattStr = pvwatt + " W";
 			}
@@ -672,7 +602,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		llaktuell = parseInt(mqttpayload, 10);
 		llaktuellarrow = llaktuell;
 		if (mqttpayload > 999) {
-			mqttpayload = (mqttpayload / 1000).toFixed(2);
+			mqttpayload = (mqttpayload / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 			mqttpayload = mqttpayload + " kW";
 		} else {
 		mqttpayload = mqttpayload + " W";
@@ -683,7 +613,7 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		llaktuell = parseInt(mqttpayload, 10);
 		llaktuellgarrow = llaktuell;
 		if (mqttpayload > 999) {
-			mqttpayload = (mqttpayload / 1000).toFixed(2);
+			mqttpayload = (mqttpayload / 1000).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) ;
 			mqttpayload = mqttpayload + " kW";
 		} else {
 		mqttpayload = mqttpayload + " W";
@@ -976,6 +906,7 @@ function lp3enabledclick() {
 	}
 }
 
+/*
 function lp4enabledclick() {
 	if ( lp4enabled == 0 ) {
 		publish("1","openWB/set/lp/4/ChargePointEnabled");
@@ -1015,6 +946,8 @@ function lp8enabledclick() {
 		publish("0","openWB/set/lp/8/ChargePointEnabled");
 	}
 }
+*/
+
 
 function lp1DirectChargeAmpsClick() {
 	publish($("#sofortlllp1l").html(),"openWB/config/set/sofort/lp/1/current");
@@ -1028,25 +961,10 @@ function lp3DirectChargeAmpsClick() {
 	publish($("#sofortlllp3l").html(),"openWB/config/set/sofort/lp/3/current");
 }
 
-function lp4DirectChargeAmpsClick() {
-	publish($("#sofortlllp4l").html(),"openWB/config/set/sofort/lp/4/current");
-}
+/*
+LP4-LP8
+*/
 
-function lp5DirectChargeAmpsClick() {
-	publish($("#sofortlllp5l").html(),"openWB/config/set/sofort/lp/5/current");
-}
-
-function lp6DirectChargeAmpsClick() {
-	publish($("#sofortlllp6l").html(),"openWB/config/set/sofort/lp/6/current");
-}
-
-function lp7DirectChargeAmpsClick() {
-	publish($("#sofortlllp7l").html(),"openWB/config/set/sofort/lp/7/current");
-}
-
-function lp8DirectChargeAmpsClick() {
-	publish($("#sofortlllp8l").html(),"openWB/config/set/sofort/lp/8/current");
-}
 
 function sofortclick() {
 	publish("0","openWB/set/ChargeMode");

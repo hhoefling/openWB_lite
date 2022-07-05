@@ -1,4 +1,5 @@
 #!/bin/bash
+OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
 cd /var/www/html/openWB
 . /var/www/html/openWB/loadconfig.sh
 
@@ -10,7 +11,13 @@ echo 1 > /var/www/html/openWB/ramdisk/bootinprogress
 echo "Update im Gange, bitte warten bis die Meldung nicht mehr sichtbar ist" > /var/www/html/openWB/ramdisk/lastregelungaktiv
 mosquitto_pub -t "openWB/global/strLastmanagementActive" -r -m "Update im Gange, bitte warten bis die Meldung nicht mehr sichtbar ist"
 echo "Update im Gange, bitte warten bis die Meldung nicht mehr sichtbar ist" > /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
-chmod 777 var/www/html/openWB/ramdisk/mqttlastregelungaktiv
+chmod 777 /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
+
+# The update might replace a number of files which might currently be in use by the continuously running legacy-run
+# server. If we replace the source files while the process is running, funny things might happen.
+# Thus we shut-down the legacy run server before performing the update.
+# We need sudo, because this script may run as user www-data when executed from PHP:
+sudo pkill -f "$OPENWBBASEDIR/packages/legacy_run_server.py"
 
 if [[ "$releasetrain" == "stable" ]]; then
 	train=stable17
@@ -38,18 +45,19 @@ if [[ $lastmanagements2 == "1" ]]; then
 		mosquitto_pub -t openWB/set/system/PerformUpdate -r -h $chargep3ip -m "1"
 	fi
 fi
-for i in $(seq 4 8); do
-	lastmanagementVar="lastmanagementlp$i"
-	evseconVar="evseconlp$i"
-	if [[ ${!lastmanagementVar} == "1" ]]; then
-		if [[ ${!evseconVar} == "extopenwb" ]]; then
-			echo "starting update on extOpenWB on LP$i"
-			chargepIpVar="chargep${i}ip"
-			mosquitto_pub -t openWB/set/system/releaseTrain -r -h ${!chargepIpVar} -m "$releasetrain"
-			mosquitto_pub -t openWB/set/system/PerformUpdate -r -h ${!chargepIpVar} -m "1"
-		fi
-	fi
-done
+
+#for i in $(seq 4 8); do
+#	lastmanagementVar="lastmanagementlp$i"
+#	evseconVar="evseconlp$i"
+#	if [[ ${!lastmanagementVar} == "1" ]]; then
+#		if [[ ${!evseconVar} == "extopenwb" ]]; then
+#			echo "starting update on extOpenWB on LP$i"
+#			chargepIpVar="chargep${i}ip"
+#			mosquitto_pub -t openWB/set/system/releaseTrain -r -h ${!chargepIpVar} -m "$releasetrain"
+#			mosquitto_pub -t openWB/set/system/PerformUpdate -r -h ${!chargepIpVar} -m "1"
+#		fi
+#	fi
+#done
 
 sleep 15
 
@@ -84,5 +92,16 @@ sudo chmod 777 /var/www/html/openWB/ramdisk/*
 sudo chmod 777 /var/www/html/openWB/web/lade.log
 sleep 2
 
+# check links for standart theme
+(
+ cd /var/www/html/openWB/web/themes/standard
+ [ ! -r helperFunction ]       && ln -s  ../dark/helperFunctions.js .
+ [ ! -r livechart.js ]         && ln -s  ../dark/livechart.js .
+ [ ! -r processAllMqttMsg.js ] && ln -s  ../dark/processAllMqttMsg.js .
+ [ ! -r setupMqttServices.js ] && ln -s  ../dark/setupMqttServices.js .
+ [ ! -r theme.html ]           && ln -s  ../dark/theme.html .
+)
+
+
 # now treat system as in booting state
-nohup sudo /var/www/html/openWB/runs/atreboot.sh > /var/log/openWB.log 2>&1 &
+nohup sudo /var/www/html/openWB/runs/atreboot.sh >> /var/log/openWB.log 2>&1 &

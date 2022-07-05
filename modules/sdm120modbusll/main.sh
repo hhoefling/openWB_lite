@@ -57,14 +57,5 @@ else
 		fi
 	else
 		sudo python /var/www/html/openWB/modules/sdm120modbusll/readsdm1.py $sdm120modbusllsource $sdm120modbusllid1
-
 	fi
 fi
-
-
-
-
-
-
-
-

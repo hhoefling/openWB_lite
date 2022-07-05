@@ -25,11 +25,13 @@ class WbData {
 		this.batteryEnergyImport = 0;
 		this.batteryPowerExport = 0;
 		this.batteryPowerImport = 0;
+		this.chargeMode="0"
 		this.graphDate = new Date();
 		this.graphMonth = {
 			"month": this.graphDate.getMonth(),
 			"year": this.graphDate.getFullYear()
 		}
+		this.rfidConfigured = false;
 		this.consumer = [new Consumer(), new Consumer()];
 		this.chargePoint = Array.from({ length: 9 }, (v, i) => new ChargePoint(i));
 		this.shDevice = Array.from({ length: 9 }, (v, i) => new SHDevice(i));
@@ -37,25 +39,25 @@ class WbData {
 		this.sourceSummary = {
 			"evuIn": { name: "Netz", power: 0, energy: 0, color: "white" },
 			"pv": { name: "PV", power: 0, energy: 0, color: "white" },			
-			"batOut": { name: "Bat Entl",   power: 0, energy: 0, color: "white" }
+			"batOut": { name: "Bat-",   power: 0, energy: 0, color: "white" }
 		};
 
 		this.usageSummary = {
-			"evuOut": { name: "Export", power: 0, energy: 0, color: "white" },
-			"charging":{ name: "Laden",  power: 0, energy: 0, color: "white" },
+			"evuOut": { name: "Einsp.", power: 0, energy: 0, color: "white" },
+			"charging":{ name: "PKW",  power: 0, energy: 0, color: "white" },
 			"devices": { name: "Geräte", power: 0, energy: 0, color: "white" },
-			"batIn":   { name: "Bat Lad",    power: 0, energy: 0, color: "white" },
+			"batIn":   { name: "Bat+",    power: 0, energy: 0, color: "white" },
 			"house": { name: "Haus", power: 0, energy: 0, color: "white" }
 		};
 
 		this.historicSummary = {
 			"evuIn": { name: "Netz", power: 0, energy: 0, color: "white" },
 			"pv": { name: "PV", power: 0, energy: 0, color: "white" },
-			"batOut": { name: "Bat Entl", power: 0, energy: 0, color: "white" },
-			"evuOut": { name: "Export", power: 0, energy: 0, color: "white" },
-			"charging": { name: "Laden", power: 0, energy: 0, color: "white" },
+			"batOut": { name: "Bat--", power: 0, energy: 0, color: "white" },
+			"evuOut": { name: "Einsp.", power: 0, energy: 0, color: "white" },
+			"charging": { name: "PKW", power: 0, energy: 0, color: "white" },
 			"devices": { name: "Geräte", power: 0, energy: 0, color: "white" },
-			"batIn": { name: "Bat Lad", power: 0, energy: 0, color: "white" },
+			"batIn": { name: "Bat++", power: 0, energy: 0, color: "white" },
 			"house": { name: "Haus", power: 0, energy: 0, color: "white" }
 		};
 		
@@ -82,10 +84,10 @@ class WbData {
 		this.usageSummary.batIn.color = 'var(--color-battery)';
 		this.usageSummary.house.color = 'var(--color-house)';
 		var i;
-		for (i = 0; i < 8; i++) {
+		for (i = 0; i < 3; i++) {	// 0..2 = 1..3
 			this.chargePoint[i].color = 'var(--color-lp' + (i + 1) + ')';
 		}
-		for (i = 0; i < 9; i++) {
+		for (i = 0; i < 9; i++) {   // 0..8 = 1..9
 			this.shDevice[i].color = 'var(--color-sh' + (i + 1) + ')';
 		}
 		this.consumer[0].color = 'var(--color-co1)';
@@ -185,7 +187,13 @@ class WbData {
 				powerMeter.update();
 				break;
 			case 'currentPowerPrice':
+				case 'chargeMode':
+				priceChart.update();
 				chargePointList.update();
+				break
+			case 'rfidConfigured':
+				d3.select('#codeEntry').classed ("hide", (!value))
+				break
 			default:
 				break;
 		}
@@ -285,6 +293,20 @@ class WbData {
 		batteryList.update();
 	}
 
+
+	updateET(field,value) {
+		this[field]=value;
+		
+		switch (field) {
+			case 'etPrice':
+			case 'isEtEnabled': chargePointList.updateValues();
+			break;
+			default:
+				break;
+		}
+		priceChart.update()
+	}
+
 	updateSourceSummary(cat, field, value) {
 		this.sourceSummary[cat][field] = value;
 		if (field == "power") {
@@ -338,7 +360,7 @@ class WbData {
 		this.prefs.showGr = this.showGrid;
 		this.prefs.decimalP = this.decimalPlaces;
 		this.prefs.smartHomeC = this.smartHomeColors;
-		document.cookie = "openWBColorTheme=" + JSON.stringify(this.prefs) + "; max-age=16000000";
+		document.cookie = "openWBColorTheme=" + JSON.stringify(this.prefs) +  "; path=/openWB/" + "; max-age=16000000" +"; SameSite=Lax";
 	}
 	// read cookies and update settings
 	readGraphPreferences() {
@@ -420,56 +442,65 @@ class SHDevice {
 	}
 };
 
+
 function formatWatt(watt) {
-	let wattResult;
 	if (watt >= 1000) {
 		switch (wbdata.decimalPlaces) {
-			case 0:
-				wattResult = Math.round(watt / 1000);
-				break;
-			case 1:
-				wattResult = (Math.round(watt / 100) / 10).toFixed(1);
-				break;
-			case 2:
-				wattResult = (Math.round(watt / 10) / 100).toFixed(2);
-				break;
-			case 3:
-				wattResult = (Math.round(watt) / 1000).toFixed(3);
-				break;
-			default: 
-				wattResult = Math.round(watt / 100) / 10;
-				break;
+			case 0:	return Math.round(watt / 1000).toLocaleString('de-DE')  + " kW";
+					break;
+			case 1: return (Math.round(watt / 100) / 10).toLocaleString('de-DE') + " kW";
+					break;
+			case 2: return (Math.round(watt / 10) / 100).toLocaleString('de-DE') + " kW";
+					break;
+			case 3: return (Math.round(watt) /* / 1000*/).toLocaleString('de-DE') + " W";
+					break;
+			default:return (Math.round(watt / 100) / 10 ).toLocaleString('de-DE') + " kW";
+					break;
 		}
-		return (wattResult + " kW");
 	} else {
-		return (watt + " W");
+		return (Math.round(watt).toLocaleString('de-DE') + " W");
 	}
 }
 
 function formatWattH(watt) {
 	if (watt >= 1000) {
 		switch (wbdata.decimalPlaces) {
-			case 0:
-				wattResult = Math.round(watt / 1000);
-				break;
-			case 1:
-				wattResult = (Math.round(watt / 100) / 10).toFixed(1);
-				break;
-			case 2:
-				wattResult = (Math.round(watt / 10) / 100).toFixed(2);
-				break;
-			case 3:
-				wattResult = (Math.round(watt) / 1000).toFixed(3);
-				break;
-			default: 
-				wattResult = Math.round(watt / 100) / 10;
-				break;
+			case 0:	return Math.round(watt / 1000).toLocaleString('de-DE') + ' kWh';
+					break;
+			case 1: return (Math.round(watt / 100) / 10).toLocaleString('de-DE') + ' kWh';
+					break;
+			case 2: return (Math.round(watt / 10) / 100).toLocaleString('de-DE') + ' kWh';
+					break;
+			case 3: return (Math.round(watt) /* / 1000*/).toLocaleString('de-DE')  + ' Wh';
+					break;
+			default:return (Math.round(watt / 100) / 10).toLocaleString('de-DE') + ' kWh';
+					break;
 		}
-		return (wattResult + " kWh");
 	} else {
-		return (Math.round(watt) + " Wh");
+		return (Math.round(watt).toLocaleString('de-DE') + " Wh");
 	}
 }
+
+function formatWattHX(watt) {
+	if (watt >= 1000) {
+		switch (wbdata.decimalPlaces) {
+			case 0:	return Math.round(watt / 1000).toLocaleString('de-DE');
+					break;
+			case 1: return (Math.round(watt / 100) / 10).toLocaleString('de-DE');
+					break;
+			case 2: return (Math.round(watt / 10) / 100).toLocaleString('de-DE');
+					break;
+			case 3: return (Math.round(watt) /* / 1000*/).toLocaleString('de-DE')  + ' Wh';
+					break;
+			default:return (Math.round(watt / 100) / 10).toLocaleString('de-DE');
+					break;
+		}
+	} else {
+		return (Math.round(watt).toLocaleString('de-DE') + " Wh");
+	}
+}
+
+
 function formatTime(seconds) {
 	const hours = Math.floor(seconds / 3600);
 	const minutes = ((seconds % 3600) / 60).toFixed(0);
@@ -619,7 +650,7 @@ function toggleMonthView() {
 	}
 	yieldMeter.update();
 }
-// required for pricechart to work
+// required for price chart to work
 var evuCol;
 var xgridCol;
 var gridCol;

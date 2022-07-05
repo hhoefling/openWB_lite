@@ -17,6 +17,7 @@ else
   firstload=""
 fi
 
+
 mosquitto_pub -t openWB/system/MonthGraphData1 -r -m "$(</var/www/html/openWB/web/logging/data/monthly/$1.csv tail -n +"0" | head -n "$((24 - 0))")" &
 mosquitto_pub -t openWB/system/MonthGraphData2 -r -m "$(</var/www/html/openWB/web/logging/data/monthly/$1.csv tail -n +"25" | head -n "$((50 - 25))")" &
 mosquitto_pub -t openWB/system/MonthGraphData3 -r -m "$(</var/www/html/openWB/web/logging/data/monthly/$1.csv tail -n +"50" | head -n "$((75 - 50))")" &

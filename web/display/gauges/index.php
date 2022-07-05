@@ -456,7 +456,7 @@
 					</div> 
 				</div>
 			</div>
-			<div class="row col-xs-12 text-center" style="font-size: 15px; height: 20px; top: 320px; left: 00px; position: absolute; width: 800px; color: white; text-align:center;"> 
+			<div class="row col-xs-12 text-center" style="font-size: 15px; height: 20px; top: 320px; left: 00px; position: absolute; width: 820px; color: white; text-align:center;"> 
 				<div class="col-xs-2">
 					<div id="sofortllbtn">
 						<input type="submit" class="1sofortll btn btn-blue btn-block"  name="sofortllbtn" value="Ladestrom">
@@ -659,19 +659,19 @@
 					if(strpos($line, "verbraucher2_name=") !== false) {
 						list(, $verbraucher2_nameold) = explode("=", $line);
 					}
-					if(strpos($line, "verbraucher3_name=") !== false) {
-						list(, $verbraucher3_nameold) = explode("=", $line);
-					}
+//					if(strpos($line, "verbraucher3_name=") !== false) {
+//						list(, $verbraucher3_nameold) = explode("=", $line);
+//					}
 				}
 
 				$speichervorhanden = file_get_contents('/var/www/html/openWB/ramdisk/speichervorhanden');
 				$soc1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/soc1vorhanden');
 				$verbraucher1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher1vorhanden');
 				$verbraucher2vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher2vorhanden');
-				$verbraucher3vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher3vorhanden');
+//				$verbraucher3vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher3vorhanden');
 				$verbraucher1_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher1_nameold));
 				$verbraucher2_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher2_nameold));
-				$verbraucher3_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher3_nameold));
+//				$verbraucher3_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher3_nameold));
 			?>
 			<div style="height:440px; width:800px;" id="dailydiv"></div>
 				<div class="row col-xs-12 text-center" style="font-size: 12px; height: 10px; top: 430px; left: 50px; position: absolute; width: 750px; color: white; text-align:center;"> 
@@ -1186,8 +1186,8 @@
 				var verbraucher2vorhanden = <?php echo $verbraucher2vorhanden ?>;
 				var verbraucher2name = "<?php echo $verbraucher2_nameold ?> (I)";
 				var verbrauchere2name = "<?php echo $verbraucher2_nameold ?> (E)";
-				var verbraucher3vorhanden = <?php echo $verbraucher3vorhanden ?>;
-				var verbraucher3name = "<?php echo $verbraucher3_nameold ?>";
+//				var verbraucher3vorhanden = <?php echo $verbraucher3vorhanden ?>;
+//				var verbraucher3name = "<?php echo $verbraucher3_nameold ?>";
 			</script>
 
 			<script src="livechart_chartjs.js"></script>
@@ -1215,25 +1215,6 @@
 					<div class="row col-xs-12" style="white-space: nowrap;">
 						<div class="col-xs-6">
 							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp3')"><i id="graphlp3div" class="fa"></i> Ladepunkt 3</span>
-						</div>
-						<div class="col-xs-6">
-							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp4')"><i id="graphlp4div" class="fa"></i> Ladepunkt 4</span>
-						</div>
-					</div>
-					<div class="row col-xs-12" style="white-space: nowrap;">
-						<div class="col-xs-6">
-							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp5')"><i id="graphlp5div" class="fa"></i> Ladepunkt 5</span>
-						</div>
-						<div class="col-xs-6">
-							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp6')"><i id="graphlp6div" class="fa"></i> Ladepunkt 6</span>
-						</div>
-					</div>
-					<div class="row col-xs-12" style="white-space: nowrap;">
-						<div class="col-xs-6">
-							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp7')"><i id="graphlp7div" class="fa"></i> Ladepunkt 7</span>
-						</div>
-						<div class="col-xs-6">
-							<span style="cursor: pointer;" onclick="showhidedataset('boolDisplayLp8')"><i id="graphlp8div" class="fa"></i> Ladepunkt 8</span>
 						</div>
 					</div>
 					<div class="row col-xs-12" style="white-space: nowrap;">
@@ -1315,23 +1296,8 @@
 					</div>
 					<div id="graphoptiondiv" style="display: none;"><br><br></div>
 					<div style="display: none;" id="lp3enableddiv"></div>
-					<div style="display: none;" id="lp4enableddiv"></div>
-					<div style="display: none;" id="lp5enableddiv"></div>
-					<div style="display: none;" id="lp6enableddiv"></div>
-					<div style="display: none;" id="lp7enableddiv"></div>
-					<div style="display: none;" id="lp8enableddiv"></div>
 					<div style="display: none;" id="sofortlllp3s"></div>
-					<div style="display: none;" id="sofortlllp4s"></div>
-					<div style="display: none;" id="sofortlllp5s"></div>
-					<div style="display: none;" id="sofortlllp6s"></div>
-					<div style="display: none;" id="sofortlllp7s"></div>
-					<div style="display: none;" id="sofortlllp8s"></div>
 					<div style="display: none;" id="sofortlllp3l"></div>
-					<div style="display: none;" id="sofortlllp4l"></div>
-					<div style="display: none;" id="sofortlllp5l"></div>
-					<div style="display: none;" id="sofortlllp6l"></div>
-					<div style="display: none;" id="sofortlllp7l"></div>
-					<div style="display: none;" id="sofortlllp8l"></div>
 					<div style="display: none;" id="lademstatdiv"></div>
 					<div style="display: none;" id="ladepunkts11111div"></div>
 					<div style="display: none;" id="ladepunkts22222div"></div>

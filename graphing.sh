@@ -2,76 +2,97 @@
 graphing(){
 	#Ladestatuslog keurzen
 	# HH nicht noetig, macht cleanup, alle 5 Minuten 
-	#echo "$(tail -100 /var/www/html/openWB/ramdisk/ladestatus.log)" > /var/www/html/openWB/ramdisk/ladestatus.log
+	#echo "$(tail -100 ramdisk/ladestatus.log)" > ramdisk/ladestatus.log
+	
 	
 	
 	#Live Graphing
 	if [[ $pv2wattmodul != "none" ]]; then
-		pvwatt=$(</var/www/html/openWB/ramdisk/pvallwatt)
+		pvwatt=$(<ramdisk/pvallwatt)
 	else
-		pvwatt=$(</var/www/html/openWB/ramdisk/pvwatt)
+		pvwatt=$(<ramdisk/pvwatt)
 	fi
 	pvgraph=$((-pvwatt))
-	if (( speichervorhanden == 1 )); then
-		echo $speicherleistung >> /var/www/html/openWB/ramdisk/speicher-live.graph
-		echo $speichersoc >> /var/www/html/openWB/ramdisk/speichersoc-live.graph
-	fi
-	if [[ socmodul1 != "none" ]]; then
-		echo $soc1 >> /var/www/html/openWB/ramdisk/soc1-live.graph
-	fi
-	echo $ladeleistunglp1 >> /var/www/html/openWB/ramdisk/ev1-live.graph
-	if (( lastmanagement == 1 )); then
-		echo $ladeleistunglp2 >> /var/www/html/openWB/ramdisk/ev2-live.graph
-	fi
-	echo $pvgraph >> /var/www/html/openWB/ramdisk/pv-live.graph
-	echo $wattbezugint >> /var/www/html/openWB/ramdisk/evu-live.graph
-	echo $ladeleistung >> /var/www/html/openWB/ramdisk/ev-live.graph
-	echo $soc >> /var/www/html/openWB/ramdisk/soc-live.graph
-	date +%H:%M >> /var/www/html/openWB/ramdisk/time-live.graph
-	echo $hausverbrauch >> /var/www/html/openWB/ramdisk/hausverbrauch-live.graph
-	if (( verbraucher1_aktiv == 1 )); then
-		echo $verbraucher1_watt >> /var/www/html/openWB/ramdisk/verbraucher1-live.graph
-	fi
-	if (( verbraucher2_aktiv == 1 )); then
-		echo $verbraucher2_watt >> /var/www/html/openWB/ramdisk/verbraucher2-live.graph
-	fi
+	
+#NC	if (( speichervorhanden == 1 )); then
+#NC		echo $speicherleistung >> ramdisk/speicher-live.graph
+#NC		echo $speichersoc >> ramdisk/speichersoc-live.graph
+#NC	fi
+#NC	if [[ $socmodul1 != "none" ]]; then
+#NC		echo $soc1 >> ramdisk/soc1-live.graph
+#NC	fi
 
+#NC	echo $ladeleistunglp1 >> ramdisk/ev1-live.graph
+
+#NC	if (( lastmanagement == 1 )); then
+#NC		echo $ladeleistunglp2 >> ramdisk/ev2-live.graph
+#NC	fi
+
+#NC	echo $pvgraph >> ramdisk/pv-live.graph
+#NC	echo $wattbezugint >> ramdisk/evu-live.graph
+#NC	echo $ladeleistung >> ramdisk/ev-live.graph
+#NC	echo $soc >> ramdisk/soc-live.graph
+#NC	date +%H:%M >> ramdisk/time-live.graph
+#NC	echo $hausverbrauch >> ramdisk/hausverbrauch-live.graph
+#NC	if (( verbraucher1_aktiv == 1 )); then
+#NC		echo $verbraucher1_watt >> ramdisk/verbraucher1-live.graph
+#NC	fi
+#NC	if (( verbraucher2_aktiv == 1 )); then
+#NC		echo $verbraucher2_watt >> ramdisk/verbraucher2-live.graph
+#NC	fi
+
+ladeleistunglp4=0
+ladeleistunglp5=0
+ladeleistunglp6=0
+ladeleistunglp7=0
+ladeleistunglp8=0
+     
+# Configwert 20-120 Minuten	 
 	if [[ $livegraph =~ $re ]] ; then
 		livegraph=$((livegraph * 6 ))
 		if ! [[ $livegraph =~ $re ]] ; then
 			livegraph="180"
 		fi
 	fi
-	echo $(date +%H:%M:%S),$wattbezugint,$ladeleistung,$pvgraph,$ladeleistunglp1,$ladeleistunglp2,$ladeleistung,$speicherleistung,$speichersoc,$soc,$soc1,$hausverbrauch,$verbraucher1_watt,$verbraucher2_watt,$ladeleistunglp3,$ladeleistunglp4,$ladeleistunglp5,$ladeleistunglp6,$ladeleistunglp7,$ladeleistunglp8,$shd1_w,$shd2_w,$shd3_w,$shd4_w,$shd5_w,$shd6_w,$shd7_w,$shd8_w,$shd9_w,$shd1_t0,$shd1_t1,$shd1_t2 >> /var/www/html/openWB/ramdisk/all-live.graph
-	echo $(date +%H:%M:%S),$wattbezugint,$ladeleistung,$pvgraph,$ladeleistunglp1,$ladeleistunglp2,$ladeleistung,$speicherleistung,$speichersoc,$soc,$soc1,$hausverbrauch,$verbraucher1_watt,$verbraucher2_watt > /var/www/html/openWB/ramdisk/all-live.graph?incremental=y
-	echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/all-live.graph)" > /var/www/html/openWB/ramdisk/all-live.graph
-	echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/hausverbrauch-live.graph)" > /var/www/html/openWB/ramdisk/hausverbrauch-live.graph
-	echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/pv-live.graph)" > /var/www/html/openWB/ramdisk/pv-live.graph
-	echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/soc-live.graph)" > /var/www/html/openWB/ramdisk/soc-live.graph
-	echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/evu-live.graph)" > /var/www/html/openWB/ramdisk/evu-live.graph
-	echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/ev-live.graph)" > /var/www/html/openWB/ramdisk/ev-live.graph
-	echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/ev1-live.graph)" > /var/www/html/openWB/ramdisk/ev1-live.graph
-	if (( verbraucher1_aktiv == 1 )); then
-		echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/verbraucher1-live.graph)" > /var/www/html/openWB/ramdisk/verbraucher1-live.graph
-	fi
-	if (( verbraucher2_aktiv == 1 )); then
-		echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/verbraucher2-live.graph)" > /var/www/html/openWB/ramdisk/verbraucher2-live.graph
-	fi
-	if (( lastmanagement == 1 )); then
-	echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/ev2-live.graph)" > /var/www/html/openWB/ramdisk/ev2-live.graph
-	fi
-	echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/time-live.graph)" > /var/www/html/openWB/ramdisk/time-live.graph
-	if ((speichervorhanden == 1 )); then
-		echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/speicher-live.graph)" > /var/www/html/openWB/ramdisk/speicher-live.graph
-		echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/speichersoc-live.graph)" > /var/www/html/openWB/ramdisk/speichersoc-live.graph
-	fi
-	if [[ socmodul1 != "none" ]]; then
-		echo "$(tail -$livegraph /var/www/html/openWB/ramdisk/soc1-live.graph)" > /var/www/html/openWB/ramdisk/soc1-live.graph
-	fi
-	mosquitto_pub -t openWB/graph/alllivevalues -r -m "$(cat /var/www/html/openWB/ramdisk/all-live.graph | tail -n 50)" &
+
+	openwbDebugLog "MAIN" 2 "graphing.sh ---- make all-live.graph with $livegraph lines"
+	
+	echo $(date +%H:%M:%S),$wattbezugint,$ladeleistung,$pvgraph,$ladeleistunglp1,$ladeleistunglp2,$ladeleistung,$speicherleistung,$speichersoc,$soc,$soc1,$hausverbrauch,$verbraucher1_watt,$verbraucher2_watt,$ladeleistunglp3,$ladeleistunglp4,$ladeleistunglp5,$ladeleistunglp6,$ladeleistunglp7,$ladeleistunglp8,$shd1_w,$shd2_w,$shd3_w,$shd4_w,$shd5_w,$shd6_w,$shd7_w,$shd8_w,$shd9_w,$shd1_t0,$shd1_t1,$shd1_t2 >> ramdisk/all-live.graph
+#NC	echo $(date +%H:%M:%S),$wattbezugint,$ladeleistung,$pvgraph,$ladeleistunglp1,$ladeleistunglp2,$ladeleistung,$speicherleistung,$speichersoc,$soc,$soc1,$hausverbrauch,$verbraucher1_watt,$verbraucher2_watt > ramdisk/all-live.graph?incremental=y
+	
+	echo "$(tail -$livegraph ramdisk/all-live.graph)" > ramdisk/all-live.graph
+#NC	echo "$(tail -$livegraph ramdisk/hausverbrauch-live.graph)" > ramdisk/hausverbrauch-live.graph
+#NC	echo "$(tail -$livegraph ramdisk/pv-live.graph)" > ramdisk/pv-live.graph
+#NC	echo "$(tail -$livegraph ramdisk/soc-live.graph)" > ramdisk/soc-live.graph
+#NC	echo "$(tail -$livegraph ramdisk/evu-live.graph)" > ramdisk/evu-live.graph
+#NC	echo "$(tail -$livegraph ramdisk/ev-live.graph)" > ramdisk/ev-live.graph
+#NC	echo "$(tail -$livegraph ramdisk/ev1-live.graph)" > ramdisk/ev1-live.graph
+
+#NC	if (( verbraucher1_aktiv == 1 )); then
+#NC		echo "$(tail -$livegraph ramdisk/verbraucher1-live.graph)" > /ramdisk/verbraucher1-live.graph
+#NC	fi
+#NC	if (( verbraucher2_aktiv == 1 )); then
+#NC		echo "$(tail -$livegraph ramdisk/verbraucher2-live.graph)" > ramdisk/verbraucher2-live.graph
+#NC	fi
+#NC	if (( lastmanagement == 1 )); then
+#NC		echo "$(tail -$livegraph ramdisk/ev2-live.graph)" > ramdisk/ev2-live.graph
+#NC	fi
+#NC	echo "$(tail -$livegraph ramdisk/time-live.graph)" > ramdisk/time-live.graph
+#NC	if ((speichervorhanden == 1 )); then
+#NC		echo "$(tail -$livegraph ramdisk/speicher-live.graph)" > ramdisk/speicher-live.graph
+#NC		echo "$(tail -$livegraph ramdisk/speichersoc-live.graph)" > ramdisk/speichersoc-live.graph
+#NC	fi
+#NC	if [[ $socmodul1 != "none" ]]; then
+#NC		echo "$(tail -$livegraph ramdisk/soc1-live.graph)" > ramdisk/soc1-live.graph
+#NC	fi
+
+	mosquitto_pub -t openWB/graph/alllivevalues -r -m "$(cat ramdisk/all-live.graph | tail -n 50)" &
 	mosquitto_pub -t openWB/graph/lastlivevalues -r -m "$(date +%H:%M:%S),$wattbezugint,$ladeleistung,$pvgraph,$ladeleistunglp1,$ladeleistunglp2,$ladeleistung,$speicherleistung,$speichersoc,$soc,$soc1,$hausverbrauch,$verbraucher1_watt,$verbraucher2_watt,$ladeleistunglp3,$ladeleistunglp4,$ladeleistunglp5,$ladeleistunglp6,$ladeleistunglp7,$ladeleistunglp8,$shd1_w,$shd2_w,$shd3_w,$shd4_w,$shd5_w,$shd6_w,$shd7_w,$shd8_w,$shd9_w" &
+#NC, maybee for cloud
 	mosquitto_pub -t openWB/system/lastlivevalues -r -m "$(date +%H:%M:%S),$wattbezugint,$ladeleistung,$pvgraph,$ladeleistunglp1,$ladeleistunglp2,$ladeleistung,$speicherleistung,$speichersoc,$soc,$soc1,$hausverbrauch,$verbraucher1_watt,$verbraucher2_watt,$ladeleistunglp3,$ladeleistunglp4,$ladeleistunglp5,$ladeleistunglp6,$ladeleistunglp7,$ladeleistunglp8,$shd1_w,$shd2_w,$shd3_w,$shd4_w,$shd5_w,$shd6_w,$shd7_w,$shd8_w,$shd9_w" &
-	mosquitto_pub -t openWB/graph/1alllivevalues -r -m "$(< ramdisk/all-live.graph tail -n +"0" | head -n "$((50 - 0))")" &
+
+#	mosquitto_pub -t openWB/graph/1alllivevalues -r -m "$(< ramdisk/all-live.graph tail -n +"0" | head -n "$((50 - 0))")" &
+	all1livevalues=$(< ramdisk/all-live.graph tail -n +"0"  | head -n "$((50 - 0))")
 	all2livevalues=$(< ramdisk/all-live.graph tail -n +"50" | head -n "$((100 - 50))")
 	all3livevalues="$(< ramdisk/all-live.graph tail -n +"100" | head -n "$((150 - 100))")"
 	all4livevalues="$(< ramdisk/all-live.graph tail -n +"150" | head -n "$((200 - 150))")"
@@ -87,6 +108,7 @@ graphing(){
 	all14livevalues="$(< ramdisk/all-live.graph tail -n +"650" | head -n "$((700 - 650))")"
 	all15livevalues="$(< ramdisk/all-live.graph tail -n +"700" | head -n "$((750 - 700))")"
 	all16livevalues="$(< ramdisk/all-live.graph tail -n +"750" | head -n "$((800 - 750))")"
+	mosquitto_pub -t openWB/graph/1alllivevalues -r -m "$([ ${#all1livevalues} -ge 10 ] && echo "$all1livevalues" || echo "-")" &
 	mosquitto_pub -t openWB/graph/2alllivevalues -r -m "$([ ${#all2livevalues} -ge 10 ] && echo "$all2livevalues" || echo "-")" &
 	mosquitto_pub -t openWB/graph/3alllivevalues -r -m "$([ ${#all3livevalues} -ge 10 ] && echo "$all3livevalues" || echo "-")" &
 	mosquitto_pub -t openWB/graph/4alllivevalues -r -m "$([ ${#all4livevalues} -ge 10 ] && echo "$all4livevalues" || echo "-")" &
@@ -103,15 +125,22 @@ graphing(){
 	mosquitto_pub -t openWB/graph/15alllivevalues -r -m "$([ ${#all15livevalues} -ge 10 ] && echo "$all15livevalues" || echo "-")" &
 	mosquitto_pub -t openWB/graph/16alllivevalues -r -m "$([ ${#all16livevalues} -ge 10 ] && echo "$all16livevalues" || echo "-")" &
 
-	#Long Time Graphing
+	
+# Bleibe bim Inc. ind regel.sh
+# graphtimer=$(<ramdisk/graphtimer)
+# echo $(( graphtimer = (graphtimer+1)%6 )) >ramdisk/graphtimer
+#
+	
+	#Long Time Graphing, ein mal je Minute bzw jeden 6 call		
 	if (( graphtimer == 1 )); then
-		if (( dpseed == "3" )); then
+		openwbDebugLog "MAIN" 2 "graphing.sh ---- make long time graph"	
+		if (( dspeed == "3" )); then
 			livegraphtime="240"
 		else
 			livegraphtime="720"
 		fi
 		longlivetime=$((livegraphtime*2))
-		echo $(date '+%Y/%m/%d %H:%M:%S'),$wattbezugint,$ladeleistung,$pvgraph,$ladeleistunglp1,$ladeleistunglp2,$ladeleistunglp3,$ladeleistunglp4,$ladeleistunglp5,$ladeleistunglp6,$ladeleistunglp7,$ladeleistunglp8,$speicherleistung,$speichersoc,$soc,$soc1,$hausverbrauch,$verbraucher1_watt,$verbraucher2_watt >> /var/www/html/openWB/ramdisk/all.graph
-		echo "$(tail -$longlivetime /var/www/html/openWB/ramdisk/all.graph)" > /var/www/html/openWB/ramdisk/all.graph
+		echo $(date '+%Y/%m/%d %H:%M:%S'),$wattbezugint,$ladeleistung,$pvgraph,$ladeleistunglp1,$ladeleistunglp2,$ladeleistunglp3,$ladeleistunglp4,$ladeleistunglp5,$ladeleistunglp6,$ladeleistunglp7,$ladeleistunglp8,$speicherleistung,$speichersoc,$soc,$soc1,$hausverbrauch,$verbraucher1_watt,$verbraucher2_watt >> ramdisk/all.graph
+		echo "$(tail -$longlivetime ramdisk/all.graph)" > ramdisk/all.graph
 	fi
 }

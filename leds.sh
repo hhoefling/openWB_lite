@@ -28,7 +28,7 @@ ledsteuerung() {
 		fi
 
 	elif (( ladestatus == 1 ));then
-		if (( lademodus == 0 )); then
+		if (( lademodus == $SOFORT0 )); then
 			if [[ $ledstatus != $ledsofort ]]; then
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
@@ -37,7 +37,7 @@ ledsteuerung() {
 				echo $ledsofort > ramdisk/ledstatus
 			fi
 		fi
-		if (( lademodus == 1 )); then
+		if (( lademodus == $MINPV1 )); then
 			if [[ $ledstatus != $ledminpv ]]; then
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
@@ -46,7 +46,7 @@ ledsteuerung() {
 				echo $ledminpv > ramdisk/ledstatus
 			fi
 		fi
-		if (( lademodus == 2 )); then
+		if (( lademodus == $NURPV2 )); then
 			if [[ $ledstatus != $lednurpv ]]; then
 				if [ ! -z "$ledrunning" ]; then
 					echo "kill"
@@ -56,7 +56,7 @@ ledsteuerung() {
 				echo $lednurpv > ramdisk/ledstatus
 			fi
 		fi
-		if (( lademodus == 3 )); then
+		if (( lademodus == $STOP3 )); then
 			if [[ $ledstatus != $ledstop ]]; then
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
@@ -65,7 +65,7 @@ ledsteuerung() {
 				echo $ledstop > ramdisk/ledstatus
 			fi
 		fi
-		if (( lademodus == 4 )); then
+		if (( lademodus == $STANDBY4 )); then
 			if [[ $ledstatus != $ledstandby ]]; then
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
@@ -75,7 +75,7 @@ ledsteuerung() {
 			fi
 		fi
 	else
-		if (( lademodus == 0 )); then
+		if (( lademodus == $SOFORT0 )); then
 			if [[ $ledstatus != $led0sofort ]]; then
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
@@ -84,7 +84,7 @@ ledsteuerung() {
 				echo $led0sofort > ramdisk/ledstatus
 			fi
 		fi
-		if (( lademodus == 1 )); then
+		if (( lademodus == $MINPV1 )); then
 			if [[ $ledstatus != $led0minpv ]]; then
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
@@ -93,7 +93,7 @@ ledsteuerung() {
 				echo $led0minpv > ramdisk/ledstatus
 			fi
 		fi
-		if (( lademodus == 2 )); then
+		if (( lademodus == $NURPV2 )); then
 			if [[ $ledstatus != $led0nurpv ]]; then
 				if [ ! -z "$ledrunning" ]; then
 					echo "kill"
@@ -103,7 +103,7 @@ ledsteuerung() {
 				echo $led0nurpv > ramdisk/ledstatus
 			fi
 		fi
-		if (( lademodus == 3 )); then
+		if (( lademodus == $STOP3 )); then
 			if [[ $ledstatus != $led0stop ]]; then
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
@@ -112,7 +112,7 @@ ledsteuerung() {
 				echo $led0stop > ramdisk/ledstatus
 			fi
 		fi
-		if (( lademodus == 4 )); then
+		if (( lademodus == $STANDBY4 )); then
 			if [[ $ledstatus != $led0standby ]]; then
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
