@@ -1,7 +1,8 @@
 #!/bin/bash
 # Sende http-web events und/oder Pushover 
 #
-# wird asyncron ausgeführt
+# wird asyncron in eigener Shell ausgeführt
+# 
 #
 # check if config file is already in env
 if [[ -z "$debug" ]]; then
@@ -20,6 +21,7 @@ fi
 # abgesteckthooklp1_url, abgesteckthooklp1
 # ladestarthooklp1_url, ladestarthooklp1
 # ladestophooklp1_url, ladestophooklp1
+# eventtomail eventosend
 
 
 function sendPushover() # msg , eventname
@@ -42,11 +44,13 @@ function sendHttpevent()	# url, enventname
 
 function xsendmail()  # event msg
 {
-	to=${eventto:-webmaster}
+   if (( eventtosend )) ; then
+	to=${eventtomail:-webmaster}
 	subject="$1 message from OpenWB/Raspi"
 	msg="$1 $2"
-	openwbDebugLog "CHARGESTAT" 0 "send [$1] with msmtp to [$to]"
-	echo -e "Subject: ${subject}\n\n${msg}" | msmtp $to &
+	openwbDebugLog "CHARGESTAT" 0 "sendmail to $to"
+	echo -e "To: ${to}\nSubject: ${subject}\n\n${msg}" | sendmail -t  &
+   fi
 }
  
 

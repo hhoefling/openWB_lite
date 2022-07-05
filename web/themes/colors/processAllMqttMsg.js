@@ -448,6 +448,16 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 			$('#lastregelungaktiv').text('');
 		}
 	}
+	if (mqttmsg == 'openWB/global/strLaderegler') {
+		console.log('laderegler:'+mqttpayload )
+		if (mqttpayload.length >= 5) {
+			// if there is info-text in payload for topic, show the text
+			$('#LadereglerTxt').text(mqttpayload);
+		} else {
+			// if there is no text, show nothing (hides row)
+			$('#LadereglerTxt').text('');
+		}
+	}
 	else if (mqttmsg == 'openWB/global/awattar/boolAwattarEnabled') {
 		// sets icon, graph and price-info-field visible/invisible
 		if (mqttpayload == '1') {

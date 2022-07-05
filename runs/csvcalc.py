@@ -82,7 +82,7 @@ def trdaymonth(irow):
     # $verbraucher2ewh_	11	13	$verbrauchere1
     # $ll4_____________	12	15	$verbraucher2
     # $ll5_____________	13	16	$verbrauchere2
-    # $ll6_____________	14	17	$verbraucher3
+    # $ll6_____________	14	17	$verbraucher3	MC
     # $ll7_____________	15	18	$ll4
     # $ll8_____________	16	19	$ll5
     # $speicherikwh____	17	8	$ll6

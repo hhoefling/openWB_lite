@@ -243,7 +243,7 @@
 		<div class="row py-0 px-0">
 			<!-- Ladepunkte (chargePointList) -->
 			<div class="wb-widget col-md-6 p-2 m-1">
-				<h3 class="mt-0">Ladepunkte</h3>
+				<h3 class="mt-0">Ladepunkte <small id="LadereglerTxt"> notext </small></h3>
 				<div class="pb-3 wb-subwidget">
 					<div style="text-align:center;">
 						<span id="lastregelungaktiv" class="regularTextSize text-red animate-alertPulsation"></span>
@@ -764,7 +764,7 @@
 			$('.changeSHMode').click(function (event) {
 				// send mqtt set to enable/disable Device after click
 				var dev = parseInt($(this).closest('[data-dev]').data('dev'));  // get attribute device-# of parent element
-				if ($(this).text() == "Automatik") {
+				if ($(this).text() == "Auto") {
 					publish("1", "openWB/config/set/SmartHome/Devices/" + dev + "/mode");
 				} else {
 					publish("0", "openWB/config/set/SmartHome/Devices/" + dev + "/mode");

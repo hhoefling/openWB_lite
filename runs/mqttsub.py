@@ -211,11 +211,38 @@ def on_message(client, userdata, msg):
                 if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and 0 <= int(msg.payload) <= 1):
                     writetoconfig(shconfigfile,'smarthomedevices','device_differentMeasurement_'+str(devicenumb),msg.payload.decode("utf-8"))
                     client.publish("openWB/config/get/SmartHome/Devices/"+str(devicenumb)+"/device_differentMeasurement", msg.payload.decode("utf-8"), qos=0, retain=True)
+            if (( "openWB/config/set/SmartHome/Device" in msg.topic) and ("device_chan" in msg.topic)):
+                devicenumb=re.sub(r'\D', '', msg.topic)
+                if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and 0 <= int(msg.payload) <= 6):
+                    writetoconfig(shconfigfile,'smarthomedevices','device_chan_'+str(devicenumb),msg.payload.decode("utf-8"))
+                    client.publish("openWB/config/get/SmartHome/Devices/"+str(devicenumb)+"/device_chan", msg.payload.decode("utf-8"), qos=0, retain=True)
+            if (( "openWB/config/set/SmartHome/Device" in msg.topic) and ("device_measchan" in msg.topic)):
+                devicenumb=re.sub(r'\D', '', msg.topic)
+                if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and 0 <= int(msg.payload) <= 6):
+                    writetoconfig(shconfigfile,'smarthomedevices','device_measchan_'+str(devicenumb),msg.payload.decode("utf-8"))
+                    client.publish("openWB/config/get/SmartHome/Devices/"+str(devicenumb)+"/device_measchan", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (( "openWB/config/set/SmartHome/Device" in msg.topic) and ("device_ip" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
                 if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and len(str(msg.payload.decode("utf-8"))) > 6 and bool(re.match(ipallowed, msg.payload.decode("utf-8")))):
                     writetoconfig(shconfigfile,'smarthomedevices','device_ip_'+str(devicenumb), msg.payload.decode("utf-8"))
                     client.publish("openWB/config/get/SmartHome/Devices/"+str(devicenumb)+"/device_ip", msg.payload.decode("utf-8"), qos=0, retain=True)
+            if (( "openWB/config/set/SmartHome/Device" in msg.topic) and ("device_pbip" in msg.topic)):
+                devicenumb=re.sub(r'\D', '', msg.topic)
+                if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and len(str(msg.payload.decode("utf-8"))) > 6 and bool(re.match(ipallowed, msg.payload.decode("utf-8")))):
+                    writetoconfig(shconfigfile,'smarthomedevices','device_pbip_'+str(devicenumb), msg.payload.decode("utf-8"))
+                    client.publish("openWB/config/get/SmartHome/Devices/"+str(devicenumb)+"/device_pbip", msg.payload.decode("utf-8"), qos=0, retain=True)
+            if (( "openWB/config/set/SmartHome/Device" in msg.topic) and ("device_pbtype" in msg.topic)):
+                devicenumb=re.sub(r'\D', '', msg.topic)
+                validDeviceTypespb = ['none','shellypb']
+                if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and len(str(msg.payload.decode("utf-8"))) > 2):
+                    try:
+                        # just check vor payload in list, deviceTypeIndex is not used
+                        deviceTypeIndex = validDeviceTypespb.index(msg.payload.decode("utf-8"))
+                    except ValueError:
+                        pass
+                    else:
+                        writetoconfig(shconfigfile,'smarthomedevices','device_pbtype_'+str(devicenumb), msg.payload.decode("utf-8"))
+                        client.publish("openWB/config/get/SmartHome/Devices/"+str(devicenumb)+"/device_pbtype", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (( "openWB/config/set/SmartHome/Device" in msg.topic) and ("device_measureip" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
                 if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and len(str(msg.payload.decode("utf-8"))) > 6 and bool(re.match(ipallowed, msg.payload.decode("utf-8")))):

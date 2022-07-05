@@ -4,6 +4,17 @@ web/logging/data/
 *.log
 *.pyc
 *.bak
+*.sav
+openwb.conf.1
+openwb.conf.10
+openwb.conf.2
+openwb.conf.3
+openwb.conf.4
+openwb.conf.5
+openwb.conf.6
+openwb.conf.7
+openwb.conf.8
+openwb.conf.9
 ramdisk/
 .DS_Store
 .ftp*

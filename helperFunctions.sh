@@ -124,6 +124,12 @@ openwbDebugLog() {
 			echo "$timestamp: $$ $3 (LV$2)" >> $LOGFILE
 		fi
 	fi
+	
+	
+	if ! realpath -e ramdisk >/dev/null 2>&1 ; then
+	    echo "$timestamp: $$ Oh no!, wrong basedir: $(pwd) " >> $LOGFILE
+	fi
+	
 }
 
 export -f openwbDebugLog

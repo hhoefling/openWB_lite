@@ -949,12 +949,14 @@
               displaylocked = true;
             }
             $('#displaylock').removeClass('hide');
+		//	$("#homebutton").addClass("hide");
           } else {
             displaypinaktiv = 0;
             displaylocked = false;
             window.clearTimeout(lockTimeoutHandler);
             lockTimeoutHandler = null;
             $('#displaylock').addClass('hide');
+		//	$("#homebutton").removeClass("hide");
           }
         }
       );

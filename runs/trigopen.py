@@ -2,7 +2,7 @@
 #
 # Hardware Ebene
 # Up u1p3check.sh 
-# Schalte auf drei Phasen ( open releay )
+# Schalte auf drei Phasen ( open relay )
 #
 #coding: utf8
 

@@ -48,7 +48,7 @@ sofortlademodus(){
         	openwbDebugLog "MAIN" 0 "sofortLP1  $soc $sofortsoclp1"
 
 			if (( soc >= sofortsoclp1 )) && (( sofortsoclp1 < 100 )); then    ## // HH Ok, stop bei 80=80 stop nicht bei ziel=100
-				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 1 ramdisk/ladestatus; then
 					runs/set-current.sh 0 all
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung gestoppt, $soc % SoC erreicht"
 					openwbDebugLog "MAIN" 1 "Beende Sofort Laden da $sofortsoclp1 % erreicht"
@@ -56,7 +56,7 @@ sofortlademodus(){
 				exit 0
 			fi
 		fi
-		if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+		if grep -q 0 ramdisk/ladestatus; then
 			if (( msmoduslp1 == "1" )); then
 				if (( $(echo "$aktgeladen > $lademkwh" |bc -l) )); then
 					openwbDebugLog "MAIN" 1 "Sofort ladung beendet da $lademkwh kWh lademenge erreicht"
@@ -72,7 +72,7 @@ sofortlademodus(){
 				exit 0
 			fi
 		fi
-		if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
+		if grep -q 1 ramdisk/ladestatus; then
 			if (( msmoduslp1 == "1" )) && (( $(echo "$aktgeladen > $lademkwh" |bc -l) )); then
 				runs/set-current.sh 0 m
 				openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung gestoppt da $lademkwh kWh Limit erreicht"
@@ -259,14 +259,14 @@ sofortlademodus(){
 			#Ladepunkt 1
 			if (( msmoduslp1 == "2" )) && (( soc >= sofortsoclp1 ))  &&  (( sofortsoclp1 < 100 )); then  # HH >= statt >
 				# SoC-Limit gesetzt und erreicht
-				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 1 ramdisk/ladestatus; then
 					runs/set-current.sh 0 m
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung gestoppt, $sofortsoclp1 % SoC erreicht"
 					openwbDebugLog "MAIN" 1 "Beende Sofort Laden an Ladepunkt 1 da $sofortsoclp1 % erreicht"
 				fi
 			elif (( msmoduslp1 == "1" )) && (( $(echo "$aktgeladen > $lademkwh" |bc -l) )); then
 				# Ernergie-Limit gesetzt und erreicht
-				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 1 ramdisk/ladestatus; then
 					runs/set-current.sh 0 m
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung gestoppt da $lademkwh kWh Limit erreicht"
 					openwbDebugLog "MAIN" 1 "Beende Sofort Laden an Ladepunkt 1 da  $lademkwh kWh erreicht"
@@ -345,14 +345,14 @@ sofortlademodus(){
             
                 if (( msmoduslp2 == "2" )) && (( soc1 >= sofortsoclp2 ))  &&  (( sofortsoclp2<100 )); then  # HH >= statt >                
 					# SoC-Limit gesetzt und erreicht
-					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
+					if grep -q 1 ramdisk/ladestatuss1; then
 						runs/set-current.sh 0 s1
 						openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Sofort. Ladung gestoppt, $sofortsoclp2 % SoC erreicht"
 						openwbDebugLog "MAIN" 1 "Beende Sofort Laden an Ladepunkt 2 da  $sofortsoclp2 % erreicht"
 					fi
 				elif (( msmoduslp2 == "1" )) && (( $(echo "$aktgeladens1 > $lademkwhs1" |bc -l) )); then
 					# Ernergie-Limit gesetzt und erreicht
-					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
+					if grep -q 1 ramdisk/ladestatuss1; then
 						runs/set-current.sh 0 s1
 						openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Sofort. Ladung gestoppt da $lademkwhs1 kWh Limit erreicht"
 						openwbDebugLog "MAIN" 1 "Beende Sofort Laden an Ladepunkt 2 da  $lademkwhs1 kWh erreicht"
@@ -431,7 +431,7 @@ sofortlademodus(){
 				aktgeladens2=$(<ramdisk/aktgeladens2)
 				if (( msmoduslp3 == "1" )) && (( $(echo "$aktgeladens2 > $lademkwhs2" |bc -l) )); then
 					# Ernergie-Limit gesetzt und erreicht
-					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatuss2"; then
+					if grep -q 1 ramdisk/ladestatuss2; then
 						runs/set-current.sh 0 s2
 						openwbDebugLog "CHARGESTAT" 0 "LP3, Lademodus Sofort. Ladung gestoppt da $lademkwhs2 kWh Limit erreicht"
 						openwbDebugLog "MAIN" 1 "Beende Sofort Laden an Ladepunkt 3 da  $lademkwhs2 kWh erreicht"
@@ -556,7 +556,7 @@ sofortlademodus(){
 
 			if (( msmoduslp1 == 2 )); then
 				if (( soc >= sofortsoclp1)); then       # HH >= war schon da
-					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
+					if grep -q 1 ramdisk/ladestatus; then
 						runs/set-current.sh 0 m
 						openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung gestoppt da $sofortsoclp1 % SoC erreicht"
 						openwbDebugLog "MAIN" 1 "Beende Sofort Laden da $sofortsoclp1 % erreicht"
@@ -568,7 +568,7 @@ sofortlademodus(){
 			fi
 			if (( msmoduslp1 == 1 )); then
 				if (( $(echo "$aktgeladen > $lademkwh" |bc -l) )); then
-					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
+					if grep -q 1 ramdisk/ladestatus; then
 						runs/set-current.sh 0 m
 						openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus Sofort. Ladung gstoppt da $lademkwh kWh erreicht"
 						openwbDebugLog "MAIN" 1 "Beende Sofort Laden an Ladepunkt 1 da  $lademkwh kWh erreicht"
@@ -584,7 +584,7 @@ sofortlademodus(){
 			fi
 			if (( msmoduslp2 == 2 )); then
 				if (( soc1 >= sofortsoclp2 )); then  # HH >= war schon da
-					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
+					if grep -q 1 ramdisk/ladestatuss1; then
 						runs/set-current.sh 0 s1
 						openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Sofort. Ladung gstoppt da $sofortsoclp2 % SoC erreicht"
 						openwbDebugLog "MAIN" 1 "Beende Sofort Laden an Ladepunkt 2 da  $sofortsoclp2 % erreicht"
@@ -596,7 +596,7 @@ sofortlademodus(){
 			fi
 			if (( msmoduslp2 == 1 )); then
 				if (( $(echo "$aktgeladens1 > $lademkwhs1" |bc -l) )); then
-					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatuss1"; then
+					if grep -q 1 ramdisk/ladestatuss1; then
 						runs/set-current.sh 0 s1
 						openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Sofort. Ladung gstoppt da $lademkwhs1 kWh erreicht"
 						openwbDebugLog "MAIN" 1 "Beende Sofort Laden an Ladepunkt 2 da  $lademkwhs1 kWh erreicht"
@@ -613,7 +613,7 @@ sofortlademodus(){
 			if [[ $lastmanagements2 == "1" ]]; then
 				aktgeladens2=$(<ramdisk/aktgeladens2)
 				if (( msmoduslp2 == "1" )) && (( $(echo "$aktgeladens2 > $lademkwhs2" |bc -l) )); then
-					if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatuss2"; then
+					if grep -q 1 ramdisk/ladestatuss2; then
 						runs/set-current.sh 0 s2
 						openwbDebugLog "CHARGESTAT" 0 "LP3, Lademodus Sofort. Ladung gestoppt da $lademkwhs2 kWh erreicht"
 						openwbDebugLog "MAIN" 1 "Beende Sofort Laden an Ladepunkt 3 da  $lademkwhs2 kWh erreicht"

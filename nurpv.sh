@@ -82,7 +82,7 @@ nurpvlademodus()
 	if [[ $lastmanagement == "0" ]]; then
 		if [[ $socmodul != "none" ]]; then
 			if (( soc < minnurpvsoclp1 )); then
-				if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 0 ramdisk/ladestatus; then
 					runs/set-current.sh "$minnurpvsocll" all
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus NurPV. Ladung mit ${minnurpvsocll}A, $soc % SoC noch nicht erreicht"
 
@@ -98,7 +98,7 @@ nurpvlademodus()
 		    	exit 0
 			fi
 			if (( soc >= maxnurpvsoclp1 ))  && (( maxnurpvsoclp1<100)); then
-				if grep -q 1 "/var/www/html/openWB/ramdisk/ladestatus"; then
+				if grep -q 1 ramdisk/ladestatus; then
 					runs/set-current.sh 0 all
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus NurPV. Ladung gestoppt, $soc % SoC erreicht"
 					openwbDebugLog "MAIN" 1 "NurPV NurPV Beende PV Laden da $sofortsoclp1 % erreicht"
@@ -108,7 +108,7 @@ nurpvlademodus()
 			fi
 		fi
 	fi
-	if grep -q 0 "/var/www/html/openWB/ramdisk/ladestatus"; then
+	if grep -q 0 ramdisk/ladestatus; then
 		if (( ladestatuss1 == 1 )) || (( ladestatuss2 == 1 )); then
 			runs/set-current.sh 0 all
 			openwbDebugLog "CHARGESTAT" 0 "alle Ladepunkte, Lademodus NurPV. Ladung gestoppt"
@@ -116,11 +116,11 @@ nurpvlademodus()
 		openwbDebugLog "MAIN" 1 "NurPV Überschuss $uberschuss; mindestens $mindestuberschussphasen"
 		if (( mindestuberschussphasen <= uberschuss )); then
 			openwbDebugLog "PV" 0 "Überschuss $uberschuss ist größer als nötiger Überschuss, Wert: $mindestuberschussphasen"
-			pvecounter=$(cat /var/www/html/openWB/ramdisk/pvecounter)
+			pvecounter=$(cat ramdisk/pvecounter)
 			if (( pvecounter < einschaltverzoegerung )); then
 				openwbDebugLog "PV" 0 "Einschaltverzögerung aktiv, Aktuell: $pvecounter, Ziel: $einschaltverzoegerung"
 				pvecounter=$((pvecounter + 10))
-				echo $pvecounter > /var/www/html/openWB/ramdisk/pvecounter
+				echo $pvecounter > ramdisk/pvecounter
 				openwbDebugLog "MAIN" 1 "NurPV Einschaltverzögerung auf $pvecounter erhöht, Ziel $einschaltverzoegerung"
 				openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
 				exit 0
@@ -139,15 +139,15 @@ nurpvlademodus()
 					runs/set-current.sh "$minimalalp2pv" s1
 					openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus NurPV. Ladung gestartet mit ${minimalalp2pv}A"
 				fi
-				echo 0 > /var/www/html/openWB/ramdisk/pvcounter
-				echo 0 > /var/www/html/openWB/ramdisk/pvecounter
+				echo 0 > ramdisk/pvcounter
+				echo 0 > ramdisk/pvecounter
 				openwbDebugLog "PV" 0 "setzte Soctimer hoch zum Abfragen des aktuellen SoC"
-				echo 20000 > /var/www/html/openWB/ramdisk/soctimer
+				echo 20000 > ramdisk/soctimer
 				openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
 				exit 0
 			fi
 		else
-			echo 0 > /var/www/html/openWB/ramdisk/pvecounter
+			echo 0 > ramdisk/pvecounter
 			openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
 			exit 0
 		fi
@@ -167,7 +167,7 @@ nurpvlademodus()
 				runs/set-current.sh "$minimalalp2pv" s1
 				openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus NurPV. Ladung geändert auf ${minimalalp2pv}A"
 			fi
-			echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+			echo 0 > ramdisk/pvcounter
 			openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
 			exit 0
 		fi
@@ -182,7 +182,7 @@ nurpvlademodus()
 				runs/set-current.sh "$minimalalp2pv" s1
 				openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus NurPV. Ladung geändert auf ${minimalalp2pv}A"
 			fi
-			echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+			echo 0 > ramdisk/pvcounter
 			openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
 			exit 0
 		fi
@@ -242,7 +242,7 @@ nurpvlademodus()
 					runs/set-current.sh "$minimalalp2pv" s1
 					openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus NurPV. Ladung geändert auf ${minimalalp2pv}A"
 				fi
-				echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+				echo 0 > ramdisk/pvcounter
 			    openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
 				exit 0
 			fi
@@ -322,7 +322,7 @@ nurpvlademodus()
 				openwbDebugLog "CHARGESTAT" 0 "alle Ladepunkte, Lademodus NurPV. Ladung geändert auf ${llneu}A"
 				openwbDebugLog "MAIN" 1 "NurPV  ladung auf ${llneu}A erhoeht"
 			fi
-			echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+			echo 0 > ramdisk/pvcounter
 			openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
 			exit 0
 		fi
@@ -381,7 +381,7 @@ nurpvlademodus()
 					fi
 				fi
 				openwbDebugLog "PV" 0 "Uberschuss ($uberschuss) geringer als herunterschaltschwelle ($pvregelungm), neuer Ladestromwert: $llneu"
-				echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+				echo 0 > ramdisk/pvcounter
 				openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
 				exit 0
 			else
@@ -395,10 +395,10 @@ nurpvlademodus()
 				openwbDebugLog "MAIN" 1 "NurPV Abschaltschwelle: $((-abschaltuberschuss)), Überschuss derzeit: $uberschuss"
 
 				if (( uberschuss < -abschaltuberschuss )); then
-					pvcounter=$(cat /var/www/html/openWB/ramdisk/pvcounter)
+					pvcounter=$(cat ramdisk/pvcounter)
 					if (( pvcounter < abschaltverzoegerung )); then
 						pvcounter=$((pvcounter + 10))
-						echo $pvcounter > /var/www/html/openWB/ramdisk/pvcounter
+						echo $pvcounter > ramdisk/pvcounter
 						openwbDebugLog "MAIN" 1 "NurPV auf Minimalstromstaerke, PV Counter auf $pvcounter erhöht"
 						openwbDebugLog "PV" 0 "Überschuss ($uberschuss) kleiner als Abschwaltschwelle ($abschaltuberschuss), Verzögerung ($pvcounter) kleiner als Ziel $abschaltverzoegerung Sec"
 					else
@@ -406,13 +406,13 @@ nurpvlademodus()
 						runs/set-current.sh 0 all
 						openwbDebugLog "CHARGESTAT" 0 "alle Ladepunkte, Lademodus NurPV. Ladung gestoppt zu wenig PV Leistung: $uberschuss"
 						openwbDebugLog "MAIN" 1 "NurPV ladung beendet"
-						echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+						echo 0 > ramdisk/pvcounter
 					fi
 					openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
 					exit 0
 				else
 					openwbDebugLog "PV" 0 "Minimalstromstärke erreicht, Überschuss größer als Abschaltschwelle"
-					echo 0 > /var/www/html/openWB/ramdisk/pvcounter
+					echo 0 > ramdisk/pvcounter
 					openwbDebugLog "MAIN" 0 "NurPV *** exit 0"
 					exit 0
 				fi

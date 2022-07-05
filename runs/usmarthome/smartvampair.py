@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 from usmarthome.smartbase import Sbase
+from usmarthome.global0 import log
 import subprocess
 
 
@@ -22,7 +23,7 @@ class Svampair(Sbase):
             self.newwattk = int(self.answer['powerc'])
             self.relais = int(self.answer['on'])
         except Exception as e1:
-            self.logClass(2, "(" + str(self.device_nummer) +
+            log.warning("(" + str(self.device_nummer) +
                           ") Leistungsmessung %s %d %s Fehlermeldung: %s "
                           % ('vampair', self.device_nummer,
                              str(self._device_ip), str(e1)))
@@ -41,7 +42,7 @@ class Svampair(Sbase):
             self.proc = subprocess.Popen(argumentList)
             self.proc.communicate()
         except Exception as e1:
-            self.logClass(2, "(" + str(self.device_nummer) +
+            log.warning("(" + str(self.device_nummer) +
                           ") on / off  %s %d %s Fehlermeldung: %s "
                           % ('vampair', self.device_nummer,
                              str(self._device_ip), str(e1)))

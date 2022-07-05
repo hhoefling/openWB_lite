@@ -172,13 +172,28 @@ if (( displayaktiv == 1 )); then
 	sudo /var/www/html/openWB/runs/displaybacklight.sh $displayLight
 fi
 
-# restart smarthomehandler
-log "smarthome handler..."
-if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/smarthomehandler.py" > /dev/null
-then
-	sudo kill $(ps aux |grep '[s]marthomehandler.py' | awk '{print $2}')
-fi
-python3 /var/www/html/openWB/runs/smarthomehandler.py >> /var/www/html/openWB/ramdisk/smarthome.log 2>&1 &
+
+	# restart smarthomehandler
+	echo "smarthome handler..."
+	pkill -f '^python.*/smarthomehandler.py'
+	pkill -f '^python.*/smarthomemq.py'
+	smartmq=$(<"/var/www/html/openWB/ramdisk/smartmq")
+	if (( smartmq == 0 )); then
+		echo "starting legacy smarthome handler"
+		python3 "/var/www/html/openWB/runs/smarthomehandler.py" >> "/var/www/html/openWB/ramdisk/smarthome.log" 2>&1 &
+	else
+		echo "starting smarthomemq handler"
+		python3 "/var/www/html/openWB/runs/smarthomemq.py" >> "/var/www/html/openWB/ramdisk/smarthome.log" 2>&1 &
+	fi
+
+
+# old restart smarthomehandler
+##log "smarthome handler..."
+##if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/smarthomehandler.py" > /dev/null
+##then
+##	sudo kill $(ps aux |grep '[s]marthomehandler.py' | awk '{print $2}')
+##fi
+##python3 /var/www/html/openWB/runs/smarthomehandler.py >> /var/www/html/openWB/ramdisk/smarthome.log 2>&1 &
 
 # restart mqttsub handler
 log "mqtt handler..."
@@ -244,19 +259,19 @@ then
 fi
 
 # check for email
-if [[ -x /usr/bin/msmtp ]] ; then
-  log "msmtp found. Please check config"
-else
-  log "install a simple smtp client"
-  sudo apt-get -q -y install bsd-mailx msmtp msmtp-mta
-  # check for configuration
-   if [ ! -f /etc/msmtprc ] ; then
-	log "updating global msmtprc config file"
-	sudo cp /var/www/html/openWB/web/files/msmtprc /etc/msmtprc
-    sudo chown root:mail /etc/msmtprc
-    sudo chmod 0640 /etc/msmtprc
-   fi
-fi
+#if [[ -x /usr/bin/msmtp ]] ; then
+#  log "msmtp found. Please check config"
+#else
+#  log "install a simple smtp client"
+#  sudo apt-get -q -y install bsd-mailx msmtp msmtp-mta
+#  # check for configuration
+#   if [ ! -f /etc/msmtprc ] ; then
+#	log "updating global msmtprc config file"
+#	sudo cp /var/www/html/openWB/web/files/msmtprc /etc/msmtprc
+#    sudo chown root:mail /etc/msmtprc
+#    sudo chmod 0640 /etc/msmtprc
+#   fi
+#fi
 
 
 # check for needed packages
@@ -387,9 +402,15 @@ owbv=$(</var/www/html/openWB/web/version)
 
 # all done, remove warning in display
 log "clear warning..."
-echo "" > /var/www/html/openWB/ramdisk/lastregelungaktiv
+echo " " > /var/www/html/openWB/ramdisk/lastregelungaktiv
+chmod 777 /var/www/html/openWB/ramdisk/lastregelungaktiv
 echo "" > /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
 chmod 777 /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
+
+echo " " > /var/www/html/openWB/ramdisk/LadereglerTxt
+chmod 777 /var/www/html/openWB/ramdisk/LadereglerTxt
+echo "" > /var/www/html/openWB/ramdisk/mqttLadereglerTxt
+chmod 777 /var/www/html/openWB/ramdisk/mqttLadereglerTxt
 
 # check for slave config and start handler
 if (( isss == 1 )); then
@@ -438,11 +459,6 @@ fi
 # get local ip
 ip route get 1 | awk '{print $7;exit}' > /var/www/html/openWB/ramdisk/ipaddress
 
-# update current published versions
-log "load versions..."
-curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/web/version > /var/www/html/openWB/ramdisk/vnightly
-curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version > /var/www/html/openWB/ramdisk/vbeta
-curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/stable17/web/version > /var/www/html/openWB/ramdisk/vstable
 
 # update our local version
 sudo git -C /var/www/html/openWB show --pretty='format:%ci [%h]' | head -n1 > /var/www/html/openWB/web/lastcommit
@@ -464,6 +480,7 @@ do
 done
 mosquitto_pub -r -t openWB/graph/boolDisplayLiveGraph -m "1"
 mosquitto_pub -t openWB/global/strLastmanagementActive -r -m ""
+mosquitto_pub -t openWB/global/strLaderegler -r -m ""
 mosquitto_pub -t openWB/lp/1/W -r -m "0"
 mosquitto_pub -t openWB/lp/2/W -r -m "0"
 mosquitto_pub -t openWB/lp/3/W -r -m "0"

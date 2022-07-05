@@ -659,19 +659,19 @@
 					if(strpos($line, "verbraucher2_name=") !== false) {
 						list(, $verbraucher2_nameold) = explode("=", $line);
 					}
-					if(strpos($line, "verbraucher3_name=") !== false) {
-						list(, $verbraucher3_nameold) = explode("=", $line);
-					}
+//					if(strpos($line, "verbraucher3_name=") !== false) {
+//						list(, $verbraucher3_nameold) = explode("=", $line);
+//					}
 				}
 
 				$speichervorhanden = file_get_contents('/var/www/html/openWB/ramdisk/speichervorhanden');
 				$soc1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/soc1vorhanden');
 				$verbraucher1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher1vorhanden');
 				$verbraucher2vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher2vorhanden');
-				$verbraucher3vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher3vorhanden');
+//				$verbraucher3vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher3vorhanden');
 				$verbraucher1_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher1_nameold));
 				$verbraucher2_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher2_nameold));
-				$verbraucher3_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher3_nameold));
+//				$verbraucher3_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher3_nameold));
 			?>
 			<div style="height:440px; width:800px;" id="dailydiv"></div>
 				<div class="row col-xs-12 text-center" style="font-size: 12px; height: 10px; top: 430px; left: 50px; position: absolute; width: 750px; color: white; text-align:center;"> 
@@ -1186,8 +1186,8 @@
 				var verbraucher2vorhanden = <?php echo $verbraucher2vorhanden ?>;
 				var verbraucher2name = "<?php echo $verbraucher2_nameold ?> (I)";
 				var verbrauchere2name = "<?php echo $verbraucher2_nameold ?> (E)";
-				var verbraucher3vorhanden = <?php echo $verbraucher3vorhanden ?>;
-				var verbraucher3name = "<?php echo $verbraucher3_nameold ?>";
+//				var verbraucher3vorhanden = <?php echo $verbraucher3vorhanden ?>;
+//				var verbraucher3name = "<?php echo $verbraucher3_nameold ?>";
 			</script>
 
 			<script src="livechart_chartjs.js"></script>

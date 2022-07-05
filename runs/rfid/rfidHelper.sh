@@ -13,7 +13,7 @@ rfidInputHandlerStart(){
 	if [[ -r /dev/input/event0 ]] ; then
 		if pgrep -f '^python.*/readrfid.py -d event0' > /dev/null
 		then
-			openwbDebugLog "MAIN" 0 "rfid configured and handler for event0 is running"
+			openwbDebugLog "MAIN" 1 "rfid configured and handler for event0 is running"
 		else
 			openwbDebugLog "MAIN" 0 "rfid configured but handler for event0 not running; starting process"
 			sudo python "$OPENWBBASEDIR/runs/rfid/readrfid.py" -d event0 &
@@ -24,7 +24,7 @@ rfidInputHandlerStart(){
 	if [[ -r /dev/input/event1 ]] ; then
 		if pgrep -f '^python.*/readrfid.py -d event1' > /dev/null
 		then
-			openwbDebugLog "MAIN" 0 "rfid configured and handler for event1 is running"
+			openwbDebugLog "MAIN" 1 "rfid configured and handler for event1 is running"
 		else
 			openwbDebugLog "MAIN" 0 "rfid configured but handler for event1 not running; starting process"
 			sudo python "$OPENWBBASEDIR/runs/rfid/readrfid.py" -d event1 &
@@ -34,6 +34,7 @@ rfidInputHandlerStart(){
 export -f rfidInputHandlerStart
 
 rfidInputHandlerStop(){
+	openwbDebugLog "MAIN" 0 "rfid stop readrfid.py process"
 	sudo pkill -f '^python.*/readrfid.py'
 }
 export -f rfidInputHandlerStop
@@ -41,7 +42,7 @@ export -f rfidInputHandlerStop
 rfidMode2Start(){
 	if pgrep -f '^python.*/rfidDaemon.py' > /dev/null
 	then
-		openwbDebugLog "MAIN" 0 "rfid handler already running"
+		openwbDebugLog "MAIN" 1 "rfid handler already running"
 	else
 		openwbDebugLog "MAIN" 0 "rfid handler not running! starting process"
 		python3 "$OPENWBBASEDIR/runs/rfid/rfidDaemon.py" &
@@ -55,6 +56,7 @@ rfidMode2UpdateList(){
 export -f rfidMode2UpdateList
 
 rfidMode2Stop(){
+	openwbDebugLog "MAIN" 1 "rfid stop rfidDaemon.py process"
 	sudo pkill -f '^python.*/rfidDaemon.py'
 }
 export -f rfidMode2Stop

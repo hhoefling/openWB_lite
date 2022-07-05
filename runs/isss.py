@@ -413,9 +413,10 @@ def read_meter():
                     mclient.loop(timeout=2.0)
                     DeviceValues.update({'lp1watt': str(lp1llg)})
                 if parentWB != "0":
+                    # 1.9
                     remoteclient.publish("openWB/lp/"+parentCPlp1+"/W", payload=str(lp1llg), qos=0, retain=True)
-                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/power", payload=str(lp1llg),
-                                         qos=0, retain=True)
+                    # 2.0
+                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/power", payload=str(lp1llg), qos=0, retain=True)
                     remoteclient.loop(timeout=2.0)
             if "lp1voltage1" in key:
                 if DeviceValues[str(key)] != str(lp1voltage1):
@@ -423,8 +424,9 @@ def read_meter():
                     mclient.loop(timeout=2.0)
                     DeviceValues.update({'lp1voltage1': str(lp1voltage1)})
                 if parentWB != "0":
-                    remoteclient.publish("openWB/lp/"+parentCPlp1 + "/Vphase1",
-                                         payload=str(lp1voltage1), qos=0, retain=True)
+                    # 1.9 
+                    remoteclient.publish("openWB/lp/"+parentCPlp1 + "/Vphase1", payload=str(lp1voltage1), qos=0, retain=True)
+                    # 2.0 
                     remoteclient.publish("openWB/set/chargepoint/" + parentCPlp1+"/get/voltages", payload="["
                                          + str(lp1voltage1) + "," + str(lp1voltage2) + "," + str(lp1voltage3) + "]",
                                          qos=0, retain=True)
@@ -445,8 +447,9 @@ def read_meter():
                     mclient.loop(timeout=2.0)
                     DeviceValues.update({'lp1lla1': str(lp1lla1)})
                 if parentWB != "0":
-                    remoteclient.publish("openWB/lp/" + parentCPlp1 + "/Aphase1", payload=str(lp1lla1),
-                                         qos=0, retain=True)
+                    # 1.9 
+                    remoteclient.publish("openWB/lp/" + parentCPlp1 + "/Aphase1", payload=str(lp1lla1), qos=0, retain=True)
+                    # 2.0 
                     remoteclient.publish("openWB/set/chargepoint/" + parentCPlp1 + "/get/currents",
                                          payload="[" + str(lp1lla1) + "," + str(lp1lla2) + "," + str(lp1lla3) + "]",
                                          qos=0, retain=True)
@@ -477,10 +480,10 @@ def read_meter():
                     mclient.loop(timeout=2.0)
                     DeviceValues.update({'lp1countphasesinuse': str(lp1countphasesinuse)})
                 if parentWB != "0":
-                    remoteclient.publish("openWB/lp/"+parentCPlp1+"/countPhasesInUse", payload=str(lp1countphasesinuse),
-                                         qos=0, retain=True)
-                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/phases_in_use",
-                                         payload=str(lp1countphasesinuse), qos=0, retain=True)
+                    # 1.9 
+                    remoteclient.publish("openWB/lp/"+parentCPlp1+"/countPhasesInUse", payload=str(lp1countphasesinuse), qos=0, retain=True)
+                    # 2.0 
+                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/phases_in_use", payload=str(lp1countphasesinuse), qos=0, retain=True)
                     remoteclient.loop(timeout=2.0)
             if "lp1llkwh" in key:
                 if DeviceValues[str(key)] != str(lp1llkwh):
@@ -488,10 +491,10 @@ def read_meter():
                     mclient.loop(timeout=2.0)
                     DeviceValues.update({'lp1llkwh': str(lp1llkwh)})
                 if parentWB != "0":
-                    remoteclient.publish("openWB/lp/"+parentCPlp1+"/kWhCounter", payload=str(lp1llkwh),
-                                         qos=0, retain=True)
-                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/imported",
-                                         payload=str(lp1llkwh*1000), qos=0, retain=True)
+                    # 1.9 
+                    remoteclient.publish("openWB/lp/"+parentCPlp1+"/kWhCounter", payload=str(lp1llkwh), qos=0, retain=True)
+                    # 2.0 
+                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/imported", payload=str(lp1llkwh*1000), qos=0, retain=True)
                     remoteclient.loop(timeout=2.0)
 
             if "lp1plugstat" in key:
@@ -502,10 +505,10 @@ def read_meter():
                         write_to_ramdisk("pluggedin", str(Values["lp1plugstat"]))
                     DeviceValues.update({'lp1plugstat': Values["lp1plugstat"]})
                 if parentWB != "0":
-                    remoteclient.publish("openWB/lp/"+parentCPlp1+"/boolPlugStat", payload=Values["lp1plugstat"],
-                                         qos=0, retain=True)
-                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/plug_state",
-                                         payload=Values["lp1plugstat"], qos=0, retain=True)
+                    # 1,9 
+                    remoteclient.publish("openWB/lp/"+parentCPlp1+"/boolPlugStat", payload=Values["lp1plugstat"], qos=0, retain=True)
+                    # 2.0 
+                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/plug_state", payload=Values["lp1plugstat"], qos=0, retain=True)
                     remoteclient.loop(timeout=2.0)
 
             if "lp1chargestat" in key:
@@ -514,10 +517,10 @@ def read_meter():
                     mclient.loop(timeout=2.0)
                     DeviceValues.update({'lp1chargestat': Values["lp1chargestat"]})
                 if parentWB != "0":
-                    remoteclient.publish("openWB/lp/"+parentCPlp1+"/boolChargeStat", payload=Values["lp1chargestat"],
-                                         qos=0, retain=True)
-                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/charge_state",
-                                         payload=Values["lp1chargestat"], qos=0, retain=True)
+                    # 1.9 
+                    remoteclient.publish("openWB/lp/"+parentCPlp1+"/boolChargeStat", payload=Values["lp1chargestat"], qos=0, retain=True)
+                    # 2.0 
+                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/charge_state", payload=Values["lp1chargestat"], qos=0, retain=True)
                     remoteclient.loop(timeout=2.0)
             if "rfidtag" in key:
                 if DeviceValues[str(key)] != str(rfidtag):
@@ -527,21 +530,20 @@ def read_meter():
                 if parentWB != "0":
                     if rfidtag == '0\n':
                         rfidtag = None  # default value for 2.0 is None, not "0"
-                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/rfid",
-                                         payload=json.dumps(rfidtag), qos=0, retain=True)
+                    # 2.0 
+                    remoteclient.publish("openWB/set/chargepoint/"+parentCPlp1+"/get/rfid", payload=json.dumps(rfidtag), qos=0, retain=True)
                     remoteclient.loop(timeout=2.0)
             if lp2installed:
                 if "lp2countphasesinuse" in key:
                     if DeviceValues[str(key)] != str(lp2countphasesinuse):
-                        mclient.publish("openWB/lp/2/countPhasesInUse", payload=str(lp2countphasesinuse),
-                                        qos=0, retain=True)
+                        mclient.publish("openWB/lp/2/countPhasesInUse", payload=str(lp2countphasesinuse), qos=0, retain=True)
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2countphasesinuse': str(lp2countphasesinuse)})
                     if parentWB != "0":
-                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/countPhasesInUse",
-                                             payload=str(lp2countphasesinuse), qos=0, retain=True)
-                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/phases_in_use",
-                                             payload=str(lp2countphasesinuse), qos=0, retain=True)
+                        # 1.9 
+                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/countPhasesInUse", payload=str(lp2countphasesinuse), qos=0, retain=True)
+                        # 2.0 
+                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/phases_in_use", payload=str(lp2countphasesinuse), qos=0, retain=True)
                         remoteclient.loop(timeout=2.0)
                 if "lp2watt" in key:
                     if DeviceValues[str(key)] != str(lp2llg):
@@ -549,9 +551,10 @@ def read_meter():
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2watt': str(lp2llg)})
                     if parentWB != "0":
+                        # 1.9 
                         remoteclient.publish("openWB/lp/"+parentCPlp2+"/W", payload=str(lp2llg), qos=0, retain=True)
-                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/power",
-                                             payload=str(lp2llg), qos=0, retain=True)
+                        # 2.0 
+                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/power", payload=str(lp2llg), qos=0, retain=True)
                         remoteclient.loop(timeout=2.0)
                 if "lp2voltage1" in key:
                     if DeviceValues[str(key)] != str(lp2voltage1):
@@ -559,8 +562,9 @@ def read_meter():
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2voltage1': str(lp2voltage1)})
                     if parentWB != "0":
-                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Vphase1", payload=str(lp2voltage1),
-                                             qos=0, retain=True)
+                        # 1.9 
+                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Vphase1", payload=str(lp2voltage1), qos=0, retain=True)
+                        # 2.0 
                         remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/voltages",
                                              payload="["+str(lp2voltage1)+","+str(lp2voltage2)+","+str(lp2voltage3)+"]",
                                              qos=0, retain=True)
@@ -571,8 +575,8 @@ def read_meter():
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2voltage2': str(lp2voltage2)})
                     if parentWB != "0":
-                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Vphase2", payload=str(lp2voltage2),
-                                             qos=0, retain=True)
+                        # 1.9
+                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Vphase2", payload=str(lp2voltage2), qos=0, retain=True)
                         remoteclient.loop(timeout=2.0)
 
                 if "lp2voltage3" in key:
@@ -581,8 +585,8 @@ def read_meter():
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2voltage3': str(lp2voltage3)})
                     if parentWB != "0":
-                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Vphase3", payload=str(lp2voltage3),
-                                             qos=0, retain=True)
+                        # 1.9 
+                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Vphase3", payload=str(lp2voltage3), qos=0, retain=True)
                         remoteclient.loop(timeout=2.0)
 
                 if "lp2lla1" in key:
@@ -591,8 +595,9 @@ def read_meter():
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2lla1': str(lp2lla1)})
                     if parentWB != "0":
-                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Aphase1", payload=str(lp2lla1),
-                                             qos=0, retain=True)
+                        # 1.9 
+                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Aphase1", payload=str(lp2lla1), qos=0, retain=True)
+                        # 2.0 
                         remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/currents",
                                              payload="["+str(lp2lla1)+","+str(lp2lla2)+","+str(lp2lla3)+"]",
                                              qos=0, retain=True)
@@ -604,8 +609,8 @@ def read_meter():
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2lla2': str(lp2lla2)})
                     if parentWB != "0":
-                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Aphase2", payload=str(lp2lla2),
-                                             qos=0, retain=True)
+                        # 1.9 
+                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Aphase2", payload=str(lp2lla2), qos=0, retain=True)
                         remoteclient.loop(timeout=2.0)
 
                 if "lp2lla3" in key:
@@ -614,8 +619,8 @@ def read_meter():
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2lla3': str(lp2lla3)})
                     if parentWB != "0":
-                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Aphase3", payload=str(lp2lla3),
-                                             qos=0, retain=True)
+                        #  1.9 
+                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/Aphase3", payload=str(lp2lla3), qos=0, retain=True)
                         remoteclient.loop(timeout=2.0)
 
                 if "lp2llkwh" in key:
@@ -624,10 +629,10 @@ def read_meter():
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2llkwh': str(lp2llkwh)})
                     if parentWB != "0":
-                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/kWhCounter", payload=str(lp2llkwh),
-                                             qos=0, retain=True)
-                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/imported",
-                                             payload=str(lp2llkwh*1000), qos=0, retain=True)
+                        # 1.9 
+                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/kWhCounter", payload=str(lp2llkwh), qos=0, retain=True)
+                        # 2.0 
+                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/imported", payload=str(lp2llkwh*1000), qos=0, retain=True)
                         remoteclient.loop(timeout=2.0)
                 if "lp2plugstat" in key:
                     if DeviceValues[str(key)] != Values["lp2plugstat"]:
@@ -637,10 +642,10 @@ def read_meter():
                         if (int(Values["lp2plugstat"]) == "1"):
                             write_to_ramdisk("pluggedin", str(Values["lp2plugstat"]))
                     if parentWB != "0":
-                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/boolPlugStat", payload=Values["lp2plugstat"],
-                                             qos=0, retain=True)
-                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/plug_state",
-                                             payload=Values["lp2plugstat"], qos=0, retain=True)
+                        # 1.9 
+                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/boolPlugStat", payload=Values["lp2plugstat"], qos=0, retain=True)
+                        # 2.0 
+                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/plug_state", payload=Values["lp2plugstat"], qos=0, retain=True)
                         remoteclient.loop(timeout=2.0)
 
                 if "lp2chargestat" in key:
@@ -650,10 +655,10 @@ def read_meter():
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2chargestat': Values["lp2chargestat"]})
                     if parentWB != "0":
-                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/boolChargeStat",
-                                             payload=Values["lp2chargestat"], qos=0, retain=True)
-                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/charge_state",
-                                             payload=Values["lp2chargestat"], qos=0, retain=True)
+                        # 1.9 
+                        remoteclient.publish("openWB/lp/"+parentCPlp2+"/boolChargeStat", payload=Values["lp2chargestat"], qos=0, retain=True)
+                        # 2.0 
+                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/charge_state", payload=Values["lp2chargestat"], qos=0, retain=True)
                         remoteclient.loop(timeout=2.0)
 
                 if "rfidtag" in key:
@@ -664,8 +669,8 @@ def read_meter():
                     if parentWB != "0":
                         if rfidtag == '0\n':
                             rfidtag = None  # default value for 2.0 is None, not "0"
-                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/rfid",
-                                             payload=json.dumps(rfidtag), qos=0, retain=True)
+                        # 2.0 
+                        remoteclient.publish("openWB/set/chargepoint/"+parentCPlp2+"/get/rfid", payload=json.dumps(rfidtag), qos=0, retain=True)
                         remoteclient.loop(timeout=2.0)
         mclient.disconnect()
         if parentWB != "0":

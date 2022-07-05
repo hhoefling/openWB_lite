@@ -171,7 +171,7 @@ class WbData {
 	}
 
 	updateGlobal(field, value) {
-		this[field] = value;
+		this[field] = value;	// loadMgtText unsed 
 		switch (field) {
 			case 'housePower':
 				this.updateUsageSummary("house", "power", value);
@@ -189,7 +189,7 @@ class WbData {
 				this.updateConsumerSummary();
 				powerMeter.update();
 				break;
-			case 'currentPowerPrice':
+			case 'currentPowerPrice':		// NC
 				chargePointList.updateValues();
 				break;
 			case 'chargeMode':

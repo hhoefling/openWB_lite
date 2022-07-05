@@ -360,7 +360,7 @@ class WbData {
 		this.prefs.showGr = this.showGrid;
 		this.prefs.decimalP = this.decimalPlaces;
 		this.prefs.smartHomeC = this.smartHomeColors;
-		document.cookie = "openWBColorTheme=" + JSON.stringify(this.prefs) + "; max-age=16000000";
+		document.cookie = "openWBColorTheme=" + JSON.stringify(this.prefs) +  "; path=/openWB/" + "; max-age=16000000" +"; SameSite=Lax";
 	}
 	// read cookies and update settings
 	readGraphPreferences() {

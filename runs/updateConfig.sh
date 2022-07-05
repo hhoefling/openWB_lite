@@ -1043,21 +1043,21 @@ updateConfig(){
 	if ! grep -Fq "verbraucher2_source=" $ConfigFile; then
 		echo "verbraucher2_source=/dev/ttyUSB5" >> $ConfigFile
 	fi
-	if ! grep -Fq "verbraucher3_name=" $ConfigFile; then
-		echo "verbraucher3_name=Name" >> $ConfigFile
-	fi
-	if ! grep -Fq "verbraucher3_aktiv=" $ConfigFile; then
-		echo "verbraucher3_aktiv=0" >> $ConfigFile
-	fi
-	if ! grep -Fq "verbraucher3_typ=" $ConfigFile; then
-		echo "verbraucher3_typ=http" >> $ConfigFile
-	fi
-	if ! grep -Fq "verbraucher3_urlw=" $ConfigFile; then
-		echo "verbraucher3_urlw='http://url'" >> $ConfigFile
-	fi
-	if ! grep -Fq "verbraucher3_urlh=" $ConfigFile; then
-		echo "verbraucher3_urlh='http://url'" >> $ConfigFile
-	fi
+#	if ! grep -Fq "verbraucher3_name=" $ConfigFile; then
+#		echo "verbraucher3_name=Name" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "verbraucher3_aktiv=" $ConfigFile; then
+#		echo "verbraucher3_aktiv=0" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "verbraucher3_typ=" $ConfigFile; then
+#		echo "verbraucher3_typ=http" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "verbraucher3_urlw=" $ConfigFile; then
+#		echo "verbraucher3_urlw='http://url'" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "verbraucher3_urlh=" $ConfigFile; then
+#		echo "verbraucher3_urlh='http://url'" >> $ConfigFile
+#	fi
 	if ! grep -Fq "nurpv70dynact=" $ConfigFile; then
 		echo "nurpv70dynact=0" >> $ConfigFile
 		echo "nurpv70dynw=6000" >> $ConfigFile

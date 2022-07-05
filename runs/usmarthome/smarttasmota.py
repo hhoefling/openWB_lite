@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 from usmarthome.smartbase import Sbase, Sltasmota
+from usmarthome.global0 import log
 import subprocess
 
 
@@ -24,11 +25,11 @@ class Stasmota(Sbase):
         if (self._old_measuretype0 == 'none'):
             self._mydevicemeasure0 = Sltasmota()
             self._old_measuretype0 = 'tasmota'
-            self.logClass(2, "(" + str(self.device_nummer) +
+            log.info("(" + str(self.device_nummer) +
                           ") Integrierte Leistungsmessung. Neues Measure" +
                           " device erzeugt " + self.device_type)
         else:
-            self.logClass(2, "(" + str(self.device_nummer) +
+            log.info("(" + str(self.device_nummer) +
                           ") Integrierte Leistungsmessung. Nur Parameter " +
                           " update  " + self.device_type)
         self._mydevicemeasure0.updatepar(input_param)
@@ -46,7 +47,7 @@ class Stasmota(Sbase):
             self.proc = subprocess.Popen(argumentList)
             self.proc.communicate()
         except Exception as e1:
-            self.logClass(2, "(" + str(self.device_nummer) +
+            log.warning("(" + str(self.device_nummer) +
                           ") on / off %s %d %s Fehlermeldung: %s "
                           % ('tasmota', self.device_nummer,
                              str(self._device_ip), str(e1)))

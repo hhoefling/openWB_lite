@@ -125,6 +125,7 @@ var topicsToSubscribe = [
 	["openWB/global/ChargeMode", 1],
 	["openWB/global/WAllChargePoints", 1],
 	["openWB/global/strLastmanagementActive", 1],
+	["openWB/global/strLaderegler", 1],
 	["openWB/global/rfidConfigured", 1],
 	["openWB/config/get/pv/priorityModeEVBattery", 1],
 	["openWB/config/get/pv/minCurrentMinPv", 1],

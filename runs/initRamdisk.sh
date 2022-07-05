@@ -108,6 +108,9 @@ initRamdisk(){
 #NC	echo 0 > $RamdiskPath/soc-live.graph
 #NC	echo 0 > $RamdiskPath/soc.graph
 	echo 0 > $RamdiskPath/soc1
+	echo 0 > $RamdiskPath/soc1KM
+	echo 0 > $RamdiskPath/soc2KM
+	echo 0 > $RamdiskPath/soc3KM
 	echo 0 > $RamdiskPath/soc1vorhanden
 	echo 0 > $RamdiskPath/tmpsoc
 	echo 0 > $RamdiskPath/tmpsoc1
@@ -119,9 +122,6 @@ initRamdisk(){
 	touch $RamdiskPath/llog1
 	touch $RamdiskPath/llogs1
 	touch $RamdiskPath/llogs2
-	echo 0 > $RamdiskPath/soc1KM
-	echo 0 > $RamdiskPath/soc2KM
-	echo 0 > $RamdiskPath/soc3KM
 
 	# SmartHome 2.0
 	echo 0 > $RamdiskPath/device1_temp0
@@ -278,7 +278,6 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/daily_verbraucher1ikwh
 	echo 0 > $RamdiskPath/daily_verbraucher2ekwh
 	echo 0 > $RamdiskPath/daily_verbraucher2ikwh
-#	echo 0 > $RamdiskPath/daily_verbraucher3ikwh
 	echo 0 > $RamdiskPath/verbraucher1_watt
 	echo 0 > $RamdiskPath/verbraucher1_wh
 	echo 0 > $RamdiskPath/verbraucher1_whe
@@ -287,10 +286,10 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/verbraucher2_wh
 	echo 0 > $RamdiskPath/verbraucher2_whe
 	echo 0 > $RamdiskPath/verbraucher2vorhanden
-#	echo 0 > $RamdiskPath/verbraucher3_watt
-#	echo 0 > $RamdiskPath/verbraucher3_wh
-#	echo 0 > $RamdiskPath/verbraucher3_whe
-#	echo 0 > $RamdiskPath/verbraucher3vorhanden
+#NC	echo 0 > $RamdiskPath/verbraucher3_watt
+#NC	echo 0 > $RamdiskPath/verbraucher3_wh
+#NC	echo 0 > $RamdiskPath/verbraucher3vorhanden
+#NC	echo 0 > $RamdiskPath/daily_verbraucher3ikwh
 	touch $RamdiskPath/ladestophooklp1aktiv # benötigt damit der Ladestopp-WebHook nicht beim Neustart auslöst
 	touch $RamdiskPath/abgesteckthooklp1aktiv # benötigt damit der Abgesteckt-WebHook nicht beim Neustart auslöst
 
@@ -388,6 +387,7 @@ initRamdisk(){
 	do
 		for f in \
 			"pluggedladunglp${i}startkwh:openWB/lp/${i}/plugStartkWh:0" \
+			"manual_soc_lp${i}:openWB/lp/${i}/manualSoc:0" \
 			"pluggedladungaktlp${i}:openWB/lp/${i}/pluggedladungakt:0" \
 			"lp${i}phasen::0" \
 			"lp${i}enabled::1" \

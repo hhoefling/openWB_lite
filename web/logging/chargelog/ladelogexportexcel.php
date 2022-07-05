@@ -90,6 +90,8 @@ function makedatetime($start,$f)
                                 break;
                         case 2: echo "Nur PV;";
                                 break;
+                        case 4: echo "Standby;";
+                                break;
                         case 7: echo "Nachtladen;";
                                 break;
                         default:

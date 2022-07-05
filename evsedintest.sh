@@ -49,6 +49,7 @@ evsedintest() {
 		else
 			echo "$evsecon konfiguriert" > ramdisk/evsedintestlp1
 		fi
+		openwbDebugLog "MAIN" 0 "*** exit 0"
 		exit 0
 	fi
 	evsedintestlp2=$(<ramdisk/evsedintestlp2)
@@ -80,6 +81,7 @@ evsedintest() {
 		else
 			echo "$evsecons1 konfiguriert" > ramdisk/evsedintestlp2
 		fi
+		openwbDebugLog "MAIN" 0 "*** exit 0"
 		exit 0
 	fi
 	evsedintestlp3=$(<ramdisk/evsedintestlp3)
@@ -111,6 +113,7 @@ evsedintest() {
 		else
 			echo "$evsecons2 konfiguriert" > ramdisk/evsedintestlp3
 		fi
+		openwbDebugLog "MAIN" 0 "*** exit 0"
 		exit 0
 	fi
 
@@ -129,19 +132,19 @@ evsedintest() {
 				fi
 				sleep 1
 				evselp12000=$(sudo python runs/readmodbus.py "$modbusevsesource" "$modbusevseid" 2000 1)
-				echo $evselp12000 > /var/www/html/openWB/ramdisk/progevsedinlp12000
+				echo $evselp12000 > ramdisk/progevsedinlp12000
 				sleep 1
 				evselp12007=$(sudo python runs/readmodbus.py "$modbusevsesource" "$modbusevseid" 2007 1)
-				echo $evselp12007 > /var/www/html/openWB/ramdisk/progevsedinlp12007
+				echo $evselp12007 > ramdisk/progevsedinlp12007
 				sleep 1
 			fi
 			if [[ "$evsecon" == "masterethframer" ]]; then
 				sleep 1
 				evselp12000=$(sudo python runs/readmodbusethframer.py 192.168.192.18 1 2000 1)
-				echo $evselp12000 > /var/www/html/openWB/ramdisk/progevsedinlp12000
+				echo $evselp12000 > ramdisk/progevsedinlp12000
 				sleep 1
 				evselp12007=$(sudo python runs/readmodbusethframer.py 192.168.192.18 1 2007 1)
-				echo $evselp12007 > /var/www/html/openWB/ramdisk/progevsedinlp12007
+				echo $evselp12007 > ramdisk/progevsedinlp12007
 				sleep 1
 			fi
 		fi

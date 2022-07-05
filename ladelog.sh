@@ -1,5 +1,22 @@
 #!/bin/bash
-monthlyfile="/var/www/html/openWB/web/logging/data/ladelog/$(date +%Y%m).csv"
+
+
+# check if config file is already in env
+if [[ -z "$debug" ]]; then
+	cd /var/www/html/openWB
+	./loadconfig.sh
+	# ./helperFunctions.sh
+	openwbDebugLog()
+	{
+	  shift; shift;
+	  echo $*
+	}
+	openwbDebugLog "MAIN" 0 "Ladelog start"
+fi
+
+
+
+monthlyfile="web/logging/data/ladelog/$(date +%Y%m).csv"
 if [ ! -f $monthlyfile ]; then
 	echo $monthlyfile
 fi
@@ -16,8 +33,8 @@ ladeleistung=$(<ramdisk/llaktuell)
 llkwh=$(<ramdisk/llkwh)
 soc=$(<ramdisk/soc)
 soc1=$(<ramdisk/soc1)
-nachtladenstate=$(</var/www/html/openWB/ramdisk/nachtladenstate)
-nachtladen2state=$(</var/www/html/openWB/ramdisk/nachtladen2state)
+nachtladenstate=$(<ramdisk/nachtladenstate)
+nachtladen2state=$(<ramdisk/nachtladen2state)
 rfidlp1=$(<ramdisk/rfidlp1)
 rfidlp1=$( cut -d ',' -f 1 <<< "$rfidlp1" )     # Zeit vom Tag abtennen
 rfidlp2=$(<ramdisk/rfidlp2)
@@ -33,12 +50,12 @@ soc3KM=$(<ramdisk/soc3KM)
 
 
 if (( nachtladenstate == 0 )) && (( nachtladen2state == 0 )); then # Weder Nachtladen (nachtladestate) noch  Morgens laden (nachtladen2state) aktiv? nutze lademodus.
-	lmodus=$(</var/www/html/openWB/ramdisk/lademodus)
+	lmodus=$(<ramdisk/lademodus)
 else # Nachtladen oder Morgens laden ist aktiv, lademodus 7 setzen
 	lmodus=$SUBMODE_NACHLADEN7
 fi
 if [ -e ramdisk/loglademodus ]; then
-	lademodus=$(</var/www/html/openWB/ramdisk/loglademodus)
+	lademodus=$(<ramdisk/loglademodus)
 	loglademodus=$lademodus
 fi
 if (( soc > 0 )); then
@@ -51,6 +68,11 @@ if (( soc1 > 0 )); then
 else
 	soctext1=$(echo ".")
 fi
+
+
+###################
+####  LP1 ########
+###################
 plugstat=$(<ramdisk/plugstat)
 if (( plugstat == 1 )); then
 	pluggedladungaktlp1=$(<ramdisk/pluggedladungaktlp1)
@@ -160,6 +182,11 @@ else
 		fi
 	fi
 fi
+
+
+###################
+####  LP2 ########
+###################
 
 if (( lastmanagement == 1 )); then
 	ladeleistungs1=$(<ramdisk/llaktuells1)
@@ -277,6 +304,11 @@ if (( lastmanagement == 1 )); then
 		fi
 	fi
 fi
+
+
+###################
+####  LP3  ########
+###################
 
 if (( lastmanagements2 == 1 )); then
 	ladeleistungs2=$(<ramdisk/llaktuells2)

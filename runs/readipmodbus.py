@@ -1,12 +1,5 @@
 #!/usr/bin/python3
-# used for Satellit (ohne PI, ipevse)
 import sys
-import os
-import time
-import getopt
-import socket
-import struct
-import binascii
 from pymodbus.client.sync import ModbusTcpClient
 
 ipadd = str(sys.argv[1])
@@ -15,6 +8,5 @@ readreg = int(sys.argv[3])
 reganzahl = int(sys.argv[4])
 
 client = ModbusTcpClient(ipadd, port=8899)
-rq = client.read_holding_registers(readreg,reganzahl,unit=modbusid)
-client.close()
+rq = client.read_holding_registers(readreg, reganzahl, unit=modbusid)
 print(rq.registers[0])

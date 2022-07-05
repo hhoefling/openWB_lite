@@ -17,7 +17,7 @@ chmod 777 /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
 # server. If we replace the source files while the process is running, funny things might happen.
 # Thus we shut-down the legacy run server before performing the update.
 # We need sudo, because this script may run as user www-data when executed from PHP:
-# sudo pkill -f "$OPENWBBASEDIR/packages/legacy_run_server.py"
+sudo pkill -f "$OPENWBBASEDIR/packages/legacy_run_server.py"
 
 if [[ "$releasetrain" == "stable" ]]; then
 	train=stable17
