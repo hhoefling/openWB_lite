@@ -42,11 +42,9 @@ def main():
     if clientsocket is not None:
         try:
             MyTab = []
+            
+            
             if rct_lib.bb:
-                if rct_lib.bm5:
-                    rct_lib.dbglog("--m5 set, get EVU totals")
-                    totalfeed   = rct_lib.add_by_name(MyTab, 'energy.e_grid_feed_total')
-                    totalload   = rct_lib.add_by_name(MyTab, 'energy.e_grid_load_total')
                 p_ac_sc_sum = rct_lib.add_by_name(MyTab, 'g_sync.p_ac_sc_sum')
                 volt1       = rct_lib.add_by_name(MyTab, 'g_sync.u_l_rms[0]')
                 volt2       = rct_lib.add_by_name(MyTab, 'g_sync.u_l_rms[1]')
@@ -59,8 +57,10 @@ def main():
                 stat2       = rct_lib.add_by_name(MyTab, 'fault[1].flt')
                 stat3       = rct_lib.add_by_name(MyTab, 'fault[2].flt')
                 stat4       = rct_lib.add_by_name(MyTab, 'fault[3].flt')
-            if rct_lib.wr:
                 if rct_lib.bm5:
+                    rct_lib.dbglog("--m5 set, get EVU totals")
+                    totalfeed   = rct_lib.add_by_name(MyTab, 'energy.e_grid_feed_total')
+                    totalload   = rct_lib.add_by_name(MyTab, 'energy.e_grid_load_total')
                     rct_lib.dbglog("--m5 set, get WR totals")
                     dA       = rct_lib.add_by_name(MyTab, 'energy.e_dc_day[0]')
                     dB       = rct_lib.add_by_name(MyTab, 'energy.e_dc_day[1]')
@@ -75,17 +75,18 @@ def main():
                     pv2total = rct_lib.add_by_name(MyTab, 'energy.e_dc_total[1]')
                     pvEtotal = rct_lib.add_by_name(MyTab, 'energy.e_ext_total')
                     pLimit   = rct_lib.add_by_name(MyTab, 'p_rec_lim[2]') # max. AC power according to RCT Power
+                    bwatt2   = rct_lib.add_by_name(MyTab, 'battery.stored_energy')
+                    bwatt3   = rct_lib.add_by_name(MyTab, 'battery.used_energy')
 
+            if rct_lib.wr:
                 pv1watt  = rct_lib.add_by_name(MyTab, 'dc_conv.dc_conv_struct[0].p_dc')
                 pv2watt  = rct_lib.add_by_name(MyTab, 'dc_conv.dc_conv_struct[1].p_dc')
                 pvEwatt  = rct_lib.add_by_name(MyTab, 'io_board.s0_external_power')
 
-            if rct_lib.wr:
+            if rct_lib.sp:
                 bsocx    = rct_lib.add_by_name(MyTab, 'battery.soc')
                 bsocsoll = rct_lib.add_by_name(MyTab, 'battery.soc_target')
                 bwatt1   = rct_lib.add_by_name(MyTab, 'g_sync.p_acc_lp')
-                bwatt2   = rct_lib.add_by_name(MyTab, 'battery.stored_energy')
-                bwatt3   = rct_lib.add_by_name(MyTab, 'battery.used_energy')
                 bstat1   = rct_lib.add_by_name(MyTab, 'battery.bat_status')
                 bstat2   = rct_lib.add_by_name(MyTab, 'battery.status')
                 bstat3   = rct_lib.add_by_name(MyTab, 'battery.status2')
@@ -113,6 +114,38 @@ def main():
                 writeRam('einspeisungkwh', totalfeed, '0x44D4C533 energy.e_grid_feed_total')
                 totalload=int(totalload.value) 
                 writeRam('bezugkwh',        totalload, '#0x62FBE7DC energy.e_grid_load_total')
+                rct_lib.dbglog("--m5 set, update WR totals")
+                writeRam('maxACkW', int(pLimit.value), 'Maximale zur Ladung verwendete AC-Leistung des Wechselrichters')
+                #monthly
+                mA=int(mA.value)  # energy.e_dc_month[0]  WH
+                mB=int(mB.value)  # energy.e_dc_month[1]  WH
+                mE=int(mE.value)  # energy.e_ext_month    WH
+                monthly_pvkwhk = ( mA + mB + mE) / 1000.0   # -> KW
+                writeRam('monthly_pvkwhk', monthly_pvkwhk, 'monthly_pvkwhk')
+
+                #yearly
+                yA=int(yA.value)  # energy.e_dc_total[0]  WH
+                yB=int(yB.value)  # energy.e_dc_total[1]  WH
+                yE=int(yE.value)  # energy.e_ext_total    WH
+                yearly_pvkwhk = ( yA + yB + yE) / 1000.0   # -> KW
+                writeRam('yearly_pvkwhk', yearly_pvkwhk, 'yearly_pvkwhk')
+
+                # total
+                pv1total=int(pv1total.value)    # energy.e_dc_total[0]
+                pv2total=int(pv2total.value)    # energy.e_dc_total[1]
+                pvEtotal=int(pvEtotal.value)    # energy.e_ext_total
+                pvkwh  = (pv1total + pv2total + pvEtotal) 
+                writeRam('pvkwh', pvkwh, 'Summe von pv1total pv2total pvEtotal')
+                
+                rct_lib.dbglog("--m5 set, Update BAT totals")
+                bwatt2 =int(bwatt2.value)
+                #rct_lib.dbglog("speicherikwh will be battery.stored_energy "+ str(bwatt2)) 
+                writeRam('speicherikwh', bwatt2, '0x5570401B battery.stored_energy')
+
+                bwatt3 =int(bwatt3.value)
+                #rct_lib.dbglog("speicherekwh will be battery.used_energy "+ str(bwatt3))         
+                writeRam('speicherekwh', bwatt3, '#0xA9033880 battery.used_energy')
+
                 
             p_ac_sc_sum = p_ac_sc_sum.value
             writeRam('wattbezug', int(p_ac_sc_sum)*1  , '#0x6002891F g_sync.p_ac_sc_sum')
@@ -165,18 +198,18 @@ def main():
                 faultState=2
                 rct_lib.dbglog("faultstate: ", faultState, faultStr) 
                 # speicher in mqtt 
-                os.system('mosquitto_pub -r -t openWB/evu/faultState -m "' + str(faultState) +'"')
-                os.system('mosquitto_pub -r -t openWB/evu/faultStr -m "' + str(faultStr) +'"')
+                os.system('mosquitto_pub -r -t openWB/set/evu/faultState -m "' + str(faultState) +'"')
+                os.system('mosquitto_pub -r -t openWB/set/evu/faultStr -m "' + str(faultStr) +'"')
             else:
                 # Kein fehler loesche alle 5 mintuen den statzus
                 if rct_lib.bm5:
                    rct_lib.dbglog("clear evu faultstate: ") 
-                   os.system('mosquitto_pub -r -t openWB/evu/faultState -m "' + str(faultState) +'"')
-                   os.system('mosquitto_pub -r -t openWB/evu/faultStr -m "' + str(faultStr) +'"')
+                   os.system('mosquitto_pub -r -t openWB/set/evu/faultState -m "' + str(faultState) +'"')
+                   os.system('mosquitto_pub -r -t openWB/set/evu/faultStr -m "' + str(faultStr) +'"')
 
 ###################################
 
-        if rct_lib.wr and rct_lib.bb:
+        if rct_lib.wr:
             wrfaultStr=' '
             wrfaultState=0
             # aktuell
@@ -192,32 +225,10 @@ def main():
             # Alternative wr_ac out statt dc_in summe
             #pvwatt=int(rct_lib.read(clientsocket,0x4E49AEC5) ) *-1   #  g_sync.p_ac_sum 2580.68408203125
             #writeRam('pvwatt', int(pvwatt), 'wr out')
-            if rct_lib.bm5:
-                rct_lib.dbglog("--m5 set, update WR totals")
-                writeRam('maxACkW', int(pLimit.value), 'Maximale zur Ladung verwendete AC-Leistung des Wechselrichters')
-                #monthly
-                mA=int(mA.value)  # energy.e_dc_month[0]  WH
-                mB=int(mB.value)  # energy.e_dc_month[1]  WH
-                mE=int(mE.value)  # energy.e_ext_month    WH
-                monthly_pvkwhk = ( mA + mB + mE) / 1000.0   # -> KW
-                writeRam('monthly_pvkwhk', monthly_pvkwhk, 'monthly_pvkwhk')
-
-                #yearly
-                yA=int(yA.value)  # energy.e_dc_total[0]  WH
-                yB=int(yB.value)  # energy.e_dc_total[1]  WH
-                yE=int(yE.value)  # energy.e_ext_total    WH
-                yearly_pvkwhk = ( yA + yB + yE) / 1000.0   # -> KW
-                writeRam('yearly_pvkwhk', yearly_pvkwhk, 'yearly_pvkwhk')
-
-                # total
-                pv1total=int(pv1total.value)    # energy.e_dc_total[0]
-                pv2total=int(pv2total.value)    # energy.e_dc_total[1]
-                pvEtotal=int(pvEtotal.value)    # energy.e_ext_total
-                pvkwh  = (pv1total + pv2total + pvEtotal) 
-                writeRam('pvkwh', pvkwh, 'Summe von pv1total pv2total pvEtotal')
+            
 
 ##############################
-        if rct_lib.sp and rct_lib.bb:
+        if rct_lib.sp:
             # Speicher 
             spfaultStr=' '
             spfaultState=0
@@ -233,16 +244,6 @@ def main():
             bwatt1 =int(bwatt1.value  * -1.0 ) 
             writeRam('speicherleistung', bwatt1, '0x400F015B g_sync.p_acc_lp')
 
-            if rct_lib.bm5:
-                rct_lib.dbglog("--m5 set, Update BAT totals")
-                bwatt2 =int(bwatt2.value)
-                #rct_lib.dbglog("speicherikwh will be battery.stored_energy "+ str(bwatt2)) 
-                writeRam('speicherikwh', bwatt2, '0x5570401B battery.stored_energy')
-
-                bwatt3 =int(bwatt3.value)
-                #rct_lib.dbglog("speicherekwh will be battery.used_energy "+ str(bwatt3))         
-                writeRam('speicherekwh', bwatt3, '#0xA9033880 battery.used_energy')
-            
 
             bstat1 = int(bstat1.value)
             #rct_lib.dbglog("battery.bat_status "+ str(bstat1))

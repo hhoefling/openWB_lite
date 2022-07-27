@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ledsteuerung() {
+
 	ledstatus=$(<ramdisk/ledstatus)
 	lademodus=$(<ramdisk/lademodus)
 	ladestatus=$(<ramdisk/ladestatus)
@@ -10,24 +11,27 @@ ledsteuerung() {
 	#3 stop
 	#4 standby
 	ledrunning=$(ps aux |grep '[l]eds.py' | awk '{print $2}')
-	if (( slavemode == 1 ));then
-
-		if (( lp1enabled == 1 )) && (( lp2enabled == 1 )) && (( lastmanagement == 1 )); then
-			slaveLedStatus="an12"
-		elif (( lp1enabled == 0 )) && (( lp2enabled == 1 )) && (( lastmanagement == 1 )); then
-			slaveLedStatus="an2"
-		elif (( lp1enabled == 1 )) && (( lp2enabled == 0 )); then
-			slaveLedStatus="an1"
-		else
-			slaveLedStatus="aus"
-		fi
-
-		if [[ $ledstatus != $slaveLedStatus ]]; then
-			sudo python runs/leds.py $slaveLedStatus &
-			echo $slaveLedStatus > ramdisk/ledstatus
-		fi
-
-	elif (( ladestatus == 1 ));then
+    
+# YourCharge 
+#	if (( slavemode == 1 ));then
+#
+#		if (( lp1enabled == 1 )) && (( lp2enabled == 1 )) && (( lastmanagement == 1 )); then
+#			slaveLedStatus="an12"
+#		elif (( lp1enabled == 0 )) && (( lp2enabled == 1 )) && (( lastmanagement == 1 )); then
+#			slaveLedStatus="an2"
+#		elif (( lp1enabled == 1 )) && (( lp2enabled == 0 )); then
+#			slaveLedStatus="an1"
+#		else
+#			slaveLedStatus="aus"
+#		fi
+#
+#		if [[ $ledstatus != $slaveLedStatus ]]; then
+#			sudo python runs/leds.py $slaveLedStatus &
+#			echo $slaveLedStatus > ramdisk/ledstatus
+#		fi
+#
+#	elif
+    if (( ladestatus == 1 ));then
 		if (( lademodus == $SOFORT0 )); then
 			if [[ $ledstatus != $ledsofort ]]; then
 				if [ ! -z "$ledrunning" ]; then

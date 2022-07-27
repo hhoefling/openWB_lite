@@ -54,11 +54,11 @@ var topicsToSubscribe = [
 	["openWB/config/get/SmartHome/Devices/9/device_name", 1],
 
 	// etprovider topcis
-	["openWB/global/ETProvider/modulePath", 1],
-	["openWB/global/awattar/boolAwattarEnabled", 0],
-	["openWB/global/awattar/MaxPriceForCharging", 1],
-	["openWB/global/awattar/ActualPriceForCharging", 1],
-	["openWB/global/awattar/pricelist", 1],
+//	["openWB/global/ETProvider/modulePath", 1],
+//	["openWB/global/awattar/boolAwattarEnabled", 0],
+//	["openWB/global/awattar/MaxPriceForCharging", 1],
+//	["openWB/global/awattar/ActualPriceForCharging", 1],
+//	["openWB/global/awattar/pricelist", 1],
 	// graph topcis
 	//
 	["openWB/graph/lastlivevalues", 1],
@@ -125,7 +125,8 @@ var topicsToSubscribe = [
 	["openWB/global/ChargeMode", 1],
 	["openWB/global/WAllChargePoints", 1],
 	["openWB/global/strLastmanagementActive", 1],
-	["openWB/global/strLaderegler", 1],
+	["openWB/global/strLaderegler", 0],
+	["openWB/global/strBatSupport", 0],
 	["openWB/global/rfidConfigured", 1],
 	["openWB/config/get/pv/priorityModeEVBattery", 1],
 	["openWB/config/get/pv/minCurrentMinPv", 1],
@@ -140,7 +141,9 @@ var topicsToSubscribe = [
 	["openWB/evu/W", 1],
 	// lp topics
 	["openWB/lp/1/%Soc", 1],
+	["openWB/lp/1/socRange", 0],
 	["openWB/lp/2/%Soc", 1],
+	["openWB/lp/2/socRange", 0],
 	// geladene kWh seit anstecken des EV
 	["openWB/lp/1/kWhChargedSincePlugged", 1],
 	["openWB/lp/2/kWhChargedSincePlugged", 1],
@@ -325,6 +328,7 @@ var retries = 0;
 
 //Connect Options
 var isSSL = location.protocol == 'https:'
+var port = isSSL ? 443 : 9001;
 var options = {
 	timeout: 5,
 	useSSL: isSSL,
@@ -343,7 +347,7 @@ var options = {
 };
 
 var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 5);
-var client = new Messaging.Client(location.hostname, 9001, clientuid);
+var client = new Messaging.Client(location.hostname, port, clientuid);
 
 $(document).ready(function () {
 	client.connect(options);

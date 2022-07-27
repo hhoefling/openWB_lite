@@ -22,7 +22,7 @@
   <script src="display/colors/yieldmeter.js"></script>
   <script src="display/colors/powergraph.js"></script>
   <script src="display/colors/chargePointList.js"></script>
-  <script src="display/colors/pricechart.js"></script>
+  <!-- script src="display/colors/pricechart.js"></script -->
 
 </head>
 
@@ -83,6 +83,7 @@
       <!-- Rechte Spalte (Ladepunkte)-->
       <div class=" col-3 px-1">
         <div id="chargePointTable"></div>
+<!--
         <div class="container-fluid mt-5 mr-1 p-1">
           <div class="row m-1">
             <div class="col p-0">
@@ -90,6 +91,7 @@
             </div>
           </div>
         </div>
+-->
       </div>
     </div>
   </div>
@@ -194,9 +196,8 @@
                       IP Adresse:
                     </div>
                     <div class="col">
-					  <span id="iplan">--</span>
-					  <span id="ipwifi">--</span>					  
-                      <!---span class="systemIpAddress"></span-->
+					  Eth:<span id="iplan">--</span>,<span id="iplan2">--</span>
+					  Wlan:<span id="ipwifi">--</span><span id="ipwifi2">--</span>					  
                     </div>
                   </div>
                   <div class="form-row">
@@ -229,7 +230,15 @@
                       SD-Karte:
                     </div>
                     <div class="col">
-                      <span id='diskuse'>--</span>, <span id='diskfree'>--</span> verfügbar.
+                      <span id='diskuse'>--</span> <span id='diskusedprz'>--</span> % belegt, <span id='diskfree'>--</span> verfügbar. 
+                    </div>
+				  </div>		
+       			  <div class="form-row">
+                    <div class="col-4">
+                      Temp:
+                    </div>
+                    <div class="col">
+                      <span id='tmpuse'>--</span> <span id='tmpusedprz'>--</span> % belegt, <span id='tmpfree'>--</span> verfügbar.
                     </div>
                   </div>
                 </div>
@@ -287,39 +296,18 @@
     </div>
 
     <script>
-      // TODO: replace by MQTT topics
+      // TODO: replace by MQTT topics, done
       function updateit() {
-        $.getJSON('tools/programmloggerinfo.php', function (data) {
-          json = eval(data);
-          // console.log(json);
-		  
-			if (json.ethaddr != '') {
-				$('#iplan').text( 'Eth:'+json.ethaddr   + ( (json.ethaddr2=='')? '' :' ,  ' ) + json.ethaddr2 );
-			} else {
-				$('#iplan').text('');
-			}
-			if (json.wlanaddr != '') {
-				$('#ipwifi').text( 'WLan:'+json.wlanaddr + ( (json.wlanaddr2=='')? '' :' ,  ' )  + json.wlanaddr2 );
-			} else {
-				$('#ipwifi').text('');
-			}
-
-          $('#cpu').val(json.cpuuse);
-          $('#cpuuse').html(json.cpuuse);
-          $('#cputemp').text((json.cputemp/1000).toFixed(2));
-          $('#memtot').html(json.memtot);
-          $('#mem').prop('max', json.memtot);
-          $('#mem').val(json.memuse);
-          $('#mem').prop('high', json.memtot * 0.85);
-          $('#memfree').html(json.memfree);
-          $('#diskuse').html(json.diskuse);
-          $('#diskfree').html(json.diskfree);
-        })
+            console.log('ticker');			
+        	// $.getJSON('tools/programmloggerinfo.php', function (data) {
+          	     // json = eval(data);
+                //  }
+			    //)
       };
 
       $(document).ready(function () {
         updateit();
-        setInterval(updateit, 10000);
+        setInterval(updateit, 20000);
       });
 
 		$('#backend .homeBtn').on("click", function(event){
@@ -505,6 +493,7 @@
             </div>
           </div>
           <!-- price based charging configuration-->
+<!--		  
           <div class="priceConfiguration hide">
             <div class="row p-0 m-0 ">
               <div class="col"></div>
@@ -525,7 +514,7 @@
               </div>
             </div>
           </div>
-
+-->
           <div class="row">
             <div class="col pt-1 px-3 energyResetButton hide">
               <input class="btn btn-warning btn-lg modal-button resetEnergyToCharge" type="button"
@@ -939,28 +928,28 @@
       }
     }
 
-    window.setInterval(function () {
-      $.get(
-        { url: "display/colors/checklock.php?lock=1", cache: false },
-        function (data) {
-          if (data == "1") {
-            displaypinaktiv = 1;
-            if (lockTimeoutHandler == null) {
-              displaylocked = true;
-            }
-            $('#displaylock').removeClass('hide');
-		//	$("#homebutton").addClass("hide");
-          } else {
-            displaypinaktiv = 0;
-            displaylocked = false;
-            window.clearTimeout(lockTimeoutHandler);
-            lockTimeoutHandler = null;
-            $('#displaylock').addClass('hide');
-		//	$("#homebutton").removeClass("hide");
-          }
-        }
-      );
-    }, 15000);
+//    window.setInterval(function () {
+//      $.get(
+//        { url: "display/colors/checklock.php?lock=1", cache: false },
+//        function (data) {
+//          if (data == "1") {
+//            displaypinaktiv = 1;
+//            if (lockTimeoutHandler == null) {
+//              displaylocked = true;
+//            }
+//            $('#displaylock').removeClass('hide');
+//		//	$("#homebutton").addClass("hide");
+//          } else {
+//            displaypinaktiv = 0;
+//            displaylocked = false;
+//            window.clearTimeout(lockTimeoutHandler);
+//            lockTimeoutHandler = null;
+//            $('#displaylock').addClass('hide');
+//		//	$("#homebutton").removeClass("hide");
+//          }
+//        }
+//      );
+//    }, 15000);
 
     var delayUserInput = (function () {
       // sets a timeout on call and resets timout if called again for same id before timeout fires
@@ -999,11 +988,11 @@
         // load mqtt library
         'js/mqttws31.js',
         // some helper functions
-        'display/colors/helperFunctions.js',
+        'display/colors/helperFunctions.js?ver=20220119',
         // functions for processing messages
-        'display/colors/processAllMqttMsg.js',
+        'display/colors/processAllMqttMsg.js?ver=20220119',
         // functions performing mqtt and start mqtt-service
-        'display/colors/setupMqttServices.js',
+        'display/colors/setupMqttServices.js?ver=20220119',
       ];
 
       scriptsToLoad.forEach(function (src) {
@@ -1024,19 +1013,19 @@
       });
 
       // display lock
-      $.get(
-        { url: "display/colors/checklock.php?lock=1", cache: false },
-        function (data) {
-          if (data == "1") {
-            displaypinaktiv = 1;
-            $('#displaylock').removeClass('hide');
-          } else {
-            displaypinaktiv = 0;
-            displaylocked = false;
-            $('#displaylock').addClass('hide');
-          }
-        }
-      );
+      //$.get(
+      //  { url: "display/colors/checklock.php?lock=1", cache: false },
+      //  function (data) {
+      //    if (data == "1") {
+      //      displaypinaktiv = 1;
+      //      $('#displaylock').removeClass('hide');
+      //    } else {
+      //      displaypinaktiv = 0;
+      //      displaylocked = false;
+      //      $('#displaylock').addClass('hide');
+      //    }
+      //  }
+      //);
 
       $('#displaylock').on("click", function () {
         if (displaylocked == true) {

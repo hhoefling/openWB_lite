@@ -27,6 +27,7 @@ def on_message(client, userdata, msg):
         devicenumb=re.sub(r'\D', '', msg.topic)
         if ( 1 <= int(devicenumb) <= numberOfSupportedDevices ):
             powerc = int(msg.payload)
+            
 aktpower = 0
 powerc = 0
 devicenumber=str(sys.argv[1])

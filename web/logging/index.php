@@ -10,7 +10,7 @@
    header('Content-Type: application/csv; charset=UTF-8');
    header('Content-Disposition: attachment;filename="all_graph.csv";');
    
-   $head[]="Date;Bezug;LadeLeistung;PV;llLP1;llLP2;llLP3;LLLP4;LLLP5;LLLP6;LLLP7;LLLP8;BAT;BATSOC;Soc;Soc1;Haus;V1;V2\n";
+   $head[]="Date;Bezug;LadeLeistung;PV;llLP1;llLP2;llLP3;NCLP4;NCLP5;NCLP6;NCLP7;NCLP8;BAT;BATSOC;Soc;Soc1;Haus;V1;V2\n";
 
 
   // kopfzeile mit ;

@@ -5,6 +5,7 @@ web/logging/data/
 *.pyc
 *.bak
 *.sav
+*.list
 openwb.conf.1
 openwb.conf.10
 openwb.conf.2

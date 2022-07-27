@@ -4,7 +4,7 @@ import os
 import time
 import struct
 from pymodbus.client.sync import ModbusTcpClient
-named_tuple = time.localtime() # getstruct_time
+named_tuple = time.localtime()  # getstruct_time
 time_string = time.strftime("%m/%d/%Y, %H:%M:%S idm on.py", named_tuple)
 devicenumber = str(sys.argv[1])
 ipadr = str(sys.argv[2])

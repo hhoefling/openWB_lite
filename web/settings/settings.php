@@ -84,7 +84,7 @@
 							<span class="text-danger">Alle in dieser openWB getätigten Einstellungen werden NICHT beachtet.</span>
 							An der Haupt openWB wird als Ladepunkt "externe openWB" gewählt und die IP Adresse eingetragen.
 						</div>
-						<div id="isssdiv" class="hide">
+						<div id="isssdiv" class="disabled">
 							<div class="form-group">
 								<div class="form-row mb-1">
 									<label for="ssdisplay" class="col-md-4 col-form-label">Display-Theme</label>
@@ -95,7 +95,7 @@
 										</select>
 									</div>
 								</div>
-							  	<span class="d_label">&nbsp;ssdisplay   </span>				
+							  	<span class="d_label">openWB.conf&nbsp;ssdisplay   </span>				
 							</div>
 						</div>
 					</div>
@@ -119,6 +119,10 @@
 				</div>
 
 				<!-- electricity tariff providers -->
+<?php
+ if ( false )
+ {
+?> 				
 				<div class="card border-secondary">
 					<div class="card-header bg-secondary">
 						<div class="form-group mb-0">
@@ -154,7 +158,7 @@
 								</div>
 							</div>
 						   <div class="d_label">openWB/global/ETProvider/modulePath etprovider </div>				
-							<div id="awattardiv" class="hide">
+							<div id="awattardiv" class="disabled">
 								<div class="form-group">
 									<div class="form-row mb-1">
 										<label for="awattarlocation" class="col-md-4 col-form-label">Land</label>
@@ -431,7 +435,19 @@
 						});
 					</script>
 				</div>
-
+<?php
+ }
+ else
+ {
+?>
+				<div class="card border-secondary">
+					<div class="card-header bg-secondary">
+						Stromanbieter nicht verfügbar.
+					</div>
+				</div>
+<?php 
+ }
+?> 				
 				<!-- Sperren nach Abstecken -->
 				<div class="card border-secondary">
 					<div class="card-header bg-secondary">
@@ -456,7 +472,7 @@
 								</div>
 							   <div class="d_label">stopchargeafterdisclp1</div>				
 							</div>
-							<div id="lp2aktdiv" class="hide">
+							<div id="lp2aktdiv" class="disabled">
 								<div class="form-row vaRow mb-1">
 									<div class="col-md-4">
 										Ladepunkt 2
@@ -472,7 +488,7 @@
 							      <div class="d_label">stopchargeafterdisclp2</div>				
 								</div>
 							</div>
-							<div id="lp3aktdiv" class="hide">
+							<div id="lp3aktdiv" class="disabled">
 								<div class="form-row vaRow mb-1">
 									<div class="col-md-4">
 										Ladepunkt 3
@@ -498,12 +514,12 @@
 							if(lp2akt == '0') {
 								hideSection('#lp2aktdiv');
 								hideSection('#loadsharingdiv');
-								showSection('#loadsharingoffdiv');
+								//showSection('#loadsharingoffdiv');
 								hideSection('#durchslp2div');
 							} else {
 								showSection('#lp2aktdiv');
 								showSection('#loadsharingdiv');
-								hideSection('#loadsharingoffdiv');
+								//hideSection('#loadsharingoffdiv');
 								showSection('#durchslp2div');
 							}
 							if(lp3akt == '0') {
@@ -548,7 +564,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="durchslp2div" class="hide">
+						<div id="durchslp2div" class="disabled">
 							<hr class="border-primary">
 							<div class="form-group mb-1">
 								<div class="form-row mb-1">
@@ -574,7 +590,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="durchslp3div" class="hide">
+						<div id="durchslp3div" class="disabled">
 							<hr class="border-primary">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -619,7 +635,7 @@
 						<div class="card-text alert alert-info">
 							Automatisierte Umschaltung von 1- und 3-phasiger Ladung. Nur aktivieren, wenn diese Option in der OpenWB verbaut ist. Je nach gekaufter Hardwareoption gültig für alle Ladepunkte!
 						</div>
-						<div id="u1p3pan" class="hide">
+						<div id="u1p3pan" class="disabled">
 							<div class="form-group">
 								<div class="form-row mb-1">
 									<label class="col-md-4 col-form-label">Sofort Laden</label>
@@ -733,7 +749,7 @@
 									</div>
 								</div>
    							<span class="d_label">schieflastaktiv</span>				
-								<div class="form-row mb-1 hide" id="schieflastan">
+								<div class="form-row mb-1 disabled" id="schieflastan">
 									<label for="schieflastmaxa" class="col-md-4 col-form-label">Schieflastbegrenzung</label>
 									<div class="col-md-8">
 										<div class="form-row vaRow mb-1">
@@ -848,10 +864,10 @@
 						Loadsharing
 					</div>
 					<div class="card-body">
-						<div id="loadsharingoffdiv" class="card-text alert alert-info hide">
+						<div id="loadsharingoffdiv" class="card-text alert alert-info ">
 							Diese Einstellungen sind nur verfügbar, wenn mindestens zwei Ladepunkte konfiguriert sind.
 						</div>
-						<div id="loadsharingdiv" class="hide">
+						<div id="loadsharingdiv" class="disabled">
 							<div class="form-group">
 								<div class="form-row mb-1">
 									<label class="col-md-4 col-form-label">Loadsharing für Ladepunkte 1 und 2</label>
@@ -871,7 +887,7 @@
 										</span>
 									</div>
 								</div>
-								<div id="loadsharinglp12div" class="hide">
+								<div id="loadsharinglp12div" class="disabled">
 									<div class="form-row mb-2">
 										<label class="col-md-4 col-form-label">Maximaler Strom</label>
 										<div class="col">

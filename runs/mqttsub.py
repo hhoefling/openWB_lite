@@ -1,16 +1,18 @@
+import configparser
+import fileinput
+import re
+import subprocess
+import sys
+import threading
+import time
+from datetime import datetime
+from json import loads as json_loads
+from json.decoder import JSONDecodeError
 from pathlib import Path
 
 import paho.mqtt.client as mqtt
-import sys
-import subprocess
-import time
-import fileinput
-from datetime import datetime
-import configparser
-import re
-import threading
-from json import loads as json_loads
-from json.decoder import JSONDecodeError
+from subprocess import run
+
 
 global inaction
 inaction=0
@@ -83,8 +85,8 @@ def dolog(msg):
 	file.write("%s %s \n" % (timestamp, msg) )
 	file.close()
 
-dolog("mqttsub starting...\n")	
-
+dolog("mqttsub starting...\n")
+		
 #############################################	
 class Ramdisk:
 	def	__init__(self, rambase):
@@ -141,6 +143,7 @@ class Ramdisk:
 
 #############################################
 
+		
 mqtt_broker_ip = "localhost"
 client = mqtt.Client("openWB-mqttsub-" + getserial())
 ipallowed = '^[0-9.]+$'
@@ -286,13 +289,13 @@ def on_message(client, userdata, msg):
                 if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and -100000 <= int(msg.payload) <= 100000):
                     writetoconfig(shconfigfile,'smarthomedevices','device_einschaltschwelle_'+str(devicenumb), msg.payload.decode("utf-8"))
                     client.publish("openWB/config/get/SmartHome/Devices/"+str(devicenumb)+"/device_einschaltschwelle", msg.payload.decode("utf-8"), qos=0, retain=True)
-                    
+
             if (( "openWB/config/set/SmartHome/Device" in msg.topic) and ("device_deactivateper" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
-                if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and 0 <= int(msg.payload) <= 2):
+                if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and 0 <= int(msg.payload) <= 100):
                     writetoconfig(shconfigfile,'smarthomedevices','device_deactivateper_'+str(devicenumb), msg.payload.decode("utf-8"))
                     client.publish("openWB/config/get/SmartHome/Devices/"+str(devicenumb)+"/device_deactivateper", msg.payload.decode("utf-8"), qos=0, retain=True)
-                                        
+
             if (( "openWB/config/set/SmartHome/Device" in msg.topic) and ("device_deactivateWhileEvCharging" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
                 if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and 0 <= int(msg.payload) <= 2):
@@ -522,16 +525,15 @@ def on_message(client, userdata, msg):
                     client.publish("openWB/config/get/SmartHome/Devices/"+str(devicenumb)+"/device_nonewatt", msg.payload.decode("utf-8"), qos=0, retain=True)
                 else:
                     print( "invalid payload for topic '" + msg.topic + "': " + msg.payload.decode("utf-8"))
-                    
+
             if (( "openWB/config/set/SmartHome/Device" in msg.topic) and ("device_idmnav" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
                 if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and 1 <= int(msg.payload) <= 2 ):
                     writetoconfig(shconfigfile,'smarthomedevices','device_idmnav_'+str(devicenumb), msg.payload.decode("utf-8"))
                     client.publish("openWB/config/get/SmartHome/Devices/"+str(devicenumb)+"/device_idmnav", msg.payload.decode("utf-8"), qos=0, retain=True)
                 else:
-                    print( "invalid payload for topic '" + msg.topic + "': " + msg.payload.decode("utf-8"))                    
-                    
-                    
+                    print( "invalid payload for topic '" + msg.topic + "': " + msg.payload.decode("utf-8"))
+
             if (( "openWB/config/set/SmartHome/Device" in msg.topic) and ("device_standbyDuration" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
                 if ( 1 <= int(devicenumb) <= numberOfSupportedDevices and 0 <= int(msg.payload) <= 86400 ):
@@ -664,13 +666,13 @@ def on_message(client, userdata, msg):
                         f = open('/var/www/html/openWB/ramdisk/gelrlp3', 'w')
                         f.write("0")
                         f.close()
-                    if (int(devicenumb) >= 4):
-                        f = open('/var/www/html/openWB/ramdisk/aktgeladenlp'+str(devicenumb), 'w')
-                        f.write("0")
-                        f.close()
-                        f = open('/var/www/html/openWB/ramdisk/gelrlp'+str(devicenumb), 'w')
-                        f.write("0")
-                        f.close()
+#                    if (int(devicenumb) >= 4):
+#                        f = open('/var/www/html/openWB/ramdisk/aktgeladenlp'+str(devicenumb), 'w')
+#                        f.write("0")
+#                        f.close()
+#                        f = open('/var/www/html/openWB/ramdisk/gelrlp'+str(devicenumb), 'w')
+#                        f.write("0")
+#                        f.close()
             if (( "openWB/config/set/sofort/lp" in msg.topic) and ("socToChargeTo" in msg.topic)):
                 devicenumb=re.sub(r'\D', '', msg.topic)
                 if ( 1 <= int(devicenumb) <= 2 and 0 <= int(msg.payload) <= 100):
@@ -825,9 +827,9 @@ def on_message(client, userdata, msg):
                     sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "offsetpv=", msg.payload.decode("utf-8")]
                     subprocess.run(sendcommand)
                     client.publish("openWB/config/get/pv/regulationPoint", msg.payload.decode("utf-8"), qos=0, retain=True)
-            if (msg.topic == "openWB/config/set/pv/boolShowPriorityIconInTheme"):
-                if (int(msg.payload) >= 0 and int(msg.payload) <= 1):
-                    sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "speicherpvui=", msg.payload.decode("utf-8")]
+            if (msg.topic == "openWB/config/set/pv/boolShowPriorityIconInTheme"):   # NC
+                if (int(msg.payload) >= 0 and int(msg.payload) <= 1):               # NC
+                    sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "speicherpvui=", msg.payload.decode("utf-8")] # NC
                     subprocess.run(sendcommand)
                     client.publish("openWB/config/get/pv/boolShowPriorityIconInTheme", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (msg.topic == "openWB/config/set/pv/minBatteryChargePowerAtEvPriority"):
@@ -845,6 +847,11 @@ def on_message(client, userdata, msg):
                     sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "speicherwattnurpv=", msg.payload.decode("utf-8")]
                     subprocess.run(sendcommand)
                     client.publish("openWB/config/get/pv/batteryDischargePowerAtBattPriority", msg.payload.decode("utf-8"), qos=0, retain=True)
+            if (msg.topic == "openWB/config/set/pv/batteryDischargePowerAtBattPriorityHybrid"):
+                if (int(msg.payload) >= 0 and int(msg.payload) <= 100000):
+                    sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "speicherwattnurpvhybrid=", msg.payload.decode("utf-8")]
+                    subprocess.run(sendcommand)
+                    client.publish("openWB/config/get/pv/batteryDischargePowerAtBattPriorityHybrid", msg.payload.decode("utf-8"), qos=0, retain=True)
             if (msg.topic == "openWB/config/set/pv/socStartChargeAtMinPv"):
                 if (int(msg.payload) >= 0 and int(msg.payload) <= 101):
                     sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "speichersocminpv=", msg.payload.decode("utf-8")]
@@ -1399,11 +1406,11 @@ def on_message(client, userdata, msg):
                 f = open('/var/www/html/openWB/ramdisk/parentCPlp2', 'w')
                 f.write(msg.payload.decode("utf-8"))
                 f.close()
-            if (msg.topic == "openWB/set/awattar/MaxPriceForCharging"):
-                if (float(msg.payload) >= -50 and float(msg.payload) <=95):
-                    f = open('/var/www/html/openWB/ramdisk/etprovidermaxprice', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
+#            if (msg.topic == "openWB/set/awattar/MaxPriceForCharging"):
+#                if (float(msg.payload) >= -50 and float(msg.payload) <=95):
+#                    f = open('/var/www/html/openWB/ramdisk/etprovidermaxprice', 'w')
+#                    f.write(msg.payload.decode("utf-8"))
+#                    f.close()
             if (msg.topic == "openWB/set/houseBattery/W"):
                 if (float(msg.payload) >= -30000 and float(msg.payload) <= 30000):
                     f = open('/var/www/html/openWB/ramdisk/speicherleistung', 'w')
@@ -1553,6 +1560,13 @@ def on_message(client, userdata, msg):
                     f = open('/var/www/html/openWB/ramdisk/soc'+str(devicenumb)+'KM', 'w')
                     f.write(msg.payload.decode("utf-8"))
                     f.close()
+            if (( "openWB/set/lp" in msg.topic) and ("socRange" in msg.topic)):
+                devicenumb = int(re.sub(r'\D', '', msg.topic))
+                if (1 <= devicenumb <= numberOfSupportedLP):
+                    client.publish("openWB/lp/"+str(devicenumb)+"/socRange", msg.payload.decode("utf-8"), qos=0, retain=True)
+                    f = open('/var/www/html/openWB/ramdisk/soc'+str(devicenumb)+'Range', 'w')
+                    f.write(msg.payload.decode("utf-8"))
+                    f.close()
             # Topics for Mqtt-EVSE module
             # ToDo: check if Mqtt-EVSE module is selected!
             # llmodule = getConfigValue("evsecon")
@@ -1684,7 +1698,6 @@ def on_message(client, userdata, msg):
 
             # clear all set topics if not already done
             if ( not(setTopicCleared) ):
-                #dolog(" now clear [%s]" % (msg.topic) )  
                 client.publish(msg.topic, "", qos=0, retain=True)
 
         finally:

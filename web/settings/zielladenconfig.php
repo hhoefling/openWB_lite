@@ -76,7 +76,7 @@
 								</div>
 							   <div class="d_label">zielladenaktivlp1</div>				
 							</div>
-							<div id="zielladenaktivlp1div" class="hide">
+							<div id="zielladenaktivlp1div" class="disabled">
 								<div class="card-text alert alert-info">
 									Gewünschten SoC, Ziel Uhrzeit sowie Ladegeschwindigkeit einstellen. Sicherstellen das die Akkugröße wie auch die richtige Anzahl der Phasen konfiguriert sind.
 								</div>

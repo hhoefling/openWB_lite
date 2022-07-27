@@ -47,6 +47,8 @@ rfidlp7="0" # $(<ramdisk/rfidlp7)
 soc1KM=$(<ramdisk/soc1KM)
 soc2KM=$(<ramdisk/soc2KM)
 soc3KM=$(<ramdisk/soc3KM)
+soc1Range=$(<ramdisk/soc1Range)
+soc2Range=$(<ramdisk/soc2Range)
 
 
 if (( nachtladenstate == 0 )) && (( nachtladen2state == 0 )); then # Weder Nachtladen (nachtladestate) noch  Morgens laden (nachtladen2state) aktiv? nutze lademodus.

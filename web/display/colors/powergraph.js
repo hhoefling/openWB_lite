@@ -50,7 +50,7 @@ class PowerGraph {
     this.batteryColor = 'var(--color-battery)';
     this.batSocColor = 'var(--color-title)';
     var i;
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < 3; i++) { // 8
       this.colors["lp" + i] = wbdata.chargePoint[i].color;
     }
     for (i = 0; i < 8; i++) {

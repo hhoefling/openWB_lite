@@ -21,9 +21,6 @@ updateConfig(){
 	else
 		sed -i "s/^socmodul1=soc_http1/socmodul1=soc_httplp2/g" $ConfigFile
 	fi
-	if ! grep -Fq "dacregisters1=" $ConfigFile; then
-		echo "dacregisters1=12" >> $ConfigFile
-	fi
 	if ! grep -Fq "wr_http_kwh_url=" $ConfigFile; then
 		echo "wr_http_kwh_url='http://192.168.0.17/pvwh.txt'" >> $ConfigFile
 	else
@@ -71,9 +68,6 @@ updateConfig(){
 	fi
 	if ! grep -Fq "evsecons2=" $ConfigFile; then
 		echo "evsecons2=none" >> $ConfigFile
-	fi
-	if ! grep -Fq "evsesources2=" $ConfigFile; then
-		echo "evsesources2=dac" >> $ConfigFile
 	fi
 	if ! grep -Fq "evseids2=" $ConfigFile; then
 		echo "evseids2=3" >> $ConfigFile
@@ -158,6 +152,9 @@ updateConfig(){
 	fi
 	if ! grep -Fq "speicherwattnurpv=" $ConfigFile; then
 		echo "speicherwattnurpv=1500" >> $ConfigFile
+	fi
+	if ! grep -Fq "speicherwattnurpvhybrid=" $ConfigFile; then
+		echo "speicherwattnurpvhybrid=100000" >> $ConfigFile
 	fi
 	if ! grep -Fq "nurpvslowup=" $ConfigFile; then
 		echo "nurpvslowup=0" >> $ConfigFile
@@ -1270,26 +1267,26 @@ updateConfig(){
 	if ! grep -Fq "wakeupmyrenaultlp2=" $ConfigFile; then
 		echo "wakeupmyrenaultlp2=0" >> $ConfigFile
 	fi
-	if ! grep -Fq "awattarlocation=" $ConfigFile; then
-		echo "awattarlocation=de" >> $ConfigFile
-	fi
+#	if ! grep -Fq "awattarlocation=" $ConfigFile; then
+#		echo "awattarlocation=de" >> $ConfigFile
+#	fi
 	# upgrade from awattar to electricity tariff provider
-	if ! grep -Fq "etprovideraktiv=" $ConfigFile; then
-		if grep -Fq "awattaraktiv=1" $ConfigFile; then
-			echo "etprovideraktiv=1" >> $ConfigFile
-			echo "etprovider=et_awattar" >> $ConfigFile
-		else
-			echo "etprovideraktiv=0" >> $ConfigFile
-		fi
-	fi
-		# tibber demo settings
-	if ! grep -Fq "tibbertoken=" $ConfigFile; then
-		echo "tibbertoken=d1007ead2dc84a2b82f0de19451c5fb22112f7ae11d19bf2bedb224a003ff74a" >> $ConfigFile
-		echo "tibberhomeid=c70dcbe5-4485-4821-933d-a8a86452737b" >> $ConfigFile
-	fi
-	if ! grep -Fq "etprovider=" $ConfigFile; then
-		echo "etprovider=et_awattar" >> $ConfigFile
-	fi
+#	if ! grep -Fq "etprovideraktiv=" $ConfigFile; then
+#		if grep -Fq "awattaraktiv=1" $ConfigFile; then
+#			echo "etprovideraktiv=1" >> $ConfigFile
+#			echo "etprovider=et_awattar" >> $ConfigFile
+#		else
+#			echo "etprovideraktiv=0" >> $ConfigFile
+#		fi
+#	fi
+#		# tibber demo settings
+#	if ! grep -Fq "tibbertoken=" $ConfigFile; then
+#		echo "tibbertoken=d1007ead2dc84a2b82f0de19451c5fb22112f7ae11d19bf2bedb224a003ff74a" >> $ConfigFile
+#		echo "tibberhomeid=c70dcbe5-4485-4821-933d-a8a86452737b" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "etprovider=" $ConfigFile; then
+#		echo "etprovider=et_awattar" >> $ConfigFile
+#	fi
 	# remove obsolete line from config
 	if grep -Fq "awattaraktiv=" $ConfigFile; then
 		sed -i '/^awattaraktiv=/d' $ConfigFile

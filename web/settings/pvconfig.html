@@ -67,7 +67,7 @@
 								<span class="form-text small">Auswahl des Regelmodus in beiden Lademodi. Die Auswahl beeinflusst den Regelpunkt und die Berechnung des Ladestroms.</span>
 							</div>
 						</div>
-						<div class="form-row mb-1 manualsetpoint hide">
+						<div class="form-row mb-1 manualsetpoint disabled">
 							<label class="col-md-4 col-form-label">manueller Regelpunkt</label>
 							<div class="col">
 								<div class="form-row vaRow">
@@ -278,7 +278,7 @@
 									<div class="form-row vaRow mb-1">
 										<label for="minSocAlwaysToChargeToLp1" class="col-2 col-form-label valueLabel" suffix="%"> %</label>
 										<div class="col-10">
-											<input type="range" class="form-control-range rangeInput" id="minSocAlwaysToChargeToLp1" name="minSocAlwaysToChargeTo" min="0" max="80" step="5" value="0" data-default="0" data-topicprefix="openWB/config/get/pv/" data-topicsubgroup="lp/1/">
+											<input type="range" class="form-control-range rangeInput" id="minSocAlwaysToChargeToLp1" name="minSocAlwaysToChargeTo" min="0" max="80" step="1" value="0" data-default="0" data-topicprefix="openWB/config/get/pv/" data-topicsubgroup="lp/1/">
 										</div>
 										<span class="d_label">openWB/config/get/pv/lp/1/minSocAlwaysToChargeTo minnurpvsoclp1 </span>
 									</div>
@@ -304,7 +304,7 @@
 									<div class="form-row vaRow mb-1">
 										<label for="maxSocToChargeToLp1" class="col-2 col-form-label valueLabel" suffix="%"> %</label>
 										<div class="col-10">
-											<input type="range" class="form-control-range rangeInput" id="maxSocToChargeToLp1" name="maxSocToChargeTo" min="50" max="100" step="5" value="100" data-default="100" data-topicprefix="openWB/config/get/pv/" data-topicsubgroup="lp/1/">
+											<input type="range" class="form-control-range rangeInput" id="maxSocToChargeToLp1" name="maxSocToChargeTo" min="50" max="100" step="1" value="100" data-default="100" data-topicprefix="openWB/config/get/pv/" data-topicsubgroup="lp/1/">
 										</div>
 										<span class="d_label">openWB/config/get/pv/lp/1/maxSocToChargeTo maxnurpvsoclp1</span>
 									</div>
@@ -343,7 +343,7 @@
 									<div class="form-row vaRow mb-1">
 										<label for="maxSocLp1" class="col-2 col-form-label valueLabel" suffix="%"> %</label>
 										<div class="col-10">
-											<input type="range" class="form-control-range rangeInput" id="maxSocLp1" name="maxSoc" min="50" max="100" step="5" value="100" data-default="100" data-topicprefix="openWB/config/get/pv/" data-topicsubgroup="lp/1/">
+											<input type="range" class="form-control-range rangeInput" id="maxSocLp1" name="maxSoc" min="50" max="100" step="1" value="100" data-default="100" data-topicprefix="openWB/config/get/pv/" data-topicsubgroup="lp/1/">
 										</div>
 										<span class="d_label">openWB/config/get/pv/lp/1/maxSoc stopchargepvpercentagelp1</span>
 									</div>
@@ -377,7 +377,7 @@
 									<div class="form-row vaRow mb-1">
 										<label for="maxSocLp2" class="col-2 col-form-label valueLabel" suffix="%"> %</label>
 										<div class="col-10">
-											<input type="range" class="form-control-range rangeInput" id="maxSocLp2" name="maxSoc" min="50" max="100" step="5" value="100" data-default="100" data-topicprefix="openWB/config/get/pv/" data-topicsubgroup="lp/2/">
+											<input type="range" class="form-control-range rangeInput" id="maxSocLp2" name="maxSoc" min="50" max="100" step="1" value="100" data-default="100" data-topicprefix="openWB/config/get/pv/" data-topicsubgroup="lp/2/">
 										</div>
 									</div>
 									<span class="d_label">openWB/config/get/pv/lp/2/maxSoc stopchargepvpercentagelp2</span>
@@ -439,7 +439,7 @@
 								<div class="col-md-4">
 									<label class="col-form-label">Anzeige</label>
 								</div>
-								<div class="col">
+								<div class="col"> <!--  NC -->
 									<div class="btn-group btn-block btn-group-toggle" id="boolShowPriorityIconInTheme" data-toggle="buttons" data-default="0" data-topicprefix="openWB/config/get/pv/">
 										<label class="btn btn-outline-info">
 											<input type="radio" name="boolShowPriorityIconInTheme" id="boolShowPriorityIconInThemeOff" data-option="0">nicht anzeigen
@@ -469,6 +469,13 @@
 								</div>
 							</div>
 							<div class="form-row mb-1 prioritybatoptions">
+								<label for="batteryDischargePowerAtBattPriorityHybrid" class="col-md-4 col-form-label">hybridsystem Leistung</label>
+								<div class="col">
+									<input id="batteryDischargePowerAtBattPriorityHybrid" class="form-control naturalNumber" type="number" inputmode="decimal" required min="0" max="100000" value="0" data-default="0" data-topicprefix="openWB/config/get/pv/">
+									<span class="form-text small">Parameter in Watt [W] für die Maximale Entladung des Speichers und PV Leistung zusammen (Hybrid System). Der Wert 100.000 schaltet die Funktion ab.</span>
+								</div>
+							</div>							
+							<div class="form-row mb-1 prioritybatoptions">
 								<label for="minBatteryDischargeSocAtBattPriority" class="col-md-4 col-form-label">minimaler Entlade-SoC</label>
 								<div class="col-md-8">
 									<div class="form-row vaRow mb-1">
@@ -487,10 +494,10 @@
 						$(document).ready(function(){
 							$('input[type=radio][name=priorityModeEVBattery]').change(function(){
 								if(this.value == '0') {
-									/*hide*/showSection('.priorityevoptions');
+									hideSection('.priorityevoptions');
 									showSection('.prioritybatoptions');
 								} else {
-									/*hide*/showSection('.prioritybatoptions');
+									hideSection('.prioritybatoptions');
 									showSection('.priorityevoptions');
 								}
 							})
@@ -670,10 +677,10 @@
 				if ( elementId == "boolHouseBatteryConfigured") {
 					if ( mqttpayload == 0 ) {
 						hideSection('.housebatteryoptions');
-						showSection('.nohousebattery');
+						//showSection('.nohousebattery');
 					} else {
 						showSection('.housebatteryoptions');
-						hideSection('.nohousebattery');
+						//hideSection('.nohousebattery');
 					}
 				}
 				if ( elementId == "boolSocConfiguredLp1") {
@@ -785,6 +792,9 @@
 
 			$(document).ready(function(){
 
+			
+			    $('.d_label').addClass('hide');
+				
 				$('input').blur(function(event) {
 					// check input field on blur if value is valid
 					if ( event.target.checkValidity() == false ) {

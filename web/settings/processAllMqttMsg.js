@@ -30,6 +30,21 @@ function processMessages(mqttmsg, mqttpayload) {
     // console.log("new message: "+mqttmsg+": "+mqttpayload);
     checkAllSaved(mqttmsg, mqttpayload);
     // last part of topic after /
+	
+	if (mqttmsg == 'openWB/system/debuglevel') 
+	{
+		var i = parseInt(mqttpayload, 10);
+		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
+	    debuglevel = i;
+		console.log('set debug level to '+debuglevel );
+		if ( debuglevel >= 2)  {
+			$(".d_label").removeClass("hide");
+        } else {			
+			$(".d_label").addClass("hide");
+		}
+		return	
+	}
+	
     var topicIdentifier = mqttmsg.substring(mqttmsg.lastIndexOf('/')+1);
     // check if topic contains subgroup like /lp/1/
     var topicSubGroup = mqttmsg.match( /(\w+)\/(\d\d?)\// );
@@ -46,8 +61,11 @@ function processMessages(mqttmsg, mqttpayload) {
     }
     // Could be a main on / off switch, check visibility func on main settings page
     visibiltycheck(elementId, mqttpayload);
+	
     var element = $('#' + elementId);
-    if ( element.attr('type') == 'number' || element.attr('type') == 'text' || element.attr('type') == 'url' || element.attr('type') == 'password' || element.attr('type') == 'range' ) {
+    if ( element.attr('type') == 'number' || element.attr('type') == 'text' || 
+	     element.attr('type') == 'url' || element.attr('type') == 'password' || 
+		 element.attr('type') == 'range' ) {
         originalValues[mqttmsg] = mqttpayload;
         setInputValue(elementId, mqttpayload);
     } else if ( element.hasClass('btn-group-toggle') ) {
@@ -57,6 +75,6 @@ function processMessages(mqttmsg, mqttpayload) {
         originalValues[mqttmsg] = mqttpayload;
         setInputValue(elementId, mqttpayload);
     } else {
-        console.log('processMessages inputelem:'+elementId + ' not found for topic:' + mqttmsg + '=' + mqttpayload);
+        console.log('processMessages kein inputelem:'+elementId + ' found for topic:' + mqttmsg + '=' + mqttpayload);
     }
 }  // end processMessages

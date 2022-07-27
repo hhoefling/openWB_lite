@@ -98,9 +98,9 @@ def main():
             print( "Batt Status 1        : "  + str(Stat1.value) )
             print( "Batt Status 2        : "  + str(Stat2.value) )
             Stor=  (int(Stor.value) / 1000.0)
-            print(  "Gespeicherte Energy  : "  + str(Stor) + ' Kwh' )
+            print(  "Gespeicherte Energy  : "  + str(Stor) + ' kWh' )
             Used=  (int(Used.value) / 1000.0)
-            print(  "Entnommene Energy    : "  + str(Used) + ' Kwh' )
+            print(  "Entnommene Energy    : "  + str(Used) + ' kWh' )
 
         except Exception as e:
             rct_lib.close(clientsocket)

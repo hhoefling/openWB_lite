@@ -8,35 +8,37 @@ sofortlademodus(){
 			fi
 		fi
 	fi
-	if (( etprovideraktiv == 1 )); then
-		actualprice=$(<ramdisk/etproviderprice)
-		if (( $(echo "$actualprice <= $etprovidermaxprice" |bc -l) )); then
-			#price lower than max price, enable charging
-			openwbDebugLog "MAIN" 1 "Aktiviere Ladung (preisbasiert), Preis $actualprice, Max $etprovidermaxprice"
-			if (( lp1enabled == 0 )); then
-				mosquitto_pub -r -t openWB/set/lp/1/ChargePointEnabled -m "1"
-			fi
-			if (( lp2enabled == 0 )); then
-				mosquitto_pub -r -t openWB/set/lp/2/ChargePointEnabled -m "1"
-			fi
-			if (( lp3enabled == 0 )); then
-				mosquitto_pub -r -t openWB/set/lp/3/ChargePointEnabled -m "1"
-			fi
-		else
-			openwbDebugLog "MAIN" 1 "Deaktiviere Ladung (preisbasiert), Preis $actualprice, Max $etprovidermaxprice"
-			#price higher than max price, disable charging
-			if (( lp1enabled == 1 )); then
-				mosquitto_pub -r -t openWB/set/lp/1/ChargePointEnabled -m "0"
-			fi
-			if (( lp2enabled == 1 )); then
-				mosquitto_pub -r -t openWB/set/lp/2/ChargePointEnabled -m "0"
-			fi
-			if (( lp3enabled == 1 )); then
-				mosquitto_pub -r -t openWB/set/lp/3/ChargePointEnabled -m "0"
-			fi
+#	if (( etprovideraktiv == 1 )); then
+#		actualprice=$(<ramdisk/etproviderprice)
+#		if (( $(echo "$actualprice <= $etprovidermaxprice" |bc -l) )); then
+#			#price lower than max price, enable charging
+#			openwbDebugLog "MAIN" 1 "Aktiviere Ladung (preisbasiert), Preis $actualprice, Max $etprovidermaxprice"
+#			if (( lp1enabled == 0 )); then
+#				mosquitto_pub -r -t openWB/set/lp/1/ChargePointEnabled -m "1"
+#			fi
+#			if (( lp2enabled == 0 )); then
+#				mosquitto_pub -r -t openWB/set/lp/2/ChargePointEnabled -m "1"
+#			fi
+#			if (( lp3enabled == 0 )); then
+#				mosquitto_pub -r -t openWB/set/lp/3/ChargePointEnabled -m "1"
+#			fi
+#		else
+#			openwbDebugLog "MAIN" 1 "Deaktiviere Ladung (preisbasiert), Preis $actualprice, Max $etprovidermaxprice"
+#			#price higher than max price, disable charging
+#			if (( lp1enabled == 1 )); then
+#				mosquitto_pub -r -t openWB/set/lp/1/ChargePointEnabled -m "0"
+#			fi
+#			if (( lp2enabled == 1 )); then
+#				mosquitto_pub -r -t openWB/set/lp/2/ChargePointEnabled -m "0"
+#			fi
+#			if (( lp3enabled == 1 )); then
+#				mosquitto_pub -r -t openWB/set/lp/3/ChargePointEnabled -m "0"
+#			fi
+#
+#		fi
+#	fi
 
-		fi
-	fi
+
 	if (( lastmmaxw < 10 ));then
 		lastmmaxw=40000
 	fi
@@ -505,9 +507,13 @@ sofortlademodus(){
 				fi
 			fi
 
-			# #Ladepunkt 4
-			# LP4-LP8
-			# 
+
+			# Lp4-LP8 deletet
+
+
+
+			openwbDebugLog "MAIN" 0 "*** exit 0 (sofort16)"
+			meld "Sofort16" 
 			exit 0
 		else
 			if (( wattbezug < lastmmaxw )); then
@@ -624,8 +630,7 @@ sofortlademodus(){
 
 				fi
 			fi
-
-# lp4-lp8
+			# Lp4-LP8 deletet
 			openwbDebugLog "MAIN" 1 "Sofort ladung um $maxdiff auf $llneu reduziert"
 			exit 0
 		fi

@@ -53,7 +53,9 @@ if( '' != themeCookie ){
  * disables all contained input and select elements if 'disableChildren' is not set to false
 **/
 function hideSection(section, disableChildren=true) {
-    $(section).addClass('hide');
+//    $(section).addClass('hide');
+    $(section).addClass('disabled');
+    $(section).css('opacity', '0.2');
     updateFormFieldVisibility();
 }
 
@@ -64,6 +66,8 @@ function hideSection(section, disableChildren=true) {
 **/
 function showSection(section, enableChildren=true) {
     $(section).removeClass('hide');
+    $(section).removeClass('disabled');
+    $(section).css('opacity', '1.0');
     updateFormFieldVisibility();
 }
 
@@ -75,14 +79,16 @@ function showSection(section, enableChildren=true) {
 **/
 function updateFormFieldVisibility() {
     $('input').each(function() {
-        if( $(this).closest('.hide').length == 0 ) {
+        if( $(this).closest('.hide').length == 0    &&  $(this).closest('.disabled').length == 0  )  
+		{
             $(this).prop("disabled", false);
         } else {
             $(this).prop("disabled", true);
         }
     });
     $('select').each(function() {
-        if( $(this).closest('.hide').length == 0 ) {
+        if( $(this).closest('.hide').length == 0   &&  $(this).closest('.disabled').length == 0  ) 
+		{
             $(this).prop("disabled", false);
         } else {
             $(this).prop("disabled", true);
@@ -201,7 +207,7 @@ function sendValues() {
 			console.log('publish[' + index+']['+topic+'] = ['+value+']');
             setTimeout(function () {
                 // console.log("publishing changed value: "+topic+": "+value);
-                // as all empty messages are not processed by mqttsub.py, we have to send something useful
+                // as all empty messages are not processed by mqttsub.py, we have to send something usefull
                 if ( value.length == 0 ) {
                     publish("none", topic);
                     // delete empty values as we will never get an answer
@@ -262,7 +268,7 @@ function getChangedValues() {
         if ( ( value != undefined ) && ( originalValues[topic] != value ) ) {
             topic = topic.replace('/get/', '/set/');
             changedValues[topic] = value;
-            console.log("ChangedValue found: "+topic+": "+value);
+            // console.log("ChangedValue found: "+topic+": "+value);
         }
     });
 }

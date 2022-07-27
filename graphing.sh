@@ -5,7 +5,7 @@ graphing(){
 	#echo "$(tail -100 ramdisk/ladestatus.log)" > ramdisk/ladestatus.log
 	
 	
-	
+
 	#Live Graphing
 	if [[ $pv2wattmodul != "none" ]]; then
 		pvwatt=$(<ramdisk/pvallwatt)
@@ -13,7 +13,7 @@ graphing(){
 		pvwatt=$(<ramdisk/pvwatt)
 	fi
 	pvgraph=$((-pvwatt))
-	
+
 #NC	if (( speichervorhanden == 1 )); then
 #NC		echo $speicherleistung >> ramdisk/speicher-live.graph
 #NC		echo $speichersoc >> ramdisk/speichersoc-live.graph

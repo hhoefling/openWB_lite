@@ -5,7 +5,7 @@ import time
 import struct
 from pymodbus.client.sync import ModbusTcpClient
 
-named_tuple = time.localtime() # getstruct_time
+named_tuple = time.localtime()  # getstruct_time
 time_string = time.strftime("%m/%d/%Y, %H:%M:%S idm off.py", named_tuple)
 devicenumber = str(sys.argv[1])
 ipadr = str(sys.argv[2])
@@ -46,7 +46,7 @@ if os.path.isfile(file_stringpv):
 # wenn vorher pvmodus an, dann watt.py
 # signaliseren einmalig 0 ueberschuss zu schicken
 if pvmodus == 1:
-   pvmodus = 99
+    pvmodus = 99
 with open(file_stringpv, 'w') as f:
     f.write(str(pvmodus))
 count1 = 999

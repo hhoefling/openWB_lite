@@ -25,9 +25,9 @@ class Selwa(Sbase):
             self.relais = int(self.answer['on'])
         except Exception as e1:
             log.warning("(" + str(self.device_nummer) +
-                          ") Leistungsmessung %s %d %s Fehlermeldung: %s "
-                          % ('elwa ', self.device_nummer,
-                             str(self._device_ip), str(e1)))
+                        ") Leistungsmessung %s %d %s Fehlermeldung: %s "
+                        % ('elwa ', self.device_nummer,
+                           str(self._device_ip), str(e1)))
         self.postwatt()
 
     def turndevicerelais(self, zustand, ueberschussberechnung, updatecnt):
@@ -44,6 +44,6 @@ class Selwa(Sbase):
             self.proc.communicate()
         except Exception as e1:
             log.warning("(" + str(self.device_nummer) +
-                          ") on / off  %s %d %s Fehlermeldung: %s "
-                          % ('elwa ', self.device_nummer,
-                             str(self._device_ip), str(e1)))
+                        ") on / off  %s %d %s Fehlermeldung: %s "
+                        % ('elwa ', self.device_nummer,
+                           str(self._device_ip), str(e1)))

@@ -19,6 +19,8 @@ initRamdisk(){
 	echo "**** REBOOT ****" >> $RamdiskPath/isss.log
 
 	echo $bootmodus > $RamdiskPath/lademodus
+	echo "" >$RamdiskPath/LadereglerTxt
+	echo "" >$RamdiskPath/BatSupportTxt
 
 	# Ladepunkte
 	# Variablen noch nicht einheitlich benannt, daher individuelle Zeilen
@@ -100,9 +102,6 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/progevsedinlp2
 	echo 0 > $RamdiskPath/progevsedinlp22000
 	echo 0 > $RamdiskPath/progevsedinlp22007
-#NC	echo 0 > $RamdiskPath/progevsedinlp3
-#NC	echo 0 > $RamdiskPath/progevsedinlp32000
-#NC	echo 0 > $RamdiskPath/progevsedinlp32007
 	echo 0 > $RamdiskPath/cpulp1counter
 	echo 0 > $RamdiskPath/soc
 #NC	echo 0 > $RamdiskPath/soc-live.graph
@@ -111,6 +110,8 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/soc1KM
 	echo 0 > $RamdiskPath/soc2KM
 	echo 0 > $RamdiskPath/soc3KM
+	echo 0 > $RamdiskPath/soc1Range
+	echo 0 > $RamdiskPath/soc2Range
 	echo 0 > $RamdiskPath/soc1vorhanden
 	echo 0 > $RamdiskPath/tmpsoc
 	echo 0 > $RamdiskPath/tmpsoc1
@@ -239,8 +240,8 @@ initRamdisk(){
 	echo -1 > $RamdiskPath/mqttlastplugstats1
 	echo -1 > $RamdiskPath/mqttpv1vorhanden
 	echo -1 > $RamdiskPath/mqttpv2vorhanden
-	echo -1 > $RamdiskPath/mqttetprovidermaxprice
-	echo -1 > $RamdiskPath/mqttetproviderprice
+#	echo -1 > $RamdiskPath/mqttetprovidermaxprice
+#	echo -1 > $RamdiskPath/mqttetproviderprice
 	echo -1 > $RamdiskPath/mqttlademkwhs1
 	echo -1 > $RamdiskPath/mqttlademkwhs2
 	echo -1 > $RamdiskPath/mqttllsolls1
@@ -316,9 +317,9 @@ initRamdisk(){
 #NC	echo 0 > $RamdiskPath/date-live.graph
 #NC echo 0 > $RamdiskPath/date.graph
 	echo 0 > $RamdiskPath/devicetotal_watt
-	echo 0 > $RamdiskPath/etprovidermaxprice
-	echo 0 > $RamdiskPath/etproviderprice
-	touch $RamdiskPath/etprovidergraphlist
+#	echo 0 > $RamdiskPath/etprovidermaxprice
+#	echo 0 > $RamdiskPath/etproviderprice
+#	touch $RamdiskPath/etprovidergraphlist
 #NC	echo 0 > $RamdiskPath/ev-live.graph
 #NC	echo 0 > $RamdiskPath/ev.graph
 	echo 0 > $RamdiskPath/evseausgelesen
@@ -327,7 +328,8 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/ipaddress
 	echo 0 > $RamdiskPath/ledstatus
 	echo 0 > $RamdiskPath/netzschutz
-#NC	echo 0 > $RamdiskPath/randomSleepValue
+# Yourcharge
+#	echo 0 > $RamdiskPath/randomSleepValue
 	echo 0 > $RamdiskPath/renewmqtt
 	echo 0 > $RamdiskPath/rseaktiv
 	echo 0 > $RamdiskPath/rsestatus
@@ -436,6 +438,8 @@ initRamdisk(){
 #		"mqttlademstatlp7:-1" \
 #		"mqttlademstatlp8:-1" \
 #		"mqttRandomSleepValue:-1" \
+#		"mqttetprovideraktiv:-1" \
+#		"mqttetprovider:notset" \
 
 # init other files
 	for f in \
@@ -458,8 +462,6 @@ initRamdisk(){
 		"mqttdisplayspeichermax:-1" \
 		"mqttdurchslp1:-1" \
 		"mqtteinschaltverzoegerung:-1" \
-		"mqttetprovideraktiv:-1" \
-		"mqttetprovider:notset" \
 		"mqttevuglaettungakt:-1" \
 		"mqtthausverbrauch:-1" \
 		"mqtthausverbrauchstat:-1" \
@@ -559,9 +561,10 @@ initRamdisk(){
 	ra='^-?[0-9]+$'
 	smartmqtemp=$(timeout 1 mosquitto_sub -t openWB/config/get/SmartHome/smartmq)
 	if ! [[ $smartmqtemp =~ $ra ]] ; then
-		smartmqtemp="0"
+		smartmqtemp="1"
 	fi
 	echo $smartmqtemp > $RamdiskPath/smartmq
+	
 	sudo chmod 777 $RamdiskPath/*
 
 	log "Trigger update of logfiles..."

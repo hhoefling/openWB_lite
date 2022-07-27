@@ -514,7 +514,7 @@
 					<span class="actualRunningTimeDevice">lade Daten</span>
 				</div>
 			</div>
-		</div>  <!-- end smarthome -->
+		</div>  <!-- end smart home -->
 
 		<!-- depending on charge mode show options -->
 		<form id="minundpvladenEinstellungen" class="hide">
@@ -533,6 +533,7 @@
 		</form>
 
 		<form id="sofortladenEinstellungen" class="hide">
+<!--		
 			<div class="hide" id="priceBasedCharging">
 				<hr class="border-secondary">
 				<div class="row justify-content-center">
@@ -555,9 +556,10 @@
 					Preis
 					<button type="button" class="btn btn-secondary ml-3 priceMore"><i class="far fa-plus-square"></i></button>
 				</div>
-			</div>  <!--/ priceBasedCharging -->
+			</div>  < ! --/ priceBasedCharging -- >
 
 			<hr class="border-secondary">
+-->			
 			<div class="row justify-content-center">
 				<h3 class="font-weight-bold text-center text-lightgrey">Sofortladen Stromstärke</h3>
 			</div>
@@ -708,9 +710,6 @@
 					<input class="btn btn-sm btn-primary regularTextSize ml-2" type="button" id="lp/3/resetEnergyToCharge" value="Reset" data-topicprefix="openWB/config/get/sofort/">
 				</div>
 			</div>
-
-
-
 		</form>
 
 		<!-- modal chargemode-select-window -->
@@ -1347,7 +1346,7 @@
 				// respective Chart.js definition live
 				'themes/Gauges/livechart.js?ver=20210307',
 				// respective Chart.js definition price chart
-				'themes/dark/electricityPriceChart.js?ver=20210210',
+				//          'themes/Gauges/electricityPriceChart.js?ver=20210210',
 				// functions performing mqtt and start mqtt-service
 				'themes/Gauges/setupMqttServices.js?ver=20210129'
 			];
@@ -1363,7 +1362,7 @@
 			$('.enableLp').click(function(event){
 				// send mqtt set to enable/disable charge point after click
 				var lp = parseInt($(this).closest('[data-lp]').data('lp'));  // get attribute lp-# of parent element
-				if ( !isNaN(lp) && lp > 0 && lp < 9 ) {
+				if ( !isNaN(lp) && lp > 0 && lp < 4 ) {
 					var isEnabled = $(this).hasClass("lpEnabledStyle")
 					if ( isEnabled ) {
 						publish("0", "openWB/set/lp/" + lp + "/ChargePointEnabled");
@@ -1376,7 +1375,7 @@
 			$('.socConfiguredLp').click(function(event){
 				// send mqtt set to force reload of charge point SoC after click
 				var lp = parseInt($(this).closest('[data-lp]').data('lp'));  // get attribute lp-# of parent element
-				if ( !isNaN(parseInt(lp)) && lp > 0 && lp < 9 ) {
+				if ( !isNaN(parseInt(lp)) && lp > 0 && lp < 4 ) {
 					if ( $(this).hasClass('manualSoC') ) {
 						var currentSoc = $(this).find('.socLp').text();
 						$('#socModal').find('.socLp').text(lp);
@@ -1505,27 +1504,27 @@
 				chargeLimitationOptionsShowHide(this, option);
 			});
 
-			$('.priceMore, .priceLess').click(function(event){
-				// change Slider upon click on buttons
-				event.preventDefault();
-				var currentMaxPrice = parseFloat($('#MaxPriceForCharging').val());
-				var rangeMin = parseFloat($('#MaxPriceForCharging').attr('min'));
-				var rangeMax = parseFloat($('#MaxPriceForCharging').attr('max'));
-				var step = parseFloat($('#MaxPriceForCharging').attr('step'));
-				if ( $(this).hasClass ('priceLess') ) {
-					currentMaxPrice -= step;
-				} else {
-					currentMaxPrice += step;
-				}
-				// prevent timeout of delayUserInput when clicking "beyond" range
-				if ( currentMaxPrice < rangeMin ) {
-					currentMaxPrice = rangeMin;
-				} else if ( currentMaxPrice > rangeMax ) {
-					currentMaxPrice = rangeMax;
-				}
-				$('#MaxPriceForCharging').val(currentMaxPrice);
-				$('#MaxPriceForCharging').trigger('input');
-			});
+//			$('.priceMore, .priceLess').click(function(event){
+//				// change Slider upon click on buttons
+//				event.preventDefault();
+//				var currentMaxPrice = parseFloat($('#MaxPriceForCharging').val());
+//				var rangeMin = parseFloat($('#MaxPriceForCharging').attr('min'));
+//				var rangeMax = parseFloat($('#MaxPriceForCharging').attr('max'));
+//				var step = parseFloat($('#MaxPriceForCharging').attr('step'));
+//				if ( $(this).hasClass ('priceLess') ) {
+//					currentMaxPrice -= step;
+//				} else {
+//					currentMaxPrice += step;
+//				}
+//				// prevent timeout of delayUserInput when clicking "beyond" range
+//				if ( currentMaxPrice < rangeMin ) {
+//					currentMaxPrice = rangeMin;
+//				} else if ( currentMaxPrice > rangeMax ) {
+//					currentMaxPrice = rangeMax;
+//				}
+//				$('#MaxPriceForCharging').val(currentMaxPrice);
+//				$('#MaxPriceForCharging').trigger('input');
+//			});
 
 			$('.rangeInput').on('input', function() {
 				// show slider value in label of class valueLabel
@@ -1534,12 +1533,12 @@
 				var element = $('#' + $.escapeSelector(elementId));
 				var label = $('label[for="' + elementId + '"].valueLabel');
 				label.addClass('text-danger');
-				if ( $.escapeSelector(elementId) == 'MaxPriceForCharging') {
-					// marks times in the price chart where the price is low enough so charging would be allowed
-	 				var priceAnnotations = createPriceAnnotations();
-	 				electricityPricechart.options.annotation.annotations = priceAnnotations;
-	 				electricityPricechart.update();
-				}
+				// if ( $.escapeSelector(elementId) == 'MaxPriceForCharging') {
+				// 	// marks times in the pricechart where the price is low enough so charging would be allowed
+	 			// 	var priceAnnotations = createPriceAnnotations();
+	 			// 	electricityPricechart.options.annotation.annotations = priceAnnotations;
+	 			// 	electricityPricechart.update();
+				// }
 				delayUserInput(elementId, function (id) {
 					// gets executed on callback, 2000ms after last input-change
 					// changes label color back to normal and sends input-value by mqtt

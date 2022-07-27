@@ -140,14 +140,14 @@ class WbData {
 			.on("input", function () { updateSocRangeInput(this.value) });
 		d3.select(".energyRangeInput")
 			.on("input", function () { updateEnergyRangeInput(this.value) });
-		d3.select(".maxPriceInput")
-			.on("input", function () { updateMaxPriceInput(this.value) });
+//		d3.select(".maxPriceInput")
+//			.on("input", function () { updateMaxPriceInput(this.value) });
 		d3.select("#codeButton").classed ("hide", !this.rfidConfigured)
 		powerMeter.init()
 		powerGraph.init()
 		yieldMeter.init()
 		chargePointList.init()
-		priceChart.init()
+		//priceChart.init()
 	}
 
 	updateEvu(field, value) {
@@ -189,9 +189,9 @@ class WbData {
 				this.updateConsumerSummary();
 				powerMeter.update();
 				break;
-			case 'currentPowerPrice':		// NC
-				chargePointList.updateValues();
-				break;
+//			case 'currentPowerPrice':		// NC
+//				chargePointList.updateValues();
+//				break;
 			case 'chargeMode':
 				chargePointList.updateValues();
 				break;
@@ -300,18 +300,18 @@ class WbData {
 		}
 	}
 
-	updateET(field,value) {
-		this[field]=value;
-		
-		switch (field) {
-			case 'etPrice':
-			case 'isEtEnabled': chargePointList.updateValues();
-			break;
-			default:
-				break;
-		}
-		priceChart.update()
-	}
+//	updateET(field,value) {
+//		this[field]=value;
+//		
+//		switch (field) {
+//			case 'etPrice':
+//			case 'isEtEnabled': chargePointList.updateValues();
+//			break;
+//			default:
+//				break;
+//		}
+//		priceChart.update()
+//	}
 
 	updateSourceSummary(cat, field, value) {
 		this.sourceSummary[cat][field] = value;
@@ -528,22 +528,23 @@ function updateEnergyRangeInput(value) {
 
 
 }
-function updateMaxPriceInput(value) {
-	const label = d3.select(".labelMaxPrice").text(value + " Cent");
-	label.classed("text-danger", true)
 
-	wbdata.updateET ("etMaxPrice", value);
-	if (wbdata.maxPriceDelayTimer) {
-		clearTimeout(wbdata.maxPriceDelayTimer)
-	}
-	wbdata.maxPriceDelayTimer = setTimeout(() => {
-		label.classed("text-danger", false)
-		publish(value, "openWB/set/awattar/MaxPriceForCharging" )
-		wbdata.maxPriceDelayTimer = null;
-	}, 2000)
-
-
-}
+//function updateMaxPriceInput(value) {
+//	const label = d3.select(".labelMaxPrice").text(value + " Cent");
+//	label.classed("text-danger", true)
+//
+//	wbdata.updateET ("etMaxPrice", value);
+//	if (wbdata.maxPriceDelayTimer) {
+//		clearTimeout(wbdata.maxPriceDelayTimer)
+//	}
+//	wbdata.maxPriceDelayTimer = setTimeout(() => {
+//		label.classed("text-danger", false)
+//		publish(value, "openWB/set/awattar/MaxPriceForCharging" )
+//		wbdata.maxPriceDelayTimer = null;
+//	}, 2000)
+//  
+//
+//}
 
 
 

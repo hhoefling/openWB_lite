@@ -97,9 +97,10 @@ class PowerMeter {
     if (wbdata.chargePoint[0].isSocConfigured) {
       this.addLabelWithColor(svg,
         (-this.width / 2 - this.margin / 4 + 10),
-        (-this.height / 2 + this.margin + 5),
+        (-this.height / 2 + this.margin + -2),
         "start",
-        (wbdata.chargePoint[0].name + ": " + (wbdata.chargePoint[0].soc) + "%"),
+        (wbdata.chargePoint[0].name + ": " + (wbdata.chargePoint[0].soc) + "% " 
+		 + "(" + (wbdata.chargePoint[0].socrange) + " Km)"  ),
         wbdata.chargePoint[0].color);
     }
 

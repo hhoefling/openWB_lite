@@ -43,6 +43,36 @@
 
 			<form id="myForm">
 				<h1>Einstellungen für Sofortladen</h1>
+
+				<div class="card border-secondary">
+					<div class="card-header bg-secondary">
+						 Allgemeine Einstellungen
+					</div>
+					<div class="card-body">
+						<div class="form-group mb-0">
+							<div class="form-row mb-0">
+								<div class="col-md-4">
+									Mindeststromstärke
+								</div>
+								<div class="col">
+									<span class="form-text small">Parameter in Ampere [A] für den minimalen Strom im Modus Sofortladen. Definiert den minimalen Ladestrom an allen Ladepunkten. Einige EV benötigen einen Mindestladestrom, da ansonsten die Ladung nicht startet. Der kleinste einstellbare Wert liegt aus technischen Gründen bei 6 A.</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-row mb-1">
+							<label for="minEVSECurrentAllowed" class="col-md-4 col-form-label">alle Ladepunkte</label>
+							<div class="col-md-8">
+								<div class="form-row vaRow mb-1">
+									<label for="minEVSECurrentAllowed" class="col-2 col-form-label valueLabel" suffix="A">A</label>
+									<div class="col-10">
+										<input type="range" class="form-control-range rangeInput" name="minEVSECurrentAllowed" id="minEVSECurrentAllowed" min="6" max="16" step="1" value="6" data-default="6" data-topicprefix="openWB/config/get/global/">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>  <!-- end card body Allgemeine Einstellungen Sofort -->
+				</div>  <!-- end card Allgemeine Einstellungen Sofort -->
+
 				<?php for( $chargepoint = 1; $chargepoint <= 3; $chargepoint++ ){ // begin chargepoint loop ?>
 					<div class="card border-primary lp<?php echo $chargepoint; ?>options<?php if( $chargepoint > 1 ) echo " hide"; ?>">
 						<div class="card-header bg-primary">
@@ -86,7 +116,7 @@
 									</span>
 								</div>
 							</div>
-							<div class="form-group mb-0 lp<?php echo $chargepoint; ?>limitenergy hide">
+							<div class="form-group mb-0 lp<?php echo $chargepoint; ?>limitenergy disabled">
 								<div class="form-row mb-1">
 									<label for="energyToChargeLp<?php echo $chargepoint; ?>" class="col-md-4 col-form-label">Energie</label>
 									<div class="col-md-8">
@@ -107,7 +137,7 @@
 								</div>
 							</div>
 							<?php if( $chargepoint <= 2 ){ ?>
-							<div class="form-group mb-0 lp<?php echo $chargepoint; ?>limitsoc hide">
+							<div class="form-group mb-0 lp<?php echo $chargepoint; ?>limitsoc disabled">
 								<div class="form-row mb-1">
 									<label for="socToChargeToLp<?php echo $chargepoint; ?>" class="col-md-4 col-form-label">SoC</label>
 									<div class="col-md-8">

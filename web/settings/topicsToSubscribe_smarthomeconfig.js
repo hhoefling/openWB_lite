@@ -9,6 +9,7 @@
 // line[1] = load counter (if needed)
 
 var topicsToSubscribe = [
+	["openWB/system/debuglevel", 0],
 	// global settings
 	["openWB/housebattery/boolHouseBatteryConfigured", 0],
 	["openWB/config/get/SmartHome/logLevel", 0],
@@ -68,6 +69,8 @@ var topicsToSubscribe = [
 	["openWB/config/get/SmartHome/Devices/+/device_deactivateper", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_pbtype", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_pbip", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_measchan", 0],
+	["openWB/config/get/SmartHome/Devices/+/device_chan", 0],
 	["openWB/config/get/SmartHome/Devices/+/device_measuresmaage", 0]
 
 ];

@@ -37,7 +37,8 @@
 	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 	<link rel="apple-touch-icon" sizes="57x57" href="img/favicons/apple-touch-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="img/favicons/apple-touch-icon-60x60.png">
-	<link rel="manifest" href="manifest.json">
+	<!--link rel="manifest" href="./manifest.json"-->
+	<link rel="manifest" href="/openWB/web/manifest.json">
 	<link rel="shortcut icon" href="img/favicons/favicon.ico">
 	<!-- <link rel="apple-touch-startup-image" href="img/loader.gif"> -->
 	<meta name="msapplication-config" content="img/favicons/browserconfig.xml">
@@ -110,7 +111,7 @@
 	<script src="themes/colors/chargePointList.js"></script>
 	<script src="themes/colors/smartHomeList.js"></script>
 	<script src="themes/colors/batteryList.js"></script>
-	<script src="themes/colors/pricechart.js"></script>
+	<!--script src="themes/colors/pricechart.js"></script-->
 
 
 </head>
@@ -255,7 +256,7 @@
 
 			<!-- Speicher (batteryList) -->
 			<div class="wb-widget col-md p-2 m-1" id="batteryWidget">
-				<h3>Speicher</h3>
+				<h3>Speicher <small id="BatSupportTxt"> notext </small></h3>
 				<div class="wb-subwidget pb-3 ">
 					<div id="batteryStatus"></div>
 				</div>
@@ -270,6 +271,7 @@
 			</div>
 
 			<!-- Preisbasiertes Laden -->
+<!--			
 			<div class="wb-widget col-md-4 p-2 m-1 priceConfiguration" id="priceConfigWidget">
 				<h3 class="mt-0">Preisbasiertes Laden</h3>
 				<div class="pb-3 wb-subwidget">
@@ -304,6 +306,7 @@
 					</div>
 				</div>
 			</div>
+-->
 
 			<!-- Ladepunkt Konfig -->
 			<div class="wb-widget col-md p-2 m-1" id="chargePointConfigWidget">
@@ -693,11 +696,11 @@
 				// load mqtt library
 				'js/mqttws31.js',
 				// some helper functions
-				'themes/colors/helperFunctions.js?ver=20200526-c',
+				'themes/colors/helperFunctions.js?ver=20220526',
 				// functions for processing messages
-				'themes/colors/processAllMqttMsg.js?ver=20210213',
+				'themes/colors/processAllMqttMsg.js?ver=20220213',
 				// functions performing mqtt and start mqtt-service
-				'themes/colors/setupMqttServices.js?ver=20210129',
+				'themes/colors/setupMqttServices.js?ver=20220119',
 			];
 			scriptsToLoad.forEach(function (src) {
 				var script = document.createElement('script');
@@ -713,7 +716,7 @@
 			chargePointList.init();
 			smartHomeList.init();
 			batteryList.init();
-			priceChart.init();
+			//priceChart.init();
 			$("#homebutton").addClass("hide");
 
 			$('.enableLp').click(function (event) {

@@ -52,8 +52,8 @@ function handlevar(mqttmsg, mqttpayload) {
 	// receives all messages and calls respective function to process them
 	if (mqttmsg.match(/^openwb\/graph\//i)) { processGraphMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/evu\//i)) { processEvuMessages(mqttmsg, mqttpayload); }
-	else if ( mqttmsg.match( /^openwb\/global\/awattar\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
-	else if ( mqttmsg.match( /^openwb\/global\/ETProvider\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
+//	else if ( mqttmsg.match( /^openwb\/global\/awattar\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
+//	else if ( mqttmsg.match( /^openwb\/global\/ETProvider\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/global\//i)) { processGlobalMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/housebattery\//i)) { processHousebatteryMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/system\//i)) { processSystemMessages(mqttmsg, mqttpayload); }
@@ -68,25 +68,25 @@ function handlevar(mqttmsg, mqttpayload) {
 	
 }  // end handlevar
 
-function processETProviderMessages(mqttmsg, mqttpayload) {
-	// processes mqttmsg for topic openWB/global
-	// called by handlevar
-	//processPreloader(mqttmsg);
-	
-	// colors theme
-	if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
-		wbdata.updateET ('etProviderName', mqttpayload);
-	} else if ( mqttmsg == 'openWB/global/ETProvider/modulePath' ) {
-		wbdata.updateET ('etModulePath', mqttpayload);
-	} else if ( mqttmsg == 'openWB/global/awattar/boolAwattarEnabled' ) {
-		wbdata.updateET('isEtEnabled' ,(mqttpayload == '1'))
-	} else if ( mqttmsg == 'openWB/global/awattar/pricelist' ) {
-		wbdata.updateET('etPriceList',mqttpayload);
-	} else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
-		wbdata.updateET ('etMaxPrice', parseFloat(mqttpayload));
-	} else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
-		wbdata.updateET ('etPrice', parseFloat(mqttpayload));
-	}
+//function processETProviderMessages(mqttmsg, mqttpayload) {
+//	// processes mqttmsg for topic openWB/global
+//	// called by handlevar
+//	//processPreloader(mqttmsg);
+//	
+//	// colors theme
+//	if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
+//		wbdata.updateET ('etProviderName', mqttpayload);
+//	} else if ( mqttmsg == 'openWB/global/ETProvider/modulePath' ) {
+//		wbdata.updateET ('etModulePath', mqttpayload);
+//	} else if ( mqttmsg == 'openWB/global/awattar/boolAwattarEnabled' ) {
+//		wbdata.updateET('isEtEnabled' ,(mqttpayload == '1'))
+//	} else if ( mqttmsg == 'openWB/global/awattar/pricelist' ) {
+//		wbdata.updateET('etPriceList',mqttpayload);
+//	} else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
+//		wbdata.updateET ('etMaxPrice', parseFloat(mqttpayload));
+//	} else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
+//		wbdata.updateET ('etPrice', parseFloat(mqttpayload));
+//	}
 
 /* 	if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
 		$('.etproviderName').text(mqttpayload);
@@ -131,7 +131,8 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
 		$('#aktuellerStrompreis').text(parseFloat(mqttpayload).toLocaleString(undefined, {maximumFractionDigits: 2}) + ' ct/kWh');
 	}
- */}
+ */
+// }
 
 	
 function processPvConfigMessages(mqttmsg, mqttpayload) {
@@ -186,7 +187,20 @@ function processDisplayMessages(mqttmsg, mqttpayload)
 {
   console.log('Get Message ' + mqttmsg + ' ' + mqttpayload);
   
-  if (mqttmsg == 'openWB/config/get/display/displayLight') 
+  if (mqttmsg == 'openWB/config/get/display/displayPinAktiv')
+   {
+   		if( mqttpayload == "1" )
+		{
+	    	displaypinaktiv=1;
+            $('#displaylock').removeClass('hide');
+		} else { 
+	    	displaypinaktiv=0;
+            displaylocked = false;
+            $('#displaylock').addClass('hide');
+		}				
+    	console.log( 'displaypinaktiv:',displaypinaktiv );
+   } 
+  else if (mqttmsg == 'openWB/config/get/display/displayLight') 
 	{
 	  setInputValue('DisplayLightInput', mqttpayload);
 	}
@@ -282,6 +296,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/global
 	// called by handlevar
 
+	console.log('processGlobalMessages(',mqttmsg,',',mqttpayload, ')');
 	// color theme
 	if (mqttmsg == 'openWB/global/WHouseConsumption') {
 		wbdata.updateGlobal("housePower", makeInt(mqttpayload));
@@ -310,8 +325,60 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 		wbdata.updateGlobal("houseEnergy", makeFloat(mqttpayload));
 	}
 	// end color theme
+	
+	
+          //$('#mem').prop('max', json.memtot);
+          //$('#mem').prop('high', json.memtot * 0.85);
+          //$('#mem').val(json.memuse);
+		  	
+	if (mqttmsg == 'openWB/global/memTotal'){
+	 	$('#memtot').text(mqttpayload); 
+	 	$('#mem').prop('max', mqttpayload * 1);
+        $('#mem').prop('high', mqttpayload * 0.85);
+	}
+	else if (mqttmsg == 'openWB/global/memUse')      { 
+			$('#memUse').text(mqttpayload);
+	        $('#mem').val(mqttpayload);
+ 
+	}
+	else if (mqttmsg == 'openWB/global/memFree')     { $('#memfree').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/diskUse')     { $('#diskuse').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/diskUsedPrz') { $('#diskusedprz').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/diskFree')    { $('#diskfree').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/tmpUse')      { $('#tmpuse').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/tmpUsedPrz')  { $('#tmpusedprz').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/tmpFree')     { $('#tmpfree').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/wlanaddr')     { $('#ipwifi').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/wlanaddr2')     { $('#ipwifi2').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/ethaddr')     { $('#iplan').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/ethaddr2')     { $('#iplan2').text(mqttpayload); 
+	}
+	else if (mqttmsg == 'openWB/global/cpuUse')     {
+          $('#cpu').val(mqttpayload);
+          $('#cpuuse').html(mqttpayload);
+	}
+	else if (mqttmsg == 'openWB/global/cpuTemp')     {
+	    $('#cputemp').text((mqttpayload*1).toFixed(1));
+	}
+	
 
-	if (mqttmsg == 'openWB/global/strLastmanagementActive') {
+	
+/*
+					  Eth:<span id="iplan">--</span>,<span id="iplan2">--</span>
+					  Wlan:<span id="ipwifi">--</span><span id="ipwifi2">--</span>					  
+ processGlobalMessages( openWB/global/ethaddr2 , 192.168.197.5 )
+*/	
+	else if (mqttmsg == 'openWB/global/strLastmanagementActive') {
 		if (mqttpayload.length >= 5) {
 			// if there is info-text in payload for topic, show the text
 			$('#lastregelungaktiv').text(mqttpayload);
@@ -459,8 +526,8 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 		}
 		$('#time').text(time);
 		$('#date').text(date);
-//	} else if (mqttmsg == 'openWB/system/IpAddress') {
-//		$('.systemIpAddress').text(mqttpayload);
+	} else if (mqttmsg == 'openWB/system/IpAddress') {
+		$('.systemIpAddress').text(mqttpayload);
 	} else if (mqttmsg == 'openWB/system/wizzardDone') {
 		if (mqttpayload > 99) {
 			$("#wizzardModal").modal("hide");

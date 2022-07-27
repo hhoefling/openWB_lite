@@ -22,6 +22,13 @@
 #
 #####
 
+
+Log()
+{
+ timestamp=`date +"%Y-%m-%d %H:%M:%S"`
+ echo "$timestamp: $@" >> /var/www/html/openWB/ramdisk/lade.log
+}
+
 # set charging current in EVSE
 #
 # Parameters:
@@ -40,18 +47,7 @@ lp3enabled=$(<ramdisk/lp3enabled)
 #
 #####
 
-# function for setting the current - dac
-# Parameters:
-# 1: current
-# 2: dacregister
-function setChargingCurrentDAC () {
-	current=$1
-	dacregister=$2
-	# set desired charging current
-	# INFO: needs new dac.py to accept current and use translation table
-	sudo python /var/www/html/openWB/runs/dac.py "$current" "$dacregister"
-}
-
+#################################################
 # function for setting the current - extopenwb
 # Parameters:
 # 1: current
@@ -68,6 +64,7 @@ function setChargingCurrentExtopenwb () {
 	fi
 }
 
+#################################################
 # function for setting the current - owbpro
 # Parameters:
 # 1: current
@@ -79,6 +76,7 @@ function setChargingCurrentOwbpro () {
 	curl -s -X POST --data "ampere=$current" "$owbpro1ip"/connect.php > /dev/null
 }
 
+#################################################
 # function for setting the current - modbusevse
 # Parameters:
 # 1: current
@@ -92,6 +90,7 @@ function setChargingCurrentModbus () {
 	sudo python /var/www/html/openWB/runs/evsewritemodbus.py "$modbusevsesource" "$modbusevseid" "$current"
 }
 
+#################################################
 function setChargingCurrentBuchse () {
 	current=$1
 	# set desired charging current
@@ -99,11 +98,14 @@ function setChargingCurrentBuchse () {
 	# Is handled in buchse.py
 }
 
+#################################################
 function setChargingCurrentDaemon () {
 	current=$1
 	# set desired charging current
 	# Is handled in lldaemon.py
 }
+
+#################################################
 # function for setting the current - IP modbusevse ## Alter Satellit ohne Pi3
 # Parameters:
 # 1: current
@@ -117,6 +119,7 @@ function setChargingCurrentIpModbus () {
 	sudo python /var/www/html/openWB/runs/evseipwritemodbus.py "$current" "$evseip" "$ipevseid"
 }
 
+#################################################
 # function for openwb slave kit
 function setChargingCurrentSlaveeth () {
 	current=$1
@@ -124,12 +127,14 @@ function setChargingCurrentSlaveeth () {
 	sudo python /var/www/html/openWB/runs/evseslavewritemodbus.py "$current"
 }
 
+#################################################
 function setChargingCurrentMasterethframer () {
 	current=$1
 	# set desired charging current
 	sudo python /var/www/html/openWB/runs/evsemasterethframerwritemodbus.py "$current"
 }
 
+#################################################
 # function for openwb third kit
 function setChargingCurrentThirdeth () {
 	current=$1
@@ -137,6 +142,7 @@ function setChargingCurrentThirdeth () {
 	sudo python /var/www/html/openWB/runs/evsethirdwritemodbus.py "$current"
 }
 
+#################################################
 # function for setting the current - WiFi
 # Parameters:
 # 1: current
@@ -168,6 +174,7 @@ function setChargingCurrentWifi () {
 	fi
 }
 
+#################################################
 function setChargingCurrenttwcmanager () {
 	if [[ $evsecon == "twcmanager" ]]; then
 		if [[ $twcmanagerlp1httpcontrol -eq 1 ]]; then
@@ -182,12 +189,14 @@ function setChargingCurrenttwcmanager () {
 	fi
 }
 
+#################################################
 function setChargingCurrenthttp () {
 	if [[ $evsecon == "httpevse" ]]; then
 		curl -s --connect-timeout 3 "http://$httpevseip/setcurrent?current=$current" > /dev/null
 	fi
 }
 
+#################################################
 # function for setting the current - go-e charger
 # Parameters:
 # 1: current
@@ -220,6 +229,7 @@ function setChargingCurrentgoe () {
 	fi
 }
 
+#################################################
 # function for setting the current - keba charger
 # Parameters:
 # 1: current
@@ -245,6 +255,7 @@ function setChargingCurrentkeba () {
 	fi
 }
 
+#################################################
 function setChargingCurrentnrgkick () {
 	if [[ $evsecon == "nrgkick" ]]; then
 		if [[ $current -eq 0 ]]; then
@@ -267,12 +278,10 @@ function setChargingCurrentnrgkick () {
 	fi
 }
 
+#################################################
 # function for setting the charging current
 # no parameters, variables need to be set before...
 function setChargingCurrent () {
-	if [[ $evsecon == "dac" ]]; then
-		setChargingCurrentDAC "$current" "$dacregister"
-	fi
 	if [[ $evsecon == "buchse" ]]; then
 		setChargingCurrentBuchse "$current"
 	fi
@@ -288,6 +297,7 @@ function setChargingCurrent () {
 	if [[ $evsecon == "owbpro" ]]; then
 		setChargingCurrentOwbpro "$current" "$owbpro1ip"
 	fi
+
 	if [[ $evsecon == "modbusevse" ]]; then
 		if [[ "$modbusevseid" == 0 ]]; then
 			if [ -f /var/www/html/openWB/ramdisk/evsemodulconfig ]; then
@@ -349,14 +359,14 @@ function setChargingCurrent () {
 let current=$1
 if [[ current -lt 0 ]] | [[ current -gt 32 ]]; then
 	if [[ $debug == "2" ]]; then
-		echo "set-currents: ungültiger Wert für Ladestrom: $current" >> /var/www/html/openWB/ramdisk/openWB.log
+		Log "ungültiger Wert für Ladestrom ($*) "
 	fi
 	exit 1
 fi
 
 if ! ([[ $2 == "all" ]] || [[ $2 == "m" ]] || [[ $2 == "s1" ]] || [[ $2 == "s2" ]] || [[ $2 == "lp4" ]] || [[ $2 == "lp5" ]] || [[ $2 == "lp6" ]] || [[ $2 == "lp7" ]] || [[ $2 == "lp8" ]]) ; then
 	if [[ $debug == "2" ]]; then
-		echo "ungültiger Wert für Ziel: $2" >> /var/www/html/openWB/web/lade.log
+		Log "ungültiger Wert für Ziel: $2" 
 	fi
 	exit 1
 fi
@@ -364,7 +374,7 @@ fi
 # value below threshold
 if [[ current -lt 6 ]]; then
 	if [[ $debug == "2" ]]; then
-		echo "Ladestrom < 6A, setze auf 0A"
+		Log "Ladestrom < 6A, setze auf 0A ($*) "
 	fi
 	current=0
 	lstate=0
@@ -375,7 +385,7 @@ fi
 # set desired charging current
 
 if [[ $debug == "2" ]]; then
-	echo "set-currents: setze ladung auf ${current}A" >> /var/www/html/openWB/ramdisk/openWB.log
+	Log "setze ladung auf $current ($*)" 
 fi
 
 # Loadsharing LP 1 / 2
@@ -432,7 +442,7 @@ if [[ $loadsharinglp12 == "1" ]]; then
 			current=$(( agrenze - 1))
 			new2=all
 			if [[ $debug == "2" ]]; then
-			echo "set-currents: setzeladung auf ${current}A durch loadsharing LP12" >> /var/www/html/openWB/ramdisk/openWB.log
+			   Log "setzeladung auf $current durch loadsharing LP12" 
 			fi
 		fi
 	fi
@@ -468,7 +478,6 @@ fi
 if [[ $lastmanagement == "1" ]]; then
 	if [[ $points == "all" ]] || [[ $points == "s1" ]]; then
 		evsecon=$evsecons1
-		dacregister=$dacregisters1
 		modbusevsesource=$evsesources1
 		modbusevseid=$evseids1
 		evsewifitimeoutlp1=$evsewifitimeoutlp2
@@ -508,7 +517,6 @@ fi
 if [[ $lastmanagements2 == "1" ]]; then
 	if [[ $points == "all" ]] || [[ $points == "s2" ]]; then
 		evsecon=$evsecons2
-		dacregister=$dacregisters2
 		modbusevsesource=$evsesources2
 		modbusevseid=$evseids2
 		evsewifitimeoutlp1=$evsewifitimeoutlp3
@@ -534,7 +542,6 @@ if [[ $lastmanagements2 == "1" ]]; then
 
 	fi
 fi
-
 
 # lp4-lp8
 

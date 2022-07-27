@@ -343,9 +343,10 @@ class PowerGraph {
     var i;
     values.lp0 = +elements[4];
     values.lp1 = +elements[5];
-    for (i = 2; i <3; i++) {
-      values["lp" + i] = +elements[11 + i];
-    }
+    values.lp2 = +elements[13];  // 13.... 
+    //for (i = 2; i <3; i++) {
+    //  values["lp" + i] = +elements[11 + i];
+    //}
     for (i = 3; i <=8; i++) {
       values["lp" + i] = 0;
     }
@@ -391,34 +392,43 @@ class PowerGraph {
     values.solarPower = this.calcValue(3, elements, oldElements);
     values.inverter = 0;
     // charge points
-    values.charging = this.calcValue(7, elements, oldElements);
     var i;
-    for (i = 0; i < 3; i++) {
-      values["lp" + i] = this.calcValue(4 + i, elements, oldElements);
-    }
-    for (i = 3; i < 4; i++) {
-      values["lp" + i] = this.calcValue(12 + i, elements, oldElements);
-    }
-    for (i = 4; i < 8; i++) {
-      values["lp" + i] = 0;
-    }
+    values["lp0"] = this.calcValue(4, elements, oldElements);
+    values["lp1"] = this.calcValue(5, elements, oldElements);
+    values["lp2"] = this.calcValue(6, elements, oldElements);
+ //   for (i = 0; i < 3; i++) {
+ //     values["lp" + i] = this.calcValue(4 + i, elements, oldElements);
+ //   }
+    values.charging = this.calcValue(7, elements, oldElements);
+    values.batIn =  this.calcValue(8, elements, oldElements);
+    values.batOut = this.calcValue(9, elements, oldElements);
+    values.co0 = this.calcValue(10, elements, oldElements);
+    values.co1 = this.calcValue(12, elements, oldElements);
+ 
+    values["lp3"] = this.calcValue(12+3, elements, oldElements);
+//    for (i = 3; i < 4; i++) {
+//      values["lp" + i] = this.calcValue(12 + i, elements, oldElements);
+//    }
+    values["lp4"] = 0;  // 16
+    values["lp5"] = 0;  // 17
+    values["lp6"] = 0;  // 18
+    values["lp7"] = 0;  // 19
+//    for (i = 4; i < 8; i++) {
+//      values["lp" + i] = 0;
+//    }
+    values.batterySoc = +elements[20];
     values.soc1 = +elements[21];
     values.soc2 = +elements[22];
     // smart home
     for (i = 0; i < 9; i++) {
       if (!(wbdata.shDevice[i].countAsHouse)) {
-        values["sh" + i] = this.calcValue(26 + i, elements, oldElements);
+        values["sh" + i] = this.calcValue(26 + i, elements, oldElements); // 26..35
       } else {
         values["sh" + i] = +0;
       }
     }
     //consumers
-    values.co0 = this.calcValue(10, elements, oldElements);
-    values.co1 = this.calcValue(12, elements, oldElements);
     //battery
-    values.batIn = this.calcValue(8, elements, oldElements);
-    values.batOut = this.calcValue(9, elements, oldElements);
-    values.batterySoc = +elements[20];
     // calculated values
     values.housePower = values.gridPull + values.solarPower + values.batOut
       - values.gridPush - values.batIn - values.charging - values.co0 - values.co1
@@ -616,27 +626,36 @@ class PowerGraph {
       ;
   }
 
-  drawUsageGraph(svg, width, height) {
+  drawUsageGraph(svg, width, height) 
+  {
     const yScale = d3.scaleLinear().range([height + 10, 2 * height]);
 
     const extent = d3.extent(this.graphData, (d) =>
-    (d.housePower + d.lp0 + d.lp1 + d.lp2 + d.lp3 + d.lp4
-      + d.lp5 + d.lp6 + d.lp7 + d.sh0 + d.sh1 + d.sh2 + d.sh3 + d.sh4
-      + d.sh5 + d.sh6 + d.sh7 + d.co0 + d.co1 + d.batIn + d.inverter)
+    (d.housePower + d.lp0 + d.lp1 + d.lp2 + d.lp3 
+      // + d.lp4 + d.lp5 + d.lp6 + d.lp7 
+      + d.sh0 + d.sh1 + d.sh2 + d.sh3 + d.sh4 + d.sh5 + d.sh6 + d.sh7 
+      + d.co0 + d.co1 + d.batIn + d.inverter)
     );
     yScale.domain([0, Math.ceil(extent[1] / 1000) * 1000]);
-    const keys = [["lp0", "lp1", "lp2",
-      "lp3", "lp4", "lp5", "lp6", "lp7",
-      "sh0", "sh1", "sh2", "sh3", "sh4",
-      "sh5", "sh6", "sh7", "co0", "co1", "housePower", "batIn", "inverter"],
-    ["housePower", "lp0", "lp1", "lp2",
-      "lp3", "lp4", "lp5", "lp6", "lp7",
-      "sh0", "sh1", "sh2", "sh3", "sh4",
-      "sh5", "sh6", "sh7", "co0", "co1", "batIn", "inverter"],
-    ["sh0", "sh1", "sh2", "sh3", "sh4",
-      "sh5", "sh6", "sh7", "co0", "co1", "housePower", "lp0", "lp1", "lp2",
-      "lp3", "lp4", "lp5", "lp6", "lp7",
-      "batIn", "inverter"]
+    const keys = [
+     [  "lp0", "lp1", "lp2", 
+        //"lp3", "lp4", "lp5", "lp6", "lp7",
+        "sh0", "sh1", "sh2", "sh3", "sh4", "sh5", "sh6", "sh7", 
+        "co0", "co1", 
+        "housePower", 
+        "batIn", "inverter"],
+    [   "housePower", 
+        "lp0", "lp1", "lp2",
+        //"lp3", "lp4", "lp5", "lp6", "lp7",
+        "sh0", "sh1", "sh2", "sh3", "sh4","sh5", "sh6", "sh7", 
+        "co0", "co1", 
+        "batIn", "inverter"],
+    [   "sh0", "sh1", "sh2", "sh3", "sh4", "sh5", "sh6", "sh7", 
+        "co0", "co1", 
+        "housePower", 
+        "lp0", "lp1", "lp2",
+        //"lp3", "lp4", "lp5", "lp6", "lp7",
+        "batIn", "inverter"]
     ];
 
     const stackGen = d3.stack().keys(keys[wbdata.usageStackOrder]);
@@ -882,6 +901,7 @@ function changeStack() {
   if (wbdata.usageStackOrder > 2) {
     wbdata.usageStackOrder = 0;
   }
+  console.log('wbdata.usageStackOrder ' + wbdata.usageStackOrder);
   wbdata.persistGraphPreferences();
   powerGraph.updateGraph();
 }

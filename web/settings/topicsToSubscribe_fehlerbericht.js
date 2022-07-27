@@ -9,5 +9,6 @@
 // line[1] = load counter (if needed)
 
 var topicsToSubscribe = [
+	["openWB/system/debuglevel", 0],
 	["openWB/config/get/global/dataProtectionAcknoledged", 0]
 ];

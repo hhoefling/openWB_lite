@@ -9,6 +9,7 @@
 // line[1] = load counter (if needed)
 
 var topicsToSubscribe = [
+	["openWB/system/debuglevel", 0],
 	["openWB/lp/1/boolChargePointConfigured", 0],
 	["openWB/lp/2/boolChargePointConfigured", 0],
 	["openWB/lp/3/boolChargePointConfigured", 0],
@@ -51,4 +52,5 @@ var topicsToSubscribe = [
 	["openWB/config/get/sofort/lp/1/socToChargeTo", 0],
 	["openWB/config/get/sofort/lp/2/socToChargeTo", 0],
 
+	["openWB/config/get/global/minEVSECurrentAllowed", 0]
 ];

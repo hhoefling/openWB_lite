@@ -51,6 +51,10 @@
 				// if no releasetrain set, set stable
 				$releasetrain="stable";
 			}
+			if ( $releasetrain == "stable17" ) {
+				// if no releasetrain set, set stable
+				$releasetrain="stable";
+			}
 
 			$updateinprogress = trim(file_get_contents('/var/www/html/openWB/ramdisk/updateinprogress'));
 		?>

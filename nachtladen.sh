@@ -118,7 +118,7 @@ private_nachtlademodus(){
 			dayoftheweek=$(date +%w)
 			currenthour=$(date +%k)
 			if [[ $dayoftheweek -eq 0 && $currenthour -ge 14 ]] || [[ $dayoftheweek -ge 1 && $dayoftheweek -le 4 ]] || [[ $dayoftheweek -eq 5 && $currenthour -le 11 ]]  ; then
-			diesersoc=$nachtsoc
+				diesersoc=$nachtsoc
 			else
 				diesersoc=$nachtsoc1
 			fi

@@ -29,6 +29,7 @@
 set -o pipefail
 set -o nounset
 
+
 cd /var/www/html/openWB/ || exit 1
 # use kostant ramdisk  , no var RAMDISK with 
 
@@ -45,7 +46,7 @@ if [ -e ramdisk/updateinprogress ] && [ -e ramdisk/bootinprogress ]; then
 		exit 0
 	fi
 else
-	openwbDebugLog "MAIN" 0 "Ramdisk not set up. Maybe we are still booting."
+	openwbDebugLog "MAIN" 0 "Ramdisk not set up. Maybe we are still booting. EXIT"
 	exit 0
 fi
 
@@ -55,26 +56,28 @@ function cleanup()
 {
 	local endregel=$(date +%s)
 	local t=$((endregel-startregel))
-
-	if [ "$t" -le "7" ] ; then   # 1..7 Ok
-		openwbDebugLog "MAIN" 1 "**** Regulation loop needs $t seconds"
-	elif [ "$t" -le "9" ] ; then # 9 Warning 
-		openwbDebugLog "MAIN" 0 "**** WARNING **** Regulation loop needs $t seconds"
+	openwbDebugLog "DEB" 0 "**** Regulation loop needs $t Sekunden"
+	if [ "$t" -le "8" ] ; then   # 1..8 Ok
+		openwbDebugLog "MAIN" 0 "**** Regulation loop needs $t Sekunden"
+	elif [ "$t" -le "9" ] ; then # 8,9 Warning 
+		openwbDebugLog "MAIN" 0 "**** WARNING **** Regulation loop needs $t Sekunden"
 	else                         # 10,... Fatal
 		openwbDebugLog "MAIN" 0 "**** FATAL *********************************"
-		openwbDebugLog "MAIN" 0 "**** FATAL Regulation loop needs $t seconds"
+		openwbDebugLog "MAIN" 0 "**** FATAL Regulation loop needs $t Sekunden"
 		openwbDebugLog "MAIN" 0 "**** FATAL *********************************"
 	fi
 }
 trap cleanup EXIT
 ########### End Laufzeit protokolieren
 
-#######################
-openwbDebugLog "MAIN" 1 "**** Regulation loop start ****"
-#######################
 
 #config file einlesen
 . /var/www/html/openWB/loadconfig.sh
+
+#######################
+openwbDebugLog "MAIN" 0 "**** Regulation loop start ****"
+openwbDebugLog "DEB" 0 "**** Regulation loop start ****"
+#######################
 
 
 #######################
@@ -93,9 +96,10 @@ then
 	#exit
 fi
 
-
-# declare -r IsFloatingNumberRegex='^-?[0-9.]+$'
 #
+# YourCharge, 
+#
+#declare -r IsFloatingNumberRegex='^-?[0-9.]+$'
 #if (( slavemode == 1)); then
 #	randomSleep=$(<ramdisk/randomSleepValue)
 #	if [[ -z $randomSleep ]] || [[ "${randomSleep}" == "0" ]] || ! [[ "${randomSleep}" =~ $IsFloatingNumberRegex ]]; then
@@ -103,11 +107,8 @@ fi
 #		openwbDebugLog "MAIN" 0 "slavemode=$slavemode: ramdisk/randomSleepValue missing or 0 - creating new one containing $randomSleep"
 #		echo "$randomSleep" > ramdisk/randomSleepValue
 #	fi
-#
 #	openwbDebugLog "MAIN" 1 "Slave mode regulation spread: Waiting ${randomSleep}s"
-#
 #	sleep "$randomSleep"
-#
 #	openwbDebugLog "MAIN" 1 "Slave mode regulation spread: Wait end"
 #fi
 
@@ -120,9 +121,13 @@ source loadvars.sh
 source graphing.sh
 source nachtladen.sh
 source zielladen.sh
-source evsedintest.sh
+if [[ -r evsedintest.sh ]]; then
+	source evsedintest.sh
+fi	
 source hook.sh
-source u1p3p.sh
+if (( u1p3paktiv == 1 )); then
+	source u1p3p.sh
+fi	
 source nrgkickcheck.sh
 source rfidtag.sh
 source leds.sh
@@ -155,7 +160,7 @@ if [[ $dspeed == "2" ]]; then
 
 	if [ -e ramdisk/5sec ]; then
 		rm ramdisk/5sec
-	    openwbDebugLog "MAIN" 0 "Skip, Exit, slow mode activ."
+		openwbDebugLog "MAIN" 1 "**** Regulation speed2-loop exits (exit 0)"
 		exit 0
 	else
 		echo 0 > ramdisk/5sec
@@ -166,10 +171,18 @@ fi
 # process autolock
 ./processautolock.sh &
 
+
+ts=$(date +%s)
+
 #ladelog ausfuehren
  [ -e ./ladelog.sh ]  &&  ( ./ladelog.sh &  )
  [ -e ./ladelog2.sh ] &&  ( ./ladelog2.sh & )
 # ./ladelog.sh &
+
+t=$(( $(date +%s) - ts))
+if (( t > 1))  ; then
+  openwbDebugLog "DEB" 0 " ************* $t for ladelog"
+fi
 
 incvar graphtimer 5 
 #graphtimer=$(<ramdisk/graphtimer)
@@ -203,6 +216,19 @@ goecheck
 # nrgkick mobility check
 nrgkickcheck
 
+
+LadereglerTxt=""
+BatSupportTxt=""
+function endladeregler()
+{
+ openwbDebugLog "MAIN" 0 "LadereglerTxt: $LadereglerTxt $BatSupportTxt"
+ mosquitto_pub -r -t "openWB/global/strLaderegler" -m "${LadereglerTxt:-None} "
+ mosquitto_pub -r -t "openWB/global/strBatSupport" -m "${BatSupportTxt:-None} "
+}
+trap_befor endladeregler EXIT 
+
+ts=$(date +%s)
+
 #load charging vars
 startloadvars=$(date +%s)
 loadvars
@@ -210,15 +236,28 @@ endloadvars=$(date +%s)
 timeloadvars=$((endloadvars-startloadvars))
 openwbDebugLog "MAIN" 1 "Zeit zum abfragen aller Werte $timeloadvars Sekunden"
 
+t=$(( $(date +%s) - ts))
+if (( t > 6))  ; then
+  openwbDebugLog "DEB" 0 " ************* $t for loadvars"
+  openwbDebugLog "MAIN" 0 " ************* $t for loadvars"
+fi
+
+
+#hooks - externe geraete
+hook
+
+#Graphing, vorgezogen damit auch bei blockall die daten weitergeführt werden
+graphing
+
+
 if (( u1p3paktiv == 1 )); then
 	blockall=$(<ramdisk/blockall)
 	if (( blockall == 1 )); then
-		openwbDebugLog "MAIN" 1 "Phasen Umschaltung noch aktiv... beende (exit 0)"
+		openwbDebugLog "MAIN" 1 "----- Phasen Umschaltung noch aktiv... beende (exit 0) -----"
 		exit 0
 	fi
 fi
 if (( lp1enabled == 0)); then
-	#openwbDebugLog "MAIN" 1 "ladeleistunglp1:$ladeleistunglp1 llalt:$llalt" 
 	if (( ladeleistunglp1 > 100 )) || (( llalt > 0 )); then
 		runs/set-current.sh 0 m
 	fi
@@ -235,19 +274,27 @@ if (( lp3enabled == 0)); then
 fi
 # LP4-LP8
 
-#EVSE DIN Modbus test, wenn "Ausstehend" eingertragen ist (evsedinttest.php)
-evsedintest
+
+if [[ -r evsedintest.sh ]]; then
+    # EVSE DIN Modbus test, wenn "Ausstehend" eingertragen ist (evsedinttest.php)
+    #source evsedintest.sh
+    evsedintest
+else
+	openwbDebugLog "MAIN" 2 "evsedintest skiped, no script found"
+fi
 
 #u1p3p switch
 if (( u1p3paktiv == 1 )); then
-    u1p3pswitch
+	openwbDebugLog "MAIN" 0 "Start u1p3switsch"
+	u1p3pswitch
+	openwbDebugLog "MAIN" 0 "End u1p3switsch"
+	blockall=$(<ramdisk/blockall)
+	if (( blockall == 1 )); then
+		openwbDebugLog "MAIN" 1 "Phasen Umschaltung wurde aktiv... beende (exit 0)"
+		exit 0
+	fi
 fi
 
-#hooks - externe geraete
-hook
-
-#Graphing
-graphing
 
 if (( cpunterbrechunglp1 == 1 )); then
 	if (( plugstat == 1 )) && (( lp1enabled == 1 )); then
@@ -258,6 +305,7 @@ if (( cpunterbrechunglp1 == 1 )); then
 				if (( cpulp1counter > 5 )); then
 					if (( cpulp1waraktiv == 0 )); then
 						openwbDebugLog "MAIN" 0 "CP Unterbrechung an LP1 wird durchgeführt"
+						openwbDebugLog "CHARGESTAT" 0 "CP Unterbrechung an LP1 wird durchgeführt"
 						if [[ $evsecon == "simpleevsewifi" ]]; then
 							curl --silent --connect-timeout "$evsewifitimeoutlp1" -s "http://$evsewifiiplp1/interruptCp" > /dev/null
 						elif [[ $evsecon == "ipevse" ]]; then
@@ -369,7 +417,7 @@ if (( rseenabled == 1 )); then
 			openwbDebugLog "CHARGESTAT" 0 "RSE Kontakt aktiviert, ändere Lademodus auf Stop"
 			echo "$lademodus" > ramdisk/rseoldlademodus
 			echo "$STOP3" > ramdisk/lademodus
-			mosquitto_pub -r -t openWB/global/ChargeMode -m "$STOP3"
+			mosquitto_pub -r -t openWB/set/ChargeMode -m "$STOP3"
 			echo 1 > ramdisk/rseaktiv
 		fi
 	else
@@ -377,32 +425,32 @@ if (( rseenabled == 1 )); then
 			openwbDebugLog "CHARGESTAT" 0 "RSE Kontakt deaktiviert, setze auf alten Lademodus zurück"
 			rselademodus=$(<ramdisk/rseoldlademodus)
 			echo "$rselademodus" > ramdisk/lademodus
-			mosquitto_pub -r -t openWB/global/ChargeMode -m "$rselademodus"
+			mosquitto_pub -r -t openWB/set/ChargeMode -m "$rselademodus"
 			echo 0 > ramdisk/rseaktiv
 		fi
 	fi
 fi
 
+
+
 evsemodbustimer=0
 incvar evsemodbustimer 30
 if (( evsemodbustimer == 0 )) ; then
    openwbDebugLog "MAIN" 1 "call evse modbus check, every 5 minutes"
-   evsemodbuscheck
+
+	if [[ -r evsedintest.sh ]]; then
+    	#source evsedintest.sh
+    	evsemodbuscheck
+	else
+		openwbDebugLog "MAIN" 2 "evsemodbuscheck skiped, no script found"
+	fi
 fi
 
-#evsemodbustimer=$(<ramdisk/evsemodbustimer)
-#if (( evsemodbustimer < 30 )); then
-#	evsemodbustimer=$((evsemodbustimer+1))
-#	echo $evsemodbustimer > ramdisk/evsemodbustimer
-#else
-#	evsemodbustimer=0
-#	echo $evsemodbustimer > ramdisk/evsemodbustimer
-#	evsemodbuscheck
-#fi
 
-# Slave Mode, openWB als Ladepunkt nutzen
+# YourCharge, Slave Mode, openWB als Ladepunkt nutzen
 #if (( slavemode == 1 )); then
 #	openwbisslave
+#    # Exit 0
 #fi
 
 #Lademodus STOP3 == Aus
@@ -499,11 +547,11 @@ else
 			echo 1 > ramdisk/anzahlphasen
 		fi
 		if (( u1p3paktiv == 1 )); then
-			anzahlphasen=$(cat ramdisk/u1p3pstat)	# letzer stand ????, statt mit 1 zu beginnen
+			anzahlphasen=$(cat ramdisk/u1p3pstat)	# letzer stand von u1P3, statt mit 1 zu beginnen
 			openwbDebugLog "PV" 0 "LP1 u1p3aktiv, nehme u1p3pstat:$u1p3pstat als mogliche phasenanzahl"
 		else
 		    openwbDebugLog "PV" 0 "LP1 nehme letzte phasenanzzahl als mogliche phasenanzahl"
-			if [ ! -f ramdisk/lp1anzahlphasen ]; then
+			if [ -f ramdisk/lp1anzahlphasen ]; then
 				anzahlphasen=$(cat ramdisk/lp1anzahlphasen)
 			else
 				anzahlphasen=$(cat ramdisk/anzahlphasen)
@@ -645,3 +693,8 @@ fi
 if (( lademodus == $STANDBY4 )); then
 	semiauslademodus
 fi
+
+
+
+openwbDebugLog "MAIN" 1 "Regulation normal end (exit 0)"
+

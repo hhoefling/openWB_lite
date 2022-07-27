@@ -1,12 +1,24 @@
 #!/bin/bash
+# von cron aus /home/pi als dir 
+
 OPENWBBASEDIR=$(cd "$(dirname "$0")/../" && pwd)
+OPENWBBASEDIR=/var/www/html/openWB
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
+cd $OPENWBBASEDIR
 
-. "$OPENWBBASEDIR/loadconfig.sh"
+. $OPENWBBASEDIR/loadconfig.sh
+. $OPENWBBASEDIR/helperFunctions.sh
 
-echo "Start cron nightly @ $(date)"
-#logfile aufräumen
-echo "$(tail -1000 /var/log/openWB.log)" > /var/log/openWB.log
+
+idd=`id -un`
+openwbDebugLog "MAIN" 0 "##### croninighly.sh started as $idd #####"
+# echo "Start cron nightly @ $(date)"
+
+#logfile aufräumen, rechte und owner erhalten
+# Macht nun cleanup 
+## echo "$(tail -2000 /var/log/openWB.log)" > /var/log/openWB.log
+# sudo printf '%s\n' '1,$-5000d' w | ed -s /var/log/openWB.log
+
 # echo 1 > /var/www/html/openWB/ramdisk/reloaddisplay
 mosquitto_pub -t openWB/system/reloadDisplay -m "1"
 echo "reset" > /var/www/html/openWB/ramdisk/mqtt.log
@@ -117,6 +129,7 @@ if [[ $verbraucher2_typ == "tasmota" ]]; then
 	fi
 fi
 
+# YourCharge
 #if [[ -s /var/www/html/openWB/ramdisk/randomSleepValue ]]; then
 #	randomSleep=$(</var/www/html/openWB/ramdisk/randomSleepValue)
 #fi

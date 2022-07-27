@@ -47,6 +47,7 @@ ziellademodus(){
 				openwbDebugLog "MAIN" 1 "setzte Soctimer hoch zum Abfragen des aktuellen SoC"
 				echo 20000 > ramdisk/soctimer
 				echo 1 > ramdisk/ladungdurchziel
+				openwbDebugLog "MAIN" 0 "*** exit 0"
 				exit 0
 			else
 				if (( diffwh > 1000 )); then
@@ -58,6 +59,7 @@ ziellademodus(){
 							zielneu=$zielladenmaxalp1
 						fi
 						runs/set-current.sh $zielneu m
+					    openwbDebugLog "MAIN" 0 "*** exit 0"
 						exit 0
 					fi
 				fi
@@ -73,6 +75,7 @@ ziellademodus(){
 							zielneu=$minimalstromstaerke
 						fi
 						runs/set-current.sh $zielneu m
+					    openwbDebugLog "MAIN" 0 "*** exit 0"
 						exit 0
 					fi
 				fi
@@ -80,6 +83,7 @@ ziellademodus(){
 		fi
 	fi
 	if (( ladungdurchziel == 1 )); then
+		openwbDebugLog "MAIN" 0 "*** exit 0"
 		exit 0
 	fi
 }

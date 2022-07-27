@@ -10,7 +10,7 @@
    header('Content-Type: application/csv; charset=UTF-8');
    header('Content-Disposition: attachment;filename="'.$dates.'.csv";');
    
-   $head[]="Date;Bezug;Einspeisung;PV;ll-LP1;ll-LP2;ll-LP3,ll-Ges;SpeicherIn;SpeicherOut;V1;V1e;V2;V2e;V3;ll4;ll5;ll6;ll7;ll8;SpeicherSoc;Soc;Soc1;tempD1_1;tempD1_2;tempD1_3;d1;d2;d3;d4;d5;d6;d7;d8;d9;d10;tempD2_1;tempD2_2;tempD2_3\n";
+   $head[]="Date;Bezug;Einspeisung;PV;ll-LP1;ll-LP2;ll-LP3,ll-Ges;SpeicherIn;SpeicherOut;V1;V1e;V2;V2e;V3;NC4;NC5;NC6;NC7;NC8;SpeicherSoc;Soc;Soc1;tempD1_1;tempD1_2;tempD1_3;d1;d2;d3;d4;d5;d6;d7;d8;d9;d10;tempD2_1;tempD2_2;tempD2_3\n";
 
   // kopfzeile mit ;
    echo str_replace(",",";",$head[0]);
@@ -117,7 +117,7 @@ header( 'Refresh:600;' );
 						<div class="spinner-grow text-muted mt-3"></div>
 					</div>
 					<div id="canvasdiv">
-						<canvas id="canvas" style="height: 400px;"></canvas>
+						<canvas id="canvas" style="height: 500px;"></canvas>
 					</div>
 				</div>
 			</div>

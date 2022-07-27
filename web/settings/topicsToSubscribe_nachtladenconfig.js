@@ -9,5 +9,5 @@
 // line[1] = load counter (if needed)
 
 var topicsToSubscribe = [
-	
+	["openWB/system/debuglevel", 0]	
 ];

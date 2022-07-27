@@ -57,7 +57,7 @@
 			 */
 
 			// some global vars
-			$maxQuantityLp = 8;  // max configured lp
+			$maxQuantityLp = 3; // 8;  // max configured lp
 			$elemName = '';
 			$elemId = '';
 			$elemValue = '';

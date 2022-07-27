@@ -39,20 +39,20 @@ if (( diff >= secs )) ; then  # alle 5 Minuten
    (( debug > 2 )) && echo "##### fire --m5 event ##### ($debug $secs)"
 else
    m5=""
-   Log 2 "Last --m5  $diff sec ago, skip for now (d:$debug secs:$secs)"
+   Log 1 "Last --m5  $diff sec ago, skip for now (d:$debug secs:$secs)"
    (( debug > 2 )) && echo "Last --m5  was  $diff sec ago, skip for now ($debug $secs)"
 fi
 
 if (( debug > 2 )) ; then
-  python3 $SELF/rct2.py --verbose --ip=$bezug1_ip  -b=$wattbezugmodul -w=$pvwattmodul -s=$speichermodul $m5 
+  python3 $SELF/rct2.py --verbose  --ip=$bezug1_ip  -b=$wattbezugmodul  $m5 >>/var/log/openWB.log 2>&1 
 else
-  python3 $SELF/rct2.py --ip=$bezug1_ip  -b=$wattbezugmodul -w=$pvwattmodul -s=$speichermodul $m5  >>/var/log/openWB.log 2>&1
+  python3 $SELF/rct2.py --ip=$bezug1_ip  -b=$wattbezugmodul $m5  >>/var/log/openWB.log 2>&1
 fi 
 
 
 endms=$(($(date +%s%N)/1000000))
 let "ms=( endms - startms )"
-Log 2 "main.sh runns $ms Millisec"
+Log 1 "bezug runns $ms Millisec"
 
 # Nehme wattbezug als ergbenis mit zurueck da beim Bezug-Module ein Returnwert erwartet wird.
 cat  /var/www/html/openWB/ramdisk/wattbezug

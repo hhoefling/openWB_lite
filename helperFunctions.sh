@@ -118,10 +118,18 @@ openwbDebugLog() {
 				LOGFILE="/var/log/openWB.log"
 				;;
 		esac
+		
+		
+        if [ "$$" != "$BASHPID" ] ; then
+           p="C$BASHPID"
+        else
+           p="$$"
+        fi
+		   
 		if (( DEBUGLEVEL > 0 )); then
-			echo "$timestamp: $$ $3 (LV$2) at $(caller 0)" >> $LOGFILE
+			echo "$timestamp: $p $3 (LV$2) at $(caller 0)" >> $LOGFILE
 		else
-			echo "$timestamp: $$ $3 (LV$2)" >> $LOGFILE
+			echo "$timestamp: $p $3 (LV$2)" >> $LOGFILE
 		fi
 	fi
 	
@@ -168,5 +176,70 @@ function incvar()
 export -f incvar
 # sample
 # incvar testtimer 5
+
+
+#===================================================================
+# FUNCTION trap_befor ()
+#
+# Purpose:  prepend a command to a trap
+#
+# - 1st arg:  code to prepend
+# - remaining args:  names of traps to modify
+#
+# Example:  trap_befor 'echo "in trap DEBUG"' DEBUG
+#
+# See: http://stackoverflow.com/questions/3338030/multiple-bash-traps-for-the-same-signal
+#===================================================================
+trap_befor() 
+{
+    trap_add_cmd=$1; shift || fatal "${FUNCNAME} usage error"
+    new_cmd=
+    for trap_add_name in "$@"; do
+        # Grab the currently defined trap commands for this trap
+        existing_cmd=`trap -p "${trap_add_name}" |  awk -F"'" '{print $2}'`
+
+        # Define default command
+        [ -z "${existing_cmd}" ] && existing_cmd="echo exiting @ `date`"
+
+        # Generate the new command
+        new_cmd="${trap_add_cmd};${existing_cmd}"
+
+        # Assign the test
+         trap   "${new_cmd}" "${trap_add_name}" || \
+                fatal "unable to prepend to trap ${trap_add_name}"
+    done
+}
+
+#  Sample
+# function cleanup()
+# {
+#  log "**** Regulation ends"
+#  }
+
+#  function cleanup2()
+# {
+# log "**** save values"
+# }
+ 
+#  trap cleanup EXIT
+#  trap_befor cleanup2 EXIT
+
+export -f trap_befor 
+
+function meld()
+{
+  LadereglerTxt="$LadereglerTxt,$1"
+}
+export -f meld 
+
+function bmeld()
+{
+  BatSupportTxt="$BatSupportTxt,$1"
+}
+export -f bmeld 
+
+# Enable all python scripts to import from the "package"-directory without fiddling with sys.path individually
+SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+export PYTHONPATH="$SCRIPT_DIR/packages"
 
 

@@ -129,8 +129,30 @@ var thevalues = [
 	["openWB/config/get/SmartHome/Devices/10/device_name", "#"],
 
 ];
+
+
+//Connect Options
+var isSSL = location.protocol == 'https:';
+var port = isSSL ? 443 : 9001;
+var options = {
+	timeout: 5,
+	useSSL: isSSL,
+	//Gets Called if the connection has been established
+	onSuccess: function () {
+		retries = 0;
+		thevalues.forEach(function(thevar) {
+			client.subscribe(thevar[0], {qos: 0});
+		});
+		requestdaygraph();
+	},
+	//Gets Called if the connection could not be established
+	onFailure: function (message) {
+		client.connect(options);
+	}
+}
+
 var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-var client = new Messaging.Client(location.hostname, 9001, clientuid);
+var client = new Messaging.Client(location.hostname, port, clientuid);
 
 function handlevar(mqttmsg, mqttpayload) {
 	if ( mqttmsg.match( /^openWB\/config\/get\/SmartHome\/Devices\/[1-9][0-9]*\/device_name$/i ) ) {
@@ -164,24 +186,6 @@ client.onMessageArrived = function (message) {
 
 var retries = 0;
 
-//Connect Options
-var isSSL = location.protocol == 'https:';
-var options = {
-	timeout: 5,
-	useSSL: isSSL,
-	//Gets Called if the connection has been established
-	onSuccess: function () {
-		retries = 0;
-		thevalues.forEach(function(thevar) {
-			client.subscribe(thevar[0], {qos: 0});
-		});
-		requestdaygraph();
-	},
-	//Gets Called if the connection could not be established
-	onFailure: function (message) {
-		client.connect(options);
-	}
-}
 
 //Creates a new message var boolDisplayDevice1t1;
 

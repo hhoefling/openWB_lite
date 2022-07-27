@@ -26,12 +26,12 @@ class Stasmota(Sbase):
             self._mydevicemeasure0 = Sltasmota()
             self._old_measuretype0 = 'tasmota'
             log.info("(" + str(self.device_nummer) +
-                          ") Integrierte Leistungsmessung. Neues Measure" +
-                          " device erzeugt " + self.device_type)
+                     ") Integrierte Leistungsmessung. Neues Measure" +
+                     " device erzeugt " + self.device_type)
         else:
             log.info("(" + str(self.device_nummer) +
-                          ") Integrierte Leistungsmessung. Nur Parameter " +
-                          " update  " + self.device_type)
+                     ") Integrierte Leistungsmessung. Nur Parameter " +
+                     " update  " + self.device_type)
         self._mydevicemeasure0.updatepar(input_param)
 
     def turndevicerelais(self, zustand, ueberschussberechnung, updatecnt):
@@ -48,6 +48,6 @@ class Stasmota(Sbase):
             self.proc.communicate()
         except Exception as e1:
             log.warning("(" + str(self.device_nummer) +
-                          ") on / off %s %d %s Fehlermeldung: %s "
-                          % ('tasmota', self.device_nummer,
-                             str(self._device_ip), str(e1)))
+                        ") on / off %s %d %s Fehlermeldung: %s "
+                        % ('tasmota', self.device_nummer,
+                           str(self._device_ip), str(e1)))

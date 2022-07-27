@@ -7,7 +7,7 @@
  */
 
 const DATACOLUMNCOUNT = 59;
-const LPCOLUMNS = [4, 5, 6, 12, 13, 14, 15, 16];  // column-indexes of LP-entries in csvData-array
+const LPCOLUMNS = [4, 5, 6]; // , 12, 13, 14, 15, 16];  // column-indexes of LP-entries in csvData-array
 
 var initialread = 0;
 var indexb = 0;

@@ -38,5 +38,5 @@ mosquitto_pub -t openWB/system/14alllivevalues -r -m "$([ ${#all14livevalues} -g
 mosquitto_pub -t openWB/system/15alllivevalues -r -m "$([ ${#all15livevalues} -ge 10 ] && echo "$all15livevalues" || echo "-")" &
 mosquitto_pub -t openWB/system/16alllivevalues -r -m "$([ ${#all16livevalues} -ge 10 ] && echo "$all16livevalues" || echo "-")" &
 echo "sending 0 to RequestLLiveGraph from sh" >>/var/www/html/openWB/ramdisk/mqtt.log
-(sleep 5 && mosquitto_pub -t openWB/set/graph/RequestLLiveGraph -r -m "0")&
+(sleep 5 && mosquitto_pub -t openWB/set/graph/RequestLLiveGraph -r -m "0")& 
  

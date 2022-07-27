@@ -58,7 +58,6 @@ if (sys.argv[1] == "startup"):
     GPIO.output(23, GPIO.LOW)
     time.sleep(3)
     GPIO.output(4, GPIO.LOW)
-  
 if (sys.argv[1] == "blink1"):
     while True:
         GPIO.output(24, GPIO.HIGH)

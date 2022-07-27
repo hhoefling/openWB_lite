@@ -34,7 +34,7 @@
                $file[]=$line;
         }  
       }
-   header('Content-Type: application/csv; charset=UTF-8');
+   	  header('Content-Type: application/csv; charset=UTF-8');
       header('Content-Disposition: attachment;filename="ladelog_'.$year.'.csv";');
    }
 

@@ -40,14 +40,14 @@ if atype == "9s18":
 elif atype == "9s":
     faktor = 9000/instpower
 elif atype == "M3":
-        faktor = 6000/instpower
+    faktor = 6000/instpower
 else:
-        faktor = 3000/instpower
+    faktor = 3000/instpower
 pvmodus = 0
 if os.path.isfile(file_stringpv):
-      f = open( file_stringpv , 'r')
-      pvmodus =int(f.read())
-      f.close()
+   f = open( file_stringpv , 'r')
+   pvmodus =int(f.read())
+   f.close()
 powerc = 0
 # aktuelle Leistung lesen
 client = ModbusTcpClient(ipadr, port=502)

@@ -20,6 +20,7 @@
 		// prepare key/value array
 		$settingsArray = [];
 
+		
 		// convert lines to key/value array for faster manipulation
 		foreach($settingsFile as $line) {
 			// check for comment-lines in older config files and don't process them
@@ -77,3 +78,5 @@
 ?>
 	</body>
 </html>
+
+

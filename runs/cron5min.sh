@@ -1,25 +1,28 @@
 #!/bin/bash
-cd /var/www/html/openWB
+
+# von cron aus /home/pi als dir 
 # must be called  as pi from /var/www/html/openWB
-OPENWBBASEDIR=$(cd `dirname $0`/../ && pwd)
+cd /var/www/html/openWB
+OPENWBBASEDIR=/var/www/html/openWB
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 
 . "$OPENWBBASEDIR/loadconfig.sh"
 . "$OPENWBBASEDIR/helperFunctions.sh"
 . "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
+. "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
 
-if [ -e $OPENWBBASEDIR/ramdisk/updateinprogress ] && [ -e $OPENWBBASEDIR/ramdisk/bootinprogress ]; then
-	updateinprogress=$(<$OPENWBBASEDIR/ramdisk/updateinprogress)
-	bootinprogress=$(<$OPENWBBASEDIR/ramdisk/bootinprogress)
+if [ -e "$OPENWBBASEDIR/ramdisk/updateinprogress" ] && [ -e "$OPENWBBASEDIR/ramdisk/bootinprogress" ]; then
+	updateinprogress=$(<"$OPENWBBASEDIR/ramdisk/updateinprogress")
+	bootinprogress=$(<"$OPENWBBASEDIR/ramdisk/bootinprogress")
 	if (( updateinprogress == "1" )); then
-		openwbDebugLog "MAIN" 0 "##### cron5min.sh Update in progress"
+		openwbDebugLog "MAIN" 0 "##### cron5min.sh Update in progress EXIT"
 		exit 0
 	elif (( bootinprogress == "1" )); then
-		openwbDebugLog "MAIN" 0 "##### cron5min.sh Boot in progress"
+		openwbDebugLog "MAIN" 0 "##### cron5min.sh Boot in progress EXIT"
 		exit 0
 	fi
 else
-	openwbDebugLog "MAIN" 0 "##### cron5min.sh Ramdisk not set up. Maybe we are still booting."
+	openwbDebugLog "MAIN" 0 "##### cron5min.sh Ramdisk not set up. Maybe we are still booting. EXIT"
 	exit 0
 fi
 
@@ -31,10 +34,9 @@ dailyfile="$OPENWBBASEDIR/web/logging/data/daily/$(date +%Y%m%d)"
 monthlyladelogfile="$OPENWBBASEDIR/web/logging/data/ladelog/$(date +%Y%m).csv"
 
 # check if a monthly logfile exists and create a new one if not
-linesladelog=$(cat $monthlyladelogfile | wc -l)
-if [[ "$linesladelog" == 0 ]]; then
+if [[ ! -f "$monthlyladelogfile" ]]; then
 	openwbDebugLog "MAIN" 1 "creating new monthly chargelog: $monthlyladelogfile"
-	echo > $monthlyladelogfile
+	echo > "$monthlyladelogfile"
 fi
 
 ll1=$(<$RAMDISKDIR/llkwh)  # Zählerstand LP1
@@ -158,12 +160,12 @@ if (( netzabschaltunghz == 1 )); then
 fi
 
 # update electricity provider prices
-if (( etprovideraktiv == 1 )); then
-	openwbDebugLog "MAIN" 1 "electricity provider configured; trigger price update"
-	"$OPENWBBASEDIR/modules/$etprovider/main.sh" &
-else
-	openwbDebugLog "MAIN" 2 "electricity provider not set up; skipping price update"
-fi
+#if (( etprovideraktiv == 1 )); then
+#	openwbDebugLog "MAIN" 1 "electricity provider configured; trigger price update"
+#	"$OPENWBBASEDIR/modules/$etprovider/main.sh" &
+#else
+#	openwbDebugLog "MAIN" 2 "electricity provider not set up; skipping price update"
+#fi
 
 # update all daily yield stats
 openwbDebugLog "MAIN" 1 "updating daily yield stats"
@@ -310,12 +312,21 @@ else
 	python3 "$OPENWBBASEDIR/runs/mqttsub.py" &
 fi
 
+#check if our legacy run server is running
+#pgrep -f "$OPENWBBASEDIR/packages/legacy_run_server.py" > /dev/null
+#if [ $? == 1 ]
+#then
+#	openwbDebugLog "MAIN" 0 "legacy_run_server is not running. Restarting process"
+#	bash "$OPENWBBASEDIR/packages/legacy_run_server.sh"
+#else
+#	openwbDebugLog "MAIN" 1 "legacy_run_server is already running"
+#fi
 # check if our smarthome handler is running
 smartmq=$(<"$OPENWBBASEDIR/ramdisk/smartmq")
 if (( smartmq == 0 )); then
 	if pgrep -f '^python.*/smarthomemq.py' > /dev/null
 	then
-		sudo pkill -f '^python.*/smarthomemq.py'
+		sudo pkill -f '^python.*/smarthomemq.py' >/dev/null
 		openwbDebugLog "MAIN" 1 "smarthomemq handler stoped"
 	fi
 	if pgrep -f '^python.*/smarthomehandler.py' > /dev/null
@@ -329,7 +340,7 @@ if (( smartmq == 0 )); then
 else
 	if pgrep -f '^python.*/smarthomehandler.py' > /dev/null
 	then
-		sudo pkill -f '^python.*/smarthomehandler.py'
+		sudo pkill -f '^python.*/smarthomehandler.py' >/dev/null
 		openwbDebugLog "MAIN" 1 "legacy smarthomehandler handler stoped"
 	fi
 	if pgrep -f '^python.*/smarthomemq.py' > /dev/null
@@ -356,20 +367,20 @@ else
 	openwbDebugLog "MAIN" 1 "external openWB or daemon mode not configured; checking network setup"
 	ethstate=$(</sys/class/net/eth0/carrier)
 	if (( ethstate == 1 )); then
-		eth00ip=$(ifconfig eth0:0 |grep 'inet ' |awk '{print $2}' )
+		eth00ip=$(sudo ifconfig eth0:0 |grep 'inet ' |awk '{print $2}' )
 		openwbDebugLog "MAIN" 1 "check virt ip for eth0  [$eth00ip] = [$virtual_ip_eth0] "
 		if [ "$eth00ip" != "$virtual_ip_eth0" ]  ; then
 			openwbDebugLog "MAIN" 1 "virt ip changed, set it "
 			sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 up
 		else
-				openwbDebugLog "MAIN" 1 "virt ip same, nothing to do"
+			openwbDebugLog "MAIN" 1 "virt ip same, nothing to do"
 		fi
 
 		if [ -d /sys/class/net/wlan0 ]; then  			# wlanchip found
 			wlanstate=$(</sys/class/net/wlan0/carrier)
 			openwbDebugLog "MAIN" 1 "eth0 and wlan0 exists check wlancarrier:$wlanstate"
 			if (( wlanstate == 1 )); then
-				wlan00ip=$(ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
+				wlan00ip=$(sudo ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
 				openwbDebugLog "MAIN" 1 "ip wlan0:0 is [$wlan00ip]"
 				if [ "$wlan00ip" != "" ] ; then
 					openwbDebugLog "MAIN" 1 "remove virt ip for wlan"
@@ -387,7 +398,7 @@ else
 	else
 		if [ -d /sys/class/net/wlan0 ]; then  # Wlan Chip found
 			openwbDebugLog "MAIN" 1 "set virt ip for wlan"
-			wlan00ip=$(ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
+			wlan00ip=$(sudo ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
 			openwbDebugLog "MAIN" 1 "ip wlan0:0 [$wlan00ip]"
 			if [ "$wlan00ip" != "$virtual_ip_wlan0" ]  ; then
 				openwbDebugLog "MAIN" 1 "virt ip changed, set it "
@@ -396,31 +407,28 @@ else
 				openwbDebugLog "MAIN" 1 "virt ip same, nothing to do"
 			fi
 		fi
+		sudo ifconfig eth0:0 $virtual_ip_eth0 netmask 255.255.255.0 down
 	fi
 
 	# check for obsolete isss handler
-	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/isss.py" > /dev/null
-		then
-			sudo kill $(ps aux |grep '[i]sss.py' | awk '{print $2}')
-	fi
+	sudo pkill -f '^python.*/isss.py' >/dev/null
 fi
 
 
 # if this is a socket system check for our handler to control the socket lock
 if [[ "$evsecon" == "buchse" ]] && [[ "$isss" == "0" ]]; then
 	openwbDebugLog "MAIN" 1 "openWB socket configured"
-	if pgrep -f '^python.*/buchse.py' > /dev/null
+	if ps ax |grep -v grep |grep "python3 $OPENWBBASEDIR/runs/buchse.py" > /dev/null
 	then
 		openwbDebugLog "MAIN" 1 "socket handler already running"
 	else
 		openwbDebugLog "MAIN" 0 "socket handler not running! restarting process"
-		python3 "$OPENWBBASEDIR/runs/buchse.py" &
+		python3 $OPENWBBASEDIR/runs/buchse.py &
 	fi
 else
-	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/buchse.py" > /dev/null
-	then
+	$(sudo pkill -f '^python.*/buchse.py' >/dev/null )
+	if (( $? == 0)) ; then
 		openwbDebugLog "MAIN" 0 "openWB socket not configured but socket handler is running; killing process"
-		sudo kill $(ps aux |grep '[b]uchse.py' | awk '{print $2}')
 	fi
 fi
 
@@ -428,29 +436,11 @@ fi
 # setup rfid handler if needed
 rfidSetup "$rfidakt" 0 "$rfidlist"
 
-### if rfid mode 2 is configured check for our rfid handler
-##if [[ "$rfidakt" == "2" ]]; then
-##	openwbDebugLog "MAIN" 1 "rfid mode 2 configured"
-##	echo $rfidlist > $RAMDISKDIR/rfidlist
-##	if ps ax |grep -v grep |grep "python3 $OPENWBBASEDIR/runs/rfid.py" > /dev/null
-##	then
-##		openwbDebugLog "MAIN" 1 "rfid handler already running"
-##	else
-##		openwbDebugLog "MAIN" 0 "rfid handler not running! restarting process"
-##		python3 $OPENWBBASEDIR/runs/rfid.py &
-##	fi
-##else
-##	if ps ax |grep -v grep |grep "python3 $OPENWBBASEDIR/runs/rfid.py" > /dev/null
-##	then
-##		openwbDebugLog "MAIN" 0 "rfid mode 2 not configured but handler is running; killing process"
-##		sudo kill $(ps aux |grep 'runs/[r]fid.py' | awk '{print $2}')
-##	fi
-##fi
 
 # check if our modbus server is running
 # if Variable not set -> server active (old config)
 if [[ "$modbus502enabled" == "0" ]]; then
-  	openwbDebugLog "MAIN" 0 "modbus tcp server not enabled"
+  	openwbDebugLog "MAIN" 1 "modbus tcp server not enabled"
    	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/modbusserver/modbusserver.py" > /dev/null
   	then
      	openwbDebugLog "MAIN" 0 "kill running modbus tcp server"
@@ -470,10 +460,13 @@ else
     fi
 fi
 
+# setup push buttons handler if needed
+pushButtonsSetup "$ladetaster" 0
+
 
 #Pingchecker
 if (( pingcheckactive == 1 )); then
-	openwbDebugLog "MAIN" 1 "pingcheck configured; starting"
+	# openwbDebugLog "MAIN" 1 "pingcheck configured; starting"
 	"$OPENWBBASEDIR/runs/pingcheck.sh" &
 fi
 
@@ -506,10 +499,25 @@ tempPubList="${tempPubList}\nopenWB/global/cpuFreq=$(($(echo ${sysinfo} | jq -r 
 tempPubList="${tempPubList}\nopenWB/global/memTotal=$(echo ${sysinfo} | jq -r '.memtot')"
 tempPubList="${tempPubList}\nopenWB/global/memUse=$(echo ${sysinfo} | jq -r '.memuse')"
 tempPubList="${tempPubList}\nopenWB/global/memFree=$(echo ${sysinfo} | jq -r '.memfree')"
+
+tempPubList="${tempPubList}\nopenWB/global/diskTot=$(echo ${sysinfo} | jq -r '.disktot')"
 tempPubList="${tempPubList}\nopenWB/global/diskUse=$(echo ${sysinfo} | jq -r '.diskuse')"
+tempPubList="${tempPubList}\nopenWB/global/diskUsedPrz=$(echo ${sysinfo} | jq -r '.diskusedprz')"
 tempPubList="${tempPubList}\nopenWB/global/diskFree=$(echo ${sysinfo} | jq -r '.diskfree')"
 
-echo "Pubmqtt:"
+tempPubList="${tempPubList}\nopenWB/global/tmpTot=$(echo ${sysinfo} | jq -r '.tmptot')"
+tempPubList="${tempPubList}\nopenWB/global/tmpUse=$(echo ${sysinfo} | jq -r '.tmpuse')"
+tempPubList="${tempPubList}\nopenWB/global/tmpUsedPrz=$(echo ${sysinfo} | jq -r '.tmpusedprz')"
+tempPubList="${tempPubList}\nopenWB/global/tmpFree=$(echo ${sysinfo} | jq -r '.tmpfree')"
+
+tempPubList="${tempPubList}\nopenWB/global/ethaddr=$(echo ${sysinfo} | jq -r '.ethaddr')"
+tempPubList="${tempPubList}\nopenWB/global/ethaddr2=$(echo ${sysinfo} | jq -r '.ethaddr2')"
+tempPubList="${tempPubList}\nopenWB/global/wlanaddr=$(echo ${sysinfo} | jq -r '.wlanaddr')"
+tempPubList="${tempPubList}\nopenWB/global/wlanaddr2=$(echo ${sysinfo} | jq -r '.wlanaddr2')"
+
+
+
+echo "Cron5Min.Publist:"
 echo -e $tempPubList
 echo "Running Python3: runs/mqttpub.py -q 0 -r &"
 

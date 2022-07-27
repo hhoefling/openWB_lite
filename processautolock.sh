@@ -24,8 +24,8 @@ set -eo pipefail
 #
 #####
 
-# reducdant
-# cd /var/www/html/openWB/
+# reducdant?
+cd /var/www/html/openWB/
 
 # sets variables necessary due to inconsistent naming
 powerLp1=$(<ramdisk/llaktuell)

@@ -24,6 +24,16 @@ var lpgesamtCol = style.getPropertyValue('--lpgesamtCol');
 var lpgesamtbgCol = style.getPropertyValue('--lpgesamtbgCol');
 var lp3Col = style.getPropertyValue('--lp3Col');
 var lp3bgCol = style.getPropertyValue('--lp3bgCol');
+// var lp4Col = style.getPropertyValue('--lp4Col');
+// var lp4bgCol = style.getPropertyValue('--lp4bgCol');
+// var lp5Col = style.getPropertyValue('--lp5Col');
+// var lp5bgCol = style.getPropertyValue('--lp5bgCol');
+// var lp6Col = style.getPropertyValue('--lp6Col');
+// var lp6bgCol = style.getPropertyValue('--lp6bgCol');
+// var lp7Col = style.getPropertyValue('--lp7Col');
+// var lp7bgCol = style.getPropertyValue('--lp7bgCol');
+// var lp8Col = style.getPropertyValue('--lp8Col');
+// var lp8bgCol = style.getPropertyValue('--lp8bgCol');
 var verbraucher1Col = style.getPropertyValue('--verbraucher1Col');
 var verbraucher1bgCol = style.getPropertyValue('--verbraucher1bgCol');
 var verbraucher2Col = style.getPropertyValue('--verbraucher2Col');
@@ -57,6 +67,11 @@ var boolDisplayLp2Soc;
 var boolDisplayLp1;
 var boolDisplayLp2;
 var boolDisplayLp3;
+// var boolDisplayLp4;
+// var boolDisplayLp5;
+// var boolDisplayLp6;
+// var boolDisplayLp7;
+// var boolDisplayLp8;
 var boolDisplayLpAll;
 var boolDisplaySpeicherSoc;
 var boolDisplaySpeicher;
@@ -118,7 +133,9 @@ var all16p;
 var hidehaus;
 var myLine;
 
-function loadgraph(animationDuration = 1000) {
+function loadgraph(animationDuration = 1000) 
+{
+    console.log('loadgraph')
 	var lineChartData = {
 		labels: atime,
 		datasets: [{
@@ -252,6 +269,56 @@ function loadgraph(animationDuration = 1000) {
 			data: alp3,
 			yAxisID: 'y-axis-1',
 			hidden: boolDisplayLp3
+		} , {
+			label: 'Lp4',
+			borderColor: lp3Col,
+			backgroundColor: lp3bgCol,
+			fill: false,
+			lineTension: 0.2,
+			data: alp4,
+			borderWidth: 2,
+			yAxisID: 'y-axis-1',
+			hidden: true 	// boolDisplayLp4
+		} , {
+			label: 'Lp5',
+			borderColor: lp3Col,
+			backgroundColor: lp3bgCol,
+			fill: false,
+			lineTension: 0.2,
+			borderWidth: 2,
+			data: alp5,
+			yAxisID: 'y-axis-1',
+			hidden: true	// boolDisplayLp5
+		} , {
+			label: 'Lp6',
+			borderColor: lp3Col,
+			backgroundColor: lp3bgCol,
+			fill: false,
+			lineTension: 0.2,
+			borderWidth: 2,
+			data: alp6,
+			yAxisID: 'y-axis-1',
+			hidden: true	// boolDisplayLp6
+		} , {
+			label: 'Lp7',
+			borderColor: lp3Col,
+			backgroundColor: lp3bgCol,
+			fill: false,
+			lineTension: 0.2,
+			borderWidth: 2,
+			data: alp7,
+			yAxisID: 'y-axis-1',
+			hidden: true	// boolDisplayLp7
+		} , {
+			label: 'Lp8',
+			borderColor: lp3Col,
+			backgroundColor: lp3bgCol,
+			fill: false,
+			lineTension: 0.2,
+			borderWidth: 2,
+			data: alp8,
+			yAxisID: 'y-axis-1',
+			hidden: true	// boolDisplayLp8
 		}, {
 			label: d1name,
 			borderColor: d1Col,
@@ -391,14 +458,15 @@ function loadgraph(animationDuration = 1000) {
 	function setGraphLineBorderWidth(theGraph, newWidth) {
 		// sets borderWidth attribute for all single lines without fill
 		for ( var index = 0; index < theGraph.config.data.datasets.length; index++) {
-			if ( !theGraph.config.data.datasets[index].fill ) {
+			if ( !theGraph.config.data.datasets[index].fill ) 
+			{
 				theGraph.config.data.datasets[index].borderWidth = newWidth;
 			}
 		}
 	}
 
 	function doGraphResponsive(chartInstance) {
-		// changes graph resonding to screen size
+		// changes graph responding to screen size
 		// quantity of x-axis labels
 		chartInstance.config.options.scales.xAxes[0].ticks.maxTicksLimit = getMaxTicksLimit(chartInstance.width);
 		// other settings
@@ -456,19 +524,18 @@ function loadgraph(animationDuration = 1000) {
 				labels: {
 					fontColor: fontCol,
 					filter: function(item,chart) {
-						if ( item.text.includes(hidehaus) || item.text.includes(hideload2) || item.text.includes(hideload1) 
-						|| item.text.includes(hidelp2soc) || item.text.includes(hidelp1soc) || item.text.includes(hidelp1) 
-						|| item.text.includes(hidelp2) || item.text.includes(hidelp3) 
-						// || item.text.includes(hidelp4) || item.text.includes(hidelp5) 
-						// || item.text.includes(hidelp6) || item.text.includes(hidelp7) 
-						// || item.text.includes(hidelp8) 
-						|| item.text.includes(hidespeichersoc) || item.text.includes(hidespeicher) 
-						|| item.text.includes(hidelpa) || item.text.includes(hidepv) 
-						|| item.text.includes(hideevu) || item.text.includes(hideshd1)
-						|| item.text.includes(hideshd2)|| item.text.includes(hideshd3)
-						|| item.text.includes(hideshd4)|| item.text.includes(hideshd5)
-						|| item.text.includes(hideshd6) || item.text.includes(hideshd7) 
-						|| item.text.includes(hideshd8)|| item.text.includes(hideshd9) ) { return false } else { return true}
+						if ( item.text.includes(hidehaus)   || item.text.includes(hideload2)  || item.text.includes(hideload1) 
+						  || item.text.includes(hidelp2soc) || item.text.includes(hidelp1soc) || item.text.includes(hidelp1) 
+						  || item.text.includes(hidelp2)    || item.text.includes(hidelp3)    || item.text.includes(hidelp4) 
+						  || item.text.includes(hidelp5)    || item.text.includes(hidelp6)    || item.text.includes(hidelp7)
+						  || item.text.includes(hidelp8)    || item.text.includes(hidespeichersoc) || item.text.includes(hidespeicher) 
+						  || item.text.includes(hidelpa) || item.text.includes(hidepv) || item.text.includes(hideevu) 
+						  || item.text.includes(hideshd1)|| item.text.includes(hideshd2)|| item.text.includes(hideshd3)
+						  || item.text.includes(hideshd4)|| item.text.includes(hideshd5)|| item.text.includes(hideshd6) 
+						  || item.text.includes(hideshd7) || item.text.includes(hideshd8)|| item.text.includes(hideshd9) 
+						  ) 
+						     { return false } 
+						else { return true}
 					}
 				}
 			},
@@ -535,7 +602,6 @@ function loadgraph(animationDuration = 1000) {
 	$('#waitforgraphloadingdiv').hide();
 }  // end loadgraph
 // Sichtbarkeit für SmartHome Devices im Graph
-// setvisibility(alp3,'hidelp3','Lp3');
 function setvisibility(datarr,hidevar,hidevalue,booldisplay){
 	var arrayLength = datarr.length;
 	var vis=0
@@ -553,35 +619,41 @@ function setvisibility(datarr,hidevar,hidevalue,booldisplay){
 
 	}
 }
+
+// ein Element xalllivevalues (csv array)
 function putgraphtogether() {
-	if ( (all1 == 1) && (all2 == 1) && (all3 == 1) && (all4 == 1) && (all5 == 1) 
-	  && (all6 == 1) && (all7 == 1) && (all8 == 1) && (all9 == 1) && (all10 == 1)
-	  && (all11 == 1) && (all12 == 1) && (all13 == 1) && (all14 == 1) && (all15 == 1) && (all16 == 1) )
-	  {
+	if ( (all1 == 1) && (all2 == 1) && (all3 == 1)  && (all4 == 1)  && (all5 == 1)  && (all6 == 1)  && (all7 == 1) 
+	  && (all8 == 1) && (all9 == 1) && (all10 == 1) && (all11 == 1) && (all12 == 1) && (all13 == 1) && (all14 == 1) 
+	  && (all15 == 1) && (all16 == 1) )
+	{
+	   // wenn alle 16 subscriptes zusammen sind, alle 16 Blocks zusammenbasten zu einem ganzen Tag
 		var alldata = all1p + "\n" + all2p + "\n" + all3p + "\n" + all4p + "\n" + all5p + "\n" + all6p + "\n" 
 		            + all7p + "\n" + all8p + "\n" + all9p + "\n" + all10p + "\n" + all11p + "\n" + all12p + "\n" 
 					+ all13p + "\n" + all14p + "\n" + all15p + "\n" + all16p;
 		alldata = alldata.replace(/^\s*[\n]/gm, "");
-		alldata = alldata.replace(/^\s*-[\n]/gm, "");
+		alldata = alldata.replace(/^\s*-[\n]/gm, "");	// leeren 11..16'er elemente wieder entfernen
 		var csvData = [];
 		var rawcsv = alldata.split(/\r?\n|\r/);
+		// 542 Zeilen
 		for (var i = 0; i < rawcsv.length; i++) {
 			  csvData.push(rawcsv[i].split(","));
 		}
 		csvData.pop();
-		// Retrieved data from csv file content
+		// Retrived data from csv file content
 		var splittime = [];
 		getCol(csvData, 0).forEach(function(zeit){
 			splittime.push(zeit.substring(0, zeit.length -3));
 		});
+		//console.log('splittime',splittime); // alle Zeiten als Array also Column 1 mit 5xx Zeilen ohne sekunden
 		atime = splittime;
-		if ( atime.length >= 30 ) {
+		if ( atime.length >= 30 ) {		// mindest 30 Zeilen beisammen
 			//atime = getCol(csvData, 0);
-			abezug = convertToKw(getCol(csvData, 1));
+			abezug = convertToKw(getCol(csvData, 1));		// alllivevalues spalte mit 5xx elems
 			alpa = convertToKw(getCol(csvData, 2));
 			apv = convertToKw(getCol(csvData, 3));
 			alp1 = convertToKw(getCol(csvData, 4));
 			alp2 = convertToKw(getCol(csvData, 5));
+			// 6 llges ?
 			aspeicherl = convertToKw(getCol(csvData, 7));
 			aspeichersoc = getCol(csvData, 8);
 			asoc = getCol(csvData, 9);
@@ -590,13 +662,11 @@ function putgraphtogether() {
 			averbraucher1 = convertToKw(getCol(csvData, 12));
 			averbraucher2 = convertToKw(getCol(csvData, 13));
 			alp3 = convertToKw(getCol(csvData, 14));
-/*
 			alp4 = convertToKw(getCol(csvData, 15));
 			alp5 = convertToKw(getCol(csvData, 16));
 			alp6 = convertToKw(getCol(csvData, 17));
 			alp7 = convertToKw(getCol(csvData, 18));
 			alp8 = convertToKw(getCol(csvData, 19));
-*/
 			ashd1 = convertToKw(getCol(csvData, 20));
 			ashd2 = convertToKw(getCol(csvData, 21));
 			ashd3 = convertToKw(getCol(csvData, 22));
@@ -609,14 +679,14 @@ function putgraphtogether() {
 			//ashd1t0 = getCol(csvData, 29);
 			//ashd1t1 = getCol(csvData, 30);
 			//ashd1t2 = getCol(csvData, 31);
-/*
+			
+			
 			setvisibility(alp3,'hidelp3','Lp3');
 			setvisibility(alp4,'hidelp4','Lp4');
 			setvisibility(alp5,'hidelp5','Lp5');
 			setvisibility(alp6,'hidelp6','Lp6');
 			setvisibility(alp7,'hidelp7','Lp7');
 			setvisibility(alp8,'hidelp8','Lp8');
-*/
 			setvisibility(ashd1,'hideshd1',d1name,'boolDisplayshd1');
 			setvisibility(ashd2,'hideshd2',d2name,'boolDisplayshd2');
 			setvisibility(ashd3,'hideshd3',d3name,'boolDisplayshd3');
@@ -658,63 +728,64 @@ function putgraphtogether() {
 
 function updateGraph(dataset) {
 	var lines = dataset.split("\n");
-	for (var i = 0; i < lines.length; i++) {
-		var ldate = lines[i].split(",")[0];
-		var lbezug = lines[i].split(",")[1];
-		var lpv = lines[i].split(",")[3];
-		var llp2 = lines[i].split(",")[5];
-		var lspeicherl = lines[i].split(",")[7];
-		var lsoc = lines[i].split(",")[9];
-		var lspeichersoc = lines[i].split(",")[8];
-		var lpa = lines[i].split(",")[2];
-		var llp1 = lines[i].split(",")[4];
-		var lsoc1 = lines[i].split(",")[10];
-		var lhausverbrauch = lines[i].split(",")[11];
-		var lverbraucher1 = lines[i].split(",")[12];
-		var lverbraucher2 = lines[i].split(",")[13];
-		var lp3 = lines[i].split(",")[14];
-/*
-		var lp4 = lines[i].split(",")[15];
-		var lp5 = lines[i].split(",")[16];
-		var lp6 = lines[i].split(",")[17];
-		var lp7 = lines[i].split(",")[18];
-		var lp8 = lines[i].split(",")[19];
-*/
-		var shd1 = lines[i].split(",")[20];
-		var shd2 = lines[i].split(",")[21];
-		var shd3 = lines[i].split(",")[22];
-		var shd4 = lines[i].split(",")[23];
-		var shd5 = lines[i].split(",")[24];
-		var shd6 = lines[i].split(",")[25];
-		var shd7 = lines[i].split(",")[26];
-		var shd8 = lines[i].split(",")[27];
-		var shd9 = lines[i].split(",")[28];
+	for (var i = 0; i < lines.length; i++) 
+	{
+		var linessplit=lines[i].split(",");
+		console.log(updateGraph, linessplit);
+	
+		var ldate = linessplit[0];
+		var lbezug = linessplit[1];
+		var lpa = linessplit[2];
+		var lpv = linessplit[3];
+		var llp1 = linessplit[4];
+		var llp2 = linessplit[5];
+		// 6 llges ?
+		var lspeicherl = linessplit[7];
+		var lspeichersoc = linessplit[8];
+		var lsoc = linessplit[9];
+		var lsoc1 = linessplit[10];
+		var lhausverbrauch = linessplit[11];
+		var lverbraucher1 = linessplit[12];
+		var lverbraucher2 = linessplit[13];
+		var lp3 = linessplit[14];
+		//var lp4 = linessplit[15];
+		//var lp5 = linessplit[16];
+		//var lp6 = linessplit[17];
+		//var lp7 = linessplit[18];
+		//var lp8 = linessplit[19];
+		var shd1 = linessplit[20];
+		var shd2 = linessplit[21];
+		var shd3 = linessplit[22];
+		var shd4 = linessplit[23];
+		var shd5 = linessplit[24];
+		var shd6 = linessplit[25];
+		var shd7 = linessplit[26];
+		var shd8 = linessplit[27];
+		var shd9 = linessplit[28];
 		//var shd1t0 = lines[i].split(",")[29];
 		//var shd1t1 = lines[i].split(",")[30];
 		//var shd1t2 = lines[i].split(",")[31];
 
 	}
 	myLine.data.labels.push(ldate.substring(0, ldate.length -3));
+	myLine.data.datasets[0].data.push(llp1 / 1000);
+	myLine.data.datasets[1].data.push(llp2 / 1000);
 	myLine.data.datasets[2].data.push(lbezug / 1000);
 	myLine.data.datasets[3].data.push(lpv / 1000);
 	myLine.data.datasets[4].data.push(lspeicherl / 1000);
 	myLine.data.datasets[5].data.push(lspeichersoc);
 	myLine.data.datasets[6].data.push(lsoc);
-	myLine.data.datasets[0].data.push(llp1 / 1000);
-	myLine.data.datasets[1].data.push(llp2 / 1000);
 	myLine.data.datasets[7].data.push(lsoc1);
 	myLine.data.datasets[8].data.push(lhausverbrauch / 1000);
 	myLine.data.datasets[9].data.push(lverbraucher1 / 1000);
 	myLine.data.datasets[10].data.push(lverbraucher2 / 1000);
 	myLine.data.datasets[11].data.push(lpa / 1000);
 	myLine.data.datasets[12].data.push(lp3 / 1000);
-/*
-	myLine.data.datasets[13].data.push(lp4 / 1000);
-	myLine.data.datasets[14].data.push(lp5 / 1000);
-	myLine.data.datasets[15].data.push(lp6 / 1000);
-	myLine.data.datasets[16].data.push(lp7 / 1000);
-	myLine.data.datasets[17].data.push(lp8 / 1000);
-*/
+	myLine.data.datasets[13].data.push(0) //lp4 / 1000);
+	myLine.data.datasets[14].data.push(0) //lp5 / 1000);
+	myLine.data.datasets[15].data.push(0) //lp6 / 1000);
+	myLine.data.datasets[16].data.push(0) //lp7 / 1000);
+	myLine.data.datasets[17].data.push(0) //lp8 / 1000);
 	myLine.data.datasets[18].data.push(shd1 / 1000);
 	myLine.data.datasets[19].data.push(shd2 / 1000);
 	myLine.data.datasets[20].data.push(shd3 / 1000);
@@ -737,10 +808,10 @@ function updateGraph(dataset) {
 function checkgraphload(){
 	if ( graphloaded == 1 ) {
 		myLine.destroy();
-		loadgraph();
+		loadgraph(0);  // when reloading graph, no more "pumping" animations
 		return;
 	}
-	if ( typeof boolDisplayHouseConsumption === "boolean" &&
+	if (typeof boolDisplayHouseConsumption === "boolean" &&
 		typeof boolDisplayLoad1 === "boolean" &&
 		typeof boolDisplayLp1Soc === "boolean" &&
 		typeof boolDisplayLp2Soc === "boolean" &&
@@ -748,13 +819,11 @@ function checkgraphload(){
 		typeof boolDisplayLp1 === "boolean" &&
 		typeof boolDisplayLp2 === "boolean" &&
 		typeof boolDisplayLp3 === "boolean" &&
-/*
-		typeof boolDisplayLp4 === "boolean" &&
-		typeof boolDisplayLp5 === "boolean" &&
-		typeof boolDisplayLp6 === "boolean" &&
-		typeof boolDisplayLp7 === "boolean" &&
-		typeof boolDisplayLp8 === "boolean" &&
-*/
+		// typeof boolDisplayLp4 === "boolean" &&
+		// typeof boolDisplayLp5 === "boolean" &&
+		// typeof boolDisplayLp6 === "boolean" &&
+		// typeof boolDisplayLp7 === "boolean" &&
+		// typeof boolDisplayLp8 === "boolean" &&
 		typeof boolDisplayLpAll === "boolean" &&
 		typeof boolDisplaySpeicherSoc === "boolean" &&
 		typeof boolDisplaySpeicher === "boolean" &&
@@ -802,23 +871,21 @@ function forcegraphload() {
 		if ( !(typeof boolDisplayLp3 === "boolean") ) {
 			showhidedataset('boolDisplayLp3');
 		}
-/*
-		if ( !(typeof boolDisplayLp4 === "boolean") ) {
-			showhidedataset('boolDisplayLp4');
-		}
-		if ( !(typeof boolDisplayLp5 === "boolean") ) {
-			showhidedataset('boolDisplayLp5');
-		}
-		if ( !(typeof boolDisplayLp6 === "boolean") ) {
-			showhidedataset('boolDisplayLp6');
-		}
-		if ( !(typeof boolDisplayLp7 === "boolean") ) {
-			showhidedataset('boolDisplayLp7');
-		}
-		if ( !(typeof boolDisplayLp8 === "boolean") ) {
-			showhidedataset('boolDisplayLp8');
-		}
-*/
+//		if ( !(typeof boolDisplayLp4 === "boolean") ) {
+//			showhidedataset('boolDisplayLp4');
+//		}
+//		if ( !(typeof boolDisplayLp5 === "boolean") ) {
+//			showhidedataset('boolDisplayLp5');
+//		}
+//		if ( !(typeof boolDisplayLp6 === "boolean") ) {
+//			showhidedataset('boolDisplayLp6');
+//		}
+//		if ( !(typeof boolDisplayLp7 === "boolean") ) {
+//			showhidedataset('boolDisplayLp7');
+//		}
+//		if ( !(typeof boolDisplayLp8 === "boolean") ) {
+//			showhidedataset('boolDisplayLp8');
+//		}
 		if ( !(typeof boolDisplayLpAll === "boolean") ) {
 			showhidedataset('boolDisplayLpAll');
 		}
@@ -872,15 +939,19 @@ function showhide(thedataset) {
 }
 
 function subscribeMqttGraphSegments() {
-	for (var segments = 1; segments < 17; segments++) {
+	for (var segments = 1; segments < 17; segments++) 
+	{
 		topic = "openWB/graph/" + segments + "alllivevalues";
+		console.log('Subscribe ',topic);
 		client.subscribe(topic, {qos: 0});
 	}
 }
 
 function unsubscribeMqttGraphSegments() {
-	for (var segments = 1; segments < 17; segments++) {
+	for (var segments = 1; segments < 17; segments++) 
+	{
 		topic = "openWB/graph/" + segments + "alllivevalues";
+		//console.log('UnSubscribe ',topic);
 		client.unsubscribe(topic);
 	}
 }

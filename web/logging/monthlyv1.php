@@ -89,7 +89,7 @@
 						<div class="spinner-grow text-muted mt-3"></div>
 					</div>
 					<div id="canvasdiv">
-						<canvas id="canvas" style="height: 400px;"></canvas>
+						<canvas id="canvas" style="height: 450px;"></canvas>
 					</div>
 				</div>
 			</div>

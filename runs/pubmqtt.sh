@@ -1,6 +1,6 @@
 #!/bin/bash
 # Alle Werte aus ENV ?bergeben
-# Asyncron gestartet am Ende von loadvars.sh und slavemode.sh 
+# Asyncron gestartet am Ende von loadvars.sh und slavemode.sh(yourcharge) 
 
 declare -A mqttvar
 mqttvar["system/IpAddress"]=ipaddress
@@ -160,7 +160,7 @@ do
 		"lp/${i}/plugStartkWh:pluggedladunglp${i}startkwh" \
 		"lp/${i}/pluggedladungakt:pluggedladungaktlp${i}" \
 		"lp/${i}/lmStatus:lmStatusLp${i}" \
-		"lp/${i}/tagScanInfo:tagScanInfoLp${i}"
+		"lp/${i}/tagScanInfo:tagScanInfoLp${i}" 
 	do
 		IFS=':' read -r -a tuple <<< "$f"
 		#echo "Setting mqttvar[${tuple[0]}]=${tuple[1]}"

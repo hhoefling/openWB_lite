@@ -7,7 +7,7 @@
  * @author Lena Kümmel
  */
 
-function formatJsonString(str) {
+ function formatJsonString(str) {
 	try {
 		parsed = JSON.parse(str)
 		if (typeof parsed === 'string') {
@@ -19,6 +19,8 @@ function formatJsonString(str) {
 	}
 	return str
 }
+
+
 function getIndex(topic) {
 	// get occurrence of numbers between / / in topic
 	// since this is supposed to be the index like in openwb/lp/4/w
@@ -33,6 +35,7 @@ function getIndex(topic) {
 function handlevar(mqttmsg, mqttpayload) {
 	// receives all messages and calls respective function to process them
 	processPreloader(mqttmsg);
+    // console.log(mqttmsg,' ',mqttpayload)
 	if ( mqttmsg.match( /^openwb\/lp\//i) ) {
 		processLpMsg(mqttmsg, mqttpayload);
 	}
@@ -209,7 +212,7 @@ function processBatMsg (mqttmsg, mqttpayload) {
 			kShow(mqttpayload, '#speicherekwhdiv');
 			break;
 		case "openWB/housebattery/W":
-			directShow(mqttpayload, '#wBatDiv');
+			BatShow(mqttpayload, '#wBatDiv');
 			break;
 		case "openWB/housebattery/%Soc":
 			directShow(mqttpayload, '#socBatDiv');
@@ -368,9 +371,9 @@ function impExpShow(mqttpayload, variable) {
 	var value = parseInt(mqttpayload);
 	var valueStr = Math.abs(value).toLocaleString(undefined);
     if(value > 0)
-       h = '<span style="background-color:#FFCFD0"> <small>Imp</small> ' + valueStr + '</span>'; 
+       h = '<span style="background-color:#FFCFD0"> <small>Import</small> ' + valueStr + '</span>'; 
     else
-       h = '<span style="background-color:#ACFFAB"> <small>Exp</small> ' + valueStr + '</span>'; 
+       h = '<span style="background-color:#ACFFAB"> <small>Export</small> ' + valueStr + '</span>'; 
 	$(variable).html(h);
 }
 
@@ -380,6 +383,19 @@ function kShow(mqttpayload, variable) {
 	value = (value / 1000);
 	var valueStr = value.toLocaleString(undefined, {minimumFractionDigits: 3, maximumFractionDigits: 3}) ;
 	$(variable).text(valueStr);
+}
+
+function BatShow(mqttpayload, variable) {
+		var value = parseFloat(mqttpayload);
+		if ( isNaN(value) ) {
+			value = 0;
+		}
+		var valueStr = value.toLocaleString(undefined) ;
+		if ( value < 0 )
+			valueStr = '<small>(Entladen)</small> ' + valueStr;
+		else
+			valueStr = '<small>(Laden)</small> ' + valueStr;
+		$(variable).html(valueStr );
 }
 
 // show absolute value (always >0)

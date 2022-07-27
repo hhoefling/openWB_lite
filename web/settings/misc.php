@@ -177,7 +177,7 @@
 									</label>
 								</div>
 							</div>
-							<div class="form-row mb-1 lp1cpon hide">
+							<div class="form-row mb-1 lp1cpon disabled">
 								<label for="cpunterbrechungdauerlp1" class="col-md-4 col-form-label">Dauer der Unterbrechung</label>
 								<div class="col-md-8">
 									<div class="form-row vaRow mb-1">
@@ -192,7 +192,7 @@
 									</span>
 								</div>
 							</div>
-							<div id="lp2cpdiv" class="hide">
+							<div id="lp2cpdiv" class="disabled">
 								<div class="form-row mt-2">
 									<div class="col-md-4">
 										<label class="col-form-label">Ladepunkt 2</label>
@@ -206,7 +206,7 @@
 										</label>
 									</div>
 								</div>
-								<div class="form-row mb-1 lp2cpon hide">
+								<div class="form-row mb-1 lp2cpon disabled">
 									<label for="cpunterbrechungdauerlp2" class="col-md-4 col-form-label">Dauer der Unterbrechung</label>
 									<div class="col-md-8">
 										<div class="form-row vaRow mb-1">
@@ -243,7 +243,7 @@
 									</span>
 								</div>
 							</div>
-							<div class="form-row mb-1 cpminlaufzeit hide">
+							<div class="form-row mb-1 cpminlaufzeit disabled">
 								<label for="cpunterbrechungmindestlaufzeit" class="col-md-4 col-form-label">Mindestlaufzeit nach Unterbrechung</label>
 								<div class="col-md-8">
 									<div class="form-row vaRow mb-1">
@@ -363,7 +363,7 @@
 								Zuletzt gescannter RFID Tag: <?php echo $lastrfid ?>
 							</div>
 						</div>
-						<div id="rfidan1div" class="hide">
+						<div id="rfidan1div" class="disabled">
 							<hr class="border-secondary">
 							<div class="form-group mb-1">
 								<div class="form-row">
@@ -786,7 +786,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="rfidan2div" class="hide">
+						<div id="rfidan2div" class="disabled">
 							<div class="alert alert-info">
 								Im Modus 2 wird eine Kommaseparierte Liste mit gültigen RFID Tags hinterlegt. Gescannt werden kann an jedem möglichen RFID Leser. Heißt auch bei mehreren Ladepunkten kann an einem zentralen RFID Leser gescannt werden. Der gescannte Tag wird dem zuletzt angeschlossenenen Auto zugewiesen, schaltet den Ladepunkt frei und vermerkt dies für das Ladelog. Wird erst gescannt und dann ein Auto angeschlossen wird der Tag dem Auto zugewiesen das als nächstes ansteckt. Wird 5 Minuten nach Scannen kein Auto angeschlossen wird der Tag verworfen. Jeder Ladepunkt wird nach abstecken automatisch wieder gesperrt.
 							</div>
@@ -865,7 +865,7 @@
 							<p>Zur Nutzung von Pushover muss ein Konto auf Pushover.net bestehen. Zudem muss im Pushover-Nutzerkonto eine Applikation openWB eingerichtet werden, um den benötigten API-Token/Key zu erhalten.</p>
 							Wenn Pushover eingeschaltet ist, werden die Zählerstände aller konfigurierten Ladepunkte immer zum 1. des Monats gepusht.
 						</div>
-						<div id="pushban" class="hide">
+						<div id="pushban" class="disabled">
 							<div class="form-group">
 								<div class="form-row mb-1">
 									<label for="pushoveruser" class="col-md-4 col-form-label">Pushover User Key</label>
@@ -994,7 +994,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-body hide" id="ledsan">
+					<div class="card-body disabled" id="ledsan">
 						<div class="form-group">
 							<div class="form-row">
 								<div class="col">
@@ -1263,7 +1263,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="hide" id="displayan">
+						<div class="disabled" id="displayan">
 							<div class="form-group">
 								<div class="form-row mb-1">
 									<div class="col">
@@ -1308,7 +1308,7 @@
 									</select>
 								</div>
 							</div>
-							<div id="displaygauge" class="hide">
+							<div id="displaygauge" class="disabled">
 								<div class="form-row vaRow mb-1">
 									<label for="displayevumax" class="col-md-4 col-form-label">EVU Skala Min Max</label>
 									<div class="col">
@@ -1361,7 +1361,7 @@
 									</div>
 								</div>
 							</div>
-							<div id="displaycards" class="hide">
+							<div id="displaycards" class="disabled">
 								<div class="form-row vaRow mb-1" id="displaylp3">
 									<label for="displaylp3max" class="col-md-4 col-form-label">Ladepunkt 3 Skala Max</label>
 									<div class="col">
@@ -1392,7 +1392,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-row mb-1 hide" id="displaypin">
+							<div class="form-row mb-1 disabled" id="displaypin">
 								<label for="displaypincode" class="col-md-4 col-form-label">PIN (4 Stellen, nur Zahlen erlaubt)</label>
 								<div class="col">
 									<input type="text" pattern="[0-9]{4}" minlength="4" maxlength="4" size="4" name="displaypincode" id="displaypincode" class="form-control" value="<?php echo $displaypincodeold ?>">

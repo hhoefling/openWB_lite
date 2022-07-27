@@ -86,6 +86,7 @@ class WbData {
 		var i;
 		for (i = 0; i < 3; i++) {	// 0..2 = 1..3
 			this.chargePoint[i].color = 'var(--color-lp' + (i + 1) + ')';
+			this.chargePoint[i].socrange=0;
 		}
 		for (i = 0; i < 9; i++) {   // 0..8 = 1..9
 			this.shDevice[i].color = 'var(--color-sh' + (i + 1) + ')';
@@ -186,11 +187,11 @@ class WbData {
 				this.updateConsumerSummary();
 				powerMeter.update();
 				break;
-			case 'currentPowerPrice':
-				case 'chargeMode':
-				priceChart.update();
-				chargePointList.update();
-				break
+//			case 'currentPowerPrice':
+//				case 'chargeMode':
+//				priceChart.update();
+//				chargePointList.update();
+//				break
 			case 'rfidConfigured':
 				d3.select('#codeEntry').classed ("hide", (!value))
 				break
@@ -259,6 +260,7 @@ class WbData {
 			case 'energy':
 				yieldMeter.update();
 				break;
+			case 'socrange':
 			case 'soc':
 				powerMeter.update();
 				break;
@@ -294,18 +296,18 @@ class WbData {
 	}
 
 
-	updateET(field,value) {
-		this[field]=value;
-		
-		switch (field) {
-			case 'etPrice':
-			case 'isEtEnabled': chargePointList.updateValues();
-			break;
-			default:
-				break;
-		}
-		priceChart.update()
-	}
+//	updateET(field,value) {
+//		this[field]=value;
+//		
+//		switch (field) {
+//			case 'etPrice':
+//			case 'isEtEnabled': chargePointList.updateValues();
+//			break;
+//			default:
+//				break;
+//		}
+//		priceChart.update()
+//	}
 
 	updateSourceSummary(cat, field, value) {
 		this.sourceSummary[cat][field] = value;

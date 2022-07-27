@@ -1,6 +1,10 @@
 #!/bin/bash
+#
+# 8.7.2022 umstellung auf python3 (needs evdev )
+#
 if [[ -z "$OPENWBBASEDIR" ]]; then
 	OPENWBBASEDIR=$(cd "$(dirname "$0")/../../" && pwd)
+	OPENWBBASEDIR=/var/www/html/openWB
 	RAMDISKDIR="${OPENWBBASEDIR}/ramdisk"
 fi
 
@@ -9,6 +13,7 @@ declare -F openwbDebugLog &> /dev/null || {
 }
 
 rfidInputHandlerStart(){
+
 	# daemon for input0
 	if [[ -r /dev/input/event0 ]] ; then
 		if pgrep -f '^python.*/readrfid.py -d event0' > /dev/null
@@ -16,7 +21,7 @@ rfidInputHandlerStart(){
 			openwbDebugLog "MAIN" 1 "rfid configured and handler for event0 is running"
 		else
 			openwbDebugLog "MAIN" 0 "rfid configured but handler for event0 not running; starting process"
-			sudo python "$OPENWBBASEDIR/runs/rfid/readrfid.py" -d event0 &
+			sudo python3 "$OPENWBBASEDIR/runs/rfid/readrfid.py" -d event0 &
 		fi
 	fi
 
@@ -27,7 +32,7 @@ rfidInputHandlerStart(){
 			openwbDebugLog "MAIN" 1 "rfid configured and handler for event1 is running"
 		else
 			openwbDebugLog "MAIN" 0 "rfid configured but handler for event1 not running; starting process"
-			sudo python "$OPENWBBASEDIR/runs/rfid/readrfid.py" -d event1 &
+			sudo python3 "$OPENWBBASEDIR/runs/rfid/readrfid.py" -d event1 &
 		fi	
 	fi
 }
@@ -35,7 +40,7 @@ export -f rfidInputHandlerStart
 
 rfidInputHandlerStop(){
 	openwbDebugLog "MAIN" 0 "rfid stop readrfid.py process"
-	sudo pkill -f '^python.*/readrfid.py'
+	sudo pkill -f '^python.*/readrfid.py' >/dev/null
 }
 export -f rfidInputHandlerStop
 
@@ -57,7 +62,7 @@ export -f rfidMode2UpdateList
 
 rfidMode2Stop(){
 	openwbDebugLog "MAIN" 1 "rfid stop rfidDaemon.py process"
-	sudo pkill -f '^python.*/rfidDaemon.py'
+	sudo pkill -f '^python.*/rfidDaemon.py' >/dev/null
 }
 export -f rfidMode2Stop
 

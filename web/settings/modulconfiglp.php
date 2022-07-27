@@ -92,7 +92,6 @@
 										<option <?php if($evseconold == "twcmanager") echo "selected" ?> value="twcmanager">Tesla TWC mit TWCManager</option> 
 									</optgroup>
 									<optgroup label="generische Module">
-										<option <?php if($evseconold == "dac") echo "selected" ?> value="dac">DAC</option>
 										<option <?php if($evseconold == "httpevse") echo "selected" ?> value="httpevse">HTTP (httpevse)</option>
 										<option <?php if($evseconold == "modbusevse" && !($ladeleistungmodulold == "mpm3pmll" && ($mpm3pmllsourceold == "/dev/ttyUSB0" || $mpm3pmllsourceold == "/dev/serial0") && ($mpm3pmllidold == "0" || $mpm3pmllidold == "5" || $mpm3pmllidold == "105"))) echo "selected" ?> value="modbusevse">Modbusevse</option>
 										<option <?php if($evseconold == "mqttevse") echo "selected" ?> value="mqttevse">MQTT (mqttevse)</option>
@@ -165,21 +164,6 @@
 							<input type="hidden" name="mpm3pmllid" value="105">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich.
-							</div>
-						</div>
-						<div id="evsecondac" class="hide">
-							<div class="form-group">
-								<div class="form-row mb-1">
-									<label for="dacregister" class="col-md-4 col-form-label">Dacregister</label>
-									<div class="col">
-										<input class="form-control" type="number" min="0" max="99" step="1" name="dacregister" id="dacregister" value="<?php echo $dacregisterold ?>">
-										<span class="form-text small">
-											Gültige Werte 0-99. Bei EVSE Anbindung per DAC (MCP 4725) Standardwert meist 62, oft auch 60 oder 48. Abhängig vom verbauten MCP.
-											Der benötigte Wert sollte <a href="/openWB/ramdisk/i2csearch">HIER</a> zu finden sein.
-											Alternativ herauszufinden bei angeschlossenem MCP auf der shell mit dem Befehl: "sudo i2cdetect -y 1"
-										</span>
-									</div>
-								</div>
 							</div>
 						</div>
 						<div id="evseconswifi" class="hide">
@@ -2107,7 +2091,6 @@
 						// visibility of charge point types
 						function display_lp1() {
 							hideSection('#llmodullp1');
-							hideSection('#evsecondac');
 							hideSection('#evseconmod');
 							hideSection('#evseconswifi');
 							hideSection('#evsecongoe');
@@ -2164,11 +2147,6 @@
 							}
 							if($('#evsecon').val() == 'buchse') {
 								showSection('#openwbbuchse');
-							}
-							if($('#evsecon').val() == 'dac') {
-								showSection('#evsecondac');
-								showSection('#llmodullp1');
-								display_llmp1();
 							}
 							if($('#evsecon').val() == 'simpleevsewifi') {
 								showSection('#evseconswifi');
@@ -2466,7 +2444,6 @@
 										<option <?php if($evsecons1old == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi</option>
 									</optgroup>
 									<optgroup label="generische Module">
-										<option <?php if($evsecons1old == "dac") echo "selected" ?> value="dac">DAC (dac)</option>
 										<option <?php if($evsecons1old == "modbusevse" && !($evseids1old == "1" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB1" && $mpm3pmlls1idold == "6" && $evsesources1old == "/dev/ttyUSB1") && !($evseids1old == "2" && $ladeleistungs1modulold == "mpm3pmlls1" && $mpm3pmlls1sourceold == "/dev/ttyUSB0" && $mpm3pmlls1idold == "106" && $evsesources1old == "/dev/ttyUSB0") ) echo "selected" ?> value="modbusevse">Modbus</option>
 										<option <?php if($evsecons1old == "mqttevse") echo "selected" ?> value="mqttevse">MQTT (mqttevse)</option>
 									</optgroup>
@@ -2642,21 +2619,6 @@
 										<span class="form-text small">
 											Gültige Werte IP Adresse im Format: 192.168.0.12<br>
 											IP Adresse des Modbus/Lan Konverter. Vermutlich gleich der IP des SDM Zählers in der WB.
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div id="evsecondacs1" class="hide">
-							<div class="form-group">
-								<div class="form-row mb-1">
-									<label for="dacregisters1" class="col-md-4 col-form-label">Dacregister</label>
-									<div class="col">
-										<input class="form-control" type="number" min="0" max="99" step="1" name="dacregisters1" id="dacregisters1" value="<?php echo $dacregisters1old ?>">
-										<span class="form-text small">
-											Gültige Werte 0-99. Bei EVSE Anbindung per DAC (MCP 4725) Standardwert meist 62, oft auch 60 oder 48. Abhängig vom verbauten MCP.
-											Der benötigte Wert sollte <a href="/openWB/ramdisk/i2csearch">HIER</a> zu finden sein.
-											Alternativ rauszufinden bei angeschlossenem MCP auf der shell mit dem Befehl: "sudo i2cdetect -y 1"
 										</span>
 									</div>
 								</div>
@@ -4095,7 +4057,6 @@
 					</div>
 					<script>
 						function display_lp2() {
-							hideSection('#evsecondacs1');
 							hideSection('#evseconmbs1');
 							hideSection('#evseconswifis1');
 							hideSection('#llmodullp2');
@@ -4127,11 +4088,6 @@
 							}
 							if($('#evsecons1').val() == 'ipevse') {
 								showSection('#evseconipevselp2');
-								showSection('#llmodullp2');
-								display_llmp2();
-							}
-							if($('#evsecons1').val() == 'dac') {
-								showSection('#evsecondacs1');
 								showSection('#llmodullp2');
 								display_llmp2();
 							}
@@ -4446,7 +4402,6 @@
 										<option <?php if($evsecons2old == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi</option>
 									</optgroup>
 									<optgroup label="generische Module">
-										<option <?php if($evsecons2old == "dac") echo "selected" ?> value="dac">DAC</option>
 										<option <?php if($evsecons2old == "modbusevse") echo "selected" ?> value="modbusevse">Modbus</option>
 										<option <?php if($evsecons2old == "mqttevse") echo "selected" ?> value="mqttevse">MQTT</option>
 									</optgroup>
@@ -4540,21 +4495,6 @@
 										<span class="form-text small">
 											Gültige Werte IP Adresse im Format: 192.168.0.12<br>
 											IP Adresse des Modbus/Lan Konverter. Vermutlich gleich der IP des SDM Zählers in der WB.
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div id="evsecondacs2" class="hide">
-							<div class="form-group">
-								<div class="form-row mb-1">
-									<label for="dacregisters2" class="col-md-4 col-form-label">Dacregister</label>
-									<div class="col">
-										<input class="form-control" type="number" min="0" max="99" step="1" name="dacregisters2" id="dacregisters2" value="<?php echo $dacregisters2old ?>">
-										<span class="form-text small">
-											Gültige Werte 0-99. Bei EVSE Anbindung per DAC (MCP 4725) Standardwert meist 62, oft auch 60 oder 48. Abhängig vom verbauten MCP.
-											Der benötigte Wert sollte <a href="/openWB/ramdisk/i2csearch">HIER</a> zu finden sein.
-											Alternativ rauszufinden bei angeschlossenem MCP auf der shell mit dem Befehl: "sudo i2cdetect -y 1"
 										</span>
 									</div>
 								</div>
@@ -4791,7 +4731,6 @@
 						}
 
 						function display_lp3 () {
-							hideSection('#evsecondacs2');
 							hideSection('#evseconmbs2');
 							hideSection('#evseconswifis2');
 							hideSection('#llmodullp3');
@@ -4804,11 +4743,6 @@
 
 							if($('#evsecons2').val() == 'thirdeth') {
 								showSection('#evseconthirdeth');
-							}
-							if($('#evsecons2').val() == 'dac') {
-								showSection('#evsecondacs2');
-								showSection('#llmodullp3');
-								display_llmp3();
 							}
 							if($('#evsecons2').val() == 'mqttevse') {
 								showSection('#evseconmqtts2');

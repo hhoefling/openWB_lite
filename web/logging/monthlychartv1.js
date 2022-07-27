@@ -7,7 +7,7 @@
  */
 
 const DATACOLUMNCOUNT = 59;  // count of native data columns received by mqtt (including timestamp-column)
-const LPCOLUMNS = [4, 5, 6, 12, 13, 14, 15, 16];  // column-indexes of LP-entries in csvData-array
+const LPCOLUMNS = [4, 5, 6]; // , 12, 13, 14, 15, 16];  // column-indexes of LP-entries in csvData-array
 
 var initialread = 0;
 var indexb = 0;
@@ -87,8 +87,29 @@ var graphMonth = graphDate.substring(4);
 // Date-object expects month January = 0, so the var month actually contains number of next month
 // therefore no correction to month is needed by getting the # of days in selected month
 var daysInMonth = new Date(graphYear, graphMonth, 0).getDate();
+
+//Connect Options
+var isSSL = location.protocol == 'https:';
+var port = isSSL ? 443 : 9001;
+var options = {
+	timeout: 5,
+	useSSL: isSSL,
+	//Gets Called if the connection has been established
+	onSuccess: function () {
+		retries = 0;
+		thevalues.forEach(function(thevar) {
+			client.subscribe(thevar[0], {qos: 0});
+		});
+		requestmonthgraph();
+	},
+	//Gets Called if the connection could not be established
+	onFailure: function (message) {
+		client.connect(options);
+	}
+};
+
 var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-var client = new Messaging.Client(location.hostname, 9001, clientuid);
+var client = new Messaging.Client(location.hostname, port, clientuid);
 
 function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 	if ( mqttmsg.match( /^openWB\/config\/get\/SmartHome\/Devices\/[1-9][0-9]*\/device_name$/i ) ) {
@@ -147,24 +168,6 @@ client.onMessageArrived = function (message) {
 
 var retries = 0;
 
-//Connect Options
-var isSSL = location.protocol == 'https:';
-var options = {
-	timeout: 5,
-	useSSL: isSSL,
-	//Gets Called if the connection has been established
-	onSuccess: function () {
-		retries = 0;
-		thevalues.forEach(function(thevar) {
-			client.subscribe(thevar[0], {qos: 0});
-		});
-		requestmonthgraph();
-	},
-	//Gets Called if the connection could not be established
-	onFailure: function (message) {
-		client.connect(options);
-	}
-};
 
 client.connect(options);
 

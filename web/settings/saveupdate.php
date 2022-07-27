@@ -89,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		<form action="settings/executeupdate.php" method="post" id="execute_update_form"></form>
 		<script>$('#execute_update_form').submit()</script>
 		<?php
-				
 	} catch ( Exception $e ) {
 		$msg = $e->getMessage();
 		echo "<script>alert('$msg');</script>";

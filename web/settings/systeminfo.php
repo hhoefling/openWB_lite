@@ -51,6 +51,10 @@
 				// if no releasetrain set, set stable
 				$releasetrain="stable";
 			}
+			if ( $releasetrain == "stable17" ) {
+				// if no releasetrain set, set stable
+				$releasetrain="stable";
+			}
 			
 		?>
 
@@ -81,6 +85,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
+
 							Board: <span id="board">--</span><br>
 							CPU: <?php echo exec('cat /proc/cpuinfo | grep -m 1 "model name" | sed "s/^.*: //"'); ?><br>
 							CPU-Kerne: <?php echo exec('cat /proc/cpuinfo | grep processor | wc -l'); ?><br>
@@ -135,6 +140,59 @@
 					</div>
 				</div>
 			</div>
+			
+	        <div class="card border-secondary">
+				<div class="card-header bg-secondary">
+					Netzwerk
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<p>
+							Mosquito: <pre><?php 
+											$lines=[];
+											exec('sudo netstat -nap | grep VERBUNDEN | grep tcp', $lines);
+											echo implode('<br>',$lines);
+                                       ?>											</pre>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="card-header bg-secondary">
+					Processe
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<p>
+							PS: <pre><?php 
+											$lines=[];
+											exec('sudo ps -efl | grep open ', $lines);
+											echo implode('<br>',$lines);
+                                       ?>
+								</pre>
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="card-header bg-secondary">
+					Regelscheife
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<?php 
+											$lines=[];
+											exec('/var/www/html/openWB/statregel.sh -t', $lines);
+											echo implode('',$lines);
+                                  ?>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
 
 		</div>  <!-- container -->
 
@@ -174,7 +232,7 @@
 					$('#installedVersionSpan').data('version', result);
 				});
 
-				if('<?php echo $releasetrain ?>' == 'master') {
+				if( '<?php echo $releasetrain ?>' == 'master' ) {
 					$.get({
 						url: '/openWB/web/lastcommit',
 						cache: false

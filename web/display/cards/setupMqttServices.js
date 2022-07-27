@@ -45,6 +45,10 @@ var topicsToSubscribe = [
 	// lp topics
 	["openWB/lp/1/%Soc", 1],
 	["openWB/lp/2/%Soc", 1],
+	["openWB/lp/1/socKM", 0],
+	["openWB/lp/2/socKM", 0],
+	["openWB/lp/1/socRange", 0],
+	["openWB/lp/2/socRange", 0],
 	// geladene kWh seit anstecken des EV
 	["openWB/lp/1/kWhChargedSincePlugged", 1],
 	["openWB/lp/2/kWhChargedSincePlugged", 1],
@@ -240,6 +244,7 @@ var retries = 0;
 
 //Connect Options
 var isSSL = location.protocol == 'https:'
+var port = isSSL ? 443 : 9001;
 var options = {
 	timeout: 5,
 	useSSL: isSSL,
@@ -266,7 +271,7 @@ var options = {
 };
 
 var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 5);
-var client = new Messaging.Client(location.hostname, 9001, clientuid);
+var client = new Messaging.Client(location.hostname, port, clientuid);
 
 $(document).ready(function(){
 	client.connect(options);

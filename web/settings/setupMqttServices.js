@@ -8,6 +8,7 @@
 
 //Connect Options
 var isSSL = location.protocol == 'https:'
+var port = isSSL ? 443 : 9001;
 var options = {
 	timeout: 5,
 	useSSL: isSSL,
@@ -24,7 +25,7 @@ var options = {
 };
 
 var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 5);
-var client = new Messaging.Client(location.hostname, 9001, clientuid);
+var client = new Messaging.Client(location.hostname, port, clientuid);
 
 $(document).ready(function(){
 	client.connect(options);
@@ -52,5 +53,6 @@ function publish(payload, topic) {
 	message.destinationName = topic;
 	message.qos = 2;
 	message.retained = true;
+	console.log('mqtt.publish:', topic, ' = ', payload);
 	client.send(message);
 }

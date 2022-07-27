@@ -2,7 +2,7 @@
 
 # Allow 3 minutes between RFID scan and plugin - else the CP gets disabled again
 declare -r MaximumSecondsAfterRfidScanToAssignCp=180
-declare -r none_SocketActivationFile="ramdisk/socketActivationRequested"
+#declare -r SocketActivationFile="ramdisk/socketActivationRequested"
 
 # lastmanagement == 1 means that it's on openWB duo
 if (( lastmanagement > 0 )); then
@@ -75,99 +75,100 @@ rfid() {
 	fi
 
 	#
-	# handle special behaviour for slave mode
+	# handle special behaviour for slave mode, yourCharge
 	#
-	if (( slavemode == 1 )); then
-
-#HH		if (( standardSocketInstalled > 0 )); then
+#	if (( slavemode == 1 )); then
+#
+#		if (( standardSocketInstalled > 0 )); then
 #			checkTagValidForSocket
 #		fi
-
-		# handle plugin only if we have valid un-assigned start data (i.e. an RFID-scan that has not yet been assigned to a CP)
-		if [ -f "${StartScanDataLocation}" ]; then
-
-			# extract fragments of start data
-			startData=$(<"${StartScanDataLocation}")
-			IFS=',' read -r -a startDataSegments <<< "$startData"
-
-			if (( pluggedLp > 0 )) || ( (( InstalledChargePoints == 1 )) && (( plugstat == 1 )) && [[ ! -f "${StartScanDataLocation}Lp1" ]] ); then
-
-				local pluggedLpToUse=$pluggedLp
-				if (( pluggedLp == 0)); then
-					# happens for openWB single if already plugged in
-					pluggedLp=1
-				fi
-
-				startDataForPluggedLp="${startData}"
-				openwbDebugLog "MAIN" 0 "Charge point #${pluggedLp} has been plugged in - recording accounting start data"
-				echo "${startDataForPluggedLp}" > "${StartScanDataLocation}Lp${pluggedLp}"
-				rm -f "${StartScanDataLocation}"
-			else
-				secondsSinceRfidScan=$(( NowItIs - startDataSegments[0] ))
-
-				openwbDebugLog "MAIN" 2 "Not yet plugged in any CP ${secondsSinceRfidScan} seconds after RFID scan. Further waiting for plugin for at most ${MaximumSecondsAfterRfidScanToAssignCp} seconds"
-
-				# check for timeout of start data
-				if (( secondsSinceRfidScan > MaximumSecondsAfterRfidScanToAssignCp )); then
-					openwbDebugLog "MAIN" 0 "Timeout (${secondsSinceRfidScan} > ${MaximumSecondsAfterRfidScanToAssignCp} seconds) waiting for plugin after RFID scan. Disabling the CP and deleting accounting data."
-
-					# in case of timeout we disable all CPs that are NOT plugged in right now
-					for ((currentCp=1; currentCp<=InstalledChargePoints; currentCp++)); do
-						if [[ "${lpsPlugStat[$currentCp]}" -ne "1" ]]; then
-							openwbDebugLog "MAIN" 0 "Disabling CP #${currentCp} as it's still unplugged after timeout of RFID tag scan has been exceeded"
-							mosquitto_pub -r -q 2 -t "openWB/set/lp/${currentCp}/ChargePointEnabled" -m "0"
-							eval lp${currentCp}enabled=0
-						fi
-					done
-
-					rm -f "${StartScanDataLocation}"
-				fi
-			fi
-		fi
-
-		# handle un-plug
-		for ((currentCp=1; currentCp<=InstalledChargePoints; currentCp++)); do
-			if (( unpluggedLps[currentCp] > 0 )); then
-				openwbDebugLog "MAIN" 0 "Charge point #${currentCp} has been UNplugged - if running, stop sending accounting data (after one final transmission)"
-
-				# one final transmission of accounting data ...
-				sendAccounting "$currentCp"
-
-				# ... before we disabled it by removing the start info
-				rm -f "${StartScanDataLocation}Lp${currentCp}"
-			fi
-
-			# finally actually transmit the accounting data
-			sendAccounting "$currentCp"
-		done
-	fi
+#
+#		# handle plugin only if we have valid un-assigned start data (i.e. an RFID-scan that has not yet been assigned to a CP)
+#		if [ -f "${StartScanDataLocation}" ]; then
+#
+#			# extract fragments of start data
+#			startData=$(<"${StartScanDataLocation}")
+#			IFS=',' read -r -a startDataSegments <<< "$startData"
+#
+#			if (( pluggedLp > 0 )) || ( (( InstalledChargePoints == 1 )) && (( plugstat == 1 )) && [[ ! -f "${StartScanDataLocation}Lp1" ]] ); then
+#
+#				local pluggedLpToUse=$pluggedLp
+#				if (( pluggedLp == 0)); then
+#					# happens for openWB single if already plugged in
+#					pluggedLp=1
+#				fi
+#
+#				startDataForPluggedLp="${startData}"
+#				openwbDebugLog "MAIN" 0 "Charge point #${pluggedLp} has been plugged in - recording accounting start data"
+#				echo "${startDataForPluggedLp}" > "${StartScanDataLocation}Lp${pluggedLp}"
+#				rm -f "${StartScanDataLocation}"
+#			else
+#				secondsSinceRfidScan=$(( NowItIs - startDataSegments[0] ))
+#
+#				openwbDebugLog "MAIN" 2 "Not yet plugged in any CP ${secondsSinceRfidScan} seconds after RFID scan. Further waiting for plugin for at most ${MaximumSecondsAfterRfidScanToAssignCp} seconds"
+#
+#				# check for timeout of start data
+#				if (( secondsSinceRfidScan > MaximumSecondsAfterRfidScanToAssignCp )); then
+#					openwbDebugLog "MAIN" 0 "Timeout (${secondsSinceRfidScan} > ${MaximumSecondsAfterRfidScanToAssignCp} seconds) waiting for plugin after RFID scan. Disabling the CP and deleting accounting data."
+#
+#					# in case of timeout we disable all CPs that are NOT plugged in right now
+#					for ((currentCp=1; currentCp<=InstalledChargePoints; currentCp++)); do
+#						if [[ "${lpsPlugStat[$currentCp]}" -ne "1" ]]; then
+#							openwbDebugLog "MAIN" 0 "Disabling CP #${currentCp} as it's still unplugged after timeout of RFID tag scan has been exceeded"
+#							mosquitto_pub -r -q 2 -t "openWB/set/lp/${currentCp}/ChargePointEnabled" -m "0"
+#							eval lp${currentCp}enabled=0
+#						fi
+#					done
+#
+#					rm -f "${StartScanDataLocation}"
+#				fi
+#			fi
+#		fi
+#
+#		# handle un-plug
+#		for ((currentCp=1; currentCp<=InstalledChargePoints; currentCp++)); do
+#			if (( unpluggedLps[currentCp] > 0 )); then
+#				openwbDebugLog "MAIN" 0 "Charge point #${currentCp} has been UNplugged - if running, stop sending accounting data (after one final transmission)"
+#
+#				# one final transmission of accounting data ...
+#				sendAccounting "$currentCp"
+#
+#				# ... before we disabled it by removing the start info
+#				rm -f "${StartScanDataLocation}Lp${currentCp}"
+#			fi
+#
+#			# finally actually transmit the accounting data
+#			sendAccounting "$currentCp"
+#		done
+#	fi
 }
 
 
+# yourCharge
 # sends the accounting data via MQTT if start data for given charge point is available
-sendAccounting() {
-
-	chargePoint=$1
-
-	if [ -f "${StartScanDataLocation}Lp${chargePoint}" ]; then
-
-		if (( lpsPlugStat[chargePoint] == 255 )); then
-			openwbDebugLog "MAIN" 0 "Plug state for CP ${chargePoint} contains garbage. Not sending accounting data"
-			return
-		fi
-
-		getCpChargestat "$chargePoint"
-		local chargestatToUse=$?
-		if (( chargestatToUse == 255 )); then
-			openwbDebugLog "MAIN" 0 "Charge state for CP ${chargePoint} contains garbage. Not sending accounting data"
-			return
-		fi
-
-		openwbDebugLog "MAIN" 2 "Sending accounting data for CP #${chargePoint}"
-		startDataAcc=$(<"${StartScanDataLocation}Lp${chargePoint}")
-		mosquitto_pub -r -q 2 -t "openWB/lp/${chargePoint}/Accounting" -m "${startDataAcc},$NowItIs,${lpsPlugStat[$chargePoint]},$chargestatToUse,$llkwh"
-	fi
-}
+#sendAccounting() {
+#
+#	chargePoint=$1
+#
+#	if [ -f "${StartScanDataLocation}Lp${chargePoint}" ]; then
+#
+#		if (( lpsPlugStat[chargePoint] == 255 )); then
+#   		openwbDebugLog "MAIN" 0 "Plug state for CP ${chargePoint} contains garbage. Not sending accounting data"
+#			return
+#		fi
+#
+#		getCpChargestat "$chargePoint"
+#		local chargestatToUse=$?
+#		if (( chargestatToUse == 255 )); then
+#			openwbDebugLog "MAIN" 0 "Charge state for CP ${chargePoint} contains garbage. Not sending accounting data"
+#			return
+#		fi
+#
+#		openwbDebugLog "MAIN" 2 "Sending accounting data for CP #${chargePoint}"
+#		startDataAcc=$(<"${StartScanDataLocation}Lp${chargePoint}")
+#		mosquitto_pub -r -q 2 -t "openWB/lp/${chargePoint}/Accounting" -m "${startDataAcc},$NowItIs,${lpsPlugStat[$chargePoint]},$chargestatToUse,$llkwh"
+#	fi
+#}
 
 
 # determine if any of LP1 or LP2 has just been plugged in
@@ -239,71 +240,72 @@ setLpPlugChangeState() {
   set -u
 }
 
+# Yourcharge
 # checks if the tag stored in $lasttag is valid for socket activation (if it is, returning 0, else > 0)
-none_checkTagValidForSocket() {
-
-	if [[ $lasttag == "0" ]]; then
-		return 1
-	fi
-
+#checkTagValidForSocket() {
+#
+#	if [[ $lasttag == "0" ]]; then
+#		return 1
+#	fi
+#
 #	local ramdiskFileForSocket="ramdisk/AllowedRfidsForSocket"
 #	if [ ! -f "$ramdiskFileForSocket" ]; then
 #		return 1
 #	fi
-
-	local rfidlist
-	rfidlist=$(<"$ramdiskFileForSocket")
-	openwbDebugLog "MAIN" 0 "rfidlist(Socket)='${rfidlist}'"
-
-	# leave right away if we have no list of valid RFID tags for the charge point
-	if [ -z "$rfidlist" ]; then
-		echo "$NowItIs: Empty 'allowed tags list' for socket after scan of tag '${lasttag}'"
-		return 1
-	fi
-
-	for i in ${rfidlist//,/ }
-	do
-		if [ "$lasttag" == "$i" ] ; then
-
-			# and the ramdisk file for legacy ladelog
-			echo "$lasttag" > "ramdisk/rfidSocket"
-
-			if [ -f $SocketActivationFile ]; then
-				# we have activate status ...
-				local requested
-				requested=$(<$SocketActivationFile)
-				local active
-				active=$(<ramdisk/socketActivated)
-				if (( requested > 0 )) || (( active > 0 )); then
-					# ... and it's already requested or active --> request DEactivation
-					echo 2 > $SocketActivationFile
-				else
-					# ... and it's not active --> request Activation
-					echo 1 > $SocketActivationFile
-				fi
-			else
-				# no activated status --> request Activation
-				echo 1 > $SocketActivationFile
-			fi
-
-			echo "$NowItIs: Detected RFID scan of '$lasttag' @ meter value $llkwh as socket control request"
-
-			local tagScanInfo="$NowItIs,$lasttag,2"
-			echo "$tagScanInfo" > "ramdisk/tagScanInfoLp1"
-			mosquitto_pub -r -q 2 -t "openWB/lp/1/tagScanInfo" -m "$tagScanInfo"
-
-			return 0
-		fi
-	done
-
-	echo "$NowItIs: RFID tag '${lasttag}' is not authorized to control socket"
-
-	local tagScanInfo="$NowItIs,$lasttag,0"
-	echo "$tagScanInfo" > "ramdisk/tagScanInfoLp1"
-	mosquitto_pub -r -q 2 -t "openWB/lp/1/tagScanInfo" -m "$tagScanInfo"
-
-	return 1
-}
+#
+#	local rfidlist
+#	rfidlist=$(<"$ramdiskFileForSocket")
+#	openwbDebugLog "MAIN" 0 "rfidlist(Socket)='${rfidlist}'"
+#
+#	# leave right away if we have no list of valid RFID tags for the charge point
+#	if [ -z "$rfidlist" ]; then
+#		echo "$NowItIs: Empty 'allowed tags list' for socket after scan of tag '${lasttag}'"
+#		return 1
+#	fi
+#
+#	for i in ${rfidlist//,/ }
+#	do
+#		if [ "$lasttag" == "$i" ] ; then
+#
+#			# and the ramdisk file for legacy ladelog
+#			echo "$lasttag" > "ramdisk/rfidSocket"
+#
+#			if [ -f $SocketActivationFile ]; then
+#				# we have activate status ...
+#				local requested
+#				requested=$(<$SocketActivationFile)
+#				local active
+#				active=$(<ramdisk/socketActivated)
+#				if (( requested > 0 )) || (( active > 0 )); then
+#					# ... and it's already requested or active --> request DEactivation
+#					echo 2 > $SocketActivationFile
+#				else
+#					# ... and it's not active --> request Activation
+#					echo 1 > $SocketActivationFile
+#				fi
+#			else
+#				# no activated status --> request Activation
+#				echo 1 > $SocketActivationFile
+#			fi
+#
+#			echo "$NowItIs: Detected RFID scan of '$lasttag' @ meter value $llkwh as socket control request"
+#
+#			local tagScanInfo="$NowItIs,$lasttag,2"
+#			echo "$tagScanInfo" > "ramdisk/tagScanInfoLp1"
+#			mosquitto_pub -r -q 2 -t "openWB/lp/1/tagScanInfo" -m "$tagScanInfo"
+#
+#			return 0
+#		fi
+#	done
+#
+#	echo "$NowItIs: RFID tag '${lasttag}' is not authorized to control socket"
+#
+#	local tagScanInfo="$NowItIs,$lasttag,0"
+#	echo "$tagScanInfo" > "ramdisk/tagScanInfoLp1"
+#	mosquitto_pub -r -q 2 -t "openWB/lp/1/tagScanInfo" -m "$tagScanInfo"
+#
+#	return 1
+#}
 
 # checks if the tag stored in $lasttag is valid for the charge point passed in $1
 checkTagValidAndSetStartScanData() {
@@ -312,10 +314,11 @@ checkTagValidAndSetStartScanData() {
 
 	# if we're in slave mode on an openWB dual and the LP has not just been plugged in (in same control interval as the RFID scan)
 	# we completely ignore the scan as we cannot associate it with a plugin operation
-	if (( slavemode == 1 )) && (( lpsPlugStat[chargePoint] > 0 )) && (( pluggedLps[chargePoint] != 1 )) && ( (( lastmanagement != 0 )) || (( chargePoint > 1 )) ); then
-		openwbDebugLog "MAIN" 0 "Ignoring RFID scan of tag '${lasttag}' for CP #${chargePoint} because that CP is not in 'unplugged' state (plugstatToUse == ${lpsPlugStat[$chargePoint]}, justPlugged == ${pluggedLps[$chargePoint]}, lastmanagement=${lastmanagement})"
-		return 0
-	fi
+# YourCharge
+#	if (( slavemode == 1 )) && (( lpsPlugStat[chargePoint] > 0 )) && (( pluggedLps[chargePoint] != 1 )) && ( (( lastmanagement != 0 )) || (( chargePoint > 1 )) ); then
+#		openwbDebugLog "MAIN" 0 "Ignoring RFID scan of tag '${lasttag}' for CP #${chargePoint} because that CP is not in 'unplugged' state (plugstatToUse == ${lpsPlugStat[$chargePoint]}, justPlugged == ${pluggedLps[$chargePoint]}, lastmanagement=${lastmanagement})"
+#		return 0
+#	fi
 
 	local ramdiskFileForCp="ramdisk/AllowedRfidsForLp${chargePoint}"
 	if [ ! -f "$ramdiskFileForCp" ]; then
@@ -351,7 +354,8 @@ checkTagValidAndSetStartScanData() {
 			openwbDebugLog "MAIN" 0 "Start waiting for ${MaximumSecondsAfterRfidScanToAssignCp} seconds for CP #${chargePoint} to get plugged in after RFID scan of '$lasttag' @ meter value $llkwh (justPlugged == ${pluggedLps[$chargePoint]})"
 
 			# explicitly and immediately disable the socket
-			echo 2 > $SocketActivationFile
+            # YourCharge
+			# echo 2 > $SocketActivationFile
 
 			return 0
 		fi

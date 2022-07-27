@@ -58,6 +58,9 @@ var thevalues = [
 //	["openWB/lp/8/boolChargePointConfigured"]
 ];
 
+//Connect Options
+var isSSL = location.protocol == 'https:';
+var port = isSSL ? 443 : 9001;
 var options = {
 	timeout: 5,
 	onSuccess: function () {
@@ -382,7 +385,7 @@ function getCol(matrix, col){
 // run
 initLadelog();
 
-var client = new Messaging.Client(location.hostname,9001, clientuid);
+var client = new Messaging.Client(location.hostname,port, clientuid);
 client.onMessageArrived = function (message) {
 	handlevar(message.destinationName, message.payloadString, thevalues[0], thevalues[1]);
 };

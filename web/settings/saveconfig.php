@@ -34,10 +34,11 @@
 		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
 	</head>
 
-<?php	
+<?php
 	// receives chosen modulconfig pages via POST-request,
 	// writes value to config file and returns to theme
 	// author: M. Ortenstein, L. Bender
+
 	$myConfigFile = $_SERVER['DOCUMENT_ROOT'].'/openWB/openwb.conf';
 
 	// prepare key/value array
@@ -87,16 +88,7 @@
 				}
 			);
       </script>
-      
-		<div role="main" class="container" style="margin-top:20px">
-			<h1>Einstellungen werden gespeichert</h1>
-			<div id="feedbackdiv" class="alert alert-info">
-				Bitte warten ... <i class="fas fa-cog fa-spin"></i>
-				<?php if( $settingsArray['debug'] < 1 )
-  				          echo "<small>&nbsp;&nbsp;(1 Sekunde)</small> "; 
-				     else echo "<small>&nbsp;&nbsp;(10 Sekunden)</small>"; 
-				?>
-			</div>
+     
 
 <?php
 
@@ -162,7 +154,11 @@
 			exec( 'mosquitto_pub -t openWB/system/reloadDisplay -m "1"' );
 			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/execdisplay', "1");
 		}
+		if( array_key_exists( 'displaypinaktiv', $_POST ) ) { 
+		   exec( 'mosquitto_pub -t openWB/config/get/display/displayPinAktiv -r -m "' . $settingsArray['displaypinaktiv'] .'"' );
+		}
 
+	
 		// update smashm.conf if in POST data
 		//
 		//if( array_key_exists( 'smashmbezugid', $_POST ) ){
@@ -179,12 +175,12 @@
 		//}
 		
 		// start etprovider update if in POST data
-		if( array_key_exists( 'etprovideraktiv', $_POST ) && ($_POST['etprovideraktiv'] == 1) ){ ?>
-			<script>$('#feedbackdiv').append("<br>Update des Stromtarifanbieters gestartet.");</script>
-			<?php
-			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['etprovider'] . "/main.sh >> /var/log/openWB.log 2>&1 &" );
-			exec( 'mosquitto_pub -t openWB/global/ETProvider/modulePath -r -m "' . $_POST['etprovider'] . '"' );
-		}
+//		if( array_key_exists( 'etprovideraktiv', $_POST ) && ($_POST['etprovideraktiv'] == 1) ){ ?>
+//			<script>$('#feedbackdiv').append("<br>Update des Stromtarifanbieters gestartet.");</script>
+//			<?php
+//			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['etprovider'] . "/main.sh >> /var/log/openWB.log 2>&1 &" );
+//			exec( 'mosquitto_pub -t openWB/global/ETProvider/modulePath -r -m "' . $_POST['etprovider'] . '"' );
+//		}
 
 		// start ev-soc updates if in POST data
 		// if( array_key_exists( 'socmodul', $_POST ) && ($_POST['socmodul'] != 'none') ){
@@ -213,6 +209,19 @@
 		$msg = $e->getMessage();
 		echo "<script>alert('$msg');</script>";
 	}
+	
+?>
+		<div role="main" class="container" style="margin-top:20px">
+			<h1>Einstellungen werden gespeichert</h1>
+			<div id="feedbackdiv" class="alert alert-info">
+				Bitte warten ... <i class="fas fa-cog fa-spin"></i>
+				<?php if( $settingsArray['debug'] < 1 )
+  				          echo "<small>&nbsp;&nbsp;(1 Sekunde)</small> "; 
+				     else echo "<small>&nbsp;&nbsp;(10 Sekunden)</small>"; 
+				?>
+			</div>
+
+<?php	
 	if( $settingsArray['debug'] >=1 )
 	{
 		echo "<div class=\"alert alert-info\">";
@@ -235,16 +244,14 @@
 	// return to theme
 	if( $settingsArray['debug'] < 1 )
 	{
-	  echo " <script>
-			window.setTimeout( function(){ window.location.href='index.php'; }, 1000);
-		</script>
-		";
+	  echo " <script>\n
+			window.setTimeout( function(){ window.location.href='index.php'; }, 1000);\n
+		    </script>\n";
 	} else
 	{
 		 echo "<script>\n
 				window.setTimeout( function(){ window.location.href='index.php'; }, 10000);\n
-			</script>
-			";
+			</script>\n";
 	}
 ?>
 	</body>

@@ -15,7 +15,7 @@ class Sbase(Sbase0):
     einschwelle = 0
     einverz = 0
     eindevices = 0
-        #
+    #
     ausdevices = 0
     ausschaltwatt = 0
     einrelais = 0
@@ -173,15 +173,15 @@ class Sbase(Sbase0):
             timesince = int(time.time()) - int(self.c_mantime)
             if (manverz < timesince):
                 log.info("(" + str(self.device_nummer) + ") von Manuell "
-                              + "auf Automatisch gestellt oder startup,"
-                              + " Uebergangsfrist abgelaufen" +
-                              self.c_mantime_f)
+                         + "auf Automatisch gestellt oder startup,"
+                         + " Uebergangsfrist abgelaufen" +
+                         self.c_mantime_f)
                 self.c_mantime_f = 'N'
             else:
                 log.info("(" + str(self.device_nummer) + ") von Manuell" +
-                              " auf Automatisch gestellt oder startup," +
-                              " Übergangsfrist laueft noch " + str(manverz) +
-                              " > " + str(timesince))
+                         " auf Automatisch gestellt oder startup," +
+                         " Übergangsfrist laueft noch " + str(manverz) +
+                         " > " + str(timesince))
                 self.abschalt = 0
         self._oldwatt = self.newwatt
         with open(self._basePath+'/ramdisk/device' + str(self.device_nummer) +
@@ -350,32 +350,32 @@ class Sbase(Sbase0):
                 if (self._first_run == 1):
                     self._whimported_tmp = valueint
                     log.info("(" + str(self.device_nummer) +
-                                  ") aus mqtt übernommen " + key +
-                                  " " + value)
+                             ") aus mqtt übernommen " + key +
+                             " " + value)
             elif (key == 'RunningTimeToday'):
                 if (self._first_run == 1):
                     self.runningtime = valueint
                     log.info("(" + str(self.device_nummer) +
-                                  ") aus mqtt übernommen " + key +
-                                  " " + value)
+                             ") aus mqtt übernommen " + key +
+                             " " + value)
             elif (key == 'oncountnor'):
                 if (self._first_run == 1):
                     self.oncountnor = value
                     log.info("(" + str(self.device_nummer) +
-                                  ") aus mqtt übernommen " + key +
-                                  " " + value)
+                             ") aus mqtt übernommen " + key +
+                             " " + value)
             elif (key == 'OnCntStandby'):
                 if (self._first_run == 1):
                     self.oncntstandby = value
                     # status normal setzen
                     self.devstatus = 10
                     log.info("(" + str(self.device_nummer) +
-                                  ") aus mqtt übernommen " + key +
-                                  " " + value)
+                             ") aus mqtt übernommen " + key +
+                             " " + value)
             else:
                 log.info("(" + str(self.device_nummer) + ") "
-                              + __class__.__name__ + " überlesen " + key +
-                              " " + value)
+                         + __class__.__name__ + " überlesen " + key +
+                         " " + value)
         self._first_run = 0
         pref = 'openWB/SmartHome/Devices/' + str(self.device_nummer) + '/'
         self.mqtt_param_del[pref + 'RelayStatus'] = '0'
@@ -422,16 +422,16 @@ class Sbase(Sbase0):
         if (self._device_differentmeasurement == 1):
             if (self._oldmeasuretype1 == self._device_measuretype):
                 log.info("(" + str(self.device_nummer) +
-                              ") Separate Messung. Nur Parameter" +
-                              " update " + self._device_measuretype)
+                         ") Separate Messung. Nur Parameter" +
+                         " update " + self._device_measuretype)
                 self._mydevicemeasure.updatepar(self._smart_param)
             else:
                 if (self._oldmeasuretype1 == 'empty'):
                     pass
                 else:
                     log.info("(" + str(self.device_nummer) +
-                                  ") Separate Messung. Altes Measure"
-                                  + "device gelöscht " + self._oldmeasuretype1)
+                             ") Separate Messung. Altes Measure"
+                             + "device gelöscht " + self._oldmeasuretype1)
                     del self._mydevicemeasure
                 if (self._device_measuretype == 'sdm630'):
                     self._mydevicemeasure = Slsdm630()
@@ -459,19 +459,19 @@ class Sbase(Sbase0):
                     self._mydevicemeasure = Slmystrom()
                 else:
                     log.info("(" + str(self.device_nummer) +
-                                  ") Measuretype nicht untertützt " +
-                                  self._device_measuretype)
+                             ") Measuretype nicht untertützt " +
+                             self._device_measuretype)
                 self._mydevicemeasure.updatepar(self._smart_param)
                 self._oldmeasuretype1 = self._device_measuretype
                 log.info("(" + str(self.device_nummer) +
-                              ") Separate Messung. Neues Measure" +
-                              "device erzeugt " + self._device_measuretype)
+                         ") Separate Messung. Neues Measure" +
+                         "device erzeugt " + self._device_measuretype)
         if ((self._device_differentmeasurement == 0) and
            (self._oldmeasuretype1 != 'empty')):
             log.info("(" + str(self.device_nummer) +
-                          ") Separate Messung ausgeschaltet."
-                          " Altes Measure" +
-                          "device gelöscht " + self._oldmeasuretype1)
+                     ") Separate Messung ausgeschaltet."
+                     " Altes Measure" +
+                     "device gelöscht " + self._oldmeasuretype1)
             del self._mydevicemeasure
             self._oldmeasuretype1 = 'empty'
         with open(self._basePath+'/ramdisk/smarthome_device_minhaus_' +
@@ -496,9 +496,9 @@ class Sbase(Sbase0):
             else:
                 self.oncntstandby = str(int(self.oncntstandby) + 1)
             log.info("(" + str(self.device_nummer) +
-                          ") angeschaltet. Überschussberechnung (1 = mit " +
-                          " Speicher, 2 = mit Offset) " +
-                          str(self.ueberschussberechnung))
+                     ") angeschaltet. Überschussberechnung (1 = mit " +
+                     " Speicher, 2 = mit Offset) " +
+                     str(self.ueberschussberechnung))
             if updatecnt == 1:
                 self._c_eintime_f = 'Y'
                 self._c_eintime = int(time.time())
@@ -550,34 +550,34 @@ class Sbase(Sbase0):
             onhour = int(str("0") + str(self._device_ontime).partition(':')[0])
             onminute = int(str(self._device_ontime)[-2:])
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name + " Immer an nach definiert " +
-                          str(onhour) + ":" + str('%.2d' % onminute) +
-                          " aktuelle Zeit " + str(localhour) + ":" +
-                          str('%.2d' % localminute))
+                     self.device_name + " Immer an nach definiert " +
+                     str(onhour) + ":" + str('%.2d' % onminute) +
+                     " aktuelle Zeit " + str(localhour) + ":" +
+                     str('%.2d' % localminute))
             if ((onhour > localhour) or ((onhour == localhour)
                and (onminute >= localminute))):
                 pass
             else:
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name +
-                              " schalte ein wegen Immer an nach")
+                         self.device_name +
+                         " schalte ein wegen Immer an nach")
                 onnow = 1
         if (self._device_onuntiltime != '00:00'):
             onuntilh = int(str("0")
                            + str(self._device_onuntiltime).partition(':')[0])
             onuntilminute = int(str(self._device_onuntiltime)[-2:])
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name + " Immer an vor definiert " +
-                          str(onuntilh) + ":" + str('%.2d' % onuntilminute)
-                          + " aktuelle Zeit " + str(localhour) + ":" +
-                          str('%.2d' % localminute))
+                     self.device_name + " Immer an vor definiert " +
+                     str(onuntilh) + ":" + str('%.2d' % onuntilminute)
+                     + " aktuelle Zeit " + str(localhour) + ":" +
+                     str('%.2d' % localminute))
             if ((onuntilh < localhour) or ((onuntilh == localhour)
                and (onuntilminute <= localminute))):
                 pass
             else:
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name +
-                              " schalte ein wegen Immer an vor")
+                         self.device_name +
+                         " schalte ein wegen Immer an vor")
                 onnow = 1
         if ((self._device_finishtime != '00:00')
            and (self.oncountnor == str("0"))):
@@ -587,50 +587,50 @@ class Sbase(Sbase0):
             startspatsec = int((finishhour * 60 * 60) + (finishminute * 60) -
                                self._device_mineinschaltdauer)
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name +
-                          " finishtime definiert " +
-                          str(finishhour) + ":" + str('%.2d' % finishminute)
-                          + " aktuelle Zeit " + str(localhour) + ":" +
-                          str('%.2d' % localminute) +
-                          " Anzahl Starts heute 0 Mineinschaltdauer (Sec)"
-                          + str(self._device_mineinschaltdauer))
+                     self.device_name +
+                     " finishtime definiert " +
+                     str(finishhour) + ":" + str('%.2d' % finishminute)
+                     + " aktuelle Zeit " + str(localhour) + ":" +
+                     str('%.2d' % localminute) +
+                     " Anzahl Starts heute 0 Mineinschaltdauer (Sec)"
+                     + str(self._device_mineinschaltdauer))
             if (((finishhour > localhour) or ((finishhour == localhour)
                and (finishminute >= localminute)))
                and (startspatsec <= localinsec)):
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name +
-                              " schalte ein wegen finishtime, spaetester" +
-                              "start in sec " + str(startspatsec) +
-                              " aktuelle sec " + str(localinsec))
+                         self.device_name +
+                         " schalte ein wegen finishtime, spaetester" +
+                         "start in sec " + str(startspatsec) +
+                         " aktuelle sec " + str(localinsec))
                 self.turndevicerelais(1, 0, 1)
                 self.devstatus = 30
                 return
         if self.devstatus == 30:
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name +
-                          " finishtime laueft, pruefe Mindestlaufzeit")
+                     self.device_name +
+                     " finishtime laueft, pruefe Mindestlaufzeit")
             if (self._c_eintime_f == 'Y'):
                 timesta = int(time.time()) - int(self._c_eintime)
                 if (self._device_mineinschaltdauer < timesta):
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " Mindesteinschaltdauer erreicht," +
-                                  " finishtime erreicht")
+                             self.device_name +
+                             " Mindesteinschaltdauer erreicht," +
+                             " finishtime erreicht")
                     self.devstatus = 10
                     return
                 else:
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " finishtime laueft, Mindesteinschaltdauer" +
-                                  "nicht erreicht, " +
-                                  str(self._device_mineinschaltdauer) +
-                                  " > " + str(timesta))
+                             self.device_name +
+                             " finishtime laueft, Mindesteinschaltdauer" +
+                             "nicht erreicht, " +
+                             str(self._device_mineinschaltdauer) +
+                             " > " + str(timesta))
                     return
             else:
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name +
-                              " Mindesteinschaltdauer nicht bekannt," +
-                              " finishtime erreicht")
+                         self.device_name +
+                         " Mindesteinschaltdauer nicht bekannt," +
+                         " finishtime erreicht")
                 self.devstatus = 10
                 return
         # here startup device_self._device_startupdetection
@@ -639,8 +639,8 @@ class Sbase(Sbase0):
             self.devstatus = 10
             self.turndevicerelais(0, 0, 1)
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name +
-                          " Anlauferkennung nun abgeschaltet ")
+                     self.device_name +
+                     " Anlauferkennung nun abgeschaltet ")
             return
         # remove condition that device has to be off
         if ((self._device_startupdetection == 1)
@@ -649,8 +649,8 @@ class Sbase(Sbase0):
            and (self.devstatus != 20)):
             self.devstatus = 20
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name +
-                          " Anlauferkennung nun aktiv, eingeschaltet ")
+                     self.device_name +
+                     " Anlauferkennung nun aktiv, eingeschaltet ")
             self.turndevicerelais(1, 0, 0)
             return
         if (self.devstatus == 20):
@@ -659,11 +659,11 @@ class Sbase(Sbase0):
                     timesince = int(time.time()) - int((self._c_anlaufz))
                     if (self._device_standbyduration < timesince):
                         log.info("(" + str(self.device_nummer) + ") " +
-                                      self.device_name +
-                                      " standbycheck abgelaufen " +
-                                      str(self._device_standbyduration) +
-                                      " ,sec pruefe Einschaltschwelle " +
-                                      str(self._device_standbypower))
+                                 self.device_name +
+                                 " standbycheck abgelaufen " +
+                                 str(self._device_standbyduration) +
+                                 " ,sec pruefe Einschaltschwelle " +
+                                 str(self._device_standbypower))
                         self.devstatus = 10
                         self._c_anlaufz_f = 'N'
                         if ((self.devuberschuss >
@@ -671,144 +671,144 @@ class Sbase(Sbase0):
                             self._c_ausverz_f = 'N'
                             self._c_einverz_f = 'N'
                             log.info("(" + str(self.device_nummer) +
-                                          ") " + self.device_name +
-                                          " Überschuss " +
-                                          str(self.devuberschuss) +
-                                          " größer Einschaltschwelle oder" +
-                                          " Immer an zeit erreicht, schalte " +
-                                          "ein (ohne Einschaltverzoegerung) " +
-                                          str(self._device_einschaltschwelle))
+                                     ") " + self.device_name +
+                                     " Überschuss " +
+                                     str(self.devuberschuss) +
+                                     " größer Einschaltschwelle oder" +
+                                     " Immer an zeit erreicht, schalte " +
+                                     "ein (ohne Einschaltverzoegerung) " +
+                                     str(self._device_einschaltschwelle))
                             self.turndevicerelais(1,
                                                   self.ueberschussberechnung,
                                                   1)
                         else:
                             log.info("(" + str(self.device_nummer) +
-                                          ") " + self.device_name +
-                                          " Überschuss " +
-                                          str(self.devuberschuss) +
-                                          " kleiner Einschaltschwelle," +
-                                          " schalte aus " +
-                                          str(self._device_einschaltschwelle))
+                                     ") " + self.device_name +
+                                     " Überschuss " +
+                                     str(self.devuberschuss) +
+                                     " kleiner Einschaltschwelle," +
+                                     " schalte aus " +
+                                     str(self._device_einschaltschwelle))
                             self.turndevicerelais(0, 0, 1)
                         return
                     else:
                         log.info("(" + str(self.device_nummer) + ") " +
-                                      self.device_name +
-                                      " standbycheck noch nicht erreicht " +
-                                      str(self._device_standbyduration) + " > "
-                                      + str(timesince))
+                                 self.device_name +
+                                 " standbycheck noch nicht erreicht " +
+                                 str(self._device_standbyduration) + " > "
+                                 + str(timesince))
                 else:
                     self._c_anlaufz_f = 'Y'
                     self._c_anlaufz = int(time.time())
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name + " standbycheck gestartet "
-                                  + str(self.newwatt) + " > " +
-                                  str(self._device_standbypower))
+                             self.device_name + " standbycheck gestartet "
+                             + str(self.newwatt) + " > " +
+                             str(self._device_standbypower))
             else:
                 self._c_anlaufz_f = 'N'
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name +
-                              " unter standbyschwelle , timer geloescht")
+                         self.device_name +
+                         " unter standbyschwelle , timer geloescht")
         if (self._device_maxeinschaltdauer > self.runningtime):
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name +
-                          " Maximale Einschaltdauer nicht erreicht")
+                     self.device_name +
+                     " Maximale Einschaltdauer nicht erreicht")
         else:
             if (self.relais == 1):
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name +
-                              " Maximale Einschaltdauer erreicht schalte ab")
+                         self.device_name +
+                         " Maximale Einschaltdauer erreicht schalte ab")
                 self.turndevicerelais(0, 0, 1)
             else:
                 log.info("(" + str(self.device_nummer) + ")" +
-                              self.device_name +
-                              " Maximale Einschaltdauer erreicht" +
-                              " bereits abgeschaltet")
+                         self.device_name +
+                         " Maximale Einschaltdauer erreicht" +
+                         " bereits abgeschaltet")
             return
         # Auto ladung
         if self._device_deactivatewhileevcharging > 0:
             if (self.relais == 1):
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name +
-                              " Soll reduziert/abgeschaltet werden" +
-                              " bei Ladung, pruefe " + str(testcharge))
+                         self.device_name +
+                         " Soll reduziert/abgeschaltet werden" +
+                         " bei Ladung, pruefe " + str(testcharge))
                 if chargestatus == 1:
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " Ladung läuft, pruefe Mindestlaufzeit")
+                             self.device_name +
+                             " Ladung läuft, pruefe Mindestlaufzeit")
                     if (self._c_eintime_f == 'Y'):
                         timesta = int(time.time()) - int(self._c_eintime)
                         if (self._device_mineinschaltdauer < timesta):
                             if self._device_deactivatewhileevcharging == 2:
                                 log.info("(" + str(self.device_nummer)
-                                              + ") " + self.device_name +
-                                              " Mindesteinschaltdauer" +
-                                              "  erreicht, schalte aus")
+                                         + ") " + self.device_name +
+                                         " Mindesteinschaltdauer" +
+                                         "  erreicht, schalte aus")
                                 self.turndevicerelais(0, 0, 1)
                                 return
                             else:
                                 if (self._dynregel == 0):
                                     log.info("(" +
-                                                  str(self.device_nummer) +
-                                                  ") " + self.device_name +
-                                                  " Mindesteinschaltdauer " +
-                                                  "erreicht, " +
-                                                  "Ausschaltschwelle 0 " +
-                                                  "gesetzt")
+                                             str(self.device_nummer) +
+                                             ") " + self.device_name +
+                                             " Mindesteinschaltdauer " +
+                                             "erreicht, " +
+                                             "Ausschaltschwelle 0 " +
+                                             "gesetzt")
                                     work_ausschaltverzoegerung = 0
                                     if (work_ausschaltschwelle < 0):
                                         work_ausschaltschwelle = 0
                                 else:
                                     log.info("(" +
-                                                  str(self.device_nummer)
-                                                  + ") " + self.device_name +
+                                             str(self.device_nummer)
+                                             + ") " + self.device_name +
                                              " Gerät mit dyn Regelung")
                         else:
                             log.info("(" + str(self.device_nummer) +
-                                          ") " + self.device_name +
-                                          " Mindesteinschaltdauer nicht" +
-                                          " erreicht, " +
-                                          str(self._device_mineinschaltdauer) +
-                                          " > " + str(timesta))
+                                     ") " + self.device_name +
+                                     " Mindesteinschaltdauer nicht" +
+                                     " erreicht, " +
+                                     str(self._device_mineinschaltdauer) +
+                                     " > " + str(timesta))
                     else:
                         if self._device_deactivatewhileevcharging == 2:
                             log.info("(" + str(self.device_nummer) +
-                                          ") " + self.device_name +
-                                          " Mindesteinschaltdauer nicht" +
-                                          " bekannt,schalte aus")
+                                     ") " + self.device_name +
+                                     " Mindesteinschaltdauer nicht" +
+                                     " bekannt,schalte aus")
                             self.turndevicerelais(0, 0, 1)
                             return
                         else:
                             if (self._dynregel == 0):
                                 log.info("(" +
-                                              str(self.device_nummer) +
-                                              ") " + self.device_name +
-                                              " Mindesteinschaltdauer " +
-                                              "nicht bekannt, " +
-                                              "Ausschaltschwelle 0 " +
-                                              "gesetzt")
+                                         str(self.device_nummer) +
+                                         ") " + self.device_name +
+                                         " Mindesteinschaltdauer " +
+                                         "nicht bekannt, " +
+                                         "Ausschaltschwelle 0 " +
+                                         "gesetzt")
                                 work_ausschaltverzoegerung = 0
                                 if (work_ausschaltschwelle < 0):
                                     work_ausschaltschwelle = 0
                             else:
                                 log.info("(" +
-                                              str(self.device_nummer)
-                                              + ") " + self.device_name +
-                                              " Gerät mit dyn Regelung")
+                                         str(self.device_nummer)
+                                         + ") " + self.device_name +
+                                         " Gerät mit dyn Regelung")
                 else:
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " Ladung läuft nicht, pruefe weiter")
+                             self.device_name +
+                             " Ladung läuft nicht, pruefe weiter")
             else:
                 if self._device_deactivatewhileevcharging == 2:
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " Soll nicht eingeschaltet werden bei" +
-                                  " Ladung, pruefe " + str(testcharge))
+                             self.device_name +
+                             " Soll nicht eingeschaltet werden bei" +
+                             " Ladung, pruefe " + str(testcharge))
                     if chargestatus == 1:
                         log.info("(" + str(self.device_nummer) + ") "
-                                      + self.device_name + " Ladung läuft, " +
-                                      "wird nicht eingeschaltet")
+                                 + self.device_name + " Ladung läuft, " +
+                                 "wird nicht eingeschaltet")
                         return
         # Auto ladung ende
         # Art vom ueberschussberechnung pruefen
@@ -832,20 +832,20 @@ class Sbase(Sbase0):
         if (self.ueberschussberechnung != newueberschussberechnung):
             self.ueberschussberechnung = newueberschussberechnung
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name + " SoC " + str(speichersoc) +
-                          " Einschalt SoC " +
-                          str(self._device_speichersocbeforestart) +
-                          " Ueberschuss " + str(self.devuberschuss))
+                     self.device_name + " SoC " + str(speichersoc) +
+                     " Einschalt SoC " +
+                     str(self._device_speichersocbeforestart) +
+                     " Ueberschuss " + str(self.devuberschuss))
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name +
-                          " Ueberschussberechnung anders (1 = mit Speicher," +
-                          " 2 = mit Offset) " +
-                          str(self.ueberschussberechnung))
+                     self.device_name +
+                     " Ueberschussberechnung anders (1 = mit Speicher," +
+                     " 2 = mit Offset) " +
+                     str(self.ueberschussberechnung))
         if (self.devstatus == 20):
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name +
-                          " Anlauferkennung immer noch aktiv, keine Ueberprüf"
-                          + "ung auf Einschalt oder Ausschaltschwelle ")
+                     self.device_name +
+                     " Anlauferkennung immer noch aktiv, keine Ueberprüf"
+                     + "ung auf Einschalt oder Ausschaltschwelle ")
             return
         # Device mit Anlauferkennung (mehrfach pro tag)
         # welches im PV Modus ist ?
@@ -856,40 +856,40 @@ class Sbase(Sbase0):
                 timesta = int(time.time()) - int(self._c_eintime)
                 if (self._device_mineinschaltdauer < timesta):
                     log.info("(" + str(self.device_nummer) + ") "
-                                  + self.device_name +
-                                  " Mindesteinschaltdauer erreicht," +
-                                  " restarte Anlauferkennung ")
+                             + self.device_name +
+                             " Mindesteinschaltdauer erreicht," +
+                             " restarte Anlauferkennung ")
                     self._c_eintime_f = 'N'
                     self.devstatus = 20
                     self.oncntstandby = str("0")
                     self.oncountnor = str("0")
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " Anlauferkennung nun aktiv, eingeschaltet ")
+                             self.device_name +
+                             " Anlauferkennung nun aktiv, eingeschaltet ")
                     self.turndevicerelais(1, 0, 0)
                     return
             else:
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name +
-                              " Mindesteinschaltdauer nicht bekannt" +
-                              " restarte Anlauferkennung ")
+                         self.device_name +
+                         " Mindesteinschaltdauer nicht bekannt" +
+                         " restarte Anlauferkennung ")
                 self.devstatus = 20
                 self.oncntstandby = str("0")
                 self.oncountnor = str("0")
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name +
-                              " Anlauferkennung nun aktiv, eingeschaltet ")
+                         self.device_name +
+                         " Anlauferkennung nun aktiv, eingeschaltet ")
                 self.turndevicerelais(1, 0, 0)
                 return
         # periodisch hart ausschalten
         if ((self.relais == 1) and (self.gruppe == 'A') and
            (Sbase.eindevices == 0)):
             log.info("(" + str(self.device_nummer) + ") " +
-                          self.device_name +
-                          " Soll periodisch ausgeschaltet werden " +
-                          " (1 = volle Stunde / " +
-                          " 2 = volle Stunde + halbe Stunde) pruefe " +
-                          str(self._device_deactivateper))
+                     self.device_name +
+                     " Soll periodisch ausgeschaltet werden " +
+                     " (1 = volle Stunde / " +
+                     " 2 = volle Stunde + halbe Stunde) pruefe " +
+                     str(self._device_deactivateper))
             if (((self._device_deactivateper == 2) and (localminute == 30)) or
                (localminute == 00)):
                 log.info("(" + str(self.device_nummer) +
@@ -920,117 +920,117 @@ class Sbase(Sbase0):
                    Sbase.einschwelle) and Sbase.einrelais == 0 and
                    Sbase.eindevstatus == 10):
                     log.info("(" + str(self.device_nummer) +
-                              ") " + self.device_name +
-                              " erfolgreich, schalte aus ")
-                self.turndevicerelais(0, 0, 1)
-                self._c_ausverz_f = 'N'
+                             ") " + self.device_name +
+                             " erfolgreich, schalte aus ")
+                    self.turndevicerelais(0, 0, 1)
+                    self._c_ausverz_f = 'N'
                     # rechne Zeit exclusive einschaltgruppe
                     local_time = datetime.now(timezone.utc).astimezone()
                     localh = int(local_time.strftime(format="%H"))
                     localminute = int(local_time.strftime(format="%M"))
                     localinsec = int((localh * 60 * 60) + (localminute * 60))
                     Sbase.nureinschaltinsec = localinsec + Sbase.einverz
-                return
+                    return
         if ((self.devuberschuss > self._device_einschaltschwelle)
            or (onnow == 1)):
             self._c_ausverz_f = 'N'
             log.info("(" + str(self.device_nummer) + ") " +
-                          str(self.device_name) + " Überschuss " +
-                          str(self.devuberschuss) + " größer Einschaltschwelle"
-                          + " oder Immer an zeit erreicht " +
-                          str(self._device_einschaltschwelle))
+                     str(self.device_name) + " Überschuss " +
+                     str(self.devuberschuss) + " größer Einschaltschwelle"
+                     + " oder Immer an zeit erreicht " +
+                     str(self._device_einschaltschwelle))
             if (self.relais == 0):
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name + " SoC " + str(speichersoc) +
-                              " Einschalt SoC " +
-                              str(self._device_speichersocbeforestart) +
-                              " Ueberschuss " + str(self.devuberschuss))
+                         self.device_name + " SoC " + str(speichersoc) +
+                         " Einschalt SoC " +
+                         str(self._device_speichersocbeforestart) +
+                         " Ueberschuss " + str(self.devuberschuss))
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name + " Ueberschussberechnung (1 ="
-                              + " mit Speicher, 2 = mit Offset) " +
-                              str(self.ueberschussberechnung))
+                         self.device_name + " Ueberschussberechnung (1 ="
+                         + " mit Speicher, 2 = mit Offset) " +
+                         str(self.ueberschussberechnung))
                 if (self._device_starttime != '00:00'):
                     starthour = int(str("0") +
                                     str(self._device_starttime).
                                     partition(':')[0])
                     startminute = int(str(self._device_starttime)[-2:])
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " Fruehster Start um definiert " +
-                                  str(starthour) + ":" +
-                                  str('%.2d' % startminute) +
-                                  " aktuelle Zeit " + str(localhour) + ":" +
-                                  str('%.2d' % localminute))
+                             self.device_name +
+                             " Fruehster Start um definiert " +
+                             str(starthour) + ":" +
+                             str('%.2d' % startminute) +
+                             " aktuelle Zeit " + str(localhour) + ":" +
+                             str('%.2d' % localminute))
                     if ((starthour > localhour) or ((starthour == localhour)
                        and (startminute >= localminute))):
                         log.info("(" + str(self.device_nummer) + ") " +
-                                      self.device_name +
-                                      " Fruehster Start noch nicht erreicht ")
+                                 self.device_name +
+                                 " Fruehster Start noch nicht erreicht ")
                         return
                 if (self._device_endtime != '00:00'):
                     endhour = int(str("0") +
                                   str(self._device_endtime).partition(':')[0])
                     endminute = int(str(self._device_endtime)[-2:])
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " Spaetester Start um definiert " +
-                                  str(endhour) + ":" + str('%.2d' % endminute)
-                                  + " aktuelle Zeit " + str(localhour) + ":"
-                                  + str('%.2d' % localminute))
+                             self.device_name +
+                             " Spaetester Start um definiert " +
+                             str(endhour) + ":" + str('%.2d' % endminute)
+                             + " aktuelle Zeit " + str(localhour) + ":"
+                             + str('%.2d' % localminute))
                     if ((endhour > localhour) or ((endhour == localhour)
                        and (endminute >= localminute))):
                         pass
                     else:
                         log.info("(" + str(self.device_nummer) + ") " +
-                                      self.device_name +
-                                      " Spaetester Start vorbei ")
+                                 self.device_name +
+                                 " Spaetester Start vorbei ")
                         return
                 if (self._c_einverz_f == 'Y'):
                     timesince = int(time.time()) - int(self._c_einverz)
                     if (self._device_einschaltverzoegerung < timesince):
                         log.info("(" + str(self.device_nummer) + ") "
-                                      + self.device_name +
-                                      " Einschaltverzögerung erreicht, " +
-                                      "schalte ein " +
-                                      str(self._device_einschaltschwelle))
+                                 + self.device_name +
+                                 " Einschaltverzögerung erreicht, " +
+                                 "schalte ein " +
+                                 str(self._device_einschaltschwelle))
                         self.turndevicerelais(1, self.ueberschussberechnung, 1)
                         self._c_einverz_f = 'N'
                     else:
                         log.info("(" + str(self.device_nummer) + ") " +
-                                      self.device_name +
-                                      " Einschaltverzögerung nicht erreicht. "
-                                      + str(self._device_einschaltverzoegerung)
-                                      + " > " + str(timesince))
+                                 self.device_name +
+                                 " Einschaltverzögerung nicht erreicht. "
+                                 + str(self._device_einschaltverzoegerung)
+                                 + " > " + str(timesince))
                 else:
                     self._c_einverz_f = 'Y'
                     self._c_einverz = int(time.time())
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " Einschaltverzögerung gestartet")
+                             self.device_name +
+                             " Einschaltverzögerung gestartet")
             else:
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name +
-                              " Einschaltverzögerung erreicht, bereits ein")
+                         self.device_name +
+                         " Einschaltverzögerung erreicht, bereits ein")
                 self._c_einverz_f = 'N'
         else:
             self._c_einverz_f = 'N'
             if (self.devuberschuss < work_ausschaltschwelle):
                 if (speichersoc > self._device_speichersocbeforestop):
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " SoC höher als Abschalt SoC," +
-                                  " lasse Gerät weiterlaufen")
+                             self.device_name +
+                             " SoC höher als Abschalt SoC," +
+                             " lasse Gerät weiterlaufen")
                     return
                 else:
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " SoC niedriger als Abschalt SoC," +
-                                  " prüfe weiter")
+                             self.device_name +
+                             " SoC niedriger als Abschalt SoC," +
+                             " prüfe weiter")
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name + " Überschuss " +
-                              str(self.devuberschuss) +
-                              " kleiner Ausschaltschwelle " +
-                              str(work_ausschaltschwelle))
+                         self.device_name + " Überschuss " +
+                         str(self.devuberschuss) +
+                         " kleiner Ausschaltschwelle " +
+                         str(work_ausschaltschwelle))
                 if (self.relais == 1):
                     if (self._c_ausverz_f == 'Y'):
                         timesince = int(time.time()) - int(self._c_ausverz)
@@ -1040,54 +1040,54 @@ class Sbase(Sbase0):
                                               int(self._c_eintime))
                                 if (self._device_mineinschaltdauer < timesta):
                                     log.info("(" +
-                                                  str(self.device_nummer) +
-                                                  ") " + self.device_name +
-                                                  " Ausschaltverzögerung &" +
-                                                  " Mindesteinschaltdauer " +
-                                                  "erreicht, schalte aus " +
-                                                  str(work_ausschaltschwelle))
+                                             str(self.device_nummer) +
+                                             ") " + self.device_name +
+                                             " Ausschaltverzögerung &" +
+                                             " Mindesteinschaltdauer " +
+                                             "erreicht, schalte aus " +
+                                             str(work_ausschaltschwelle))
                                     self.turndevicerelais(0, 0, 1)
                                     self._c_ausverz_f = 'N'
                                 else:
                                     s1 = str(self._device_mineinschaltdauer)
                                     log.info("(" +
-                                                  str(self.device_nummer) +
-                                                  ") " + self.device_name +
-                                                  " Ausschaltverzögerung errei"
-                                                  + "cht, Mindesteinschalt" +
-                                                  "dauer nicht erreicht, " +
-                                                  s1 + " > " + str(timesta))
+                                             str(self.device_nummer) +
+                                             ") " + self.device_name +
+                                             " Ausschaltverzögerung errei"
+                                             + "cht, Mindesteinschalt" +
+                                             "dauer nicht erreicht, " +
+                                             s1 + " > " + str(timesta))
                             else:
                                 log.info("(" + str(self.device_nummer)
-                                              + ") " + self.device_name +
-                                              " Mindesteinschaltdauer nicht" +
-                                              " bekannt, schalte aus")
+                                         + ") " + self.device_name +
+                                         " Mindesteinschaltdauer nicht" +
+                                         " bekannt, schalte aus")
                                 self.turndevicerelais(0, 0, 1)
                         else:
                             log.info("(" + str(self.device_nummer) +
-                                          ") " + self.device_name +
-                                          " Ausschaltverzögerung nicht" +
-                                          " erreicht. " +
-                                          str(work_ausschaltverzoegerung) +
-                                          " > " + str(timesince))
+                                     ") " + self.device_name +
+                                     " Ausschaltverzögerung nicht" +
+                                     " erreicht. " +
+                                     str(work_ausschaltverzoegerung) +
+                                     " > " + str(timesince))
                     else:
                         log.info("(" + str(self.device_nummer) + ") " +
-                                      self.device_name +
-                                      " Ausschaltverzögerung gestartet ")
+                                 self.device_name +
+                                 " Ausschaltverzögerung gestartet ")
                         self._c_ausverz_f = 'Y'
                         self._c_ausverz = int(time.time())
 
                 else:
                     log.info("(" + str(self.device_nummer) + ") " +
-                                  self.device_name +
-                                  " Ausschaltverzögerung erreicht,bereits aus")
+                             self.device_name +
+                             " Ausschaltverzögerung erreicht,bereits aus")
                     self._c_ausverz_f = 'N'
             else:
                 log.info("(" + str(self.device_nummer) + ") " +
-                              self.device_name + " Überschuss kleiner als" +
-                              " Einschaltschwelle und größer als " +
-                              "Ausschaltschwelle. Ueberschuss " +
-                              str(self.devuberschuss))
+                         self.device_name + " Überschuss kleiner als" +
+                         " Einschaltschwelle und größer als " +
+                         "Ausschaltschwelle. Ueberschuss " +
+                         str(self.devuberschuss))
                 self._c_einverz_f = 'N'
                 self._c_ausverz_f = 'N'
 

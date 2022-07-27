@@ -27,16 +27,39 @@ var topicsToSubscribe = [
 	["openWB/global/WAllChargePoints", 1],
 	["openWB/global/strLastmanagementActive", 1],
 	["openWB/global/rfidConfigured", 1],
+	["openWB/global/memTotal", 0],
+	["openWB/global/memUse", 0],
+	["openWB/global/memFree", 0],
+	["openWB/global/diskTotal", 0],
+	["openWB/global/diskUse", 0],
+	["openWB/global/diskUsedPrz", 0],
+	["openWB/global/diskFree", 0],
+	["openWB/global/tmpTotal", 0],
+	["openWB/global/tmpUse", 0],
+	["openWB/global/tmpUsedPrz", 0],
+	["openWB/global/tmpFree", 0],
+ 	["openWB/global/ethaddr", 0], 
+ 	["openWB/global/ethaddr2", 0],
+ 	["openWB/global/wlanaddr", 0],
+ 	["openWB/global/wlanaddr2", 0],
+ 	["openWB/global/cpuUse", 0],
+ 	["openWB/global/cpuTemp", 0],
+
 	["openWB/config/get/pv/priorityModeEVBattery", 1],
 	["openWB/config/get/pv/minCurrentMinPv", 1],
+
+
+	
 	// system topics
 	["openWB/system/debuglevel", 1],
 	["openWB/system/Timestamp", 1],
-	["openWB/system/IpAddress", 1],
 	["openWB/system/Uptime", 1],
+	["openWB/system/IpAddress", 0],
 	["openWB/system/Version", 1],
 	["openWB/system/wizzardDone", 1],
 	["openWB/system/reloadDisplay", 1],
+	
+	
 	// pv topics
 	["openWB/pv/W", 1],
 	["openWB/pv/DailyYieldKwh", 1],
@@ -219,6 +242,7 @@ var topicsToSubscribe = [
 	["openWB/pv/bool70PVDynStatus", 1],
 	["openWB/config/get/pv/nurpv70dynact", 1],
 	// Display configuration
+	["openWB/config/get/display/displayPinAktiv", 1],
 	["openWB/config/get/display/displayLight", 1],
 	["openWB/config/get/display/chartEvuMinMax", 1],
 	["openWB/config/get/display/chartBatteryMinMax", 1],
@@ -289,15 +313,15 @@ var topicsToSubscribe = [
 	["openWB/config/get/SmartHome/Devices/6/mode", 1],
 	["openWB/config/get/SmartHome/Devices/7/mode", 1],
 	["openWB/config/get/SmartHome/Devices/8/mode", 1],
-	["openWB/config/get/SmartHome/Devices/9/mode", 1],
+	["openWB/config/get/SmartHome/Devices/9/mode", 1]
 
 	// etprovider topics
-	["openWB/global/ETProvider/modulePath", 1],
-	["openWB/global/ETProvider/providerName", 1],
-	["openWB/global/awattar/boolAwattarEnabled", 0],
-	["openWB/global/awattar/MaxPriceForCharging", 1],
-	["openWB/global/awattar/ActualPriceForCharging", 1],
-	["openWB/global/awattar/pricelist", 1]
+//	["openWB/global/ETProvider/modulePath", 1],
+//	["openWB/global/ETProvider/providerName", 1],
+//	["openWB/global/awattar/boolAwattarEnabled", 0],
+//	["openWB/global/awattar/MaxPriceForCharging", 1],
+//	["openWB/global/awattar/ActualPriceForCharging", 1],
+//	["openWB/global/awattar/pricelist", 1]
 ];
 
 // holds number of topics flagged 1 initially
@@ -307,6 +331,7 @@ var retries = 0;
 
 //Connect Options
 var isSSL = location.protocol == 'https:'
+var port = isSSL ? 443 : 9001;
 var options = {
 	timeout: 5,
 	useSSL: isSSL,
@@ -333,7 +358,7 @@ var options = {
 };
 
 var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 5);
-var client = new Messaging.Client(location.hostname, 9001, clientuid);
+var client = new Messaging.Client(location.hostname, port, clientuid);
 
 $(document).ready(function(){
 	client.connect(options);

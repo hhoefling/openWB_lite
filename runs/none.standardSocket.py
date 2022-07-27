@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #coding: utf8
+# Alternative zu Chargeport2 (duo) eine Steckdose via Rapsbery (und relay) YourCharge
 
 import RPi.GPIO as GPIO
 import sys
