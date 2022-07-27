@@ -82,4 +82,24 @@
 
 ```
 
+**Installation Mosquitto 2.0.12**
+
+Um auch TLS Nutzen zu können ist ein aktellerer mosquitto nötig.
+
+file /etc/apt/source.list.d/mosquitto-buster.list
+```
+deb https://repo.mosquitto.org/debian buster main
+
+```
+
+```
+cd /tmp
+wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
+apt-key add mosquitto-repo.gpg.key
+apt update
+apt install mosquitto/buster
+```
+
+
+
 
