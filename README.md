@@ -18,8 +18,8 @@ Raspberry Pi 4 Model B Rev 1.4 (2GB)
 Kernel: Linux 5.10.103-v7l+ GNU/Linux (Buster)
 Python 3.7.3
 ```
-Da die Firma openWB keine stabile Version der Software auf Basis der 1.9'er mehr zur verfügung stellt bei der die rchtigen RCT2 Module enthalten sind bleibt mir nur auf Basis der alten Stretch (Kenel:4.19.66-v7) meine eigene Version zu Pflegen. Zu Testzwecken läuft meine Version auch auf einem Pi4 mit Buster. Wobei hier natürlich nicht die Hardware Ebene mit getestet werden kann. Also alle Module die direkt mit der Hadrware des openWB kommunizieren können so nicht getestet werden. Dies sind meist auch noch Python2.x Module. Zum testen könne mit Hilfe des Mqtt-Pullers die Hardwaremodule aus der echten OpenWB mit Daten versorgt werden.
-Inzwischen läut auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display hängt an einem Pi4. 
+Da die Firma openWB im Nov.2021 keine stabile Version der Software auf Basis der 1.9'er zur Verfügung stellt bei der die richtigen RCT2 Module enthalten sind bleibt mir nur auf Basis des alten Stretch-Kernels (4.19.66-v7) meine eigene Version zu pflegen. Zu Testzwecken läuft meine Version auch auf einem Pi4 mit Buster. Wobei hier natürlich nicht die Hardwareebene mit getestet werden kann. Also alle Module die direkt mit der Hardware der openWB kommunizieren, können so nicht getestet werden. Dies sind meist auch noch Python2.x Module. Zum testen können, mit Hilfe meines Mqtt-Pullers, die Hardwaremodule aus der echten OpenWB mit Daten versorgt werden.
+Inzwischen läuft auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display hängt an einem Pi4. 
 
 ## Abweichungen zur normalen openWB
 - Diese Version arbeite nicht mit dem Legathy-Run-Server (LRS) der ab 12.2022 sucessive eingebaut wurde. Gerade die RCT2 Module haben damit Probleme. Daher versuche ich die jeweils letzte Version der Module zu verwenden die noch ohne den LRS auskommt.
@@ -53,7 +53,8 @@ Weiter Info **[History](docs/history.md)**
 - Ladelog, Ein Eintrag je Ab/AnStecken, nicht je Ladeunterbrechung
 - offenes Event-Sytem mit EMail Benachrichtigung.
 - Eigenes Buster Image mit unterstützung des integrierten Display.
-- Bullseye hat keine verwendbares Pyhton2.x. (es fehlt z.b. GPIO nach dem Nachinstallieren). Da die Kernmodule alle noch in python2 geschrieben sind scheidet bullseye erst mal aus.
+- Bullseye hat keine verwendbares Pyhton2.x. (es fehlt z.b. GPIO nach dem Nachinstallieren). Da die Kernmodule alle noch in python2 geschrieben sind scheidet bullseye erst mal aus. Inzwischen habe ich python 2.7.16 und GPIO 0.7.0 installieren können. Also werde ich auch mit Bullseye weiterteten
+- für mich irrelevantes entfernen. (awatar, pushover, evse )
 
 ****************
 
@@ -70,7 +71,6 @@ Weiter Info **[History](docs/history.md)**
 ******************
 
 **[Infos](docs/infos.md)**
-
 
 ******************
 
