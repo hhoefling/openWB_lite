@@ -53,9 +53,8 @@ Weiter Info **[History](docs/history.md)**
 - Ladelog, Ein Eintrag je Ab/AnStecken, nicht je Ladeunterbrechung
 - offenes Event-Sytem mit EMail Benachrichtigung.
 - Eigenes Buster Image mit unterstützung des integrierten Display.
-- Bullseye hat keine verwendbares Pyhton2.x. (es fehlt z.b. GPIO nach dem Nachinstallieren). Da die Kernmodule alle noch in python2 geschrieben sind scheidet bullseye erst mal aus. Inzwischen habe ich python 2.7.16 und GPIO 0.7.0 installieren können. Also werde ich auch mit Bullseye weiterteten
-- für mich irrelevantes entfernen. (awatar, pushover, evse )
-
+- Bullseye hat keine verwendbares Pyhton2.x. (es fehlt z.b. GPIO nach dem Nachinstallieren). Da die Kernmodule alle noch in python2 geschrieben sind scheidet bullseye erst mal aus. Inzwischen habe ich python 2.7.16 und GPIO 0.7.0 installieren können. Also werde ich auch mit Bullseye weitertesten
+- Für mich irrelevantes Functionen werden entfernen. (awatar, tibber,  pushover, evse ) Wenn jemand diese Module benötigt. Bitte melden vieleicht lassen sie sich ja aus der alten 1'9er-24x übernehmen und weiterverwenden.
 ****************
 
 **[Umzug auf openwb_lite](docs/umzug.md)**
