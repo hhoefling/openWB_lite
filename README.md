@@ -48,7 +48,7 @@ Weiter Info **[History](docs/history.md)**
 
 ***Die weitere Entwicklung***
 
-- Ladesteuerung an meine Wünsche anpassen, insbesonder Nachtladen und Zielladen.
+- Ladesteuerung an meine Wünsche anpassen, insbesondere Nachtladen und Zielladen.
 - 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
 - Ladelog, Ein Eintrag je Ab/AnStecken, nicht je Ladeunterbrechung
 - offenes Event-Sytem mit EMail Benachrichtigung.
