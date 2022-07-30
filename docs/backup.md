@@ -200,6 +200,32 @@ Raspberry 3B+ - SD Karte rausnehmen oder gegen leere austauschen
 
 raspberry 4B - Einfach anschliesen, die SSD hat vorrang vor der SD. Hier muss ich die SSD als anstöpseln wenn ich NICHT will das von ihr gestartet wird.
 
+Nach dem Neustart mit der SSD sehen die Partionen nun so aus:
+```
+root@pi61:~# df
+Dateisystem    1K-Blöcke Benutzt Verfügbar Verw% Eingehängt auf
+/dev/root       15416024 4637964   9975256   32% /
+...
+/dev/sda1         229132   49984    179148   22% /boot
+...
+root@pi61:~#
+root@pi61:~# lsblk
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda           8:0    0 58,7G  0 disk
+├─sda1        8:1    0  224M  0 part /boot
+└─sda2        8:2    0   15G  0 part /
+mmcblk0     179:0    0 29,7G  0 disk
+├─mmcblk0p1 179:1    0  256M  0 part
+└─mmcblk0p2 179:2    0 29,5G  0 part
+
+```
+
+Hier auf einem Pi4 bei dem ja die SD Karte eingelegt bleiben kann.
+Man sieht das sie nicht verwenden wird (kein MountPoint)
+Man sieht auch die andere (alte) Art der Referenzierung der Partitionen.
+Hier steht nun sda1 und sda2 für die beiden Partitionen auf der SSD und mmcblk0p1 mmcblk0p2 für die beiden Partitionen auf der SD-Karte. 
+
+Im Hintergrund werden aber immer die "Disk identifier" verwendet.
 
 
 
