@@ -195,8 +195,13 @@ root@pi61:/media/rootfs/etc#
 ```
 
 Je nachdem ob Raspi-3 oder Raspi-4 kann nun die neuen SSD gebootet werden.
-pi3 - SD Karte rausnehmen oder gegen leere austauschen
-pi4 - Einfach anschliesen, die SSD hat vorrang vor der SD. Hier muss ich die SSD als anstöpseln wenn ich NICHT will das von Ihr gestartet wird.
+
+Raspberry 3B+ - SD Karte rausnehmen oder gegen leere austauschen
+
+raspberry 4B - Einfach anschliesen, die SSD hat vorrang vor der SD. Hier muss ich die SSD als anstöpseln wenn ich NICHT will das von ihr gestartet wird.
+
+
+
 
 
 
