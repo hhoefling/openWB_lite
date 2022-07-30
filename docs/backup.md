@@ -63,9 +63,12 @@ root@pi61:~#
 ```
 Die SSD (hier /dev/sda) hat noch keine Partitionen. 
 
-Die SD-Karte ist eine 32GB Type in Disk /dev/mmcblk0
+Die SD-Karte ist eine 32GB Type in  /dev/mmcblk0
 
-ir legen zuerst die Partionen und die Mount-Points an.
+Wir legen zuerst die Partionen an.
+Eine kleine Boot-Partion im W95/Fat32 format mit 40-256 MB
+Eine ca. 15GB Große Root-Partione im  ext4 Format.
+Der Rest der SSD bleibt erst mal frei.
 
 ```
 root@pi61:~#fdisk /dev/sda
@@ -91,8 +94,10 @@ w
 root@pi61:~#
 
 ```
-Wir merken uns den "Disk identifier", hier 592196a7 ohne das 0x Prefix 
-Nun müssen wir die Filesystem anlegen lassen.
+Wir merken uns den "Disk identifier", hier 592196a7 ohne das 0x Prefix.
+
+Nun müssen wir die Filesystem anlegen lassen und auch die Mounts Pointes auf der SD erstellen.
+
 ```
 root@pi61:~# mkdosfs /dev/sda1
 mkfs.fat 4.1 (2017-01-24)
@@ -113,9 +118,59 @@ root@pi61:~#
 root@pi61:/# mkdir /media/bootfs
 root@pi61:/# mkdir /media/rootfs
 
+```
+
+Nun können wir die neuen Partitionen mounten.
+```
+root@pi61:/# mount /dev/sda1 /media/bootfs
+root@pi61:/# mount /dev/sda2 /media/rootfs/
+root@pi61:/# df
+Dateisystem    1K-Blöcke Benutzt Verfügbar Verw% Eingehängt auf
+/dev/root       30351740 4635600  24430496   16% /
+...
+/dev/mmcblk0p1    258095   49348    208747   20% /boot
+...
+/dev/sda1         229132       0    229132    0% /media/bootfs
+/dev/sda2       15416024   40984  14572236    1% /media/rootfs
 
 ```
-Anlegen der Mount-Points (auf der Root SD)
+Wie haben nun zwei neue Partionen erreichbar.
+Jetzt kopieren wird die Dateien rüber. Keine IMG Kopie!!!
+```
+root@pi61:/# cp -rpx /boot/* /media/bootfs/.
+root@pi61:/# cp -rpx / /media/rootfs/.
+root@pi61:/# df
+Dateisystem    1K-Blöcke Benutzt Verfügbar Verw% Eingehängt auf
+/dev/root       30351740 4636244  24429852   16% /
+...
+dev/mmcblk0p1    258095   49348    208747   20% /boot
+....
+/dev/sda1         229132   49984    179148   22% /media/bootfs
+/dev/sda2       15416024 4666100   9947120   32% /media/rootfs
+root@pi61:/#
+
+```
+Aus 16% von 32GB sind 32% von 15GB geworden. Wir haben also die Root-Partition verkleinert.
+Die Boot Partition ist fast gleich groß geworden.
+
+Um diese SSD nun auch Bootfähig zu machen müssen wir ein paar Referenzen anpassen.
+
+Im Boot-Filesystem:
+```
+root@pi61:/# cd media/bootfs/
+root@pi61:/media/bootfs# more cmdline.txt
+console=serial0,115200 console=tty1 root=PARTUUID=00121dac-02 rootfstype=ext4 fsck.repair=yes rootwait
+```
+Hier ist noch die PARTUUID der SD Karten eingeragen. Also mit beliebigem Editor ändern zu:
+```
+root@pi61:/media/bootfs# more cmdline.txt
+console=serial0,115200 console=tty1 root=PARTUUID=592196a7-02 rootfstype=ext4 fsck.repair=yes rootwait
+root@pi61:/media/bootfs#
+```
+Die Angabe root=PARTUUID=592196a7-02 deutet dann auf die zweite Partition der neu erzuegt SSD.
+Hierbei ist es nun egal wo die Angschlossen wird (USB1-4 oder per SATA Karte) Sollange der "Disk identifier" sich nicht 
+ändert bleiben die Einträge in der Configuration gleich.
+
 
 
 
