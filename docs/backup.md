@@ -161,7 +161,7 @@ root@pi61:/# cd media/bootfs/
 root@pi61:/media/bootfs# more cmdline.txt
 console=serial0,115200 console=tty1 root=PARTUUID=00121dac-02 rootfstype=ext4 fsck.repair=yes rootwait
 ```
-Hier ist noch die PARTUUID der SD Karten eingeragen. Also mit beliebigem Editor ändern zu:
+Hier ist noch die PARTUUID der SD Karten einzutragen. Also mit beliebigem Editor ändern zu:
 ```
 root@pi61:/media/bootfs# more cmdline.txt
 console=serial0,115200 console=tty1 root=PARTUUID=592196a7-02 rootfstype=ext4 fsck.repair=yes rootwait
@@ -171,6 +171,32 @@ Die Angabe root=PARTUUID=592196a7-02 deutet dann auf die zweite Partition der ne
 Hierbei ist es nun egal wo die Angschlossen wird (USB1-4 oder per SATA Karte) Sollange der "Disk identifier" sich nicht 
 ändert bleiben die Einträge in der Configuration gleich.
 
+Zweitens ist noch die fstab anzupassen.
+```
+root@pi61:/media/rootfs/etc# more fstab
+proc            /proc           proc    defaults          0       0
+PARTUUID=00121dac-01  /boot           vfat    defaults          0       2
+PARTUUID=00121dac-02  /               ext4    defaults,noatime  0       1
+# a swapfile is not a swap partition, no line here
+#   use  dphys-swapfile swap[on|off]  for that
+tmpfs /var/www/html/openWB/ramdisk tmpfs nodev,nosuid,size=32M 0 0
+```
+
+Auch hier ist zweimal die disk-Id auszutauschen. Also zu:
+```
+root@pi61:/media/rootfs/etc# more fstab
+proc            /proc           proc    defaults          0       0
+PARTUUID=592196a7-01  /boot           vfat    defaults          0       2
+PARTUUID=592196a7-02  /               ext4    defaults,noatime  0       1
+# a swapfile is not a swap partition, no line here
+#   use  dphys-swapfile swap[on|off]  for that
+tmpfs /var/www/html/openWB/ramdisk tmpfs nodev,nosuid,size=32M 0 0
+root@pi61:/media/rootfs/etc#
+```
+
+Je nachdem ob Raspi-3 oder Raspi-4 kann nun die neuen SSD gebootet werden.
+pi3 - SD Karte rausnehmen oder gegen leere austauschen
+pi4 - Einfach anschliesen, die SSD hat vorrang vor der SD. Hier muss ich die SSD als anstöpseln wenn ich NICHT will das von Ihr gestartet wird.
 
 
 
