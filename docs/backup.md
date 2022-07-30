@@ -3,7 +3,7 @@
 Um ein Backup zu erzeugen gibt es viele Wege.
 Auf jeden Fall ist ein Root zugriff auf den Raspi erforderlich.
 
-**1  IMG Datei erstellen über das Netzwerk**
+# 1  IMG Datei erstellen über das Netzwerk 
 
 Eine Möglchkeit besteht darin einfach die ganze SD Karte komplett zu kopieren.
 Hier wird häufig vorgeschlagen die SD Karte auszubauen und auf einem PC zu Klonen.
@@ -28,7 +28,7 @@ Beim ersten Start wird sich das Filesystem selbst prüfen (fsck) da es "online" 
 Probleme sind dabei bisher nicht aufgetreten. 
 
 
-**2 Kopieren auf anders Speichermedium**
+# 2 Kopieren auf ein anderes Speichermedium 
 
 Ein weiteres Speichermedium per USB direkt an den Raspi anschliesen.
 Bei mir möglch da die Box im Haus montiert ist und ein öffnen bzw offen lassen beim Backup 
@@ -36,7 +36,7 @@ durchaus möglich ist.
 
 Ich verwende hier in der Anleitung eine betagte 64GB-SSD im 2.5" Format. Die ist mit einem USB Adpater per USB Kabel am Raspi angeschlossen.
 
-Nach dem Anschlissen prüfen wie die SSD erreichbat ist.
+## Nach dem Anschliessen prüfen wir wie die SSD erreichbar ist.
 
 ```
 root@pi61:~# fdisk -l
@@ -96,7 +96,7 @@ root@pi61:~#
 ```
 Wir merken uns den "Disk identifier", hier 592196a7 ohne das 0x Prefix.
 
-Nun müssen wir die Filesystem anlegen lassen und auch die Mounts Pointes auf der SD erstellen.
+## Nun müssen wir die Filesystem anlegen lassen und auch die Mounts Pointes auf der SD erstellen.
 
 ```
 root@pi61:~# mkdosfs /dev/sda1
@@ -153,7 +153,7 @@ root@pi61:/#
 Aus 16% von 32GB sind 32% von 15GB geworden. Wir haben also die Root-Partition verkleinert.
 Die Boot Partition ist fast gleich groß geworden.
 
-Um diese SSD nun auch Bootfähig zu machen müssen wir ein paar Referenzen anpassen.
+## Um diese SSD nun auch Bootfähig zu machen müssen wir ein paar Referenzen anpassen.
 
 Im Boot-Filesystem:
 ```
@@ -167,9 +167,9 @@ root@pi61:/media/bootfs# more cmdline.txt
 console=serial0,115200 console=tty1 root=PARTUUID=592196a7-02 rootfstype=ext4 fsck.repair=yes rootwait
 root@pi61:/media/bootfs#
 ```
-Die Angabe root=PARTUUID=592196a7-02 deutet dann auf die zweite Partition der neu erzuegt SSD.
-Hierbei ist es nun egal wo die Angschlossen wird (USB1-4 oder per SATA Karte) Sollange der "Disk identifier" sich nicht 
-ändert bleiben die Einträge in der Configuration gleich.
+Die Angabe root=PARTUUID=592196a7-02 deutet dann auf die zweite Partition der neu erzeugten SSD.
+Hierbei ist es nun egal wo diese Angschlossen wird (USB1-4 oder per SATA Karte) Sollange der "Disk identifier" sich nicht 
+ändert bleiben die Einträge in der Konfiguration gleich.
 
 Zweitens ist noch die fstab anzupassen.
 ```
@@ -194,13 +194,14 @@ tmpfs /var/www/html/openWB/ramdisk tmpfs nodev,nosuid,size=32M 0 0
 root@pi61:/media/rootfs/etc#
 ```
 
-Je nachdem ob Raspi-3 oder Raspi-4 kann nun die neuen SSD gebootet werden.
+## Je nachdem ob Raspi-3 oder Raspi-4 kann nun die neuen SSD gebootet werden.
 
 Raspberry 3B+ - SD Karte rausnehmen oder gegen leere austauschen
 
 raspberry 4B - Einfach anschliesen, die SSD hat vorrang vor der SD. Hier muss ich die SSD als anstöpseln wenn ich NICHT will das von ihr gestartet wird.
 
-Nach dem Neustart mit der SSD sehen die Partionen nun so aus:
+## Nach dem Neustart mit der SSD sehen die Partionen nun so aus:
+
 ```
 root@pi61:~# df
 Dateisystem    1K-Blöcke Benutzt Verfügbar Verw% Eingehängt auf
