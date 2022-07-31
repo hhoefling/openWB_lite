@@ -177,7 +177,7 @@
 				</div>
 
 				<div class="card-header bg-secondary">
-					Regelscheife
+					Regelschleife
 				</div>
 				<div class="card-body">
 					<div class="row">
