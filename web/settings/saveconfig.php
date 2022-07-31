@@ -107,6 +107,18 @@
 					$settingsArray[$key] = $value;
 				}
 			}
+			 else
+			{
+			  $k=$key; $v=$value;
+			  $debs[]=sprintf(" Add  %s  = [%s]", $k,$v);
+			  if( (strpos( $settingsArray[$key], "'" ) === 0) && (strrpos( $settingsArray[$key], "'" ) === strlen( $settingsArray[$key])-1) )
+			    {
+					$settingsArray[$key] = "'".$value."'";
+			     } else 
+				 {
+					$settingsArray[$key] = $value;
+			     }
+			}			
 		}
 
 		// write config to file
