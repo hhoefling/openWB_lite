@@ -279,6 +279,25 @@
 								</div>
 							</div>
 						</div>
+						<hr class="border-secondary">
+						<div class="form-group">
+							<div class="form-row mb-1">
+								<div class="col-md-4">
+									<label class="col-form-label">Event-System</label>
+								</div>
+								<div class="col">
+									<div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-outline-info<?php if($taskerenabledold == 0) echo " active" ?>">
+											<input type="radio" name="taskerenabled" id="taskerenabledOff" value="0"<?php if($taskerenabledold == 0) echo " checked=\"checked\"" ?>>Aus
+										</label>
+										<label class="btn btn-outline-info<?php if($taskerenabledold == 1) echo " active" ?>">
+											<input type="radio" name="taskerenabled" id="taskerenabledOn" value="1"<?php if($taskerenabledold == 1) echo " checked=\"checked\"" ?>>An
+										</label>
+									</div>
+									<span class="form-text small">Wenn aktiviert, wird der Task-Scheduler gestartet.</span>
+								</div>
+							</div>
+						</div>
 					</div>
 					<script>
 						var lp2akt = <?php echo $lastmanagementold ?>;

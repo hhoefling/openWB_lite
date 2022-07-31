@@ -74,7 +74,8 @@ at_reboot() {
 	sudo chmod -R 777 "$OPENWBBASEDIR/web/logging/data/"
 	# sudo chmod +x "$OPENWBBASEDIR/packages/"*.sh
 	
-	touch $RAMDISKDIR/smarthome.log
+	sudo touch $RAMDISKDIR/smarthome.log
+	sudo chown pi:pi $RAMDISKDIR/smarthome.log 
 	sudo chmod -R 777 $RAMDISKDIR/smarthome.log
 
 
@@ -158,6 +159,19 @@ at_reboot() {
 	fi
 
 
+	# check if our task-scheduler is running
+	if [[ "$taskerenabled" == "0" ]]; then
+	  	log "tasker not enabled, stop Service if running"
+	   	sudo -u pi tsp -K
+	else
+	    if ps ax |grep -v grep |grep "[t]sp" > /dev/null
+	    then
+  	   		log "tasker already running"
+    	else
+	        log "tasker not running! restarting process"
+          	sudo -u pi runs/tasker/start.sh
+    	fi
+	fi
 
 
 
@@ -324,6 +338,12 @@ at_reboot() {
 		sleep 1
 		sudo apt-get -qq install sshpass
 	fi
+	if ! [ -x "$(command -v tsp)" ];then
+		sudo apt-get -qq update
+		sleep 1
+		sudo apt-get -qq install task-spooler
+	fi
+
 	if [ $(dpkg-query -W -f='${Status}' php-gd 2>/dev/null | grep -c "ok installed") -eq 0 ];
 	then
 		sudo apt-get -qq update
@@ -645,9 +665,9 @@ at_reboot() {
 	(sleep 10; mosquitto_pub -t openWB/set/ChargeMode -r -m "$bootmodus") &
 	(sleep 10; mosquitto_pub -t openWB/global/ChargeMode -r -m "$bootmodus") &
 	echo " " > "$OPENWBBASEDIR/ramdisk/lastregelungaktiv"
-	chmod 777 "$OPENWBBASEDIR/ramdisk/lastregelungaktiv"
-	chmod 777 "$OPENWBBASEDIR/ramdisk/smarthome.log"
-	chmod 777 "$OPENWBBASEDIR/ramdisk/smarthomehandlerloglevel"
+	sudo chmod 777 "$OPENWBBASEDIR/ramdisk/lastregelungaktiv"
+	sudo chmod 777 "$OPENWBBASEDIR/ramdisk/smarthome.log"
+	sudo chmod 777 "$OPENWBBASEDIR/ramdisk/smarthomehandlerloglevel"
 
 	# update etprovider pricelist
 	#log "etprovider..."

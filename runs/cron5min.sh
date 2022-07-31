@@ -460,6 +460,21 @@ else
     fi
 fi
 
+	# check if our task-scheduler is running
+	if [[ "$taskerenabled" == "0" ]]; then
+	  	openwbDebugLog "MAIN" 0 "tasker not enabled, stop Service if running"
+	   	sudo -u pi tsp -K
+	else
+	    if ps ax |grep -v grep |grep "[t]sp" > /dev/null
+	    then
+  	   		openwbDebugLog "MAIN" 0 "tasker already running"
+    	else
+	        openwbDebugLog "MAIN" 0 "tasker not running! restarting process"
+          	sudo -u pi runs/tasker/start.sh
+    	fi
+	fi
+
+
 # setup push buttons handler if needed
 pushButtonsSetup "$ladetaster" 0
 

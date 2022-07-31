@@ -77,7 +77,7 @@ openwbModulePublishState() {
 export -f openwbModulePublishState
 
 openwbDebugLog() {
-	# $1: Channel (MAIN=default, EVSOC, PV, MQTT, RFID, SMARTHOME, CHARGESTAT, DEB)
+	# $1: Channel (MAIN=default, EVSOC, PV, MQTT, RFID, SMARTHOME, CHARGESTAT, DEB, EVENT)
 	# $2: Level (0=Info, 1=Regelwerte , 2=Berechnungsgrundlage)
 	# $3: Meldung (String)
 	LOGFILE="/var/log/openWB.log"
@@ -94,6 +94,9 @@ openwbDebugLog() {
 		case $1 in
 			"DEB")
 				LOGFILE="/var/www/html/openWB/ramdisk/dbg.log"
+				;;
+			"EVENT")
+				LOGFILE="/var/www/html/openWB/ramdisk/event.log"
 				;;
 			"EVSOC")
 				LOGFILE="/var/www/html/openWB/ramdisk/soc.log"
