@@ -1,0 +1,16 @@
+#!/bin/sh
+# - task spooler (ts) job dump
+# This file has been created because a SIGTERM killed
+# your queue server.
+# The finished commands are listed first.
+# The commands running or to be run are stored as you would
+# probably run them. Take care - some quotes may have got broken
+
+# ID   State      Output               E-Level  Times(r/u/s)   Command [run=1/1]
+
+ts sh -c sleep 200; echo "200" 
+ts sh -c sleep 200; echo "200" 
+ts sh -c sleep 200; echo "200" 
+ts sh -c sleep 200; echo "200" 
+ts sh -c sleep 200; echo "200" 
+ts sh -c sleep 200; echo "200" 
