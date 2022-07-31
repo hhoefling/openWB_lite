@@ -136,6 +136,15 @@ function updateLabel(elementId) {
     }
 }
 
+function setDefault(elementId, value) 
+{
+	if (  $('#'+elementId).val()=='' ) 
+	 {
+       console.log('setDefault: ',elementId, ' alt:', $('#'+elementId).val(), ' set to' , value );
+	   $('#'+elementId).val(value); 
+     }
+}
+
 function setInputValue(elementId, value) {
     /** @function setInputValue
      * sets the value-label (if exists) attached to the element to the element value
