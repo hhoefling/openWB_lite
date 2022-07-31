@@ -2052,6 +2052,9 @@ updateConfig(){
 	if ! grep -Fq "modbus502enabled=" $ConfigFile; then
 		echo "modbus502enabled=0" >> $ConfigFile
 	fi
+	if ! grep -Fq "taskerenabled=" $ConfigFile; then
+		echo "taskerenabled=0" >> $ConfigFile
+	fi
 	if ! grep -Fq "rseenabled=" $ConfigFile; then
 		echo "rseenabled=0" >> $ConfigFile
 	fi
