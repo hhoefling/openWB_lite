@@ -305,21 +305,27 @@ at_reboot() {
 		(crontab -l -u pi ; echo "@reboot /var/www/html/openWB/runs/atreboot.sh >> /var/log/openWB.log 2>&1")| crontab -u pi -
 	fi
 
-	# check for email
-	#if [[ -x /usr/bin/msmtp ]] ; then
-	#  log "msmtp found. Please check config"
-	#else
-	#  log "install a simple smtp client"
-	#  sudo apt-get -q -y install bsd-mailx msmtp msmtp-mta
-	#  # check for configuration
-	#   if [ ! -f /etc/msmtprc ] ; then
-	#	log "updating global msmtprc config file"
-	#	sudo cp /var/www/html/openWB/web/files/msmtprc /etc/msmtprc
-	#    sudo chown root:mail /etc/msmtprc
-	#    sudo chmod 0640 /etc/msmtprc
-	#   fi
-	#fi
 
+	# check for email
+	if (dpkg -l | grep "ii.*msmtp" >/dev/null) ; then
+	  log "msmtp found. Please check config"
+	else
+	  log "install a simple smtp client"
+	  sudo apt-get -q -y install bsd-mailx msmtp msmtp-mta
+	  # check for configuration
+	   if [ ! -f /etc/msmtprc ] ; then
+	     if [ -f /home/pi/msmtp/msmtprc  ] ; then
+		    log "updating global msmtprc config file"
+  			sudo cp /home/pi/msmtp/msmtprc /etc/msmtprc
+	    	sudo chown root:mail /etc/msmtprc
+	    	sudo chmod 0644 /etc/msmtprc
+		    log "updating mail.rc and aliaes file"
+			sudo cp -p /home/pi/msmtp/mail.rc /etc/mail.rc 
+			sudo cp -p /home/pi/msmtp/aliases /etc/aliases
+		 fi		 
+	   fi
+	fi
+		
 
 	# check for needed packages
 	log "packages 1..."
