@@ -8,6 +8,7 @@ fi
 
 declare -F openwbDebugLog &> /dev/null || {
 	. "$OPENWBBASEDIR/helperFunctions.sh"
+    . "$OPENWBBASEDIR/loadconfig.sh"
 }
 
 for f in $OPENWBBASEDIR/runs/tasker/chargeoff/*.sh

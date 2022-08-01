@@ -1,9 +1,20 @@
 #!/bin/bash
 
-export TS_MAXFINISHED=10
-export TS_SAVELIST=/var/www/html/openWB/runs/tasker/tsp.dump
-# export  TS_ENV='pwd;set;mount'.
-tsp -K
-tsp
+if [[ -z "$OPENWBBASEDIR" ]]; then
+	OPENWBBASEDIR=$(cd "$(dirname "$0")/../../" && pwd)
+	OPENWBBASEDIR=/var/www/html/openWB
+	RAMDISKDIR="${OPENWBBASEDIR}/ramdisk"
+fi
 
-ps -elf | grep tsp
+declare -F openwbDebugLog &> /dev/null || {
+	. "$OPENWBBASEDIR/helperFunctions.sh"
+}
+
+for f in $OPENWBBASEDIR/runs/tasker/chargeon/*.sh
+do
+  tid=$(tsp $f $*)
+  openwbDebugLog "EVENT" 0 "fire event $f  fid:$tid"
+  
+done
+
+exit 0
