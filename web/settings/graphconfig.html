@@ -43,6 +43,7 @@
 		<div role="main" class="container" style="margin-top:20px">
 			<form id="myForm">
 				<h1>Graph-Einstellungen</h1>
+				<span class="d_label">Gespeichert direkt in MQTT openWB/graph/...  Kein set Aufruf, keine Variablen</span>
 
 				<div class="card border-secondary">
 					<div class="card-header bg-secondary">
@@ -59,7 +60,9 @@
 									<label class="btn btn-outline-info btn-toggle">
 										<input type="radio" name="boolDisplayLiveGraph" id="boolDisplayLiveGraphOn" data-option="1" value="1">An
 									</label>
+									<span class="d_label">boolDisplayLiveGraph </span>
 								</div>
+								
 							</div>
 						</div>
 						<div class="form-row mb-1">
@@ -72,6 +75,7 @@
 									<label class="btn btn-outline-info btn-toggle">
 										<input type="radio" name="boolDisplayLegend" id="boolDisplayLegendOn" data-option="1" value="1">An
 									</label>
+								    <span class="d_label">boolDisplayLegend </span>
 								</div>
 							</div>
 						</div>
@@ -86,6 +90,7 @@
 									<label class="btn btn-outline-info btn-toggle">
 										<input type="radio" name="boolDisplayEvu" id="boolDisplayEvuOn" data-option="1" value="1">An
 									</label>
+								    <span class="d_label">boolDisplayEvu </span>
 								</div>
 							</div>
 						</div>
@@ -99,6 +104,7 @@
 									<label class="btn btn-outline-info btn-toggle">
 										<input type="radio" name="boolDisplayHouseConsumption" id="boolDisplayHouseConsumptionOn" data-option="1" value="1">An
 									</label>
+								    <span class="d_label">boolDisplayHouseConsumption </span>
 								</div>
 							</div>
 						</div>
@@ -112,6 +118,7 @@
 									<label class="btn btn-outline-info btn-toggle">
 										<input type="radio" name="boolDisplayPv" id="boolDisplayPvOn" data-option="1" value="1">An
 									</label>
+								    <span class="d_label">boolDisplayPv </span>
 								</div>
 							</div>
 						</div>
@@ -134,6 +141,7 @@
 										<label class="btn btn-outline-info btn-toggle">
 											<input type="radio" name="boolDisplayLpAll" id="boolDisplayLpAllOn" data-option="1" value="1">An
 										</label>
+								       <span class="d_label">boolDisplayLpAll </span>
 									</div>
 								</div>
 							</div>
@@ -149,6 +157,7 @@
 									<label class="btn btn-outline-info btn-toggle">
 										<input type="radio" name="boolDisplayLp1" id="boolDisplayLp1On" data-option="1" value="1">An
 									</label>
+								    <span class="d_label">boolDisplayLp1 </span>
 								</div>
 							</div>
 						</div>
@@ -162,6 +171,7 @@
 									<label class="btn btn-outline-info btn-toggle">
 										<input type="radio" name="boolDisplayLp2" id="boolDisplayLp2On" data-option="1" value="1">An
 									</label>
+								    <span class="d_label">boolDisplayLp2 </span>
 								</div>
 							</div>
 						</div>
@@ -175,6 +185,7 @@
 									<label class="btn btn-outline-info btn-toggle">
 										<input type="radio" name="boolDisplayLp3" id="boolDisplayLp3On" data-option="1" value="1">An
 									</label>
+								    <span class="d_label">boolDisplayLp3 </span>
 								</div>
 							</div>
 						</div>
@@ -190,6 +201,7 @@
 										<label class="btn btn-outline-info btn-toggle">
 											<input type="radio" name="boolDisplayLp1Soc" id="boolDisplayLp1SocOn" data-option="1" value="1">An
 										</label>
+								       <span class="d_label">boolDisplayLp1Soc </span>
 									</div>
 								</div>
 							</div>
@@ -203,6 +215,7 @@
 										<label class="btn btn-outline-info btn-toggle">
 											<input type="radio" name="boolDisplayLp2Soc" id="boolDisplayLp2SocOn" data-option="1" value="1">An
 										</label>
+								       <span class="d_label">boolDisplayLp2Soc </span>
 									</div>
 								</div>
 							</div>
@@ -229,6 +242,7 @@
 										<label class="btn btn-outline-info btn-toggle">
 											<input type="radio" name="boolDisplaySpeicher" id="boolDisplaySpeicherOn" data-option="1" value="1">An
 										</label>
+								       <span class="d_label">boolDisplaySpeicher </span>										
 									</div>
 								</div>
 							</div>
@@ -242,6 +256,7 @@
 										<label class="btn btn-outline-info btn-toggle">
 											<input type="radio" name="boolDisplaySpeicherSoc" id="boolDisplaySpeicherSocOn" data-option="1" value="1">An
 										</label>
+								       <span class="d_label">boolDisplaySpeicherSoc </span>										
 									</div>
 								</div>
 							</div>
@@ -267,6 +282,7 @@
 									<label class="btn btn-outline-info btn-toggle">
 										<input type="radio" name="boolDisplayLoad1" id="boolDisplayLoad1On" data-option="1" value="1">An
 									</label>
+							       <span class="d_label">boolDisplayLoad1 </span>										
 								</div>
 							</div>
 						</div>
@@ -280,6 +296,7 @@
 									<label class="btn btn-outline-info btn-toggle">
 										<input type="radio" name="boolDisplayLoad2" id="boolDisplayLoad2On" data-option="1" value="1">An
 									</label>
+							       <span class="d_label">boolDisplayLoad2 </span>										
 								</div>
 							</div>
 						</div>
@@ -317,6 +334,7 @@
 
 			var pv1 = 0;
 			var pv2 = 0;
+			// callback vom MQTT
 			function visibiltycheck(elementId, mqttpayload) {
 				// PV
 				if ( ( elementId == "boolPVConfiguredPv1") || ( elementId == "boolPVConfiguredPv2") ) {
