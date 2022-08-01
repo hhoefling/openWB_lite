@@ -50,6 +50,10 @@
 
 			$speichervorhanden = trim( file_get_contents( $_SERVER['DOCUMENT_ROOT'] . '/openWB/ramdisk/speichervorhanden' ) );
 		?>
+		<script>
+		  var debugold=<?php echo $debugold;?>;
+		  console.log('openWB Debugmode:',debugold);
+		</script>		
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
 

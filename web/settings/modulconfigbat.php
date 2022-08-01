@@ -677,7 +677,7 @@
 								hideSection('#divspeicherseco');
 								hideSection('#divspeicherkit');
 								//hideSection('#divspeichervarta');
-                        //hideSection('#divspeicheralphaess');  
+                        	    //hideSection('#divspeicheralphaess');  
 								//hideSection('#divspeichervictron');
 								//hideSection('#divspeicherstuder');
 								//hideSection('#divspeicherlgessv1'); 
@@ -871,7 +871,8 @@
 				$('#abortWizzardConfirmationBtn').on("click",function() {
 					$('#wizzarddoneForm').submit();
 				});
-
+              display_speichermodul();
+								
 			});
 
 			var wizzarddone = <?php if(isset($wizzarddoneold)){ echo $wizzarddoneold; } else { echo 100; } ?>

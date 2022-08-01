@@ -100,6 +100,7 @@
 
 		<div role="main" class="container" style="margin-top:20px">
 			<h1>Theme-Auswahl</h1>
+			<span class="d_label">Gespeicher in Cookie openWBTheme</span>	
 			<div class="card border-secondary">
 				<div class="card-header bg-secondary">
 					<div class="col">Theme</div>

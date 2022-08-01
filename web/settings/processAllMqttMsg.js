@@ -37,11 +37,11 @@ function processMessages(mqttmsg, mqttpayload) {
 		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
 	    debuglevel = i;
 		console.log('set debug level to '+debuglevel );
-		if ( debuglevel >= 2)  {
-			$(".d_label").removeClass("hide");
-        } else {			
-			$(".d_label").addClass("hide");
-		}
+//		if ( debuglevel >= 2)  {
+//			$(".d_label").removeClass("hide");
+//        } else {			
+//			$(".d_label").addClass("hide");
+//		}
 		return	
 	}
 	

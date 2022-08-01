@@ -124,6 +124,14 @@
 			function llanbindunglog() {
 				readLogFile("/openWB/ramdisk/isss.log", "#llanbindungdiv");
 			}
+			
+			function lleventlog() {
+				readLogFile("/openWB/ramdisk/event.log", "#lleventdiv");
+			}
+
+			function lldbglog() {
+				readLogFile("/openWB/ramdisk/dbg.log", "#lldbgdiv");
+			}
 		</script>
 
 	</head>
@@ -595,6 +603,20 @@
 						<button class="btn btn-info reloadLLAnbindungLog" style="margin-bottom:12px" type="reset">Aktualisieren <i class="fas fa-redo-alt"></i> </button>
 						<pre id="llanbindungdiv">Lade Daten...</pre>
 					</div>
+					<div class="card-header bg-secondary collapsed" data-toggle="collapse" data-target="#collapseNine">
+						<a class="card-title">Event Log </a>
+					</div>
+					<div id="collapseNine" class="card-body collapse" data-parent="#accordion">
+						<button class="btn btn-info reloadEventLog" style="margin-bottom:12px" type="reset">Aktualisieren <i class="fas fa-redo-alt"></i> </button>
+						<pre id="lleventdiv">Lade Daten...</pre>
+					</div>
+					<div class="card-header bg-secondary collapsed" data-toggle="collapse" data-target="#collapseTen">
+						<a class="card-title">Debug Log 2  </a>
+					</div>
+					<div id="collapseTen" class="card-body collapse" data-parent="#accordion">
+						<button class="btn btn-info reloadDbgLog" style="margin-bottom:12px" type="reset">Aktualisieren <i class="fas fa-redo-alt"></i> </button>
+						<pre id="lldbgdiv">Lade Daten...</pre>
+					</div>
 				</div>
 			</div>
 
@@ -737,6 +759,18 @@
 			$('#collapseEight').on('shown.bs.collapse', function(){
 				llanbindunglog();
 			});
+			$('.reloadLLEventLog').click(function(event){
+				lleventlog();
+			});
+			$('#collapseNine').on('shown.bs.collapse', function(){
+				lleventlog();
+			});
+			$('.reloadLLDbgLog').click(function(event){
+				lldbglog();
+			});
+			$('#collapseTen').on('shown.bs.collapse', function(){
+				lldbglog();
+			});			
 		</script>
 
 	</body>

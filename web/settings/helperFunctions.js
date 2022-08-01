@@ -16,7 +16,7 @@ function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires=" + d.toGMTString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + "; path=/openWB/";
+    document.cookie = cname + "=" + cvalue + ";" + expires + "; path=/openWB/;SameSite=Lax";
 }
 
 /**
@@ -53,9 +53,16 @@ if( '' != themeCookie ){
  * disables all contained input and select elements if 'disableChildren' is not set to false
 **/
 function hideSection(section, disableChildren=true) {
-//    $(section).addClass('hide');
-    $(section).addClass('disabled');
-    $(section).css('opacity', '0.2');
+    console.log('hideSection ',section)
+   if( debugmode>2)
+    {
+	    $(section).addClass('disabled');
+	    $(section).css('opacity', '0.2');
+	}
+	else
+	{
+	    $(section).addClass('hide');
+	}
     updateFormFieldVisibility();
 }
 
@@ -65,9 +72,10 @@ function hideSection(section, disableChildren=true) {
  * enables all contained input and select elements if 'enableChildren' is not set to false
 **/
 function showSection(section, enableChildren=true) {
+    console.log('showSection ',section)
     $(section).removeClass('hide');
     $(section).removeClass('disabled');
-    $(section).css('opacity', '1.0');
+  	$(section).css('opacity', '1.0');
     updateFormFieldVisibility();
 }
 

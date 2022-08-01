@@ -1191,6 +1191,8 @@
 					$('#wizzarddoneForm').submit();
 				});
 
+				display_pvwattmodul();
+				
   			    // load meter data from Fronius inverter
 			
 				//$('#wattbezugfroniusload').on("click",function() {

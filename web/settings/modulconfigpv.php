@@ -1255,6 +1255,8 @@
 				$('#abortWizzardConfirmationBtn').on("click",function() {
 					$('#wizzarddoneForm').submit();
 				});
+			  
+			  display_pvwattmodul();				
 
 			});
 
