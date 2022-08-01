@@ -4,7 +4,6 @@ var PriceForKWh = 0.30;
 var gotprice = 0;
 var retries = 0;
 
-var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 
 // general helper functions
 
@@ -63,6 +62,7 @@ var isSSL = location.protocol == 'https:';
 var port = isSSL ? 443 : 9001;
 var options = {
 	timeout: 5,
+	useSSL: isSSL,	
 	onSuccess: function () {
 		retries = 0;
 		thevalues.forEach(function(thevar) {
@@ -74,6 +74,8 @@ var options = {
 	}
 };
 
+var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+var client = new Messaging.Client(location.hostname,port, clientuid);
 function handlevar(mqttmsg, mqttpayload) {
 	if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/boolchargepointconfigured$/i ) ) {
 		// respective charge point configured
@@ -385,7 +387,11 @@ function getCol(matrix, col){
 // run
 initLadelog();
 
-var client = new Messaging.Client(location.hostname,port, clientuid);
+//Gets  called if the websocket/mqtt connection gets disconnected for any reason
+client.onConnectionLost = function (responseObject) {
+	client.connect(options);
+}
+
 client.onMessageArrived = function (message) {
 	handlevar(message.destinationName, message.payloadString, thevalues[0], thevalues[1]);
 };
