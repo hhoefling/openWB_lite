@@ -119,9 +119,7 @@ cd /var/www/html/
 sudo chown -R pi:pi openWB 
 sudo cp -p /tmp/openwb.conf /var/www/html/openWB/openwb.conf
 sudo chmod 777 /var/www/html/openWB/openwb.conf
-sudo chmod -R +x /var/www/html/openWB/modules/*
-sudo chmod -R +x /var/www/html/openWB/runs/*
-sudo chmod +x /var/www/html/openWB/*.sh
+sudo find openWB -name "*.sh" -or -name "*.py" -exec chmod +x {} \;
 sudo chmod 777 /var/www/html/openWB/ramdisk/*
 sleep 1
 
