@@ -117,9 +117,9 @@ git reset --hard origin/$train
 Log 1 "set permissions, Don't trust the github permissions"
 cd /var/www/html/
 sudo chown -R pi:pi openWB 
+sudo find openWB -name "*.sh" -or -name "*.py" -exec chmod 0755 {} \;
 sudo cp -p /tmp/openwb.conf /var/www/html/openWB/openwb.conf
 sudo chmod 777 /var/www/html/openWB/openwb.conf
-sudo find openWB -name "*.sh" -or -name "*.py" -exec chmod +x {} \;
 sudo chmod 777 /var/www/html/openWB/ramdisk/*
 sleep 1
 
