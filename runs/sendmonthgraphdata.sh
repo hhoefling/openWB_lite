@@ -1,4 +1,5 @@
 #!/bin/bash
+# send fo rmqtt RequestMonthGraph=date
 input=$1
 
 # Get Data for first Day of next Month

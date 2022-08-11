@@ -1,4 +1,5 @@
 #!/bin/bash
+# send for MQTT RequestYearGraph=date
 # input ist Jahr JJJJ 2020
 input=$1
 nextyear=$(( input + 1 ))

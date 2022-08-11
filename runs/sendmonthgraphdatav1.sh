@@ -1,4 +1,5 @@
 #!/bin/bash
+# send for MQTT RequestMonthGraphv1=date
 #daten holen und umformatieren
 #python3 /var/www/html/openWB/runs/csvselmonth.py --input /var/www/html/openWB/web/logging/data/v001/ --output /var/www/html/openWB/ramdisk/ --partial /var/www/html/openWB/ramdisk/ --date $1 >> /var/www/html/openWB/ramdisk/csvselmonth.log 2>&1 &
 echo "startet $1 "  >> /var/www/html/openWB/ramdisk/csvselmonth.log

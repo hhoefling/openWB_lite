@@ -1,4 +1,5 @@
 #!/bin/bash
+# send by MQTT RequestDayGraph=Date
 
 mosquitto_pub -t openWB/system/DayGraphData1 -r -m "$(</var/www/html/openWB/web/logging/data/daily/$1.csv tail -n +"0" | head -n "$((24 - 0))")" &
 mosquitto_pub -t openWB/system/DayGraphData2 -r -m "$(</var/www/html/openWB/web/logging/data/daily/$1.csv tail -n +"25" | head -n "$((50 - 25))")" &
