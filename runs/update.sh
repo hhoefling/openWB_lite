@@ -116,7 +116,9 @@ git reset --hard origin/$train
 
 Log 1 "set permissions"
 cd /var/www/html/
+ls -lRa openWB >openWB/lRa1.txt
 sudo chown -R pi:pi openWB 
+ls -lRa openWB >openWB/lRa2.txt
 sudo chown -R www-data:www-data /var/www/html/openWB/web/backup
 sudo chown -R www-data:www-data /var/www/html/openWB/web/tools/upload
 sudo cp -p /tmp/openwb.conf /var/www/html/openWB/openwb.conf
