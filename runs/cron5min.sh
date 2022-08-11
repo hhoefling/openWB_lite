@@ -26,6 +26,19 @@ else
 	exit 0
 fi
 
+
+startregel=$(date +%s)
+function cleanup()
+{
+	local endregel=$(date +%s)
+	local t=$((endregel-startregel))
+	openwbDebugLog "MAIN" 0 "cron5min needs $t Sekunden"
+    rm -f "$RAMDISKDIR/cron5runs" 
+}
+trap cleanup EXIT
+touch "$RAMDISKDIR/cron5runs" 
+
+
 idd=`id -un`
 openwbDebugLog "MAIN" 0 "##### cron5min.sh started as $idd #####"
 

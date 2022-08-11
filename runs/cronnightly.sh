@@ -1,13 +1,24 @@
 #!/bin/bash
 # von cron aus /home/pi als dir 
 
-OPENWBBASEDIR=$(cd "$(dirname "$0")/../" && pwd)
+##OPENWBBASEDIR=$(cd "$(dirname "$0")/../" && pwd)
 OPENWBBASEDIR=/var/www/html/openWB
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 cd $OPENWBBASEDIR
 
 . $OPENWBBASEDIR/loadconfig.sh
 . $OPENWBBASEDIR/helperFunctions.sh
+
+startregel=$(date +%s)
+function cleanup()
+{
+	local endregel=$(date +%s)
+	local t=$((endregel-startregel))
+	openwbDebugLog "MAIN" 0 "croninighly needs $t Sekunden"
+    rm -f "$RAMDISKDIR/cronnighlyruns" 
+}
+trap cleanup EXIT
+touch "$RAMDISKDIR/cronnighlyruns" 
 
 
 idd=`id -un`
@@ -155,5 +166,5 @@ do
 done
 
 # monthly . csv updaten
-echo "Trigger update of logfiles..."
+openwbDebugLog "MAIN" 0 "Trigger update of logfiles..."
 python3 /var/www/html/openWB/runs/csvcalc.py --input /var/www/html/openWB/web/logging/data/daily/ --output /var/www/html/openWB/web/logging/data/v001/ --partial /var/www/html/openWB/ramdisk/ --mode A >> /var/www/html/openWB/ramdisk/csvcalc.log 2>&1 &
