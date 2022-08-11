@@ -57,6 +57,11 @@
 			}
 
 			$updateinprogress = trim(file_get_contents('/var/www/html/openWB/ramdisk/updateinprogress'));
+			
+			$lines=[];
+			exec('curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/web/version > /var/www/html/openWB/ramdisk/versnightly', $lines);
+			exec('curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version > /var/www/html/openWB/ramdisk/versbeta', $lines);
+			exec('curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/stable/web/version > /var/www/html/openWB/ramdisk/versstable', $lines);
 		?>
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
@@ -206,9 +211,10 @@
 			$(document).ready(function(){
 
 				function getVersion(dataURL) {
-					// read dataURL filecontent = releasetrain version and return it
+					console.log('getVersion ' + dataURL);
 					return $.get({
-						url: dataURL,
+						//url: dataURL,
+						url: "/openWB/ramdisk/"+dataURL,
 						cache: false
 					});
 				}
@@ -234,9 +240,9 @@
 				}
 
 				$(function getAllVersions() {
-					displayVersion("Stable", 'https://raw.githubusercontent.com/hhoefling/openWB_lite/stable17/web/version');
-					displayVersion("Beta", 'https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version');
-					displayVersion("Nightly", 'https://raw.githubusercontent.com/hhoefling/openWB_lite/master/web/version');
+					displayVersion("Stable", 'versstable');
+					displayVersion("Beta",   'versbeta');
+                    displayVersion("Nightly",'versnightly');				
 				});
 
 				$.get({
@@ -274,9 +280,9 @@
 						if ( releasetrains.includes("<?php echo $releasetrain?>") ) {
 							// check the box matching config file releasetrain
 							$("input[value='<?php echo $releasetrain?>']").prop('checked', true);
-						} else if ( releasetrains.includes("stable17") ) {
+						} else if ( releasetrains.includes("stable") ) {
 							// version from config file not availabe so select stable
-							$("input[value='stable17']").prop('checked', true);
+							$("input[value='stable']").prop('checked', true);
 						} else if ( releasetrains.includes("beta") ) {
 							// stable not availabe so select beta
 							$("input[value='beta']").prop('checked', true);
