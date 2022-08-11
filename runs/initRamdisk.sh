@@ -7,6 +7,7 @@ initRamdisk(){
 
 	# Logfiles erstellen
 	if [[ ! -L $RamdiskPath/openWB.log ]]; then
+		sudo rm -f $RamdiskPath/openWB.log
 		ln -s /var/log/openWB.log $RamdiskPath/openWB.log
 	fi
 	echo "**** REBOOT ****" >> $RamdiskPath/mqtt.log
@@ -104,8 +105,6 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/progevsedinlp22007
 	echo 0 > $RamdiskPath/cpulp1counter
 	echo 0 > $RamdiskPath/soc
-#NC	echo 0 > $RamdiskPath/soc-live.graph
-#NC	echo 0 > $RamdiskPath/soc.graph
 	echo 0 > $RamdiskPath/soc1
 	echo 0 > $RamdiskPath/soc1KM
 	echo 0 > $RamdiskPath/soc2KM
@@ -189,8 +188,6 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/monthly_pvkwhk1
 	echo 0 > $RamdiskPath/monthly_pvkwhk2
 	echo 0 > $RamdiskPath/nurpv70dynstatus
-#NC	echo 0 > $RamdiskPath/pv-live.graph
-#NC	echo 0 > $RamdiskPath/pv.graph
 	echo 0 > $RamdiskPath/pv1watt
 	echo 0 > $RamdiskPath/pv2a1
 	echo 0 > $RamdiskPath/pv2a2
@@ -314,14 +311,10 @@ initRamdisk(){
 #NC	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL3
 	echo 0 > $RamdiskPath/autolocktimer
 	echo 0 > $RamdiskPath/blockall
-#NC	echo 0 > $RamdiskPath/date-live.graph
-#NC echo 0 > $RamdiskPath/date.graph
 	echo 0 > $RamdiskPath/devicetotal_watt
 #	echo 0 > $RamdiskPath/etprovidermaxprice
 #	echo 0 > $RamdiskPath/etproviderprice
 #	touch $RamdiskPath/etprovidergraphlist
-#NC	echo 0 > $RamdiskPath/ev-live.graph
-#NC	echo 0 > $RamdiskPath/ev.graph
 	echo 0 > $RamdiskPath/evseausgelesen
 	echo 0 > $RamdiskPath/glattwattbezug
 	echo 0 > $RamdiskPath/hausverbrauch
