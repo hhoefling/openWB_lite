@@ -1,5 +1,6 @@
 #!/bin/bash
 OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
+RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 
 # Called:
 # 1)  von mqttsub.py mit /home/pi und User pi
@@ -17,13 +18,37 @@ function Log()
 cd /var/www/html/openWB
 . /var/www/html/openWB/loadconfig.sh
 
-Log 1 "starting... "
+
+################# Check and Wait if cron job running.
+cnt=0
+while  (( cnt<20)) && ([ -f "$RAMDISKDIR/cronnighlyruns" ] || [ -f "$RAMDISKDIR/cron5runs" ] ) 
+do
+  Log 0 "###############  cron5min or cronnigly running. Wait....(max 120Sek)"
+  sleep 1
+  (( cnt++))
+done
+
+if [ -f "$RAMDISKDIR/cronnighlyruns" ] ; then 
+  Log 0 "############### Now Killing background Job cronnighly.sh"
+  sudo pkill 'cronnighly.sh' >/dev/null
+  sudo rm -f "$RAMDISKDIR/cronnighlyruns" 
+fi
+if [ -f "$RAMDISKDIR/cron5runs" ]  ; then 
+  Log 0 "############### Now Killing background Job cron5mins.sh"
+  sudo pkill 'cron5mins.sh' >/dev/null
+  sudo rm -f "$RAMDISKDIR/cron5runs" 
+fi
+
+
+Log 1 "######################## Update starting... "
 
 # set mode to stop and flags in ramdisk and broker to indicate current update state
-mosquitto_pub -t openWB/set/ChargeMode -r -m "3"
 mosquitto_pub -t openWB/system/updateInProgress -r -m "1"
 echo 1 > /var/www/html/openWB/ramdisk/updateinprogress
 echo 1 > /var/www/html/openWB/ramdisk/bootinprogress
+mosquitto_pub -t openWB/system/updateInProgress -r -m "1"
+
+mosquitto_pub -t openWB/set/ChargeMode -r -m "3"
 echo "Update im Gange, bitte warten bis die Meldung nicht mehr sichtbar ist" > /var/www/html/openWB/ramdisk/lastregelungaktiv
 mosquitto_pub -t "openWB/global/strLastmanagementActive" -r -m "Update im Gange, bitte warten bis die Meldung nicht mehr sichtbar ist"
 echo "Update im Gange, bitte warten bis die Meldung nicht mehr sichtbar ist" > /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
@@ -34,7 +59,7 @@ Log "Stop legacy_run Server if running"
 # server. If we replace the source files while the process is running, funny things might happen.
 # Thus we shut-down the legacy run server before performing the update.
 
-# sudo pkill -f "/var/www/html/openWB/packages/legacy_run_server.py" >/dev/null
+# sudo pkill -u pi -f "/var/www/html/openWB/packages/legacy_run_server.py" >/dev/null
 
 
 if [[ "$releasetrain" == "stable17" ]]; then
@@ -81,25 +106,25 @@ sleep 15
 
 Log 1 "backup some files before fetching new release"
 # module soc_eq
-cp modules/soc_eq/soc_eq_acc_lp1 /tmp/soc_eq_acc_lp1
-cp modules/soc_eq/soc_eq_acc_lp2 /tmp/soc_eq_acc_lp2
-cp openwb.conf /tmp/openwb.conf
+cp -p modules/soc_eq/soc_eq_acc_lp1 /tmp/soc_eq_acc_lp1
+cp -p modules/soc_eq/soc_eq_acc_lp2 /tmp/soc_eq_acc_lp2
+cp -p openwb.conf /tmp/openwb.conf
 
-Log 1 "fetch new release from GitHub"
-sudo git fetch origin
-sudo git reset --hard origin/$train
+Log 1 "fetch new release from GitHub as pi"
+git fetch origin
+git reset --hard origin/$train
 
 Log 1 "set permissions"
 cd /var/www/html/
 sudo chown -R pi:pi openWB 
 sudo chown -R www-data:www-data /var/www/html/openWB/web/backup
 sudo chown -R www-data:www-data /var/www/html/openWB/web/tools/upload
-sudo cp /tmp/openwb.conf /var/www/html/openWB/openwb.conf
+sudo cp -p /tmp/openwb.conf /var/www/html/openWB/openwb.conf
 
 Log 1 "restore saved files after fetching new release"
 # module soc_eq
-sudo cp /tmp/soc_eq_acc_lp1 /var/www/html/openWB/modules/soc_eq/soc_eq_acc_lp1
-sudo cp /tmp/soc_eq_acc_lp2 /var/www/html/openWB/modules/soc_eq/soc_eq_acc_lp2
+sudo cp -p /tmp/soc_eq_acc_lp1 /var/www/html/openWB/modules/soc_eq/soc_eq_acc_lp1
+sudo cp -p /tmp/soc_eq_acc_lp2 /var/www/html/openWB/modules/soc_eq/soc_eq_acc_lp2
 
 Log 1 "set permissions"
 sudo chmod 777 /var/www/html/openWB/openwb.conf
