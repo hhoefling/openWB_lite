@@ -50,5 +50,7 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
 - Mqtt-Puller zugefügt. Er kopiert die Daten aus dem MQTT der echten OpenWB und beschreibt die MQTT  Topics der Test-OpenWB.
 - Meine RCT2 Module wurden noch weiter optimiert. Die Zeit um die 23/39 Werte abzufragen liegt nun bei unter einer Sekunde. Die gesamte Regelzeit liegt bei 3 bis 4 Sekunden.
 - Das Color schema wurde erweitert um eine Angabe zur möglichen Reichweite mit dem aktuellen SoC des PKW. ![New01_ff](https://user-images.githubusercontent.com/89247538/181804438-a97009fc-f7bd-4059-9e83-5c7882620b39.png)  Die Infomation werden vom SOC Module geliefert.
+- Interner Debug-mode zur Anzeige der beeinflussten Variablen auf den Setup-Seiten.
+- Absicherung des Update-processes gegen gleichzeitiges laufen von cron*.sh
 
 
