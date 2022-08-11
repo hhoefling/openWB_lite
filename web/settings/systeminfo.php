@@ -109,7 +109,7 @@
 							<p>
 								CPU-Frequenz: <span id="cpufreq">--</span>MHz<br>
 								CPU-Temperatur: <span id="cputemp">--</span>°C<br>
-								CPU-Last: <meter id="cpu" high=85 min=0 max=100 value=0></meter> <span id="cpuuse">--</span>%<br>
+								CPU-Last: <meter id="cpu" high=85 min=0 max=100 value=0></meter> <span id="cpuuse">--</span>% <br>
 								Durchschnittslast: <span id="loadaverage">--</span>
 							</p>
 							<p>
@@ -117,10 +117,10 @@
 								<meter id="memMeter" min=0 max=0 value=0></meter> (<span id='memused'>--</span>MB genutzt)
 							</p>
 							<p>
-                                SD-Karte: <span id="disktot">--</span>, <span id="diskfree">--</span> verfügbar / <span id="diskusedprz">--</span>% belegt
-								<meter id="disk" high=65 min=0 max=100 value=0></meter><br>
-                                TMP Filesystem: <span id="tmptot">--</span>, <span id="tmpfree">--</span> verfügbar /  <span id="tmpusedprz">--</span>% belegt
-								<meter id="tmp" high=65 min=0 max=100 value=0></meter><br>
+                                Root Filesystem: <span id="disktot">--</span>, davon <span id="diskfree">--</span> verfügbar / <meter id="disk" high=65 min=0 max=100 value=0></meter> <span id="diskusedprz">--</span>% belegt 
+								auf: <span id="rootdev">--</span> <br> 
+                                TMP Filesystem: <span id="tmptot">--</span>, davon <span id="tmpfree">--</span> verfügbar / <meter id="tmp" high=65 min=0 max=100 value=0></meter> <span id="tmpusedprz">--</span>% belegt
+								<br>
 
 							</p>
 							IP-Adresse LAN: <span id="iplan">--</span><br>
@@ -151,7 +151,7 @@
 							<p>
 							Mosquito: <pre><?php 
 											$lines=[];
-											exec('sudo netstat -nap | grep VERBUNDEN | grep tcp', $lines);
+											exec('sudo netstat -nap | egrep "VERBUNDEN|ESTABLISHED" | grep tcp ', $lines);
 											echo implode('<br>',$lines);
                                        ?>											</pre>
 							</p>
@@ -238,7 +238,7 @@
 						cache: false
 					})
 					.done(function(result) {
-						$('#installedVersionSpan').append(' ('+result+') Master');
+						$('#installedVersionSpan').append(' ('+result+')');
 					});
 				}
 
@@ -260,6 +260,10 @@
 						$('#cpufreq').text((json.cpufreq/1000));
 						$('#memtot').text(json.memtot);
 						$('#memused').text(json.memuse);
+						if (json.rootdev == 'mmcblk0p2') 
+						   {	$('#rootdev').text('SD Karte');	} 
+					   else
+						   { $('#rootdev').text(json.rootdev); }
 						$('#disktot').text(json.disktot);
 						$('#diskuse').text(json.diskuse);
 						$('#diskfree').text(json.diskfree);

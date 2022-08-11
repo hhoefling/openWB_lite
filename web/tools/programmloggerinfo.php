@@ -42,6 +42,7 @@ else
 $memtot = exec("free -m | grep 'Mem' | awk '{print $2}'");
 $memuse = exec("free -m| grep 'Mem' | awk '{print $3}'");
 $memfree = exec("free -m| grep 'Mem' | awk '{print $7}'");
+$rootdev = exec("lsblk -r | egrep 'part /$'  | cut -d ' ' -f 1");
 $disktot = exec("df -h | grep \"/$\" | awk '{print $2}'");
 $diskuse = exec("df -h | grep \"/$\" | awk '{print $3}'");
 $diskfree = exec("df -h | grep \"/$\" | awk '{print $4}'");
@@ -66,6 +67,7 @@ $arr = array(
 	'memtot' => trim($memtot),
 	'memuse' => trim($memuse),
 	'memfree' => trim($memfree),
+	'rootdev' => trim($rootdev),
 	'disktot' => trim($disktot),
 	'diskuse' => trim($diskuse),
 	'diskfree' => trim($diskfree),
