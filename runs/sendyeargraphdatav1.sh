@@ -1,4 +1,5 @@
 #!/bin/bash
+# send for MQTT RequestYearGraphv1=date
 
 echo "startet $1 "  >> /var/www/html/openWB/ramdisk/csvselyear.log
 python3 /var/www/html/openWB/runs/csvselyear.py --input /var/www/html/openWB/web/logging/data/v001/ --output /var/www/html/openWB/ramdisk/ --partial /var/www/html/openWB/ramdisk/ --date $1 >> /var/www/html/openWB/ramdisk/csvselyear.log 2>&1
