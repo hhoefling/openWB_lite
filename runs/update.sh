@@ -114,28 +114,24 @@ Log 1 "fetch new release from GitHub as pi"
 git fetch origin
 git reset --hard origin/$train
 
-Log 1 "set permissions"
+Log 1 "set permissions, Don't trust the github permissions"
 cd /var/www/html/
-ls -lRa openWB >openWB/lRa1.txt
 sudo chown -R pi:pi openWB 
-ls -lRa openWB >openWB/lRa2.txt
+sudo cp -p /tmp/openwb.conf /var/www/html/openWB/openwb.conf
+sudo chmod 777 /var/www/html/openWB/openwb.conf
+sudo chmod -R +x /var/www/html/openWB/modules/*
+sudo chmod -R +x /var/www/html/openWB/runs/*
+sudo chmod +x /var/www/html/openWB/*.sh
+sudo chmod 777 /var/www/html/openWB/ramdisk/*
+sleep 1
+
 sudo chown -R www-data:www-data /var/www/html/openWB/web/backup
 sudo chown -R www-data:www-data /var/www/html/openWB/web/tools/upload
-sudo cp -p /tmp/openwb.conf /var/www/html/openWB/openwb.conf
 
 Log 1 "restore saved files after fetching new release"
 # module soc_eq
 sudo cp -p /tmp/soc_eq_acc_lp1 /var/www/html/openWB/modules/soc_eq/soc_eq_acc_lp1
 sudo cp -p /tmp/soc_eq_acc_lp2 /var/www/html/openWB/modules/soc_eq/soc_eq_acc_lp2
-
-Log 1 "set permissions"
-sudo chmod 777 /var/www/html/openWB/openwb.conf
-sudo chmod +x /var/www/html/openWB/modules/*
-sudo chmod +x /var/www/html/openWB/runs/*
-sudo chmod +x /var/www/html/openWB/*.sh
-sudo chmod 777 /var/www/html/openWB/ramdisk/*
-sudo chmod 777 /var/www/html/openWB/ramdisk/lade.log
-sleep 2
 
 Log 1 "check links for standart theme"
 (
