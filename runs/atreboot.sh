@@ -70,8 +70,8 @@ at_reboot() {
 	sudo chmod 777 "$OPENWBBASEDIR/ramdisk"
 	sudo chmod 777 "$OPENWBBASEDIR/ramdisk/"
 	sudo chmod 777 "$OPENWBBASEDIR/web/files/"*
-	sudo find "$OPENWBBASEDIR" -name "*.sh" -or -name "*.py" -exec chmod 0755 {} \;
-	
+	sudo find "$OPENWBBASEDIR" \( -name "*.sh"  -or -name "*.py" \)  -exec chmod 0755 {} \; 
+		
 	# die schreiben in ihr verzeichniss
 	sudo chmod -R 777 "$OPENWBBASEDIR/modules/soc_i3"
 	sudo chmod -R 777 "$OPENWBBASEDIR/modules/soc_eq"
