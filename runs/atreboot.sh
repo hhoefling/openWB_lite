@@ -60,33 +60,30 @@ at_reboot() {
 	fi
 	sudo touch "$OPENWBBASEDIR/web/backup/.donotdelete"
 	log "checking rights und modes"
-	sudo chown -R www-data:www-data "$OPENWBBASEDIR/web/backup"
-	sudo chown -R www-data:www-data "$OPENWBBASEDIR/web/tools/upload"
+	
+	# files are created from PHP as user www-data, thus www-data needs write permissions.
+	sudo chown -R pi:www-data "$OPENWBBASEDIR/"{web/backup,web/tools/upload}
+	sudo chmod -R g+w "$OPENWBBASEDIR/"{web/backup,web/tools/upload}
+
 	sudo chmod 777 "$OPENWBBASEDIR/openwb.conf"
 	sudo chmod 777 "$OPENWBBASEDIR/smarthome.ini"
 	sudo chmod 777 "$OPENWBBASEDIR/ramdisk"
 	sudo chmod 777 "$OPENWBBASEDIR/ramdisk/"
 	sudo chmod 777 "$OPENWBBASEDIR/web/files/"*
-	sudo chmod -R +x "$OPENWBBASEDIR/modules/"*
-	sudo chmod 777 /var/www/html/openWB/web/files/*
-	sudo chmod -R +x /var/www/html/openWB/modules/*
-
+	sudo find "$OPENWBBASEDIR" -name "*.sh" -or -name "*.py" -exec chmod 0755 {} \;
+	
 	# die schreiben in ihr verzeichniss
 	sudo chmod -R 777 "$OPENWBBASEDIR/modules/soc_i3"
 	sudo chmod -R 777 "$OPENWBBASEDIR/modules/soc_eq"
 	sudo chmod -R 777 "$OPENWBBASEDIR/modules/soc_tesla"
 
 	sudo chmod 777 "$OPENWBBASEDIR/web/files/"*
-	sudo chmod -R +x "$OPENWBBASEDIR/modules/"*
-	sudo chmod -R +x "$OPENWBBASEDIR/runs/"*
-	sudo chmod    +x "$OPENWBBASEDIR/"*.sh
 	
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/daily"
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/monthly"
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/ladelog"
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/v001"
 	sudo chmod -R 777 "$OPENWBBASEDIR/web/logging/data/"
-	# sudo chmod +x "$OPENWBBASEDIR/packages/"*.sh
 	
 	sudo touch $RAMDISKDIR/smarthome.log
 	sudo chown pi:pi $RAMDISKDIR/smarthome.log 
