@@ -16,7 +16,21 @@ function log()
 
 at_reboot() {
 	log "started $$"
-	(sleep 600; sudo kill $(ps aux |grep '[a]treboot.sh' | awk '{print $2}') >/dev/null 2>&1; echo 0 > /var/www/html/openWB/ramdisk/bootinprogress; echo 0 > /var/www/html/openWB/ramdisk/updateinprogress) &
+
+	# (sleep 600; sudo kill $(ps aux |grep '[a]treboot.sh' | awk '{print $2}') >/dev/null 2>&1; echo 0 > /var/www/html/openWB/ramdisk/bootinprogress; echo 0 > /var/www/html/openWB/ramdisk/updateinprogress) &
+	# start Watchdog
+	( pid=$$; cnt=0; 
+	  while  ps -p $pid >/dev/null  && (( cnt < 600));  do  (( cnt++ )); sleep 1; done ;
+	  if ps -p $pid >/dev/null ; then  
+	    log "Watchdog TIMEOUT now kill $pid [$0]" 
+	    sudo kill -9 "$pid" >/dev/null 2>&1 ;
+  	    echo 0 >/var/www/html/openWB/ramdisk/bootinprogress;  
+	    echo 0 >/var/www/html/openWB/ramdisk/updateinprogress
+	  else 
+	    log "Watchdog stoped" # parent finished before timeout 	 
+	  fi	  
+	 ) &
+	 
 
 	# read openwb.conf
 	log "loading config"
@@ -227,15 +241,6 @@ at_reboot() {
 		python3 "$OPENWBBASEDIR/runs/smarthomemq.py" >> "$RAMDISKDIR/smarthome.log" 2>&1 &
 	fi
 
-
-	# old restart smarthomehandler
-	##log "smarthome handler..."
-	##if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/smarthomehandler.py" > /dev/null
-	##then
-	##	sudo kill $(ps aux |grep '[s]marthomehandler.py' | awk '{print $2}')
-	##fi
-	##python3 /var/www/html/openWB/runs/smarthomehandler.py >> /var/www/html/openWB/ramdisk/smarthome.log 2>&1 &
-
 	# restart mqttsub handler
 	log "mqtt handler..."
 	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/mqttsub.py" > /dev/null
@@ -378,13 +383,13 @@ at_reboot() {
 
 	# setup timezone
 	log "timezone..."
-	sudo cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+	sudo cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime >/dev/null 2>&1
 
 	if [ ! -f /home/pi/ssl_patched ]; then
 		log "ssh patch neeeded" 
 		sudo apt-get -qq update 
 		sudo apt-get -qq install -y openssl libcurl3 curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 php7.0-cli php7.0-gd php7.0-opcache php7.0 php7.0-common php7.0-json php7.0-readline php7.0-xml php7.0-curl libapache2-mod-php7.0 
-		touch /home/pi/ssl_patched 
+		touch /home/pi/ssl_patched
 	fi
 
 	# check for apache configuration
@@ -634,8 +639,8 @@ at_reboot() {
 	commitId=$(git -C "$OPENWBBASEDIR" log --format="%h" -n 1)
 	echo "$commitId" > "$OPENWBBASEDIR/ramdisk/currentCommitHash"
 	git -C "$OPENWBBASEDIR" branch -a --contains "$commitId" | perl -nle 'm|.*origin/(.+).*|; print $1' | uniq | xargs > "$OPENWBBASEDIR/ramdisk/currentCommitBranches"
-	sudo chmod 777 "$OPENWBBASEDIR/ramdisk/currentCommitHash"
-	sudo chmod 777 "$OPENWBBASEDIR/ramdisk/currentCommitBranches"
+	sudo chmod a+r "$OPENWBBASEDIR/ramdisk/currentCommitHash"
+	sudo chmod a+r "$OPENWBBASEDIR/ramdisk/currentCommitBranches"
 
 	# update broker
 	log "update broker..."
