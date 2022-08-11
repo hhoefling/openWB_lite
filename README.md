@@ -38,9 +38,10 @@ Inzwischen läuft auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display häng
 - Die openWB.Coud funktioniert bei mir. Mit eingriffen in die Firefox-Konfiguartion und die mosquitto Konfiguration
 - Module die ich weiterhin mitpflegen werde da ich sie selbst verwende sind:
 - - Bezug/Pv/Speicher  **RCT** / **RCT2** / **RCT2h** /  **MQTT** / **HTTP**
-- - LP   die verschiedeen openWB varianten **HTTP** / **MQTT** 
+- - LP   In den OpenWB Varianten und  **HTTP** / **MQTT** 
 - - SOC **Manual** /  **Citigo** / **MQTT** / **HTTP**
 - Das Integrierte Display wird in seiner Funktion erweitert. Bei mir ist die openWB nicht öffentlich zugänglich (hängt auf der Innenseite der Wand). Daher kann ich auf dem Display auch die normal Oberfläche verwenden. Lediglich für die eventuell nötigen Tastattureingabe ist ein Zugang it dem Webbrowser nötig.
+- Umstellung auf HTTPS und verwendung von "Same-Site=Lax"
 	
 Weiter Info **[History](docs/history.md)**
 
