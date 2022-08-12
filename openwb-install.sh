@@ -11,9 +11,6 @@ echo "installing openWB 1.9_lite into \"${OPENWBBASEDIR}\""
 
 echo "install required packages..."
 
-OPENWBBASEDIR=/var/www/html/openWB
-OPENWB_USER=pi
-OPENWB_GROUP=pi
 
 apt-get update
 apt-get -q -y install whois dnsmasq hostapd openssl vim bc sshpass apache2 php php-gd php-curl php-xml php-json  
