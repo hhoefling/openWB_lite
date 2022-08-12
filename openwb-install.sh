@@ -5,6 +5,9 @@ if (( $(id -u) != 0 )); then
 	exit 1
 fi
 
+OPENWBBASEDIR=/var/www/html/openWB
+OPENWB_USER=pi
+OPENWB_GROUP=pi
 echo "installing openWB 1.9_lite into \"${OPENWBBASEDIR}\""
 
 
