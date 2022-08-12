@@ -43,7 +43,6 @@ fi
 Log 1 "######################## Update starting... "
 
 # set mode to stop and flags in ramdisk and broker to indicate current update state
-mosquitto_pub -t openWB/system/updateInProgress -r -m "1"
 echo 1 > /var/www/html/openWB/ramdisk/updateinprogress
 echo 1 > /var/www/html/openWB/ramdisk/bootinprogress
 mosquitto_pub -t openWB/system/updateInProgress -r -m "1"
