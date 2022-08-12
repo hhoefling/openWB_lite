@@ -503,9 +503,6 @@ loadvars(){
         lla1=${lla1%%[.,]*}
         lla2=${lla2%%[.,]*}
         lla3=${lla3%%[.,]*}
-		#lla1=$(echo $lla1 | sed 's/\..*$//')
-		#lla2=$(echo $lla2 | sed 's/\..*$//')
-		#lla3=$(echo $lla3 | sed 's/\..*$//')
 		llv1=$(cat ramdisk/llv1)
 		llv2=$(cat ramdisk/llv2)
 		llv3=$(cat ramdisk/llv3)
@@ -1142,14 +1139,20 @@ loadvars(){
 #	if (( $etprovideraktiv == 1 )) ; then
 #		openwbDebugLog "MAIN" 1 "etproviderprice $etproviderprice etprovidermaxprice $etprovidermaxprice"
 #	fi
-	openwbDebugLog "MAIN" 1 "pv1watt $pv1watt pv2watt $pv2watt pvwatt $pvwatt ladeleistung $ladeleistung llalt $llalt nachtladen $nachtladen nachtladen $nachtladens1 minimalA $minimalstromstaerke maximalA $maximalstromstaerke"
-	openwbDebugLog "MAIN" 1 "$(echo -e lla1 "$lla1"'\t'llv1 "$llv1"'\t'llas11 "$llas11" llas21 "$llas21" mindestuberschuss "$mindestuberschuss" abschaltuberschuss "$abschaltuberschuss" lademodus "$lademodus")"
-	openwbDebugLog "MAIN" 1 "$(echo -e lla2 "$lla2"'\t'llv2 "$llv2"'\t'llas12 "$llas12" llas22 "$llas22" sofortll "$sofortll" hausverbrauch "$hausverbrauch"  wattbezug "$wattbezug" uberschuss "$uberschuss")"
-	openwbDebugLog "MAIN" 1 "$(echo -e lla3 "$lla3"'\t'llv3 "$llv3"'\t'llas13 "$llas13" llas23 "$llas23" soclp1 $soc soclp2 $soc1)"
-	openwbDebugLog "MAIN" 1 "EVU 1:${evuv1}V/${evua1}A 2: ${evuv2}V/${evua2}A 3: ${evuv3}V/${evua3}A"
-	openwbDebugLog "MAIN" 1 "$(echo -e lp1enabled "$lp1enabled"'\t'lp2enabled "$lp2enabled"'\t'lp3enabled "$lp3enabled")"
-	openwbDebugLog "MAIN" 1 "$(echo -e plugstatlp1 "$plugstat"'\t'plugstatlp2 "$plugstatlp2"'\t'plugstatlp3 "$plugstatlp3")"
-	openwbDebugLog "MAIN" 1 "$(echo -e chargestatlp1 "$chargestat"'\t'chargestatlp2 "$chargestatlp2"'\t'chargestatlp3 "$chargestatlp3")"
+
+printf -v p1 "LL [%4sA %5sV] [%4sA] [%4sA]" $lla1 $llv1 $llas11 $llas21
+printf -v p2 "LL [%4sA %5sV] [%4sA] [%4sA]" $lla2 $llv2 $llas12 $llas22
+printf -v p3 "LL [%4sA %5sV] [%4sA] [%4sA]" $lla3 $llv3 $llas13 $llas23
+printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] MinMax=[%dA %dA]" $pv1watt $pv2watt $pvwatt $ladeleistung $llalt $nachtladen $nachtladens1 $minimalstromstaerke $maximalstromstaerke
+
+	openwbDebugLog "MAIN" 2 "$pv"
+	openwbDebugLog "MAIN" 2 "$p1 $(echo -e  mindestuberschuss "$mindestuberschuss" abschaltuberschuss "$abschaltuberschuss" lademodus "$lademodus")"
+	openwbDebugLog "MAIN" 2 "$p2 $(echo -e  sofortll "$sofortll" hausverbrauch "$hausverbrauch"  wattbezug "$wattbezug" uberschuss "$uberschuss")"
+	openwbDebugLog "MAIN" 2 "$p3 $(echo -e  soclp1 $soc soclp2 $soc1)"
+	openwbDebugLog "MAIN" 2 "EVU 1:${evuv1}V/${evua1}A 2: ${evuv2}V/${evua2}A 3: ${evuv3}V/${evua3}A"
+	openwbDebugLog "MAIN" 2 "$(echo -e lp1enabled "$lp1enabled"'\t'lp2enabled "$lp2enabled"'\t'lp3enabled "$lp3enabled")"
+	openwbDebugLog "MAIN" 2 "$(echo -e plugstatlp1 "$plugstat"'\t'plugstatlp2 "$plugstatlp2"'\t'plugstatlp3 "$plugstatlp3")"
+	openwbDebugLog "MAIN" 2 "$(echo -e chargestatlp1 "$chargestat"'\t'chargestatlp2 "$chargestatlp2"'\t'chargestatlp3 "$chargestatlp3")"
 #	if [[ $standardSocketInstalled == "1" ]]; then
 #		openwbDebugLog "MAIN" 1 "socketa $socketa socketp $socketp socketkwh $socketkwh socketv $socketv"
 #	fi
