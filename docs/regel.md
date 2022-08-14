@@ -12,12 +12,12 @@ Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
 - nrgkickcheck.sh (evse=nrkick) direkt auslesen (curl)
 - **loadvars.sh**  Alle Konfigurierten Hardwaremodule abfragen EVSE/EVU/PW/BAT (alles in moduels/)
 - hook.sh	Plugin/plugoff/ChargeStart/ChargeStop (Web)Hooks ausführen lassem
-- graphing  LiveGrafe mit dem Messwerten versorgen/Weiterschreiben (10Sekundlich und minütlch)
+- graphing  Live-Grafiken mit dem Messwerten versorgen/Weiterschreiben (10-sekundlich und minütlch)
  - Stop hier wenn noch U1P3 aktiv ist
- - evseinttest.sh
+ - evseinttest
  - U1P3 testen und durchführen 
  - Stop hier wenn jetzt U1P3 aktiv ist
- - CP Druchführen wenn für LP1 / LP2 (alls DUO)
+ - CP druchführen wenn für LP1 / LP2 (alls DUO)
  - Leds nachführen.
  - RSE abtesten, evl. Ladung nötigenfalls stoppen.
  - evsemodbuscheck
@@ -28,11 +28,10 @@ Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
  - Zielladen checken und Ende wenn aktiv.
  - Nachladen checken und Ende wenn aktiv.
  - Anzahl der Verwendeten Phasen bestimmen (>3 Ampere) oder defaultwert je nach Lademode
- - Das gleiche für LP2/LPx
  - Sofortladen checken und Ende wenn aktiv.
  - Überschuss berechnen für die PV gestützen Regler
- - MinUndPV checken, immer weitermachen
- - NurPV alle Varianten checke, Ende wenn eingegriffen.
- - SemiAuslademodes
+ - MinUndPV checken, immer (set-current) 
+ - NurPV alle Varianten checke, (set-current) Ende wenn eingegriffen.
+ - SemiAuslademodes falls Standbymode und geladen wird, Ladung stoppen.
  - Fertig.
- - 
+
