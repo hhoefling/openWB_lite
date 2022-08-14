@@ -2,6 +2,7 @@
 
 Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
 
+- test ob Update oder Boot nocht aktiv ist, falls ja sofort wieder Ende
 - openwb.config einlesen in Shell-Variablen (loadconfig.sh)
 - Restliche Unterfunctionen aus *.sh einlesen (nur openWB Verzeichniss) 
 - Falls "Nur-Ladepunkt"  aktiv wird nur der "Heartbeat" versogt und regel.sh geht hier zu Ende.
