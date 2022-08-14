@@ -60,7 +60,7 @@ at_reboot() {
 	fi
 	sudo touch "$OPENWBBASEDIR/web/backup/.donotdelete"
 	log "checking rights und modes"
-	
+	# web/backup and web/tools/upload are used to (temporarily) store backup files for download and for restoring.
 	# files are created from PHP as user www-data, thus www-data needs write permissions.
 	sudo chown -R pi:www-data "$OPENWBBASEDIR/"{web/backup,web/tools/upload}
 	sudo chmod -R g+w "$OPENWBBASEDIR/"{web/backup,web/tools/upload}
@@ -171,15 +171,16 @@ at_reboot() {
 
 
 	# check if our task-scheduler is running
-	if [[ "$taskerenabled" == "0" ]]; then
+	if ((taskerenabled == 0 )); then
 	  	log "tasker not enabled, stop Service if running"
 	   	sudo -u pi tsp -K
 	else
-	    if ps ax |grep -v grep |grep "[t]sp" > /dev/null
+		if pgrep tsp >/dev/null 
+	    #if ps ax |grep -v grep |grep "[t]sp" > /dev/null
 	    then
   	   		log "tasker already running"
     	else
-	        log "tasker not running! restarting process"
+	        log "tasker not running! restarting a new tsp process"
           	sudo -u pi runs/tasker/start.sh
     	fi
 	fi
