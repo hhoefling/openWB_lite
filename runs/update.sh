@@ -12,7 +12,7 @@ function Log()
  level=$1;
  shift;
  echo  "$0 $*"
- echo  "$0 $*" >>/var/www/html/openWB/ramdisk/openWB.log
+ echo  "$0 $*" >>/var/log/openWB.log
 }
  
 cd /var/www/html/openWB
@@ -39,6 +39,9 @@ if [ -f "$RAMDISKDIR/cron5runs" ]  ; then
   sudo rm -f "$RAMDISKDIR/cron5runs" 
 fi
 
+Log 1 "######################## Send Stop to MQTT"
+mosquitto_pub -t openWB/set/ChargeMode -r -m "3"
+sleep 15
 
 Log 1 "######################## Update starting... "
 
@@ -47,7 +50,6 @@ echo 1 > /var/www/html/openWB/ramdisk/updateinprogress
 echo 1 > /var/www/html/openWB/ramdisk/bootinprogress
 mosquitto_pub -t openWB/system/updateInProgress -r -m "1"
 
-mosquitto_pub -t openWB/set/ChargeMode -r -m "3"
 echo "Update im Gange, bitte warten bis die Meldung nicht mehr sichtbar ist" > /var/www/html/openWB/ramdisk/lastregelungaktiv
 mosquitto_pub -t "openWB/global/strLastmanagementActive" -r -m "Update im Gange, bitte warten bis die Meldung nicht mehr sichtbar ist"
 echo "Update im Gange, bitte warten bis die Meldung nicht mehr sichtbar ist" > /var/www/html/openWB/ramdisk/mqttlastregelungaktiv
@@ -62,7 +64,7 @@ Log "Stop legacy_run Server if running"
 
 
 if [[ "$releasetrain" == "stable17" ]]; then
-	train=stable
+	train="stable"
 else
 	train=$releasetrain
 fi
