@@ -169,12 +169,12 @@ fi
 # dspeed=3 weiter unten
 
 # process autolock
-./processautolock.sh &
+./processautolock.sh &   # Asncron , keine rückwirkung auf Variablen
 
 
 ts=$(date +%s)
 
-#ladelog ausfuehren
+#ladelog ausfuehren # Asncron , keine rückwirkung auf Variablen                           
  [ -e ./ladelog.sh ]  &&  ( ./ladelog.sh &  )
  [ -e ./ladelog2.sh ] &&  ( ./ladelog2.sh & )
 # ./ladelog.sh &
@@ -386,23 +386,6 @@ if [[ $dspeed == "3" ]]; then
 	fi
 fi
 
-
-#if [[ $dspeed == "3" ]]; then
-#	if [ -e ramdisk/5sec ]; then
-#		regeltimer=$(<ramdisk/5sec)
-#		if (( regeltimer < 5 )); then
-#			regeltimer=$((regeltimer+1))
-#			echo $regeltimer > ramdisk/5sec
-#			exit 0
-#		else
-#			regeltimer=0
-#			echo $regeltimer > ramdisk/5sec
-#		fi
-#	else
-#		echo 0 > ramdisk/5sec
-#	fi
-#fi
-
 if (( ledsakt == 1 )); then
 	ledsteuerung
 fi
@@ -430,6 +413,24 @@ if (( rseenabled == 1 )); then
 		fi
 	fi
 fi
+
+
+#if [[ $dspeed == "3" ]]; then
+#	if [ -e ramdisk/5sec ]; then
+#		regeltimer=$(<ramdisk/5sec)
+#		if (( regeltimer < 5 )); then
+#			regeltimer=$((regeltimer+1))
+#			echo $regeltimer > ramdisk/5sec
+#			exit 0
+#		else
+#			regeltimer=0
+#			echo $regeltimer > ramdisk/5sec
+#		fi
+#	else
+#		echo 0 > ramdisk/5sec
+#	fi
+#fi
+
 
 
 
