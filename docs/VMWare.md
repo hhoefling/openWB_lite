@@ -33,7 +33,7 @@ cat openwb-innstall.sh | sudo bash
 
 verwenden.
 
-Nachtragen der von der Crontab von pi nicht vergessen.
+Nachtragen der Crontab von pi nicht vergessen.
 
 Damit scheinen die rudimentären Funktionen sofort zu funktionieren.
 
