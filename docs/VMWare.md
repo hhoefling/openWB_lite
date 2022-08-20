@@ -37,4 +37,20 @@ Nachtragen der Crontab von pi nicht vergessen.
 
 Damit scheinen die rudimentären Funktionen sofort zu funktionieren.
 
+Ok.  programmloggerinfo.php liefert für die Hardware noch nichts oder falsche Werte
+Aber das sind nun schönheitsfehler.
+Da aber pubmqtt.sh ebenfalls diese Werte ausliest müssen wir hier leider zwei Zeilen stillegen
+also in runs/pubmqtt.sh 
+
+aus:
+
+```
+tempPubList="${tempPubList}\nopenWB/global/cpuTemp=$(echo "scale=2; $(echo ${sysinfo} | jq -r '.cputemp') / 1000" | bc)"
+tempPubList="${tempPubList}\nopenWB/global/cpuFreq=$(($(echo ${sysinfo} | jq -r '.cpufreq') / 1000))"
+```
+```
+tempPubList="${tempPubList}\nopenWB/global/cpuTemp=44"  # "$(echo "scale=2; $(echo ${sysinfo} | jq -r '.cputemp') / 1000" | bc)"
+tempPubList="${tempPubList}\nopenWB/global/cpuFreq=444" # "$(($(echo ${sysinfo} | jq -r '.cpufreq') / 1000))"
+```
+machen (dabei die " beachten)
 
