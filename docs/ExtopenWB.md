@@ -1,4 +1,7 @@
-**Simulation einer ExtopenWB**
+## Simulation einer ExtopenWB ##
+
+
+***erster schritt, Bestandsaufnahme***
 
 Als als LP1 (oder LP2) den Hardwaretyp "externe openWB" auswählen.
 
