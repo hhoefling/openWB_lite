@@ -3,7 +3,7 @@
 **Systemvoraussetzung**
 - Laufenden VM (VMware oder Virutalbox)
 - 1 GB Ram, 1 Kern
-- Debian 11.4 / Kern 5.10.0-10-amd64  Bulleye) frisch upgedated.
+- Debian 11.4 / Kern 5.10.0-10-amd64  (Bulleye) frisch upgedated.
 - Instalierte Packete:  apache2, ssh , samba, python2.7 
 - Netzwerkdevice auf eth0 umgestellt ([Siehe debian](debian.md))
 - In diesem Fall ist php 8.1 installiert.
@@ -27,6 +27,7 @@ if [ -d "/etc/php/7.0/" ]; then
 Nach dieser Änderung dann 
 
 ```
+cd /var/www/html
 cat openwb-innstall.sh | sudo bash 
 ```
 
