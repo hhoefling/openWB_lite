@@ -60,9 +60,9 @@ sudo systemctl restart apache2
 
 
 
-Damit auch die MQTTT Ankopplung mit den WebSockets weiterhin klappt sind noch ein paar weiter Änderungen nötig. In meinen openwb_lite sind diese änderungen schon alle eingearbeitet. Wer eine original openWB über https betreiben will muss also noch weiter änderungen einpflegen. Es ist eigendlich immer das gleiche. In den Jscript files die für die MQTT Konnection zuständig sind steht immer etwas der Art:
+Damit auch die MQTTT Ankopplung mit den WebSockets weiterhin klappt sind noch ein paar weiter Änderungen nötig. In meinem openWB_lite Fork sind diese Änderungen schon alle eingearbeitet. Wer eine original openWB über https betreiben will muss also noch weiter Änderungen einpflegen. Es ist eigendlich immer das gleiche. In den Jscript files die für die MQTT Konnection zuständig sind steht immer etwas der Art:
 
-setupMqttServices.js
+z.b. in der setupMqttServices.js
 <pre><code>
 //Connect Options
 var isSSL = location.protocol == 'https:'
