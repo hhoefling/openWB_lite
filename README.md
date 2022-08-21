@@ -76,3 +76,8 @@ Weiter Info **[History](docs/history.md)**
 
 **[Tips zur Instalation](docs/Install.md)**
 
+******************
+
+**[Tips zur Umstellung auf HTTPS](docs/https.md)**
+
+
