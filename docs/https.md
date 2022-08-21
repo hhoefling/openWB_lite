@@ -58,7 +58,81 @@ sudo systemctl restart apache2
 
 
 
-					
+Damit auch die MQTTT Ankopplung mit den WebSockets weiterhin klappt sind noch ein paar weiter Änderungen nötig. In meinen openwb_lite sind diese änderungen schon alle eingearbeitet. Wer eine original openWB über https betreiben will muss also noch weiter änderungen einpflegen. Es ist eigendlich immer das gleiche. In den Jscript files die für die MQTT Konnection zuständig sind steht immer etwas der Art:
+
+setupMqttServices.js
+<pre><code>
+//Connect Options
+var isSSL = location.protocol == 'https:'
+var options = {
+	timeout: 5,
+	useSSL: isSSL,
+	//Gets Called if the connection has been established
+	onSuccess: function () {
+		retries = 0;
+		topicsToSubscribe.forEach((topic) => {
+			client.subscribe(topic[0], { qos: 0 });
+		});
+		subscribeDayGraph(new Date());
+	},
+	//Gets Called if the connection could not be established
+	onFailure: function (message) {
+		setTimeout(function () { client.connect(options); }, 5000);
+	}
+};
+
+var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 5);
+var client = new Messaging.Client(location.hostname, 9001, clientuid);
+</pre></code>
+
+Daraus wird dann
+
+<pre><code>
+//Connect Options
+var isSSL = location.protocol == 'https:'
+<b>port = isSSL ? 443 : 9001;</b>
+var options = {
+	timeout: 5,
+	useSSL: isSSL,
+	//Gets Called if the connection has sucessfully been established
+	onSuccess: function () {
+		retries = 0;
+		topicsToSubscribe.forEach((topic) => {
+			client.subscribe(topic[0], { qos: 0 });
+		});
+		subscribeDayGraph(new Date());
+	},
+	//Gets Called if the connection could not be established
+	onFailure: function (message) {
+		setTimeout(function () { client.connect(options); }, 5000);
+	}
+};
+
+var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 5);
+var client = new Messaging.Client(location.hostname, <b>port</b>, clientuid);
+</pre></code>
+
+Nun wird bei Verwendung von HTTPS die MQTT Verbindung auch über HTTPS getunnelt. (daher das <b>proxy_wstunnel</b> weiter oben)
+
+Diese Änderung ist bei allen Themen nötig. Auch bei den Display-Themen sofern diese ebenfalls über HTTTPS im Browser verwendet werden sollen.
+
+Wer den MQTT-Explorer verwendet kann die Verbindung ebenfalls über den HTTPS Port leiten.
+Also 
+<pre>
+Encryption ON
+Validate certificate OFF (Leider da kein "officielles" Zerticate)
+protokoll  ws:// 
+host: <<>> Hostname oder IP-Adresse
+Port: 443
+Basepath mqtt
+</pre>
+
+
+
+
+
+
+
 
 
 
