@@ -49,8 +49,12 @@ IfModule mod_ssl.c>
         </VirtualHost>
 </IfModule>
 ```
-a2ensite *openwb*
-systemctl restart apache2
+
+Aktivieren der neuen https Konfiguration
+```
+sudo a2ensite *openwb*
+sudo systemctl restart apache2
+```
 
 
 
