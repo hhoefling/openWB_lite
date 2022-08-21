@@ -4,18 +4,20 @@
 
 Zuerst einmal die notigen apache module aktivieren.
 
+```
 sudo a2enmod ssl
 sudo a2enmod proxy_wstunnel
 sudo systemctl restart apache2
+```
 
-
-Schlüsselpaar neu erzeugen, z.b Nach änderung des Hostnamens.
+Dann ein neues Schlüsselpaar erzeugen.  (z.b nach Änderung des Hostnamens)
 ```
 sudo make-ssl-cert generate-default-snakeoil --force-overwrite
 sudo systemctl reload apache2
 ```
 
 Zertifkat anzeigen (wegen Hostname, Laufzeit)
+
 ```
 openssl x509 -in /etc/ssl/certs/ssl-cert-snakeoil.pem -text
 ```
