@@ -31,6 +31,7 @@ class WbData {
 			"month": this.graphDate.getMonth(),
 			"year": this.graphDate.getFullYear()
 		}
+		this.graphMinBlocks=0
 		this.rfidConfigured = false;
 		this.consumer = [new Consumer(), new Consumer()];
 		this.chargePoint = Array.from({ length: 9 }, (v, i) => new ChargePoint(i));
@@ -520,14 +521,25 @@ function formatMonth (month, year) {
 function shiftLeft() {
 	switch (wbdata.graphMode) {
 		case 'live':
-			wbdata.graphMode = 'day';
-			wbdata.graphPreference = 'day';
-    	wbdata.showTodayGraph = true;
-    	powerGraph.deactivateLive();
-    	powerGraph.activateDay();
-    	wbdata.prefs.showLG = false;
-    	wbdata.persistGraphPreferences();
-    	d3.select("button#graphRightButton").classed("disabled", false)
+			if( wbdata.graphMinBlocks>0)
+			 {
+				  wbdata.graphMinBlocks=wbdata.graphMinBlocks-1;
+				  if( wbdata.graphMinBlocks<0)
+				      wbdata.graphMinBlocks=0;
+				 console.log('wbdata.graphMinBlocks:', wbdata.graphMinBlocks);
+            	powerGraph.resetLiveGraph();
+            	subscribeMqttGraphSegments();
+			 } else
+			 {	  	
+				wbdata.graphMode = 'day';
+				wbdata.graphPreference = 'day';
+    			wbdata.showTodayGraph = true;
+    			powerGraph.deactivateLive();
+    			powerGraph.activateDay();
+    			wbdata.prefs.showLG = false;
+    			wbdata.persistGraphPreferences();
+    			d3.select("button#graphRightButton").classed("disabled", false)
+			  }	
 			break;
 		case 'day':
 			wbdata.showTodayGraph = false;
@@ -551,6 +563,11 @@ function shiftRight() {
   const d = wbdata.graphDate;
 	switch (wbdata.graphMode) {
 		case 'live':
+				if( wbdata.graphMinBlocks <12)
+				    wbdata.graphMinBlocks=wbdata.graphMinBlocks+1;
+				console.log('wbdata.graphMinBlocks:', wbdata.graphMinBlocks);	
+            	powerGraph.resetLiveGraph();
+            	subscribeMqttGraphSegments();
 			break;
 		case 'day':
 			if (d.getDate() == today.getDate() && d.getMonth() == today.getMonth() && d.getFullYear() == today.getFullYear()) { // date is today, switch to live graph

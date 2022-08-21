@@ -166,7 +166,7 @@ class PowerGraph {
           this.graphRefreshCounter++;
           this.graphData.push(values);
           this.updateGraph();
-          if (this.graphRefreshCounter > 60) {
+          if (this.graphRefreshCounter > 30) { // 60) { // 60*10 Sekunden alle 10 Minuten "Springen"
             this.resetLiveGraph();
             subscribeMqttGraphSegments();
           }
@@ -176,7 +176,9 @@ class PowerGraph {
         if (t.substring(t.length - 13, t.length) === "alllivevalues") {
           // init message
           const serialNo = t.substring(13, t.length - 13);
-          var bulkdata = payload.toString().split("\n");
+		  if( serialNo <wbdata.graphMinBlocks) 
+               var bulkdata = [];
+          else var bulkdata = payload.toString().split("\n");
           if (bulkdata.length <= 1) {
             bulkdata = [];
           }

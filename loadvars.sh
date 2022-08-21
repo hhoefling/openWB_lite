@@ -90,7 +90,7 @@ loadvars(){
 	# EVSE DIN Plug State
 	declare -r IsNumberRegex='^[0-9]+$'
 	if [[ $evsecon == "modbusevse" ]]; then
-		if [[ "$modbusevseid" == "0" ]]; then
+		if ((modbusevseid == 0)); then
 			if [ -f ramdisk/evsemodulconfig ]; then
 				modbusevsesource=$(<ramdisk/evsemodulconfig)
 				modbusevseid=1
@@ -119,18 +119,19 @@ loadvars(){
 			echo $evseplugstate > ramdisk/evseplugstate
 		fi
 		ladestatuslp1=$(<ramdisk/ladestatus)
-		if [ "$evseplugstate" -ge "0" ] && [ "$evseplugstate" -le "10" ] ; then
+		if ((evseplugstate >= 0)) && ((evseplugstate <= 10)); then
 		    plugstat=$(<ramdisk/plugstat)
-			if [[ $evseplugstate > "1" ]]; then
-				if [[ $plugstat == "0" ]] ; then
-					if [[ $pushbplug == "1" ]] && [[ $ladestatuslp1 == "0" ]] && [[ $pushbenachrichtigung == "1" ]] ; then
+			if ((evseplugstate > 1)); then
+				if ((plugstat == 0)) ; then
+					if ((pushbplug == 1)) && ((ladestatuslp1 == 0)) && ((pushbenachrichtigung == 1)) ; then
 						message="Fahrzeug eingesteckt. Ladung startet bei erfüllter Ladebedingung automatisch."
 #########################################################################						
 					    openwbDebugLog "MAIN" 2 "EXEC: runs/pushover.sh"
 						runs/pushover.sh "$message"
 #########################################################################						
 					fi
-					if [[ $displayconfigured == "1" ]] && [[ $displayEinBeimAnstecken == "1" ]] ; then
+					if ((displayconfigured == 1)) && ((displayEinBeimAnstecken == 1)) ; then
+			           openwbDebugLog "MAIN" 0 "Awoke1 internal Display"
 					   awokedisplay
 					fi
 					echo 20000 > ramdisk/soctimer
@@ -138,13 +139,13 @@ loadvars(){
 				echo 1 > ramdisk/plugstat
 				plugstat=1
 			else
-			    if ! [[ $plugstat == "0" ]] ; then
-				  openwbDebugLog "MAIN" 0 "***** evse meldet unpluged(<=1), setze plugstat=0"
+			    if ((plugstat >0 )); then
+				  openwbDebugLog "MAIN" 0 "***** evse meldet unpluged(<=1), korrigiere plugstat=0"
 				  echo 0 > ramdisk/plugstat
 				fi  
 				plugstat=0
 			fi
-			if [[ $evseplugstate > "2" ]] && [[ $ladestatuslp1 == "1" ]] && [[ $lp1enabled == "1" ]]; then
+			if ((evseplugstate > 2)) && ((ladestatuslp1 == 1)) && ((lp1enabled == 1)); then
 				echo 1 > ramdisk/chargestat
 				chargestat=1
 			else
@@ -154,15 +155,16 @@ loadvars(){
 		fi
 	else
 		pluggedin=$(<ramdisk/pluggedin)
-		if [ "$pluggedin" -gt "0" ]; then
-			if [[ $pushbplug == "1" ]] && [[ $ladestatuslp1 == "0" ]] && [[ $pushbenachrichtigung == "1" ]] ; then
+		if ((pluggedin > 0)); then
+			if ((pushbplug == 1)) && ((ladestatuslp1 == 0)) && ((pushbenachrichtigung == 1)) ; then
 				message="Fahrzeug eingesteckt. Ladung startet bei erfüllter Ladebedingung automatisch."
 #########################################################################						
 				openwbDebugLog "MAIN" 1 "EXEC: runs/pushover.sh"
 				runs/pushover.sh "$message"
 #########################################################################						
 			fi
-			if [[ $displayconfigured == "1" ]] && [[ $displayEinBeimAnstecken == "1" ]] ; then
+			if ((displayconfigured == 1)) && ((displayEinBeimAnstecken == 1)) ; then
+			           openwbDebugLog "MAIN" 0 "Awoke2 internal Display"
 					   awokedisplay
 			fi
 			echo 20000 > ramdisk/soctimer
@@ -183,19 +185,19 @@ loadvars(){
 			echo $evseplugstate > ramdisk/evseplugstate
 		fi
 		ladestatuslp1=$(<ramdisk/ladestatus)
-		if [[ $evseplugstatelp1 -gt 1 ]]; then
+		if ((evseplugstatelp1 > 1)); then
 			echo 1 > ramdisk/plugstat
 		else
 			echo 0 > ramdisk/plugstat
 		fi
-		if [[ $evseplugstatelp1 -gt 2 ]] && [[ $ladestatuslp1 == "1" ]] && [[ $lp1enabled == "1" ]]; then
+		if ((evseplugstatelp1 > 2)) && ((ladestatuslp1 == 1)) && ((lp1enabled == 1)); then
 			echo 1 > ramdisk/chargestat
 		else
 			echo 0 > ramdisk/chargestat
 		fi
 	fi
 
-	if [[ $lastmanagement == "1" ]]; then
+	if ((lastmanagement == 1)); then
 		ConfiguredChargePoints=2
 		if [[ $evsecons1 == "modbusevse" ]]; then
 #########################################################################						
@@ -209,12 +211,13 @@ loadvars(){
 				echo $evseplugstatelp2 > ramdisk/evseplugstatelp2
 			fi
 			ladestatuss1=$(<ramdisk/ladestatuss1)
-			if [[ $evseplugstatelp2 -gt 0 ]] && [[ $evseplugstatelp2 < "7" ]] ; then
-				if [[ $evseplugstatelp2 -gt  1 ]]; then
+			if ((evseplugstatelp2 > 0)) && ((evseplugstatelp2 < 7)); then
+				if ((evseplugstatelp2 > 1)); then
 					plugstat2=$(<ramdisk/plugstats1)
 
-					if [[ $plugstat2 == "0" ]] ; then
-						if [[ $displayconfigured == "1" ]] && [[ $displayEinBeimAnstecken == "1" ]] ; then
+					if ((plugstat2 == 0)) ; then
+						if ((displayconfigured == 1)) && ((displayEinBeimAnstecken == 1)) ; then
+			           		openwbDebugLog "MAIN" 0 "Awoke3 internal Display"
 					   	    awokedisplay
 						fi
 						echo 20000 > ramdisk/soctimer1
@@ -227,7 +230,7 @@ loadvars(){
 					plugstat2=0
 					plugstats1=$plugstat2
 				fi
-				if [[ $evseplugstatelp2 -gt 2 ]] && [[ $ladestatuss1 == "1" ]] ; then
+				if ((evseplugstatelp2 > 2)) && ((ladestatuss1 == 1)); then
 					echo 1 > ramdisk/chargestats1
 				else
 					echo 0 > ramdisk/chargestats1
@@ -248,12 +251,12 @@ loadvars(){
 			fi
 			ladestatuss1=$(<ramdisk/ladestatuss1)
 
-			if [[ $evseplugstatelp2 -gt 1 ]]; then
+			if ((evseplugstatelp2 > 1)); then
 				echo 1 > ramdisk/plugstats1
 			else
 				echo 0 > ramdisk/plugstats1
 			fi
-			if [[ $evseplugstatelp2 -gt 2 ]] && [[ $ladestatuss1 == "1" ]] ; then
+			if ((evseplugstatelp2 > 2)) && ((ladestatuss1 == 1)); then
 				echo 1 > ramdisk/chargestats1
 			else
 				echo 0 > ramdisk/chargestats1
@@ -272,12 +275,12 @@ loadvars(){
 			fi
 			ladestatuslp2=$(<ramdisk/ladestatuss1)
 
-			if [[ $evseplugstatelp2 -gt 1 ]]; then
+			if ((evseplugstatelp2 > 1)); then
 				echo 1 > ramdisk/plugstats1
 			else
 				echo 0 > ramdisk/plugstats1
 			fi
-			if [[ $evseplugstatelp2 -gt 2 ]] && [[ $ladestatuslp2 == "1" ]] && [[ $lp2enabled == "1" ]]; then
+			if ((evseplugstatelp2 > 2)) && ((ladestatuslp2 == 1)) && ((lp2enabled == 1)); then
 				echo 1 > ramdisk/chargestats1
 			else
 				echo 0 > ramdisk/chargestats1
@@ -295,7 +298,7 @@ loadvars(){
 		ConfiguredChargePoints=1
 	fi
 
-	if [[ $lastmanagements2 == "1" ]]; then
+	if ((lastmanagements2 == 1)); then
 		ConfiguredChargePoints=3
 		if [[ $evsecons2 == "ipevse" ]]; then ## Alter Satellit ohne Pi3
 #########################################################################						
@@ -310,12 +313,12 @@ loadvars(){
 			fi
 			ladestatuslp3=$(<ramdisk/ladestatuss2)
 
-			if [[ $evseplugstatelp3 -gt 1 ]]; then
+			if ((evseplugstatelp3 > 1)); then
 				echo 1 > ramdisk/plugstatlp3
 			else
 				echo 0 > ramdisk/plugstatlp3
 			fi
-			if [[ $evseplugstatelp3 -gt 2 ]] && [[ $ladestatuslp3 == "1" ]] && [[ $lp3enabled == "1" ]]; then
+			if ((evseplugstatelp3 > 2)) && ((ladestatuslp3 == 1)) && ((lp3enabled == 1)); then
 				echo 1 > ramdisk/chargestatlp3
 			else
 				echo 0 > ramdisk/chargestatlp3
@@ -335,12 +338,12 @@ loadvars(){
 				echo $evseplugstatelp3 > ramdisk/evseplugstatelp3
 			fi
 			ladestatuss2=$(<ramdisk/ladestatuss2)
-			if [[ $evseplugstatelp3 -gt 1 ]]; then
+			if ((evseplugstatelp3 > 1)); then
 				echo 1 > ramdisk/plugstatlp3
 			else
 				echo 0 > ramdisk/plugstatlp3
 			fi
-			if [[ $evseplugstatelp3 -gt 2 ]] && [[ $ladestatuss2 == "1" ]] ; then
+			if ((evseplugstatelp3 > 2)) && ((ladestatuss2 == 1)) ; then
 				echo 1 > ramdisk/chargestatlp3
 			else
 					echo 0 > ramdisk/chargestatlp3
@@ -444,10 +447,9 @@ loadvars(){
 #########################################################################						
 		speicherleistung=$(<ramdisk/speicherleistung)
         speicherleistung=${speicherleistung%%[.,]*}
-		#speicherleistung=$(echo $speicherleistung | sed 's/\..*$//')
 		speichersoc=$(<ramdisk/speichersoc)
         speichersoc=${speichersoc%%[.,]*}
-		#speichersoc=$(echo $speichersoc | sed 's/\..*$//')
+        
 		speichervorhanden="1"
 		echo 1 > ramdisk/speichervorhanden
 		
@@ -523,16 +525,16 @@ loadvars(){
 		fi
 
 		lp1phasen=0
-		if [ $lla1 -ge $llphaset ]; then
-			lp1phasen=$((lp1phasen + 1 ))
+		if ((lla1 >= llphaset)); then
+			((lp1phasen++))
 		fi
-		if [ $lla2 -ge $llphaset ]; then
-			lp1phasen=$((lp1phasen + 1 ))
+		if ((lla2 >= llphaset)); then
+			((lp1phasen++))
 		fi
-		if [ $lla3 -ge $llphaset ]; then
-			lp1phasen=$((lp1phasen + 1 ))
+		if ((lla3 >= llphaset)); then
+			((lp1phasen++))
 		fi
-		echo $lp1phasen > ramdisk/lp1phasen
+		echo "$lp1phasen" > ramdisk/lp1phasen
 		if ! [[ $ladeleistung =~ $re ]] ; then
 			openwbDebugLog "MAIN" 0 "ungültiger Wert für ladeleistung: $ladeleistung"
 			ladeleistung="0"
@@ -553,7 +555,7 @@ loadvars(){
 	fi
 
 	#zweiter ladepunkt
-	if [[ $lastmanagement == "1" ]]; then
+	if ((lastmanagement == 1)); then
 		if [[ $socmodul1 != "none" ]]; then
 #########################################################################						
 			openwbDebugLog "MAIN" 1 "EXEC&: modules/$socmodul1/main.sh &"
@@ -590,9 +592,6 @@ loadvars(){
         llas11=${llas11%%[.,]*}
         llas12=${llas12%%[.,]*}
         llas13=${llas13%%[.,]*}
-		#llas11=$(echo $llas11 | sed 's/\..*$//')
-		#llas12=$(echo $llas12 | sed 's/\..*$//')
-		#llas13=$(echo $llas13 | sed 's/\..*$//')
 		ladestatuss1=$(<ramdisk/ladestatuss1)
 		if ! [[ $ladeleistungs1 =~ $re ]] ; then
 			ladeleistungs1="0"
@@ -600,16 +599,16 @@ loadvars(){
 		ladeleistung=$(( ladeleistung + ladeleistungs1 ))
 		echo "$ladeleistung" > ramdisk/llkombiniert
 		lp2phasen=0
-		if [ $llas11 -ge $llphaset ]; then
-			lp2phasen=$((lp2phasen + 1 ))
+		if ((llas11 >= llphaset)); then
+			((lp2phasen++))
 		fi
-		if [ $llas12 -ge $llphaset ]; then
-			lp2phasen=$((lp2phasen + 1 ))
+		if ((llas12 >= llphaset)); then
+			((lp2phasen++))
 		fi
-		if [ $llas13 -ge $llphaset ]; then
-			lp2phasen=$((lp2phasen + 1 ))
+		if ((llas13 >= llphaset)); then
+			((lp2phasen++))
 		fi
-		echo $lp2phasen > ramdisk/lp2phasen
+		echo "$lp2phasen" > ramdisk/lp2phasen
 	else
 		echo "$ladeleistung" > ramdisk/llkombiniert
 		ladeleistunglp2=0
@@ -625,7 +624,7 @@ loadvars(){
 	fi
 
 	#dritter ladepunkt
-	if [[ $lastmanagements2 == "1" ]]; then
+	if ((lastmanagements2 == 1)); then
 #########################################################################						
 		#openwbDebugLog "MAIN" 1 "EXEC: timeout 8 modules/$ladeleistungs2modul/main.sh"
 		#timeout 8 modules/$ladeleistungs2modul/main.sh || true
@@ -642,18 +641,15 @@ loadvars(){
         llas21=${llas21%%[.,]*}
         llas22=${llas22%%[.,]*}
         llas23=${llas23%%[.,]*}
-		#llas21=$(echo $llas21 | sed 's/\..*$//')
-		#llas22=$(echo $llas22 | sed 's/\..*$//')
-		#llas23=$(echo $llas23 | sed 's/\..*$//')
 		lp3phasen=0
-		if [ $llas21 -ge $llphaset ]; then
-			lp3phasen=$((lp3phasen + 1 ))
+		if ((llas21 >= llphaset)); then
+			((lp3phasen++))
 		fi
-		if [ $llas22 -ge $llphaset ]; then
-			lp3phasen=$((lp3phasen + 1 ))
+		if ((llas22 >= llphaset)); then
+			((lp3phasen++))
 		fi
-		if [ $llas23 -ge $llphaset ]; then
-			lp3phasen=$((lp3phasen + 1 ))
+		if ((llas23 >= llphaset)); then
+			((lp3phasen++))
 		fi
 		echo $lp3phasen > ramdisk/lp3phasen
 		ladestatuss2=$(<ramdisk/ladestatuss2)
@@ -690,7 +686,6 @@ loadvars(){
 #		socketp=$(cat ramdisk/socketp)
 #		socketa=$(cat ramdisk/socketa)
 #       socketa=${socketa%%[.,]*}
-#		#socketa=$(echo $socketa | sed 's/\..*$//')
 #		socketv=$(cat ramdisk/socketv)
 #		if ! [[ $socketa =~ $re ]] ; then
 #			openwbDebugLog "MAIN" 0 "ungültiger Wert für socketa: $socketa"
@@ -752,10 +747,10 @@ loadvars(){
 		else
 		    openwbDebugLog "PV" 0 "1: UEBERSCHUSS $uberschuss Watt IMPORT aus wattbezug "
         fi			 				
-		if [[ $speichervorhanden == "1" ]]; then
+		if ((speichervorhanden == 1)); then
 			openwbDebugLog "PV" 0 "2: SP/EV:$speicherpveinbeziehen  SPL:${speicherleistung}W [${speichersoc}% > ${speichersocnurpv}%] " 
 		    bmeld "U:${uberschuss}W"
-			if [[ $speicherpveinbeziehen == "1" ]]; then
+			if ((speicherpveinbeziehen == 1)); then
 				# EV Vorrang
   			    openwbDebugLog "PV" 1 "3: Speicher vorhanden und EV Vorrang"				
 				if (( speicherleistung > 0 )); then    # es wird gerade der hausakku geladen
@@ -792,9 +787,6 @@ loadvars(){
         evua1=${evua1%%[.,]*}
         evua2=${evua2%%[.,]*}
         evua3=${evua3%%[.,]*}
-		#evua1=$(echo $evua1 | sed 's/\..*$//')
-		#evua2=$(echo $evua2 | sed 's/\..*$//')
-		#evua3=$(echo $evua3 | sed 's/\..*$//')
 		[[ $evua1 =~ $re ]] || evua1="0"
 		[[ $evua2 =~ $re ]] || evua2="0"
 		[[ $evua3 =~ $re ]] || evua3="0"
@@ -833,7 +825,7 @@ loadvars(){
 		if (( stopsocnotpluggedlp1 == 1 )); then
 			soctimer=$(<ramdisk/soctimer)
 			# if (( plugstat == 1 )); then
-			if [[ "$plugstat" == "1" || "$soctimer" == "20005" ]]; then # force soc update button sends 20005
+			if ((plugstat == 1)) || ((soctimer == 20005)); then # force soc update button sends 20005
 #########################################################################						
 				openwbD	ebugLog "MAIN" 1 "EXEC&: modules/$socmodul/main.sh &"
 				"modules/$socmodul/main.sh" &
@@ -1088,7 +1080,7 @@ loadvars(){
 		# sim speicher end
 	fi
 
-	if [[ $verbraucher1_aktiv == "1" ]] && [[ $verbraucher1_typ == "shelly" ]]; then
+	if ((verbraucher1_aktiv == 1)) && [[ $verbraucher1_typ == "shelly" ]]; then
 		openwbDebugLog "MAIN" 0 "#### UseSimVerbraucher counter simulation"
 		ra='^-?[0-9]+$'
 		watt3=$(<ramdisk/verbraucher1_watt)
@@ -1130,7 +1122,7 @@ loadvars(){
 	#Uhrzeit
 	date=$(date)
 	H=$(date +%H)
-#	if [[ $debug == "1" ]]; then
+#	if ((debug == 1)); then
 #		echo "$(tail -1500 ramdisk/openWB.log)" > ramdisk/openWB.log
 #	fi
 	if [[ $speichermodul != "none" ]] ; then

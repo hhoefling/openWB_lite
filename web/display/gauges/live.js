@@ -907,47 +907,6 @@ function lp3enabledclick() {
 	}
 }
 
-/*
-function lp4enabledclick() {
-	if ( lp4enabled == 0 ) {
-		publish("1","openWB/set/lp/4/ChargePointEnabled");
-	} else {
-		publish("0","openWB/set/lp/4/ChargePointEnabled");
-	}
-}
-
-function lp5enabledclick() {
-	if ( lp5enabled == 0 ) {
-		publish("1","openWB/set/lp/5/ChargePointEnabled");
-	} else {
-		publish("0","openWB/set/lp/5/ChargePointEnabled");
-	}
-}
-
-function lp6enabledclick() {
-	if ( lp6enabled == 0 ) {
-		publish("1","openWB/set/lp/6/ChargePointEnabled");
-	} else {
-		publish("0","openWB/set/lp/6/ChargePointEnabled");
-	}
-}
-
-function lp7enabledclick() {
-	if ( lp7enabled == 0 ) {
-		publish("1","openWB/set/lp/7/ChargePointEnabled");
-	} else {
-		publish("0","openWB/set/lp/7/ChargePointEnabled");
-	}
-}
-
-function lp8enabledclick() {
-	if ( lp8enabled == 0 ) {
-		publish("1","openWB/set/lp/8/ChargePointEnabled");
-	} else {
-		publish("0","openWB/set/lp/8/ChargePointEnabled");
-	}
-}
-*/
 
 
 function lp1DirectChargeAmpsClick() {
