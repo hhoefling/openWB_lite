@@ -57,4 +57,6 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
 - Umstellung auf https und "Same Site=lax", sowie tunneln der MQTT Daten über den HTTPS Port. Auch nutzbar für MQTT-Desktop.
 - Übernahme von Trivialänderungen der snaptec/openWB z.b Einrückungen, optionale "" oder Kommentatre.- 
 - Übernahme vom einigen änderungen an den Basismodule aus der snaptec/openWB.
-- 
+- Backup/Restore überarbeitet. Es wird der Zustand des MQTT Servers mitgesichert. Der Dateiname enthält den Hostnamen und die IP Addresse.
+  ![backup](https://user-images.githubusercontent.com/89247538/185985391-9207616a-4465-4981-b309-8e630eb34779.png) Die Mitschrift im oberen Kasten erscheint nur wenn der Debugmode >0 gesetzt wird.
+
