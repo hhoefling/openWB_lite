@@ -55,4 +55,7 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
 - Interner Debug-mode zur Anzeige der beeinflussten Variablen auf den Setup-Seiten.
 - Absicherung des Update-processes gegen gleichzeitiges laufen von cron*.sh
 - Umstellung auf https und "Same Site=lax"
-
+- Tunnel der MQTT Daten über den HTTPS Port, auch nutzbar für MQTT-Desktop.
+- Übernahme von Trivialänderungen der snaptec/openWB z.b Einrückungen, optionale "" oder Kommentatre.- 
+- Übernahme vom einigen änderungen an den Basismodule aus der snaptec/openWB.
+- 
