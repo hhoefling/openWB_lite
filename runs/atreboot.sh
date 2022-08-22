@@ -80,29 +80,30 @@ at_reboot() {
 	sudo chown -R pi:www-data "$OPENWBBASEDIR/"{web/backup,web/tools/upload}
 	sudo chmod -R g+w "$OPENWBBASEDIR/"{web/backup,web/tools/upload}
 
-	sudo chmod 777 "$OPENWBBASEDIR/openwb.conf"
-	sudo chmod 777 "$OPENWBBASEDIR/smarthome.ini"
-	sudo chmod 777 "$OPENWBBASEDIR/ramdisk"
-	sudo chmod 777 "$OPENWBBASEDIR/ramdisk/"
-	sudo chmod 777 "$OPENWBBASEDIR/web/files/"*
+	sudo chmod 0777 "$OPENWBBASEDIR/openwb.conf"
+	sudo chmod 0777 "$OPENWBBASEDIR/web/tools/upload"
+	sudo chmod 0777 "$OPENWBBASEDIR/smarthome.ini"
+	sudo chmod 0777 "$OPENWBBASEDIR/ramdisk"
+	sudo chmod 0777 "$OPENWBBASEDIR/ramdisk/"
+	sudo chmod 0777 "$OPENWBBASEDIR/web/files/"*
 	sudo find "$OPENWBBASEDIR" \( -name "*.sh"  -or -name "*.py" \)  -exec chmod 0755 {} \; 
 		
 	# die schreiben in ihr verzeichniss
-	sudo chmod -R 777 "$OPENWBBASEDIR/modules/soc_i3"
-	sudo chmod -R 777 "$OPENWBBASEDIR/modules/soc_eq"
-	sudo chmod -R 777 "$OPENWBBASEDIR/modules/soc_tesla"
+	sudo chmod -R 0777 "$OPENWBBASEDIR/modules/soc_i3"
+	sudo chmod -R 0777 "$OPENWBBASEDIR/modules/soc_eq"
+	sudo chmod -R 0777 "$OPENWBBASEDIR/modules/soc_tesla"
 
-	sudo chmod 777 "$OPENWBBASEDIR/web/files/"*
+	sudo chmod 0777 "$OPENWBBASEDIR/web/files/"*
 	
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/daily"
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/monthly"
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/ladelog"
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/v001"
-	sudo chmod -R 777 "$OPENWBBASEDIR/web/logging/data/"
+	sudo chmod -R 0777 "$OPENWBBASEDIR/web/logging/data/"
 	
 	sudo touch $RAMDISKDIR/smarthome.log
 	sudo chown pi:pi $RAMDISKDIR/smarthome.log 
-	sudo chmod -R 777 $RAMDISKDIR/smarthome.log
+	sudo chmod -R 0777 $RAMDISKDIR/smarthome.log
 
 
 	# update openwb.conf
