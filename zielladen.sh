@@ -15,7 +15,7 @@ ziellademodus(){
 	soc=$(<ramdisk/soc)
 	zuladendersoc=$(( zielladensoclp1 - soc ))
 	akkuglp1wh=$(( akkuglp1 * 1000 ))
-	zuladendewh=$(( akkuglp1wh / 100 * zuladendersoc ))
+	zuladendewh=$(( akkuglp1wh * zuladendersoc / 100 ))
 
 	#ladeleistung ermitteln
 	lademaxwh=$(( zielladenmaxalp1 * zielladenphasenlp1 * 230 ))
@@ -25,7 +25,7 @@ ziellademodus(){
 	if (( llalt > 5 )); then
 		wunschawh=$(( llalt * zielladenphasenlp1 * 230 ))
 	fi
-	moeglichewh=$(( wunschawh / 60 * minzeitdiff ))
+	moeglichewh=$(( wunschawh * minzeitdiff / 60 ))
 
 	openwbDebugLog "MAIN" 1 "Zielladen aktiv: $wunschawh gewünschte Lade Wh, $lademaxwh maximal mögliche Wh, $zuladendewh zu ladende Wh, $moeglichewh mögliche ladbare Wh bis Zieluhrzeit"
 	diffwh=$(( zuladendewh - moeglichewh ))
