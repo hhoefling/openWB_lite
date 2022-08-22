@@ -10,9 +10,9 @@ Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
 - (Asyncron) einmal pro Minute testen ob durch autolook ein Sperren/Entsprerren nötig ist und dies ausführen (MQTT)
 - (Asyncron) Ladelog versorgen, wenn ladeende erkannt wurde (->csv)
 - 7" Dipslay-Helligkeit einstellen/nachführen.
-- goecheck.sh  (evse=goe) direkt auslesen (curl)
-- nrgkickcheck.sh (evse=nrkick) direkt auslesen (curl)
-- **loadvars.sh**  Alle konfigurierten Hardwaremodule abfragen EVSE/EVU/PW/BAT (alles in moduels/)
+- goecheck.sh  (evse=goe) direkt auslesen wenn verwendetcurl)
+- nrgkickcheck.sh (evse=nrkick) direkt auslesen wenn verwendet(curl)
+- **loadvars.sh**  Alle anderen  konfigurierten Hardwaremodule abfragen EVSE/EVU/PW/BAT (alles in modules/)
 - am Ende von loadvars.sh MQTT nachführen um die Messwerte wiederzuspiegeln.
 - hook.sh	Plugin/plugoff/ChargeStart/ChargeStop (Web)Hooks ausführen lassen (*1)
 - graphing  Live-Grafiken mit dem Messwerten versorgen/Weiterschreiben (10-sekundlich und minütlch) (*1)
