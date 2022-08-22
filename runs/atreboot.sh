@@ -1,6 +1,7 @@
 #!/bin/bash
 # called as user pi
 OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
+LOGFILE="/var/log/openWB.log"
 . "$OPENWBBASEDIR/helperFunctions.sh"
 
 # Definitve setzen
@@ -9,12 +10,24 @@ cd $OPENWBBASEDIR
 SELF=`basename $0`
 function log()
 {
- timestamp=`date +"%Y-%m-%d %H:%M:%S"`
+ timestamp=`date +"%Y-%m-%d %H:%M:%S: "`
  echo $timestamp $SELF $*
 }
 
 
 at_reboot() {
+
+	versionMatch() {
+		file=$1
+		target=$2
+		currentVersion=$(grep -o "openwb-version:[0-9]\+" "$file" | grep -o "[0-9]\+$")
+		installedVersion=$(grep -o "openwb-version:[0-9]\+" "$target" | grep -o "[0-9]\+$")
+		if (( currentVersion == installedVersion )); then
+			return 0
+		else
+			return 1
+		fi
+	}
 	log "started $$"
 
 	# (sleep 600; sudo kill $(ps aux |grep '[a]treboot.sh' | awk '{print $2}') >/dev/null 2>&1; echo 0 > /var/www/html/openWB/ramdisk/bootinprogress; echo 0 > /var/www/html/openWB/ramdisk/updateinprogress) &
@@ -42,6 +55,8 @@ at_reboot() {
 	. "$OPENWBBASEDIR/runs/updateConfig.sh"
 	. "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
 	. "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
+	. "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
+		
 	
 	log Set bootinprogress and updateinprogress
 	# if called from update (without reboot) block regel.sh 
@@ -117,20 +132,13 @@ at_reboot() {
 	# setup push buttons handler if needed
 	pushButtonsSetup "$ladetaster" 1
 
-	# check for rse and restart daemon
-	sudo pkill -f '^python.*/rse.py' >/dev/null
-	if (( rseenabled == 1 )); then
-		log "rse..."
-		if ! [ -x "$(command -v nmcli)" ]; then  # hack to prevent running the daemon on openwb standalone
-			sudo python "$OPENWBBASEDIR/runs/rse.py" &
-		fi
-	fi
-
+	# setup rse handler if needed
+	rseSetup "$rseenabled" 1
 
 	log rfidhandler...
 	# setup rfid handler if needed
 	rfidSetup "$rfidakt" 1 "$rfidlist"
-	
+
 
 
 	# check if tesla wall connector is configured and start daemon
@@ -144,7 +152,7 @@ at_reboot() {
 	# restart our modbus server
 	#sudo pkill -f '^python.*/modbusserver.py' > /dev/null
 	#log "modbus server..."
-	#sudo python3 "$OPENWBBASEDIR/runs/modbusserver/modbusserver.py" &
+	#sudo nohup python3 "$OPENWBBASEDIR/runs/modbusserver/modbusserver.py" >>"$LOGFILE" 2>&1 &
 
 	# check if our modbus server is running
 	# if Variable not set -> server active (old config)
@@ -162,7 +170,7 @@ at_reboot() {
     	else
        		if (  $(lsusb | grep -q UART) ) ; then
 	        	log "modbus tcp server not running! restarting process"
-          		sudo python3 /var/www/html/openWB/runs/modbusserver/modbusserver.py &
+          		sudo nohup python3 "$OPENWBBASEDIR/runs/modbusserver/modbusserver.py" >>"$LOGFILE" 2>&1 &
        		else
         		log "modbus tcp server not avail no usb-UART"
        		fi
@@ -218,7 +226,7 @@ at_reboot() {
 			echo "@xscreensaver -no-splash" > /home/pi/.config/lxsession/LXDE-pi/autostart
 			echo "@point-rpi" >> /home/pi/.config/lxsession/LXDE-pi/autostart
 			echo "@xset s 600" >> /home/pi/.config/lxsession/LXDE-pi/autostart
-			echo "@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php" >> /home/pi/.config/lxsession/LXDE-pi/autostart
+			echo "@chromium-browser --incognito --disable-pinch --overscroll-history-navigation=0 --kiosk http://localhost/openWB/web/display.php" >> /home/pi/.config/lxsession/LXDE-pi/autostart
 		fi
 		log "deleting browser cache"
 		rm -rf /home/pi/.cache/chromium
@@ -228,24 +236,23 @@ at_reboot() {
 	
 	# restart smarthomehandler
 	log "smarthome handler..."
+	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
 	sudo pkill -f '^python.*/smarthomehandler.py' >/dev/null
 	sudo pkill -f '^python.*/smarthomemq.py' >/dev/null
 	smartmq=$(<"/var/www/html/openWB/ramdisk/smartmq")
 	if (( smartmq == 0 )); then
 		log "starting legacy smarthome handler"
-		python3 "$OPENWBBASEDIR/runs/smarthomehandler.py" >> "$OPENWBBASEDIR/ramdisk/smarthome.log" 2>&1 &
+		nohup python3 "$OPENWBBASEDIR/runs/smarthomehandler.py" >> "$OPENWBBASEDIR/ramdisk/smarthome.log" 2>&1 &
 	else
 		log  "starting smarthomemq handler"
-		python3 "$OPENWBBASEDIR/runs/smarthomemq.py" >> "$RAMDISKDIR/smarthome.log" 2>&1 &
+		nohup python3 "$OPENWBBASEDIR/runs/smarthomemq.py" >> "$OPENWBBASEDIR/ramdisk/smarthome.log" 2>&1 &
 	fi
 
 	# restart mqttsub handler
 	log "mqtt handler..."
-	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/mqttsub.py" > /dev/null
-	then
-		sudo kill $(ps aux |grep '[m]qttsub.py' | awk '{print $2}')
-	fi
-	python3 "$OPENWBBASEDIR/runs/mqttsub.py" &
+	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
+	sudo pkill -f '^python.*/mqttsub.py'
+	nohup python3 "$OPENWBBASEDIR/runs/mqttsub.py" >>"$LOGFILE" 2>&1 &
 
 
 
@@ -285,13 +292,78 @@ at_reboot() {
 
 	# check for apache configuration
 	log "apache..."
-	if ( sudo grep -Fq "AllowOverride" /etc/apache2/sites-available/000-default.conf )
+	restartService=0
+	if grep -q "openwb-lite-version:1$" /etc/apache2/sites-available/000-default.conf >/dev/null 2>&1
 	then
 		log "...ok"
 	else
-		sudo cp /var/www/html/openWB/web/tools/000-default.conf /etc/apache2/sites-available/
-		log "...changed"
+		sudo cp "/var/www/html/openWB/web/tools/000-default.conf" /etc/apache2/sites-available/
+		log "...updated"
+		restartService=1
 	fi
+	
+	if grep -q "openwb-lite-version:1$" /etc/apache2/sites-available/001-openwb_ssl.conf >/dev/null 2>&1
+	then
+		log "...ok"
+	else
+		sudo cp "/var/www/html/openWB/web/tools/001-openwb_ssl.conf" /etc/apache2/sites-available/
+		log "...updated"
+		restartService=1
+	fi
+	
+	log "checking required apache modules..."
+	if sudo a2query -m headers >/dev/null 2>&1
+	then
+		log "headers already enabled"
+	else
+		log "headers currently disabled; enabling module"
+		sudo a2enmod headers
+		restartService=1
+	fi
+	
+	if sudo a2query -m proxy_wstunnel >/dev/null 2>&1
+	then
+		log "proxy_wstunnel already enabled"
+	else
+		log "proxy_wstunnel currently disabled; enabling module"
+		sudo a2enmod proxy_wstunnel
+		restartService=1
+	fi
+	
+	if sudo a2query -m ssl >/dev/null 2>&1
+	then
+		log "ssl already enabled"
+	else
+		log "ssl currently disabled; enabling module"
+		sudo a2enmod ssl
+		sudo a2dissite default-ssl
+		sudo a2ensite 001-openwb_ssl
+		restartService=1
+	fi
+	# set upload limit in php
+	log  "fix upload limit..."
+	if [ -d "/etc/php/8.1/" ]; then
+		log "OS Bullsey"
+		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/8.1/apache2/conf.d/20-uploadlimit.ini"
+		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/8.1/apache2/conf.d/20-uploadlimit.ini"
+		restartService=1
+	elif [ -d "/etc/php/7.0/" ]; then
+		log "OS Stretch"
+		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
+		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
+		restartService=1
+	elif [ -d "/etc/php/7.3/" ]; then
+		log "OS Buster"
+		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
+		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
+		restartService=1
+	fi
+	if (( restartService == 1 )); then
+		log  "restarting apache..."
+		sudo systemctl restart apache2
+		log "done"
+	fi
+	
 
 	# add some crontab entries for user pi
 	log "crontab 2..."
@@ -347,6 +419,7 @@ at_reboot() {
 		sleep 1
 		sudo apt-get -qq install sshpass
 	fi
+	
 	if ! [ -x "$(command -v tsp)" ];then
 		sudo apt-get -qq update
 		sleep 1
@@ -390,58 +463,6 @@ at_reboot() {
 		touch /home/pi/ssl_patched
 	fi
 
-	# check for apache configuration
-	log "apache..."
-	restartService=0
-
-	if grep -q "openwb-lite-version:1$" /etc/apache2/sites-available/000-default.conf >/dev/null 2>&1
-	then
-		log "...ok"
-	else
-		sudo cp "/var/www/html/openWB/web/tools/000-default.conf" /etc/apache2/sites-available/
-		log "...updated"
-		restartService=1
-	fi
-	if grep -q "openwb-lite-version:1$" /etc/apache2/sites-available/001-openwb_ssl.conf >/dev/null 2>&1
-	then
-		log "...ok"
-	else
-		sudo cp "/var/www/html/openWB/web/tools/001-openwb_ssl.conf" /etc/apache2/sites-available/
-		log "...updated"
-		restartService=1
-	fi
-	log "checking required apache modules..."
-	if sudo a2query -m headers >/dev/null 2>&1
-	then
-		log "headers already enabled"
-	else
-		log "headers currently disabled; enabling module"
-		sudo a2enmod headers
-		restartService=1
-	fi
-	if sudo a2query -m proxy_wstunnel >/dev/null 2>&1
-	then
-		log "proxy_wstunnel already enabled"
-	else
-		log "proxy_wstunnel currently disabled; enabling module"
-		sudo a2enmod proxy_wstunnel
-		restartService=1
-	fi
-	if sudo a2query -m ssl >/dev/null 2>&1
-	then
-		log "ssl already enabled"
-	else
-		log "ssl currently disabled; enabling module"
-		sudo a2enmod ssl
-		sudo a2dissite default-ssl
-		sudo a2ensite 001-openwb_ssl
-		restartService=1
-	fi
-	if (( restartService == 1 )); then
-		log  "restarting apache..."
-		sudo systemctl restart apache2
-		log "done"
-	fi
 
 
 	# check for mosquitto packages
@@ -486,7 +507,8 @@ at_reboot() {
 		log "done"
 	fi
 	
-	
+
+
 	# check for other dependencies
 	log "packages 2..."
 	if python3 -c "import paho.mqtt.publish as publish" &> /dev/null; then
@@ -581,14 +603,14 @@ at_reboot() {
 	chmod 777 /var/www/html/openWB/ramdisk/mqttLadereglerTxt
 
 	# check for slave config and start handler
+	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
+	sudo pkill -f '^python.*/isss.py'
+	
 	if (( isss == 1 )); then
 		log "isss..."
 		echo "$lastmanagement" > "$OPENWBBASEDIR/ramdisk/issslp2act"
-		if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/isss.py" > /dev/null
-		then
-			sudo pkill -f '^python.*/isss.py' >/dev/null
-		fi
-		python3 "$OPENWBBASEDIR/runs/isss.py" &
+		nohup python3 "$OPENWBBASEDIR/runs/isss.py" >>"$OPENWBBASEDIR/ramdisk/isss.log" 2>&1 &
+		#     python3 "$OPENWBBASEDIR/runs/isss.py" &
 		# second IP already set up !
 		ethstate=$(</sys/class/net/eth0/carrier)
 		if (( ethstate == 1 )); then
@@ -599,17 +621,15 @@ at_reboot() {
 	fi
 
 	# check for socket system and start handler
+	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
+	sudo pkill -f '^python.*/buchse.py'
 	if [[ "$evsecon" == "buchse" ]]  && [[ "$isss" == "0" ]]; then
 		log "socket..."
 		# ppbuchse is used in issss.py to detect "openWB Buchse"
 		if [ ! -f /home/pi/ppbuchse ]; then
 			echo "32" > /home/pi/ppbuchse
 		fi
-		if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/buchse.py" > /dev/null
-		then
-			sudo pkill -f '^python.*/buchse.py' >/dev/null
-		fi
-		python3 "$OPENWBBASEDIR/runs/buchse.py" &
+		nohup python3 "$OPENWBBASEDIR/runs/buchse.py" >>"$LOGFILE" 2>&1 &
 	fi
 
 
@@ -684,25 +704,12 @@ at_reboot() {
 	#	log "update electricity pricelist..."
 	#	echo "" > /var/www/html/openWB/ramdisk/etprovidergraphlist
 	#	mosquitto_pub -r -t openWB/global/ETProvider/modulePath -m "$etprovider"
-	#	/var/www/html/openWB/modules/$etprovider/main.sh > /var/log/openWB.log 2>&1 &
+	#	nohup "$OPENWBBASEDIR/modules/$etprovider/main.sh" >>"$LOGFILE" 2>&1 &
 	#else
 	#	log "not activated, skipping"
 	#	mosquitto_pub -r -t openWB/global/awattar/pricelist -m ""
 	#fi
 
-	# set upload limit in php
-	#prepare for Buster
-	log  "fix upload limit..."
-	if [ -d "/etc/php/7.0/" ]; then
-		log "OS Stretch"
-		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
-		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
-	elif [ -d "/etc/php/7.3/" ]; then
-		log "OS Buster"
-		sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
-		sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
-	fi
-	sudo /usr/sbin/apachectl -k graceful
 
 	# all done, remove boot and update status
 	log "remove boot und update marker"
