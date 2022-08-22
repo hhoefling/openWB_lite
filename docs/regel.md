@@ -16,10 +16,10 @@ Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
 - am Ende von loadvars.sh MQTT nachführen um die Messwerte wiederzuspiegeln.
 - hook.sh	Plugin/plugoff/ChargeStart/ChargeStop (Web)Hooks ausführen lassen (*1)
 - graphing  Live-Grafiken mit dem Messwerten versorgen/Weiterschreiben (10-sekundlich und minütlch) (*1)
-- Test ob noch U1P3 aktiv ist (Blockall1), wenn ja **Ende**
+- Test ob noch U1P3 aktiv ist (**Blockall1**), wenn ja **Ende**
 - evseinttest
 - U1P3 testen und durchführen 
-- test ob jetzt U1P3 aktiv ist (Blockall2), wenn ja **Ende**
+- test ob jetzt U1P3 aktiv ist (**Blockall2**), wenn ja **Ende**
 - CP durchführen ->MQTT oder Hardware direkt
 - Leds nachführen. (*2)
 - RSE abtesten, evl. Ladung stoppen. (*2)
@@ -40,5 +40,5 @@ Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
 - Fertig.
 
 
-(1*) war vorher hinter dem ersten Blockall, wurde also mit blockiert.
+(1*) war vorher hinter dem ersten Blockall, wurde also mit blockiert.<br>
 (2*) war vorher hinter dem speed=3  abbruch, wurde also nur "Langsam" ausgeführt.
