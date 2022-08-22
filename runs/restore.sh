@@ -1,15 +1,21 @@
 #!/bin/bash
+# called as pi from upload.php
 
+
+SOURCEFILE="/var/www/html/openWB/web/tools/upload/backup.tar.gz"
+WORKINGDIR="/home/pi/openwb_restore"
+LOGF=/var/www/html/openWB/web/tools/upload/restore.log
 
 SELF=`basename $0`
 function log()
 {
  timestamp=`date +"%Y-%m-%d %H:%M:%S: "`
- echo $timestamp $SELF "$*" >>/var/www/html/openWB/web/tools/upload/restore.log
+ echo $timestamp $SELF "$*" 
 }
 
-SOURCEFILE="/var/www/html/openWB/web/tools/upload/backup.tar.gz"
-WORKINGDIR="/home/pi/openwb_restore"
+echo "" >$LOGF
+sudo chown pi:www-data $LOGF
+sudo chmod 0775 $LOGF
 
 (
 log "Restore of backup started..."
@@ -24,7 +30,7 @@ sudo tar -vxf "$SOURCEFILE" -C "$WORKINGDIR"
 log "****************************************"
 log "Step 3: replacing old files..."
 log "****************************************"
-cp -v -R -p "${WORKINGDIR}/var/www/html/openWB/." /var/www/html/openWB/
+sudo cp -v -R -p "${WORKINGDIR}/var/www/html/openWB" /var/www/html/
 log "****************************************"
 log "Step 4: restoring mosquitto db..."
 log "****************************************"
@@ -40,6 +46,6 @@ sudo rm -R "$WORKINGDIR"
 log "****************************************"
 log "End: Restore finished."
 log "****************************************"
-) >>/var/www/html/openWB/web/tools/upload/restore.log 2>&1
+) >>$LOGF 2>&1
 
 
