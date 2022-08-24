@@ -6,6 +6,9 @@ u1p3pswitch(){
 		u1p3pstat=$(<ramdisk/u1p3pstat)
 		nachtladenstate=$(<ramdisk/nachtladenstate)
 		nachtladen2state=$(<ramdisk/nachtladen2state)
+        nachtladenstates1=$(<ramdisk/nachtladenstates1)   # "Nachtladen" LP2
+        nachtladen2states1=$(<ramdisk/nachtladen2states1) # "Morgensladen" LP2
+	
 		if [ -z "$u1p3schaltparam" ]; then
 			u1p3schaltparam=8
 		fi
@@ -14,7 +17,8 @@ u1p3pswitch(){
 		openwbDebugLog "MAIN" 1 "automatische Umschaltung aktiv"
 		openwbDebugLog "MAIN" 1 "Timing Umschaltung: $uhwaittime / $urwaittime"
 		if (( ladestatus == 0)); then
-			if (( nachtladenstate == 1 )) || (( nachtladen2state == 1 )); then
+			if ((nachtladenstate == 1)) || ((nachtladen2state == 1)) || ((nachtladenstates1 == 1)) || ((nachtladen2states1 == 1)); then			
+			## if (( nachtladenstate == 1 )) || (( nachtladen2state == 1 )); then
 				if (( u1p3pstat != u1p3pnl )); then
 					openwbDebugLog "MAIN" 1 "Nachtladen derzeit $u1p3pstat Phasen, auf $u1p3pnl konfiguriert, aendere..."
 					if (( u1p3pnl == 3 )); then
@@ -122,7 +126,8 @@ u1p3pswitch(){
 				fi
 			fi
 		else
-			if (( nachtladenstate == 1 )) || (( nachtladen2state == 1 )); then
+			if ((nachtladenstate == 1)) || ((nachtladen2state == 1)) || ((nachtladenstates1 == 1)) || ((nachtladen2states1 == 1)); then			
+			## if (( nachtladenstate == 1 )) || (( nachtladen2state == 1 )); then
 				if (( u1p3pstat != u1p3pnl )); then
 					openwbDebugLog "MAIN" 1 "Nachtladen derzeit $u1p3pstat Phasen, auf $u1p3pnl konfiguriert, unterbreche Ladung und aendere..."
 					echo 1 > ramdisk/blockall
