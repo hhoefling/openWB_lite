@@ -73,7 +73,7 @@ minundpvlademodus(){
 #		fi
 #	fi
 
-	if [[ $speichervorhanden == "1" ]]; then 
+	if (( speichervorhanden == 1 )); then 
 		if (( speicherleistung < 0 )); then 
 			uberschuss=$((uberschuss + speicherleistung)) 
 		fi 
