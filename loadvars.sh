@@ -450,7 +450,7 @@ loadvars(){
 		speichersoc=$(<ramdisk/speichersoc)
         speichersoc=${speichersoc%%[.,]*}
         
-		speichervorhanden="1"
+		speichervorhanden=1
 		echo 1 > ramdisk/speichervorhanden
 		
 #		if [[ $speichermodul == "speicher_alphaess" ]] ; then
@@ -469,7 +469,7 @@ loadvars(){
 #			pv1vorhanden="1"
 #		fi
 	else
-		speichervorhanden="0"
+		speichervorhanden=0
 		echo 0 > ramdisk/speichervorhanden
 	fi
 	#addition pv nach Speicherauslesung
