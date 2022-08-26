@@ -42,3 +42,30 @@ Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
 
 (1*) war vorher hinter dem ersten Blockall, wurde also mit blockiert.<br>
 (2*) war vorher hinter dem speed=3  abbruch, wurde also nur "Langsam" ausgeführt.
+
+
+## Der Datenfluss ##
+Es gibt mehre Stellen an dehnen Daten aufbewahrt werden.
+
+**ramdisk**  (etwa 350-400 Werte)
+
+In der Ramdisk werden die aktuellen Werte der Regellogig aufbewahrt.
+Hierauf greifen alle Sub-Sripte von regel.sh zu. 
+Primär werden Daten hieraus gelesen und Ergebnisse hier abgelegt. Paralell zur ausführung durch die Hardware.
+Die ist der "alte" Kern der openWB. Die Gui-Themen sowie die Statusseite greifen aber nicht auf diese Daten zu sondern auf den MQTT Server zu. Deshalb werden alle Änderungen die im Regelkreis auftreten ebenfalls zum MQTT "gepublished".
+
+**openwb.conf**  (etwa 800-900 Werte)
+
+Diese Datei enthält die Einstellungen der OpenWB beziehungsweise ihre Defaultwerte.
+Ein Teil davon wird ebenfalls für die GUI in den MQTT gespiegelt.
+Die Datei ist so gross weil sie *alle* möglichen Werte enthält, auch von niemals benutzen Modulen oder Teil-Funktionen.
+
+**mqtt**  (etwa 650 Werte )
+
+Hier ist der "öffentliche" Teil der Regeldaten und der Stammdaten zugreifbar.
+Über die "set"-Zweige sind die Daten auch beschreibbar. Was in die "Set" Topic "gepublished" wird, gelangt nach Prüfung in den "Read-Only" MQTT Teil sowie je nach Topic in die **openwb.conf** und die **ramdisk**
+
+Bei der openWB 2.x wurde die ramdisk und die openwb.conf durch einen internen mqtt Server ersetzt.
+Dort existieren also zwei MQTT Instancen.
+
+
