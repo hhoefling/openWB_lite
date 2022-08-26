@@ -248,7 +248,7 @@ nurpvlademodus()
 			fi
 		fi
 	else
-		if [[ $speichervorhanden == "1" ]]; then
+		if (( speichervorhanden == 1 )); then
 			if (( speicherleistung < 10 )); then
 				if (( speichersoc > speichersocnurpv )); then
 					uberschuss=$((uberschuss + speicherleistung + speicherwattnurpv))
