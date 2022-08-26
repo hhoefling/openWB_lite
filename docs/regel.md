@@ -68,6 +68,9 @@ Hier ist der "öffentliche" Teil der Regeldaten und der Stammdaten zugreifbar.
 Diese Syncronisation zwischen MQTT und ramdisk sowie der openwb.conf macht einen nicht unerheblichen Teil der "Arbeit" des Regelreises aus.
 z.b werden alle in dem MQTT "gepublischten" Daten noch einmal in der ramdisk zwischengespeichert um ein wiederholtes publishen des gleichen Wertes zu verhindern. 
 
+Aber die Funktion der ramdisk wird auch zunehmend übergangen und viele Module schreiben direkt in die Haupt-Topics des MQTT.
+Sofern die Module dann auch lesend auf den MQTT zugreifen können, kommen sie unter Umständen ganz ohne openwb.conf und ramdisk aus.
+
 Bei der openWB 2.x wurde die ramdisk und die openwb.conf durch einen internen mqtt Server ersetzt.
 Dort existieren also zwei MQTT Instancen wobei der interne nur von localen Processes aus erreichbar ist (localost only)
 
