@@ -65,7 +65,11 @@ Die Datei ist so gross weil sie *alle* möglichen Werte enthält, auch von niema
 Hier ist der "öffentliche" Teil der Regeldaten und der Stammdaten zugreifbar.
 Über die "set"-Zweige sind die Daten auch beschreibbar. Was in die "Set" Topic "gepublished" wird, gelangt nach Prüfung in den "Read-Only" MQTT Teil sowie je nach Topic in die **openwb.conf** und die **ramdisk**
 
+Diese Syncronisation zwischen MQTT und ramdisk sowie der openwb.conf macht einen nicht unerheblichen Teil der "Arbeit" des Regelreises aus.
+z.b werden alle in dem MQTT "gepublischten" Daten noch einmal in der ramdisk zwischengespeichert um ein wiederholtes publishen des gleichen Wertes zu verhindern. 
+
 Bei der openWB 2.x wurde die ramdisk und die openwb.conf durch einen internen mqtt Server ersetzt.
-Dort existieren also zwei MQTT Instancen.
+Dort existieren also zwei MQTT Instancen wobei der interne nur von localen Processes aus erreichbar ist (localost only)
+
 
 
