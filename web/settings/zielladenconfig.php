@@ -48,8 +48,11 @@
 				${$key."old"} = trim( $value, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes
 			}
 
-			$speichervorhanden = trim( file_get_contents( $_SERVER['DOCUMENT_ROOT'] . '/openWB/ramdisk/speichervorhanden' ) );
 		?>
+		<script>
+		  var debugold=<?php echo $debugold;?>;
+		  console.log('openWB debug aus openwb.conf:',debugold);
+		</script>		
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
 
