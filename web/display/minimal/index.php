@@ -170,9 +170,9 @@
 			doInterval = setInterval(getfile, 10000);
 			getfile();
 
-			var lastmanagements2 = <?php echo $lastmanagements2old; ?>;
-			var lastmanagement = <?php echo $lastmanagementold; ?>;
-			var soc1vorhanden = <?php echo $soc1vorhanden; ?>;
+			// var lastmanagements2 = <?php echo $lastmanagements2old; ?>;
+			// var lastmanagement = <?php echo $lastmanagementold; ?>;
+			// var soc1vorhanden = <?php echo $soc1vorhanden; ?>;
 		</script>
 		<script src="display/minimal/alllive.js?vers=20201201"></script>
 		<script>

@@ -86,9 +86,9 @@
 			$isConfiguredLp[1] = 1;  // lp1 always configured
 			$isConfiguredLp[2] = ($settingsArray['lastmanagement'] == 1) ? 1 : 0;
 			$isConfiguredLp[3] = ($settingsArray['lastmanagements2'] == 1) ? 1 : 0;
-			for ($lp=4; $lp<=$maxQuantityLp; $lp++) {
-				$isConfiguredLp[$lp] = ($settingsArray['lastmanagementlp'.$lp] == 1) ? 1 : 0;
-			}
+			//for ($lp=4; $lp<=$maxQuantityLp; $lp++) {
+			//	$isConfiguredLp[$lp] = ($settingsArray['lastmanagementlp'.$lp] == 1) ? 1 : 0;
+			//}
 
 			// just to make sure... reset all elements for non-configured lp
 			for ($lp=1; $lp<=$maxQuantityLp; $lp++) {

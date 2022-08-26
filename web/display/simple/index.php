@@ -586,10 +586,10 @@
 				});
 			})();
 
-			var lastmanagements2 = <?php echo trim($lastmanagements2old); ?>;
-			var lastmanagement = <?php echo trim($lastmanagementold); ?>;
-			var soc1vorhanden = <?php echo trim($soc1vorhanden); ?>;
-			var speichervorhanden = <?php echo trim($speichervorhanden); ?>;
+			//var lastmanagements2 = <?php echo trim($lastmanagements2old); ?>;
+			//var lastmanagement = <?php echo trim($lastmanagementold); ?>;
+			//var soc1vorhanden = <?php echo trim($soc1vorhanden); ?>;
+			//var speichervorhanden = <?php echo trim($speichervorhanden); ?>;
 		</script>
 		<script src="display/simple/live.js?ver=20201201"></script>
 

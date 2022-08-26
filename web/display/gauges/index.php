@@ -664,10 +664,10 @@
 //					}
 				}
 
-				$speichervorhanden = file_get_contents('/var/www/html/openWB/ramdisk/speichervorhanden');
-				$soc1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/soc1vorhanden');
-				$verbraucher1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher1vorhanden');
-				$verbraucher2vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher2vorhanden');
+//				$speichervorhanden = file_get_contents('/var/www/html/openWB/ramdisk/speichervorhanden');
+//				$soc1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/soc1vorhanden');
+//				$verbraucher1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher1vorhanden');
+//				$verbraucher2vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher2vorhanden');
 //				$verbraucher3vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher3vorhanden');
 				$verbraucher1_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher1_nameold));
 				$verbraucher2_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher2_nameold));
@@ -1176,16 +1176,16 @@
 					});
 				})();
 
-				var lastmanagements2 = <?php echo $lastmanagements2old ?>;
-				var lastmanagement = <?php echo $lastmanagementold ?>;
-				var soc1vorhanden = <?php echo $soc1vorhanden ?>;
-				var speichervorhanden = <?php echo $speichervorhanden ?>;
-				var verbraucher1vorhanden = <?php echo $verbraucher1vorhanden ?>;
-				var verbraucher1name = "<?php echo $verbraucher1_nameold ?> (I)";
-				var verbrauchere1name = "<?php echo $verbraucher1_nameold ?> (E)";
-				var verbraucher2vorhanden = <?php echo $verbraucher2vorhanden ?>;
-				var verbraucher2name = "<?php echo $verbraucher2_nameold ?> (I)";
-				var verbrauchere2name = "<?php echo $verbraucher2_nameold ?> (E)";
+//				var lastmanagements2 = <?php echo $lastmanagements2old ?>;
+//				var lastmanagement = <?php echo $lastmanagementold ?>;
+//				var soc1vorhanden = <?php echo $soc1vorhanden ?>; jetzt MQTT boolSocConfiguredLp1
+//				var speichervorhanden = <?php echo $speichervorhanden ?>;
+//				var verbraucher1vorhanden = <?php echo $verbraucher1vorhanden ?>;
+//				var verbraucher1name = "<?php echo $verbraucher1_nameold ?> (I)";
+//				var verbrauchere1name = "<?php echo $verbraucher1_nameold ?> (E)";
+//				var verbraucher2vorhanden = <?php echo $verbraucher2vorhanden ?>;
+//				var verbraucher2name = "<?php echo $verbraucher2_nameold ?> (I)";
+//				var verbrauchere2name = "<?php echo $verbraucher2_nameold ?> (E)";
 //				var verbraucher3vorhanden = <?php echo $verbraucher3vorhanden ?>;
 //				var verbraucher3name = "<?php echo $verbraucher3_nameold ?>";
 			</script>

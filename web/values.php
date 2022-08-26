@@ -168,10 +168,9 @@ $lademodusold = file_get_contents('/var/www/html/openWB/ramdisk/lademodus');
 $lp1nameold = str_replace( "'", "", $lp1nameold);
 $lp2nameold = str_replace( "'", "", $lp2nameold);
 $lp3nameold = str_replace( "'", "", $lp3nameold);
-$speichervorhanden = file_get_contents('/var/www/html/openWB/ramdisk/speichervorhanden');
-$soc1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/soc1vorhanden');
-$verbraucher1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher1vorhanden');
-$verbraucher2vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher2vorhanden');
+// $soc1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/soc1vorhanden');  jetzt MQTT boolSocConfiguredLp1
+// $verbraucher1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher1vorhanden');
+// $verbraucher2vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher2vorhanden');
 $settingspwold = str_replace("\n", '', $settingspwold);
 
 $owbversion = file_get_contents('/var/www/html/openWB/web/version');

@@ -113,10 +113,10 @@
 				}
 
 			}
-			$speichervorhanden = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/speichervorhanden');
-			$soc1vorhanden = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/soc1vorhanden');
-			$verbraucher1vorhanden = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/verbraucher1vorhanden');
-			$verbraucher2vorhanden = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/verbraucher2vorhanden');
+//			$speichervorhanden = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/speichervorhanden');		
+//			$soc1vorhanden = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/soc1vorhanden'); jetzt MQTT boolSocConfiguredLp1
+//			$verbraucher1vorhanden = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/verbraucher1vorhanden');
+//			$verbraucher2vorhanden = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/verbraucher2vorhanden');
 			$verbraucher1_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher1_nameold));
 			$verbraucher2_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher2_nameold));
 		?>
@@ -154,13 +154,13 @@
 		</footer>
 
 		<script>
-			var lastmanagement = <?php echo $lastmanagementold ?>;
-			var soc1vorhanden = <?php echo $soc1vorhanden ?>;
-			var verbraucher1vorhanden = <?php echo $verbraucher1vorhanden ?>;
-			var verbraucher2vorhanden = <?php echo $verbraucher2vorhanden ?>;
-			var speichervorhanden = <?php echo $speichervorhanden ?>;
-			var verbraucher1name = "<?php echo $verbraucher1_nameold ?>";
-			var verbraucher2name = "<?php echo $verbraucher2_nameold ?>";
+		    // jetzt MQTT
+			// var lastmanagement = <?php echo $lastmanagementold ?>;
+			// var soc1vorhanden = <?php echo $soc1vorhanden ?>;
+			// var verbraucher1vorhanden = <?php echo $verbraucher1vorhanden ?>;
+			// var verbraucher2vorhanden = <?php echo $verbraucher2vorhanden ?>;
+			// var verbraucher1name = "<?php echo $verbraucher1_nameold ?>";
+			// var verbraucher2name = "<?php echo $verbraucher2_nameold ?>";
 		</script>
 
 		<!-- load Chart.js library -->

@@ -279,11 +279,11 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/verbraucher1_watt
 	echo 0 > $RamdiskPath/verbraucher1_wh
 	echo 0 > $RamdiskPath/verbraucher1_whe
-	echo 0 > $RamdiskPath/verbraucher1vorhanden
+#NC	echo 0 > $RamdiskPath/verbraucher1vorhanden
 	echo 0 > $RamdiskPath/verbraucher2_watt
 	echo 0 > $RamdiskPath/verbraucher2_wh
 	echo 0 > $RamdiskPath/verbraucher2_whe
-	echo 0 > $RamdiskPath/verbraucher2vorhanden
+#NC	echo 0 > $RamdiskPath/verbraucher2vorhanden
 #NC	echo 0 > $RamdiskPath/verbraucher3_watt
 #NC	echo 0 > $RamdiskPath/verbraucher3_wh
 #NC	echo 0 > $RamdiskPath/verbraucher3vorhanden
