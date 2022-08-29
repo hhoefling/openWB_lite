@@ -38,8 +38,8 @@ Die Zahl 85cd805 muss man sich bei Github raussuchen
 ## Mosquitto ##
 
 Bei Problemen mit clienten -> "ungültige Client-Id"
-ist ein backport von 2.0.12->2.0.11 nötig
-( siehe https://github.com/dotnet/MQTTnet/issues/1290 )
+ist ein backport von 2.0.12->2.0.11 nötig<br>
+( siehe https://github.com/dotnet/MQTTnet/issues/1290  und https://github.com/eclipse/mosquitto/issues/2383 )
 
 ```
 apt-get install mosquitto=2.0.11-0mosquitto1~buster1 -V
