@@ -33,3 +33,16 @@ Reset branch '85cd805'
 1.9.254
 ```
 Die Zahl 85cd805 muss man sich bei Github raussuchen
+
+
+## Mosquitto ##
+
+Bei Problemen mit clienten -> "ungültige Client-Id"
+ist ein backport von 2.0.12->2.0.11 nötig
+
+```
+apt-get install mosquitto=2.0.11-0mosquitto1~buster1 -V
+```
+
+
+
