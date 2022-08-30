@@ -164,7 +164,7 @@ $themeold = preg_replace('~[\r\n]+~', '', $themeold);
 
 // load some ramdisk files
 $lastregelungaktiv = file_get_contents('/var/www/html/openWB/ramdisk/lastregelungaktiv');
-$lademodusold = file_get_contents('/var/www/html/openWB/ramdisk/lademodus');
+// $lademodusold = file_get_contents('/var/www/html/openWB/ramdisk/lademodus');
 $lp1nameold = str_replace( "'", "", $lp1nameold);
 $lp2nameold = str_replace( "'", "", $lp2nameold);
 $lp3nameold = str_replace( "'", "", $lp3nameold);

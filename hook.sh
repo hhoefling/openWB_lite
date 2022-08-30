@@ -140,7 +140,7 @@ hook(){
 # V verbraucher1_watt -> fuer graphing.sh  
 # T verbraucher1_out verbraucher1_wh verbraucher1_totalwh
 	if (( verbraucher1_aktiv == "1")); then
-		// echo 1 > ramdisk/verbraucher1vorhanden  NC
+		# echo 1 > ramdisk/verbraucher1vorhanden  NC
 		if [[ $verbraucher1_typ == "http" ]]; then
 			verbraucher1_watt=$(curl --connect-timeout 3 -s $verbraucher1_urlw )
 			if ! [[ "$verbraucher1_watt" =~ '^[+-]?[0-9]+([.][0-9]+)?$' ]]; then
@@ -201,7 +201,7 @@ hook(){
 	fi
 
 	if (( verbraucher2_aktiv == "1")); then
-		// NC echo "1" > ramdisk/verbraucher2vorhanden
+		# NC echo "1" > ramdisk/verbraucher2vorhanden
 		if [[ $verbraucher2_typ == "http" ]]; then
 			verbraucher2_watt=$(curl --connect-timeout 3 -s $verbraucher2_urlw )
 			if ! [[ "$verbraucher2_watt" =~ "^[+-]?[0-9]+([.][0-9]+)?$" ]]; then

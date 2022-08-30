@@ -315,6 +315,7 @@ if (( cpunterbrechunglp1 == 1 )); then
 							mosquitto_pub -r -t openWB/set/isss/Cpulp1 -h $chargep1ip -m "1"
 						else
 							openwbDebugLog "MAIN" 0 "Dauer der Unterbrechung: ${cpunterbrechungdauerlp1}s"
+							# Alle Raspberry basierten OpenWB Variannten haben evt. diese Hardware, also versuche es
 							sudo python runs/cpulp1.py -d "$cpunterbrechungdauerlp1"
 						fi
 						echo 1 > ramdisk/cpulp1waraktiv

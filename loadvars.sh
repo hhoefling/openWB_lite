@@ -1494,7 +1494,7 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 	fi
 	onurpv70dynact=$(<ramdisk/mqttnurpv70dynact)
 	if [[ "$onurpv70dynact" != "$nurpv70dynact" ]]; then
-		tempPubList="${tempPubList}\nopenWB/pv/bool70PVDynActive=${nurpv70dynact}"
+#NC		tempPubList="${tempPubList}\nopenWB/pv/bool70PVDynActive=${nurpv70dynact}"
 		tempPubList="${tempPubList}\nopenWB/config/get/pv/nurpv70dynact=${nurpv70dynact}"
 		echo $nurpv70dynact > ramdisk/mqttnurpv70dynact
 	fi

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Alle Werte aus ENV ?bergeben
+# Alle Werte aus ENV uebergeben
 # Asyncron gestartet am Ende von loadvars.sh und slavemode.sh(yourcharge) 
 
 declare -A mqttvar
