@@ -72,6 +72,7 @@ function processGlobalMsg (mqttmsg, mqttpayload) {
 			fractionDigitsShow(mqttpayload, '#kWhCounterAll');
 			break;
 		default:
+			console.log("Unknown topic: "+mqttmsg+": "+mqttpayload);
 			break;
 	}
 }
@@ -135,6 +136,9 @@ function processEvuMsg (mqttmsg, mqttpayload) {
 		case "openWB/evu/faultStr":
 			textShow(formatJsonString(mqttpayload), '#faultStrEvu');
 			break;
+		default:
+			console.log("Unknown topic: "+mqttmsg+": "+mqttpayload);
+			break;
 	}
 }
 
@@ -196,6 +200,9 @@ function processPvMsg (mqttmsg, mqttpayload) {
 			case "openWB/pv/YearlyYieldKwh":
 				fractionDigitsShow(mqttpayload, '#yearly_pvkwhdiv');
 				break;
+			default:
+				console.log("Unknown topic: "+mqttmsg+": "+mqttpayload);
+				break;
 		}
 	}
 }
@@ -226,6 +233,9 @@ function processBatMsg (mqttmsg, mqttpayload) {
 		case "openWB/housebattery/faultStr":
 			textShow(formatJsonString(mqttpayload), '#faultStrBat');
 			break;
+		default:
+			console.log("Unknown topic: "+mqttmsg+": "+mqttpayload);
+			break;
 	}
 }
 
@@ -245,6 +255,9 @@ function processSmartHomeMsg (mqttmsg, mqttpayload) {
 			break;
 		case "openWB/SmartHome/Status/uberschussoffset":
 			directShow(mqttpayload, '#wuberschussoffset');
+			break;
+		default:
+			console.log("Unknown topic: "+mqttmsg+": "+mqttpayload);
 			break;
 	}
 }
@@ -268,6 +281,9 @@ function processVerbraucherMsg (mqttmsg, mqttpayload) {
 function processLpMsg (mqttmsg, mqttpayload) {
 	var index = getIndex(mqttmsg);  // extract number between two / /
 	if( index > 3 ){ return; }
+	
+	//console.log('msg:'  , mqttmsg, mqttpayload );
+	
 	if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/boolChargePointConfigured$/i ) ) {
 		visibilityCard('#lp' + index, mqttpayload);
 	}
@@ -305,6 +321,13 @@ function processLpMsg (mqttmsg, mqttpayload) {
 			hideSection('#lp' + index + ' .socRow');
 		}
 	}
+	//*******************************
+	else if ( mqttmsg.match( /^openWB\/lp\/[1-9][0-9]*\/boolPlugStat$/i )) {
+		if( mqttpayload == "1" )
+           textShow('(Pluged)', '#lp' + index + ' .boolPlugStat');
+		else   	
+           textShow('', '#lp' + index + ' .boolPlugStat');
+	}
 	else if ( mqttmsg.match( /^openwb\/lp\/[1-9][0-9]*\/%Soc$/i ) ) {
 		directShow(mqttpayload, '#lp' + index + ' .soc');
 	}
@@ -338,6 +361,7 @@ function processLpMsg (mqttmsg, mqttpayload) {
 				directShow(mqttpayload, '#lp1 .powerFaktorP3');
 				break;
 			default:
+				console.log("Unknown topic: "+mqttmsg+": "+mqttpayload);
 				break;
 		}
 	}

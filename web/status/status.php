@@ -198,7 +198,7 @@
 											<td class="faultStrLp"></td>
 										</tr>
 										<tr class="stromvorgabeRow">
-											<th scope="row">Ladestromvorgabe [A]</th>
+											<th scope="row">Ladestromvorgabe [A]&nbsp;<span class="boolPlugStat"></span></th>
 											<td class="stromvorgabe">--</td>
 										</tr>
 										<tr class="ladeleistungRow">
