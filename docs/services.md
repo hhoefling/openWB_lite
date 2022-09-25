@@ -12,8 +12,8 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | legacy_run_server | Ja | NEIN | restart | Start-If | nicht bei openWB_Lite |
 | isss| JA | NEIN| restart | Start-If | bei "nur Ladepunkt" (1) |
 | buchse| JA | NEIN | restart | Start-If | bei "nur Ladepunkt" (1)  |
-| smarthomehandler<br>alt | NEIN | JA | restart | Start-If | nur einer der beiden ist aktiv |
-| smarthomemq<br>neu | NEIN | JA | restart | Start-If | nur einer der beiden ist aktiv |
+| smarthomehandler<br><sub>alt</sub> | NEIN | JA | restart | Start-If | nur einer der beiden ist aktiv |
+| smarthomemq<br><sub>neu</sub> | NEIN | JA | restart | Start-If | nur einer der beiden ist aktiv |
 | pushbutton| NEIN| JA | restart | Start-If| Nur wenn Ladetaster vorhanden |
 | rfid| NEIN| JA| restart | Start-If | je nach RFID Mode|
 | readrfid| NEIN| JA| restart | restart | je nach RFID Mode |
@@ -21,7 +21,7 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | TWCManager| NEIN| JA| Start | restart | 
 | Chrome | NEIN| JA| restart | restart | nur wenn Display vorhanden |
 | X11 | NEIN| NEIN | -- | -- | nur wenn Display vorhanden |
-|lightdm | NEIN | NEIN | Stop | | Stop wenn kein Display |
+| lightdm | NEIN | NEIN | Stop | | Stop wenn kein Display |
 
 
 (1) Je nach Hardware gesteuert über Personalisierung der SD Karte.
