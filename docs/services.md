@@ -7,7 +7,7 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | Service | Nötig | vom Benutzer<br>abschaltbar  | atreboot | cron5min | Bemerkung |
 |:------------------ |:---------------:|:----------------:|-------------------:|-------------------:|-------------------:|
 | mqttsub | JA | NEIN| restart | restart | Empfängt MQTT Nachrichten |
-| legacy_run_server | Ja | NEIN | restart | restart | nicht bei openWB_Lite |
+| legacy_run_server | Ja | NEIN | Start | restart | nicht bei openWB_Lite |
 | modbusserver(2)| NEIN | JA| restart | restart | bei openwb_lite abschaltbar |
 | isss| JA | NEIN| restart | restart | bei "nur Ladepunkt" (1) |
 | buchse| JA | NEIN | restart | restart | bei "nur Ladepunkt" (1)  |
@@ -21,11 +21,11 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | TWCManager| NEIN| JA| Start | restart | 
 | Chrome | NEIN| JA| restart | restart | nur wenn Display vorhanden |
 | X11 | NEIN| NEIN | -- | -- | nur wenn Display vorhanden |
+|lightdm | NEIN | NEIN | Stop | | Stop wenn kein Display |
 
 
 (1) Je nach Hardware gesteuert über Personalisierung der SD Karte.
 
 (2) Nur bei der orginal openWB ab ca. 1.9.265.
-
 
 (3) nur bei openWB_Lite
