@@ -9,7 +9,7 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | mqttsub | JA | NEIN | restart | restart | Empfängt MQTT Nachrichten |
 | rse | JA | JA | restart | restart |  via openWB.conf<br>evtl. vom Netzbetreiber bnötigt|
 | modbusserver| JA | NEIN | restart | Start-If | wg. KfW? |
-| legacy_run_server | Ja | NEIN | Start | restart | nicht bei openWB_Lite |
+| legacy_run_server | Ja | NEIN | restart | restart | nicht bei openWB_Lite |
 | isss| JA | NEIN| restart | restart | bei "nur Ladepunkt" (1) |
 | buchse| JA | NEIN | restart | restart | bei "nur Ladepunkt" (1)  |
 | smarthomehandler<br>alt | NEIN | JA | restart | restart | nur einer der beiden ist aktiv |
