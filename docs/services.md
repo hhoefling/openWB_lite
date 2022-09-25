@@ -17,7 +17,7 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | pushbutton| NEIN| JA | restart | Start-If| Nur wenn Ladetaster vorhanden |
 | rfid| NEIN| JA| restart | Start-If | je nach RFID Mode|
 | readrfid| NEIN| JA| restart | Start-If | je nach RFID Mode |
-| tsp| NEIN |JA | restart | restart | Versendet Events  (3)|
+| tsp| NEIN |JA | restart | Start-If | Versendet Events  (3)|
 | TWCManager| NEIN| JA| Start | restart | 
 | Chrome | NEIN| JA| restart | restart | nur wenn Display vorhanden |
 | X11 | NEIN| NEIN | -- | -- | nur wenn Display vorhanden |
