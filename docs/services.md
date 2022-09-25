@@ -6,7 +6,7 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 
 | Service | Nötig | vom Benutzer<br>abschaltbar  | atreboot | cron5min | Bemerkung |
 |:------------------ |:---------------:|:----------------:|-------------------:|-------------------:|-------------------:|
-| mqttsub | JA | NEIN restart | restart | Empfängt MQTT Nachrichten |
+| mqttsub | JA | NEIN | restart | restart | Empfängt MQTT Nachrichten |
 | rse | JA | NEIN| restart | restart | wg. u.a KfW|
 | modbusserver| JA | NEIN | restart | restart | wg. u.a KfW |
 | legacy_run_server | Ja | NEIN | Start | restart | nicht bei openWB_Lite |
