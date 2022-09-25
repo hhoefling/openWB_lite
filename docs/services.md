@@ -18,7 +18,7 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | rfid| NEIN| JA| restart | Start-If | je nach RFID Mode|
 | readrfid| NEIN| JA| restart | Start-If | je nach RFID Mode |
 | tsp| NEIN |JA | restart | Start-If | Versendet Events  (3)|
-| TWCManager| NEIN| JA| Start | restart | 
+| TWCManager| NEIN| JA| Start | --- | 
 | Chrome | NEIN| JA| restart | restart | nur wenn Display vorhanden |
 | X11 | NEIN| NEIN | -- | -- | nur wenn Display vorhanden |
 | lightdm | NEIN | NEIN | Stop | | Stop wenn kein Display |
