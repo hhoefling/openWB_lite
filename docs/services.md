@@ -14,7 +14,7 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | smarthomehandler<br>alt | NEIN | JA | restart | restart | nur einer der beiden ist aktiv |
 | smarthomemq<br>neu | NEIN | JA | restart | restart | nur einer der beiden ist aktiv |
 | rse | NEIN| NEIN | restart | restart | Nur wenn RSE Kontakt genutzt wird |
-| pushbutton| NEIN| NEIN | restart | restart | Nur wenn Ladetaster vorhanden |
+| pushbutton| NEIN| JA | restart | restart | Nur wenn Ladetaster vorhanden |
 | rfid| NEIN| JA| restart | restart | je nach RFID Mode|
 | readrfid| NEIN| JA| restart | restart | je nach RFID Mode |
 | tsp| NEIN |JA | restart | restart | Versendet Events  (3)|
