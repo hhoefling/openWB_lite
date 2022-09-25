@@ -8,12 +8,12 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 |:------------------ |:---------------:|:----------------:|-------------------:|-------------------:|-------------------:|
 | mqttsub | JA | NEIN| restart | restart | Empfängt MQTT Nachrichten |
 | legacy_run_server | Ja | NEIN | Start | restart | nicht bei openWB_Lite |
-| modbusserver(2)| NEIN | JA| restart | restart | bei openwb_lite abschaltbar |
+| modbusserver| JA | JA| restart | restart | wg. u.a KfW |
 | isss| JA | NEIN| restart | restart | bei "nur Ladepunkt" (1) |
 | buchse| JA | NEIN | restart | restart | bei "nur Ladepunkt" (1)  |
 | smarthomehandler<br>alt | NEIN | JA | restart | restart | nur einer der beiden ist aktiv |
 | smarthomemq<br>neu | NEIN | JA | restart | restart | nur einer der beiden ist aktiv |
-| rse | NEIN| NEIN | restart | restart | Nur wenn RSE Kontakt genutzt wird |
+| rse | JA | JA | restart | restart | wg. u.a KfW|
 | pushbutton| NEIN| JA | restart | restart | Nur wenn Ladetaster vorhanden |
 | rfid| NEIN| JA| restart | restart | je nach RFID Mode|
 | led | NEIN | JA | restart | restart | |
