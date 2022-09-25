@@ -1,7 +1,7 @@
 **Die Hintergrundprocesse der openWB**
 
 Es gibt zwei arten von Dienste/Serivces die bei der 1.9'er openWB im Hintergrund laufen.
-erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach Hardware verwemdet werdem.
+erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach Hardware verwendet werden.
 
 
 | Service | Nötig | vom Benutzer<br>abschaltbar  | atreboot | cron5min | Bemerkung |
