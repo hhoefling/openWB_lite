@@ -16,7 +16,7 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | smarthomemq<br>neu | NEIN | JA | restart | Start-If | nur einer der beiden ist aktiv |
 | pushbutton| NEIN| JA | restart | Start-If| Nur wenn Ladetaster vorhanden |
 | rfid| NEIN| JA| restart | Start-If | je nach RFID Mode|
-| led | NEIN | JA | restart | restart | |
+| led | NEIN | JA | Start-If | -- | |
 | readrfid| NEIN| JA| restart | restart | je nach RFID Mode |
 | tsp| NEIN |JA | restart | restart | Versendet Events  (3)|
 | TWCManager| NEIN| JA| Start | restart | 
