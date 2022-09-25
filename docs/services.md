@@ -6,8 +6,8 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 
 | Service | Nötig | vom Benutzer<br>abschaltbar  | atreboot | cron5min | Bemerkung |
 |:------------------ |:---------------:|:----------------:|-------------------:|-------------------:|-------------------:|
-| mqttsub | JA | NEIN | restart | STart-If | Empfängt MQTT Nachrichten |
-| rse | JA | JA | restart | restart |  via openWB.conf<br>evtl. vom Netzbetreiber bnötigt|
+| mqttsub | JA | NEIN | restart | Start-If | Empfängt MQTT Nachrichten |
+| rse | JA | JA | restart | restart |  via openWB.conf<br>evtl. vom Netzbetreiber benötigt|
 | modbusserver| JA | NEIN | restart | Start-If | wg. KfW? |
 | legacy_run_server | Ja | NEIN | restart | Start-If | nicht bei openWB_Lite |
 | isss| JA | NEIN| restart | Start-If | bei "nur Ladepunkt" (1) |
