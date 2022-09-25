@@ -6,15 +6,15 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 
 | Service | Nötig | vom Benutzer<br>abschaltbar  | atreboot | cron5min | Bemerkung |
 |:------------------ |:---------------:|:----------------:|-------------------:|-------------------:|-------------------:|
-| mqttsub | JA | NEIN | restart | restart | Empfängt MQTT Nachrichten |
+| mqttsub | JA | NEIN | restart | STart-If | Empfängt MQTT Nachrichten |
 | rse | JA | JA | restart | restart |  via openWB.conf<br>evtl. vom Netzbetreiber bnötigt|
 | modbusserver| JA | NEIN | restart | Start-If | wg. KfW? |
-| legacy_run_server | Ja | NEIN | restart | restart | nicht bei openWB_Lite |
-| isss| JA | NEIN| restart | restart | bei "nur Ladepunkt" (1) |
-| buchse| JA | NEIN | restart | restart | bei "nur Ladepunkt" (1)  |
-| smarthomehandler<br>alt | NEIN | JA | restart | restart | nur einer der beiden ist aktiv |
-| smarthomemq<br>neu | NEIN | JA | restart | restart | nur einer der beiden ist aktiv |
- pushbutton| NEIN| JA | restart | restart | Nur wenn Ladetaster vorhanden |
+| legacy_run_server | Ja | NEIN | restart | Start-If | nicht bei openWB_Lite |
+| isss| JA | NEIN| restart | Start-If | bei "nur Ladepunkt" (1) |
+| buchse| JA | NEIN | restart | Start-If | bei "nur Ladepunkt" (1)  |
+| smarthomehandler<br>alt | NEIN | JA | restart | Start-If | nur einer der beiden ist aktiv |
+| smarthomemq<br>neu | NEIN | JA | restart | Start-If | nur einer der beiden ist aktiv |
+| pushbutton| NEIN| JA | restart | restart | Nur wenn Ladetaster vorhanden |
 | rfid| NEIN| JA| restart | restart | je nach RFID Mode|
 | led | NEIN | JA | restart | restart | |
 | readrfid| NEIN| JA| restart | restart | je nach RFID Mode |
