@@ -16,6 +16,7 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | rse | NEIN| NEIN | restart | restart | Nur wenn RSE Kontakt genutzt wird |
 | pushbutton| NEIN| JA | restart | restart | Nur wenn Ladetaster vorhanden |
 | rfid| NEIN| JA| restart | restart | je nach RFID Mode|
+| led | NEIN | JA | restart | restart | |
 | readrfid| NEIN| JA| restart | restart | je nach RFID Mode |
 | tsp| NEIN |JA | restart | restart | Versendet Events  (3)|
 | TWCManager| NEIN| JA| Start | restart | 
