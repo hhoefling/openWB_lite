@@ -195,9 +195,18 @@ hparm -tT /dev/mmcblk0
  
  auf Raspi4B+ mit 32GB SanDisk Ultra U3-USBStick an USB3 Port 
 hdparm -tT /dev/sda
- /dev/sda:
+/dev/sda:
  Timing cached reads:   1226 MB in  2.00 seconds = 613.43 MB/sec
-Timing buffered disk reads: 388 MB in  3.01 seconds = 128.80 MB/sec
+ Timing buffered disk reads: 388 MB in  3.01 seconds = 128.80 MB/sec
+
+
+ auf Raspi4B+ mit 64GB SanDisk SSD an USB3 Port
+ hdparm -tT /dev/sda
+/dev/sda:
+ Timing cached reads:   1140 MB in  2.00 seconds = 570.11 MB/sec
+ Timing buffered disk reads: 554 MB in  3.02 seconds = 183.26 MB/sec
+
+
 
 ```
 
