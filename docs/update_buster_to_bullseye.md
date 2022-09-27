@@ -32,4 +32,14 @@ apt autoremove
 ```
 weitergemacht.
 
+dann noch ein 
+```
+reboot
+```
+und .....
+- der pi booted...
+- openWB Startbildschirm erscheint auf dem Display
+- "Klicken zum Interface start" erscheint.
+- Läuft :-)
+- 
 
