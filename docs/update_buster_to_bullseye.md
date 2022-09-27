@@ -27,7 +27,7 @@ sudo apt-get install gcc-8-base libgcc-8-dev
 Da habe alles abgenickt und danach mit 
 
 ```
-apt dist-upgrade
+apt full-upgrade
 ```
 weitergemacht.
 
