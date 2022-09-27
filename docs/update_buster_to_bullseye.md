@@ -41,5 +41,6 @@ und .....
 - openWB Startbildschirm erscheint auf dem Display
 - "Klicken zum Interface start" erscheint.
 - Läuft :-)
-- 
+- http aus dem Browser geht auch.
+- https leider erst mal nicht :-(
 
