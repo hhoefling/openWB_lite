@@ -28,6 +28,7 @@ Da habe alles abgenickt und danach mit
 
 ```
 apt full-upgrade
+apt autoremove
 ```
 weitergemacht.
 
