@@ -24,6 +24,11 @@ daher erst mal
 ```
 sudo apt-get install gcc-8-base libgcc-8-dev
 ```
-Da habe alles abgenickt.
+Da habe alles abgenickt und danach mit 
+
+```
+apt dist-upgrade
+```
+weitergemacht.
 
 
