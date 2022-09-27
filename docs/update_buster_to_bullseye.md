@@ -44,3 +44,32 @@ und .....
 - http aus dem Browser geht auch.
 - https leider erst mal nicht :-(
 
+Nach langem warten kommt auch die https Seite.
+Also weiter...
+
+python2 fehlt nun.
+also sicherheisthalber noch 
+```
+apt install python2
+root@pi61:~# python2 -V 
+Python 2.7.18
+
+root@pi61:~# python3 -V
+Python 3.9.2
+root@pi61:~# pip3 -V
+pip 20.3.4 from /usr/lib/python3/dist-packages/pip (python 3.9)
+```
+pip2 fehlt, ich weiss nocht nicht  ob es gebraucht wird.
+bei Buster waren es noch
+```
+root@pi67:~# pip -V
+pip 9.0.1 from /usr/lib/python2.7/dist-packages (python 2.7)
+root@pi67:~# pip3 -V
+pip 9.0.1 from /usr/lib/python3/dist-packages (python 3.5)
+```
+
+
+
+
+
+`´´
