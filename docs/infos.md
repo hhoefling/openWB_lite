@@ -43,7 +43,7 @@
 19916 llsolllp8  
 ```  
 
-***Die unterschiedlichen Zählertypen und ihre Internen Adressen***
+**Die unterschiedlichen Zählertypen und ihre Internen Adressen**
 ```
 Typ	IP     Port Unit_id
 EVU Kit
@@ -76,7 +76,7 @@ b23	201
 
 ******************************************
 
-EVSE Registers (modbis id =1)
+EVSE Registers (modbus id =1)
 
 Die neue OLC-Auflösung mit 0,01A (ab FW18 mgl.)
 ```
