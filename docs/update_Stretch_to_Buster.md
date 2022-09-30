@@ -35,5 +35,27 @@ Verbose mode           : yes.
 
 Initialize and clone to the destination disk sdb?  (yes/no): yes
 ```
+Weiter gehts nach dem booten mit der nun kleineren 16GB Karte.
+Ich habe mich orientiert an der Anleitung:
+https://pimylifeup.com/upgrade-raspbian-stretch-to-raspbian-buster/
+
+
+
+```
+sudo apt update
+sudo apt dist-upgrade -y
+```
+Bei mir wurden nun 32 Packete aktualisiert.
+ALs nächstes nur in /etc/apt/source.list und /etc/apt/source.list.d/*
+jeweils "stretch" gegen "buster" austauschen.
+
+```
+sudo apt-get remove apt-listchanges
+sudo apt update
+sudo apt dist-upgrade
+```
+
+Das sind nun 1072 Packtet. Das dauert etwas ......
+
 
  
