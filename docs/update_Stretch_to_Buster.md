@@ -3,16 +3,17 @@ Ich verwende pri-clone um eine Kopie der laufenden Stretch Version zu erzeugen
 
  *rpi-clone -v -p 256M sdb*
  
- Hierbei ist /dev/sda die im Kartenleser liegende Quell-SD Karte (32GB)
- und /dev/sdb eine leere 16GB Karte. Diese wird dann auf Buster "upgedated"
-	Der Pi3B+ bootet nur dann von externen USB Ports wenn der intern KEINE oder eine leere SD Karte enthält.
-	Um also meine neue Karte alternativ booten zu können ohne immer mühselig die SD Karte aus dem internen Leser zu fummeln
-	hab ich die Quelle ebenfalls in einem Kartenleser extern via USB angeschlossen.
-	Daher ist die Quelle /dev/sda. 	Der PI3B+ bootet davon ohne Probleme. Lediglich die Bootzeit verlängert sich.
+Hierbei ist /dev/sda die im Kartenleser liegende Quell-SD Karte (32GB)
+und /dev/sdb eine leere 16GB Karte. Diese wird dann auf Buster "upgedated"
+Der Pi3B+ bootet nur dann von externen USB Ports wenn der intern KEINE oder eine leere SD Karte enthält.
+Um also meine neue Karte alternativ booten zu können ohne immer mühselig die SD Karte aus dem internen Leser zu fummeln
+habe ich die Quelle ebenfalls in einem Kartenleser extern via USB angeschlossen.
+Daher ist die Quelle /dev/sda. 	Der PI3B+ bootet davon ohne Probleme. Lediglich die Bootzeit verlängert sich.
 		
-	Hier nun die Mitschrift von rpi-clone
-	
-	```
+
+Hier nun die Mitschrift von rpi-clone
+
+```
 Booted disk: sda 31.9GB                    Destination disk: sdb 16.0GB
 ---------------------------------------------------------------------------
 Part      Size    FS     Label           Part   Size  FS  Label
@@ -27,7 +28,7 @@ Part      Size    FS     Label           Part   Size  FS  Label
 Run setup script       : no.
 Verbose mode           : yes.
 -----------------------:
-** WARNING **          : All destination disk sdb data will be overwritten!
+## WARNING ##          : All destination disk sdb data will be overwritten!
 -----------------------:
 
 Initialize and clone to the destination disk sdb?  (yes/no): yes
