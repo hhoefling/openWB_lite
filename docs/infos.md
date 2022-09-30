@@ -1,6 +1,6 @@
 **Hilfreiche Infos, gesamelt im Forum**
 
-**Modbus Adressen des OpenWB internen modbus Server (tcp) (für Netzbetreiber & KFW) **
+**Modbus Adressen des OpenWB internen modbus Server (tcp) (für Netzbetreiber & KFW)**
 
 ```
 110  rse
