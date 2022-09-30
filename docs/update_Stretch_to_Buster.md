@@ -1,0 +1,31 @@
+
+Ich verwende pri-clone um eine Kopie der laufenden Stretch Version zu erzeugen
+
+ *rpi-clone -v -p 256M sdb*
+ 
+ Hierbei ist /dev/sda die im Kartenleser liegene Quell SD Karte (32GB)
+ und /dev/sdb eine leere 16GB Karte die dann auf Buster aktueliesiert werden soll.
+ 
+ 
+``` 
+Booted disk: sda 31.9GB                    Destination disk: sdb 16.0GB
+---------------------------------------------------------------------------
+Part      Size    FS     Label           Part   Size  FS  Label
+1 /boot    43.5M  fat32  --
+2 root     29.7G  ext4   --
+---------------------------------------------------------------------------
+== Initialize: IMAGE partition table - partition number mismatch: 2 -> 0 ==
+1 /boot               (29.0M used)   : RESIZE  MKFS  SYNC to sdb1
+2 root                (4.1G used)    : RESIZE  MKFS  SYNC to sdb2
+---------------------------------------------------------------------------
+-p 256M                : resize /boot to 524288 blocks of 512 Bytes.
+Run setup script       : no.
+Verbose mode           : yes.
+-----------------------:
+** WARNING **          : All destination disk sdb data will be overwritten!
+-----------------------:
+
+Initialize and clone to the destination disk sdb?  (yes/no): yes
+```
+
+ 
