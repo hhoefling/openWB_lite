@@ -63,5 +63,8 @@ Das sind nun:
 
 Das dauert etwas ......
 
+```
+sudo apt purge timidity lxmusic gnome-disk-utility deluge-gtk evince wicd wicd-gtk clipit usermode gucharmap gnome-system-tools pavucontrol
+```
 
  
