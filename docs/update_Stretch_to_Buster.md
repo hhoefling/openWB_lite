@@ -57,7 +57,11 @@ sudo apt update
 sudo apt dist-upgrade
 ```
 
-Das sind nun 1072 Packtet. Das dauert etwas ......
+Das sind nun:
+
+1070 aktualisiert, 495 neu installiert, 9 zu entfernen und 0 nicht aktualisiert.
+
+Das dauert etwas ......
 
 
  
