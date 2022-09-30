@@ -184,7 +184,7 @@ hdparm -tT /dev/mmcblk0
 hdparm -tT /dev/sda
 ```
 
-!---Karte ---- | Port  | Leserate<br>MB/sec | Schreibrate<br>MB/sec |
+| Pi/Karte | Port  | Leserate<br>MB/sec | Schreibrate<br>MB/sec |
 |--------------|-------|--------------------|-----------------------|
 | R3B+/32GB SDHC | Intern |584.59 |22.38 |
 | R4B+/32GB SDHC | Intern | 519.06 |44.40 |
