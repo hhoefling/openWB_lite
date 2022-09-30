@@ -71,8 +71,9 @@ sudo apt purge timidity lxmusic gnome-disk-utility deluge-gtk evince wicd wicd-g
 ```
 
 Nach einem Reboot scheint alles zu laufen.
-
-
-
+Noch kurz etwas aufraumen...
+```
+sudo apt autoremove -y
+```
 
  
