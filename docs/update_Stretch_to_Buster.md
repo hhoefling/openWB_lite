@@ -40,15 +40,17 @@ Ich habe mich orientiert an der Anleitung:
 https://pimylifeup.com/upgrade-raspbian-stretch-to-raspbian-buster/
 
 
-
 ```
 sudo apt update
 sudo apt dist-upgrade -y
 ```
 Bei mir wurden nun 32 Packete aktualisiert.
-ALs nächstes nur in /etc/apt/source.list und /etc/apt/source.list.d/*
-jeweils "stretch" gegen "buster" austauschen.
 
+Als nächstes nur in /etc/apt/source.list und /etc/apt/source.list.d/*
+jeweils "stretch" gegen "buster" austauschen. 
+
+
+Weiter mit
 ```
 sudo apt-get remove apt-listchanges
 sudo apt update
