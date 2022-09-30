@@ -68,8 +68,6 @@ root@pi67:~# pip3 -V
 pip 9.0.1 from /usr/lib/python3/dist-packages (python 3.5)
 ```
 
+Ich habe nach Timingproblemen beim Aufruf der Webseiten und unstimmigkeiten mit dem Mosquitto
+nun erst einmal die Versuche mit Bullseye eingestellt.
 
-
-
-
-`´´
