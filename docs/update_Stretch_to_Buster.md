@@ -63,6 +63,9 @@ Das sind nun:
 
 Das dauert etwas ......
 
+...rund 4 1/2 Stunden später können dann überflüssig installierte Packete wieder 
+entfernt werden.
+
 ```
 sudo apt purge timidity lxmusic gnome-disk-utility deluge-gtk evince wicd wicd-gtk clipit usermode gucharmap gnome-system-tools pavucontrol
 ```
