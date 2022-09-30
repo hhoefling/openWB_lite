@@ -70,4 +70,9 @@ entfernt werden.
 sudo apt purge timidity lxmusic gnome-disk-utility deluge-gtk evince wicd wicd-gtk clipit usermode gucharmap gnome-system-tools pavucontrol
 ```
 
+Nach einem Reboot scheint alles zu laufen.
+
+
+
+
  
