@@ -1,9 +1,8 @@
 
-Ich verwende pri-clone um eine Kopie der laufenden Stretch Version zu erzeugen
+Ich verwende pri-clone um eine Kopie der laufenden Stretch Version zu erzeugen. ( https://github.com/billw2/rpi-clone )
 
  *rpi-clone -v -p 256M sdb*
- ( https://github.com/billw2/rpi-clone )
- 
+  
 Hierbei ist /dev/sda die im Kartenleser liegende Quell-SD Karte (32GB)
 und /dev/sdb eine leere 16GB Karte. Diese wird dann auf Buster "upgedated"
 Der Pi3B+ bootet nur dann von externen USB Ports wenn der intern KEINE oder eine leere SD Karte enthält.
