@@ -356,7 +356,7 @@ at_reboot() {
         if [ ! -f $fn ] ; then
 		  log "fix OS Stretch"
 		  sudo /bin/su -c "echo 'upload_max_filesize = 300M' > $fn"
-		  sudo /bin/su -c "echo 'post_max_size = 300M' >> $fn
+		  sudo /bin/su -c "echo 'post_max_size = 300M' >> $fn"
 		  restartService=1
         fi
 	elif [ -d "/etc/php/7.3/" ]; then
