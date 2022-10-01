@@ -25,7 +25,7 @@ class WbData {
 		this.batteryEnergyImport = 0;
 		this.batteryPowerExport = 0;
 		this.batteryPowerImport = 0;
-		this.chargeMode="0"
+		this.chargeMode = "0"
 		this.graphDate = new Date();
 		this.graphMonth = {
 			"month": this.graphDate.getMonth(),
@@ -61,7 +61,7 @@ class WbData {
 			"batIn": { name: "Bat++", power: 0, energy: 0, color: "white" },
 			"house": { name: "Haus", power: 0, energy: 0, color: "white" }
 		};
-		
+
 		this.usageDetails = [this.usageSummary.evuOut];
 		this.graphPreference = "live";
 		this.graphMode = "live";
@@ -94,7 +94,9 @@ class WbData {
 		}
 		this.consumer[0].color = 'var(--color-co1)';
 		this.consumer[1].color = 'var(--color-co2)';
-
+		for (i = 0; i < 9; i++) {
+			this.historicSummary['sh' + i] = Object.assign(this.shDevice[i])
+		}
 		this.historicSummary.pv.color = 'var(--color-pv)';
 		this.historicSummary.evuIn.color = 'var(--color-evu)';
 		this.historicSummary.batOut.color = 'var(--color-battery)';
@@ -189,12 +191,15 @@ class WbData {
 				powerMeter.update();
 				break;
 //			case 'currentPowerPrice':
-//				case 'chargeMode':
+//			case 'chargeMode':
 //				priceChart.update();
 //				chargePointList.update();
 //				break
+			case 'chargeMode':
+				chargePointList.update();
+				break
 			case 'rfidConfigured':
-				d3.select('#codeEntry').classed ("hide", (!value))
+				d3.select('#codeEntry').classed("hide", (!value))
 				break
 			default:
 				break;
@@ -275,7 +280,7 @@ class WbData {
 		this[field] = value;
 		switch (field) {
 			case 'batteryPowerImport':
-				this.updateUsageSummary ("batIn", "power", value);
+				this.updateUsageSummary("batIn", "power", value);
 				powerMeter.update();
 				break;
 			case 'batteryPowerExport':
@@ -283,7 +288,7 @@ class WbData {
 				powerMeter.update();
 				break;
 			case 'batteryEnergyImport':
-				this.updateUsageSummary ("batIn", "energy", value);
+				this.updateUsageSummary("batIn", "energy", value);
 				yieldMeter.update();
 				break;
 			case 'batteryEnergyExport':
@@ -346,11 +351,11 @@ class WbData {
 
 	updateConsumerSummary(cat) {
 		if (cat == 'energy') {
-		this.updateUsageSummary("devices", 'energy', this.shDevice.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer.energy, 0)
-			+ this.consumer.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer.energy, 0));
+			this.updateUsageSummary("devices", 'energy', this.shDevice.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer.energy, 0)
+				+ this.consumer.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer.energy, 0));
 		} else {
 			this.updateUsageSummary("devices", 'power', this.smarthomePower
-			+ this.consumer.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer.power, 0));
+				+ this.consumer.filter(dev => dev.configured).reduce((sum, consumer) => sum + consumer.power, 0));
 		}
 	}
 
@@ -363,14 +368,40 @@ class WbData {
 		this.prefs.showGr = this.showGrid;
 		this.prefs.decimalP = this.decimalPlaces;
 		this.prefs.smartHomeC = this.smartHomeColors;
-		document.cookie = "openWBColorTheme=" + JSON.stringify(this.prefs) +  "; path=/openWB/" + "; max-age=16000000" +"; SameSite=Lax";
+		document.cookie = "openWBColorTheme=" + JSON.stringify(this.prefs) + "; max-age=16000000"  +"; SameSite=Lax";
 	}
+	
+// 	xgetCookie(cname) {
+//		var name = cname + '=';
+//		var decodedCookie = decodeURIComponent(document.cookie);
+//		var ca = decodedCookie.split(';');
+//		for(var i = 0; i <ca.length; i++) {
+//			var c = ca[i];
+//			while (c.charAt(0) == ' ') {
+//				c = c.substring(1);
+//			}
+//			if (c.indexOf(name) == 0) {
+//				return c.substring(name.length, c.length);
+//			}
+//		}
+//		return '';
+//	}
+
+	
 	// read cookies and update settings
 	readGraphPreferences() {
 		const wbCookies = document.cookie.split(';');
-		const myCookie = wbCookies.filter(entry => entry.split('=')[0] === "openWBColorTheme");
+		//console.log('wbCookies' , wbCookies);
+		var myCookie = wbCookies.filter(entry => entry.split('=')[0] === "openWBColorTheme");
+		console.log('MyCookie1' , myCookie);
+//		var myCookie2 = this.xgetCookie("openWBColorTheme");
+//		console.log('MyCookie2' , myCookie2);
+		
+		
 		if (myCookie.length > 0) {
+		// if (myCookie2.length > 0) {
 			this.prefs = JSON.parse(myCookie[0].split('=')[1]);
+			// this.prefs = JSON.parse(myCookie2);
 			if ('hideSH' in this.prefs) {
 				this.prefs.hideSH.map(i => this.shDevice[i].showInGraph = false)
 			}
@@ -514,19 +545,19 @@ function formatTime(seconds) {
 	}
 }
 
-function formatMonth (month, year) {
+function formatMonth(month, year) {
 	months = ['Jan', 'Feb', 'März', 'April', 'Mai', 'Juni', 'Juli', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
-	return (months[month] + " "+ year);
+	return (months[month] + " " + year);
 }
 function shiftLeft() {
 	switch (wbdata.graphMode) {
 		case 'live':
 			if( wbdata.graphMinBlocks>0)
 			 {
-				  wbdata.graphMinBlocks=wbdata.graphMinBlocks-1;
-				  if( wbdata.graphMinBlocks<0)
-				      wbdata.graphMinBlocks=0;
-				 console.log('wbdata.graphMinBlocks:', wbdata.graphMinBlocks);
+				wbdata.graphMinBlocks=wbdata.graphMinBlocks-1;
+				if( wbdata.graphMinBlocks<0)
+				    wbdata.graphMinBlocks=0;
+				console.log('wbdata.graphMinBlocks:', wbdata.graphMinBlocks);
             	powerGraph.resetLiveGraph();
             	subscribeMqttGraphSegments();
 			 } else
@@ -544,7 +575,7 @@ function shiftLeft() {
 		case 'day':
 			wbdata.showTodayGraph = false;
 			wbdata.graphDate.setTime(wbdata.graphDate.getTime() - 86400000);
-    	powerGraph.activateDay();
+			powerGraph.activateDay();
 			break;
 		case 'month':
 			wbdata.graphMonth.month = wbdata.graphMonth.month - 1;
@@ -554,13 +585,13 @@ function shiftLeft() {
 			}
 			powerGraph.activateMonth();
 			break;
-		default: break;		
+		default: break;
 	}
 }
 
 function shiftRight() {
-  today = new Date();
-  const d = wbdata.graphDate;
+	today = new Date();
+	const d = wbdata.graphDate;
 	switch (wbdata.graphMode) {
 		case 'live':
 				if( wbdata.graphMinBlocks <12)
@@ -597,8 +628,8 @@ function shiftRight() {
 				}
 				powerGraph.activateMonth();
 			} 
-		}
-	
+	}
+
 }
 
 function toggleGrid() {
@@ -665,7 +696,7 @@ function toggleMonthView() {
 		wbdata.graphMode = 'month';
 		powerGraph.activateMonth();
 		powerGraph.deactivateDay();
-		powerGraph.deactivateLive();	
+		powerGraph.deactivateLive();
 	}
 	yieldMeter.update();
 }

@@ -169,9 +169,31 @@
 -->
 						<div id="pvrct" class="hide">
 							<div class="card-text alert alert-info">
-								Konfiguration im zugehörigen EVU Modul.
+								RCT Power AC/DC Wechselrichter<br>
+								IP-Konfiguration im zugehörigen EVU Modul.
 							</div>
-						</div>
+							<div class="card-header bg-secondary">
+								RCT PV Module
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col">
+										<pre><?php 
+										if( $wattbezugmodulold == "bezug_rct2"  && $pvwattmodulold == "wr_rct2" && isset($bezug1_ipold) ) {
+											$lines=[];
+											exec('/var/www/html/openWB/modules/wr_rct2/info.sh', $lines);
+											echo implode('<br>',$lines);
+										} 
+										else if( $wattbezugmodulold == "bezug_rct2h"  && $pvwattmodulold == "wr_rct2h" && isset($bezug1_ipold) ) {
+											$lines=[];
+											exec('/var/www/html/openWB/modules/wr_rct2h/info.sh', $lines);
+											echo implode('<br>',$lines);
+										} else echo "<span class=\"text-warning text-center\">Kein RCT V2 PV Module konfiguriert.</span>";
+										?></pre>
+									</div>
+								</div>
+							</div>
+			 			</div>
 <!--
 						<div id="pvfems" class="hide">
 							<div class="card-text alert alert-info">

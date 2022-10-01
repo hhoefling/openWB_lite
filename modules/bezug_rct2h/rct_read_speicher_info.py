@@ -26,6 +26,17 @@ def main():
             Soh       = rct_lib.add_by_name(MyTab, "battery.soh")
             SoC       = rct_lib.add_by_name(MyTab, "battery.soc") 
             temp      = rct_lib.add_by_name(MyTab, "battery.max_cell_temperature") 
+            Stat1     = rct_lib.add_by_name(MyTab, "battery.status")
+            Stat2     = rct_lib.add_by_name(MyTab, "battery.status2") 
+            Stor      = rct_lib.add_by_name(MyTab, "battery.stored_energy") 
+            Used      = rct_lib.add_by_name(MyTab, "battery.used_energy")
+            bxt		  = rct_lib.add_by_name(MyTab, "battery.temperature")
+#            bxv		  = rct_lib.add_by_name(MyTab, "battery.voltage")
+#            bxp		  = rct_lib.add_by_name(MyTab, "battery.prog_sn")
+            bxst	  = rct_lib.add_by_name(MyTab, "battery.soc_target")
+#            bxsth	  = rct_lib.add_by_name(MyTab, "battery.soc_target_high")
+#            bxstl	  = rct_lib.add_by_name(MyTab, "battery.soc_target_low")
+#            bxus	  = rct_lib.add_by_name(MyTab, "battery.soc_update_since")
             ms1       = rct_lib.add_by_name(MyTab, "battery.module_sn[0]")
             ms2       = rct_lib.add_by_name(MyTab, "battery.module_sn[1]") 
             ms3       = rct_lib.add_by_name(MyTab, "battery.module_sn[2]")
@@ -40,24 +51,13 @@ def main():
             sc5       = rct_lib.add_by_name(MyTab, "battery.stack_cycles[4]")
             sc6       = rct_lib.add_by_name(MyTab, "battery.stack_cycles[5]")
             sc7       = rct_lib.add_by_name(MyTab, "battery.stack_cycles[6]")
-            Stat1     = rct_lib.add_by_name(MyTab, "battery.status")
-            Stat2     = rct_lib.add_by_name(MyTab, "battery.status2") 
-            Stor      = rct_lib.add_by_name(MyTab, "battery.stored_energy") 
-            Used      = rct_lib.add_by_name(MyTab, "battery.used_energy")
-            rct_lib.add_by_name(MyTab, "battery.temperature")
-            rct_lib.add_by_name(MyTab, "battery.voltage")
-            rct_lib.add_by_name(MyTab, "battery.prog_sn")
-            rct_lib.add_by_name(MyTab, "battery.soc_target")
-            rct_lib.add_by_name(MyTab, "battery.soc_target_high")
-            rct_lib.add_by_name(MyTab, "battery.soc_target_low")
-            rct_lib.add_by_name(MyTab, "battery.soc_update_since")
-            rct_lib.add_by_name(MyTab, "battery.stack_software_version[0]")
-            rct_lib.add_by_name(MyTab, "battery.stack_software_version[1]")
-            rct_lib.add_by_name(MyTab, "battery.stack_software_version[2]")
-            rct_lib.add_by_name(MyTab, "battery.stack_software_version[3]")
-            rct_lib.add_by_name(MyTab, "battery.stack_software_version[4]")
-            rct_lib.add_by_name(MyTab, "battery.stack_software_version[5]")
-            rct_lib.add_by_name(MyTab, "battery.stack_software_version[6]")
+#            rct_lib.add_by_name(MyTab, "battery.stack_software_version[0]")
+#            rct_lib.add_by_name(MyTab, "battery.stack_software_version[1]")
+#            rct_lib.add_by_name(MyTab, "battery.stack_software_version[2]")
+#            rct_lib.add_by_name(MyTab, "battery.stack_software_version[3]")
+#            rct_lib.add_by_name(MyTab, "battery.stack_software_version[4]")
+#            rct_lib.add_by_name(MyTab, "battery.stack_software_version[5]")
+#            rct_lib.add_by_name(MyTab, "battery.stack_software_version[6]")
 
             # read parameters
             response = rct_lib.read(clientsocket, MyTab)
@@ -74,14 +74,22 @@ def main():
             print( "Status               : "  + str(Status.value) )
             print( "Max.Lade/Enladetrom A: "  + str(cap.value) + ' A' )
             print( "Durchlaufene Zyklen  : "  + str(cycl.value) )
-            Eff =  (Eff.value * 10000) / 100.0
-            print( "Efficency            : "  + str(Eff) + ' %' )
+            Eff =  int(Eff.value * 10000) / 100.0
+            print( "Efficency            : "  + str(Eff) + '%' )
             print( "SoH                  : "  + str(Soh.value) )
             SoC =  int(SoC.value *10000) / 100
-            print( "SoC                  : "  + str(SoC) + ' %' )
+            SoCT =  int(bxst.value *10000) / 100
+            print( "SoC                  : "  + str(SoC) + '% (Target '+ str(SoCT)+'%)' )
             temp =  int(temp.value * 100) / 100.0
-            print( "Max Cell Temp.       : "  + str(temp) + ' Grad' )
+            bt = int(bxt.value * 100) / 100.0 
+            print( "Cell Temp.           : "  + str(bt) + ' Grad (Max:' + str(temp) + ' Grad)' )
+            print( "Batt Status 1/2      : "  + str(Stat1.value) + ' ' + str(Stat2.value) )
+            Stor=  (int(Stor.value) / 1000.0)
+            print(  "Gespeicherte Energy  : "  + str(Stor) + ' kWh' )
+            Used=  (int(Used.value) / 1000.0)
+            print(  "Entnommene Energy    : "  + str(Used) + ' kWh' )
 
+            print(  '<hr>' )
             if  str(ms1.value)>"  ":
                 print( "Batt.Pack 1 SN       : "  + str(ms1.value) + " (" + str(sc1.value) + " Zyklen)")
             if  str(ms2.value)>"  ":
@@ -95,12 +103,6 @@ def main():
             if  str(ms6.value)>"  ":
                 print( "Batt.Pack 6 SN       : "  + str(ms6.value) + " (" + str(sc6.value) + " Zyklen)")
 
-            print( "Batt Status 1        : "  + str(Stat1.value) )
-            print( "Batt Status 2        : "  + str(Stat2.value) )
-            Stor=  (int(Stor.value) / 1000.0)
-            print(  "Gespeicherte Energy  : "  + str(Stor) + ' kWh' )
-            Used=  (int(Used.value) / 1000.0)
-            print(  "Entnommene Energy    : "  + str(Used) + ' kWh' )
 
         except Exception as e:
             rct_lib.close(clientsocket)

@@ -8,9 +8,9 @@ if [[ -z "$debug" ]]; then
 fi
 
 
-timeout -k 9 3 python3 $MODULEDIR/rct_read_speicher_info.py --ip=$bezug1_ip
+timeout -k 9 3 python3 $MODULEDIR/rct_read_evu_info.py --ip=$bezug1_ip
 rc=$?
 if  [[ ($rc == 143)  || ($rc == 124) ]] ; then
-  echo "Speicher-Info Script timed out"
+  echo "EVU-Info Script timed out"
 fi
 exit $rc

@@ -1,6 +1,6 @@
 **Hilfreiche Infos, gesamelt im Forum**
 
-**Modbus Adressen des OpenWB internen modbus Server (tcp) (veraltet, nicht mehr benutzt)**
+**Modbus Adressen des OpenWB internen modbus Server (tcp) (für Netzbetreiber & KFW)**
 
 ```
 110  rse
@@ -43,7 +43,7 @@
 19916 llsolllp8  
 ```  
 
-***Die unterschiedlichen Zählertypen und ihre Internen Adressen***
+**Die unterschiedlichen Zählertypen und ihre Internen Adressen**
 ```
 Typ	IP     Port Unit_id
 EVU Kit
@@ -76,7 +76,7 @@ b23	201
 
 ******************************************
 
-EVSE Registers (modbis id =1)
+EVSE Registers (modbus id =1)
 
 Die neue OLC-Auflösung mit 0,01A (ab FW18 mgl.)
 ```
@@ -180,27 +180,21 @@ Standby	4
 Die Verschieden Speichermedien und ihre Geschwindigkeit.
 ```
 apt install hdparm
-
-auf Raspi3B+ mit 32GB SDHC
 hdparm -tT /dev/mmcblk0  
-/dev/mmcblk0:
- Timing cached reads:   1170 MB in  2.00 seconds = 584.59 MB/sec
- Timing buffered disk reads:  68 MB in  3.04 seconds =  22.38 MB/sec
-
-auf Raspi4B+ mit 32GB SDHC
-hparm -tT /dev/mmcblk0  
-/dev/mmcblk0:
- Timing cached reads:   1038 MB in  2.00 seconds = 519.06 MB/sec
- Timing buffered disk reads: 134 MB in  3.02 seconds =  44.40 MB/sec
- 
- auf Raspi4B+ mit 32GB SanDisk Ultra U3-USBStick an USB3 Port 
 hdparm -tT /dev/sda
- /dev/sda:
- Timing cached reads:   1226 MB in  2.00 seconds = 613.43 MB/sec
-Timing buffered disk reads: 388 MB in  3.01 seconds = 128.80 MB/sec
-
 ```
 
+| Pi/Karte | Port  | Leserate<br>MB/sec | Schreibrate<br>MB/sec |
+|--------------|-------|--------------------|-----------------------|
+| R3B+/32GB SDHC | Intern |584.59 |22.38 |
+| R4B+/32GB SDHC | Intern | 519.06 |44.40 |
+| R4B+/16GB SDHC | USB Kartenleser|585.22 |33.09|
+| R4B+/16GB SDHC | USB3 Kartenleser| 586.95 | 82.60 |
+| R4B+/32GB Stick | USB3 | 613.43 | 128.80 |
+| R4B+/64GB SSD | USB3 | 570.11 | 183.26|
+
+
+******************************************
 
 **Display**
 

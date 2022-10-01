@@ -219,7 +219,33 @@
 -->						
 						<div id="wattbezugrct" class="hide">
 							<div class="card-text alert alert-info">
-								IP Adresse des RCT Speichers eingeben.
+								IP Adresse des RCT AC/DC Wechselrichter eingeben.
+							</div>
+							<div class="card-header bg-secondary">
+								RCT EVU Module
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col">
+										<pre><?php 
+										if( $wattbezugmodulold == "bezug_rct2"  && isset($bezug1_ipold) ) {
+											$lines=[];
+											exec('/var/www/html/openWB/modules/bezug_rct2/info.sh', $lines);
+											echo implode('<br>',$lines);
+										} 
+										else if( $wattbezugmodulold == "bezug_rct2h"  && isset($bezug1_ipold) ) {
+											$lines=[];
+											exec('/var/www/html/openWB/modules/bezug_rct2h/info.sh', $lines);
+											echo implode('<br>',$lines);
+										} else echo "<span class=\"text-warning text-center\">Kein RCT V2 PV Module konfiguriert.</span>";
+										?></pre>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="wattbezughuawei" class="hide">
+							<div class="card-text alert alert-info">
+								Konfiguration erfolgt im zugehörigen PV Modul.
 							</div>
 						</div>
 <!--						

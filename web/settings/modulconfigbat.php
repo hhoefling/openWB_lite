@@ -281,7 +281,8 @@
 -->
 						<div id="divspeicherrct" class="hide">
 							<div class="alert alert-info">
-								Konfiguration im zugehörigen EVU Modul.
+								RCT Power AC/DC Wechselrichter<br>
+								IP-Konfiguration im zugehörigen EVU Modul.
 							</div>
 						</div>
 
