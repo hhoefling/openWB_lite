@@ -194,6 +194,7 @@
 								</div>
 							</div>
 			 			</div>
+<!--
 						<div id="pvfems" class="hide">
 							<div class="card-text alert alert-info">
 								Konfiguration im zugehörigen EVU Modul des FEMS erforderlich.
