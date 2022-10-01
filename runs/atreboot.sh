@@ -345,7 +345,7 @@ at_reboot() {
 	log  "fix upload limit..."
 	if [ -d "/etc/php/8.1/" ]; then
         fn=/etc/php/8.1/apache2/conf.d/20-uploadlimit.ini
-        if ! [ -f $fn ] ; then
+        if [ ! -f $fn ] ; then
 		  log "fix OS Bullsey"
 		  sudo /bin/su -c "echo 'upload_max_filesize = 300M' > $fn"
 		  sudo /bin/su -c "echo 'post_max_size = 300M' >> $fn"
@@ -353,7 +353,7 @@ at_reboot() {
         fi
 	elif [ -d "/etc/php/7.0/" ]; then
         fn=/etc/php/7.0/apache2/conf.d/20-uploadlimit.ini
-        if ! [ -f $fn ] ; then
+        if [ ! -f $fn ] ; then
 		  log "fix OS Stretch"
 		  sudo /bin/su -c "echo 'upload_max_filesize = 300M' > $fn"
 		  sudo /bin/su -c "echo 'post_max_size = 300M' >> $fn
@@ -361,7 +361,7 @@ at_reboot() {
         fi
 	elif [ -d "/etc/php/7.3/" ]; then
         fn=/etc/php/7.3/apache2/conf.d/20-uploadlimit.ini
-        if ! [ -f $fn ] ; then
+        if [ ! -f $fn ] ; then
 		  log "fix OS Buster"
 		  sudo /bin/su -c "echo 'upload_max_filesize = 300M' > $fn"
 		  sudo /bin/su -c "echo 'post_max_size = 300M' >> $fn"
