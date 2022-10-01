@@ -176,7 +176,7 @@ class PowerGraph {
         if (t.substring(t.length - 13, t.length) === "alllivevalues") {
           // init message
           const serialNo = t.substring(13, t.length - 13);
-		  if( serialNo <wbdata.graphMinBlocks) 
+          if( serialNo <wbdata.graphMinBlocks) 
                var bulkdata = [];
           else var bulkdata = payload.toString().split("\n");
           if (bulkdata.length <= 1) {
@@ -284,40 +284,41 @@ class PowerGraph {
 
   updateEnergyValues() {
     if (this.rawData.length) {
-    const startValues = this.rawData[0].split(',');
-    const endValues = this.rawData[this.rawData.length - 1].split(',');
-    wbdata.historicSummary.pv.energy = (endValues[3] - startValues[3]) / 1000;
-    wbdata.historicSummary.evuIn.energy = (endValues[1] - startValues[1]) / 1000;
-    wbdata.historicSummary.batOut.energy = (endValues[9] - startValues[9]) / 1000;
-    wbdata.historicSummary.evuOut.energy = (endValues[2] - startValues[2]) / 1000;
-    wbdata.historicSummary.charging.energy = (endValues[7] - startValues[7]) / 1000;
-    var deviceEnergy = 0;
-    for (var i = 0; i < 9; i++) {
-      if (wbdata.graphMode == 'day') {
-        deviceEnergy = deviceEnergy + (endValues[26 + i] - startValues[26 + i]) / 1000;
-      } else {
-        deviceEnergy = deviceEnergy + (endValues[19 + i] - startValues[19 + i]) / 1000;
+      const startValues = this.rawData[0].split(',');
+      const endValues = this.rawData[this.rawData.length - 1].split(',');
+      wbdata.historicSummary.pv.energy = (endValues[3] - startValues[3]) / 1000;
+      wbdata.historicSummary.evuIn.energy = (endValues[1] - startValues[1]) / 1000;
+      wbdata.historicSummary.batOut.energy = (endValues[9] - startValues[9]) / 1000;
+      wbdata.historicSummary.evuOut.energy = (endValues[2] - startValues[2]) / 1000;
+      wbdata.historicSummary.charging.energy = (endValues[7] - startValues[7]) / 1000;
+      var deviceEnergySum = 0;
+      var deviceEnergy = 0;
+      let deviceIndex = (wbdata.graphMode == 'day') ? 26 : 19;
+      for (var i = 0; i < 9; i++) {
+        deviceEnergy = (endValues[deviceIndex + i] - startValues[deviceIndex + i]) / 1000;
+        deviceEnergySum = deviceEnergySum + deviceEnergy
+        wbdata.historicSummary['sh' + i].energy = deviceEnergy
       }
+      deviceEnergySum = deviceEnergySum + (endValues[10] - startValues[10]) / 1000;
+      deviceEnergySum = deviceEnergySum + (endValues[12] - startValues[12]) / 1000;
+      wbdata.historicSummary.devices.energy = deviceEnergySum;
+      wbdata.historicSummary.batIn.energy = (endValues[8] - startValues[8]) / 1000;
+      wbdata.historicSummary.house.energy = wbdata.historicSummary.evuIn.energy + wbdata.historicSummary.pv.energy + wbdata.historicSummary.batOut.energy
+        - wbdata.historicSummary.evuOut.energy - wbdata.historicSummary.batIn.energy - wbdata.historicSummary.charging.energy - wbdata.historicSummary.devices.energy;
     }
-    deviceEnergy = deviceEnergy + (endValues[10] - startValues[10]) / 1000;
-    deviceEnergy = deviceEnergy + (endValues[12] - startValues[12]) / 1000;
-    wbdata.historicSummary.devices.energy = deviceEnergy;
-    wbdata.historicSummary.batIn.energy = (endValues[8] - startValues[8]) / 1000;
-    wbdata.historicSummary.house.energy = wbdata.historicSummary.evuIn.energy + wbdata.historicSummary.pv.energy + wbdata.historicSummary.batOut.energy
-      - wbdata.historicSummary.evuOut.energy - wbdata.historicSummary.batIn.energy - wbdata.historicSummary.charging.energy - wbdata.historicSummary.devices.energy;
-  }
+    // console.log (wbdata.historicSummary)
   }
   extractLiveValues(payload) {
     const elements = payload.split(",");
-    const now = new Date (Date.now());
+    const now = new Date(Date.now());
     const mSecondsPerDay = 86400000 // milliseconds in a day
     var values = {};
     values.date = new Date(d3.timeParse("%H:%M:%S")(elements[0]));
-    values.date.setDate (now.getDate())
-    values.date.setMonth (now.getMonth())
-    values.date.setFullYear (now.getFullYear())
+    values.date.setDate(now.getDate())
+    values.date.setMonth(now.getMonth())
+    values.date.setFullYear(now.getFullYear())
     if (values.date.getHours() > now.getHours()) { // this is an entry from yesterday
-      values.date = new Date (values.date.getTime() - mSecondsPerDay) // change date to yesterday
+      values.date = new Date(values.date.getTime() - mSecondsPerDay) // change date to yesterday
     }
     // evu
     if (+elements[1] > 0) {
@@ -394,18 +395,22 @@ class PowerGraph {
     values.solarPower = this.calcValue(3, elements, oldElements);
     values.inverter = 0;
     // charge points
-    var i;
-    values["lp0"] = this.calcValue(4, elements, oldElements);
-    values["lp1"] = this.calcValue(5, elements, oldElements);
-    values["lp2"] = this.calcValue(6, elements, oldElements);
- //   for (i = 0; i < 3; i++) {
- //     values["lp" + i] = this.calcValue(4 + i, elements, oldElements);
- //   }
     values.charging = this.calcValue(7, elements, oldElements);
-    values.batIn =  this.calcValue(8, elements, oldElements);
-    values.batOut = this.calcValue(9, elements, oldElements);
-    values.co0 = this.calcValue(10, elements, oldElements);
-    values.co1 = this.calcValue(12, elements, oldElements);
+    var i;
+    for (i = 0; i < 3; i++) {
+      values["lp" + i] = this.calcValue(4 + i, elements, oldElements);
+    }
+    for (i = 3; i < 4; i++) {
+      values["lp" + i] = this.calcValue(12 + i, elements, oldElements);
+    }  
+    values["lp4"] = 0;  // 16
+    values["lp5"] = 0;  // 17
+    values["lp6"] = 0;  // 18
+    values["lp7"] = 0;  // 19
+
+    values.soc1 = +elements[21];
+    values.soc2 = +elements[22];
+    
  
     values["lp3"] = this.calcValue(12+3, elements, oldElements);
 //    for (i = 3; i < 4; i++) {
@@ -418,19 +423,21 @@ class PowerGraph {
 //    for (i = 4; i < 8; i++) {
 //      values["lp" + i] = 0;
 //    }
-    values.batterySoc = +elements[20];
-    values.soc1 = +elements[21];
-    values.soc2 = +elements[22];
     // smart home
     for (i = 0; i < 9; i++) {
       if (!(wbdata.shDevice[i].countAsHouse)) {
-        values["sh" + i] = this.calcValue(26 + i, elements, oldElements); // 26..35
+        values["sh" + i] = this.calcValue(26 + i, elements, oldElements);
       } else {
         values["sh" + i] = +0;
       }
     }
     //consumers
+    values.co0 = this.calcValue(10, elements, oldElements);
+    values.co1 = this.calcValue(12, elements, oldElements);
     //battery
+    values.batIn = this.calcValue(8, elements, oldElements);
+    values.batOut = this.calcValue(9, elements, oldElements);
+    values.batterySoc = +elements[20];
     // calculated values
     values.housePower = values.gridPull + values.solarPower + values.batOut
       - values.gridPush - values.batIn - values.charging - values.co0 - values.co1
@@ -628,8 +635,7 @@ class PowerGraph {
       ;
   }
 
-  drawUsageGraph(svg, width, height) 
-  {
+  drawUsageGraph(svg, width, height) {
     const yScale = d3.scaleLinear().range([height + 10, 2 * height]);
 
     const extent = d3.extent(this.graphData, (d) =>
@@ -903,7 +909,6 @@ function changeStack() {
   if (wbdata.usageStackOrder > 2) {
     wbdata.usageStackOrder = 0;
   }
-  console.log('wbdata.usageStackOrder ' + wbdata.usageStackOrder);
   wbdata.persistGraphPreferences();
   powerGraph.updateGraph();
 }
