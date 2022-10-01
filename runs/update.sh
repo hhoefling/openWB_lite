@@ -18,6 +18,23 @@ function Log()
 cd /var/www/html/openWB
 . /var/www/html/openWB/loadconfig.sh
 
+# fallls das Script "überschrieben" wird statt mit "Delete/Write" neu erzeugt zu werden
+# dann wird mittendrin die neue Version ausgeführt
+# Die folgenden Zeilen sorgen dafür das auch ein geändertes Update Script keine Probleme macht
+
+SELF=`basename $0`
+if [[ $SELF != 'copyfromupdate.sh' ]] ; then
+  ORG=$0
+  export ORG
+  [ -f ./copyfromupdate.sh ] && rm ./copyfromupdate.sh
+  cp -p $0 ./copyfromupdate.sh
+  Log 0 "$ORG terminates now"
+  exec ./copyfromupdate.sh
+  exit 0 # never reached
+fi
+trap "rm  ./copyfromupdate.sh"  EXIT
+Log 0 "Running, now it is save to override $ORG"
+
 
 ################# Check and Wait if cron job running.
 cnt=0
