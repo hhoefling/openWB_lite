@@ -464,12 +464,8 @@ else
     then
   	   openwbDebugLog "MAIN" 1 "modbus tcp server already running"
     else
-       if (  $(lsusb | grep -q UART) ) ; then
-	        openwbDebugLog "MAIN" 0 "modbus tcp server not running! restarting process"
-          sudo python3 $OPENWBBASEDIR/runs/modbusserver/modbusserver.py &
-       else
-        	openwbDebugLog "MAIN" 0 "modbus tcp server not avail no usb-UART"
-       fi
+        openwbDebugLog "MAIN" 0 "modbus tcp server not running! restarting process"
+        sudo nohup python3 "$OPENWBBASEDIR/runs/modbusserver/modbusserver.py" >>"$LOGFILE" 2>&1 &
     fi
 fi
 
