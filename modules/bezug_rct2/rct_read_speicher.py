@@ -57,11 +57,15 @@ def main():
         faultState=0
 
         if ( stat1 + stat2 + stat3) > 0:
-            faultStr = "Battery ALARM Battery-Status nicht 0"
-            faultState=2
-             # speicher in mqtt 
-            os.system('mosquitto_pub -r -t openWB/set/housebattery/faultState -m "' + str(faultState) +'"')
-            os.system('mosquitto_pub -r -t openWB/set/housebattery/faultStr -m "' + str(faultStr) +'"')
+            if( bstat1 == 8):
+                    faultStr = "Battery Balancing aktive"
+                    faultState=1
+            else:
+                    faultStr = "Battery ALARM Battery-Status nicht 0"
+                    faultState=2
+            # speicher in mqtt 
+            os.system('mosquitto_pub -r -t openWB/set/houseBattery/faultState -m "' + str(faultState) +'"')
+            os.system('mosquitto_pub -r -t openWB/set/houseBattery/faultStr -m "' + str(faultStr) +'"')
         # akuelles Ladeziel des Hausspeichers fuer die Anzeige weitereeichen. 
         socsoll = int(rct_lib.read(clientsocket,0x8B9FF008 ) * 100.0 )
         os.system('mosquitto_pub -r -t openWB/housebattery/soctarget -m "' + str(socsoll) +'"')

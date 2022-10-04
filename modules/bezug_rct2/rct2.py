@@ -219,18 +219,22 @@ def main():
         spfaultStr=' '
         spfaultState=0
         if ( stat1 + stat2 + stat3) > 0:
+            if( bstat1 == 8):
+                    spfaultStr = "Battery Balancing aktive"
+                    spfaultState=1
+            else:
+                    spfaultStr = "Battery ALARM Battery-Status nicht 0"
+                    spfaultState=2
             rct_lib.dbglog("Sp-Status " , stat1, stat2, stat3 ) 
-            spfaultStr = "Battery ALARM Battery-Status nicht 0"
-            spfaultState=2
             rct_lib.dbglog("spfaultstate: ", spfaultState, spfaultStr) 
             # speicher in mqtt 
-            os.system('mosquitto_pub -r -t openWB/set/housebattery/faultState -m "' + str(spfaultState) +'"')
-            os.system('mosquitto_pub -r -t openWB/set/housebattery/faultStr -m "' + str(spfaultStr) +'"')
+            os.system('mosquitto_pub -r -t openWB/set/houseBattery/faultState -m "' + str(spfaultState) +'"')
+            os.system('mosquitto_pub -r -t openWB/set/houseBattery/faultStr -m "' + str(spfaultStr) +'"')
         else:
             # Kein fehler loesche alle 5 mintuen den statzus
             if rct_lib.bm5:
-                os.system('mosquitto_pub -r -t openWB/set/housebattery/faultState -m "' + str(spfaultState) +'"')
-                os.system('mosquitto_pub -r -t openWB/set/housebattery/faultStr -m "' + str(spfaultStr) +'"')
+                os.system('mosquitto_pub -r -t openWB/set/houseBattery/faultState -m "' + str(spfaultState) +'"')
+                os.system('mosquitto_pub -r -t openWB/set/houseBattery/faultStr -m "' + str(spfaultStr) +'"')
         
 
 #
