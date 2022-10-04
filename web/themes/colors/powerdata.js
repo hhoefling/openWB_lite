@@ -368,40 +368,16 @@ class WbData {
 		this.prefs.showGr = this.showGrid;
 		this.prefs.decimalP = this.decimalPlaces;
 		this.prefs.smartHomeC = this.smartHomeColors;
-		document.cookie = "openWBColorTheme=" + JSON.stringify(this.prefs) + "; max-age=16000000"  +"; SameSite=Lax";
+		setCookie( "openWBColorTheme",JSON.stringify(this.prefs) )
 	}
 	
-// 	xgetCookie(cname) {
-//		var name = cname + '=';
-//		var decodedCookie = decodeURIComponent(document.cookie);
-//		var ca = decodedCookie.split(';');
-//		for(var i = 0; i <ca.length; i++) {
-//			var c = ca[i];
-//			while (c.charAt(0) == ' ') {
-//				c = c.substring(1);
-//			}
-//			if (c.indexOf(name) == 0) {
-//				return c.substring(name.length, c.length);
-//			}
-//		}
-//		return '';
-//	}
-
 	
-	// read cookies and update settings
 	readGraphPreferences() {
-		const wbCookies = document.cookie.split(';');
-		//console.log('wbCookies' , wbCookies);
-		var myCookie = wbCookies.filter(entry => entry.split('=')[0] === "openWBColorTheme");
+		
+		var myCookie = getCookie("openWBColorTheme");
 		console.log('MyCookie1' , myCookie);
-//		var myCookie2 = this.xgetCookie("openWBColorTheme");
-//		console.log('MyCookie2' , myCookie2);
-		
-		
 		if (myCookie.length > 0) {
-		// if (myCookie2.length > 0) {
-			this.prefs = JSON.parse(myCookie[0].split('=')[1]);
-			// this.prefs = JSON.parse(myCookie2);
+			this.prefs = JSON.parse(myCookie);
 			if ('hideSH' in this.prefs) {
 				this.prefs.hideSH.map(i => this.shDevice[i].showInGraph = false)
 			}

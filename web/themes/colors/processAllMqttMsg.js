@@ -657,14 +657,14 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	if (mqttmsg == 'openWB/system/debuglevel') {
 		var i = parseInt(mqttpayload, 10);
 		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
-	    debuglevel = i;
-		console.log('set debug level to '+debuglevel );
-		if ( debuglevel >= 0)  {
-			$("#homebutton").removeClass("hide");
-        } else {			
-			$("#homebutton").addClass("hide");
-		}	
-	    
+		if (typeof(debugmode) == "undefined" )
+		   debugmode=-1
+		if ( i > debugmode) {
+			debugmode=i 
+			console.log('set debugmode from mqtt to '+debugmode );
+			setCookie("debugmode", debugmode, 2);
+		} else 
+		  console.log('debugmode allready set to '+debugmode );
 	}	
 	else if (mqttmsg == 'openWB/system/Timestamp') {
 		var dateObject = new Date(mqttpayload * 1000);  // Unix timestamp to date-object
