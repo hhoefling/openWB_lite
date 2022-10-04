@@ -76,4 +76,12 @@ Noch kurz etwas aufraumen...
 sudo apt autoremove -y
 ```
 
- 
+Neuerzeugen des Server Zertificates falls der Hostname sich ändert.
+
+```
+cd /etc/ssl
+make-ssl-cert generate-default-snakeoil --force-overwrite
+openssl x509 -in certs/ssl-cert-snakeoil.pem -text -noout
+/etc/init.d/apache2 restart
+```
+( Nicht vergessen in  openssl.cnf die Tagezahl höher zu setzen )
