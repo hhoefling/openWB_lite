@@ -306,7 +306,7 @@
   if ( tmp>'') 
     debugmode=tmp;	// override
   
-  console.log('debugold', debugold, ' debugmode',debugmode);
+  console.log('debugold', debugold, ' debugmode now:',debugmode);
   if ( debugold>0)	//
    {
     console.log("Bind dropdown-item ");
@@ -315,15 +315,21 @@
      {
         console.log('shift-Ctrl pressed set debugmode=3' )
 		event.preventDefault();
-  	    setCookie('debugmode', 3, 2);		// Mode 3 für 2 Tage
-	    debugmode=3
+	    if( debugmode!=3) {
+		   debugmode=3
+  	       setCookie('debugmode', 3, 2);		// Mode 3 für 2 Tage
+		   alert( "Set Debug mode to 3");
+		  } 
         this.click(event);
      }
      if(event.altKey)
      {
       console.log('alt pressd set debugmode=4' )
-	  setCookie('debugmode', 4, 2);		// Mode 4 für 2 Tage
-	  debugmode=4
+	    if( debugmode!=4) {
+	     debugmode=4
+	     setCookie('debugmode', 4, 2);		// Mode 4 für 2 Tage
+	     alert( "Set Debug mode to 4");
+        }
 	  this.click(event);
      }	  
     });
