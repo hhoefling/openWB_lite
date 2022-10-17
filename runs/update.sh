@@ -45,6 +45,7 @@ do
   (( cnt++))
 done
 
+# in case of timeout
 if [ -f "$RAMDISKDIR/cronnighlyruns" ] ; then 
   Log 0 "############### Now Killing background Job cronnighly.sh"
   sudo pkill 'cronnighly.sh' >/dev/null
@@ -58,7 +59,7 @@ fi
 
 Log 1 "######################## Send Stop to MQTT"
 mosquitto_pub -t openWB/set/ChargeMode -r -m "3"
-sleep 15
+
 
 Log 1 "######################## Update starting... "
 
@@ -78,6 +79,9 @@ Log 1 "Stop legacy_run Server if running"
 # Thus we shut-down the legacy run server before performing the update.
 
 # sudo pkill -u pi -f "/var/www/html/openWB/packages/legacy_run_server.py" >/dev/null
+
+Log 1 "Wait 15 Sec. for regel.sh to accept the updatemode"
+sleep 15
 
 
 if [[ "$releasetrain" == "stable17" ]]; then
@@ -120,7 +124,6 @@ fi
 #	fi
 #done
 
-sleep 15
 
 Log 1 "backup some files before fetching new release"
 # module soc_eq
