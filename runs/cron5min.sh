@@ -10,6 +10,7 @@ RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 . "$OPENWBBASEDIR/helperFunctions.sh"
 . "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
 . "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
+. "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
 
 if [ -e "$OPENWBBASEDIR/ramdisk/updateinprogress" ] && [ -e "$OPENWBBASEDIR/ramdisk/bootinprogress" ]; then
 	updateinprogress=$(<"$OPENWBBASEDIR/ramdisk/updateinprogress")
@@ -487,10 +488,12 @@ fi
 # setup push buttons handler if needed
 pushButtonsSetup "$ladetaster" 0
 
+# setup rse handler if needed
+rseSetup "$rseenabled" 0
 
 #Pingchecker
 if (( pingcheckactive == 1 )); then
-	# openwbDebugLog "MAIN" 1 "pingcheck configured; starting"
+	 openwbDebugLog "MAIN" 1 "pingcheck configured; starting"
 	"$OPENWBBASEDIR/runs/pingcheck.sh" &
 fi
 
@@ -512,8 +515,12 @@ openwbDebugLog "MAIN" 1 "logfile cleanup triggered"
 # die mqtt logdatei gehört www-data und kann von pi nicht geöndert werden.
 sudo $OPENWBBASEDIR/runs/cleanup.sh >> "$RAMDISKDIR/cleanup.log" 2>&1
 
-openwbDebugLog "MAIN" 0 "##### cron5min.sh Publish Systemstate to MQTT #####"
-
+#openwbDebugLog "MAIN" 0 "##### cron5min.sh Publish Systemstate to MQTT #####"
+(
+ cd "$OPENWBBASEDIR"
+ openwbDebugLog "MAIN" 0 "##### cron5min.sh Check sysdaemon"
+ runs/sysdaem.sh  &
+)
 
 sysinfo=$(cd /var/www/html/openWB/web/tools; sudo php programmloggerinfo.php 2>/dev/null)
 tempPubList="openWB/global/cpuModel=$(cat /proc/cpuinfo | grep -m 1 "model name" | sed "s/^.*: //")"
@@ -541,11 +548,11 @@ tempPubList="${tempPubList}\nopenWB/global/wlanaddr2=$(echo ${sysinfo} | jq -r '
 
 
 
-echo "Cron5Min.Publist:"
-echo -e $tempPubList
-echo "Running Python3: runs/mqttpub.py -q 0 -r &"
+#echo "Cron5Min.Publist:"
+#echo -e $tempPubList
+#echo "Running Python3: runs/mqttpub.py -q 0 -r &"
 
-echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
+#echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
 
 
 openwbDebugLog "MAIN" 0 "##### cron5min.sh finished #####"
