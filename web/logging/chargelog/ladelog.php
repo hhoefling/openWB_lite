@@ -6,7 +6,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>OpenWB Ladelog</title>
+		<title>OpenWB Ladeprotokoll</title>
 		<meta name="description" content="Control your charge" />
 		<meta name="author" content="Kevin Wieland" />
 		<!-- Favicons (created with http://realfavicongenerator.net/)-->
@@ -70,7 +70,7 @@
 
  		<div role="main" class="container">
 
-			<h1>Ladelog Monatsansicht</h1>
+			<h1>Ladeprotokoll Monatsansicht</h1>
 
 			<div class="row justify-content-center">
 				<div class="col-8 col-sm-6 col-md-5 col-lg-4">
@@ -171,7 +171,7 @@
 
 			<div class="card border-secondary">
 				<div class="card-header bg-secondary">
-					<i class="fas fa-clipboard-list"></i> Ladelog
+					<i class="fas fa-clipboard-list"></i> Ladeprotokoll
 					<i class="loading fas fa-cog fa-spin"></i>
 				</div>
 				<div id="ladelogtablediv" class="card-body text-monospace">
@@ -183,8 +183,8 @@
 		<footer class="footer bg-dark text-light font-small">
 			<div class="container text-center">
 				<small>Sie befinden sich hier: Lade-Log - 
-				  <a href="logging/chargelog/ladelogexport.php">Lade-Log Export</a>
-				  <a href="logging/chargelog/ladelogexportexcel.php">Excel Export</a>
+				  <a href="logging/chargelog/ladelogexport.php">Ladeprotokoll Export</a>
+				  <a href="logging/chargelog/ladelogexportexcel.php">Ladeprotokoll Excel Export</a>
 				</small>
 			</div>
 		</footer>
