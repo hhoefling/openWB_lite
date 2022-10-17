@@ -43,7 +43,11 @@ at_reboot() {
 	    log "Watchdog stoped" # parent finished before timeout 	 
 	  fi	  
 	 ) &
-	 
+	# 
+	# backup-Marker ist Hostname + SerienNr vom sd/usb Device
+	# daruber wird die Ablage im Backupsever gesteuert.
+        echo -n "${HOSTNAME}_" >/var/www/html/rinfo.txt
+        cat /etc/fstab |grep "/boot" | cut -d " " -f 1 | cut -d "-" -f 1 | grep -o -E '[0-9a-f]*' >>/var/www/html/rinfo.txt
 
 	# read openwb.conf
 	log "loading config"
@@ -343,17 +347,16 @@ at_reboot() {
 	fi
 	# set upload limit in php
 	log  "fix upload limit..."
-	
-	echo  "fix php upload limit."
 	for d in /etc/php/*/apache2/conf.d ; do
-		fn="$d/20-uploadlimit.ini"
-		if [ -d  "$d/apache2/conf.d" ] && [ ! -f "$fn" ]; then
-			sudo /bin/su -c "(echo 'upload_max_filesize = 300M';echo 'post_max_size = 300M')>$fn"
-			log echo "Fix upload limit for $d"
+		fn="$d/21-uploadlimit.ini"
+		fnold="$d/20-uploadlimit.ini"
+		[ -f "$fnold" ] && sudo rm "$fnold"
+		if [ ! -f "$fn" ]; then
+			sudo /bin/su -c " echo -e 'upload_max_filesize = 300M\npost_max_size = 300M' >\"$fn\" "
+			log "Fix upload limit in $d and switch to v. 21"
 			restartService=1
 		fi
 	done
-
 		
 	if (( restartService == 1 )); then
 		log  "restarting apache..."
