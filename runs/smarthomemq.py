@@ -4,10 +4,12 @@ import time
 import re
 import os
 import logging
+import math
 from usmarthome.global0 import log, log_config
 from usmarthome.smartbase import Sbase
 from usmarthome.smartavm import Savm
 from usmarthome.smartacthor import Sacthor
+from usmarthome.smartnxdacxx import Snxdacxx
 from usmarthome.smartelwa import Selwa
 from usmarthome.smartidm import Sidm
 from usmarthome.smarthttp import Shttp
@@ -16,6 +18,7 @@ from usmarthome.smartmystrom import Smystrom
 from usmarthome.smartshelly import Sshelly
 from usmarthome.smartstiebel import Sstiebel
 from usmarthome.smartvampair import Svampair
+from usmarthome.smartlambda import Slambda
 from usmarthome.smarttasmota import Stasmota
 from usmarthome.smartviessmann import Sviessmann
 
@@ -67,7 +70,7 @@ def on_message(client, userdata, msg):
         # richtig  topic
         log_config.info("(" + str(devicenumb) + ") Key " +
                         str(keyword) + " Value " + str(value))
-    parammqtt.append([devicenumb, keyword, value])
+        parammqtt.append([devicenumb, keyword, value])
 
 
 def checkbootdone():
@@ -79,7 +82,7 @@ def checkbootdone():
     except Exception as e:
         bootinprogress = 1
         log.warning("Ramdisk not set up. Maybe we are still" +
-                 "booting (bootinprogress)." + str(e))
+                    "booting (bootinprogress)." + str(e))
         time.sleep(30)
         return 0
     try:
@@ -88,7 +91,7 @@ def checkbootdone():
     except Exception as e:
         updateinprogress = 1
         log.warning("Ramdisk not set up. Maybe we are still" +
-                 " booting (updateinprogress)." + str(e))
+                    " booting (updateinprogress)." + str(e))
         time.sleep(30)
         return 0
     if (updateinprogress == 1):
@@ -136,7 +139,7 @@ def loadregelvars():
             wattbezug = int(float(value.read())) * -1
     except Exception as e:
         log.warning("Fehler beim Auslesen der Ramdisk (wattbezug):"
-                 + str(e))
+                    + str(e))
         wattbezug = 0
     uberschuss = wattbezug + speicherleistung
     try:
@@ -144,7 +147,7 @@ def loadregelvars():
             maxspeicher = int(value.read())
     except Exception as e:
         log.warning("Fehler beim Auslesen der Ramdisk " +
-                 "(smarthomehandlermaxbatterypower): " + str(e))
+                    "(smarthomehandlermaxbatterypower): " + str(e))
         maxspeicher = 0
     uberschussoffset = wattbezug + speicherleistung - maxspeicher
     log.info("EVU Bezug(-)/Einspeisung(+): " + str(wattbezug) +
@@ -238,11 +241,16 @@ def getdevicevalues():
              str(Sbase.ausdevices) + " akt: " + str(Sbase.ausschaltwatt) +
              " Anzahl devices in Einschaltgruppe: " + str(Sbase.eindevices)
              )
+    nurhh = math.floor(Sbase.nureinschaltinsec / 3600)
+    nurmm = math.floor((Sbase.nureinschaltinsec - (nurhh * 3600)) / 60)
+    nurss = (Sbase.nureinschaltinsec - (nurhh * 3600) - (nurmm * 60))
     log.info("Einschaltgruppe rel: " + str(Sbase.einrelais) +
              " Summe Einschaltschwelle: " +
              str(Sbase.einschwelle) + " max Einschaltverzögerung " +
              str(Sbase.einverz) + " nur Einschaltgruppe prüfen bis: " +
-             str(Sbase.nureinschaltinsec)
+             str('%.2d' % nurhh) + ":" + str('%.2d' % nurmm) + ":" +
+             str('%.2d' % nurss) +
+             " in Total sec " + str(Sbase.nureinschaltinsec)
              )
     mqtt_all['openWB/SmartHome/Status/maxspeicherladung'] = maxspeicher
     mqtt_all['openWB/SmartHome/Status/wattschalt'] = totalwatt
@@ -333,6 +341,8 @@ def update_devices():
                     mydevice = Sstiebel()
                 elif (device_type == 'vampair'):
                     mydevice = Svampair()
+                elif (device_type == 'lambda'):
+                    mydevice = Slambda()
                 elif (device_type == 'tasmota'):
                     mydevice = Stasmota()
                 elif (device_type == 'avm'):
@@ -341,6 +351,8 @@ def update_devices():
                     mydevice = Sviessmann()
                 elif (device_type == 'acthor'):
                     mydevice = Sacthor()
+                elif (device_type == 'NXDACXX'):
+                    mydevice = Snxdacxx()
                 elif (device_type == 'elwa'):
                     mydevice = Selwa()
                 elif (device_type == 'idm'):
@@ -423,6 +435,11 @@ def resetmaxeinschaltdauerfunc():
                             mqtt_reset[pref + 'OnCntStandby'] = '0'
                         mydevice.c_oldstampeinschaltdauer = 0
                         mydevice.c_oldstampeinschaltdauer_f = 'N'
+                        if ((mydevice.device_setauto == 1) and
+                           (mydevice.device_manual == 1)):
+                            log.info("(" + str(i) +
+                                     ") Umschaltung auf automatisch Modus ")
+                            mqtt_reset[pref + 'mode'] = '0'
             resetmaxeinschaltdauer = 1
             # Nur einschaltgruppe in Sekunden für neuen Tag zurücksetzten
             Sbase.nureinschaltinsec = 0
