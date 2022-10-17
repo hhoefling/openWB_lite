@@ -26,6 +26,7 @@
 #
 #####
 
+OPENWBBASEDIR=/var/www/html/openWB
 set -o pipefail
 set -o nounset
 
@@ -34,6 +35,11 @@ cd /var/www/html/openWB/ || exit 1
 # use kostant ramdisk  , no var RAMDISK with 
 
 source helperFunctions.sh
+if pidof -x -o $$ "${BASH_SOURCE[0]}"
+then
+	openwbDebugLog "MAIN" 0 "Previous regulation loop still running. Skipping."
+	exit
+fi
 
 if [ -e ramdisk/updateinprogress ] && [ -e ramdisk/bootinprogress ]; then
 	updateinprogress=$(<ramdisk/updateinprogress)
