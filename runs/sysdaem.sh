@@ -60,7 +60,7 @@ do
 	sleep 5
 	openwbDebugLog "DEB" 1 "---- ausgeschlafen, $loop"
 	if (( loop >= 10 )) ; then
-		for key in "${!cache[@]}"; do echo "$key => [${cache[$key]}]"; done
+		#for key in "${!cache[@]}"; do echo "$key => [${cache[$key]}]"; done
 		unset cache
 		declare	-A cache
 		openwbDebugLog "DEB" 1 "clear cache"
@@ -191,43 +191,4 @@ done
 
 openwbDebugLog "DEB" 0 "**** End."
 exit 0
-
-$rootdev = exec("lsblk -r | egrep 'part /$'  | cut -d ' ' -f 1");
-$disktot = exec("df -h | grep \"/$\" | awk '{print $2}'");
-$diskuse = exec("df -h | grep \"/$\" | awk '{print $3}'");
-$diskfree = exec("df -h | grep \"/$\" | awk '{print $4}'");
-$diskusedprz=exec("df -h | grep \"/$\" | awk '{print $5}'");
-
-
-$arr = array(
-	'board' => trim($board),
-	'arch' => trim($arch),
-	'uptime' => trim($uptime),
-	'systime' => trim($systime),
-	'lastreboot' => trim($lastreboot),
-	'cpuuse' => trim($cpuuse),
-	'cputemp' => trim($cputemp),
-	'cpufreq' => trim($cpufreq),
-	'rootdev' => trim($rootdev),
-	'disktot' => trim($disktot),
-	'diskuse' => trim($diskuse),
-	'diskfree' => trim($diskfree),
-	'diskusedprz' => str_replace('%','',trim($diskusedprz)),
-	'ethaddr' => $ethaddr,
-	'wlanaddr' => $wlanaddr,
-	'ethaddr2' => $ethaddr2,
-	'wlanaddr2' => $wlanaddr2,
-	'wlanqualy' => $wlanqualy,
-	'wlanbitrate' => $wlanbitrate,
-	'wlanmode' => $wlanmode,
-	'wlanssid' => $wlanssid,
-	'wlanpower' => $wlanpower,
-	'wlanrx' => $wlanrx,
-	'wlantx' => $wlantx
-);
-
-header("Content-type: application/json");
-echo json_encode($arr);
-?>
-
 
