@@ -6,7 +6,7 @@ Ich verwende rpi-clone um eine Kopie der laufenden Stretch Version zu erzeugen.
  *rpi-clone -v -p 256M sdb*
   
 Hierbei ist /dev/sda die im Kartenleser liegende Quell-SD Karte (32GB)
-und /dev/sdb eine leere 16GB Karte. Diese wird dann auf Buster "upgedated"
+und /dev/sdb eine leere 16GB Karte. Diese wird dann in einem zweiten Schritt auf Buster "upgedated"
 Der Pi3B+ bootet nur dann von externen USB Ports wenn der interne KEINE oder eine leere SD Karte enthält.
 Um also meine neue Karte alternativ booten zu können ohne immer mühselig die SD Karte aus dem internen Leser zu fummeln
 habe ich die Quelle ebenfalls in einem Kartenleser extern via USB angeschlossen.
