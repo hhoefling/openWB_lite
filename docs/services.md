@@ -7,11 +7,11 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 | Service | Nötig | vom Benutzer<br>abschaltbar  | atreboot | cron5min | Bemerkung |
 |:------------------ |:---------------:|:----------------:|-------------------:|-------------------:|-------------------:|
 | mqttsub | JA | NEIN | restart | Start-If | Empfängt MQTT Nachrichten |
-| rse | JA | JA | restart | Start-If |  via openWB.conf<br>evtl. vom Netzbetreiber benötigt|
-| modbusserver| JA | NEIN | restart | Start-If | wg. KfW? |
+| rse | JA | JA | restart | Start-If |  via openWB.conf<br>evtl. vom Netzbetreiber benötigt. Netzdientlich|
+| modbusserver| JA | NEIN | restart | Start-If |KfW, Netzdientlich |
 | legacy_run_server | Ja | NEIN | restart | Start-If | nicht bei openWB_Lite |
-| isss| JA | NEIN| restart | Start-If | bei "nur Ladepunkt" (1) |
-| buchse| JA | NEIN | restart | Start-If | bei "nur Ladepunkt" (1)  |
+| isss| JA | NEIN| restart | Start-If | bei "nur Ladepunkt" (1) auch bei "Buchse" |
+| buchse| JA | NEIN | restart | Start-If | im Normalmode |
 | smarthomehandler<br><sub>alt</sub> | NEIN | JA | restart | Start-If | nur einer der beiden ist aktiv |
 | smarthomemq<br><sub>neu</sub> | NEIN | JA | restart | Start-If | nur einer der beiden ist aktiv |
 | pushbutton| NEIN| JA | restart | Start-If| Nur wenn Ladetaster vorhanden |

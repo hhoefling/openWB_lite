@@ -70,7 +70,7 @@ def on_message(client, userdata, msg):
         # richtig  topic
         log_config.info("(" + str(devicenumb) + ") Key " +
                         str(keyword) + " Value " + str(value))
-    parammqtt.append([devicenumb, keyword, value])
+        parammqtt.append([devicenumb, keyword, value])
 
 
 def checkbootdone():
@@ -82,7 +82,7 @@ def checkbootdone():
     except Exception as e:
         bootinprogress = 1
         log.warning("Ramdisk not set up. Maybe we are still" +
-                 "booting (bootinprogress)." + str(e))
+                    "booting (bootinprogress)." + str(e))
         time.sleep(30)
         return 0
     try:
@@ -91,7 +91,7 @@ def checkbootdone():
     except Exception as e:
         updateinprogress = 1
         log.warning("Ramdisk not set up. Maybe we are still" +
-                 " booting (updateinprogress)." + str(e))
+                    " booting (updateinprogress)." + str(e))
         time.sleep(30)
         return 0
     if (updateinprogress == 1):
@@ -139,7 +139,7 @@ def loadregelvars():
             wattbezug = int(float(value.read())) * -1
     except Exception as e:
         log.warning("Fehler beim Auslesen der Ramdisk (wattbezug):"
-                 + str(e))
+                    + str(e))
         wattbezug = 0
     uberschuss = wattbezug + speicherleistung
     try:
@@ -147,7 +147,7 @@ def loadregelvars():
             maxspeicher = int(value.read())
     except Exception as e:
         log.warning("Fehler beim Auslesen der Ramdisk " +
-                 "(smarthomehandlermaxbatterypower): " + str(e))
+                    "(smarthomehandlermaxbatterypower): " + str(e))
         maxspeicher = 0
     uberschussoffset = wattbezug + speicherleistung - maxspeicher
     log.info("EVU Bezug(-)/Einspeisung(+): " + str(wattbezug) +

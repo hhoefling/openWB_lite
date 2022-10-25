@@ -83,6 +83,7 @@ Log 1 "Stop legacy_run Server if running"
 Log 1 "Wait 15 Sec. for regel.sh to accept the updatemode"
 sleep 15
 
+
 if [[ "$releasetrain" == "stable17" ]]; then
 	train="stable"
 else

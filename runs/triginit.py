@@ -47,3 +47,4 @@ GPIO.output(15, GPIO.LOW)
 GPIO.setup(26, GPIO.OUT)
 # set pin to low to prevent the motor from burning out
 GPIO.output(26, GPIO.LOW)
+

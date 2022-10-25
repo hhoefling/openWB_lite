@@ -357,7 +357,6 @@ at_reboot() {
 			restartService=1
 		fi
 	done
-
 		
 	if (( restartService == 1 )); then
 		log  "restarting apache..."
