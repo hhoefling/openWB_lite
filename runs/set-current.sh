@@ -123,14 +123,14 @@ function setChargingCurrentIpModbus () {
 # function for openwb slave kit
 function setChargingCurrentSlaveeth () {
 	current=$1
-	# set desired charging current
+	# set desired charging current 192.168.192.16
 	sudo python /var/www/html/openWB/runs/evseslavewritemodbus.py "$current"
 }
 
 #################################################
 function setChargingCurrentMasterethframer () {
 	current=$1
-	# set desired charging current
+	# set desired charging current  192.168.192.18 
 	sudo python /var/www/html/openWB/runs/evsemasterethframerwritemodbus.py "$current"
 }
 
@@ -138,7 +138,7 @@ function setChargingCurrentMasterethframer () {
 # function for openwb third kit
 function setChargingCurrentThirdeth () {
 	current=$1
-	# set desired charging current
+	# set desired charging current 192.168.192.26
 	sudo python /var/www/html/openWB/runs/evsethirdwritemodbus.py "$current"
 }
 
@@ -233,7 +233,7 @@ function setChargingCurrentgoe () {
 # function for setting the current - keba charger
 # Parameters:
 # 1: current
-# 2: goeiplp1
+# 2: kebaiplp1
 function setChargingCurrentkeba () {
 	if [[ $evsecon == "keba" ]]; then
 		sudo python3 /var/www/html/openWB/modules/keballlp1/check502.py "$kebaiplp1" >> /var/www/html/openWB/ramdisk/port.log 2>&1
