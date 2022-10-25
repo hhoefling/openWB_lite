@@ -349,7 +349,8 @@ def getmeter():
                     logDebug("2", "Fehler:" + str(e))
                     lp2var = 5
                 if ( lp2var == 5 and int(DeviceValues['lp2readerror']) > MaxEvseError ):
-                    logDebug("2", "Anhaltender Fehler beim Auslesen der EVSE von lp2! (" + str(DeviceValues['lp2readerror']) + ")" )
+                    logDebug("2", "Anhaltender Fehler beim Auslesen der EVSE von lp2! (" +
+                             str(DeviceValues['lp2readerror']) + ")")
                     logDebug("2", "Plugstat und Chargestat werden zurückgesetzt.")
                     Values.update({'lp2plugstat' : 0})
                     Values.update({'lp2chargestat' : 0})
@@ -393,7 +394,8 @@ def getmeter():
             lp1var = 5
             evsefailure = 1
         if ( lp1var == 5 and int(DeviceValues['lp1readerror']) > MaxEvseError ):
-            logDebug("2", "Anhaltender Fehler beim Auslesen der EVSE von lp1! (" + str(DeviceValues['lp1readerror']) + ")" )
+            logDebug("2", "Anhaltender Fehler beim Auslesen der EVSE von lp1! (" +
+                     str(DeviceValues['lp1readerror']) + ")")
             logDebug("2", "Plugstat und Chargestat werden zurückgesetzt.")
             Values.update({'lp1plugstat' : 0})
             Values.update({'lp1chargestat' : 0})
@@ -539,7 +541,8 @@ def getmeter():
                         DeviceValues.update({'lp2plugstat' : Values["lp2plugstat"]})
                 if ( "lp2chargestat" in key):
                     if ( DeviceValues[str(key)] != Values["lp2chargestat"]):
-                        mclient.publish("openWB/lp/2/boolChargeStat", payload=Values["lp2chargestat"], qos=0, retain=True)
+                        mclient.publish("openWB/lp/2/boolChargeStat",
+                                        payload=Values["lp2chargestat"], qos=0, retain=True)
                         mclient.loop(timeout=2.0)
                         DeviceValues.update({'lp2chargestat' : Values["lp2chargestat"]})
                 if ( "rfidtag" in key):
@@ -579,9 +582,9 @@ def loadregelvars():
     global lp2installed
 
     try:
-        if GPIO.input(19) == False:
+        if GPIO.input(19) is False:
             actorstat=1
-        if GPIO.input(19) == True:
+        if GPIO.input(19) is True:
             actorstat=0
     except:
         actorstat = 0
