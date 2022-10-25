@@ -5,6 +5,10 @@
  * @author Lutz Bender
  */
 
+
+var debugmode=0
+
+
 /**
  * setCookie
  * stores a cookie in the current browser
