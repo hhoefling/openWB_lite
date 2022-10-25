@@ -1,4 +1,8 @@
 #!/bin/bash
+
+########## Re-Run as PI if not 
+[ "$USER" != "pi" ] && exec su pi "$0" -- "$@"
+
 OPENWBBASEDIR=$(cd `dirname $0`/../ && pwd)
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 
@@ -17,11 +21,11 @@ fi
 if [[ "$1" == "restart" ]] ; then
    pgrep -f "runs/sysdaem.sh" | grep -v "^$$$"  | xargs kill >/dev/null 2>&1
    sleep 1
-   openwbDebugLog "DEB" 0 "restart requested, killed old Instance killed."
+   openwbDebugLog "MAIN" 0 "restart requested, killed old Instance killed."
 fi
 if pidof -x -o $$ "${BASH_SOURCE[0]}" >/dev/null
 then
-	openwbDebugLog "DEB" 0 "Previous sysdaemon active, exit now"
+	openwbDebugLog "MAIN" 0 "Previous sysdaemon active, exit now"
 	exit
 fi
 
@@ -29,9 +33,11 @@ fi
 function cleanup()
 {
   openwbDebugLog "DEB" 0 "**** Stop"
+  openwbDebugLog "MAIN" 0 "**** Stop"
 }
 trap cleanup EXIT
-openwbDebugLog "DEB" 0 "**** Start."
+openwbDebugLog "DEB" 0 "**** Start as $USER."
+openwbDebugLog "MAIN" 0 "**** Start as $USER."
 
 
 loop=0

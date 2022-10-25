@@ -1,4 +1,8 @@
 #!/bin/bash
+
+########## Re-Run as PI if not 
+[ "$USER" != "pi" ] && exec su pi "$0" -- "$@"
+
 # called as user pi
 OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
 LOGFILE="/var/log/openWB.log"

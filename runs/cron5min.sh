@@ -1,5 +1,8 @@
 #!/bin/bash
 
+########## Re-Run as PI if not 
+[ "$USER" != "pi" ] && exec su pi "$0" -- "$@"
+
 # von cron aus /home/pi als dir 
 # must be called  as pi from /var/www/html/openWB
 cd /var/www/html/openWB
