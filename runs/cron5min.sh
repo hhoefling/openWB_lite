@@ -10,6 +10,7 @@ RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 . "$OPENWBBASEDIR/helperFunctions.sh"
 . "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
 . "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
+. "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
 
 if [ -e "$OPENWBBASEDIR/ramdisk/updateinprogress" ] && [ -e "$OPENWBBASEDIR/ramdisk/bootinprogress" ]; then
 	updateinprogress=$(<"$OPENWBBASEDIR/ramdisk/updateinprogress")
@@ -487,10 +488,12 @@ fi
 # setup push buttons handler if needed
 pushButtonsSetup "$ladetaster" 0
 
+# setup rse handler if needed
+rseSetup "$rseenabled" 0
 
 #Pingchecker
 if (( pingcheckactive == 1 )); then
-	# openwbDebugLog "MAIN" 1 "pingcheck configured; starting"
+	 openwbDebugLog "MAIN" 1 "pingcheck configured; starting"
 	"$OPENWBBASEDIR/runs/pingcheck.sh" &
 fi
 
@@ -512,40 +515,40 @@ openwbDebugLog "MAIN" 1 "logfile cleanup triggered"
 # die mqtt logdatei gehört www-data und kann von pi nicht geöndert werden.
 sudo $OPENWBBASEDIR/runs/cleanup.sh >> "$RAMDISKDIR/cleanup.log" 2>&1
 
-openwbDebugLog "MAIN" 0 "##### cron5min.sh Publish Systemstate to MQTT #####"
+#openwbDebugLog "MAIN" 0 "##### cron5min.sh Publish Systemstate to MQTT #####"
+(
+ cd "$OPENWBBASEDIR"
+ openwbDebugLog "MAIN" 0 "##### cron5min.sh Check sysdaemon"
+ runs/sysdaem.sh  &
+)
 
+#sysinfo=$(cd /var/www/html/openWB/web/tools; sudo php programmloggerinfo.php 2>/dev/null)
+#tempPubList="openWB/global/cpuModel=$(cat /proc/cpuinfo | grep -m 1 "model name" | sed "s/^.*: //")"
+#tempPubList="${tempPubList}\nopenWB/global/cpuUse=$(echo ${sysinfo} | jq -r '.cpuuse')"
+#tempPubList="${tempPubList}\nopenWB/global/cpuTemp=$(echo "scale=2; $(echo ${sysinfo} | jq -r '.cputemp') / 1000" | bc)"
+#tempPubList="${tempPubList}\nopenWB/global/cpuFreq=$(($(echo ${sysinfo} | jq -r '.cpufreq') / 1000))"
+#tempPubList="${tempPubList}\nopenWB/global/memTotal=$(echo ${sysinfo} | jq -r '.memtot')"
+#tempPubList="${tempPubList}\nopenWB/global/memUse=$(echo ${sysinfo} | jq -r '.memuse')"
+#tempPubList="${tempPubList}\nopenWB/global/memFree=$(echo ${sysinfo} | jq -r '.memfree')"
 
-sysinfo=$(cd /var/www/html/openWB/web/tools; sudo php programmloggerinfo.php 2>/dev/null)
-tempPubList="openWB/global/cpuModel=$(cat /proc/cpuinfo | grep -m 1 "model name" | sed "s/^.*: //")"
-tempPubList="${tempPubList}\nopenWB/global/cpuUse=$(echo ${sysinfo} | jq -r '.cpuuse')"
-tempPubList="${tempPubList}\nopenWB/global/cpuTemp=$(echo "scale=2; $(echo ${sysinfo} | jq -r '.cputemp') / 1000" | bc)"
-tempPubList="${tempPubList}\nopenWB/global/cpuFreq=$(($(echo ${sysinfo} | jq -r '.cpufreq') / 1000))"
-tempPubList="${tempPubList}\nopenWB/global/memTotal=$(echo ${sysinfo} | jq -r '.memtot')"
-tempPubList="${tempPubList}\nopenWB/global/memUse=$(echo ${sysinfo} | jq -r '.memuse')"
-tempPubList="${tempPubList}\nopenWB/global/memFree=$(echo ${sysinfo} | jq -r '.memfree')"
+#tempPubList="${tempPubList}\nopenWB/global/diskTot=$(echo ${sysinfo} | jq -r '.disktot')"
+#tempPubList="${tempPubList}\nopenWB/global/diskUse=$(echo ${sysinfo} | jq -r '.diskuse')"
+#tempPubList="${tempPubList}\nopenWB/global/diskUsedPrz=$(echo ${sysinfo} | jq -r '.diskusedprz')"
+#tempPubList="${tempPubList}\nopenWB/global/diskFree=$(echo ${sysinfo} | jq -r '.diskfree')"
 
-tempPubList="${tempPubList}\nopenWB/global/diskTot=$(echo ${sysinfo} | jq -r '.disktot')"
-tempPubList="${tempPubList}\nopenWB/global/diskUse=$(echo ${sysinfo} | jq -r '.diskuse')"
-tempPubList="${tempPubList}\nopenWB/global/diskUsedPrz=$(echo ${sysinfo} | jq -r '.diskusedprz')"
-tempPubList="${tempPubList}\nopenWB/global/diskFree=$(echo ${sysinfo} | jq -r '.diskfree')"
+#tempPubList="${tempPubList}\nopenWB/global/tmpTot=$(echo ${sysinfo} | jq -r '.tmptot')"
+#tempPubList="${tempPubList}\nopenWB/global/tmpUse=$(echo ${sysinfo} | jq -r '.tmpuse')"
+#tempPubList="${tempPubList}\nopenWB/global/tmpUsedPrz=$(echo ${sysinfo} | jq -r '.tmpusedprz')"
+#tempPubList="${tempPubList}\nopenWB/global/tmpFree=$(echo ${sysinfo} | jq -r '.tmpfree')"
 
-tempPubList="${tempPubList}\nopenWB/global/tmpTot=$(echo ${sysinfo} | jq -r '.tmptot')"
-tempPubList="${tempPubList}\nopenWB/global/tmpUse=$(echo ${sysinfo} | jq -r '.tmpuse')"
-tempPubList="${tempPubList}\nopenWB/global/tmpUsedPrz=$(echo ${sysinfo} | jq -r '.tmpusedprz')"
-tempPubList="${tempPubList}\nopenWB/global/tmpFree=$(echo ${sysinfo} | jq -r '.tmpfree')"
-
-tempPubList="${tempPubList}\nopenWB/global/ethaddr=$(echo ${sysinfo} | jq -r '.ethaddr')"
-tempPubList="${tempPubList}\nopenWB/global/ethaddr2=$(echo ${sysinfo} | jq -r '.ethaddr2')"
-tempPubList="${tempPubList}\nopenWB/global/wlanaddr=$(echo ${sysinfo} | jq -r '.wlanaddr')"
-tempPubList="${tempPubList}\nopenWB/global/wlanaddr2=$(echo ${sysinfo} | jq -r '.wlanaddr2')"
-
-
-
-echo "Cron5Min.Publist:"
-echo -e $tempPubList
-echo "Running Python3: runs/mqttpub.py -q 0 -r &"
-
-echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
+#tempPubList="${tempPubList}\nopenWB/global/ethaddr=$(echo ${sysinfo} | jq -r '.ethaddr')"
+#tempPubList="${tempPubList}\nopenWB/global/ethaddr2=$(echo ${sysinfo} | jq -r '.ethaddr2')"
+#tempPubList="${tempPubList}\nopenWB/global/wlanaddr=$(echo ${sysinfo} | jq -r '.wlanaddr')"
+#tempPubList="${tempPubList}\nopenWB/global/wlanaddr2=$(echo ${sysinfo} | jq -r '.wlanaddr2')"
+#echo "Cron5Min.Publist:"
+#echo -e $tempPubList
+#echo "Running Python3: runs/mqttpub.py -q 0 -r &"
+#echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
 
 
 openwbDebugLog "MAIN" 0 "##### cron5min.sh finished #####"
