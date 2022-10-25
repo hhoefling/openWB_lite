@@ -183,9 +183,9 @@
 							<?php  
 							  if( $debugold>1 ) 
 							   {
-							     if ($chargepointNum==1)  echo "[<small>$ladeleistungmodulold</small>]";
-							     if ($chargepointNum==2)  echo "[<small>$ladeleistungs1modulold</small>]";
-							     if ($chargepointNum==3)  echo "[<small>$ladeleistungs2modulold</small>]";
+							     if ($chargepointNum==1)  echo "&nbsp;<small>[$ladeleistungmodulold]</small>";
+							     if ($chargepointNum==2)  echo "&nbsp;<small>[$ladeleistungs1modulold]</small>";
+							     if ($chargepointNum==3)  echo "&nbsp;<small>[$ladeleistungs2modulold]</small>";
 							   }   
 							?>
 						</div>
