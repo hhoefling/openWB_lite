@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import os
 import time
 import traceback
@@ -69,7 +69,7 @@ def read_rfid_list():
         rfid_list = []
 
 
-def get_plugstat():
+def get_plug_state():
     for chargepoint in range(1, 4): # 9):
         if chargepoint == 1:
             ramdisk_file = "plugstat"
@@ -117,31 +117,31 @@ def conditions():
             pass
 
 
-def save_last_rfidtag():
-    readtag = read_from_ramdisk("readtag").rstrip()
-    if ((readtag != Values["rfidlasttag"]) and (readtag != "0")):
-        log_debug(1, "savelastrfidtag: change detected, updating ramdisk: " + str(readtag))
-        write_to_ramdisk("rfidlasttag", readtag + "," + str(os.path.getmtime(ramdiskPath + "/readtag")))
-        Values.update({'rfidlasttag': readtag})
+def save_last_rfid_tag():
+    read_tag = read_from_ramdisk("readtag").rstrip()
+    if ((read_tag != Values["rfidlasttag"]) and (read_tag != "0")):
+        log_debug(1, "save_last_rfid_tag: change detected, updating ramdisk: " + str(read_tag))
+        write_to_ramdisk("rfidlasttag", read_tag + "," + str(os.path.getmtime(ramdiskPath + "/readtag")))
+        Values.update({'rfidlasttag': read_tag})
 
 
-def clear_old_rfidtag():
+def clear_old_rfid_tag():
     null_tag = False
     null_tag = bool(str(read_from_ramdisk("readtag").rstrip()) == null_tag_value)
     if null_tag is False:
         t = os.path.getmtime(ramdiskPath + '/readtag')
-        timediff = time.time() - t
-        if timediff > 300:
-            log_debug(1, "Verwerfe Tag nach " + str(timediff) + " Sekunden")
+        time_diff = time.time() - t
+        if time_diff > 300:
+            log_debug(1, "Verwerfe Tag nach " + str(time_diff) + " Sekunden")
             write_to_ramdisk("readtag", null_tag_value)
 
 
 while True:
     if counter == 0:
         read_rfid_list()
-    get_plugstat()
+    get_plug_state()
     conditions()
-    save_last_rfidtag()
-    clear_old_rfidtag()
+    save_last_rfid_tag()
+    clear_old_rfid_tag()
     counter = (counter + 1) % 10
     time.sleep(2)

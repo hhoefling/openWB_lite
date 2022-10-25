@@ -4,7 +4,8 @@
 #
 if [[ -z "$OPENWBBASEDIR" ]]; then
 	OPENWBBASEDIR=$(cd "$(dirname "$0")/../../" && pwd)
-	OPENWBBASEDIR=/var/www/html/openWB
+fi
+if [[ -z "$RAMDISKDIR" ]]; then
 	RAMDISKDIR="${OPENWBBASEDIR}/ramdisk"
 fi
 
