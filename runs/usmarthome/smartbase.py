@@ -76,6 +76,7 @@ class Sbase(Sbase0):
         self._device_measuretype = 'none'
         self._device_measureip = 'none'
         self._device_measureportsdm = '8899'
+        self._device_dacport = '8899'
         self._device_measureid = '0'
         self._device_finishtime = '00:00'
         self._device_starttime = '00:00'
@@ -86,11 +87,13 @@ class Sbase(Sbase0):
         self._device_nonewatt = 0
         self._device_deactivateper = 0
         self._device_pbtype = 'none'
+        self._device_lambdaueb = 'UP'
         self._old_pbtype = 'none'
         self._mydevicepb = 'none'
         self._oldrelais = '2'
         self._oldwatt = 0
         self._device_chan = 0
+        self._device_updatesec = 0
         # mqtt per
         self._whimported_tmp = 0
         self.runningtime = 0
@@ -115,7 +118,10 @@ class Sbase(Sbase0):
         self._c_ausverz_f = 'N'
         self._c_einverz = 0
         self._c_einverz_f = 'N'
+        self._c_updatetime = 0
+        self._seclastup = 0
         self._dynregel = 0
+        self.device_setauto = 0
         self.gruppe = 'none'
         self.btchange = 0
 
@@ -275,6 +281,8 @@ class Sbase(Sbase0):
                 self._device_maxeinschaltdauer = valueint * 60
             elif (key == 'device_homeConsumtion'):
                 self.device_homeconsumtion = valueint
+            elif (key == 'device_setauto'):
+                self.device_setauto = valueint
             elif (key == 'device_differentMeasurement'):
                 self._device_differentmeasurement = valueint
             elif (key == 'device_temperatur_configured'):
@@ -307,6 +315,8 @@ class Sbase(Sbase0):
                 self._device_nonewatt = valueint
             elif (key == 'device_type'):
                 self.device_type = value
+            elif (key == 'device_lambdaueb'):
+                self.device_lambdaueb = value
             elif (key == 'device_configured'):
                 self._device_configured = value
             elif (key == 'device_name'):
@@ -319,6 +329,8 @@ class Sbase(Sbase0):
                 self._device_measureip = value
             elif (key == 'device_measurePortSdm'):
                 self._device_measureportsdm = value
+            elif (key == 'device_dacport'):
+                self._device_dacport = value
             elif (key == 'device_measureid'):
                 self._device_measureid = value
             elif (key == 'device_finishTime'):
@@ -335,6 +347,8 @@ class Sbase(Sbase0):
                 self._device_onuntiltime = value
             elif (key == 'mode'):
                 self.device_manual = valueint
+            elif (key == 'device_updatesec'):
+                self._device_updatesec = valueint
             elif (key == 'device_chan'):
                 self._device_chan = valueint
             elif (key == 'device_manual_control'):
@@ -523,10 +537,13 @@ class Sbase(Sbase0):
            (self.device_manual == 1)):
             return
         file_charge = '/var/www/html/openWB/ramdisk/llkombiniert'
-        testcharge = 0
+        testcharge = 0.0
+        try:
         if os.path.isfile(file_charge):
             with open(file_charge, 'r') as f:
-                testcharge = int(f.read())
+                    testcharge = float(f.read())
+        except Exception:
+            pass
         if testcharge <= 1000:
             chargestatus = 0
         else:
