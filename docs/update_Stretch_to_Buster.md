@@ -1,5 +1,5 @@
 
-Ich verwende pri-clone um eine Kopie der laufenden Stretch Version zu erzeugen. 
+Ich verwende rpi-clone um eine Kopie der laufenden Stretch Version zu erzeugen. 
 
 ( https://github.com/billw2/rpi-clone )
 
