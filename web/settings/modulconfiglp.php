@@ -47,6 +47,18 @@
 			}
 		?>
 		<script>
+
+			$.get(
+				{ url: "settings/navbar.html", cache: false },
+				function(data){
+					$("#nav").replaceWith(data);
+					// disable navbar entry for current page
+					$('#navModulkonfigurationLp').addClass('disabled');
+				}
+			);
+
+		</script>
+		<script>
 		  var debugold=<?php echo $debugold;?>;
 		  console.log('openWB debug aus openwb.conf:',debugold);
 		</script>		
@@ -5013,18 +5025,6 @@
 			</div>
 		</footer>
 
-		<script>
-
-			$.get(
-				{ url: "settings/navbar.html", cache: false },
-				function(data){
-					$("#nav").replaceWith(data);
-					// disable navbar entry for current page
-					$('#navModulkonfigurationLp').addClass('disabled');
-				}
-			);
-
-		</script>
 
 	</body>
 </html>
