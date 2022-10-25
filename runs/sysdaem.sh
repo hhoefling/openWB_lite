@@ -121,28 +121,28 @@ do
     	if [[ "$arch" == "x86_64" ]] ; then
 	       	val=""
 	   else 		
-		  val=$(ifconfig wlan0 |grep 'inet ' |awk '{print $2}' )
+		  val=$( sudo ifconfig wlan0 |grep 'inet ' |awk '{print $2}' )
 	   fi
 	   putter "$val" "wlanip1" "openWB/global/wlanaddr"
 
 	   if [[ "$arch" == "x86_64" ]] ; then
 		  val=""
 	   else 		
-	   	   val=$(ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
+	   	   val=$(sudo ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
 	   fi
 	   putter "$val" "wlanip2" "openWB/global/wlanaddr2"
 
 	   if [[ "$arch" == "x86_64" ]] ; then
 	   	   val=""
 	   else 		
-		  val=$(ifconfig eth0 |grep 'inet ' |awk '{print $2}' )
+		  val=$(sudo ifconfig eth0 |grep 'inet ' |awk '{print $2}' )
 	   fi
 	   putter "$val" "ethip1" "openWB/global/ethaddr"
 
 	   if [[ "$arch" == "x86_64" ]] ; then
 		  val=""
 	   else 		
-		  val=$(ifconfig eth0:0 |grep 'inet ' |awk '{print $2}' )
+		  val=$(sudo ifconfig eth0:0 |grep 'inet ' |awk '{print $2}' )
 	   fi
 	   putter "$val" "ethip2" "openWB/global/ethaddr2"
 
