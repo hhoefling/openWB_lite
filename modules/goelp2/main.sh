@@ -3,7 +3,8 @@ re='^-?[0-9]+$'
 rekwh='^[-+]?[0-9]+\.?[0-9]*$'
 
 output=$(curl --connect-timeout $goetimeoutlp2 -s http://$goeiplp2/status)
-if [[ $? == "0" ]] ; then
+rc=$?
+if [[ "$rc" == "0" ]] ; then
 	watt=$(echo $output | jq -r '.nrg[11]')
 	watt=$(echo "scale=0;$watt * 10 /1" |bc)
 	if [[ $watt =~ $re ]] ; then
@@ -62,4 +63,6 @@ if [[ $? == "0" ]] ; then
     else          
       echo 0 > /var/www/html/openWB/ramdisk/chargestats1
      fi    
+else
+	openwbDebugLog "MAIN" 1 "Curl-RC  $rc "	
 fi

@@ -26,6 +26,7 @@
 #
 #####
 
+OPENWBBASEDIR=/var/www/html/openWB
 set -o pipefail
 set -o nounset
 
@@ -34,6 +35,11 @@ cd /var/www/html/openWB/ || exit 1
 # use kostant ramdisk  , no var RAMDISK with 
 
 source helperFunctions.sh
+if pidof -x -o $$ "${BASH_SOURCE[0]}"
+then
+	openwbDebugLog "MAIN" 0 "Previous regulation loop still running. Skipping."
+	exit
+fi
 
 if [ -e ramdisk/updateinprogress ] && [ -e ramdisk/bootinprogress ]; then
 	updateinprogress=$(<ramdisk/updateinprogress)
@@ -116,7 +122,6 @@ source minundpv.sh
 source nurpv.sh
 source auslademodus.sh
 source sofortlademodus.sh
-source goecheck.sh
 source loadvars.sh
 source graphing.sh
 source nachtladen.sh
@@ -128,10 +133,9 @@ source hook.sh
 if (( u1p3paktiv == 1 )); then
 	source u1p3p.sh
 fi	
-source nrgkickcheck.sh
 source rfidtag.sh
 source leds.sh
-# source slavemode.sh
+# NC source slavemode.sh
 
 date=$(date)
 re='^-?[0-9]+$'
@@ -210,12 +214,30 @@ fi
 # check rfid
 #moved in loadvars
 
-#goe mobility check
-goecheck
 
-# nrgkick mobility check
-nrgkickcheck
+function domod(){
+ local mod=$1
+ if [[ -x $mod ]] ; then
+	openwbDebugLog "MAIN" 2 "EXEC $mod"
+	$mod
+ else	 
+  	openwbDebugLog "MAIN" 1 "NO $mod found"
+ fi
+}
 
+# Statt goecheck und nrgcheck immer zu laden, 
+# nur dann wenn verwendet subscript aufrufen (ausgelagert )
+#########################################################################
+		domod  "modules/${evsecon}lp1/check.sh"
+#########################################################################
+	if (( lastmanagement  == 1 )) ; then
+		domod "modules/${evsecons1}lp2/check.sh"
+	fi	
+#########################################################################
+ 	if (( lastmanagements2 == 1 )); then
+		domod "modules/${evsecons2}lp3/check.sh"
+	fi	
+#########################################################################
 
 LadereglerTxt=""
 BatSupportTxt=""

@@ -6,7 +6,8 @@ rekwh='^[-+]?[0-9]+\.?[0-9]*$'
 ##curl -s -X PUT -H "Content-Type: application/json" --data '{ "Values": {"ChargingStatus": { "Charging": false }, "ChargingCurrent": { "Value": "6"}, "DeviceMetadata":{"Password": 1234}}}' 10.20.0.78/api/settings/00:1E:C0:76:82:1D
 
 output=$(curl --connect-timeout $nrgkicktimeoutlp1 -s http://$nrgkickiplp1/api/measurements/$nrgkickmaclp1)
-if [[ $? == "0" ]] ; then
+rc=$?
+if [[ "$rc" == "0" ]] ; then
 	watt=$(echo $output | jq -r '.ChargingPower')
 	watt=$(echo "scale=0;$watt * 1000 /1" |bc)
 	if [[ $watt =~ $re ]] ; then
@@ -44,4 +45,6 @@ if [[ $? == "0" ]] ; then
 	if [[ $llkwh =~ $rekwh ]] ; then
 		echo $llkwh > /var/www/html/openWB/ramdisk/llkwh
 	fi
+else
+	openwbDebugLog "MAIN" 1 "Curl-RC  $rc "	
 fi
