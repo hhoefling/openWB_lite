@@ -539,8 +539,8 @@ class Sbase(Sbase0):
         file_charge = '/var/www/html/openWB/ramdisk/llkombiniert'
         testcharge = 0.0
         try:
-        if os.path.isfile(file_charge):
-            with open(file_charge, 'r') as f:
+            if os.path.isfile(file_charge):
+                with open(file_charge, 'r') as f:
                     testcharge = float(f.read())
         except Exception:
             pass
