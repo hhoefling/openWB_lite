@@ -1,7 +1,9 @@
 #!/bin/bash
+########## Re-Run as PI if not
+USER=${USER:-`id -un`}
+[ "$USER" != "pi" ] && exec sudo -u pi "$0" -- "$@"
+##########
 
-########## Re-Run as PI if not 
-[ "$USER" != "pi" ] && exec su pi "$0" -- "$@"
 
 # von cron aus /home/pi als dir 
 # must be called  as pi from /var/www/html/openWB
@@ -37,14 +39,17 @@ function cleanup()
 	local endregel=$(date +%s)
 	local t=$((endregel-startregel))
 	openwbDebugLog "MAIN" 0 "cron5min needs $t Sekunden"
-    rm -f "$RAMDISKDIR/cron5runs" 
+	rm -f "$RAMDISKDIR/cron5runs"
+	echo "done" >"$RAMDISKDIR/lastcron5time"
+
 }
 trap cleanup EXIT
 touch "$RAMDISKDIR/cron5runs" 
+echo "start" >"$RAMDISKDIR/lastcron5time"
 
 
 idd=`id -un`
-openwbDebugLog "MAIN" 0 "##### cron5min.sh started as $idd #####"
+openwbDebugLog "MAIN" 0 "##### cron5min.sh started as $idd ##### [$USER]"
 
 headfile="$OPENWBBASEDIR/web/logging/data/daily/daily_header"
 dailyfile="$OPENWBBASEDIR/web/logging/data/daily/$(date +%Y%m%d)"
@@ -518,13 +523,13 @@ openwbDebugLog "MAIN" 1 "logfile cleanup triggered"
 # die mqtt logdatei gehört www-data und kann von pi nicht geöndert werden.
 sudo $OPENWBBASEDIR/runs/cleanup.sh >> "$RAMDISKDIR/cleanup.log" 2>&1
 
-#openwbDebugLog "MAIN" 0 "##### cron5min.sh Publish Systemstate to MQTT #####"
 (
  cd "$OPENWBBASEDIR"
  openwbDebugLog "MAIN" 0 "##### cron5min.sh Check sysdaemon"
- runs/sysdaem.sh  &
+ runs/sysdaem.sh &
 )
 
+#openwbDebugLog "MAIN" 0 "##### cron5min.sh Publish Systemstate to MQTT #####"
 #sysinfo=$(cd /var/www/html/openWB/web/tools; sudo php programmloggerinfo.php 2>/dev/null)
 #tempPubList="openWB/global/cpuModel=$(cat /proc/cpuinfo | grep -m 1 "model name" | sed "s/^.*: //")"
 #tempPubList="${tempPubList}\nopenWB/global/cpuUse=$(echo ${sysinfo} | jq -r '.cpuuse')"
@@ -553,5 +558,5 @@ sudo $OPENWBBASEDIR/runs/cleanup.sh >> "$RAMDISKDIR/cleanup.log" 2>&1
 #echo "Running Python3: runs/mqttpub.py -q 0 -r &"
 #echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
 
-
 openwbDebugLog "MAIN" 0 "##### cron5min.sh finished #####"
+
