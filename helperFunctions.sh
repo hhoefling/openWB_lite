@@ -129,8 +129,10 @@ openwbDebugLog() {
            p="$$"
         fi
 		   
+		u=$(caller 0)
+		u=${u/\/var\/www\/html\/openWB\//}
 		if (( DEBUGLEVEL > 0 )); then
-			echo "$timestamp: $p $3 (LV$2) at $(caller 0)" >> $LOGFILE
+			echo "$timestamp: $p $3 (LV$2) at $u" >> $LOGFILE
 		else
 			echo "$timestamp: $p $3 (LV$2)" >> $LOGFILE
 		fi
@@ -173,7 +175,7 @@ function incvar()
 	 pvar=0
  fi
  echo $pvar >"$fn"
- openwbDebugLog "MAIN" 1 "incvar: '${!pvar}' now $pvar"
+ openwbDebugLog "MAIN" 2 "incvar: '${!pvar}' now $pvar"
 }
 
 export -f incvar
