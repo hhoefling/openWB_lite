@@ -126,7 +126,7 @@ source loadvars.sh
 source graphing.sh
 source nachtladen.sh
 source zielladen.sh
-	source evsedintest.sh
+source evsedintest.sh
 source hook.sh
 if (( u1p3paktiv == 1 )); then
 	source u1p3p.sh
@@ -294,8 +294,8 @@ if (( lp3enabled == 0)); then
 fi
 # LP4-LP8
 
-    # EVSE DIN Modbus test, wenn "Ausstehend" eingertragen ist (evsedinttest.php)
-    evsedintest
+# Maybee Exit 
+evsedintest
 
 #u1p3p switch
 if (( u1p3paktiv == 1 )); then
