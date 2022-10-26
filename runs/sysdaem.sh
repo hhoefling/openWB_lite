@@ -1,7 +1,8 @@
 #!/bin/bash
 
-########## Re-Run as PI if not 
-[ "$USER" != "pi" ] && exec su pi "$0" -- "$@"
+########## Re-Run as PI if not
+USER=${USER:-`id -un`}
+[ "$USER" != "pi" ] && exec sudo -u pi "$0" -- "$@"
 
 OPENWBBASEDIR=$(cd `dirname $0`/../ && pwd)
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
