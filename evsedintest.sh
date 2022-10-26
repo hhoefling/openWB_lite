@@ -127,7 +127,7 @@ evsedintest() {
 					sudo socat pty,link=$modbusevsesource,raw tcp:$modbusevselanip:26 &
 				fi
 			else
-				echo $evselp12000 > /var/www/html/openWB/ramdisk/progevsedinlp12000
+				echo "echo" > /dev/null
 			fi
 			sleep 1
 			# 2000: Current after boot 32
@@ -173,7 +173,7 @@ evsedintest() {
 	
 	progevselp1=$(<ramdisk/progevsedinlp1)
 	if [[ $progevselp1 == "1" ]]; then
-			if [[ $evsecon == "modbusevse" ]]; then 
+		if [[ $evsecon == "modbusevse" ]]; then 
 			if [[ $modbusevsesource = *virtual* ]]; then
 				if ps ax |grep -v grep |grep "socat pty,link=$modbusevsesource,raw tcp:$modbusevselanip:26" > /dev/null
 				then
@@ -182,8 +182,7 @@ evsedintest() {
 					sudo socat pty,link=$modbusevsesource,raw tcp:$modbusevselanip:26 &
 				fi
 			else
-				sudo python runs/evsewritembusdev.py $modbusevsesource $modbusevseid 2000 $lp12000
-			fi
+				echo "echo" > /dev/null
 			fi
 			sleep 1
 			lp12000=$(<ramdisk/progevsedinlp12000)
@@ -270,7 +269,7 @@ evsemodbuscheck5() {
 				if ps ax |grep -v grep |grep "socat pty,link=$evsesources2,raw tcp:$evselanips2:26" > /dev/null; then
 					echo "test" > /dev/null
 				else
-					sudo python runs/evsewritembusdev.py $evsesources2 $evseids2 1000 $llalts2
+					sudo socat pty,link=$evsesources2,raw tcp:$evselanips2:26 &
 				fi
 			else
 				echo "echo" > /dev/null
