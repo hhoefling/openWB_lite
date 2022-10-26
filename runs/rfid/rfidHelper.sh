@@ -58,13 +58,13 @@ rfidMode2UpdateList() {
 }
 export -f rfidMode2UpdateList
 
-rfidMode2Stop(){
+rfidMode2Stop() {
 	openwbDebugLog "MAIN" 1 "rfid stop rfidDaemon.py process"
 	sudo pkill -f '^python.*/rfidDaemon.py' >/dev/null
 }
 export -f rfidMode2Stop
 
-rfidSetup(){
+rfidSetup() {
 	local mode=$1
 	local forceRestart=$2
 	local tagList=$3
