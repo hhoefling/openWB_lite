@@ -20,8 +20,3 @@ if  (( $logfilesize > (kb * 1024) )) ; then
     #ls -l $f
 fi
 
-
-
-#echo "tail $1"
-#ls $1 -l
-#echo "$(tail -2000 $1)" > $1
