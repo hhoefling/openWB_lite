@@ -27,6 +27,7 @@ initRamdisk(){
 	# Variablen noch nicht einheitlich benannt, daher individuelle Zeilen
 	echo 0 > $RamdiskPath/errcounterextopenwb
 	echo 0 > $RamdiskPath/pluggedin
+	echo "Reboot"  > $RamdiskPath/lastcron5time
 	echo "nicht angefragt" > $RamdiskPath/evsedintestlp1
 	echo "nicht angefragt" > $RamdiskPath/evsedintestlp2
 	echo "nicht angefragt" > $RamdiskPath/evsedintestlp3
