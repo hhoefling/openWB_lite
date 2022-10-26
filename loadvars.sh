@@ -108,7 +108,7 @@ loadvars(){
 ### 64  modbusevsesource=/dev/ttyUSB0 modbusevseid=1
 		
 ##################### 1002 get Vehicle Status
-		openwbDebugLog "MAIN" 2 "EXEC: modbusevse sudo python runs/readmodbus.py ip:$modbusevsesource id:$modbusevseid reg:1002 cnt:1"
+		openwbDebugLog "MAIN" 1 "EXEC: modbusevse sudo python runs/readmodbus.py ip:$modbusevsesource id:$modbusevseid reg:1002 cnt:1"
 		evseplugstate=$(sudo python runs/readmodbus.py $modbusevsesource $modbusevseid 1002 1)
 #########################################################################						
 		if [ -z "${evseplugstate}" ] || ! [[ "${evseplugstate}" =~ $IsNumberRegex ]]; then
