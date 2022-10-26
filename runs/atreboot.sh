@@ -1,7 +1,8 @@
 #!/bin/bash
 
-########## Re-Run as PI if not 
-[ "$USER" != "pi" ] && exec su pi "$0" -- "$@"
+########## Re-Run as PI if not
+USER=${USER:-`id -un`}
+[ "$USER" != "pi" ] && exec sudo -u pi "$0" -- "$@"
 
 # called as user pi
 OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
@@ -49,9 +50,9 @@ at_reboot() {
 	 ) &
 	# 
 	# backup-Marker ist Hostname + SerienNr vom sd/usb Device
-	# daruber wird die Ablage im Backupsever gesteuert.
-        echo -n "${HOSTNAME}_" >/var/www/html/rinfo.txt
-        cat /etc/fstab |grep "/boot" | cut -d " " -f 1 | cut -d "-" -f 1 | grep -o -E '[0-9a-f]*' >>/var/www/html/rinfo.txt
+	# daruber wird die Ablage im Backup-Server gesteuert.
+	echo -n "${HOSTNAME}_" >/var/www/html/rinfo.txt
+	cat /etc/fstab |grep "/boot" | cut -d " " -f 1 | cut -d "-" -f 1 | grep -o -E '[0-9a-f]*' >>/var/www/html/rinfo.txt
 
 	# read openwb.conf
 	log "loading config"
