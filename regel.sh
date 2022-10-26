@@ -126,9 +126,7 @@ source loadvars.sh
 source graphing.sh
 source nachtladen.sh
 source zielladen.sh
-if [[ -r evsedintest.sh ]]; then
 	source evsedintest.sh
-fi	
 source hook.sh
 if (( u1p3paktiv == 1 )); then
 	source u1p3p.sh
@@ -296,14 +294,8 @@ if (( lp3enabled == 0)); then
 fi
 # LP4-LP8
 
-
-if [[ -r evsedintest.sh ]]; then
     # EVSE DIN Modbus test, wenn "Ausstehend" eingertragen ist (evsedinttest.php)
-    #source evsedintest.sh
     evsedintest
-else
-	openwbDebugLog "MAIN" 2 "evsedintest skiped, no script found"
-fi
 
 #u1p3p switch
 if (( u1p3paktiv == 1 )); then
@@ -456,18 +448,12 @@ fi
 
 
 
-
-evsemodbustimer=0
+ 
+evsemodbustimer=0		
 incvar evsemodbustimer 30
 if (( evsemodbustimer == 0 )) ; then
-   openwbDebugLog "MAIN" 1 "call evse modbus check, every 5 minutes"
-
-	if [[ -r evsedintest.sh ]]; then
-    	#source evsedintest.sh
-    	evsemodbuscheck
-	else
-		openwbDebugLog "MAIN" 2 "evsemodbuscheck skiped, no script found"
-	fi
+   	openwbDebugLog "MAIN" 1 "call evse modbus check, every 5 minutes"
+   	evsemodbuscheck5
 fi
 
 
