@@ -187,6 +187,7 @@ hdparm -tT /dev/sda
 | Pi/Karte | Port  | Leserate<br>MB/sec | Schreibrate<br>MB/sec |
 |--------------|-------|--------------------|-----------------------|
 | R3B+/32GB SDHC | Intern |584.59 |22.38 |
+| R3B+/32GB Stick|  USB |629,19|29,53 |
 | R4B+/32GB SDHC | Intern | 519.06 |44.40 |
 | R4B+/16GB SDHC | USB Kartenleser|585.22 |33.09|
 | R4B+/16GB SDHC | USB3 Kartenleser| 586.95 | 82.60 |
