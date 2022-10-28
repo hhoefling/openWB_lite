@@ -191,6 +191,7 @@ hdparm -tT /dev/sda
 | R4B+/16GB SDHC | USB Kartenleser|585.22 |33.09|
 | R4B+/16GB SDHC | USB3 Kartenleser| 586.95 | 82.60 |
 | R4B+/32GB Stick | USB3 | 613.43 | 128.80 |
+| R4B+/64GB SSD | USB | 640.00 | 13.0||
 | R4B+/64GB SSD | USB3 | 570.11 | 183.26||
 | R4B+/128GB SSD | USB |  610.00 | 13,23 !!!|
 | R4B+/128GB SSD | USB3|  650.00 | 202,0|
