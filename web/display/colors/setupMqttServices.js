@@ -44,6 +44,7 @@ var topicsToSubscribe = [
  	["openWB/global/wlanaddr2", 0],
  	["openWB/global/cpuUse", 0],
  	["openWB/global/cpuTemp", 0],
+ 	["openWB/global/rootDev", 0],
 
 	["openWB/config/get/pv/priorityModeEVBattery", 1],
 	["openWB/config/get/pv/minCurrentMinPv", 1],

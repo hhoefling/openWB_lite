@@ -145,15 +145,15 @@
 				<div class="card-header bg-secondary">
 					Netzwerk
 				</div>
-				<div class="card-body">
+				<div class="card-body" style="padding:0.25em;">
 					<div class="row">
 						<div class="col">
-							<p>
-							Mosquito: <pre><?php 
+							<p><pre style="font-size:0.7em;"><?php 
 											$lines=[];
-											exec('sudo netstat -nap | egrep "VERBUNDEN|ESTABLISHED" | grep tcp ', $lines);
+											exec('sudo netstat -nap | egrep "VERBUNDEN|ESTABLISHED|LISTEN" | grep tcp ', $lines);
 											echo implode('<br>',$lines);
-                                       ?>											</pre>
+                                       ?>		
+                            	</pre>
 							</p>
 						</div>
 					</div>
@@ -164,10 +164,9 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
-							<p>
-							PS: <pre><?php 
+							<p><pre style="font-size:0.7em;"><?php 
 											$lines=[];
-											exec('sudo ps -efl | grep open ', $lines);
+											exec('sudo ps -efl | grep openWB | grep -v grep | grep -v sudo ', $lines);
 											echo implode('<br>',$lines);
                                        ?>
 								</pre>

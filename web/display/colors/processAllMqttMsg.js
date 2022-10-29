@@ -346,12 +346,14 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 	else if (mqttmsg == 'openWB/global/diskUse')     { $('#diskuse').text(mqttpayload); 
 	}
 	else if (mqttmsg == 'openWB/global/diskUsedPrz') { $('#diskusedprz').text(mqttpayload); 
+													   $('#diskusedprz2').val(mqttpayload);	
 	}
 	else if (mqttmsg == 'openWB/global/diskFree')    { $('#diskfree').text(mqttpayload); 
 	}
 	else if (mqttmsg == 'openWB/global/tmpUse')      { $('#tmpuse').text(mqttpayload); 
 	}
 	else if (mqttmsg == 'openWB/global/tmpUsedPrz')  { $('#tmpusedprz').text(mqttpayload); 
+													   $('#tmpusedprz2').val(mqttpayload);	
 	}
 	else if (mqttmsg == 'openWB/global/tmpFree')     { $('#tmpfree').text(mqttpayload); 
 	}
@@ -370,8 +372,12 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 	else if (mqttmsg == 'openWB/global/cpuTemp')     {
 	    $('#cputemp').text((mqttpayload*1).toFixed(1));
 	}
-	
-
+	else if (mqttmsg == 'openWB/global/rootDev')     {
+						if (mqttpayload == 'mmcblk0p2') 
+						   {	$('#rootdev').text('SD Karte');	} 
+					   else
+						   { $('#rootdev').text(mqttpayload); }
+	}
 	
 /*
 					  Eth:<span id="iplan">--</span>,<span id="iplan2">--</span>

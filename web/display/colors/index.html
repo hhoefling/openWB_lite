@@ -183,7 +183,7 @@
                 </div>
                 <div class="">
                   <div class="form-row">
-                    <div class="col-4">
+                    <div class="col-3">
                       Version:
                     </div>
                     <div class="col">
@@ -192,7 +192,7 @@
                   </div>
 				  
                   <div class="form-row">
-                    <div class="col-4">
+                    <div class="col-3">
                       IP Adresse:
                     </div>
                     <div class="col">
@@ -201,7 +201,7 @@
                     </div>
                   </div>
                   <div class="form-row">
-                    <div class="col-4">
+                    <div class="col-3">
                       Betriebszeit:
                     </div>
                     <div class="col">
@@ -209,7 +209,7 @@
                     </div>
                   </div>
                   <div class="form-row">
-                    <div class="col-4">
+                    <div class="col-3">
                       Prozessor:
                     </div>
                     <div class="col">
@@ -217,28 +217,29 @@
                     </div>
                   </div>
                   <div class="form-row">
-                    <div class="col-4">
+                    <div class="col-3">
                       Arbeitsspeicher:
                     </div>
                     <div class="col">
-                      <span id='memtot'>--</span> MB <meter id="mem" min="0" value="0"></meter>
-                      (<span id='memfree'>--</span> MB frei)
+                      <meter id="mem" min="0" value="0"></meter> <span id='memtot'>--</span> MB (<span id='memfree'>--</span> MB frei)
                     </div>
                   </div>
                   <div class="form-row">
-                    <div class="col-4">
+                    <div class="col-3">
                       SD-Karte:
                     </div>
                     <div class="col">
-                      <span id='diskuse'>--</span> <span id='diskusedprz'>--</span> % belegt, <span id='diskfree'>--</span> verfügbar. 
+					  <meter id="diskusedprz2" high=65 min=0 max=100 value=0></meter>
+                      <span id='diskusedprz'>--</span> %, <span id='diskuse'>--</span> belegt, <span id='diskfree'>--</span> verfügbar auf <span id='rootdev'>--</span>
                     </div>
 				  </div>		
        			  <div class="form-row">
-                    <div class="col-4">
-                      Temp:
+                    <div class="col-3">
+                      Temp / Ramdisk:
                     </div>
                     <div class="col">
-                      <span id='tmpuse'>--</span> <span id='tmpusedprz'>--</span> % belegt, <span id='tmpfree'>--</span> verfügbar.
+					  <meter id="tmpusedprz2" high=65 min=0 max=100 value=0></meter>
+                      <span id='tmpusedprz'>--</span> %, <span id='tmpuse'>--</span> belegt, <span id='tmpfree'>--</span> verfügbar.
                     </div>
                   </div>
                 </div>
@@ -251,7 +252,7 @@
                 </div>
                 <div id="backend">
                   <div class="form-row">
-                    <div class="col-4">
+                    <div class="col-3">
                       Status:
                     </div>
                     <div class="col">
@@ -270,7 +271,7 @@
                         Home
                       </button>
                     </div>
-                    <div class="col-4 hide" id="homebutton">
+                    <div class="col-4 hide" id="setupbutton">
                       <button class="btn btn-block btn-danger displayButton setupBtn" type="button">
                         Einstellungen
                       </button>
@@ -917,12 +918,14 @@
         $('#displaylock').find('.fa-lock').addClass('hide');
         $('#displaylock').find('.fa-unlock').removeClass('hide');
         $("#homebutton").removeClass("hide");
+        $("#setupbutton").removeClass("hide");
         lockTimeoutHandler = window.setTimeout(lockDisplay, lockTimeout);
       } else {
         displaylocked = true;
         $('#displaylock').find('.fa-lock').removeClass('hide');
         $('#displaylock').find('.fa-unlock').addClass('hide');
 		$("#homebutton").addClass("hide");
+		$("#setupbutton").addClass("hide");
         window.clearTimeout(lockTimeoutHandler);
         lockTimeoutHandler = null;
       }
@@ -1006,6 +1009,7 @@
       // handling of display panels
       initPanels();
 	  $("#homebutton").addClass("hide");
+	  $("#setupbutton").addClass("hide");
 
 
       $('#lastmanagementShowBtn').on("click", function (event) {
