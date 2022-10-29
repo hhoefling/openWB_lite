@@ -159,10 +159,6 @@ at_reboot() {
 		fi
 	fi
 
-	# restart our modbus server
-	#sudo pkill -f '^python.*/modbusserver.py' > /dev/null
-	#log "modbus server..."
-	#sudo nohup python3 "$OPENWBBASEDIR/runs/modbusserver/modbusserver.py" >>"$LOGFILE" 2>&1 &
 
 	# check if our modbus server is running
 	# if Variable not set -> server active (old config)
@@ -178,12 +174,8 @@ at_reboot() {
 	    then
   	   		log "modbus tcp server already running"
     	else
-       		if (  $(lsusb | grep -q UART) ) ; then
-	        	log "modbus tcp server not running! restarting process"
-          		sudo nohup python3 "$OPENWBBASEDIR/runs/modbusserver/modbusserver.py" >>"$LOGFILE" 2>&1 &
-       		else
-        		log "modbus tcp server not avail no usb-UART"
-       		fi
+	        log "modbus tcp server not running! restarting process"
+          	sudo nohup python3 "$OPENWBBASEDIR/runs/modbusserver/modbusserver.py" >>"$LOGFILE" 2>&1 &
     	fi
 	fi
 
