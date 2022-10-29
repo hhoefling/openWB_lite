@@ -466,7 +466,7 @@ if [[ "$modbus502enabled" == "0" ]]; then
    	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/modbusserver/modbusserver.py" > /dev/null
   	then
      	openwbDebugLog "MAIN" 0 "kill running modbus tcp server"
-	   	sudo kill $(ps aux |grep '[m]odbusserver.py' | awk '{print $2}')
+     	sudo pkill -f '^python.*/modbusserver.py' >/dev/null
 	  fi
 else
     if ps ax |grep -v grep |grep "sudo python3 $OPENWBBASEDIR/runs/modbusserver/modbusserver.py" > /dev/null
@@ -538,7 +538,7 @@ sudo $OPENWBBASEDIR/runs/cleanup.sh >> "$RAMDISKDIR/cleanup.log" 2>&1
 #tempPubList="${tempPubList}\nopenWB/global/memTotal=$(echo ${sysinfo} | jq -r '.memtot')"
 #tempPubList="${tempPubList}\nopenWB/global/memUse=$(echo ${sysinfo} | jq -r '.memuse')"
 #tempPubList="${tempPubList}\nopenWB/global/memFree=$(echo ${sysinfo} | jq -r '.memfree')"
-
+#tempPubList="${tempPubList}\nopenWB/global/rootDev=$(echo ${sysinfo} | jq -r '.rootdev')"
 #tempPubList="${tempPubList}\nopenWB/global/diskTot=$(echo ${sysinfo} | jq -r '.disktot')"
 #tempPubList="${tempPubList}\nopenWB/global/diskUse=$(echo ${sysinfo} | jq -r '.diskuse')"
 #tempPubList="${tempPubList}\nopenWB/global/diskUsedPrz=$(echo ${sysinfo} | jq -r '.diskusedprz')"
