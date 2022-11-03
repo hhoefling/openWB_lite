@@ -24,9 +24,25 @@ function timerun()  # time cmd paras
  else
    rc=$?	# err or 124
    openwbDebugLog "DEB" 0 "TIMEOUT:$rc $time [$cmd] [$*]  "
-   openwbDebugLog "MAIN" 0 "TIMEOUT:$rc $time [$cmd] [$*]  "
+   openwbDebugLog "MAIN" 0 "ERROR TIMEOUT:$rc $time [$cmd] [$*]  "
  fi
  return $rc
+}
+
+
+function dotimed(){
+ local mod=$1
+ local time=${2:-0}
+ if [[ -x $mod ]] ; then
+	if (( time > 0 ))  ; then
+   	   	timerun $time $mod
+	else
+		openwbDebugLog "MAIN" 2 "EXEC $mod &"
+		$mod &
+	fi	   
+ else	 
+  	openwbDebugLog "MAIN" 1 "NO $mod found"
+ fi
 }
 
 loadvars(){
@@ -388,7 +404,10 @@ loadvars(){
 		pv1vorhanden="1"
 		echo 1 > ramdisk/pv1vorhanden
 #########################################################################						
-		timerun 5 modules/$pvwattmodul/main.sh
+	    dotimed "modules/$pvwattmodul/main.sh" 5
+		if [[ $? -eq 124 ]] ; then
+			openwbModulePublishState "PV" 2 "Die PV-1 Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 1
+		fi
 		pvwatt=$(</var/www/html/openWB/ramdisk/pvwatt)
 		openwbDebugLog "MAIN" 2 "pvwatt: $pvwatt"
 #########################################################################						
@@ -407,7 +426,10 @@ loadvars(){
 		pv2vorhanden="1"
 		echo 1 > ramdisk/pv2vorhanden
 #########################################################################						
-		timerun 5 modules/$pv2wattmodul/main.sh 
+	    dotimed "modules/$pv2wattmodul/main.sh" 5
+		if [[ $? -eq 124 ]] ; then
+			openwbModulePublishState "PV" 2 "Die PV-2 Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 2
+		fi
 		pv2watt=$(</var/www/html/openWB/ramdisk/pv2watt)
 		openwbDebugLog "MAIN" 2 "pv2watt: $pv2watt"
 #########################################################################						
@@ -438,9 +460,7 @@ loadvars(){
 	#Speicher werte
 	if [[ $speichermodul != "none" ]] ; then
 #########################################################################						
-		#openwbDebugLog "MAIN" 1 "EXEC: timeout 5 modules/$speichermodul/main.sh"
-		#timeout 5 modules/$speichermodul/main.sh
-		timerun 5 modules/$speichermodul/main.sh
+		dotimed "modules/$speichermodul/main.sh" 5 
 		if [[ $? -eq 124 ]] ; then
 			openwbModulePublishState "BAT" 2 "Die Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen."
 		fi
@@ -493,9 +513,10 @@ loadvars(){
 	#Ladeleistung ermitteln
 	if [[ $ladeleistungmodul != "none" ]]; then
 #########################################################################						
-		#openwbDebugLog "MAIN" 1 "EXEC: timeout 8 modules/$ladeleistungmodul/main.sh"
-		#timeout 8 modules/$ladeleistungmodul/main.sh || true
-		timerun 8 modules/$ladeleistungmodul/main.sh
+		dotimed "modules/$ladeleistungmodul/main.sh" 5
+		if [[ $? -eq 124 ]] ; then
+			openwbModulePublishState "LP" 2 "Die LL-Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 1
+		fi
 #########################################################################						
 		llkwh=$(<ramdisk/llkwh)
 		llkwhges=$llkwh
@@ -558,8 +579,11 @@ loadvars(){
 	if ((lastmanagement == 1)); then
 		if [[ $socmodul1 != "none" ]]; then
 #########################################################################						
-			openwbDebugLog "MAIN" 1 "EXEC&: modules/$socmodul1/main.sh &"
-			modules/$socmodul1/main.sh &
+			#openwbDebugLog "MAIN" 1 "EXEC&: modules/$socmodul1/main.sh &"
+			dotimed "modules/$socmodul1/main.sh"
+			if [[ $? -eq 124 ]] ; then
+				openwbModulePublishState "EVSOC" 2 "Die SOC-2 Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 2
+			fi
 #########################################################################						
 			soc1=$(<ramdisk/soc1)
 			tmpsoc1=$(<ramdisk/tmpsoc1)
@@ -577,9 +601,10 @@ loadvars(){
 			soc1vorhanden=0
 		fi
 #########################################################################						
-		#openwbDebugLog "MAIN" 1 "EXEC: timeout 8 modules/$ladeleistungs1modul/main.sh"
-		#timeout 8 modules/$ladeleistungs1modul/main.sh || true
-		timerun 8 modules/$ladeleistungs1modul/main.sh 
+		dotimed "modules/$ladeleistungs1modul/main.sh" 5
+		if [[ $? -eq 124 ]] ; then
+			openwbModulePublishState "LP" 2 "Die LL-Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 2
+		fi
 #########################################################################						
 		llkwhs1=$(<ramdisk/llkwhs1)
 		llkwhges=$(echo "$llkwhges + $llkwhs1" |bc)
@@ -626,9 +651,10 @@ loadvars(){
 	#dritter ladepunkt
 	if ((lastmanagements2 == 1)); then
 #########################################################################						
-		#openwbDebugLog "MAIN" 1 "EXEC: timeout 8 modules/$ladeleistungs2modul/main.sh"
-		#timeout 8 modules/$ladeleistungs2modul/main.sh || true
-		timerun 8 modules/$ladeleistungs2modul/main.sh
+		dotimed "modules/$ladeleistungs2modul/main.sh" 5
+		if [[ $? -eq 124 ]] ; then
+			openwbModulePublishState "LP" 2 "Die LL-Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 3
+		fi
 #########################################################################						
 		llkwhs2=$(<ramdisk/llkwhs2)
 		llkwhges=$(echo "$llkwhges + $llkwhs2" |bc)
@@ -705,7 +731,10 @@ loadvars(){
 		#	openwbDebugLog "DEB" 0 " EVU > 5 !!! "
 		#	wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
 		#fi
-		timerun 5 modules/$wattbezugmodul/main.sh
+		dotimed "modules/$wattbezugmodul/main.sh" 5
+		if [[ $? -eq 124 ]] ; then
+			openwbModulePublishState "EVU" 2 "Die EVU Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 1
+		fi
 		wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
 		openwbDebugLog "MAIN" 2 "Wattbezug: $wattbezug"
 #########################################################################						
@@ -827,8 +856,11 @@ loadvars(){
 			# if (( plugstat == 1 )); then
 			if ((plugstat == 1)) || ((soctimer == 20005)); then # force soc update button sends 20005
 #########################################################################						
-				openwbD	ebugLog "MAIN" 1 "EXEC&: modules/$socmodul/main.sh &"
-				"modules/$socmodul/main.sh" &
+				#openwbD	ebugLog "MAIN" 1 "EXEC&: modules/$socmodul/main.sh &"
+				dotimed "modules/$socmodul/main.sh"
+				if [[ $? -eq 124 ]] ; then
+					openwbModulePublishState "EVSOC" 2 "Die SOC Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 1
+				fi
 #########################################################################					
 				soc=$(<ramdisk/soc)
 				tmpsoc=$(<ramdisk/tmpsoc)
@@ -844,8 +876,11 @@ loadvars(){
 			fi
 		else
 #########################################################################						
-			openwbDebugLog "MAIN" 1 "EXEC&: modules/$socmodul/main.sh &"
-			"modules/$socmodul/main.sh" &
+			# openwbDebugLog "MAIN" 1 "EXEC&: modules/$socmodul/main.sh &"
+			dotimed "modules/$socmodul/main.sh"
+			if [[ $? -eq 124 ]] ; then
+				openwbModulePublishState "EVSOC" 2 "Die SOC Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 1
+			fi
 #########################################################################						
 			soc=$(<ramdisk/soc)
 			tmpsoc=$(<ramdisk/tmpsoc)
