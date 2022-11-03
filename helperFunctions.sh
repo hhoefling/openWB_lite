@@ -21,6 +21,8 @@ writeifchanged()
 		echo $checktxt >$cf
 		mosquitto_pub -t "openWB/set/${token}/$t1" -r -m "$sollstate"
 		mosquitto_pub -t "openWB/set/${token}/$t2" -r -m "$solltxt"
+		openwbDebugLog "MAIN" 2 "writeifchanged:  $sollstate $solltxt"
+		
  fi
 }
 
