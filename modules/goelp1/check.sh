@@ -1,5 +1,5 @@
 #!/bin/bash
-goecheck(){
+goecheck1(){
 	#######################################
 	#goe mobility check
 	if [[ $evsecon == "goe" ]]; then
@@ -34,5 +34,6 @@ goecheck(){
 	fi
 }
 
-goecheck
+goecheck1
+
 

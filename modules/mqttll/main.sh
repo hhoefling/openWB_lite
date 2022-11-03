@@ -5,7 +5,9 @@ OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 MODULEDIR=$(cd `dirname $0` && pwd)
 
-. $OPENWBBASEDIR/loadconfig.sh
-. $OPENWBBASEDIR/helperFunctions.sh
+declare -F openwbDebugLog &> /dev/null || {
+	. "$OPENWBBASEDIR/helperFunctions.sh"
+    . "$OPENWBBASEDIR/loadconfig.sh"
+}
 
-# openwbModulePublishState "LP" 0 "Kein Fehler" 1
+openwbModulePublishState "LP" 0 "Kein Fehler" 1

@@ -1,5 +1,5 @@
 #!/bin/bash
-goecheck(){
+goecheck2(){
 	#######################################
 	# goe mobility check
 	if [[ $lastmanagement == "1" ]]; then
@@ -36,4 +36,4 @@ goecheck(){
 	fi
 }
 
-goecheck
+goecheck2

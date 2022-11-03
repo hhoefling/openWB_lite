@@ -1,6 +1,6 @@
 #!/bin/bash
 
-nrgkickcheck(){
+nrgkickcheck2(){
 	#######################################
 	#nrgkick mobility check
 	if [[ $evsecons1 == "nrgkick" ]]; then
@@ -32,5 +32,5 @@ nrgkickcheck(){
 	fi
 }
 
-nrgkickcheck
+nrgkickcheck2
 

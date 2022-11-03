@@ -3,13 +3,10 @@
 # called from loadvar.sh timeout 10 modules/$ladeleistungmodul/main.sh
 
 # check if config file is already in env
-if [[ -z "$debug" ]]; then
-	OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
-	echo "httpll/main.sh: Seems like openwb.conf is not loaded. Reading file."
-	. $OPENWBBASEDIR/loadconfig.sh
-	. $OPENWBBASEDIR/helperFunctions.sh
-	
-fi
+declare -F openwbDebugLog &> /dev/null || {
+    . "$OPENWBBASEDIR/loadconfig.sh"
+	. "$OPENWBBASEDIR/helperFunctions.sh"
+}
 
 re='^[-+]?[0-9]+\.?[0-9]*$'
 r2e='^-?[0-9]+$'
