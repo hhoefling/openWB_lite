@@ -24,7 +24,7 @@
 	$filename = "/var/www/html/openWB/web/backup/" . $filename;
 		
 	// execute backup script
-	exec("sudo -u pi " . $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/backup.sh " . $filename ." " .$debug , $output, $result);
+	exec("sudo -u pi " . escapeshellarg($_SERVER['DOCUMENT_ROOT']) . "/openWB/runs/backup.sh " . $filename ." " .$debug , $output, $result);
 ?>
 <!DOCTYPE html>
 <html lang="de">
