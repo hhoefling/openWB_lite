@@ -2,7 +2,7 @@
 
 **Interfacenamen bei Buster/Bullseye**
 
-Wenn auf VM's oder anderer Hardeare installiert werden soll
+Wenn auf VM's oder anderer Hardeware installiert werden soll
 und die Schnittstellennamen geändert wurden
 gibt es viele Fehlermeldungen in den Scripten
 
