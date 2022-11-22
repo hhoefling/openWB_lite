@@ -436,6 +436,7 @@ class ChargePoint {
 		this.configured = configured;
 		this.isSocConfigured = isSocConfigured;
 		this.isSocManual = isSocManual;
+		this.socrange = 0;		
 	}
 };
 
