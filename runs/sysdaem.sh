@@ -172,6 +172,7 @@ do
 	putter "$val" "tmpfree" "openWB/global/tmpFree"
 
 	val=$(df -h | grep  ramdisk | awk '{print $5}')
+	val=${val//%}
 	putter "$val" "tmpusedprz" "openWB/global/tmpUsedPrz"
 
 	val=$(df -h | grep  "/$" | awk '{print $2}')
@@ -184,6 +185,7 @@ do
 	putter "$val" "diskfree" "openWB/global/diskFree"
 
 	val=$(df -h | grep  "/$" | awk '{print $5}')
+	val=${val//%}
 	putter "$val" "diskusedprz" "openWB/global/diskUsedPrz"
     
     
