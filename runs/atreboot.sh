@@ -7,6 +7,13 @@ USER=${USER:-`id -un`}
 # called as user pi
 OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
 LOGFILE="/var/log/openWB.log"
+# always check for existing log file!, (shout be never needed)
+if [[ ! -f $LOGFILE ]]; then
+	sudo touch $LOGFILE
+	sudo chmod 777 $LOGFILE
+fi
+
+
 . "$OPENWBBASEDIR/helperFunctions.sh"
 
 # Definitve setzen
