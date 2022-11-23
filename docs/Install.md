@@ -53,10 +53,10 @@ apt-get install mosquitto=2.0.11-0mosquitto1~buster1 -V
 ## Installation auf einem Pi1 oder PI2+ ##
 
 Dieser Raspi hat nur 512MB Ram daher wählen wir eine variante ohne Desktop 
-Der Raspi sollte auch kein Display angeschlossen haben (Kontroll monitor darf da sein)
+Der Raspi sollte auch kein (LC)-Display angeschlossen haben. (Ein Kontrollmonitor darf am HDMI angeschlossen sein)
 
-Vorbereiten
-- Ein Stretch oder Buster Image ohne Desktop wählen, also die Lite-Variante.
+Vorbereiten:
+- Ein Buster Image ohne Desktop wählen, also die Lite-Variante.
 - ssh aktivieren (ssh in boot ablegen)
 - (optional) root password setzen
 - (optional) root für ssh freischalten
