@@ -1,12 +1,18 @@
 ## Installation von openWB_lite innerhalb einer WM ##
 ( Original openWB siehe weiter unten )
 
-Download von https://downloads.raspberrypi.org/rpd_x86/images/rpd_x86-2021-01-12/
-das 2021-01-11-raspios-buster-i386.iso ( letztes Buster image)
+Download von https://downloads.raspberrypi.org/rpd_x86/images/rpd_x86-2021-01-12/   
+das IMG File 2021-01-11-raspios-buster-i386.iso ( letztes Buster image)
 
 **Verwendet wurden von mir*
 - VM (VMware oder Virutalbox) mit 2 GB Ram und 4 Kernen.
 - raspian-386 Image mit Buster
+
+Bei vmware kann eine Zeile 
+
+bios.bootDelay = "30000" 
+
+Helfen von CD zu starten wenn die VM schon mal verwendet wurde.
 
 
 
