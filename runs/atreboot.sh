@@ -206,22 +206,20 @@ at_reboot() {
 
 
 	log "detect if LCD is avail."
- 
-	if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
-     	log "LCD detected"
+	# if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
+	if (( hasLCD == 1 )) ; then
+		log "LCD detected"
 	else
-	    if (( displayaktiv == 1 )) ; then
+		if (( displayaktiv == 1 )) ; then
 			log "No LCD detcted, disable displayaktiv"
 			/var/www/html/openWB/runs/replaceinconfig.sh "displayaktiv=" "0"
-    	fi
-    	log "No LCD detcted, stop lighttdm "
-    	sudo service lightdm stop >/dev/null 2>%1 # ignore error
-    	displayaktiv=0
+		fi
+		displayaktiv=0
+		if (( isPC == 0 )) ; then 
+			log "No LCD detcted on Raspi, stop lighttdm "	   
+			sudo service lightdm stop >/dev/null 2>%1 # ignore error 
+		fi	       
 	fi
-
-
-
-
 
 	# check if display is configured and setup timeout
 	if (( displayaktiv == 1 )); then
