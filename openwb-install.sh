@@ -18,6 +18,8 @@ else
     hasLCD=0
 fi
 echo "$hasLCD" > /home/pi/hasLCD
+if uname -a | grep -q x86_64 ; then isPC=1; else isPC=0; fi; 
+echo "$isPC" > /home/pi/isPC
 
 echo "install required packages..."
 
