@@ -486,11 +486,12 @@ at_reboot() {
 	restartService=0
 
 	# check for mosquitto configuration
-	if ! sudo grep -q "openwb-lite-version:1$" /etc/mosquitto/mosquitto.conf; then
-		log "you need to updating mosquitto.conf!!!! "
+#	if ! sudo grep -q "openwb-lite-version:1$" /etc/mosquitto/mosquitto.conf; then
+#		log "you need to updating mosquitto.conf!!!! "
 #		sudo cp "/var/www/html/openWB/web/files/main_mosquitto.conf" /etc/mosquitto/mosquitto.conf
 #		restartService=1
-	fi
+#	fi
+
 	if ! sudo grep -q "openwb-lite-version:1$" /etc/mosquitto/conf.d/openwb.conf; then
 		log "updating mosquitto openwb.conf"
 		sudo cp "/var/www/html/openWB/web/files/mosquitto.conf" /etc/mosquitto/conf.d/openwb.conf
