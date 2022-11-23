@@ -13,9 +13,26 @@ Zuerst mal
 apt update 
 apt upgrade 
 ```
-und dann ein Snapshoot davon machen.
+und dann ein Snapshoot davon machen. 
 
-
+Dann kontrolieren ob auch die alten Netzwerknamen verwendet werden.
+```
+root@pi72:/home/pi# ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 00:0c:29:65:4e:69 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.208.219/24 brd 192.168.208.255 scope global dynamic noprefixroute eth0
+       valid_lft 2268sec preferred_lft 1818sec
+    inet6 fe80::c672:8fbf:8fc1:3e80/64 scope link
+       valid_lft forever preferred_lft forever
+root@pi72:/home/pi#
+```			
+Ok, eth0 ist korekt, ansonsten mit raspi-config ändern
 
 Bei vmware kann eine Zeile 
 
