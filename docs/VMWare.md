@@ -9,11 +9,10 @@ das IMG File 2021-01-11-raspios-buster-i386.iso ( letztes Buster image)
 - File <2021-01-11-raspios-buster-i386.iso> mit Buster 
 
 Zuerst mal 
-
+```
 apt update 
-
 apt upgrade 
-
+```
 und dann ein Snapshoot davon machen.
 
 
