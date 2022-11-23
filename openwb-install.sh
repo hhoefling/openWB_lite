@@ -25,8 +25,7 @@ apt-get update
 dpkg -l >/home/pi/firstdpkg.txt
 apt-get -q -y install whois dnsmasq hostapd openssl vim bc sshpass apache2 php php-gd php-curl php-xml php-json  
 apt-get -q -y install libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients 
-apt-get -q -y install socat python-pip python3-pip python-rpi.gpioa
-apt-get -q -y install python-pip python3-pip
+apt-get -q -y install socat python-pip python3-pip python-pip-whl python-rpi.gpioa
 if (( hasLCD > 0 )) ; then
    echo "install chrome browser..."
    apt-get -q -y install chromium-browser
@@ -159,6 +158,7 @@ fi
 
 echo "installing pymodbus"
 sudo pip install  -U pymodbus
+sudo pip3 install  -U pymodbus
 sudo pip3 install --upgrade requests
 
 echo "check for paho-mqtt"
@@ -167,6 +167,7 @@ if python3 -c "import paho.mqtt.publish as publish" &> /dev/null; then
 else
 	sudo pip3 install paho-mqtt
 fi
+
 
 #Adafruit install
 #echo "check for MCP4725"
