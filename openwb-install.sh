@@ -74,7 +74,7 @@ else
 fi
 
 echo "check for crontab root"
-if grep -Fxq "@reboot sleep 10 && /home/pi/wlan.sh" /var/spool/cron/crontabs/root
+if grep -Fq "@reboot sleep 10 && /home/pi/wlan.sh" /var/spool/cron/crontabs/root
 then
 	echo "...ok"
 else
@@ -102,8 +102,8 @@ else
 	echo "* * * * * sleep 50 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 "
 	) >/tmp/tocrontab
 # ersetzen statt anhaengen
-#### crontab -l -u pi | cat - /tmp/tocrontab | crontab -u pi -
-	cat - /tmp/tocrontab | crontab -u pi -
+        #### crontab -l -u pi | cat - /tmp/tocrontab | crontab -u pi -
+	cat /tmp/tocrontab | crontab -u pi -
 	rm /tmp/tocrontab
 	echo "...replaced"
 	crontab -l -u pi
