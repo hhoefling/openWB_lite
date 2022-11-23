@@ -8,6 +8,13 @@ das IMG File 2021-01-11-raspios-buster-i386.iso ( letztes Buster image)
 - VM (VMware oder Virutalbox) mit 2 GB Ram und 4 Kernen.
 - File <2021-01-11-raspios-buster-i386.iso> mit Buster 
 
+Zuerst mal 
+apt update 
+apt upgrade 
+und dann ein Snapshoot davon machen.
+
+
+
 Bei vmware kann eine Zeile 
 
 bios.bootDelay = "30000" 
