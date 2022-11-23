@@ -10,16 +10,27 @@ OPENWB_USER=pi
 OPENWB_GROUP=pi
 echo "installing openWB 1.9_lite into \"${OPENWBBASEDIR}\""
 
-
+if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
+    echo "LCD detected"
+    hasLCD=1
+else
+    echo "no LCD detected"
+    hasLCD=0
+fi
+echo "$hasLCD" > /home/pi/hasLCD
 
 echo "install required packages..."
-
 
 apt-get update
 apt-get -q -y install whois dnsmasq hostapd openssl vim bc sshpass apache2 php php-gd php-curl php-xml php-json  
 apt-get -q -y install libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients 
 apt-get -q -y install socat python-pip python3-pip python-rpi.gpioa
-# apt-get -q -y install chromium-browser
+if (( hasLCD > 0 )) ; then
+   echo "install chrome browser..."
+   apt-get -q -y install chromium-browser
+else
+   echo "no LCD, no chrome"
+fi   
 echo "...done"
 
 echo "check for timezone"
