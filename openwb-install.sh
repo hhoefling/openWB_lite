@@ -70,7 +70,7 @@ fi
 
 if ! grep -Fq "bootmodus=" /var/www/html/openWB/openwb.conf
 then
-	sudo -u pi/var/www/html/openWB//runs/replaceinconfig.sh "bootmodus=" "3"
+	sudo -u pi /var/www/html/openWB//runs/replaceinconfig.sh "bootmodus=" "3"
 fi
 sudo -u pi /var/www/html/openWB//runs/replaceinconfig.sh "isPC=" "$isPC"
 sudo -u pi /var/www/html/openWB//runs/replaceinconfig.sh "hasLCD=" "$hasLCD"
