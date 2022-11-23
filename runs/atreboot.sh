@@ -522,6 +522,7 @@ at_reboot() {
 	else
 		sudo apt-get -qq install -y python3-pip
 		sudo pip3 install paho-mqtt
+		# restart needed!!!
 	fi
 	if python3 -c "import docopt" &> /dev/null; then
 		log 'docopt installed...'
@@ -537,11 +538,13 @@ at_reboot() {
 		log 'aiohttp installed...'
 	else
 		sudo pip3 install aiohttp
+		# restart needed!!!
 	fi
 	if python3 -c "import pymodbus" &> /dev/null; then
 		log 'pymodbus installed...'
 	else
 		sudo pip3 install pymodbus
+		# restart needed!!!
 	fi
 	if python3 -c "import requests" &> /dev/null; then
 		log 'python requests installed...'
@@ -553,6 +556,7 @@ at_reboot() {
 		log 'jq installed...'
 	else
 		sudo pip3 install jq
+		# restart needed!!!
 	fi
 	#Prepare for ipparser in Python
 	if python3 -c "import ipparser" &> /dev/null; then
@@ -571,6 +575,7 @@ at_reboot() {
 		log 'evdev installed...'
 	else
 		sudo pip3 install evdev
+		# restart needed!!!
 	fi
 	#Prepare for secrets used in soc module libvwid in Python
 	VWIDMODULEDIR="$OPENWBBASEDIR/modules/soc_vwid"
