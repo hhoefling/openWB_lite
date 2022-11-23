@@ -10,6 +10,10 @@ Vorbereiten
 
 curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-install.sh | sudo bash
 
+oder
+
+curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-install.sh | sudo bash | tee /var/log/install-openWB.log
+
 ## Installation auf einem Raspi mit Display (4.3 oder 7" per DMS angeschlossen) ##
 
 Zuerst normal installieren wie oben.
