@@ -34,7 +34,13 @@ root@pi72:/home/pi# ip addr
 root@pi72:/home/pi#
 ```			
 Ok, eth0 ist korekt, ansonsten mit raspi-config ändern
+Weiter gehts mit 
 
+```
+curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-install.sh | sudo bash 2>&1 | tee /var/log/install-openWB.log
+
+```
+----------------------------
 Bei vmware kann eine Zeile 
 
 bios.bootDelay = "30000" 
