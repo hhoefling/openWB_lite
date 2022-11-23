@@ -4,7 +4,8 @@
 Download von https://downloads.raspberrypi.org/rpd_x86/images/rpd_x86-2021-01-12/   
 das IMG File 2021-01-11-raspios-buster-i386.iso ( letztes Buster image)
 
-**Verwendet wurden von mir*
+**Verwendet wurden von mir**
+
 - VM (VMware oder Virutalbox) mit 2 GB Ram und 4 Kernen.
 - File <2021-01-11-raspios-buster-i386.iso> mit Buster 
 
