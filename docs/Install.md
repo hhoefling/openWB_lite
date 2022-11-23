@@ -1,6 +1,6 @@
 
 ## Installation auf einer Pi3B+/Pi4B+ ##
-
+ Pi 1/2 weiter unten )
 Vorbereiten
 - Ein Stretch oder Buster Image mit Desktop wählen.
 - ssh aktivieren (ssh in boot ablegen)
@@ -48,6 +48,26 @@ ist ein backport von 2.0.12->2.0.11 nötig<br>
 ```
 apt-get install mosquitto=2.0.11-0mosquitto1~buster1 -V
 ```
+
+
+## Installation auf einem Pi1 oder PI2+ ##
+
+Dieser Raspi hat nur 512MB Ram daher wählen wir eine variante ohne Desktop 
+Der Raspi sollte auch kein Display angeschlossen haben (Kontroll monitor darf da sein)
+
+Vorbereiten
+- Ein Stretch oder Buster Image ohne Desktop wählen, also die Lite-Variante.
+- ssh aktivieren (ssh in boot ablegen)
+- (optional) root password setzen
+- (optional) root für ssh freischalten
+- apt update/upgrade ausführen
+- 
+
+curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-install.sh | sudo bash
+
+oder
+
+curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-install.sh | sudo bash | tee /var/log/install-openWB.log
 
 
 
