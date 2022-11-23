@@ -7,7 +7,7 @@ USER=${USER:-`id -un`}
 # called as user pi
 OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
 LOGFILE="/var/log/openWB.log"
-# always check for existing log file!, (shout be never needed)
+# always check for existing log file!, (shout be never needed)TSO
 if [[ ! -f $LOGFILE ]]; then
 	sudo touch $LOGFILE
 	sudo chmod 777 $LOGFILE
@@ -188,6 +188,11 @@ at_reboot() {
 	fi
 
 
+	if ! [ -x "$(command -v tsp)" ];then
+		sudo apt-get -qq update
+		sleep 1
+		sudo apt-get -qq install task-spooler
+	fi
 	# check if our task-scheduler is running
 	if ((taskerenabled == 0 )); then
 	  	log "tasker not enabled, stop Service if running"
@@ -421,12 +426,6 @@ at_reboot() {
 		sudo apt-get -qq update
 		sleep 1
 		sudo apt-get -qq install sshpass
-	fi
-	
-	if ! [ -x "$(command -v tsp)" ];then
-		sudo apt-get -qq update
-		sleep 1
-		sudo apt-get -qq install task-spooler
 	fi
 
 	if [ $(dpkg-query -W -f='${Status}' php-gd 2>/dev/null | grep -c "ok installed") -eq 0 ];
