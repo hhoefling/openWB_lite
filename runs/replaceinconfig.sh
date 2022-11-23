@@ -30,4 +30,6 @@ if [ -e /var/www/html/openWB/openwb.conf ]
 	 then cp /var/www/html/openWB/openwb.conf /var/www/html/openWB/openwb.conf.1
 fi
 
-sed -i "s,$1.*,$1$2,g" /var/www/html/openWB/openwb.conf
+# sed -i "s,$1.*,$1$2,g" /var/www/html/openWB/openwb.conf
+# ersetzen oder anhaengen
+ (cat /var/www/html/openWB/openwb.conf.1 | grep -v "$1" ; echo "$1$2") | sort >/var/www/html/openWB/openwb.conf
