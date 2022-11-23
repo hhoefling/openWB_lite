@@ -45,7 +45,7 @@ at_reboot() {
 	# (sleep 600; sudo kill $(ps aux |grep '[a]treboot.sh' | awk '{print $2}') >/dev/null 2>&1; echo 0 > /var/www/html/openWB/ramdisk/bootinprogress; echo 0 > /var/www/html/openWB/ramdisk/updateinprogress) &
 	# start Watchdog
 	( pid=$$; cnt=0; 
-	  while  ps -p $pid >/dev/null  && (( cnt < 600));  do  (( cnt++ )); sleep 1; done ;
+	  while  ps -p $pid >/dev/null  && (( cnt < 1200));  do  (( cnt++ )); sleep 1; done ;
 	  if ps -p $pid >/dev/null ; then  
 	    log "Watchdog TIMEOUT now kill $pid [$0]" 
 	    sudo kill -9 "$pid" >/dev/null 2>&1 ;
