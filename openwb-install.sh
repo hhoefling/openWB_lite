@@ -85,7 +85,7 @@ else
 	crontab -l -u root
 fi
 echo "check for crontab pi"
-if grep -Fxq "@reboot /var/www/html/openWB/runs/atreboot.sh &" /var/spool/cron/crontabs/pi
+if grep -Fq "/var/www/html/openWB/runs/atreboot.sh" /var/spool/cron/crontabs/pi
 then
 	echo "...ok"
 else
