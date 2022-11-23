@@ -593,8 +593,8 @@ at_reboot() {
 	fi
 	# update outdated urllib3 for Tesla Powerwall
 	pip3 install --upgrade urllib3
-
-
+	pip3 install --upgrade requests
+	
 	# update version
 	log "version..."
 	uuid=$(</sys/class/net/eth0/address)
