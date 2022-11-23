@@ -17,9 +17,7 @@ else
     echo "no LCD detected"
     hasLCD=0
 fi
-echo "$hasLCD" > /home/pi/hasLCD
 if uname -a | grep -q x86_64 ; then isPC=1; else isPC=0; fi; 
-echo "$isPC" > /home/pi/isPC
 
 echo "install required packages..."
 
@@ -74,6 +72,9 @@ if ! grep -Fq "bootmodus=" /var/www/html/openWB/openwb.conf
 then
 	echo "bootmodus=3" >> /var/www/html/openWB/openwb.conf
 fi
+/var/www/html/openWB//runs/replaceinconfig.sh "isPC=" "$isPC"
+/var/www/html/openWB//runs/replaceinconfig.sh "hasLCD=" "$hasLCD"
+
 
 echo "check for ramdisk" 
 if grep -Fxq "tmpfs /var/www/html/openWB/ramdisk tmpfs nodev,nosuid,size=32M 0 0" /etc/fstab 
