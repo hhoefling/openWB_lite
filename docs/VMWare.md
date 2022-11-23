@@ -6,7 +6,7 @@ das IMG File 2021-01-11-raspios-buster-i386.iso ( letztes Buster image)
 
 **Verwendet wurden von mir*
 - VM (VMware oder Virutalbox) mit 2 GB Ram und 4 Kernen.
-- raspian-386 Image mit Buster
+- File <2021-01-11-raspios-buster-i386.iso> mit Buster 
 
 Bei vmware kann eine Zeile 
 
