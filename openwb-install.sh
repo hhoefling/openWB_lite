@@ -70,10 +70,10 @@ fi
 
 if ! grep -Fq "bootmodus=" /var/www/html/openWB/openwb.conf
 then
-	echo "bootmodus=3" >> /var/www/html/openWB/openwb.conf
+	sudo -u pi/var/www/html/openWB//runs/replaceinconfig.sh "bootmodus=" "3"
 fi
-/var/www/html/openWB//runs/replaceinconfig.sh "isPC=" "$isPC"
-/var/www/html/openWB//runs/replaceinconfig.sh "hasLCD=" "$hasLCD"
+sudo -u pi /var/www/html/openWB//runs/replaceinconfig.sh "isPC=" "$isPC"
+sudo -u pi /var/www/html/openWB//runs/replaceinconfig.sh "hasLCD=" "$hasLCD"
 
 
 echo "check for ramdisk" 
@@ -84,9 +84,11 @@ else
 	mkdir -p /var/www/html/openWB/ramdisk
 	echo "tmpfs /var/www/html/openWB/ramdisk tmpfs nodev,nosuid,size=32M 0 0" >> /etc/fstab
 	mount -a
-	echo "0" > /var/www/html/openWB/ramdisk/ladestatus
-	echo "0" > /var/www/html/openWB/ramdisk/llsoll
-	echo "0" > /var/www/html/openWB/ramdisk/soc
+ 	echo '0' > /var/www/html/openWB/ramdisk/ladestatus
+	echo '0' > /var/www/html/openWB/ramdisk/llsoll
+	echo '0' > /var/www/html/openWB/ramdisk/soc
+	chown pi:pi /var/www/html/openWB/ramdisk/*
+	chmod 0777 /var/www/html/openWB/ramdisk/*
 	echo "...created"
 fi
 
