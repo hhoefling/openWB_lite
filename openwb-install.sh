@@ -29,8 +29,9 @@ apt-get -q -y install socat python-pip python3-pip python-rpi.gpioa
 if (( hasLCD > 0 )) ; then
    echo "install chrome browser..."
    apt-get -q -y install chromium-browser
-else
+lse
    echo "no LCD, no chrome"
+   apt-get -q -y install multitail
 fi   
 echo "...done"
 
