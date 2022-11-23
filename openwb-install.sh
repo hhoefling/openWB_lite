@@ -19,7 +19,7 @@ apt-get update
 apt-get -q -y install whois dnsmasq hostapd openssl vim bc sshpass apache2 php php-gd php-curl php-xml php-json  
 apt-get -q -y install libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients 
 apt-get -q -y install socat python-pip python3-pip python-rpi.gpioa
-apt-get -q -y install chromium-browser
+# apt-get -q -y install chromium-browser
 echo "...done"
 
 echo "check for timezone"
