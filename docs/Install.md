@@ -61,13 +61,15 @@ Vorbereiten:
 - (optional) root password setzen
 - (optional) root für ssh freischalten
 - apt update/upgrade ausführen
-- 
+ 
 
 curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-install.sh | sudo bash
 
 oder
 
 curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-install.sh | sudo bash 2>&1 | tee /var/log/install-openWB.log
+
+Viel Geduld.....
 
 
 
