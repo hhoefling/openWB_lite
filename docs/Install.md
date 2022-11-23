@@ -71,11 +71,11 @@ curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-in
 
 Viel Geduld.....
 
-Die Installation der Module ist teils so langsam das die 10 Minuten Maximal Laufzeit vom atreboot.sh nicht ausreicht.
+Die Installation der Python Module ist teils so langsam das die 10 Minuten Maximal Laufzeit vom atreboot.sh nicht ausreicht.
 
 Also warten.....
 
-Wenn atreboot.sh durch ist und trotzden nicht alles läuft ->  ein weiterr Reboot erledigt dann den Rest.
-
+Bei mir reichte es in der resten Runde von atreboot.sh nicht bis zum pymodbus modul. 
+Ein weiterer Reboot installierte das dieses und die restlichen.
 
 
