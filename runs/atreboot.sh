@@ -58,7 +58,8 @@ at_reboot() {
 	# 
 	# backup-Marker ist Hostname + SerienNr vom sd/usb Device
 	# daruber wird die Ablage im Backup-Server gesteuert.
-	echo -n "${HOSTNAME}_" >/var/www/html/rinfo.txt
+	sudo echo -n "${HOSTNAME}_" >/var/www/html/rinfo.txt
+	sudo chmod a+rw  /var/www/html/rinfo.txt
 	cat /etc/fstab |grep "/boot" | cut -d " " -f 1 | cut -d "-" -f 1 | grep -o -E '[0-9a-f]*' >>/var/www/html/rinfo.txt
 
 	# read openwb.conf
