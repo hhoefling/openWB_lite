@@ -22,6 +22,7 @@ initRamdisk(){
 	echo $bootmodus > $RamdiskPath/lademodus
 	echo "" >$RamdiskPath/LadereglerTxt
 	echo "" >$RamdiskPath/BatSupportTxt
+	echo "" >$RamdiskPath/lastregelungaktiv
 
 	# Ladepunkte
 	# Variablen noch nicht einheitlich benannt, daher individuelle Zeilen
