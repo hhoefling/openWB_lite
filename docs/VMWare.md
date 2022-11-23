@@ -14,9 +14,9 @@ Zuerst mal
 apt update 
 apt upgrade 
 ```
-und dann ein Snapshoot davon machen. 
+und sofort ein Snapshoot erzeugen.
 
-Dann kontrolieren ob auch die alten Netzwerknamen verwendet werden.
+Weiter gehts mit der Kontrolle ob auch die alten Netzwerknamen verwendet werden.
 ```
 root@pi72:/home/pi# ip addr
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
