@@ -1,6 +1,6 @@
 
 ## Installation auf einer Pi3B+/Pi4B+ ##
- Pi 1/2 weiter unten )
+ ( auf einem alten Pi 1/2 -> siehe weiter unten )
 Vorbereiten
 - Ein Stretch oder Buster Image mit Desktop wählen.
 - ssh aktivieren (ssh in boot ablegen)
