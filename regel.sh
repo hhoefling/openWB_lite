@@ -216,10 +216,10 @@ fi
 function domod(){
  local mod=$1
  if [[ -x $mod ]] ; then
-	openwbDebugLog "MAIN" 1 "EXEC $mod"
+	openwbDebugLog "MAIN" 2 "EXEC $mod"
 	$mod
  else	 
-  	openwbDebugLog "MAIN" 2 "NO $mod found"
+  	openwbDebugLog "MAIN" 1 "NO $mod found"
  fi
 }
 
