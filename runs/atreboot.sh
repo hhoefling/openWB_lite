@@ -7,7 +7,7 @@ USER=${USER:-`id -un`}
 # called as user pi
 OPENWBBASEDIR=$(cd $(dirname "${BASH_SOURCE[0]}")/.. && pwd)
 LOGFILE="/var/log/openWB.log"
-# always check for existing log file!, (shout be never needed)
+# always check for existing log file!, (shout be never needed)TSO
 if [[ ! -f $LOGFILE ]]; then
 	sudo touch $LOGFILE
 	sudo chmod 777 $LOGFILE
@@ -58,7 +58,7 @@ at_reboot() {
 	# 
 	# backup-Marker ist Hostname + SerienNr vom sd/usb Device
 	# daruber wird die Ablage im Backup-Server gesteuert.
-	sudo /bin/su -c "echo -n ${HOSTNAME}_" >/var/www/html/rinfo.txt
+	sudo /bin/su -c "echo -n ${HOSTNAME}_ >/var/www/html/rinfo.txt"
 	sudo chmod a+rw  /var/www/html/rinfo.txt
 	cat /etc/fstab |grep "/boot" | cut -d " " -f 1 | cut -d "-" -f 1 | grep -o -E '[0-9a-f]*' >>/var/www/html/rinfo.txt
 
@@ -188,6 +188,11 @@ at_reboot() {
 	fi
 
 
+	if ! [ -x "$(command -v tsp)" ];then
+		sudo apt-get -qq update
+		sleep 1
+		sudo apt-get -qq install task-spooler
+	fi
 	# check if our task-scheduler is running
 	if ((taskerenabled == 0 )); then
 	  	log "tasker not enabled, stop Service if running"
@@ -206,22 +211,20 @@ at_reboot() {
 
 
 	log "detect if LCD is avail."
- 
-	if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
-     	log "LCD detected"
+	# if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
+	if (( hasLCD == 1 )) ; then
+		log "LCD detected"
 	else
-	    if (( displayaktiv == 1 )) ; then
+		if (( displayaktiv == 1 )) ; then
 			log "No LCD detcted, disable displayaktiv"
 			/var/www/html/openWB/runs/replaceinconfig.sh "displayaktiv=" "0"
-    	fi
-    	log "No LCD detcted, stop lighttdm "
-    	sudo service lightdm stop >/dev/null 2>%1 # ignore error
-    	displayaktiv=0
+		fi
+		displayaktiv=0
+		if (( isPC == 0 )) ; then 
+			log "No LCD detcted on Raspi, stop lighttdm "	   
+			sudo service lightdm stop >/dev/null 2>%1 # ignore error 
+		fi	       
 	fi
-
-
-
-
 
 	# check if display is configured and setup timeout
 	if (( displayaktiv == 1 )); then
@@ -423,12 +426,6 @@ at_reboot() {
 		sudo apt-get -qq update
 		sleep 1
 		sudo apt-get -qq install sshpass
-	fi
-	
-	if ! [ -x "$(command -v tsp)" ];then
-		sudo apt-get -qq update
-		sleep 1
-		sudo apt-get -qq install task-spooler
 	fi
 
 	if [ $(dpkg-query -W -f='${Status}' php-gd 2>/dev/null | grep -c "ok installed") -eq 0 ];

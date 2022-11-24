@@ -13,7 +13,7 @@ if($arch=="x86_64")
 {
 	$board='Intel/AMD Maschine'; 
 	$cputemp = 44440;
-	$cpufreq = 1111000;
+	$cpufreq = exec('cat /proc/cpuinfo | grep MHz | sort -u | cut -d ":" -f 2 | cut -d "." -f 1');
 	$wlanaddr = '';
 	$wlanaddr2 = '';
 	$wlanqualy ='';

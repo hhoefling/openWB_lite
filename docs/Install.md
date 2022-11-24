@@ -78,4 +78,11 @@ Also warten.....
 Bei mir reichte es in der resten Runde von atreboot.sh nicht bis zum pymodbus modul. 
 Ein weiterer Reboot installierte das dieses und die restlichen.
 
+Versuch abgebrochen...
+Die Rechnenleistung des Single-Core Raspi mit 700Mh Takt reicht auch ohne X Interface nicht aus.
+Regelzeiten von 60 Sekunden sind kaum zu unterschreiten. Also weit weg von 10 Sekunden
+
+Also wird mein alter Raspi weiterhin als WLan-Hotspot mit Packetfilter arbeiten.
+Dafür reicht die Rechenleistung aus und ich kann meinen Handy-App's damit auf die Finger schauen.
+
 
