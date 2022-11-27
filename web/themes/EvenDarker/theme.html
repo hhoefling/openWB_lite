@@ -98,7 +98,7 @@
 		}
 		var themeCookie = getCookie('openWBTheme');
 		// include special Theme style
-		$('head').append('<link rel="stylesheet" href="themes/' + themeCookie + '/style.css?v=20210307">');
+		$('head').append('<link rel="stylesheet" href="themes/' + themeCookie + '/style.css?v=20221125">');
 	</script>
 </head>
 
@@ -109,7 +109,7 @@
 		<div id="preloader-inner">
 			<div class="row">
 				<div class="mx-auto d-block justify-content-center">
-					<img id="preloader-image" src="img/favicons/preloader-image.png" alt="openWB">
+					<img id="preloader-image" src="img/favicons/preloader-image-transparent.png" alt="openWB">
 				</div>
 			</div>
 			<div id="preloader-info" class="row justify-content-center mt-2">
@@ -170,7 +170,7 @@
 				<span class="smallTextSize">Speicher<span id="speicherleistung">: lade Daten</span></span><span class="verySmallTextSize" id="siidailyyield"></span><span class="verySmallTextSize" id="siedailyyield"></span> <span class="smallTextSize">- Ladestand: <span id="speichersoc"> lade Daten</span></span>
 			</div>
 		</div>
-		<div id="strompreis" class="row justify-content-center regularTextSize font-weight-bold text-center text-black hide">
+		<div id="strompreis" class="row justify-content-center regularTextSize font-weight-bold text-center text-black">
 			<div class="col-sm bg-rose px-1">
 				<span class="smallTextSize">aktueller Strompreis: <span id="aktuellerStrompreis"> lade Daten</span></span>
 			</div>
@@ -861,6 +861,11 @@
 		</div>
 
 	</div>  <!-- container -->
+	<footer class="bg-dark fixed-bottom small text-light">
+		<div class="container text-center">
+			openWB_lite - die modulare Wallbox
+		</div>
+	</footer>
 
 	<script>
 
@@ -900,8 +905,8 @@
 				countTopicsReceived = countTopicsReceived - countTopicsNotForPreloader;
 				var countTopicsToBeReceived = topicsToSubscribe.length - countTopicsNotForPreloader;
 				var percentageReceived = (countTopicsReceived / countTopicsToBeReceived * 100).toFixed(0);
-				var timeBetweenTwoMesagges = Date.now() - timeOfLastMqttMessage;
-				if ( timeBetweenTwoMesagges > 3000 ) {
+				var timeBetweenTwoMessages = Date.now() - timeOfLastMqttMessage;
+				if ( timeBetweenTwoMessages > 3000 ) {
 					// latest after 3 sec without new messages
 					percentageReceived = 100;
 					// debug output
@@ -956,7 +961,7 @@
 				// respective Chart.js definition live
 				'themes/dark/livechart.js?ver=20210307',
 				// respective Chart.js definition
-				//                     'themes/dark/electricityPriceChart.js?ver=20210210',
+				// 'themes/dark/electricityPriceChart.js?ver=20210210',
 				// functions performing mqtt and start mqtt-service
 				'themes/dark/setupMqttServices.js?ver=20210129',
 			];

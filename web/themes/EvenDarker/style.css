@@ -14,29 +14,64 @@ body {
 	color: white;
 }
 body > .container {
-	padding: 55px 15px 0;
+	padding: 55px 15px 25px;
 }
 
 @keyframes alertPulsation {
-	0%   { opacity:1; }
-	50%  { opacity:0; }
-	100% { opacity:1; }
+	0% {
+		opacity: 1;
 }
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+}
+}
+
 @-o-keyframes alertPulsation{
-	0%   { opacity:1; }
-	50%  { opacity:0; }
-	100% { opacity:1; }
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
 }
 @-moz-keyframes alertPulsation{
-	0%   { opacity:1; }
-	50%  { opacity:0; }
-	100% { opacity:1; }
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
 }
+
+	100% {
+		opacity: 1;
+}
+}
+
 @-webkit-keyframes alertPulsation{
-	0%   { opacity:1; }
-	50%  { opacity:0; }
-	100% { opacity:1; }
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
 }
+
+	100% {
+		opacity: 1;
+}
+}
+
 .animate-alertPulsation {
 	-webkit-animation: alertPulsation 3s infinite;
 	-moz-animation: alertPulsation 3s infinite;
@@ -448,7 +483,9 @@ h3 {
 	color: #ffffff;
 }
 
-.bg-warning, .bg-info, .bg-success {
+.bg-warning,
+.bg-info,
+.bg-success {
 	color: #212529;
 }
 .btn-secondary {
@@ -479,7 +516,14 @@ h3 {
 	color: #ffffff;
 }
 
-.datepicker table tr td span.focused, .datepicker table tr td span:hover, .datepicker .datepicker-switch:hover, .datepicker .next:hover, .datepicker .prev:hover, .datepicker tfoot tr th:hover, .datepicker table tr td.day:hover, .datepicker table tr td.focused {
+.datepicker table tr td span.focused,
+.datepicker table tr td span:hover,
+.datepicker .datepicker-switch:hover,
+.datepicker .next:hover,
+.datepicker .prev:hover,
+.datepicker tfoot tr th:hover,
+.datepicker table tr td.day:hover,
+.datepicker table tr td.focused {
 	color: #000000;
 }
 
@@ -488,7 +532,9 @@ h3 {
 	color: #ffffff;
 }
 
-.form-control, .form-control[readonly], .form-control:focus {
+.form-control,
+.form-control[readonly],
+.form-control:focus {
 	background-color: #343a40;
 	border: 1px solid #ced4da;
 	color: #ffffff;
@@ -531,6 +577,9 @@ hr {
 	border-top-color: #ffffff;
 }
 
-input[type="text"], input[type="password"], input[type="email"], select {
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
 	border: 1px solid #ced4da;
 }
