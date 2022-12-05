@@ -6,6 +6,7 @@ import traceback
 basePath = "/var/www/html/openWB"
 ramdiskPath = basePath + "/ramdisk"
 logFilename = ramdiskPath + "/ladestatus.log"
+# GPIO Nr, nicht PINS
 buttons = [
     {"gpio":  6, "mode": 2, "text": "NurPV"},
     {"gpio": 12, "mode": 0, "text": "SofortLaden"},

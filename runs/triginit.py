@@ -17,6 +17,10 @@ args = parser.parse_args()
 if(args.verbose):
     print("Wartezeit vor und nach 1p/3p Umschaltung: %fs" % (args.duration))
 
+
+# BCM-Nummerierung verwenden
+# GPIO.setmode(GPIO.BCM)
+	
 # setup GPIOs
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
@@ -32,18 +36,18 @@ GPIO.output(22, GPIO.HIGH)
 GPIO.output(15, GPIO.HIGH)
 time.sleep(float(args.duration))
 
-# init phases
+# init phases PIN37=GPIO26,  PIN29=GPIO5,  PIN13 GPIO27,   PIN11=GPIO17
 GPIO.output(37, GPIO.LOW)
 GPIO.output(29, GPIO.LOW)
 GPIO.output(13, GPIO.LOW)
 GPIO.output(11, GPIO.LOW)
 time.sleep(float(args.duration))
 
-# enable CP
+# enable CP  PIN22=GPIO25  PIN15=GPIO22
 GPIO.output(22, GPIO.LOW)
 GPIO.output(15, GPIO.LOW)
 
-# Socket: power to lock motor
+# Socket: power to lock motor PIN26=GPIO7
 GPIO.setup(26, GPIO.OUT)
 # set pin to low to prevent the motor from burning out
 GPIO.output(26, GPIO.LOW)

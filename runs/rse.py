@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
+# GPIOnr Nicht pins
 GPIO.setmode(GPIO.BCM)
 state = 0
 state1 = 0
