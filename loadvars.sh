@@ -1734,5 +1734,10 @@ echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
 #########################################################################						
 runs/pubmqtt.sh &
 #########################################################################						
+if (( debug > 1 )); then
+  loadv=$(cat /proc/loadavg)
+  openwbDebugLog "MAIN" 2 "Load $loadv"
+fi
+
 
 }
