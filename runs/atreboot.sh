@@ -211,8 +211,7 @@ at_reboot() {
 
 
 	log "detect if LCD is avail."
-	# if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
-	if (( hasLCD == 1 )) ; then
+	if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
 		log "LCD detected"
 	else
 		if (( displayaktiv == 1 )) ; then
