@@ -1,7 +1,7 @@
 <?php 
- if( $_GET['do']=='export')
+ if( isset($_GET['do'])  && $_GET['do']=='export')
  {
-   $dates=str_replace("-","",$_GET['date']);
+   // $dates=str_replace("-","",$_GET['date']);
    $fin="/var/www/html/openWB/ramdisk/all.graph";
    
    //$head=file("/var/www/html/openWB/web/logging/data/daily/daily_header.csv");
@@ -153,15 +153,6 @@
 			</div>
 		</footer>
 
-		<script>
-		    // jetzt MQTT
-			// var lastmanagement = <?php echo $lastmanagementold ?>;
-			// var soc1vorhanden = <?php echo $soc1vorhanden ?>;
-			// var verbraucher1vorhanden = <?php echo $verbraucher1vorhanden ?>;
-			// var verbraucher2vorhanden = <?php echo $verbraucher2vorhanden ?>;
-			// var verbraucher1name = "<?php echo $verbraucher1_nameold ?>";
-			// var verbraucher2name = "<?php echo $verbraucher2_nameold ?>";
-		</script>
 
 		<!-- load Chart.js library -->
 

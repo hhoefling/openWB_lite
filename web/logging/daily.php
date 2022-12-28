@@ -117,7 +117,7 @@ header( 'Refresh:600;' );
 						<div class="spinner-grow text-muted mt-3"></div>
 					</div>
 					<div id="canvasdiv">
-						<canvas id="canvas" style="height: 500px;"></canvas>
+						<canvas id="canvas" style="height: 450px;"></canvas>
 					</div>
 				</div>
 			</div>

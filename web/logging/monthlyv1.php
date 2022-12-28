@@ -66,7 +66,7 @@
 		<div role="main" class="container" style="margin-top:20px">
 			<div class="row">
 				<div class="col" style="text-align: center;">
-					<h4>Logging Monatsansicht (nightly)</h4>
+					<h4>Logging Monatsansicht</h4>
 				</div>
 			</div>
 			<div class="row justify-content-center">
@@ -190,7 +190,7 @@
 				});
 
 				// load graph
-				$.getScript("logging/monthlychartv1.js?ver=20210209");
+				$.getScript("logging/monthlychartv1.js?ver=20220209");
 			})
 		</script>
 

@@ -7,7 +7,7 @@
  */
 
 const DATACOLUMNCOUNT = 28;  // count of native data columns received by mqtt (including timestamp-column)
-const LPCOLUMNS = [4, 5, 6]; // , 12, 13, 14, 15, 16];  // column-indexes of LP-entries in csvData-array
+const LPCOLUMNS = [4, 5, 6, 12, 13, 14, 15, 16];  // column-indexes of LP-entries in csvData-array
 
 var initialread = 0;
 var boolDisplayLegend = true;
@@ -461,6 +461,56 @@ function loadgraph() {
 			yAxisID: 'y-axis-1',
 			lineTension: 0.2,
 			toolTipData: getCol(lpCounterValues, 11)  // custom added field, holds counter values or empty string
+		} , {
+			label: 'Lp4 ' + totalValues[12].toFixed(2) + ' kWh',
+			borderColor: "rgba(50, 50, 55, 0.7)",
+			backgroundColor: 'blue',
+			fill: false,
+			data: getCol(csvData, 12),
+			borderWidth: 2,
+			yAxisID: 'y-axis-1',
+			lineTension: 0.2,
+			toolTipData: getCol(lpCounterValues, 12)  // custom added field, holds counter values or empty string
+		} , {
+			label: 'Lp5 ' + totalValues[13].toFixed(2) + ' kWh',
+			borderColor: "rgba(50, 50, 55, 0.7)",
+			backgroundColor: 'blue',
+			fill: false,
+			borderWidth: 2,
+			data: getCol(csvData, 13),
+			yAxisID: 'y-axis-1',
+			lineTension: 0.2,
+			toolTipData: getCol(lpCounterValues, 13)  // custom added field, holds counter values or empty string
+		} , {
+			label: 'Lp6 ' + totalValues[14].toFixed(2) + ' kWh',
+			borderColor: "rgba(50, 50, 55, 0.7)",
+			backgroundColor: 'blue',
+			fill: false,
+			borderWidth: 2,
+			data: getCol(csvData, 14),
+			yAxisID: 'y-axis-1',
+			lineTension: 0.2,
+			toolTipData: getCol(lpCounterValues, 14)  // custom added field, holds counter values or empty string
+		} , {
+			label: 'Lp7 ' + totalValues[15].toFixed(2) + ' kWh',
+			borderColor: "rgba(50, 50, 55, 0.7)",
+			backgroundColor: 'blue',
+			fill: false,
+			borderWidth: 2,
+			data: getCol(csvData, 15),
+			yAxisID: 'y-axis-1',
+			lineTension: 0.2,
+			toolTipData: getCol(lpCounterValues, 15)  // custom added field, holds counter values or empty string
+		} , {
+			label: 'Lp8 ' + totalValues[16].toFixed(2) + ' kWh',
+			borderColor: "rgba(50, 50, 55, 0.7)",
+			backgroundColor: 'blue',
+			fill: false,
+			borderWidth: 2,
+			data: getCol(csvData, 16),
+			yAxisID: 'y-axis-1',
+			lineTension: 0.2,
+			toolTipData: getCol(lpCounterValues, 16)  // custom added field, holds counter values or empty string
 		} , {
 			label: 'Speicherladung ' + totalValues[17].toFixed(2) + ' kWh',
 			borderColor: 'orange',
