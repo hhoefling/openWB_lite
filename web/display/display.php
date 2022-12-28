@@ -16,14 +16,13 @@ if ($isssold == 1) {
 			case -1:
 				include 'simple/index.php';
 		        break;
+		// case 0: -> default
 			case 1:
-				include './gauges/index.php';
+			case 3:
+				include './gauges/index.php';	// Variante 1,3
 				break;
 			case 2:
 				include './minimal/index.php';
-				break;
-			case 3:
-				include './gauges/index.php';
 				break;
 			case 4:
 				include './yourcharge/index.php';
