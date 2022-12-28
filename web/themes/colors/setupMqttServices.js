@@ -140,9 +140,9 @@ var topicsToSubscribe = [
 	// evu topics
 	["openWB/evu/W", 1],
 	// lp topics
-	["openWB/lp/1/%Soc", 1],
+	["openWB/lp/1/%Soc", 0],
 	["openWB/lp/1/socRange", 1],
-	["openWB/lp/2/%Soc", 1],
+	["openWB/lp/2/%Soc", 0],
 	["openWB/lp/2/socRange", 1],
 	// geladene kWh seit anstecken des EV
 	["openWB/lp/1/kWhChargedSincePlugged", 1],
