@@ -64,8 +64,8 @@ class PowerMeter {
         "transform",
         "translate(" + this.width / 2 + "," + this.height / 2 + ")"
       )
-      .append("g")
-      .attr("transform", "scale(0.9294,1)");
+      .append("g");
+     g.attr("transform", "scale(0.9294,1)");
 
     return g;
   }
