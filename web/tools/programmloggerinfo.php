@@ -54,6 +54,7 @@ $tmpusedprz=exec("df -h | grep  ramdisk | awk '{print $5}'");
 
 $ethaddr = exec("ifconfig eth0 |grep 'inet ' |awk '{print $2}'");
 $ethaddr2 = exec("ifconfig eth0:0 |grep 'inet ' |awk '{print $2}'");
+$sdstatus = exec("/var/www/html/openWB/web/tools/sdstatus.sh");
 
 $arr = array(
 	'board' => trim($board),
@@ -86,7 +87,8 @@ $arr = array(
 	'wlanssid' => $wlanssid,
 	'wlanpower' => $wlanpower,
 	'wlanrx' => $wlanrx,
-	'wlantx' => $wlantx
+	'wlantx' => $wlantx,
+	'sdstatus' => $sdstatus
 );
 
 header("Content-type: application/json");

@@ -121,7 +121,7 @@
 								auf: <span id="rootdev">--</span> <br> 
                                 TMP Filesystem: <span id="tmptot">--</span>, davon <span id="tmpfree">--</span> verfügbar / <meter id="tmp" high=65 min=0 max=100 value=0></meter> <span id="tmpusedprz">--</span>% belegt
 								<br>
-
+								Status: <span id="sdstatus">--</span>
 							</p>
 							IP-Adresse LAN: <span id="iplan">--</span><br>
 							IP-Adresse WLAN: <span id="ipwifi">--</span>
@@ -273,6 +273,13 @@
 						$('#tmpfree').text(json.tmpfree);
 						$('#tmpusedprz').text(json.tmpusedprz);
 						$('#tmp').val(json.tmpusedprz);
+						if (json.sdstatus == "0" )
+						   $('#sdstatus').text('RW-Test: Ok, Karte beschreibbar.');
+						else if (json.sdstatus == "1" ) 
+						   $('#sdstatus').html('RW-Test: <span style="background-color:red;">&nbsp;Fail, Karte im Read-Only Mode, Bitte austauschen.&nbsp;</span>' );
+						else
+						   $('#sdstatus').text('RW-Test: Abfrage fehlerhaft');
+
 						$('#memMeter').attr({'max': json.memtot, 'high': (json.memtot*0.85)});
 						$('#memMeter').val(json.memuse);
 						if (json.ethaddr != '') {
