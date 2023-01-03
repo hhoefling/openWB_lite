@@ -9,8 +9,8 @@ Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
 - Falls dspeed=1 (doppelt, einen Klone im 5 Sekunden abstand losschicken)
 - (Asyncron) einmal pro Minute testen ob durch autolook ein Sperren/Entsprerren nötig ist und dies ausführen (MQTT)
 - (Asyncron) Ladelog versorgen, wenn ladeende erkannt wurde (->csv)
-- 7" Dipslay-Helligkeit einstellen/nachführen.
-- goecheck.sh  (evse=goe) direkt auslesen wenn verwendetcurl)
+- 7" Display-Helligkeit einstellen/nachführen.
+- goecheck.sh  (evse=goe) direkt auslesen wenn verwendet (curl)
 - nrgkickcheck.sh (evse=nrkick) direkt auslesen wenn verwendet(curl)
 - **loadvars.sh**  Alle anderen  konfigurierten Hardwaremodule abfragen EVSE/EVU/PW/BAT (alles in modules/)
 - am Ende von loadvars.sh MQTT nachführen um die Messwerte wiederzuspiegeln.
@@ -19,13 +19,13 @@ Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
 - Test ob noch U1P3 aktiv ist (**Blockall1**), wenn ja **Ende**
 - evseinttest
 - U1P3 testen und durchführen 
-- test ob jetzt U1P3 aktiv ist (**Blockall2**), wenn ja **Ende**
+- test ob jetzt U1P3 jetzt aktiv ist (**Blockall2**), wenn ja **Ende**
 - CP durchführen ->MQTT oder Hardware direkt
 - Leds nachführen. (*2)
 - RSE abtesten, evl. Ladung stoppen. (*2)
 - Wenn speedmodus=3 nur einmal pro Minute weiterlaufen lassen sonst hier **Ende**
 - evsemodbuscheck (alle 5 minuten )
-- slavemode.sh Bei YC Version ist hier **Ende**
+- slavemode.sh Bei YC-Version ist hier **Ende**
 - Wenn STOP Mode , wirklich alle Ladungen stoppen (auslademodus) und **Ende***
 - Loadcharing LP1/2 durchführen und Ladung evt anpassen (set-current)
 - **ab hier kommen endlich die Regelmodule zum Einsatz**
@@ -77,7 +77,7 @@ Aber die Funktion der ramdisk wird auch zunehmend übergangen und viele Module s
 Sofern die Module dann auch lesend auf den MQTT zugreifen können, kommen sie unter Umständen ganz ohne openwb.conf und ramdisk aus.
 
 Bei der openWB 2.x wurde die ramdisk und die openwb.conf durch einen internen mqtt Server ersetzt.
-Dort existieren also zwei MQTT Instancen wobei der interne nur von localen Processes aus erreichbar ist (localost only)
+Dort existieren also zwei MQTT Instancen wobei der interne nur von localen Processes aus erreichbar ist (localhost only)
 
 
 
