@@ -65,4 +65,4 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
 
 ![Screenshot_2023-01-06-00-24-05](https://user-images.githubusercontent.com/89247538/210899669-53230389-45b5-4f9c-b18e-d7bea1665cb4.png)
 
-( Screenshot von einem Galasy Tab3 10" ) 
+( Screenshot von einem Galaxy Tab3 10" ) 
