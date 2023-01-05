@@ -61,7 +61,7 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
   ![backup](https://user-images.githubusercontent.com/89247538/185985391-9207616a-4465-4981-b309-8e630eb34779.png) <br>Die Mitschrift im oberen Kasten erscheint nur wenn der Debugmode >0 gesetzt wird.
 		
 1.2023
-- Colors Thema überarbeitet. Änderungen von snapte 1.8.28x übernommen. Backport um Firefox68 auf Kitkat 4.4 zu ermöglichen.
+- Colors Thema überarbeitet. Änderungen von snaptec 1.8.28x übernommen. Backport um Firefox68/Kitkat4.4 zu ermöglichen. Indexfehler LP behoben.
 
 ![Screenshot_2023-01-06-00-24-05](https://user-images.githubusercontent.com/89247538/210899669-53230389-45b5-4f9c-b18e-d7bea1665cb4.png)
 
