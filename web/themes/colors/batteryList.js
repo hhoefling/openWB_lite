@@ -5,8 +5,11 @@
 
 class BatteryList {
 
-  div;
-  constructor() { };
+  /* div; */
+  
+  constructor() {
+    this.div = null; 
+  };
 
   // initialize after document is created
   init() {

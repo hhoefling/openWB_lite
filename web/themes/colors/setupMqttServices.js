@@ -93,32 +93,32 @@ var topicsToSubscribe = [
 	["openWB/graph/boolDisplayLegend", 1],
 	["openWB/graph/boolDisplayLiveGraph", 1],
 	["openWB/graph/boolDisplayPv", 1],
-	// daily graph
-	["openWB/system/DayGraphData1", 0],
-	["openWB/system/DayGraphData2", 0],
-	["openWB/system/DayGraphData3", 0],
-	["openWB/system/DayGraphData4", 0],
-	["openWB/system/DayGraphData5", 0],
-	["openWB/system/DayGraphData6", 0],
-	["openWB/system/DayGraphData7", 0],
-	["openWB/system/DayGraphData8", 0],
-	["openWB/system/DayGraphData9", 0],
-	["openWB/system/DayGraphData10", 0],
-	["openWB/system/DayGraphData11", 0],
-	["openWB/system/DayGraphData12", 0],
-	// monthly graph
-	["openWB/system/MonthGraphData1", 0],
-	["openWB/system/MonthGraphData2", 0],
-	["openWB/system/MonthGraphData3", 0],
-	["openWB/system/MonthGraphData4", 0],
-	["openWB/system/MonthGraphData5", 0],
-	["openWB/system/MonthGraphData6", 0],
-	["openWB/system/MonthGraphData7", 0],
-	["openWB/system/MonthGraphData8", 0],
-	["openWB/system/MonthGraphData9", 0],
-	["openWB/system/MonthGraphData10", 0],
-	["openWB/system/MonthGraphData11", 0],
-	["openWB/system/MonthGraphData12", 0],
+	// daily graph dynamisch
+//	["openWB/system/DayGraphData1", 0],
+//	["openWB/system/DayGraphData2", 0],
+//	["openWB/system/DayGraphData3", 0],
+//	["openWB/system/DayGraphData4", 0],
+//	["openWB/system/DayGraphData5", 0],
+//	["openWB/system/DayGraphData6", 0],
+//	["openWB/system/DayGraphData7", 0],
+//	["openWB/system/DayGraphData8", 0],
+//	["openWB/system/DayGraphData9", 0],
+//	["openWB/system/DayGraphData10", 0],
+//	["openWB/system/DayGraphData11", 0],
+//	["openWB/system/DayGraphData12", 0],
+	// monthly graph dynamisch
+//	["openWB/system/MonthGraphData1", 1],
+//	["openWB/system/MonthGraphData2", 1],
+//	["openWB/system/MonthGraphData3", 1],
+//	["openWB/system/MonthGraphData4", 1],
+//	["openWB/system/MonthGraphData5", 1],
+//	["openWB/system/MonthGraphData6", 1],
+//	["openWB/system/MonthGraphData7", 1],
+//	["openWB/system/MonthGraphData8", 1],
+//	["openWB/system/MonthGraphData9", 1],
+//	["openWB/system/MonthGraphData10", 1],
+//	["openWB/system/MonthGraphData11", 1],
+//	["openWB/system/MonthGraphData12", 1],
 
 	// global topics
 	["openWB/global/WHouseConsumption", 1],
@@ -140,10 +140,12 @@ var topicsToSubscribe = [
 	// evu topics
 	["openWB/evu/W", 1],
 	// lp topics
-	["openWB/lp/1/%Soc", 0],
+	["openWB/lp/1/%Soc", 1],
 	["openWB/lp/1/socRange", 1],
-	["openWB/lp/2/%Soc", 0],
+	["openWB/lp/1/socTime", 1],
+	["openWB/lp/2/%Soc", 1],
 	["openWB/lp/2/socRange", 1],
+	["openWB/lp/2/socTime", 1],
 	// geladene kWh seit anstecken des EV
 	["openWB/lp/1/kWhChargedSincePlugged", 1],
 	["openWB/lp/2/kWhChargedSincePlugged", 1],
@@ -325,6 +327,23 @@ var topicsToSubscribe = [
 var countTopicsNotForPreloader = topicsToSubscribe.filter(row => row[1] === 1).length;
 
 var retries = 0;
+var topics = 0;
+
+function clientsubscribe(topic) {
+   client.subscribe(topic, { qos: 0 , onFailure : function(x){ alert('Oh ha!');}  } );
+   topics++;
+   console.log('topcis:',topics+ ' '+ topic)
+}
+function clientunsubscribe(topic) {
+   client.unsubscribe(topic, { onFailure : function(x){ alert('Oh ha!');}  } );
+   topics--;
+   console.log('topcis:',topics+' '+topic)
+   if( topics < 0 )
+   {
+     console.log('!!!!!!!!!!! topcs < 0 !!!!!!!!!!');
+	 topics=0;
+   }
+}
 
 //Connect Options
 var isSSL = location.protocol == 'https:'
@@ -365,6 +384,8 @@ client.onMessageArrived = function (message) {
 
 //Creates a new Messaging.Message Object and sends it
 function publish(payload, topic) {
+	console.log('MQTT SEND ', topic, ' =  [', payload, ']');
+	
 	var message = new Messaging.Message(payload);
 	message.destinationName = topic;
 	message.qos = 2;

@@ -5,10 +5,11 @@
 
 class SmartHomeList {
 
-  div;
+  /* div; */
 
   constructor() {
     var consumers = [];
+	this.div  = null;
   };
 
   // initialize after document is created
@@ -132,14 +133,14 @@ class SmartHomeList {
     return ("color:" + row.color + "; text-align:center");
   }
 
-  buttonClass = "btn btn-sm";
+  /*buttonClass = "btn btn-sm";*/
 
   deviceClass(row) {
-    return (this.buttonClass + (row.isOn ? " btn-outline-success" : " btn-outline-danger"));
+    return ("btn btn-sm" + (row.isOn ? " btn-outline-success" : " btn-outline-danger"));
   }
 
   modeClass(row) {
-    return (this.buttonClass + (row.isAutomatic ? " btn-outline-info" : " btn-outline-warning"));
+    return ("btn btn-sm" + (row.isAutomatic ? " btn-outline-info" : " btn-outline-warning"));
   }
 
   updateValues() {

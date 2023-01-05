@@ -74,10 +74,7 @@ function handlevar(mqttmsg, mqttpayload) {
 //} else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
 //	wbdata.updateET ('etPrice', parseFloat(mqttpayload));
 //}
-
-
-	// end color theme
-
+//	// end color theme
 //	if (mqttmsg == 'openWB/global/ETProvider/providerName') {
 //		$('.etproviderName').text(mqttpayload);
 //	}
@@ -272,6 +269,11 @@ function processGraphMessages(mqttmsg, mqttpayload) {
 	}
 	else if (mqttmsg.match(/^openwb\/graph\/[1-9][0-9]*alllivevalues$/i)) {
 		powerGraph.updateLive(mqttmsg, mqttpayload);
+		
+		var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];
+		console.log('alllivevalues['+index+ '] :' +  mqttpayload.length );
+		
+		
 		/* var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];  // extract last match = number from mqttmsg
 		// now call functions or set variables corresponding to the index
 		if (initialread == 0) {
@@ -282,6 +284,7 @@ function processGraphMessages(mqttmsg, mqttpayload) {
 	}
 	else if (mqttmsg == 'openWB/graph/lastlivevalues') {
 		powerGraph.updateLive(mqttmsg, mqttpayload);
+		console.log('lastlivevalues:' +  mqttpayload.length );
 		/* 	if ( initialread > 0) {
 				//updateGraph(mqttpayload);
 			}
@@ -428,7 +431,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 		// '3': mode stop
 		// '4': mode standby
 	}
-	else if ( mqttmsg == 'openWB/global/rfidConfigured' ) {
+	else if (mqttmsg == 'openWB/global/rfidConfigured') {
 		wbdata.updateGlobal("rfidConfigured", (mqttpayload == 1))
 	}
 	else if (mqttmsg == 'openWB/global/DailyYieldAllChargePointsKwh') {
@@ -657,14 +660,13 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	if (mqttmsg == 'openWB/system/debuglevel') {
 		var i = parseInt(mqttpayload, 10);
 		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
-		if (typeof(debugmode) == "undefined" )
-		   debugmode=-1
-		if ( i > debugmode) {
-			debugmode=i 
-			console.log('set debugmode from mqtt to '+debugmode );
-			setCookie("debugmode", debugmode, 2);
-		} else 
-		  console.log('debugmode allready set to '+debugmode );
+	    debuglevel = i;
+		console.log('set debug level to '+debuglevel );
+		if ( debuglevel >= 0)  {
+			$("#homebutton").removeClass("hide");
+        } else {			
+			$("#homebutton").addClass("hide");
+		}	
 	}	
 	else if (mqttmsg == 'openWB/system/Timestamp') {
 		var dateObject = new Date(mqttpayload * 1000);  // Unix timestamp to date-object
@@ -689,9 +691,13 @@ function processSystemMessages(mqttmsg, mqttpayload) {
       $('#uptime').html('<small>CPU: '+ss+'</small>');
     } 
 	else if (mqttmsg.match(/^openwb\/system\/daygraphdata[1-9][0-9]*$/i)) {
+		var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];
+	    console.log('daygraphdata['+index+ '] :' +  mqttpayload.length );
 		powerGraph.updateDay(mqttmsg, mqttpayload);
 	}
-	else if (mqttmsg.match(/^openwb\/system\/monthgraphdata[1-9][0-9]*$/i)) {
+	else if (mqttmsg.match(/^openwb\/system\/monthgraphdatan[1-9][0-9]*$/i)) {
+		var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];
+	    console.log('monthgraphdatan['+index+ '] :' +  mqttpayload.length );
 		powerGraph.updateMonth(mqttmsg, mqttpayload);
 	}
 }
@@ -904,6 +910,9 @@ function processLpMessages(mqttmsg, mqttpayload) {
 			socrange = 0;
 		}
 		wbdata.updateCP(index, "socrange", socrange);
+	} else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/socTime$/i)) {
+		// soc of ev at respective charge point
+		wbdata.updateCP(index, "soctime", mqttpayload);
 	}
 	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/timeremaining$/i)) {
 		// time remaining for charging to target value
@@ -1344,7 +1353,7 @@ function subscribeDayGraph(date) {
 	var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
 	var yyyy = date.getFullYear();
 	graphdate = yyyy + mm + dd;
-	for (var segment = 1; segment <= 12; segment++) {
+	for (var segment = 1; segment < 13; segment++) {
 		var topic = "openWB/system/DayGraphData" + segment;
 		client.subscribe(topic, { qos: 0 });
 	}
@@ -1356,19 +1365,22 @@ function unsubscribeDayGraph() {
 }
 
 function subscribeMonthGraph(date) {
-	// var today = new Date();
 	var mm = String(date.month + 1).padStart(2, '0'); //January is 0!
 	var yyyy = date.year;
 	graphdate = yyyy + mm;
-	for (var segment = 1; segment <= 12; segment++) {
-		var topic = "openWB/system/MonthGraphData" + segment;
+	for (var segment = 1; segment < 13; segment++) {
+		var topic = "openWB/system/MonthGraphDatan" + segment;
 		client.subscribe(topic, { qos: 0 });
 	}
-	publish(graphdate, "openWB/set/graph/RequestMonthGraph");
+	publish(graphdate, "openWB/set/graph/RequestMonthGraphv1");
 }
 
 function unsubscribeMonthGraph() {
-	publish("0", "openWB/set/graph/RequestMonthGraph");
+	for (var segment = 1; segment < 13; segment++) {
+		var topic = "openWB/system/MonthGraphDatan" + segment;
+		client.unsubscribe(topic);
+	}
+	publish("0", "openWB/set/graph/RequestMonthGraphv1");
 }
 
 function makeInt(message) {

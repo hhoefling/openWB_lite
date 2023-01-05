@@ -4,14 +4,17 @@
  */
 
 class ChargePointList {
+/*
   tbody;
   footer;
-
+*/
   constructor() {
     this.chargepoints = [];
     this.phaseSymbols = ['/', '\u2460', '\u2461', '\u2462']
     this.headers = ["Ladepunkt", "Parameter", "geladen", "SoC"];
     this.manualSoc = 0;
+	this.tbody = null;
+	this.footer = null;
   };
 
   // initialize after document is created
@@ -81,12 +84,14 @@ class ChargePointList {
   }
 
   cpNameButtonCell(row, index) {
+    var lpnr=row.lpNr;
+    
     const cell = d3.create("td")
       .attr("class", "tablecell px-1 py-1")
       .style("color", row.color)
       .style("vertical-align", "middle")
       .style("text-align", "left")
-      .attr("onClick", "lpButtonClicked(" + index + ")");
+      .attr("onClick", "lpButtonClicked(" + index + ","+  lpnr +")");
 
     if (row.isEnabled) {
       cell.append("span")
@@ -122,9 +127,10 @@ class ChargePointList {
   }
 
   cpSocButtonCell(row, index) {
+    var lpnr=row.lpNr;  
     const cell = d3.create("td")
       .attr("class", "tablecell px-1 py-1")
-      .attr("onClick", (row) => ("socButtonClicked(" + index + ")"))
+      .attr("onClick", (row) => ("socButtonClicked(" + index +"," + lpnr + ")"))
       .style("text-align", "center")
       .style("vertical-align", "middle");
     if (row.isSocConfigured) {
@@ -144,8 +150,8 @@ class ChargePointList {
     return cell.node();
   }
 
-  editManualSoc(i) {
-    this.manualSoc = wbdata.chargePoint[i].soc;
+  editManualSoc(i,lpnr) {
+    this.manualSoc = wbdata.chargePoint[lpnr-1].soc;
     const div = d3.select("div#socSelector");
     div.selectAll("*").remove();
 
@@ -158,7 +164,7 @@ class ChargePointList {
       .append("p")
       .attr("class", "largeTextSize popup-header")
       .style("text-align", "center")
-      .text("Manuelle SoC-Eingabe - Ladepunkt " + (i + 1));
+      .text("Manuelle SoC-Eingabe - Ladepunkt " + lpnr );
 
     const row2 = col.append("div")
       .attr("class", "row justify-content-center")
@@ -212,27 +218,29 @@ class ChargePointList {
       .attr("class", "btn btn-sm btn-primary")
       .text("Übernehmen")
       .on("click", () => {
-        publish("" + this.manualSoc, "openWB/set/lp/" + (i + 1) + "/manualSoc");
+        publish("" + this.manualSoc, "openWB/set/lp/" + lpnr + "/manualSoc");
         div.selectAll("*").remove();
       })
   }
 }
 
-function lpButtonClicked(i) {
-  if (wbdata.chargePoint[i].isEnabled) {
-    publish("0", "openWB/set/lp/" + (+i + 1) + "/ChargePointEnabled");
+function lpButtonClicked(i,lpnr) {
+  console.log('i:',i,' lpnr:',lpnr);
+  if (wbdata.chargePoint[lpnr-1].isEnabled) {
+    publish("0", "openWB/set/lp/" + lpnr + "/ChargePointEnabled");
   } else {
-    publish("1", "openWB/set/lp/" + (+i + 1) + "/ChargePointEnabled");
+    publish("1", "openWB/set/lp/" + lpnr + "/ChargePointEnabled");
   }
   d3.select("button#lpbutton-" + i)
     .classed("disabled", true);
 }
 
-function socButtonClicked(i) {
-  if (wbdata.chargePoint[i].isSocManual) {
-    chargePointList.editManualSoc(i);
+function socButtonClicked(i,lpnr) {
+  console.log('i:',i,' lpnr:',lpnr);
+  if (wbdata.chargePoint[lpnr-1].isSocManual) {
+    chargePointList.editManualSoc(i,lpnr);
   } else {
-    publish("1", "openWB/set/lp/" + (+i + 1) + "/ForceSoCUpdate");
+    publish("1", "openWB/set/lp/" + lpnr + "/ForceSoCUpdate");
     d3.select("i#soclabel-" + i)
       .classed("fa-spin", true)
   }

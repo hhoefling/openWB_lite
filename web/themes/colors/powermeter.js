@@ -12,7 +12,7 @@ class PowerMeter {
     this.radius = this.width / 2 - this.margin;
     this.cornerRadius = 1;
     this.circleGapSize = (Math.PI / 40);
-    this.maxPower = 2000;
+    this.maxPower = 4000;
     this.showRelativeArcs = false;
     this.emptyPower = 0;
   }
