@@ -59,6 +59,8 @@ Weiter Info **[History](docs/history.md)**
 - Bullseye hat keine verwendbares Pyhton2.x. (es fehlt z.b. GPIO nach dem Nachinstallieren). Da die Kernmodule alle noch in python2 geschrieben sind scheidet bullseye erst mal aus. Inzwischen habe ich python 2.7.16 und GPIO 0.7.0 installieren können. Also werde ich auch mit Bullseye weitertesten.
 - Bullseye zum testen in einer VM auf dem PC
 - Für mich irrelevante Functionen werden entfernen. (awatar, tibber,  pushover, evse ) Wenn jemand diese Module benötigt, bitte melden, vieleicht lassen sie sich ja aus der alten 1'9er-24x übernehmen und weiterverwenden.
+- Erweiterung der Log Funktion um die Regelmodule besser zu debugen. 
+- 
 ****************
 
 **[Umzug auf openwb_lite](docs/umzug.md)**
