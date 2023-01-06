@@ -46,7 +46,7 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
 ![firefox_for_openWBCloud](https://user-images.githubusercontent.com/89247538/162584648-74edda22-49f4-41cc-8a3b-dde2aa2f192b.png)
 
 - Die Konfiguration des integrierten Display ist in die Installatiom mit aufgenommen worden (Chrome-browser und Config)
-- Das Interne Dispaly-Thema "Color" bekommt links zu normalem Web Oberfläche und einige Detailänderungen zur besseren Lesbarkeit.
+- Das Interne Dispaly-Thema "Color" bekommt links zu normalem Web Oberfläche und einige Detailänderungen zur besseren Lesbarkeit. Zusätzliche Spalte mit der Temp1.
 - Mqtt-Puller zugefügt. Er kopiert die Daten aus dem MQTT der echten OpenWB und beschreibt die MQTT  Topics der Test-OpenWB.
 - Meine RCT2 Module wurden noch weiter optimiert. Die Zeit um die 23/39 Werte abzufragen liegt nun bei unter einer Sekunde. Die gesamte Regelzeit liegt bei 3 bis 4 Sekunden.
 - Das Color schema wurde erweitert um eine Angabe zur möglichen Reichweite mit dem aktuellen SoC des PKW. ![New01_ff](https://user-images.githubusercontent.com/89247538/181804438-a97009fc-f7bd-4059-9e83-5c7882620b39.png)  Die Infomation werden vom SOC Module geliefert.
@@ -61,7 +61,7 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
   ![backup](https://user-images.githubusercontent.com/89247538/185985391-9207616a-4465-4981-b309-8e630eb34779.png) <br>Die Mitschrift im oberen Kasten erscheint nur wenn der Debugmode >0 gesetzt wird.
 		
 1.2023
-- Colors Thema überarbeitet. Änderungen von snaptec 1.8.28x übernommen. Backport um Firefox68/Kitkat4.4 zu ermöglichen. Indexfehler LP behoben.
+- Colors Thema überarbeitet. Änderungen von snaptec 1.9.28x übernommen. Backport um Firefox68/Kitkat4.4 zu ermöglichen. Indexfehler LP behoben.
 
 ![Screenshot_2023-01-06-00-24-05](https://user-images.githubusercontent.com/89247538/210899669-53230389-45b5-4f9c-b18e-d7bea1665cb4.png)
 
