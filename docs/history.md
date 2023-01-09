@@ -66,3 +66,5 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
 ![Screenshot_2023-01-06-00-24-05](https://user-images.githubusercontent.com/89247538/210899669-53230389-45b5-4f9c-b18e-d7bea1665cb4.png)
 
 ( Screenshot von einem Galaxy Tab3 10" und Firefox68 auf KitKat 4.4.1 ) 
+
+9.1.2023 Letzte Aktualisierung des Colour-Themas. Runde Ecken soweie Eingenverbrauch und Autarkiegrad übernommen. Die Visuelen Ändergnen wurden nicht übernommen da sie auf meinen Geräten zu einer schlechteren Lesebarkeit führen würde. Die weitere Entwicklung auf Snaptec geht nun in Richtung openWB 2.0 (mit VUE).
