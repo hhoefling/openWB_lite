@@ -447,7 +447,6 @@ class Consumer {
 class ChargePoint {
 	constructor(index, name = "", power = 0, dailyYield = 0, configured = false, isSocConfigured = false, isSocManual = false) {
         this.id = index; // 0..2
-        this.lpNr = index+1; // 1..3 statt 0..2
 		this.name = name;
 		this.power = power;
 		this.energy = dailyYield;
@@ -473,6 +472,7 @@ class SHDevice {
 		this.energyPv = 0;
 		this.energyBat = 0;
 		this.pvPercentage = 0;
+		this.temp = [0.0, 0.0, 0.0];
 	}
 };
 
@@ -539,7 +539,7 @@ function formatTime(seconds) {
 	const hours = Math.floor(seconds / 3600);
 	const minutes = ((seconds % 3600) / 60).toFixed(0);
 	if (hours > 0) {
-		return (hours + "h " + minutes + " min");
+		return (hours + "h " + minutes);
 	} else {
 		return (minutes + " min");
 	}
@@ -548,6 +548,9 @@ function formatTime(seconds) {
 function formatMonth(month, year) {
 	months = ['Jan', 'Feb', 'März', 'April', 'Mai', 'Juni', 'Juli', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 	return (months[month] + " " + year);
+}
+function formatTemp(t) {
+	return ((Math.round(t * 10) / 10).toLocaleString(undefined, { minimumFractionDigits: 1 }) + "°")
 }
 function shiftLeft() {
 	switch (wbdata.graphMode) {

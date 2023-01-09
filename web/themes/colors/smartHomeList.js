@@ -136,11 +136,11 @@ class SmartHomeList {
   /*buttonClass = "btn btn-sm";*/
 
   deviceClass(row) {
-    return ("btn btn-sm" + (row.isOn ? " btn-outline-success" : " btn-outline-danger"));
+    return ("btn btn-smx" + (row.isOn ? " btn-outline-success" : " btn-outline-danger"));
   }
 
   modeClass(row) {
-    return ("btn btn-sm" + (row.isAutomatic ? " btn-outline-info" : " btn-outline-warning"));
+    return ("btn btn-smx" + (row.isAutomatic ? " btn-outline-info" : " btn-outline-warning"));
   }
 
   updateValues() {

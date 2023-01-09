@@ -38,7 +38,8 @@ class ChargePointList {
 
     this.tbody = table.append("tbody");
     this.footer = div.append("div");
-    this.fgColor = "var(--color-fg)";  }
+    this.fgColor = "var(--color-fg)";  
+	}
 
   // update if data has changed
   update() {
@@ -55,7 +56,7 @@ class ChargePointList {
       .style("text-align", "center")
       .style("vertical-align", "middle");
 
-    rows.append((row, i) => this.cpNameButtonCell(row, i));
+    rows.append((row) => this.cpNameButtonCell(row));
 
     rows.selectAll("cells")
       .data(row => [
@@ -67,7 +68,7 @@ class ChargePointList {
       .attr("class", "tablecell px-1 py-1")
       .attr("style", "vertical-align:middle;")
       .text(data => data);
-    rows.append((row, i) => this.cpSocButtonCell(row, i));
+    rows.append((row) => this.cpSocButtonCell(row));
 
     if (wbdata.isEtEnabled) {
       this.footer.append('p')
@@ -83,15 +84,14 @@ class ChargePointList {
     this.chargepoints = wbdata.chargePoint.filter(cp => cp.configured);
   }
 
-  cpNameButtonCell(row, index) {
-    var lpnr=row.lpNr;
+  cpNameButtonCell(row) {
     
     const cell = d3.create("td")
       .attr("class", "tablecell px-1 py-1")
       .style("color", row.color)
       .style("vertical-align", "middle")
       .style("text-align", "left")
-      .attr("onClick", "lpButtonClicked(" + index + ","+  lpnr +")");
+      .attr("onClick", "lpButtonClicked(" + row.id + ")");
 
     if (row.isEnabled) {
       cell.append("span")
@@ -126,11 +126,10 @@ class ChargePointList {
     return cell.node();
   }
 
-  cpSocButtonCell(row, index) {
-    var lpnr=row.lpNr;  
+  cpSocButtonCell(row) {
     const cell = d3.create("td")
       .attr("class", "tablecell px-1 py-1")
-      .attr("onClick", (row) => ("socButtonClicked(" + index +"," + lpnr + ")"))
+      .attr("onClick", ("socButtonClicked(" + row.id + ")"))
       .style("text-align", "center")
       .style("vertical-align", "middle");
     if (row.isSocConfigured) {
@@ -143,15 +142,15 @@ class ChargePointList {
       } else {
         cell.append("i")
           .attr("class", "small fas fa-redo-alt")
-          .attr("id", "soclabel-" + index)
+          .attr("id", "soclabel-" + row.id)
           .style("color", "var(--color-fg)");
       }
     }
     return cell.node();
   }
 
-  editManualSoc(i,lpnr) {
-    this.manualSoc = wbdata.chargePoint[lpnr-1].soc;
+  editManualSoc(i) {
+    this.manualSoc = wbdata.chargePoint[i].soc;
     const div = d3.select("div#socSelector");
     div.selectAll("*").remove();
 
@@ -164,7 +163,7 @@ class ChargePointList {
       .append("p")
       .attr("class", "largeTextSize popup-header")
       .style("text-align", "center")
-      .text("Manuelle SoC-Eingabe - Ladepunkt " + lpnr );
+      .text("Manuelle SoC-Eingabe - Ladepunkt " + (i + 1));
 
     const row2 = col.append("div")
       .attr("class", "row justify-content-center")
@@ -218,29 +217,27 @@ class ChargePointList {
       .attr("class", "btn btn-sm btn-primary")
       .text("Übernehmen")
       .on("click", () => {
-        publish("" + this.manualSoc, "openWB/set/lp/" + lpnr + "/manualSoc");
+        publish("" + this.manualSoc, "openWB/set/lp/" + (i + 1) + "/manualSoc");
         div.selectAll("*").remove();
       })
   }
 }
 
-function lpButtonClicked(i,lpnr) {
-  console.log('i:',i,' lpnr:',lpnr);
-  if (wbdata.chargePoint[lpnr-1].isEnabled) {
-    publish("0", "openWB/set/lp/" + lpnr + "/ChargePointEnabled");
+function lpButtonClicked(i) {
+  if (wbdata.chargePoint[i].isEnabled) {
+    publish("0", "openWB/set/lp/" + (+i + 1) + "/ChargePointEnabled");
   } else {
-    publish("1", "openWB/set/lp/" + lpnr + "/ChargePointEnabled");
+    publish("1", "openWB/set/lp/" + (+i + 1) + "/ChargePointEnabled");
   }
   d3.select("button#lpbutton-" + i)
     .classed("disabled", true);
 }
 
-function socButtonClicked(i,lpnr) {
-  console.log('i:',i,' lpnr:',lpnr);
-  if (wbdata.chargePoint[lpnr-1].isSocManual) {
-    chargePointList.editManualSoc(i,lpnr);
+function socButtonClicked(i) {
+  if (wbdata.chargePoint[i].isSocManual) {
+    chargePointList.editManualSoc(i);
   } else {
-    publish("1", "openWB/set/lp/" + lpnr + "/ForceSoCUpdate");
+    publish("1", "openWB/set/lp/" + (+i + 1) + "/ForceSoCUpdate");
     d3.select("i#soclabel-" + i)
       .classed("fa-spin", true)
   }

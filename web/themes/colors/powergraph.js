@@ -456,7 +456,7 @@ class PowerGraph {
     values.soc2 = +elements[10];
 
     // smart home
-    for (i = 0; i < 8; i++) {
+		for (i = 0; i < 9; i++) {
       if (!(wbdata.shDevice[i].countAsHouse)) {
         values["sh" + i] = +elements[20 + i];
       } else {
@@ -769,19 +769,19 @@ class PowerGraph {
     const extent = d3.extent(this.graphData, (d) =>
 		(d.housePower + d.lp0 + d.lp1 + d.lp2 + d.lp3 + d.lp4
 			+ d.lp5 + d.lp6 + d.lp7 + d.sh0 + d.sh1 + d.sh2 + d.sh3 + d.sh4
-			+ d.sh5 + d.sh6 + d.sh7 + d.co0 + d.co1 + d.batIn + d.inverter)
+			+ d.sh5 + d.sh6 + d.sh7 + d.sh8 + d.co0 + d.co1 + d.batIn + d.inverter)
     );
     yScale.domain([0, Math.ceil(extent[1] / 1000) * 1000]);
 		const keys = [["lp0", "lp1", "lp2", "lp3", "lp4",
 			"lp5", "lp6", "lp7",
 			"sh0", "sh1", "sh2", "sh3", "sh4",
-			"sh5", "sh6", "sh7", "co0", "co1", "housePower", "batIn", "inverter"],
+			"sh5", "sh6", "sh7", "sh8","co0", "co1", "housePower", "batIn", "inverter"],
 		["housePower", "lp0", "lp1", "lp2", "lp3", "lp4",
 			"lp5", "lp6", "lp7",
 			"sh0", "sh1", "sh2", "sh3", "sh4",
-			"sh5", "sh6", "sh7", "co0", "co1", "batIn", "inverter"],
+			"sh5", "sh6", "sh7", "sh8", "co0", "co1", "batIn", "inverter"],
 		["sh0", "sh1", "sh2", "sh3", "sh4",
-			"sh5", "sh6", "sh7", "co0", "co1", "housePower", "lp0", "lp1", "lp2", "lp3", "lp4",
+			"sh5", "sh6", "sh7", "sh8", "co0", "co1", "housePower", "lp0", "lp1", "lp2", "lp3", "lp4",
 			"lp5", "lp6", "lp7",
         "batIn", "inverter"]
     ];

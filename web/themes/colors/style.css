@@ -4,6 +4,14 @@ Stylesheet zum openWB Standard-Theme
 2019-2020 Michael Ortenstein
 */
 
+.btn-smx,
+.btn-group-smx > .btn {
+  padding: 0.0rem 0.5rem 0.0rem 0.5rem; 
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
 html{
 	min-height: 100%;
 	min-width: 100%;
@@ -30,24 +38,57 @@ body > .container-fluid {
 	padding: 55px 15px 0;
 }
 @keyframes alertPulsation {
-	0%   { opacity:1; }
-	50%  { opacity:0; }
-	100% { opacity:1; }
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
 }
 @-o-keyframes alertPulsation{
-	0%   { opacity:1; }
-	50%  { opacity:0; }
-	100% { opacity:1; }
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
 }
+
+	100% {
+		opacity: 1;
+	}
+}
+
 @-moz-keyframes alertPulsation{
-	0%   { opacity:1; }
-	50%  { opacity:0; }
-	100% { opacity:1; }
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
 }
 @-webkit-keyframes alertPulsation{
-	0%   { opacity:1; }
-	50%  { opacity:0; }
-	100% { opacity:1; }
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
 }
 .animate-alertPulsation {
 	-webkit-animation: alertPulsation 1s infinite;
@@ -567,11 +608,11 @@ h4 {
 }
 .wb-widget {
 	background-color: var(--color-bg);
-	border:1px solid var(--color-frame) ;
+	border: 0.5px solid var(--color-frame) ;
 }
 
 .wb-subwidget {
-	border:2px solid var(--color-subframe) ;
+	border: 0px solid var(--color-subframe);
 	padding:var(--padding-widget);
     font-size: 1.5rem;  /* HH Texte om Kreis */
 }
