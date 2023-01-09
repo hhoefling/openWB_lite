@@ -118,22 +118,30 @@ fi
 #	openwbDebugLog "MAIN" 1 "Slave mode regulation spread: Wait end"
 #fi
 
+
+ts=$(date +%s)
+
+# Must be first
+source loadvars.sh
 source minundpv.sh
 source nurpv.sh
 source auslademodus.sh
 source sofortlademodus.sh
-source loadvars.sh
+source goecheck.sh
 source graphing.sh
 source nachtladen.sh
 source zielladen.sh
 source evsedintest.sh
 source hook.sh
-if (( u1p3paktiv == 1 )); then
-	source u1p3p.sh
-fi	
+(( u1p3paktiv == 1 ))  && source u1p3p.sh
+# NC source nrgkickcheck.sh
 source rfidtag.sh
 source leds.sh
 # NC source slavemode.sh
+t=$(( $(date +%s) - ts))
+if (( t > 1 ))  ; then
+  openwbDebugLog "DEB" 0 " ************* $t for sourceing"
+fi
 
 date=$(date)
 re='^-?[0-9]+$'
@@ -202,7 +210,7 @@ if (( displayaktiv == 1 )); then
 	if (( execdisplay == 1 )); then
 		export DISPLAY=:0 && xset s "$displaysleep" && xset dpms "$displaysleep" "$displaysleep" "$displaysleep"
 		echo 0 > ramdisk/execdisplay
-		openwbDebugLog "MAIN" 1 "exec  runs/displaybacklight.sh $displayLight"
+		openwbDebugLog "MAIN" 1 "EXEC runs/displaybacklight.sh $displayLight"
 		sudo runs/displaybacklight.sh $displayLight
 	fi
 fi
@@ -277,22 +285,27 @@ if (( u1p3paktiv == 1 )); then
 		exit 0
 	fi
 fi
+
+# Double check, if lp is disabled and ladeleistung trotzdem noch da, dann Clear to 0
 if (( lp1enabled == 0)); then
 	if (( ladeleistunglp1 > 100 )) || (( llalt > 0 )); then
+	    openwbDebugLog "MAIN" 2 "runs/set-current.sh 0 m"
 		runs/set-current.sh 0 m
 	fi
 fi
 if (( lp2enabled == 0)); then
 	if (( ladeleistunglp2 > 100 )) || (( llalts1 > 0 )); then
+	    openwbDebugLog "MAIN" 2 "runs/set-current.sh 0 s1"
 		runs/set-current.sh 0 s1
 	fi
 fi
 if (( lp3enabled == 0)); then
 	if (( ladeleistunglp3 > 100 )) || (( llalts2 > 0 )); then
+	    openwbDebugLog "MAIN" 2 "runs/set-current.sh 0 s2"
 		runs/set-current.sh 0 s2
 	fi
 fi
-# LP4-LP8
+# Delete LP4-8
 
 # Maybee Exit 
 evsedintest
@@ -502,7 +515,7 @@ if [[ $loadsharinglp12 == "1" ]]; then
 		chargingphases=$(( lp1c + lp2c ))
 		if (( chargingphases > 2 )); then
 			runs/set-current.sh "$agrenze" all
-			openwbDebugLog "CHARGESTAT" 0 "Alle Ladepunkte, Loadsharing LP1-LP2 aktiv. Setze Ladestromstärke auf $agrenze"
+			openwbDebugLog "CHARGESTAT" 0 "Alle Ladepunkte, Loadsharing LP1-LP2 aktiv. Setze Ladestromstärke auf $agrenze (exit 0)"
 			exit 0
 		fi
 	fi
