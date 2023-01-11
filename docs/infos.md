@@ -216,6 +216,8 @@ XAUTHORITY=~pi/.Xauthority DISPLAY=:0 xset dpms force on
 Aufgerufen wird diese kleine Script in der openWB_Lite von mqttssub.py 
 wenn auf openWB/set/system/reloadDisplay geschrieben wird
 
+Das Display hat eine Auflösung von 800x480 mit nicht ganz quadratischen Pixeln
+Daher sie das colour-Thema nicht Rund aus ohne Korrekturfaktor in der Y-Achse.
 
 
 
