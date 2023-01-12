@@ -137,8 +137,11 @@ foreach($lines as $line) {
 	if(strpos($line, "displaytheme=") !== false) {
 		list(, $displaythemeold) = explode("=", $line, 2);
 	}
-	if(strpos($line, "displaypinaktiv=") !== false) {
-		list(, $displaypinaktivold) = explode("=", $line);
+	if(strpos($line, "displaytheme=") !== false) {
+		list(, $displaythemeold) = explode("=", $line, 2);
+	}
+	if(strpos($line, "devicename=") !== false) {
+		list(, $devicenameold) = explode("=", $line);
 	}
 	if(strpos($line, "displaypincode=") !== false) {
 		list(, $displaypincodeold) = explode("=", $line);
