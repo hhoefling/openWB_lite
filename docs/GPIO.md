@@ -12,16 +12,27 @@ gpio=6,8,9,10,12,13,16,21=ip,pu	= als Eingang und PullUP aktivieren
 Achtung, innerhalb der openWB wird mal mit BOARD,  mal mit BCM addressiert
 Hier eine Zuordnungstabelle
 
-| Board | BCM  | Type | ..|
+| Board PinNr| BCM GPIO  | Type | Verwendung |
 |------|------|------|-------|
-|   11 |------| Out |-------|
-|   13 |------| Out |-------|
-|   15 |------| Out | CP2 |
-|   19 | -----| IN PUP | Socket L-State |
-|   22 |------| Out | CP1 |
-|   23 |------| Out | Socket LM Dir|
-|   26|------| Out | Socket Power LM|
-|   29 |------| Out |-------|
-|   37 |------| Out |-------|
+|    7 | G04 | Out | Led3 |
+|   11 | G17 | Out | LP2 U1P3-- |
+|   13 | G27 | Out | LP2 U1P3++ |
+|   15 | G22 | Out | LP2 CP / Socket |
+|   16 | G23 | Out | Led2 |
+|   18 | G24 | Out | Led1 |
+|   19 | G10 | IN PUP | Socket L-State |
+|   21 | G09 | IN PUP| rse |
+|   22 | G25 | Out | LP1 CP |
+|   23 | G11 | Out | Socket LM Dir|
+|   24 | G08 | IN PUP| rse |
+|   26 | G07 | Out | Socket Power LM|
+|   29 | G05 | Out  LP1 U1P3-- |
+|   31 | G06 | IN PUP| T3=NurPv |
+|   32 | G12 | IN PUP| T1=Sofort |
+|   33 | G13 | IN PUP| T4=Stop |
+|   36 | G16 | IN PUP| T2=MinPv |
+|   37 | G26 | Out | LP1 U1P3++ |
+|   40 | G21 | IN PUP| T5=Standby |
 |------|------|------|-------|
 
+![gaU6t](https://user-images.githubusercontent.com/89247538/212203387-25cb7925-7d6f-4e87-92c7-c18ef853296f.png)
