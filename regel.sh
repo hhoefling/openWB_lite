@@ -29,30 +29,49 @@
 OPENWBBASEDIR=/var/www/html/openWB
 set -o pipefail
 set -o nounset
-
-
 cd /var/www/html/openWB/ || exit 1
-# use kostant ramdisk  , no var RAMDISK with 
+# use kostant ramdisk  , no var RAMDISK h
+
+############### profiling
+ptx=0
+pt=0
+ptstart()
+{
+   ptx=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
+}
+ptend()
+{
+ local txt=${1:-}
+ local max=${2:-200}   
+ local te
+ te=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
+ pt=$(( te - ptx))
+ if (( pt > max ))  ; then
+   openwbDebugLog "DEB" 1 "TIME **** ${txt} needs $pt ms. (max:$max)"
+   openwbDebugLog "MAIN" 2 "TIME **** ${txt} needs $pt ms. (max:$max)"
+ fi
+}
+
 
 source helperFunctions.sh
 if pidof -x -o $$ "${BASH_SOURCE[0]}"
 then
-	openwbDebugLog "MAIN" 0 "Previous regulation loop still running. Skipping."
-	exit
+	openwbDebugLog "MAIN" 0 "Previous regulation loop still running. EXIT 1"
+	exit 1
 fi
 
 if [ -e ramdisk/updateinprogress ] && [ -e ramdisk/bootinprogress ]; then
 	updateinprogress=$(<ramdisk/updateinprogress)
 	bootinprogress=$(<ramdisk/bootinprogress)
 	if (( updateinprogress == "1" )); then
-		openwbDebugLog "MAIN" 0 "Update in progress EXIT"
+		openwbDebugLog "MAIN" 0 "Update in progress EXIT 0"
 		exit 0
 	elif (( bootinprogress == "1" )); then
-		openwbDebugLog "MAIN" 0 "Boot in progress EXIT"
+		openwbDebugLog "MAIN" 0 "Boot in progress EXIT 0"
 		exit 0
 	fi
 else
-	openwbDebugLog "MAIN" 0 "Ramdisk not set up. Maybe we are still booting. EXIT"
+	openwbDebugLog "MAIN" 0 "Ramdisk not set up. Maybe we are still booting. EXIT 0"
 	exit 0
 fi
 
@@ -74,16 +93,18 @@ function cleanup()
 	fi
 }
 trap cleanup EXIT
-########### End Laufzeit protokolieren
-
-
-#config file einlesen
-. /var/www/html/openWB/loadconfig.sh
+################################################
 
 #######################
 openwbDebugLog "MAIN" 0 "**** Regulation loop start ****"
-openwbDebugLog "DEB" 0 "**** Regulation loop start ****"
 #######################
+
+#config file einlesen, auch debug mode, vorher defaults=2
+ptstart
+ source loadconfig.sh
+ptend loadconfig 50
+
+
 
 
 #######################
@@ -98,7 +119,7 @@ fi
 
 if pidof -x -o $$ "${BASH_SOURCE[0]}"
 then
-	openwbDebugLog "MAIN" 0 "Previous regulation loop still running. EXIT"
+	openwbDebugLog "MAIN" 0 "Previous regulation loop still running. EXIT "
 	#exit
 fi
 
@@ -119,7 +140,7 @@ fi
 #fi
 
 
-ts=$(date +%s)
+ptstart
 
 # Must be first
 source loadvars.sh
@@ -127,21 +148,18 @@ source minundpv.sh
 source nurpv.sh
 source auslademodus.sh
 source sofortlademodus.sh
-source goecheck.sh
 source graphing.sh
 source nachtladen.sh
 source zielladen.sh
 source evsedintest.sh
 source hook.sh
 (( u1p3paktiv == 1 ))  && source u1p3p.sh
+# NC source goecheck.sh
 # NC source nrgkickcheck.sh
 source rfidtag.sh
 source leds.sh
 # NC source slavemode.sh
-t=$(( $(date +%s) - ts))
-if (( t > 1 ))  ; then
-  openwbDebugLog "DEB" 0 " ************* $t for sourceing"
-fi
+ptend "sourceing" 50
 
 date=$(date)
 re='^-?[0-9]+$'
@@ -152,7 +170,7 @@ if [[ $isss == "1" ]]; then
 	mosquitto_pub -r -t "openWB/system/Uptime" -m "$(uptime)"
 	mosquitto_pub -r -t "openWB/system/Timestamp" -m "$(date +%s)"
 	mosquitto_pub -r -t "openWB/system/Date" -m "$(date)"
-	openwbDebugLog "MAIN" 1 "ISSS mode Exit"
+	openwbDebugLog "MAIN" 1 "ISSS mode Exit 0"
 	exit 0
 fi
 
@@ -170,7 +188,7 @@ if [[ $dspeed == "2" ]]; then
 
 	if [ -e ramdisk/5sec ]; then
 		rm ramdisk/5sec
-		openwbDebugLog "MAIN" 1 "**** Regulation speed2-loop exits (exit 0)"
+		openwbDebugLog "MAIN" 1 "**** Regulation speed2-loop EXIT 0"
 		exit 0
 	else
 		echo 0 > ramdisk/5sec
@@ -182,17 +200,13 @@ fi
 ./processautolock.sh &   # Asncron , keine rückwirkung auf Variablen
 
 
-ts=$(date +%s)
+ptstart
 
 #ladelog ausfuehren # Asncron , keine rückwirkung auf Variablen                           
  [ -e ./ladelog.sh ]  &&  ( ./ladelog.sh &  )
  [ -e ./ladelog2.sh ] &&  ( ./ladelog2.sh & )
 # ./ladelog.sh &
-
-t=$(( $(date +%s) - ts))
-if (( t > 1))  ; then
-  openwbDebugLog "DEB" 0 " ************* $t for ladelog"
-fi
+ptend "ladelog" 100
 
 incvar graphtimer 5 
 #graphtimer=$(<ramdisk/graphtimer)
@@ -231,6 +245,7 @@ function domod(){
  fi
 }
 
+ptstart
 # Statt goecheck und nrgcheck immer zu laden, 
 # nur dann wenn verwendet subscript aufrufen (ausgelagert )
 #########################################################################
@@ -244,6 +259,7 @@ function domod(){
 		domod "modules/${evsecons2}lp3/check.sh"
 	fi	
 #########################################################################
+ptend checksh 100
 
 LadereglerTxt=""
 BatSupportTxt=""
@@ -255,27 +271,21 @@ function endladeregler()
 }
 trap_befor endladeregler EXIT 
 
-ts=$(date +%s)
-
-#load charging vars
-startloadvars=$(date +%s)
+ptstart
 loadvars
-endloadvars=$(date +%s)
-timeloadvars=$((endloadvars-startloadvars))
-openwbDebugLog "MAIN" 1 "Zeit zum abfragen aller Werte $timeloadvars Sekunden"
+ptend loadvars 2000
+openwbDebugLog "MAIN" 1 "Zeit zum abfragen aller Werte $pt Millisekunden"
 
-t=$(( $(date +%s) - ts))
-if (( t > 6))  ; then
-  openwbDebugLog "DEB" 0 " ************* $t for loadvars"
-  openwbDebugLog "MAIN" 0 " ************* $t for loadvars"
-fi
 
 
 #hooks - externe geraete
 hook
 
 #Graphing, vorgezogen damit auch bei blockall die daten weitergeführt werden
+ptstart
 graphing
+ptend graphing 600 
+
 
 
 if (( u1p3paktiv == 1 )); then
@@ -308,7 +318,9 @@ fi
 # Delete LP4-8
 
 # Maybee Exit 
+ptstart 
 evsedintest
+ptend evsedintest 100 
 
 #u1p3p switch
 if (( u1p3paktiv == 1 )); then
@@ -372,6 +384,7 @@ if (( cpunterbrechunglp2 == 1 )); then
 				if (( cpulp2counter > 5 )); then
 					if (( cpulp2waraktiv == 0 )); then
 						openwbDebugLog "MAIN" 0 "CP Unterbrechung an LP2 wird durchgeführt"
+						openwbDebugLog "CHARGESTAT" 0 "CP Unterbrechung an LP2 wird durchgeführt"
 						if [[ $evsecons1 == "simpleevsewifi" ]]; then
 							curl --silent --connect-timeout "$evsewifitimeoutlp2" -s "http://$evsewifiiplp2/interruptCp" > /dev/null
 						elif [[ $evsecons1 == "ipevse" ]]; then ## Alter Satellit ohne Pi3
@@ -443,23 +456,6 @@ if (( rseenabled == 1 )); then
 fi
 
 
-#if [[ $dspeed == "3" ]]; then
-#	if [ -e ramdisk/5sec ]; then
-#		regeltimer=$(<ramdisk/5sec)
-#		if (( regeltimer < 5 )); then
-#			regeltimer=$((regeltimer+1))
-#			echo $regeltimer > ramdisk/5sec
-#			exit 0
-#		else
-#			regeltimer=0
-#			echo $regeltimer > ramdisk/5sec
-#		fi
-#	else
-#		echo 0 > ramdisk/5sec
-#	fi
-#fi
-
-
 
  
 evsemodbustimer=0		
@@ -494,7 +490,7 @@ if [[ $loadsharinglp12 == "1" ]]; then
 		aagrenze=32
 	fi
 	tcurrent=$(( llalt + llalts1 ))
-	if (( tcurrent > aagrenze )); then
+	if (( tcurrent > aagrenze )); then # handlungsbedarf, summe > grenze
 		#detect charging cars
 		if (( lla1 > 1 )); then
 			lp1c=1
@@ -514,7 +510,7 @@ if [[ $loadsharinglp12 == "1" ]]; then
 		fi
 		chargingphases=$(( lp1c + lp2c ))
 		if (( chargingphases > 2 )); then
-			runs/set-current.sh "$agrenze" all
+			runs/set-current.sh "$agrenze" all   # alle auf 8 damit summe nicht>16
 			openwbDebugLog "CHARGESTAT" 0 "Alle Ladepunkte, Loadsharing LP1-LP2 aktiv. Setze Ladestromstärke auf $agrenze (exit 0)"
 			exit 0
 		fi
@@ -668,7 +664,7 @@ fi
 if [[ $nurpv70dynact == "1" ]]; then
 	nurpv70status=$(<ramdisk/nurpv70dynstatus)
 	if [[ $nurpv70status == "1" ]]; then
-		uberschuss=$((uberschuss - nurpv70dynw))
+		uberschuss=$((uberschuss - nurpv70dynw))           # ue - 6000 = 
 		# Schwelle zum Beginn der Ladung
 		mindestuberschuss=0
 		# Schwelle zum Beenden der Ladung
@@ -699,6 +695,9 @@ openwbDebugLog "PV" 0 "Schaltschwelle: $schaltschwelle, zum runterregeln: $pvreg
 # Debug Ausgaben
 openwbDebugLog "MAIN" 1 "anzahlphasen $anzahlphasen"
 openwbDebugLog "MAIN" 2 "uberschuss $uberschuss wattbezug $wattbezug ladestatus $ladestatus llsoll $llalt pvwatt $pvwatt mindestuberschussphasen $mindestuberschussphasen wattkombiniert $wattkombiniert schaltschwelle $schaltschwelle"
+
+meld "Ü$uberschuss"
+
 ########################
 #Min Ladung + PV Uberschussregelung lademodus 1
 if (( lademodus == $MINPV1 )); then
