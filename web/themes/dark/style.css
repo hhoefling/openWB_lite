@@ -25,62 +25,28 @@ body {
 	background-attachment: fixed;
 }
 body > .container {
-	padding: 55px 15px 25px;
+	padding: 55px 15px 0;
 }
 
 @keyframes alertPulsation {
-	0% {
-		opacity: 1;
-	}
-
+	0%   { opacity:1; }
 	50% {
-		opacity: 0;
-	}
-
 	100% {
-		opacity: 1;
-	}
 }
 @-o-keyframes alertPulsation{
-	0% {
-		opacity: 1;
+	0%   { opacity:1; }
+	50%  { opacity:0; }
+	100% { opacity:1; }
 }
-
-	50% {
-		opacity: 0;
-}
-
-	100% {
-		opacity: 1;
-	}
-}
-
 @-moz-keyframes alertPulsation{
-	0% {
-		opacity: 1;
-	}
-
+	0%   { opacity:1; }
 	50% {
-		opacity: 0;
+	100% { opacity:1; }
 	}
-
-	100% {
-		opacity: 1;
-}
-}
-
 @-webkit-keyframes alertPulsation{
-	0% {
-		opacity: 1;
-}
-
+	0%   { opacity:1; }
 	50% {
-		opacity: 0;
-	}
-
 	100% {
-		opacity: 1;
-	}
 }
 
 .animate-alertPulsation {
@@ -445,28 +411,4 @@ h3 {
 .openwb-device-2 {
 	color: rgb(255 255 204);
 	background-color: rgb(150 150 0);
-}
-
-@media screen and (max-width: 575px) {
-	#date {
-		padding-right: 0;
-		padding-left: 5px;
-	}
-
-	#time {
-		padding-right: 5px;
-		padding-left: 0;
-	}
-}
-
-.progress {
-	background-color: #424242;
-}
-
-.progress-bar {
-	background-color: #424242;
-}
-
-.row.middle {
-	align-items: center;
 }
