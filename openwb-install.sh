@@ -185,19 +185,32 @@ else
 	echo "EXTRA_OPTS=\"-L 0\"" >> /etc/default/cron
 fi
 
+# set upload limit in php
+echo "fix upload limit..."
+for d in /etc/php/*/apache2/conf.d ; do
+	fn="$d/21-uploadlimit.ini"
+	fnold="$d/20-uploadlimit.ini"
+	[ -f "$fnold" ] && rm "$fnold"
+	if [ ! -f "$fn" ]; then
+		sudo /bin/su -c " echo -e 'upload_max_filesize = 300M\npost_max_size = 300M' >\"$fn\" "
+		echo "Fix upload limit in $d and switch to v. 21"
+		#restartService=1
+	fi
+done
+	
 #prepare for Buster
-echo -n "fix upload limit..."
-if [ -d "/etc/php/7.0/" ]; then
-	echo "OS Stretch"
-	apt-get -q -y install -y libcurl3 curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 libapache2-mod-php7.0 php-curl php7.0-cli php7.0-gd php7.0-opcache php7.0 php7.0-common php7.0-json php7.0-readline php7.0-xml php7.0-curl php7.0-xml 
-	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
-	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
-elif [ -d "/etc/php/7.3/" ]; then
-	echo "OS Buster"
-	apt-get -q -y install -y libcurl3-gnutls curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 libapache2-mod-php7.3 php-curl php7.3-cli php7.3-gd php7.3-opcache php7.3 php7.3-common php7.3-json php7.3-readline php7.3-xml php7.3-curl php7.3-xml 
-	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
-	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
-fi
+#echo -n "fix upload limit..."
+#if [ -d "/etc/php/7.0/" ]; then
+#	echo "OS Stretch"
+#	apt-get -q -y install -y libcurl3 curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 libapache2-mod-php7.0 php-curl php7.0-cli php7.0-gd php7.0-opcache php7.0 php7.0-common php7.0-json php7.0-readline php7.0-xml php7.0-curl php7.0-xml 
+#	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
+#	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
+#elif [ -d "/etc/php/7.3/" ]; then
+#	echo "OS Buster"
+#	apt-get -q -y install -y libcurl3-gnutls curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 libapache2-mod-php7.3 php-curl php7.3-cli php7.3-gd php7.3-opcache php7.3 php7.3-common php7.3-json php7.3-readline php7.3-xml php7.3-curl php7.3-xml 
+#	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
+#	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
+#fi
 
 echo "installing pymodbus"
 sudo pip install  -U pymodbus
