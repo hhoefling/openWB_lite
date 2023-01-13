@@ -60,6 +60,27 @@
 			<h1>Allgemeine Einstellungen</h1>
 			<form action="./settings/saveconfig.php" method="POST">
 
+
+				<!-- Übergreifendes -->
+				<div class="card border-secondary">
+					<div class="card-header bg-secondary">
+						<div class="form-group mb-0">
+							<div class="form-row mb-1">
+								<label for="devicename" class="col-md-4 col-form-label">Gerätename</label>
+								<div class="col">
+									<input type="text" name="devicename" id="devicename" value="<?php echo $devicenameold; ?>" placeholder="OpenWB" aria-describedby="devicenameHelpBlock" class="form-control" required="required" pattern="^[\w\d\s\t-,\.\#\+]{0,32}$">
+									<span id="devicenameHelpBlock" class="form-text small">
+									Der Gerätename wird auf einigen Display-Themen zur Unterscheidung der Ladestationen angezeigt.<br>
+									Der Name darf bis zu 32 Zeichen lang sein und aus Buchstaben/Zahlen bestehen
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
 				<!-- Übergreifendes -->
 				<div class="card border-secondary">
 					<div class="card-header bg-secondary">

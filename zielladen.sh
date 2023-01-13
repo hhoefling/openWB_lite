@@ -1,57 +1,79 @@
 #!/bin/bash
+openwbDebugLog "MAIN" 2 "Source zielladen.sh immer wenn aktiv"
 
+#// Zielladen aktiv wunschawh:[4600], 
+#// maximal mögliche:[5520], 
+#// zu ladende Wh:[17280],  
+#// mögliche ladbare Wh bis Zieluhrzeit:[59570]
+ 
+#// aufruf bei zielladenaktivlp1>0
 ziellademodus(){
 
-	#verbleibende Zeit berechnen
-	dateaktuell=$(date '+%Y-%m-%d %H:%M')
-	epochdateaktuell=$(date -d "$dateaktuell" +"%s")
-	zielladenkorrektura=$(<ramdisk/zielladenkorrektura)
+	local zielladenkorrektura=$(<ramdisk/zielladenkorrektura)
+
 	ladestatus=$(<ramdisk/ladestatus)
-	epochdateziel=$(date -d "$zielladenuhrzeitlp1" +"%s")
-	zeitdiff=$(( epochdateziel - epochdateaktuell ))
-	minzeitdiff=$(( zeitdiff / 60 ))
+
+	#verbleibende Zeit berechnen
+	local dateaktuell=$(date '+%Y-%m-%d %H:%M')
+	local epochdateaktuell=$(date -d "$dateaktuell" +"%s")
+	local epochdateziel=$(date -d "$zielladenuhrzeitlp1" +"%s")
+	local zeitdiff=$(( epochdateziel - epochdateaktuell ))
+	local minzeitdiff=$(( zeitdiff / 60 ))
 
 	# zu ladende Menge ermitteln
 	soc=$(<ramdisk/soc)
-	zuladendersoc=$(( zielladensoclp1 - soc ))
-	akkuglp1wh=$(( akkuglp1 * 1000 ))
-	zuladendewh=$(( akkuglp1wh * zuladendersoc / 100 ))
+	local zuladendersoc=$(( zielladensoclp1 - soc ))
+	local akkuglp1wh=$(( akkuglp1 * 1000 ))
+	local zuladendewh=$(( akkuglp1wh * zuladendersoc / 100 ))
 
 	#ladeleistung ermitteln
-	lademaxwh=$(( zielladenmaxalp1 * zielladenphasenlp1 * 230 ))
+	local lademaxwh=$(( zielladenmaxalp1 * zielladenphasenlp1 * 230 ))
 
-	wunschawh=$(( zielladenalp1 * zielladenphasenlp1 * 230 ))
+	local wunschawh=$(( zielladenalp1 * zielladenphasenlp1 * 230 ))
 	#ladezeit ermitteln
 	if (( llalt > 5 )); then
 		wunschawh=$(( llalt * zielladenphasenlp1 * 230 ))
 	fi
 	moeglichewh=$(( wunschawh * minzeitdiff / 60 ))
 
-	openwbDebugLog "MAIN" 1 "Zielladen aktiv: $wunschawh gewünschte Lade Wh, $lademaxwh maximal mögliche Wh, $zuladendewh zu ladende Wh, $moeglichewh mögliche ladbare Wh bis Zieluhrzeit"
+	openwbDebugLog "MAIN" 1 "Zielladen aktiv wunschawh:[$wunschawh], maximal mögliche:[$lademaxwh], zu ladende Wh:[$zuladendewh],  mögliche ladbare Wh bis Zieluhrzeit:[$moeglichewh]"
 	diffwh=$(( zuladendewh - moeglichewh ))
-
+	openwbDebugLog "MAIN" 1 "Zielladen diffwh:[$diffwh]"
 	#vars
-	ladungdurchziel=$(<ramdisk/ladungdurchziel)
+	local ladungdurchziel=$(<ramdisk/ladungdurchziel)
+    meld " ZL:[$ladungdurchziel $ladestatus]"
+
 	if (( zuladendewh <= 0 )); then
+        meld " ZL:nix zu laden, stop if charging"
 		if (( ladestatus == 1 )); then
+            meld " do Stop Zielladen"
 			echo 0 > ramdisk/ladungdurchziel
 			echo 0 > ramdisk/zielladenkorrektura
-			###### Replace In Config!!!!
+			# Store in openwb.conf 
+			# schalte ziellande.sh komplett ab, 
 			sed -e "s/zielladenaktivlp1=.*/zielladenaktivlp1=0/" openwb.conf > ramdisk/openwb.conf	&& mv ramdisk/openwb.conf openwb.conf && chmod 777 openwb.conf
 			runs/set-current.sh 0 m
 		fi
 	else
+        meld " ZL:$zuladendewh "
 		if (( zuladendewh > moeglichewh )); then
 			if (( ladestatus == 0 )); then
+				if (( lp1enabled == 1 )) ; then
+    		    	meld " ZL: es wird zeit, start set $zielladenalp1"
 				runs/set-current.sh $zielladenalp1 m
 				openwbDebugLog "MAIN" 1 "setzte Soctimer hoch zum Abfragen des aktuellen SoC"
-				echo 20000 > ramdisk/soctimer
+					echo 20000 > /var/www/html/openWB/ramdisk/soctimer
 				echo 1 > ramdisk/ladungdurchziel
 				openwbDebugLog "MAIN" 0 "*** exit 0"
 				exit 0
 			else
+    		    	meld " ZL: kann nicht, will aber"
+				fi			
+			else
+    		    meld " ZL:>,läuft"
 				if (( diffwh > 1000 )); then
-					if test $(find ramdisk/zielladenkorrektura -mmin +10); then
+					if test $(find /var/www/html/openWB/ramdisk/zielladenkorrektura -mmin +10); then
+						meld " wird knap, +1 alle 10 minuten "
 						zielladenkorrektura=$(( zielladenkorrektura + 1 ))
 						echo $zielladenkorrektura > ramdisk/zielladenkorrektura
 						zielneu=$(( zielladenalp1 + zielladenkorrektura ))
@@ -65,9 +87,11 @@ ziellademodus(){
 				fi
 			fi
 		else
+  		    meld " ZL:<,warten"
 			if (( ladestatus == 1 )); then
 				if (( diffwh < -1000 )); then
-					if test $(find ramdisk/zielladenkorrektura -mmin +10); then
+					if test $(find /var/www/html/openWB/ramdisk/zielladenkorrektura -mmin +10); then
+  		    		    meld " korrigire-1, alle 10 Minuten"
 						zielladenkorrektura=$(( zielladenkorrektura - 1 ))
 						echo $zielladenkorrektura > ramdisk/zielladenkorrektura
 						zielneu=$(( zielladenalp1 + zielladenkorrektura ))
@@ -83,7 +107,8 @@ ziellademodus(){
 		fi
 	fi
 	if (( ladungdurchziel == 1 )); then
-		openwbDebugLog "MAIN" 0 "*** exit 0"
+	# breche regel.sh hier ab 
+		openwbDebugLog "MAIN" 0 "*** exit 0,  abord regel in Zielladen"
 		exit 0
 	fi
 }

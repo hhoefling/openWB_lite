@@ -77,6 +77,12 @@ function setCookieSameSite(
 				   $_COOKIE['openWBTheme'] =$th; 
 		    }
 			
+	        ?>
+			<!-- some scripts -->
+			<script>
+				var devicename = "<?php echo $devicenameold; ?>"
+			</script>
+			<?php
 			// expand expiring-date to now + 2 years
 			$expire = time()+(60*60*24*365*2);
 			setCookieSameSite('openWBTheme', $_COOKIE['openWBTheme'], $expire, '/openWB/', '', false, false, 'Lax' );

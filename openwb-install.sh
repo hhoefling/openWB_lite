@@ -183,12 +183,12 @@ fi
 
 #Adafruit install
 #echo "check for MCP4725"
-#if python -c "import Adafruit_MCP4725" &> /dev/nul:l; then
+#if python -c "import Adafruit_MCP4725" &> /dev/null; then
 #	echo 'Adafruit_MCP4725 installed...'
 #else
 #	sudo pip install Adafruit_MCP4725
 #fi
-:
+
 echo "pi ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/010_pi-nopasswd
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/010_pi-nopasswd
 
