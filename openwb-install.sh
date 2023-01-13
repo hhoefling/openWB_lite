@@ -62,6 +62,14 @@ else
   echo "allready use dtoverlay=vc4-fkms-v3d"
 fi
 
+if [ -r /etc/chromium.d/01-nooptim ] 
+then
+  echo "chromioptim...ok"
+else
+  echo 'export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --disable-features=OptimizationGuideModelDownloading,OptimizationHintsFetching,OptimizationTargetPrediction,OptimizationHints" ' >/etc/chromium.d/01-nooptim
+  echo "file /etc/chromium.d/01-nooptim created"
+fi
+
 
 
 
