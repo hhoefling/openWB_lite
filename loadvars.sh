@@ -457,6 +457,7 @@ loadvars(){
 		echo $pvwatt > ramdisk/pvallwatt
 	fi
 
+	speicherleistung=0
 	#Speicher werte
 	if [[ $speichermodul != "none" ]] ; then
 #########################################################################						
