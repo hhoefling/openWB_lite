@@ -42,6 +42,19 @@ lse
 fi   
 echo "...done"
 
+needreboot=0
+if ! grep -Fq "ipv6.disable=1" /boot/cmdline.txtx
+then
+ echo "Disable ipv6, need reboot"
+ line="$(</boot/cmdline.txtx)"
+ echo "$line ipv6.disable=1" >/boot/cmdline.txtx
+ needreboot=1
+else
+ echo "ipv6 allready disabled via cmdline.txt"
+fi
+
+
+
 echo "check for timezone"
 if  grep -Fxq "Europe/Berlin" /etc/timezone
 then
@@ -210,6 +223,13 @@ dpkg -l >/home/pi/lastdpkg.txt
 diff  /home/pi/firstdpkg.txt /home/pi/lastdpkg.txt >/home/pi/diffdpkg.txt
 rm /home/pi/firstdpkg.txt /home/pi/lastdpkg.txt
 
+if needreboot ; then
+  echo "***************************"
+  echo "please reboot and restart installation"A
+  echo "***************************"
+  echo "do reboot"
+  exit 0
+fi
 echo
 echo Now calling atreboot.sh as user pi ... 
 echo
