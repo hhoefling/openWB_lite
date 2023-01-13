@@ -199,6 +199,9 @@ chmod 777 /var/log/openWB.log
  [ ! -r theme.html ]           && ln -s  ../dark/theme.html .
 )
 
+dpkg -l >/home/pi/lastdpkg.txt
+diff  /home/pi/firstdpkg.txt /home/pi/lastdpkg.txt >/home/pi/diffdpkg.txt
+rm /home/pi/firstdpkg.txt /home/pi/lastdpkg.txt
 
 echo
 echo Now calling atreboot.sh as user pi ... 
