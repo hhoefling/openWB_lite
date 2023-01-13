@@ -26,7 +26,7 @@ Hier eine Zuordnungstabelle
 |   23 | G11 | Out | Socket LM Dir|
 |   24 | G08 | IN PUP| rse |
 |   26 | G07 | Out | Socket Power LM|
-|   29 | G05 | Out  LP1 U1P3-- |
+|   29 | G05 | Out | LP1 U1P3-- |
 |   31 | G06 | IN PUP| T3=NurPv |
 |   32 | G12 | IN PUP| T1=Sofort |
 |   33 | G13 | IN PUP| T4=Stop |
