@@ -192,7 +192,7 @@ for d in /etc/php/*/apache2/conf.d ; do
 	fnold="$d/20-uploadlimit.ini"
 	[ -f "$fnold" ] && rm "$fnold"
 	if [ ! -f "$fn" ]; then
-		sudo /bin/su -c " echo -e 'upload_max_filesize = 300M\npost_max_size = 300M' >\"$fn\" "
+		echo -e 'upload_max_filesize = 300M\npost_max_size = 300M' >$fn
 		echo "Fix upload limit in $d and switch to v. 21"
 		#restartService=1
 	fi
