@@ -26,7 +26,13 @@ dpkg -l >/home/pi/firstdpkg.txt
 apt-get -q -y install whois dnsmasq hostapd openssl vim bc sshpass apache2 php php-gd php-curl php-xml php-json  
 apt-get -q -y install libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients 
 apt-get -q -y install socat python-pip python3-pip python-pip-whl python-rpi.gpioa
+
+# on Bullseye
 apt-get -q -y install python2-pip python2
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+python2 get-pip.py
+ 
+
 if (( hasLCD > 0 )) ; then
    echo "install chrome browser..."
    apt-get -q -y install chromium-browser
@@ -177,12 +183,12 @@ fi
 
 #Adafruit install
 #echo "check for MCP4725"
-#if python -c "import Adafruit_MCP4725" &> /dev/null; then
+#if python -c "import Adafruit_MCP4725" &> /dev/nul:l; then
 #	echo 'Adafruit_MCP4725 installed...'
 #else
 #	sudo pip install Adafruit_MCP4725
 #fi
-
+:
 echo "pi ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/010_pi-nopasswd
 echo "www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/010_pi-nopasswd
 
