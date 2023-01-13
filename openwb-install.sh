@@ -233,7 +233,7 @@ dpkg -l >/home/pi/lastdpkg.txt
 diff  /home/pi/firstdpkg.txt /home/pi/lastdpkg.txt >/home/pi/diffdpkg.txt
 rm /home/pi/firstdpkg.txt /home/pi/lastdpkg.txt
 
-if needreboot ; then
+if $needreboot ; then
   echo "***************************"
   echo "please reboot and restart installation"A
   echo "***************************"
