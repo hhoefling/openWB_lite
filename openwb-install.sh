@@ -43,15 +43,25 @@ fi
 echo "...done"
 
 needreboot=0
-if ! grep -Fq "ipv6.disable=1" /boot/cmdline.txtx
+if ! grep -Fq "ipv6.disable=1" /boot/cmdline.txt
 then
  echo "Disable ipv6, need reboot"
- line="$(</boot/cmdline.txtx)"
- echo "$line ipv6.disable=1" >/boot/cmdline.txtx
+ line="$(</boot/cmdline.txt)"
+ echo "$line ipv6.disable=1" >/boot/cmdline.txt
  needreboot=1
 else
  echo "ipv6 allready disabled via cmdline.txt"
 fi
+
+if ! grep -Fq "dtoverlay=vc4-fkms-v3d"  /boot/config.txt
+then
+  echo "switch to dtoverlay=vc4-fkms-v3d"
+  sed -i "s/^dtoverlay=vc4-kms-v3d/dtoverlay=vc4-fkms-v3d/" /boot/config.txt
+  needreboot=1
+else
+  echo "allready use dtoverlay=vc4-fkms-v3d"
+fi
+
 
 
 
