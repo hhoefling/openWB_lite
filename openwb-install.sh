@@ -27,10 +27,10 @@ apt-get -q -y install whois dnsmasq hostapd openssl vim bc sshpass apache2 php p
 apt-get -q -y install libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients 
 apt-get -q -y install socat python-pip python3-pip python-pip-whl python-rpi.gpioa
 
-# on Bullseye
-apt-get -q -y install python2-pip python2
-curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
-python2 get-pip.py
+# pip2 on Bullseye, replace pip3, that's bad:-( 
+#apt-get -q -y install python2-pip python2
+#curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+#python2 get-pip.py
  
 
 if (( hasLCD > 0 )) ; then

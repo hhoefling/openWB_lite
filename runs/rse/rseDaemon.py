@@ -4,7 +4,7 @@ import traceback
 basePath = "/var/www/html/openWB"
 ramdiskPath = basePath + "/ramdisk"
 logFilename = ramdiskPath + "/openWB.log"
-+ GPIO nicht PINS
+# GPIO nicht PINS
 rse_inputs = [
     {"gpio": 8, "file": "rsestatus"},
     {"gpio": 9, "file": "rse2status"}

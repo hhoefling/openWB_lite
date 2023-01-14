@@ -183,7 +183,7 @@ at_reboot() {
   	   		log "modbus tcp server already running"
     	else
 	        log "modbus tcp server not running! restarting process"
-          	sudo nohup python3 "$OPENWBBASEDIR/runs/modbusserver/modbusserver.py" >>"$LOGFILE" 2>&1 &
+          	sudo bash -c "python3 \"$OPENWBBASEDIR/runs/modbusserver/modbusserver.py\" >>\"$LOGFILE\" 2>&1 & "
     	fi
 	fi
 

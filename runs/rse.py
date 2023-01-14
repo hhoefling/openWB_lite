@@ -1,5 +1,21 @@
-import RPi.GPIO as GPIO
 import time
+
+basePath = "/var/www/html/openWB"
+ramdiskPath = basePath + "/ramdisk"
+logFilename = ramdiskPath + "/openWB.log"
+
+try:
+    import RPi.GPIO as GPIO
+except ModuleNotFoundError:
+    exit("Module RPi.GPIO missing! Maybe we are not running on supported hardware?")
+
+
+# write value to file in ramdisk
+def write_to_ramdisk(filename: str, content: str) -> None:
+    with open(ramdiskPath + "/" + filename, "w") as file:
+        file.write(content)
+
+
 
 # GPIOnr Nicht pins
 GPIO.setmode(GPIO.BCM)
@@ -17,31 +33,19 @@ try:
 
         if button1_state is False:
             if state == 0:
-                file = open("/var/www/html/openWB/ramdisk/rsestatus", "w")
-                file.write("1")
-                file.close()
-                time.sleep(0.2)
+                write_to_ramdisk("rsestatus", "1")
                 state = 1
         if button1_state is True:
             if state == 1:
-                file = open("/var/www/html/openWB/ramdisk/rsestatus", "w")
-                file.write("0")
-                file.close()
-                time.sleep(0.2)
+                write_to_ramdisk("rsestatus", "0")
                 state = 0
         if button2_state is False:
             if state1 == 0:
-                file = open("/var/www/html/openWB/ramdisk/rse2status", "w")
-                file.write("1")
-                file.close()
-                time.sleep(0.2)
+                write_to_ramdisk("rse2status", "1")
                 state1 = 1
         if button2_state is True:
             if state1 == 1:
-                file = open("/var/www/html/openWB/ramdisk/rse2status", "w")
-                file.write("0")
-                file.close()
-                time.sleep(0.2)
+                write_to_ramdisk("rse2status", "0")
                 state1 = 0
 
 except:
