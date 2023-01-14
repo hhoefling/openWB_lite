@@ -72,7 +72,7 @@ at_reboot() {
 	. "$OPENWBBASEDIR/runs/updateConfig.sh"
 	. "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
 	. "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
-	. "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
+#	. "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
 		
 	
 	log Set bootinprogress and updateinprogress
@@ -146,16 +146,6 @@ at_reboot() {
 		# quick init of phase switching with default pause duration (2s)
 		sudo python "$OPENWBBASEDIR/runs/triginit.py" 2>&1 
 	fi
-
-	# setup push buttons handler if needed
-	pushButtonsSetup "$ladetaster" 1
-
-	# setup rse handler if needed
-	rseSetup "$rseenabled" 1
-
-	log rfidhandler...
-	# setup rfid handler if needed
-	rfidSetup "$rfidakt" 1 "$rfidlist"
 
 
 
@@ -246,6 +236,20 @@ at_reboot() {
 	fi
 	
 	
+    "$OPENWBBASEDIR/runs/services.sh" restart
+        
+    # setup push buttons handler if needed
+    pushButtonsSetup "$ladetaster" 1
+
+    # setup rse handler if needed
+    # rseSetup "$rseenabled" 1
+
+    log rfidhandler...
+    # setup rfid handler if needed
+    rfidSetup "$rfidakt" 1 "$rfidlist"
+
+
+    
 	# restart smarthomehandler
 	log "smarthome handler..."
 	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
@@ -450,7 +454,7 @@ at_reboot() {
 	# check for led handler
 	if (( ledsakt == 1 )); then
 		log "led..."
-		sudo python "$OPENWBBASEDIR/runs/leds.py" startup
+		sudo python "$OPENWBBASEDIR/runs/leds.py" startup &
 	fi
 
 	# setup timezone
@@ -608,6 +612,16 @@ at_reboot() {
 	chmod 777 /var/www/html/openWB/ramdisk/LadereglerTxt
 	echo "" > /var/www/html/openWB/ramdisk/mqttLadereglerTxt
 	chmod 777 /var/www/html/openWB/ramdisk/mqttLadereglerTxt
+
+
+
+    ###############################################################
+    # Make sure all services are running (restart crashed services etc.):
+    log restart all daemons with services.sh
+    source "/var/www/html/openWB/runs/services.sh"
+    service_main restart all
+    ###############################################################
+
 
 	# check for slave config and start handler
 	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:

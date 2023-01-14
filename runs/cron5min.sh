@@ -15,7 +15,7 @@ RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 . "$OPENWBBASEDIR/helperFunctions.sh"
 . "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
 . "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
-. "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
+# . "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
 
 if [ -e "$OPENWBBASEDIR/ramdisk/updateinprogress" ] && [ -e "$OPENWBBASEDIR/ramdisk/bootinprogress" ]; then
 	updateinprogress=$(<"$OPENWBBASEDIR/ramdisk/updateinprogress")
@@ -325,6 +325,12 @@ echo "$hausdailyyield" > "$RAMDISKDIR/daily_hausverbrauchkwh"
 ip route get 1 |  awk '{print $7;exit}' > "$RAMDISKDIR/ipaddress"
 openwbDebugLog "MAIN" 1 "current ip: $(<"$RAMDISKDIR/ipaddress")"
 
+###############################################################
+# Make sure all services are running (restart crashed services etc.):
+source "$OPENWBBASEDIR/runs/services.sh"
+service_main start all
+###############################################################
+
 # check if our mqtt handler is running
 if pgrep -f '^python.*/mqttsub.py' > /dev/null
 then
@@ -497,7 +503,7 @@ fi
 pushButtonsSetup "$ladetaster" 0
 
 # setup rse handler if needed
-rseSetup "$rseenabled" 0
+# rseSetup "$rseenabled" 0
 
 #Pingchecker
 if (( pingcheckactive == 1 )); then
