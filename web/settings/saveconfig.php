@@ -131,6 +131,10 @@
 			if( strlen($key) > 0 ){
 				fwrite($fp, $key."=".$value."\n");
 			}
+            else
+            {
+                $debs[]=sprintf(" ignore empty variable [%s] ", $key);
+            }
 		}
 		fclose($fp);
 
@@ -139,11 +143,15 @@
 		
 		if( array_key_exists( 'debug', $_POST ) )
 		{
+        
+           $debs[]=sprintf(" publish debuglevel [%s] to mqtt", $settingsArray['debug']) ;
 		   exec( 'mosquitto_pub -t openWB/system/debuglevel -r -m "' . $settingsArray['debug'] .'"' );
 		}
 
 		// check for manual ev soc module on lp1
-		if( array_key_exists( 'socmodul', $_POST ) ){
+		if( array_key_exists( 'socmodul', $_POST ) )
+        {
+            $debs[]=" trigger boolSocManual in mqtt for lp1";
             if (preg_match("/^soc_manual/", $_POST['socmodul'] )) {
 				exec( 'mosquitto_pub -t openWB/lp/1/boolSocManual -r -m "1"' );
 			} else {
@@ -151,7 +159,9 @@
 			}
 		}
 		// check for manual ev soc module on lp2
-		if( array_key_exists( 'socmodul1', $_POST ) ){
+		if( array_key_exists( 'socmodul1', $_POST ) )
+        {
+            $debs[]=" trigger boolSocManual in mqtt for lp2";
             if (preg_match("/^soc_manuallp2/", $_POST['socmodul1'] )) {
 				exec( 'mosquitto_pub -t openWB/lp/2/boolSocManual -r -m "1"' );
 			} else {
@@ -160,13 +170,18 @@
 		}
 
 		// update display process if in POST data
-		if( array_key_exists( 'displayaktiv', $_POST ) || array_key_exists( 'isss', $_POST) ){ ?>
+		if( array_key_exists( 'displayaktiv', $_POST ) || array_key_exists( 'isss', $_POST) )
+        {
+         ?>
 			<script>$('#feedbackdiv').append("<br>Displays werden neu geladen.");</script>
 		<?php
+            $debs[]=" trigger reload display in MQTT";
 			exec( 'mosquitto_pub -t openWB/system/reloadDisplay -m "1"' );
 			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/execdisplay', "1");
 		}
-		if( array_key_exists( 'displaypinaktiv', $_POST ) ) { 
+		if( array_key_exists( 'displaypinaktiv', $_POST ) ) 
+        { 
+           $debs[]=" remove activ displaypin from  MQTT";
 		   exec( 'mosquitto_pub -t openWB/config/get/display/displayPinAktiv -r -m "' . $settingsArray['displaypinaktiv'] .'"' );
 		}
 
@@ -177,6 +192,7 @@
 //			<?php
 //			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['etprovider'] . "/main.sh >> /var/log/openWB.log 2>&1 &" );
 //			exec( 'mosquitto_pub -t openWB/global/ETProvider/modulePath -r -m "' . $_POST['etprovider'] . '"' );
+//          $debs[]=" trigger Etprovider update";
 //		}
 
 		// start ev-soc updates if in POST data
@@ -186,6 +202,7 @@
 			<?php
 			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/soctimer', "20005");
 			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['socmodul'] . "/main.sh > /dev/null &" );
+            $debs[]=" trigger socmodule update for lp1";
 		}
 		// if( array_key_exists( 'socmodul1', $_POST ) && ($_POST['socmodul1'] != 'none') ){
 		if( array_key_exists( 'socmodul1', $_POST ) && ($_POST['socmodul1'] == 'soc_teslalp2') ){ ?>
@@ -193,6 +210,7 @@
 			<?php
 			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/soctimer1', "20005");
 			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['socmodul1'] . "/main.sh > /dev/null &" );
+            $debs[]=" trigger socmodule update for lp2";
 		}
 
 		// check for rfid mode and start/stop handler
@@ -200,6 +218,7 @@
 			<script>$('#feedbackdiv').append("<br>RFID Konfiguration wird aktualisiert.");</script>
 			<?php
 			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/rfid/rfidSetup.sh >> /var/log/openWB.log 2>&1 &" );
+            $debs[]=" trigger rfidSetup.sh";
 		}
 
 	} catch ( Exception $e ) {

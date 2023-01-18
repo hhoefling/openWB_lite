@@ -71,7 +71,7 @@ at_reboot() {
 	. "$OPENWBBASEDIR/runs/initRamdisk.sh"
 	. "$OPENWBBASEDIR/runs/updateConfig.sh"
 	. "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
-	. "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
+#	. "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
 #	. "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
 		
 	
@@ -160,22 +160,22 @@ at_reboot() {
 
 	# check if our modbus server is running
 	# if Variable not set -> server active (old config)
-	if [[ "$modbus502enabled" == "0" ]]; then
-	  	log "modbus tcp server not enabled"
-	   	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/modbusserver/modbusserver.py" > /dev/null
-	  	then
-     		log "kill running modbus tcp server"
-     		sudo pkill -f '^python.*/modbusserver.py' >/dev/null
-	  	fi
-	else
-	    if ps ax |grep -v grep |grep "sudo python3 /var/www/html/openWB/runs/modbusserver/modbusserver.py" > /dev/null
-	    then
-  	   		log "modbus tcp server already running"
-    	else
-	        log "modbus tcp server not running! restarting process"
-          	sudo bash -c "python3 \"$OPENWBBASEDIR/runs/modbusserver/modbusserver.py\" >>\"$LOGFILE\" 2>&1 & "
-    	fi
-	fi
+#	if [[ "$modbus502enabled" == "0" ]]; then
+#	  	log "modbus tcp server not enabled"
+#	   	if ps ax |grep -v grep |grep "python3 /var/www/html/openWB/runs/modbusserver/modbusserver.py" > /dev/null
+#	  	then
+#    		log "kill running modbus tcp server"
+#     		sudo pkill -f '^python.*/modbusserver.py' >/dev/null
+#	  	fi
+#	else
+#	    if ps ax |grep -v grep |grep "sudo python3 /var/www/html/openWB/runs/modbusserver/modbusserver.py" > /dev/null
+#	    then
+#  	   		log "modbus tcp server already running"
+#    	else
+#	        log "modbus tcp server not running! restarting process"
+#          	sudo bash -c "python3 \"$OPENWBBASEDIR/runs/modbusserver/modbusserver.py\" >>\"$LOGFILE\" 2>&1 & "
+#    	fi
+#	fi
 
 
 	if ! [ -x "$(command -v tsp)" ];then
@@ -236,10 +236,9 @@ at_reboot() {
 	fi
 	
 	
-    "$OPENWBBASEDIR/runs/services.sh" restart
         
     # setup push buttons handler if needed
-    pushButtonsSetup "$ladetaster" 1
+    # pushButtonsSetup "$ladetaster" 1
 
     # setup rse handler if needed
     # rseSetup "$rseenabled" 1
@@ -250,19 +249,19 @@ at_reboot() {
 
 
     
-	# restart smarthomehandler
-	log "smarthome handler..."
-	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
-	sudo pkill -f '^python.*/smarthomehandler.py' >/dev/null
-	sudo pkill -f '^python.*/smarthomemq.py' >/dev/null
-	smartmq=$(<"/var/www/html/openWB/ramdisk/smartmq")
-	if (( smartmq == 0 )); then
-		log "starting legacy smarthome handler"
-		nohup python3 "$OPENWBBASEDIR/runs/smarthomehandler.py" >> "$OPENWBBASEDIR/ramdisk/smarthome.log" 2>&1 &
-	else
-		log  "starting smarthomemq handler"
-		nohup python3 "$OPENWBBASEDIR/runs/smarthomemq.py" >> "$OPENWBBASEDIR/ramdisk/smarthome.log" 2>&1 &
-	fi
+#	# restart smarthomehandler
+#	log "smarthome handler..."
+#	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
+#	sudo pkill -f '^python.*/smarthomehandler.py' >/dev/null
+#	sudo pkill -f '^python.*/smarthomemq.py' >/dev/null
+#	smartmq=$(<"/var/www/html/openWB/ramdisk/smartmq")
+#	if (( smartmq == 0 )); then
+#		log "starting legacy smarthome handler"
+#		nohup python3 "$OPENWBBASEDIR/runs/smarthomehandler.py" >> "$OPENWBBASEDIR/ramdisk/smarthome.log" 2>&1 &
+#	else
+#		log  "starting smarthomemq handler"
+#		nohup python3 "$OPENWBBASEDIR/runs/smarthomemq.py" >> "$OPENWBBASEDIR/ramdisk/smarthome.log" 2>&1 &
+#	fi
 
 	# restart mqttsub handler
 	log "mqtt handler..."
@@ -271,6 +270,11 @@ at_reboot() {
 	nohup python3 "$OPENWBBASEDIR/runs/mqttsub.py" >>"$LOGFILE" 2>&1 &
 
 
+    (
+    cd "$OPENWBBASEDIR"
+    openwbDebugLog "MAIN" 0 "##### start/restart sysdaem"
+    runs/sysdaem.sh restart &
+    )
 
 	# restart legacy run server
 	# log"legacy run server..."
@@ -619,12 +623,12 @@ at_reboot() {
     # Make sure all services are running (restart crashed services etc.):
     log restart all daemons with services.sh
     source "/var/www/html/openWB/runs/services.sh"
-    service_main restart all
+    service_main reboot all
     ###############################################################
 
 
-	# check for slave config and start handler
-	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
+#	# check for slave config and start handler
+#	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
 	sudo pkill -f '^python.*/isss.py'
 	
 	if (( isss == 1 )); then
