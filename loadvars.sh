@@ -418,6 +418,8 @@ loadvars(){
 		pv1watt=$pvwatt
 		echo $pv1watt > ramdisk/pv1watt
 	else
+        pvwatt="0"
+        pv1watt="0"
 		pv1vorhanden="0"
 		echo 0 > ramdisk/pv1vorhanden
 		pvwatt=$(<ramdisk/pvwatt)
@@ -490,6 +492,7 @@ loadvars(){
 #			pv1vorhanden="1"
 #		fi
 	else
+        speichersoc=0
 		speichervorhanden=0
 		echo 0 > ramdisk/speichervorhanden
 	fi
@@ -836,6 +839,13 @@ loadvars(){
 		openwbDebugLog "PV" 0 "5: UEBERSCHUSS $uberschuss  aus simulation (kein EVU Module)"
 		wattbezugint=$((-uberschuss))
 		wattbezug=$wattbezugint
+        evuv1=0
+        evuv2=0
+        evuv3=0
+        evua1=0
+        evua2=0
+        evua3=0
+        
 	fi
 
 	# Abschaltbare Smartdevices zum Ueberschuss rechnen

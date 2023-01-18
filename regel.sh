@@ -140,6 +140,19 @@ fi
 #fi
 
 
+
+date=$(date)
+re='^-?[0-9]+$'
+if [[ $isss == "1" ]]; then
+	heartbeat=$(<ramdisk/heartbeat)
+	heartbeat=$((heartbeat+10))
+	echo $heartbeat > ramdisk/heartbeat
+	mosquitto_pub -r -t "openWB/system/Uptime" -m "$(uptime)"
+	mosquitto_pub -r -t "openWB/system/Timestamp" -m "$(date +%s)"
+	mosquitto_pub -r -t "openWB/system/Date" -m "$(date)"
+	openwbDebugLog "MAIN" 1 "ISSS mode Exit 0"
+	exit 0
+fi
 ptstart
 
 # Must be first
@@ -156,23 +169,10 @@ source hook.sh
 (( u1p3paktiv == 1 ))  && source u1p3p.sh
 # NC source goecheck.sh
 # NC source nrgkickcheck.sh
-source rfidtag.sh
+(( rfidakt == 1 )) && source rfidtag.sh
 source leds.sh
 # NC source slavemode.sh
 ptend "sourceing" 50
-
-date=$(date)
-re='^-?[0-9]+$'
-if [[ $isss == "1" ]]; then
-	heartbeat=$(<ramdisk/heartbeat)
-	heartbeat=$((heartbeat+10))
-	echo $heartbeat > ramdisk/heartbeat
-	mosquitto_pub -r -t "openWB/system/Uptime" -m "$(uptime)"
-	mosquitto_pub -r -t "openWB/system/Timestamp" -m "$(date +%s)"
-	mosquitto_pub -r -t "openWB/system/Date" -m "$(date)"
-	openwbDebugLog "MAIN" 1 "ISSS mode Exit 0"
-	exit 0
-fi
 
 #doppelte Ausfuehrungsgeschwindigkeit
 if [[ $dspeed == "1" ]]; then
