@@ -106,14 +106,11 @@ if [ ! -d /var/www/html/openWB/web ]; then
 	cd /var/www/html/
 	[[ -d OWB ]] && rm -r OWB 
 	[[ ! -d openWB ]] && mkdir openWB
-	ls  -ld O* o*
 	git clone https://github.com/hhoefling/openWB_lite.git --branch master OWB
-	ls  -ld O* o*
 	mv OWB/* openWB/.
 	rm -r OWB
 	chown -R pi:pi openWB 
 	echo "... git cloned"
-	exit
 else
 	echo "...ok"
 fi
