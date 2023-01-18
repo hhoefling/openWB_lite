@@ -104,11 +104,14 @@ fi
 echo "check for initial git clone"
 if [ ! -d /var/www/html/openWB/web ]; then
 	cd /var/www/html/
-	[[ -d OWB ]] && rm -r OWB 
+	[[ -d owb ]] && rm -r owb 
 	[[ ! -d openWB ]] && mkdir openWB
-	git clone https://github.com/hhoefling/openWB_lite.git --branch master OWB
-	mv OWB/* openWB/.
-	rm -r OWB
+	git clone https://github.com/hhoefling/openWB_lite.git --branch master owb
+	
+	echo "mv owb/* openWB/. "
+	mv own/* openWB/.
+	du -s o*
+	rm -r owb
 	chown -R pi:pi openWB 
 	echo "... git cloned"
 else
