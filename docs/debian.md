@@ -12,8 +12,14 @@ um zu den Namen eth0 und wlan0 zurückzukehren.
 sudo nano /etc/default/grub
 ```
 GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"
+update-grub
 ```
 
 
+**IPV6 deaktivieren**
 
+
+```
+echo "net.ipv6.conf.all.disable_ipv6 = 1" >>/etc/sysctl.conf
+sysctl -p
 ```
