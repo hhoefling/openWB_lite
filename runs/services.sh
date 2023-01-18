@@ -33,7 +33,7 @@ function rse_cron5() # $1=eneabled
  # if disabled kill if running
  isrun=$(pgrep -f '^python.*/rse.py')
  deblog "isrun:$isrun"
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && $isss == 0 )) ; then
     deblog "rse enabled"
     if (( ${isrun:-0} == 0 )) ; then
       rse_start
@@ -59,7 +59,7 @@ function rse_reboot() # $1=eneabled
  else
    deblog "rse not running"
  fi
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0 )) ; then
     isrun=$(pgrep -f '^python.*/rse.py')
     deblog "rse enabled"
     if (( ${isrun:-0} == 0 )) ; then
@@ -93,7 +93,7 @@ function rse_stop()
 }
 function rse_status() # $1=eneabled
 {
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0 )) ; then
     if pgrep -f '^python.*/rse.py' > /dev/null ; then
        line=$(pgrep -fa '^python.*/rse.py')
        deblog "rse $line"
@@ -115,7 +115,7 @@ function tasker_cron5() # $1=eneabled
  # if disabled kill if running
  isrun=$(pgrep -f '^tsp')
  deblog "isrun:$isrun"
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     deblog "tasker enabled"
     if (( ${isrun:-0} == 0 )) ; then
       tasker_start
@@ -141,7 +141,7 @@ function tasker_reboot() # $1=eneabled
  else
    deblog "tasker not running"
  fi
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     isrun=$(pgrep -f '^tsp')
     deblog "tasker enabled"
     if (( ${isrun:-0} == 0 )) ; then
@@ -182,7 +182,7 @@ function tasker_stop()
 }
 function tasker_status() # $1=eneabled
 {
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     if pgrep -f '^tsp' > /dev/null ; then
        line=$(pgrep -fa '^tsp')
        deblog "tasker $line"
@@ -211,7 +211,7 @@ function modbus_cron5() # $1=eneabled
  # if disabled kill if running
  isrun=$(pgrep -f '^python.*/modbusserver.py')
  deblog "isrun:$isrun"
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     deblog "modbusserver enabled"
     if (( ${isrun:-0} == 0 )) ; then
       modbus_start
@@ -237,7 +237,7 @@ function modbus_reboot() # $1=eneabled
  else
    deblog "modbusserver not running"
  fi
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     isrun=$(pgrep -f '^python.*/modbusserver.py')
     deblog "modbusserver enabled"
     if (( ${isrun:-0} == 0 )) ; then
@@ -272,7 +272,7 @@ function modbus_stop()
 }
 function modbus_status() # $1=eneabled
 {
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     if pgrep -f '^python.*/modbusserver.py' > /dev/null ; then
        line=$(pgrep -fa '^python.*/modbusserver.py')
        deblog "modbus $line"
@@ -296,7 +296,7 @@ function button_cron5() # $1=eneabled
  # if disabled kill if running
  isrun=$(pgrep -f '^python.*/ladetaster.py')
  deblog "isrun:$isrun"
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     deblog "button enabled"
     if (( ${isrun:-0} == 0 )) ; then
       button_start
@@ -322,7 +322,7 @@ function button_reboot() # $1=eneabled
  else
    deblog "button not running"
  fi
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     isrun=$(pgrep -f '^python.*/ladetaster.py')
     deblog "button enabled"
     if (( ${isrun:-0} == 0 )) ; then
@@ -356,7 +356,7 @@ function button_stop()
 }
 function button_status() # $1=eneabled
 {
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     if pgrep -f '^python.*/ladetaster.py' > /dev/null ; then
        line=$(pgrep -fa '^python.*/ladetaster.py')
        deblog "button $line"
@@ -464,7 +464,7 @@ function smarthome_cron5()
  # if disabled kill if running
  isrun=$(pgrep -f '^python.*/smarthomehandler.py')
  deblog "isrun:$isrun"
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     deblog "smarthomehandler enabled"
     if (( ${isrun:-0} == 0 )) ; then
       smarthome_start
@@ -490,7 +490,7 @@ function smarthome_reboot() # $1=eneabled
  else
    deblog "smarthomehandler not running"
  fi
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     isrun=$(pgrep -f '^python.*/smarthomehandler.py')
     deblog "smarthomehandler enabled"
     if (( ${isrun:-0} == 0 )) ; then
@@ -530,7 +530,7 @@ function smarthome_stop()
 }
 function smarthome_status() # $1=eneabled
 {
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     if pgrep -f '^python.*/smarthomehandler.py' > /dev/null ; then
        line=$(pgrep -fa '^python.*/smarthomehandler.py')
        deblog "smarthomehandler $line"
@@ -553,7 +553,7 @@ function smartmq_cron5()
  # if disabled kill if running
  isrun=$(pgrep -f '^python.*/smarthomemq.py')
  deblog "isrun:$isrun"
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     deblog "smartmq enabled"
     if (( ${isrun:-0} == 0 )) ; then
       smartmq_start
@@ -579,7 +579,7 @@ function smartmq_reboot() # $1=eneabled
  else
    deblog "smartmq not running"
  fi
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     isrun=$(pgrep -f '^python.*/smarthomemq.py')
     deblog "smartmq enabled"
     if (( ${isrun:-0} == 0 )) ; then
@@ -619,7 +619,7 @@ function smartmq_stop()
 }
 function smartmq_status() # $1=eneabled
 {
- if (( $1 == 1)) ; then
+ if (( $1 == 1  && isss == 0  )) ; then
     if pgrep -f '^python.*/smarthomemq.py' > /dev/null ; then
        line=$(pgrep -fa '^python.*/smarthomemq.py')
        deblog "smarthomemq $line"
