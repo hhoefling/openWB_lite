@@ -5,71 +5,76 @@ if (( $(id -u) != 0 )); then
 	exit 1
 fi
 
+if uname -a | grep -q x86_64 ; then isPC=1; else isPC=0; fi; 
 OPENWBBASEDIR=/var/www/html/openWB
 OPENWB_USER=pi
 OPENWB_GROUP=pi
 echo "installing openWB 1.9_lite into \"${OPENWBBASEDIR}\""
+echo "isPC:$isPC"
 
-if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
+if (( isPC == 0 )) ; then
+  if which tvservice >/dev/null 2>&1  && sudo tvservice -s | grep -qF "[LCD], 800x480 @ 60.00Hz" ; then
     echo "LCD detected"
     hasLCD=1
-else
+  else
     echo "no LCD detected"
     hasLCD=0
+  fi
 fi
-if uname -a | grep -q x86_64 ; then isPC=1; else isPC=0; fi; 
-
 echo "install required packages..."
 
 apt-get update
 dpkg -l >/home/pi/firstdpkg.txt
 apt-get -q -y install whois dnsmasq hostapd openssl vim bc sshpass apache2 php php-gd php-curl php-xml php-json  
-apt-get -q -y install libapache2-mod-php jq raspberrypi-kernel-headers i2c-tools git mosquitto mosquitto-clients 
-apt-get -q -y install socat python-pip python3-pip python-pip-whl python-rpi.gpioa
-
+apt-get -q -y install libapache2-mod-php jq  i2c-tools git mosquitto mosquitto-clients 
+apt-get -q -y install socat python3-pip python-pip-whl 
+if (( isPC == 0 )) ; then
+  apt-get -q -y install python-pip python-rpi.gpioa raspberrypi-kernel-headers
+fi
 # pip2 on Bullseye, replace pip3, that's bad:-( 
 #apt-get -q -y install python2-pip python2
 #curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
 #python2 get-pip.py
  
+if (( isPC == 0 )) ; then
+  if (( hasLCD > 0 )) ; then
+    echo "install chrome browser..."
+    apt-get -q -y install chromium-browser
+  else
+    echo "no LCD, no chrome"
+    apt-get -q -y install multitail
+  fi
+fi
 
-if (( hasLCD > 0 )) ; then
-   echo "install chrome browser..."
-   apt-get -q -y install chromium-browser
-lse
-   echo "no LCD, no chrome"
-   apt-get -q -y install multitail
-fi   
-echo "...done"
 
 needreboot=0
-if ! grep -Fq "ipv6.disable=1" /boot/cmdline.txt
-then
- echo "Disable ipv6, need reboot"
- line="$(</boot/cmdline.txt)"
- echo "$line ipv6.disable=1" >/boot/cmdline.txt
- needreboot=1
-else
- echo "ipv6 allready disabled via cmdline.txt"
-fi
+if (( isPC == 0 )) ; then
+  if ! grep -Fq "ipv6.disable=1" /boot/cmdline.txt
+  then
+   echo "Disable ipv6, need reboot"
+   line="$(</boot/cmdline.txt)"
+   echo "$line ipv6.disable=1" >/boot/cmdline.txt
+   needreboot=1
+  else
+   echo "ipv6 allready disabled via cmdline.txt"
+  fi
 
-if ! grep -Fq "dtoverlay=vc4-fkms-v3d"  /boot/config.txt
-then
-  echo "switch to dtoverlay=vc4-fkms-v3d"
-  sed -i "s/^dtoverlay=vc4-kms-v3d/dtoverlay=vc4-fkms-v3d/" /boot/config.txt
-  needreboot=1
-else
-  echo "allready use dtoverlay=vc4-fkms-v3d"
+  if ! grep -Fq "dtoverlay=vc4-fkms-v3d"  /boot/config.txt
+  then
+    echo "switch to dtoverlay=vc4-fkms-v3d"
+    sed -i "s/^dtoverlay=vc4-kms-v3d/dtoverlay=vc4-fkms-v3d/" /boot/config.txt
+    needreboot=1
+  else
+    echo "allready use dtoverlay=vc4-fkms-v3d"
+  fi
+  if [ -r /etc/chromium.d/01-nooptim ] 
+  then
+    echo "chromioptim...ok"
+  else
+    echo 'export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --disable-features=OptimizationGuideModelDownloading,OptimizationHintsFetching,OptimizationTargetPrediction,OptimizationHints" ' >/etc/chromium.d/01-nooptim
+    echo "file /etc/chromium.d/01-nooptim created"
+  fi
 fi
-
-if [ -r /etc/chromium.d/01-nooptim ] 
-then
-  echo "chromioptim...ok"
-else
-  echo 'export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --disable-features=OptimizationGuideModelDownloading,OptimizationHintsFetching,OptimizationTargetPrediction,OptimizationHints" ' >/etc/chromium.d/01-nooptim
-  echo "file /etc/chromium.d/01-nooptim created"
-fi
-
 
 
 
@@ -99,7 +104,10 @@ fi
 echo "check for initial git clone"
 if [ ! -d /var/www/html/openWB/web ]; then
 	cd /var/www/html/
-	git clone https://github.com/hhoefling/openWB_lite.git --branch master openWB
+	[[ -d OWB ]] && rm -r OWB 
+	git clone https://github.com/hhoefling/openWB_lite.git --branch master OWB
+	mv OWB/* openWB/.
+	rm -r OWB
 	chown -R pi:pi openWB 
 	echo "... git cloned"
 else
@@ -197,20 +205,6 @@ for d in /etc/php/*/apache2/conf.d ; do
 		#restartService=1
 	fi
 done
-	
-#prepare for Buster
-#echo -n "fix upload limit..."
-#if [ -d "/etc/php/7.0/" ]; then
-#	echo "OS Stretch"
-#	apt-get -q -y install -y libcurl3 curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 libapache2-mod-php7.0 php-curl php7.0-cli php7.0-gd php7.0-opcache php7.0 php7.0-common php7.0-json php7.0-readline php7.0-xml php7.0-curl php7.0-xml 
-#	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
-#	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.0/apache2/conf.d/20-uploadlimit.ini"
-#elif [ -d "/etc/php/7.3/" ]; then
-#	echo "OS Buster"
-#	apt-get -q -y install -y libcurl3-gnutls curl libgcrypt20 libgnutls30 libssl1.1 libcurl3-gnutls libssl1.0.2 libapache2-mod-php7.3 php-curl php7.3-cli php7.3-gd php7.3-opcache php7.3 php7.3-common php7.3-json php7.3-readline php7.3-xml php7.3-curl php7.3-xml 
-#	sudo /bin/su -c "echo 'upload_max_filesize = 300M' > /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
-#	sudo /bin/su -c "echo 'post_max_size = 300M' >> /etc/php/7.3/apache2/conf.d/20-uploadlimit.ini"
-#fi
 
 echo "installing pymodbus"
 sudo pip install  -U pymodbus
