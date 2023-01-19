@@ -88,7 +88,7 @@
 
 							Board: <span id="board">--</span><br>
 							CPU: <?php echo exec('cat /proc/cpuinfo | grep -m 1 "model name" | sed "s/^.*: //"'); ?><br>
-							CPU-Kerne: <?php echo exec('cat /proc/cpuinfo | grep processor | wc -l'); ?><br>
+							CPU-Kerne: <?php echo exec('cat /proc/cpuinfo | grep -E "processor\s*:" | wc -l'); ?><br>
 						</div>
 					</div>
 				</div>
@@ -166,7 +166,8 @@
 						<div class="col">
 							<p><pre style="font-size:0.7em;"><?php 
 											$lines=[];
-											exec('sudo ps -efl | grep openWB | grep -v grep | grep -v sudo ', $lines);
+											exec('sudo ps -efl | grep -E "openWB|runs" | grep -v grep | grep -v sudo ', $lines);
+                                            $lines[]="";
 											echo implode('<br>',$lines);
                                        ?>
 								</pre>
