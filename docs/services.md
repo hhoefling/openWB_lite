@@ -36,15 +36,15 @@ Ein Versuch die verschiedenen openWB Varianten zu verstehen.
 | Name in GUI| evsecon | Daemon Master | Daemon Ladpukt |Bemerkung |
 |:-------------|------|:-----------|:-----------|-------------------:|
 |openWB Daemon| daemon |isss.py|isss.py| nur als LP1 |
-|Serie 1/2 Auto | modbusevse|keiner |isss.py| LP1/LP2 *1 per ttyUSB0 Id=0|
-|Serie 1/2 | modbusevse|keiner |isss.py  | LP1 per ttyUSB0 ID=5|
-|Serie 1/2 mid V1| modbusevse|keiner |isss.py  |LP1/LP2 per ttyUSB0 ID=105|
-|Serie 1/2 mid V2| modbusevse|keiner|isss.py|LP1 *1 per serial0 105|
-|Ladepunkt an Standonle|*ethframer| | |lp1=master lp2=slaveeth lp3=thirdeth|
+|Serie 1/2 Auto | modbusevse|-|isss.py| LP1/LP2 *1 per ttyUSB0 Id=0|
+|Serie 1/2 | modbusevse|-|isss.py  | LP1 per ttyUSB0 ID=5|
+|Serie 1/2 mid V1| modbusevse|-|isss.py  |LP1/LP2 per ttyUSB0 ID=105|
+|Serie 1/2 mid V2| modbusevse|-|isss.py|LP1 *1 per serial0 105|
+|Ladepunkt an Standonle|*ethframer|-|-|lp1=master lp2=slaveeth lp3=thirdeth|
 |Buchse|buchse|buchse.py|isss.py | nur LP1 |
-|Satellit|ipevse| | | alle 8, ohne Raspi|
-|externe openWB|extopenwb| | |alle 8|
-|openWB Pro|owbpro| | | alle 8|
+|Satellit|ipevse|-|-| alle 8, ohne Raspi|
+|externe openWB|extopenwb|-|-|alle 8|
+|openWB Pro|owbpro|-|-| alle 8|
 
 *1 auch für LP2 bei einer DUO wird "modbusevse" verwendet. Der zweite Zähler/EVSE ist dann entweder am gleichen Modbus mit andere ID oder
 ab einen zweiten USB Adapter (/ttyUSB1) angeschlossen.
