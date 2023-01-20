@@ -64,7 +64,7 @@ putter()
 while true 
 do
 	let loop=($loop + 1)	# darf ruhig modulo gehen
-	sleep 11
+	sleep 5
 	openwbDebugLog "DEB" 1 "---- ausgeschlafen, $loop"
 	if (( loop >= 10 )) ; then
 		#for key in "${!cache[@]}"; do echo "$key => [${cache[$key]}]"; done
