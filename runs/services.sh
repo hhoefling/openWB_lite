@@ -199,12 +199,185 @@ function tasker_status() # $1=eneabled
 
 #################################################################
 
-function rfid_status() # $1=eneabled
+function rfid1_cron5() # $1=eneabled
 {
- echo "rfid is xxxxx";
+ # if enabed  start if not running
+ # if disabled kill if running
+ isrun=$(pgrep -f '^python.*/readrfid.py')
+ deblog "isrun:$isrun"
+ if (( $1 >= 1  && $isss == 0 )) ; then
+    deblog "rfid1 enabled"
+    if (( ${isrun:-0} == 0 )) ; then
+      rfid1_start
+    else
+      deblog "rfid1 allready run"
+    fi
+ else    
+    deblog "rfid1 disabled"
+    if (( ${isrun:-0} != 0 )) ; then
+    rfid1_stop 
+    else
+      deblog "rfid1 disabled and not running"
+    fi
+ fi 
+}
+function rfid1_reboot() # $1=eneabled
+{
+ # kill if running
+ # start if enabled
+ isrun=$(pgrep -f '^python.*/readrfid.py')
+ if (( ${isrun:-0} != 0 )) ; then
+    rfid1_stop
+ else
+   deblog "rfid1 not running"
+ fi
+ if (( $1 >= 1  && isss == 0 )) ; then
+    isrun=$(pgrep -f '^python.*/readrfid.py')
+    deblog "rfid1 enabled"
+    if (( ${isrun:-0} == 0 )) ; then
+      rfid1_start
+    else
+      deblog "rfid1 allready run"
+    fi
+ else
+    deblog "rfid1 disabled, not start needed"
+ fi 
+}
+function rfid1_start() 
+{
+    # daemon for input0
+    if [[ -r /dev/input/event0 ]]; then
+        deblog "startup rfid1 for event0";
+        if pgrep -f '^python.*/readrfid.py -d event0' >/dev/null; then
+            openwbDebugLog "MAIN" 2 "rfid configured and handler for event0 is running"
+  else
+            openwbDebugLog "MAIN" 1 "rfid configured but handler for event0 not running; starting process"
+            sudo bash -c "python3 runs/readrfid.py -d event0 >>\"$LOGFILE\" 2>&1 & "
+        fi
+    fi
+
+    # daemon for input1
+    if [[ -r /dev/input/event1 ]]; then
+        deblog "startup rfid1 for event1";
+        if pgrep -f '^python.*/readrfid.py -d event1' >/dev/null; then
+            openwbDebugLog "MAIN" 2 "rfid configured and handler for event1 is running"
+        else
+            openwbDebugLog "MAIN" 1 "rfid configured but handler for event1 not running; starting process"
+            sudo bash -c "python3 runs/readrfid.py -d event1 >>\"$LOGFILE\" 2>&1 & "
+        fi
+ fi
+}
+function rfid1_stop() 
+{
+   if pgrep -f '^python.*/readrfid.py' > /dev/null ; then
+      deblog  "kill rfid1 daemons"
+      openwbDebugLog "MAIN" 0 "SERVICE: kill rfid1 daemons"
+      sudo pkill -f "^python.*/readrfid.py"
+   else
+      deblog "rfid1 daemon is actually not running "
+   fi
+}
+function rfid1_status() # $1=eneabled
+{
+ if (( $1 >= 1  && isss == 0 )) ; then
+    if pgrep -f '^python.*/readrfid.py' > /dev/null ; then
+       line=$(pgrep -fa '^python.*/readrfid.py')
+       deblog "rfid1 $line"
+       openwbDebugLog "MAIN" 0 "SERVICE: rfid1 enabled: $line"
+    else
+      deblog "rfid1 daemon shut run, but dont"
+      openwbDebugLog "MAIN" 0 "SERVICE: rfid1 daemon shut run, but dont"
+    fi  
+ else
+    deblog "rfid1 is disabled";
+    openwbDebugLog "MAIN" 2 "SERVICE: rfid1 is disabled"
+ fi
 }
 
 #################################################################
+function rfid2_cron5() # $1=eneabled
+{
+ # if enabed  start if not running
+ # if disabled kill if running
+ isrun=$(pgrep -f '^python.*/rfid.py')
+ deblog "isrun:$isrun"
+ if (( $1 == 2  && $isss == 0 )) ; then
+    deblog "rfid2 enabled"
+    if (( ${isrun:-0} == 0 )) ; then
+      rfid2_start
+    else
+      deblog "rfid2 allready run"
+    fi
+ else    
+    deblog "rfid2 disabled"
+    if (( ${isrun:-0} != 0 )) ; then
+    rfid2_stop 
+    else
+      deblog "rfid2 disabled and not running"
+    fi
+ fi 
+}
+function rfid2_reboot() # $1=eneabled
+{
+ # kill if running
+ # start if enabled
+ isrun=$(pgrep -f '^python.*/rfid.py')
+ if (( ${isrun:-0} != 0 )) ; then
+    rfid2_stop
+ else
+   deblog "rfid2 not running"
+ fi
+ if (( $1 == 2  && isss == 0 )) ; then
+    isrun=$(pgrep -f '^python.*/rfid.py')
+    deblog "rfid2 enabled"
+    if (( ${isrun:-0} == 0 )) ; then
+      rfid2_start
+    else
+      deblog "rfid2 allready run"
+    fi
+ else
+    deblog "rfid2 disabled, not start needed"
+ fi 
+}
+function rfid2_start() 
+{
+        deblog "startup rfid2";
+        if pgrep -f '^python.*/rfid.py' >/dev/null; then
+            openwbDebugLog "MAIN" 2 "rfid2 configured "
+        else
+            openwbDebugLog "MAIN" 1 "rfid2 configured but handler not running; starting process"
+            sudo bash -c "python3 runs/rfid.py >>\"$LOGFILE\" 2>&1 & "
+        fi
+}
+function rfid2_stop() 
+{
+   if pgrep -f '^python.*/fid.py' > /dev/null ; then
+      deblog  "kill rfid2 daemon"
+      openwbDebugLog "MAIN" 0 "SERVICE: kill rfid2 daemon"
+      sudo pkill -f "^python.*/rfid.py"
+   else
+      deblog "rfid2 daemon is actually not running "
+   fi
+}
+function rfid2_status() # $1=eneabled
+{
+ if (( $1 == 2  && isss == 0 )) ; then
+    if pgrep -f '^python.*/rfid.py' > /dev/null ; then
+       line=$(pgrep -fa '^python.*/rfid.py')
+       deblog "rfid2 $line"
+       openwbDebugLog "MAIN" 0 "SERVICE: rfid2 enabled: $line"
+    else
+      deblog "rfid2 daemon shut run, but dont"
+      openwbDebugLog "MAIN" 0 "SERVICE: rfid2 daemon shut run, but dont"
+    fi  
+ else
+    deblog "rfid2 is disabled";
+    openwbDebugLog "MAIN" 2 "SERVICE: rfid2 is disabled"
+ fi
+}
+
+#################################################################
+
 function modbus_cron5() # $1=eneabled
 {
  # if enabed  start if not running
@@ -790,7 +963,8 @@ function selectstatus()
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  deblog "****ANF Status for openWB.Services $1 $smartmq $smarthome ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_status  $rseenabled
- [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid_status  $rfidakt
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid1_status  $rfidakt
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid2_status  $rfidakt
  [[ "$1" == "all" || "$1" == "modbus" ]]  &&  modbus_status  $modbus502enabled
  [[ "$1" == "all" || "$1" == "button" ]]  &&  button_status  $ladetaster
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smarthome_status $smarthome
@@ -809,6 +983,8 @@ function selectstart()
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #deblog "****ANF Start for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_start  $rseenabled
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid1_start $rfidakt
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid2_start $rfidakt
  [[ "$1" == "all" || "$1" == "modbus" ]]  &&  modbus_start $modbus502enabled
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smarthome_start $smarthome
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_start $smartmq  
@@ -826,6 +1002,8 @@ function selectstop()
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #deblog "****ANF Stop for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_stop $rseenabled  
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid1_stop $rfidakt
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid2_stop $rfidakt
  [[ "$1" == "all" || "$1" == "modbus" ]]  &&  modbus_stop $modbus502enabled
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smarthome_stop $smarthome
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_stop $smartmq  
@@ -843,6 +1021,8 @@ function selectcron5()
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #deblog "****ANF cron5 for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_cron5  $rseenabled
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid1_cron5 $rfidakt
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid2_cron5 $rfidakt
  [[ "$1" == "all" || "$1" == "modbus" ]]  &&  modbus_cron5 $modbus502enabled
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smarthome_cron5 $smarthome
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_cron5 $smartmq  
@@ -859,6 +1039,8 @@ function selectreboot()
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #deblog "****ANF reboot for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_reboot $rseenabled  
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid1_reboot $rfidakt
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid2_reboot $rfidakt
  [[ "$1" == "all" || "$1" == "modbus" ]]  &&  modbus_reboot $modbus502enabled
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smarthome_reboot $smarthome
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_reboot $smartmq  
