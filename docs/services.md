@@ -37,7 +37,7 @@ Ein Versuch die verschiedenen openWB Varianten zu verstehen.
 |:-------------|------|:-----------|:-----------|-------------------:|
 |openWB Daemon| daemon |isss.py|isss.py| nur als LP1 |
 |Serie 1/2 Auto | modbusevse|-|isss.py| LP1/LP2 *1 per ttyUSB0 Id=0|
-|Serie 1/2 | modbusevse|diverse Einzelscripteisss.py  | LP1 per ttyUSB0 ID=5|
+|Serie 1/2 | modbusevse|diverse Einzelscripte|isss.py  | LP1 per ttyUSB0 ID=5|
 |Serie 1/2 mid V1| modbusevse|diverse Einzelscripte|isss.py  |LP1/LP2 per ttyUSB0 ID=105|
 |Serie 1/2 mid V2| modbusevse|diverse Einzelscripte|isss.py|LP1 *1 per serial0 105|
 |Buchse|buchse|buchse.py|isss.py | nur LP1 |
