@@ -33,16 +33,16 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 
 Ein Versuch die verschiedenen openWB Varianten zu verstehen.
 
-| Name in GUI| evsecon | daemon normal | daemon standalone |Bemerkung |
+| Name in GUI| evsecon | Daemon Master | Daemon Ladpukt |Bemerkung |
 |:-------------|------|:-----------|:-----------|-------------------:|
-|openWB Daemon| daemon |  | | nur als LP1 |
-|Serie 1/2 Auto | modbusevse| | | LP1/LP2 *1 per ttyUSB0 Id=0|
-|Serie 1/2 | modbusevse| |  | LP1 per ttyUSB0 ID=5|
-|Serie 1/2 mid V1| modbusevse| |  |LP1/LP2 per ttyUSB0 ID=105|
-|Serie 1/2 mid V2| modbusevse| |  |LP1 *1 per serial0 105|
+|openWB Daemon| daemon |isss.py|isss.py| nur als LP1 |
+|Serie 1/2 Auto | modbusevse|keiner |isss.py| LP1/LP2 *1 per ttyUSB0 Id=0|
+|Serie 1/2 | modbusevse|keiner |isss.py  | LP1 per ttyUSB0 ID=5|
+|Serie 1/2 mid V1| modbusevse|keiner |isss.py  |LP1/LP2 per ttyUSB0 ID=105|
+|Serie 1/2 mid V2| modbusevse|keiner|isss.py|LP1 *1 per serial0 105|
 |Ladepunkt an Standonle|*ethframer| | |lp1=master lp2=slaveeth lp3=thirdeth|
-|Buchse|buchse| | | nur LP1 |
-|Satellit|ipevse| | | alle 8|
+|Buchse|buchse|buchse.py|isss.py | nur LP1 |
+|Satellit|ipevse| | | alle 8, ohne Raspi|
 |externe openWB|extopenwb| | |alle 8|
 |openWB Pro|owbpro| | | alle 8|
 
