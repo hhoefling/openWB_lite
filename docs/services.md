@@ -46,8 +46,8 @@ Ein Versuch die verschiedenen openWB Varianten zu verstehen.
 |externe openWB|extopenwb| | |alle 8|
 |openWB Pro|owbpro| | | alle 8|
 
-*1 auch für LP2 bei einer DUO wird "modbusevse" verwendet. Der zweite Zahler/EVSE ist dam entweder am gleichen modbis mit andere ID oder
-ab einen zweiten USB Adapter (/ttyUSB1) angeschlossen
+*1 auch für LP2 bei einer DUO wird "modbusevse" verwendet. Der zweite Zähler/EVSE ist dann entweder am gleichen Modbus mit andere ID oder
+ab einen zweiten USB Adapter (/ttyUSB1) angeschlossen.
 
 
 
