@@ -124,22 +124,8 @@ then
 fi
 
 #
-# YourCharge, 
+# YourCharge, deletet 
 #
-#declare -r IsFloatingNumberRegex='^-?[0-9.]+$'
-#if (( slavemode == 1)); then
-#	randomSleep=$(<ramdisk/randomSleepValue)
-#	if [[ -z $randomSleep ]] || [[ "${randomSleep}" == "0" ]] || ! [[ "${randomSleep}" =~ $IsFloatingNumberRegex ]]; then
-#		randomSleep=$(shuf --random-source=/dev/urandom -i 0-8 -n 1).$(shuf --random-source=/dev/urandom -i 0-9 -n 1)
-#		openwbDebugLog "MAIN" 0 "slavemode=$slavemode: ramdisk/randomSleepValue missing or 0 - creating new one containing $randomSleep"
-#		echo "$randomSleep" > ramdisk/randomSleepValue
-#	fi
-#	openwbDebugLog "MAIN" 1 "Slave mode regulation spread: Waiting ${randomSleep}s"
-#	sleep "$randomSleep"
-#	openwbDebugLog "MAIN" 1 "Slave mode regulation spread: Wait end"
-#fi
-
-
 
 date=$(date)
 re='^-?[0-9]+$'
@@ -171,7 +157,6 @@ source hook.sh
 # NC source nrgkickcheck.sh
 (( rfidakt == 1 )) && source rfidtag.sh
 source leds.sh
-# NC source slavemode.sh
 ptend "sourceing" 50
 
 #doppelte Ausfuehrungsgeschwindigkeit
@@ -467,10 +452,6 @@ fi
 
 
 # YourCharge, Slave Mode, openWB als Ladepunkt nutzen
-#if (( slavemode == 1 )); then
-#	openwbisslave
-#    # Exit 0
-#fi
 
 #Lademodus STOP3 == Aus
 if (( lademodus == $STOP3 )); then

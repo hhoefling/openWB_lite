@@ -1770,18 +1770,6 @@ updateConfig(){
 	if ! grep -Fq "lastmmaxw=" $ConfigFile; then
 		echo "lastmmaxw=44000" >> $ConfigFile
 	fi
-	if ! grep -Fq "slavemode=" $ConfigFile; then
-		echo "slavemode=0" >> $ConfigFile
-	fi
-#	if ! grep -Fq "slaveModeUseLastChargingPhase=" $ConfigFile; then
-#		echo "slaveModeUseLastChargingPhase=1" >> $ConfigFile
-#	fi
-#	if ! grep -Fq "slaveModeSlowRamping=" $ConfigFile; then
-#		echo "slaveModeSlowRamping=1" >> $ConfigFile
-#	fi
-#	if ! grep -Fq "slaveModeMinimumAdjustmentInterval=" $ConfigFile; then
-#    	echo "slaveModeMinimumAdjustmentInterval=15" >> $ConfigFile
-#	fi
 #	if ! grep -Fq "standardSocketInstalled=" /var/www/html/openWB/openwb.conf
 #	then
 #		echo "standardSocketInstalled=0" >> /var/www/html/openWB/openwb.conf

@@ -1713,7 +1713,6 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 	mqttconfvar["config/get/display/chartLp/1/max"]=displaylp1max
 	mqttconfvar["config/get/display/chartLp/2/max"]=displaylp2max
 	mqttconfvar["config/get/display/chartLp/3/max"]=displaylp3max
-	mqttconfvar["config/get/global/slaveMode"]=slavemode
 
 	for mq in "${!mqttconfvar[@]}"; do
 #		theval=${!mqttconfvar[$mq]}
