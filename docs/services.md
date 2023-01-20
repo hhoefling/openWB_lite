@@ -31,7 +31,7 @@ erstens die dringend nötigen und zweitens die nur auf Benutzerwunsche je nach H
 (3) nur bei openWB_Lite
 
 
-Ein Veruch die verschiedenen openWB Varianten zu verstehen.
+Ein Versuch die verschiedenen openWB Varianten zu verstehen.
 
 | Name in GUI| evsecon | daemon normal | daemon standalone |Bemerkung |
 |:-------------|------|:-----------|:-----------|-------------------:|
