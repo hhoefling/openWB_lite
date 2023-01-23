@@ -12,11 +12,18 @@ Raspberry Pi 3 Model B Plus Rev 1.3
 Kernel: Linux 4.19.66-v7+ GNU/Linux (Stretch)
 Python 3.5.3
 ```
-und auch auf
+und auch auf:
 ```
 Raspberry Pi 4 Model B Rev 1.4 (2GB)
 Kernel: Linux 5.10.103-v7l+ GNU/Linux (Buster)
 Python 3.7.3
+```
+Seit Januar 2013 wird alles auf Debian 11/Bulleye umgestellt.
+Diese läuft jetzt auf:
+```
+Raspberry Pi 4 Model B Rev 1.4 (2GB)
+Kernel: Linux 5.15.84-v7l+ GNU/Linux (Bullseye)
+Python 3.9.2
 ```
 Da die Firma openWB im Nov.2021 keine stabile Version der Software auf Basis der 1.9'er zur Verfügung stellt bei der die richtigen RCT2 Module enthalten sind bleibt mir nur auf Basis des alten Stretch-Kernels (4.19.66-v7) meine eigene Version zu pflegen. Zu Testzwecken läuft meine Version auch auf einem Pi4 mit Buster. Wobei hier natürlich nicht die Hardwareebene mit getestet werden kann. Alle Module die direkt mit der Hardware der openWB kommunizieren, können so nicht getestet werden. Dies sind meist auch noch Python2.x Module. Zum testen können, mit Hilfe meines Mqtt-Pullers, die Hardwaremodule aus der echten OpenWB mit Daten versorgt werden.
 Inzwischen läuft auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display hängt an einem Pi4. 
@@ -60,8 +67,10 @@ Weiter Info **[History](docs/history.md)**
 - Bullseye zum testen in einer VM auf dem PC
 - Für mich irrelevante Functionen werden entfernen. (awatar, tibber,  pushover, evse ) Wenn jemand diese Module benötigt, bitte melden, vieleicht lassen sie sich ja aus der alten 1'9er-24x übernehmen und weiterverwenden.
 - Erweiterung der Log Funktion um die Regelmodule besser zu debugen. 
-- 
-****************
+- Ich habe nun begonnen mich von Stretch und Buster zu verabschieden.
+- Aktuell wird nur noch unter Bullseye weitergetestet. Damit hat aber endgültig Python2.7 ausgedient. Allerdings sind die vielen kleinen Python Sripte unter python3.9 ca. 50% langsamer als unter Python2.7 auf einenm Strech/Buster System. Aber sollange bei meiner Hadrware-Mischung keine Regel-Laufzeit über 8 Sekunden daraus resultiert werde ich das in Kauf nehmen. Aber eine Vollausgestatte Box mit Taster/Led/Rfid/DUO, da wird es schon eng mit der Laufzeit unter Python3.9
+
+ ****************
 
 **[Umzug auf openwb_lite](docs/umzug.md)**
 
