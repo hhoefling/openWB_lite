@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import time
 # run with  sudo -u pi bash -c "python3 runs/ladetaster.py &"
 try:

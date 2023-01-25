@@ -13,7 +13,7 @@ RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 
 . "$OPENWBBASEDIR/loadconfig.sh"
 . "$OPENWBBASEDIR/helperFunctions.sh"
-. "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
+# . "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
 # . "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
 # . "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
 
@@ -464,7 +464,7 @@ fi
 
 
 # setup rfid handler if needed
-rfidSetup "$rfidakt" 0 "$rfidlist"
+# rfidSetup "$rfidakt" 0 "$rfidlist"
 
 
 # check if our modbus server is running

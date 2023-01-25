@@ -70,7 +70,7 @@ at_reboot() {
 	# no code will run here, functions need to be called
 	. "$OPENWBBASEDIR/runs/initRamdisk.sh"
 	. "$OPENWBBASEDIR/runs/updateConfig.sh"
-	. "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
+#	. "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
 #	. "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
 #	. "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
 		
@@ -144,7 +144,7 @@ at_reboot() {
 	if (( u1p3paktiv == 1 )); then
 		log "triginit...quick init of phase switching with default pause duration 2s"
 		# quick init of phase switching with default pause duration (2s)
-		sudo python "$OPENWBBASEDIR/runs/triginit.py" 2>&1 
+		sudo python3 "$OPENWBBASEDIR/runs/triginit.py" 2>&1 
 	fi
 
 
@@ -245,7 +245,7 @@ at_reboot() {
 
     log rfidhandler...
     # setup rfid handler if needed
-    rfidSetup "$rfidakt" 1 "$rfidlist"
+    # rfidSetup "$rfidakt" 1 "$rfidlist"
 
 
     

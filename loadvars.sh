@@ -983,8 +983,8 @@ loadvars(){
 			echo $exporttemp > ramdisk/bezugwatt0neg
 		fi
 #########################################################################						
-		openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/simcount.py $watt2 bezug bezugkwh einspeisungkwh"
-		sudo python runs/simcount.py $watt2 bezug bezugkwh einspeisungkwh
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python3 runs/simcount.py $watt2 bezug bezugkwh einspeisungkwh"
+		sudo python3 runs/simcount.py $watt2 bezug bezugkwh einspeisungkwh
 #########################################################################						
 		importtemp1=$(<ramdisk/bezugwatt0pos)
 		exporttemp1=$(<ramdisk/bezugwatt0neg)
@@ -1024,8 +1024,8 @@ loadvars(){
 			echo $exporttemp > ramdisk/pvwatt0neg
 		fi
 #########################################################################						
-		openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/simcount.py $watt3 pv pvposkwh pvkwh"
-		sudo python runs/simcount.py $watt3 pv pvposkwh pvkwh
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python3 runs/simcount.py $watt3 pv pvposkwh pvkwh"
+		sudo python3 runs/simcount.py $watt3 pv pvposkwh pvkwh
 #########################################################################						
 		importtemp1=$(<ramdisk/pvwatt0pos)
 		exporttemp1=$(<ramdisk/pvwatt0neg)
@@ -1065,8 +1065,8 @@ loadvars(){
 			echo $exporttemp > ramdisk/pv2watt0neg
 		fi
 #########################################################################						
-		openwbDebugLog "MAIN" 2 "EXEC: sudo python runs/simcount.py $watt4 pv2 pv2poskwh pv2kwh"
-		sudo python runs/simcount.py $watt4 pv2 pv2poskwh pv2kwh
+		openwbDebugLog "MAIN" 2 "EXEC: sudo python3 runs/simcount.py $watt4 pv2 pv2poskwh pv2kwh"
+		sudo python3 runs/simcount.py $watt4 pv2 pv2poskwh pv2kwh
 #########################################################################						
 		importtemp1=$(<ramdisk/pv2watt0pos)
 		exporttemp1=$(<ramdisk/pv2watt0neg)
@@ -1112,8 +1112,8 @@ loadvars(){
 			echo $exporttemp > ramdisk/speicherwatt0neg
 		fi
 #########################################################################						
-		openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/simcount.py $watt2 speicher speicherikwh speicherekwh"
-		sudo python runs/simcount.py $watt2 speicher speicherikwh speicherekwh
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python3 runs/simcount.py $watt2 speicher speicherikwh speicherekwh"
+		sudo python3 runs/simcount.py $watt2 speicher speicherikwh speicherekwh
 #########################################################################						
 		importtemp1=$(<ramdisk/speicherwatt0pos)
 		exporttemp1=$(<ramdisk/speicherwatt0neg)
@@ -1151,8 +1151,8 @@ loadvars(){
 			echo $exporttemp > ramdisk/verbraucher1watt0neg
 		fi
 #########################################################################						
-		openwbDebugLog "MAIN" 0 "EXEC: sudo python runs/simcount.py $watt3 verbraucher1 verbraucher1_wh verbraucher1_whe"
-		sudo python runs/simcount.py $watt3 verbraucher1 verbraucher1_wh verbraucher1_whe
+		openwbDebugLog "MAIN" 0 "EXEC: sudo python3 runs/simcount.py $watt3 verbraucher1 verbraucher1_wh verbraucher1_whe"
+		sudo python3 runs/simcount.py $watt3 verbraucher1 verbraucher1_wh verbraucher1_whe
 #########################################################################						
 		importtemp1=$(<ramdisk/verbraucher1watt0pos)
 		exporttemp1=$(<ramdisk/verbraucher1watt0neg)

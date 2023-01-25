@@ -246,23 +246,28 @@ function rfid1_reboot() # $1=eneabled
 function rfid1_start() 
 {
     # daemon for input0
-    if [[ -r /dev/input/event0 ]]; then
-        deblog "startup rfid1 for event0";
+    
+#    [[ -c /dev/input/event0 ]] && deblog "check  event0"
+#    [[ -c /dev/input/event1 ]] && deblog "check  event1"
+    
+    
+    if [[ -c /dev/input/event0 ]]; then
+        deblog "startup rfid1 for event0"
+        pgrep -f '^python.*/readrfid.py -d event0'
         if pgrep -f '^python.*/readrfid.py -d event0' >/dev/null; then
-            openwbDebugLog "MAIN" 2 "rfid configured and handler for event0 is running"
+            openwbDebugLog "MAIN" 2 "rfid1 configured and handler for event0 is running"
   else
-            openwbDebugLog "MAIN" 1 "rfid configured but handler for event0 not running; starting process"
+            openwbDebugLog "MAIN" 1 "rfid1 configured but handler for event0 not running; starting process"
             sudo bash -c "python3 runs/readrfid.py -d event0 >>\"$LOGFILE\" 2>&1 & "
         fi
     fi
 
-    # daemon for input1
-    if [[ -r /dev/input/event1 ]]; then
-        deblog "startup rfid1 for event1";
+    if [[ -c /dev/input/event1 ]]; then
+        deblog "startup rfid1 for event1"
         if pgrep -f '^python.*/readrfid.py -d event1' >/dev/null; then
-            openwbDebugLog "MAIN" 2 "rfid configured and handler for event1 is running"
+            openwbDebugLog "MAIN" 2 "rfid1 configured and handler for event1 is running"
         else
-            openwbDebugLog "MAIN" 1 "rfid configured but handler for event1 not running; starting process"
+            openwbDebugLog "MAIN" 1 "rfid1 configured but handler for event1 not running; starting process"
             sudo bash -c "python3 runs/readrfid.py -d event1 >>\"$LOGFILE\" 2>&1 & "
         fi
  fi
@@ -346,12 +351,12 @@ function rfid2_start()
             openwbDebugLog "MAIN" 2 "rfid2 configured "
         else
             openwbDebugLog "MAIN" 1 "rfid2 configured but handler not running; starting process"
-            sudo bash -c "python3 runs/rfid.py >>\"$LOGFILE\" 2>&1 & "
+            sudo -u pi bash -c "python3 runs/rfid.py >>\"$LOGFILE\" 2>&1 &" 
         fi
 }
 function rfid2_stop() 
 {
-   if pgrep -f '^python.*/fid.py' > /dev/null ; then
+   if pgrep -f '^python.*/rfid.py' > /dev/null ; then
       deblog  "kill rfid2 daemon"
       openwbDebugLog "MAIN" 0 "SERVICE: kill rfid2 daemon"
       sudo pkill -f "^python.*/rfid.py"

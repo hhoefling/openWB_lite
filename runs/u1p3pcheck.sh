@@ -12,10 +12,10 @@ if [[ "$1" == "1" ]]; then
 	# chargepoint 1
 	if [[ $evsecon == "modbusevse" ]]; then
 		openwbDebugLog "MAIN" 0 "Pause nach Umschaltung: ${u1p3ppause}s"
-		sudo python runs/trigopen.py -d "$u1p3ppause" -c 1
+		sudo python3 runs/trigopen.py -d "$u1p3ppause" -c 1
 	fi
 	if [[ $evsecon == "ipevse" ]]; then
-		sudo python runs/u1p3premote.py -a "$evseiplp1" -i "$u1p3plp2id" -p 1 -d "$u1p3ppause"
+		sudo python3 runs/u1p3premote.py -a "$evseiplp1" -i "$u1p3plp2id" -p 1 -d "$u1p3ppause"
 	fi
 	if [[ $evsecon == "extopenwb" ]]; then
 		mosquitto_pub -r -t openWB/set/isss/U1p3p -h "$chargep1ip" -m "1"
@@ -26,10 +26,10 @@ if [[ "$1" == "1" ]]; then
 	# chargepoint 2
 	if [[ $lastmanagement == 1 && $evsecons1 == "modbusevse" && $u1p3plp2aktiv == "1" ]]; then
 		openwbDebugLog "MAIN" 0 "Pause nach Umschaltung: ${u1p3ppause}s"
-		sudo python runs/trigopen.py -d "$u1p3ppause" -c 2
+		sudo python3 runs/trigopen.py -d "$u1p3ppause" -c 2
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "ipevse" && $u1p3plp2aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a "$evseiplp2" -i "$u1p3plp2id" -p 1 -d "$u1p3ppause"
+		sudo python3 runs/u1p3premote.py -a "$evseiplp2" -i "$u1p3plp2id" -p 1 -d "$u1p3ppause"
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "extopenwb" ]]; then
 		mosquitto_pub -r -t openWB/set/isss/U1p3p -h "$chargep2ip" -m "1"
@@ -46,7 +46,7 @@ if [[ "$1" == "1" ]]; then
 		curl -s -X POST --data "phasetarget=1" "$owbpro3ip/connect.php"
 	fi
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "ipevse" && $u1p3plp3aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a "$evseiplp3" -i "$u1p3plp3id" -p 1 -d "$u1p3ppause"
+		sudo python3 runs/u1p3premote.py -a "$evseiplp3" -i "$u1p3plp3id" -p 1 -d "$u1p3ppause"
 	fi
 
 
@@ -60,11 +60,11 @@ fi
 if [[ "$1" == "3" ]]; then
 	if [[ $evsecon == "modbusevse" ]]; then
 		openwbDebugLog "MAIN" 0 "Pause nach Umschaltung: ${u1p3ppause}s"
-		sudo python runs/trigclose.py -d "$u1p3ppause" -c 1
+		sudo python3 runs/trigclose.py -d "$u1p3ppause" -c 1
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "modbusevse" && $u1p3plp2aktiv == "1" ]]; then
 		openwbDebugLog "MAIN" 0 "Pause nach Umschaltung: ${u1p3ppause}s"
-		sudo python runs/trigclose.py -d "$u1p3ppause" -c 2
+		sudo python3 runs/trigclose.py -d "$u1p3ppause" -c 2
 	fi
 	if [[ $evsecon == "extopenwb" ]]; then
 		mosquitto_pub -r -t openWB/set/isss/U1p3p -h "$chargep1ip" -m "3"
@@ -90,13 +90,13 @@ if [[ "$1" == "3" ]]; then
 # lp4-lp8
 
 	if [[ $evsecon == "ipevse" ]]; then	## Alter Satellit ohne Pi3
-		sudo python runs/u1p3premote.py -a "$evseiplp1" -i "$u1p3plp2id" -p 3 -d "$u1p3ppause"
+		sudo python3 runs/u1p3premote.py -a "$evseiplp1" -i "$u1p3plp2id" -p 3 -d "$u1p3ppause"
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "ipevse" && $u1p3plp2aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a "$evseiplp2" -i "$u1p3plp2id" -p 3 -d "$u1p3ppause"
+		sudo python3 runs/u1p3premote.py -a "$evseiplp2" -i "$u1p3plp2id" -p 3 -d "$u1p3ppause"
 	fi
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "ipevse" && $u1p3plp3aktiv == "1" ]]; then
-		sudo python runs/u1p3premote.py -a "$evseiplp3" -i "$u1p3plp3id" -p 3 -d "$u1p3ppause"
+		sudo python3 runs/u1p3premote.py -a "$evseiplp3" -i "$u1p3plp3id" -p 3 -d "$u1p3ppause"
 	fi
 # lp4-lp8
 

@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Hardware Ebene
 # Up u1p3check.sh 
 # Schalte auf drei Phasen ( open relay )
 #
-#coding: utf8
+# coding: utf8
 
 import time
 import RPi.GPIO as GPIO
@@ -20,7 +20,7 @@ args = parser.parse_args()
 switchChargepoint1 = (bool)(args.chargepoint == 0 or args.chargepoint == 1)
 switchChargepoint2 = (bool)(args.chargepoint == 0 or args.chargepoint == 2)
 
-if(args.verbose):
+if (args.verbose):
     print("Wartezeit vor und nach 1p/3p Umschaltung: %fs" % (args.duration))
     print("Zu schaltende Ladepunkte: %d" % (args.chargepoint))
     print("Schalte Ladepunkt 1: %s" % (str(switchChargepoint1)))
@@ -29,34 +29,34 @@ if(args.verbose):
 # setup GPIOs
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
-if(switchChargepoint1):
+if (switchChargepoint1):
     GPIO.setup(22, GPIO.OUT)
     GPIO.setup(29, GPIO.OUT)
-if(switchChargepoint2):
+if (switchChargepoint2):
     GPIO.setup(15, GPIO.OUT)
     GPIO.setup(11, GPIO.OUT)
 
 # block CP
-if(switchChargepoint1):
+if (switchChargepoint1):
     GPIO.output(22, GPIO.HIGH)
-if(switchChargepoint2):
+if (switchChargepoint2):
     GPIO.output(15, GPIO.HIGH)
 time.sleep(args.duration)
 
 # switch phases
-if(switchChargepoint1):
+if (switchChargepoint1):
     GPIO.output(29, GPIO.HIGH)
-if(switchChargepoint2):
+if (switchChargepoint2):
     GPIO.output(11, GPIO.HIGH)
 time.sleep(2)
-if(switchChargepoint1):
+if (switchChargepoint1):
     GPIO.output(29, GPIO.LOW)
-if(switchChargepoint2):
+if (switchChargepoint2):
     GPIO.output(11, GPIO.LOW)
 time.sleep(args.duration)
 
 # enable CP
-if(switchChargepoint1):
+if (switchChargepoint1):
     GPIO.output(22, GPIO.LOW)
-if(switchChargepoint2):
+if (switchChargepoint2):
     GPIO.output(15, GPIO.LOW)

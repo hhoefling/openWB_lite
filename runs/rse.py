@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import time
 
 basePath = "/var/www/html/openWB"
@@ -48,5 +49,5 @@ try:
                 write_to_ramdisk("rse2status", "0")
                 state1 = 0
 
-except:
+except Exception:
     GPIO.cleanup()

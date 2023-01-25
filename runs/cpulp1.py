@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf8
 
 import time
@@ -10,7 +10,7 @@ parser.add_argument("-d", "--duration", type=int, default=4, help="duration in s
 parser.add_argument("-v", "--verbose", action="store_true", help="verbose debug output")
 args = parser.parse_args()
 
-if(args.verbose):
+if (args.verbose):
     print("CP-Unterbrechung LP1: %ds" % (args.duration))
 
 GPIO.setwarnings(False)

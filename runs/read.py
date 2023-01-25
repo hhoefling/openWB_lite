@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 from pymodbus.client.sync import ModbusSerialClient
 
 client = ModbusSerialClient(method="rtu", port="/dev/virtualcom1", baudrate=9600, stopbits=1, bytesize=8, timeout=1)

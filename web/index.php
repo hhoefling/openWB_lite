@@ -42,6 +42,11 @@ function setCookieSameSite(
 	// check if atreboot.sh is still running
 	$bootinprogress = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/openWB/ramdisk/bootinprogress');
 	// if yes, show placeholder. If not, show theme
+    if ( file_exists($_SERVER['DOCUMENT_ROOT'] . '/openWB/web/simul/simul.php') )
+         $hassim = './simul/simul.php';
+    else $hassim = '';     
+
+    
 	if ( $bootinprogress == 1 or $updateinprogress == 1) {
 		//atreboot.sh or update.sh still in progress, wait 5 seconds and retry
 		include 'notready.html';
@@ -53,6 +58,14 @@ function setCookieSameSite(
 			${$key."old"} = trim( $value, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes
 		}
 
+        ?>
+            <!-- some scripts -->
+            <script>
+                var devicename = "<?php echo $devicenameold; ?>"
+                var isss = "<?php echo $isssold; ?>"
+                var hassim = "<?php echo $hassim; ?>"
+            </script>
+        <?php
 		// check for acknoledgement of dataprotection
 		if ( $datenschutzackold == 0 && $clouduserold !== "leer") {
 			// load dataprotection page
@@ -77,12 +90,6 @@ function setCookieSameSite(
 				   $_COOKIE['openWBTheme'] =$th; 
 		    }
 			
-	        ?>
-			<!-- some scripts -->
-			<script>
-				var devicename = "<?php echo $devicenameold; ?>"
-			</script>
-			<?php
 			// expand expiring-date to now + 2 years
 			$expire = time()+(60*60*24*365*2);
 			setCookieSameSite('openWBTheme', $_COOKIE['openWBTheme'], $expire, '/openWB/', '', false, false, 'Lax' );

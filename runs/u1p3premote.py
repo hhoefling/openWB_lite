@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # used for Satellit (ohne PI, ipevse)
 
 from pymodbus.client.sync import ModbusTcpClient
@@ -13,7 +13,7 @@ parser.add_argument("-d", "--duration", required=False, type=int, default=1, hel
 parser.add_argument("-v", "--verbose", required=False, action="store_true", help="verbose debug output")
 args = parser.parse_args()
 
-if(args.verbose):
+if (args.verbose):
     print("Wartezeit vor und nach %dp Umschaltung %s #%d: %ds" % (args.phases, args.address, args.id, args.duration))
 
 client = ModbusTcpClient(args.address, port=8899)

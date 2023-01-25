@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # used for Satellit (ohne PI, ipevse)
 
 
@@ -13,7 +13,7 @@ parser.add_argument("-d", "--duration", required=False, type=int, default=2, hel
 parser.add_argument("-v", "--verbose", action="store_true", help="verbose debug output")
 args = parser.parse_args()
 
-if(args.verbose):
+if (args.verbose):
     print("CP-Unterbrechung %s #%d: %ds" % (args.address, args.id, args.duration))
 
 client = ModbusTcpClient(args.address, port=8899)

@@ -87,14 +87,14 @@ function setChargingCurrentModbus () {
 	modbusevsesource=$2
 	modbusevseid=$3
 	# set desired charging current
-	sudo python /var/www/html/openWB/runs/evsewritemodbus.py "$modbusevsesource" "$modbusevseid" "$current"
+	sudo python3 /var/www/html/openWB/runs/evsewritemodbus.py "$modbusevsesource" "$modbusevseid" "$current"
 }
 
 #################################################
 function setChargingCurrentBuchse () {
 	current=$1
 	# set desired charging current
-	#sudo python /var/www/html/openWB/runs/evsewritemodbus.py $modbusevsesource $modbusevseid $current
+	#sudo python3 /var/www/html/openWB/runs/evsewritemodbus.py $modbusevsesource $modbusevseid $current
 	# Is handled in buchse.py
 }
 
@@ -116,7 +116,7 @@ function setChargingCurrentIpModbus () {
 	evseip=$2
 	ipevseid=$3
 	# set desired charging current
-	sudo python /var/www/html/openWB/runs/evseipwritemodbus.py "$current" "$evseip" "$ipevseid"
+	sudo python3 /var/www/html/openWB/runs/evseipwritemodbus.py "$current" "$evseip" "$ipevseid"
 }
 
 #################################################
@@ -124,14 +124,14 @@ function setChargingCurrentIpModbus () {
 function setChargingCurrentSlaveeth () {
 	current=$1
 	# set desired charging current 192.168.192.16
-	sudo python /var/www/html/openWB/runs/evseslavewritemodbus.py "$current"
+	sudo python3 /var/www/html/openWB/runs/evseslavewritemodbus.py "$current"
 }
 
 #################################################
 function setChargingCurrentMasterethframer () {
 	current=$1
 	# set desired charging current  192.168.192.18 
-	sudo python /var/www/html/openWB/runs/evsemasterethframerwritemodbus.py "$current"
+	sudo python3 /var/www/html/openWB/runs/evsemasterethframerwritemodbus.py "$current"
 }
 
 #################################################
@@ -139,7 +139,7 @@ function setChargingCurrentMasterethframer () {
 function setChargingCurrentThirdeth () {
 	current=$1
 	# set desired charging current 192.168.192.26
-	sudo python /var/www/html/openWB/runs/evsethirdwritemodbus.py "$current"
+	sudo python3 /var/www/html/openWB/runs/evsethirdwritemodbus.py "$current"
 }
 
 #################################################
