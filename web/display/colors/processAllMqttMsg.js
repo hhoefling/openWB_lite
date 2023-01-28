@@ -68,27 +68,27 @@ function handlevar(mqttmsg, mqttpayload) {
 	
 }  // end handlevar
 
-//function processETProviderMessages(mqttmsg, mqttpayload) {
-//	// processes mqttmsg for topic openWB/global
-//	// called by handlevar
-//	//processPreloader(mqttmsg);
-//	
-//	// colors theme
-//	if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
-//		wbdata.updateET ('etProviderName', mqttpayload);
-//	} else if ( mqttmsg == 'openWB/global/ETProvider/modulePath' ) {
-//		wbdata.updateET ('etModulePath', mqttpayload);
-//	} else if ( mqttmsg == 'openWB/global/awattar/boolAwattarEnabled' ) {
-//		wbdata.updateET('isEtEnabled' ,(mqttpayload == '1'))
-//	} else if ( mqttmsg == 'openWB/global/awattar/pricelist' ) {
-//		wbdata.updateET('etPriceList',mqttpayload);
-//	} else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
-//		wbdata.updateET ('etMaxPrice', parseFloat(mqttpayload));
-//	} else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
-//		wbdata.updateET ('etPrice', parseFloat(mqttpayload));
-//	}
+function processETProviderMessages(mqttmsg, mqttpayload) {
+	// processes mqttmsg for topic openWB/global
+	// called by handlevar
+	//processPreloader(mqttmsg);
+	console.log( mqttmsg, mqttpayload)
+	// colors theme
+	if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
+		wbdata.updateET ('etProviderName', mqttpayload);
+	} else if ( mqttmsg == 'openWB/global/ETProvider/modulePath' ) {
+		wbdata.updateET ('etModulePath', mqttpayload);
+	} else if ( mqttmsg == 'openWB/global/awattar/boolAwattarEnabled' ) {
+		wbdata.updateET('isEtEnabled' ,(mqttpayload == '1'))
+	} else if ( mqttmsg == 'openWB/global/awattar/pricelist' ) {
+		wbdata.updateET('etPriceList',mqttpayload);
+	} else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
+		wbdata.updateET ('etMaxPrice', parseFloat(mqttpayload));
+	} else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
+		wbdata.updateET ('etPrice', parseFloat(mqttpayload));
+	}
 
-/* 	if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
+ 	if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
 		$('.etproviderName').text(mqttpayload);
 	}
 	else if ( mqttmsg == 'openWB/global/ETProvider/modulePath' ) {
@@ -131,8 +131,8 @@ function handlevar(mqttmsg, mqttpayload) {
 	else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
 		$('#aktuellerStrompreis').text(parseFloat(mqttpayload).toLocaleString(undefined, {maximumFractionDigits: 2}) + ' ct/kWh');
 	}
- */
-// }
+ 
+ }
 
 	
 function processPvConfigMessages(mqttmsg, mqttpayload) {

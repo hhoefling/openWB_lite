@@ -127,7 +127,7 @@
 	<script src="themes/colors/chargePointList.js"></script>
 	<script src="themes/colors/smartHomeList.js"></script>
 	<script src="themes/colors/batteryList.js"></script>
-	<!--script src="themes/colors/pricechart.js"></script-->
+	<script src="themes/colors/pricechart.js"></script>
 
 
 </head>
@@ -290,8 +290,8 @@
 			</div>
 
 			<!-- Preisbasiertes Laden -->
-<!--			
-			<div class="wb-widget col-md-4 p-2 m-1 priceConfiguration" id="priceConfigWidget">
+			
+			<div class="rounded shadow wb-widget col-md-4 p-2 m-1 priceConfiguration" id="priceConfigWidget">
 				<h3 class="mt-0">Preisbasiertes Laden</h3>
 				<div class="pb-3 wb-subwidget">
 					<div class="row p-0 m-0 ">
@@ -304,16 +304,14 @@
 
 						<div class="row vaRow m-0 p-0">
 							<div class="col-2 m-0 p-0">
-								<button type="button" class="btn btn-secondary priceLess"><i
-										class="far fa-minus-square"></i></button>
+									<button type="button" class="btn btn-secondary priceLess"><i class="far fa-minus-square"></i></button>
 							</div>
 							<div class="col-8">
-								<input type="range" class="form-control-range maxPriceInput" id="maxPrice" min="-25" max="95" step="0.1"
-									value="0" data-initialized="0">
+									<input type="range" class="form-control-range maxPriceInput" id="maxPrice" min="-25" max="95"
+										step="0.1" value="0" data-initialized="0">
 							</div>
 							<div class="col-2 m-0 p-0 text-right">
-								<button type="button" class="btn btn-secondary priceMore"><i
-										class="far fa-plus-square"></i></button>
+									<button type="button" class="btn btn-secondary priceMore"><i class="far fa-plus-square"></i></button>
 							</div>
 						</div>
 						<div class="form-row vaRow p-0 m-0">
@@ -325,7 +323,7 @@
 					</div>
 				</div>
 			</div>
--->
+
 
 			<!-- Ladepunkt Konfig -->
 			<div class="rounded shadow wb-widget col-md p-2 m-1" id="chargePointConfigWidget">
@@ -737,7 +735,7 @@
 			chargePointList.init();
 			smartHomeList.init();
 			batteryList.init();
-			//priceChart.init();
+			priceChart.init();
 			$("#homebutton").addClass("hide");
 
 			$('.enableLp').click(function (event) {

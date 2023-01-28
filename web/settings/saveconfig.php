@@ -187,13 +187,13 @@
 
 	
 		// start etprovider update if in POST data
-//		if( array_key_exists( 'etprovideraktiv', $_POST ) && ($_POST['etprovideraktiv'] == 1) ){ ?>
-//			<script>$('#feedbackdiv').append("<br>Update des Stromtarifanbieters gestartet.");</script>
-//			<?php
-//			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['etprovider'] . "/main.sh >> /var/log/openWB.log 2>&1 &" );
-//			exec( 'mosquitto_pub -t openWB/global/ETProvider/modulePath -r -m "' . $_POST['etprovider'] . '"' );
-//          $debs[]=" trigger Etprovider update";
-//		}
+		if( array_key_exists( 'etprovideraktiv', $_POST ) && ($_POST['etprovideraktiv'] == 1) ){ ?>
+			<script>$('#feedbackdiv').append("<br>Update des Stromtarifanbieters gestartet.");</script>
+			<?php
+			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['etprovider'] . "/main.sh >> /var/log/openWB.log 2>&1 &" );
+			exec( 'mosquitto_pub -t openWB/global/ETProvider/modulePath -r -m "' . $_POST['etprovider'] . '"' );
+          $debs[]=" trigger Etprovider update";
+		}
 
 		// start ev-soc updates if in POST data
 		// if( array_key_exists( 'socmodul', $_POST ) && ($_POST['socmodul'] != 'none') ){

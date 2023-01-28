@@ -65,9 +65,9 @@ function getTopicToSendTo (elementId) {
     var element = $('#' + $.escapeSelector(elementId));
     var topic = element.data('topicprefix') + elementId;
     topic = topic.replace('/get/', '/set/');
-//    if (topic.includes('MaxPriceForCharging')) {
-//        topic = 'openWB/set/awattar/MaxPriceForCharging'
-//    }
+    if (topic.includes('MaxPriceForCharging')) {
+        topic = 'openWB/set/awattar/MaxPriceForCharging'
+    }
     return topic;
 }
 

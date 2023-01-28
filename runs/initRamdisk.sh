@@ -241,8 +241,8 @@ initRamdisk(){
 	echo -1 > $RamdiskPath/mqttlastplugstats1
 	echo -1 > $RamdiskPath/mqttpv1vorhanden
 	echo -1 > $RamdiskPath/mqttpv2vorhanden
-#	echo -1 > $RamdiskPath/mqttetprovidermaxprice
-#	echo -1 > $RamdiskPath/mqttetproviderprice
+	echo -1 > $RamdiskPath/mqttetprovidermaxprice
+	echo -1 > $RamdiskPath/mqttetproviderprice
 	echo -1 > $RamdiskPath/mqttlademkwhs1
 	echo -1 > $RamdiskPath/mqttlademkwhs2
 	echo -1 > $RamdiskPath/mqttllsolls1
@@ -316,9 +316,9 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/autolocktimer
 	echo 0 > $RamdiskPath/blockall
 	echo 0 > $RamdiskPath/devicetotal_watt
-#	echo 0 > $RamdiskPath/etprovidermaxprice
-#	echo 0 > $RamdiskPath/etproviderprice
-#	touch $RamdiskPath/etprovidergraphlist
+	echo 0 > $RamdiskPath/etprovidermaxprice
+	echo 0 > $RamdiskPath/etproviderprice
+	touch $RamdiskPath/etprovidergraphlist
 	echo 0 > $RamdiskPath/evseausgelesen
 	echo 0 > $RamdiskPath/glattwattbezug
 	echo 0 > $RamdiskPath/hausverbrauch
@@ -435,8 +435,6 @@ initRamdisk(){
 #		"mqttlademstatlp7:-1" \
 #		"mqttlademstatlp8:-1" \
 #		"mqttRandomSleepValue:-1" \
-#		"mqttetprovideraktiv:-1" \
-#		"mqttetprovider:notset" \
 
 # init other files
 	for f in \
@@ -531,6 +529,8 @@ initRamdisk(){
 		"mqttverbraucher2_name:notset" \
 		"mqttversion:-1" \
 		"mqttwattbezug:-1" \
+		"mqttetprovideraktiv:-1" \
+		"mqttetprovider:notset" \
 		"mqttwizzarddone:-1"
 	do
 		IFS=':' read -r -a tuple <<< "$f"

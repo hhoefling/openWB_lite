@@ -52,6 +52,45 @@ if( '' != themeCookie ){
 }
 
 /**
+ * Toggles one or more password input fields to type=text
+ * @param {string} inputQuery JQuery select statement for input field(s) to toggle
+ * @param {string} iconQuery JQuery select statement for optional icon(s) to toggle
+ */
+function togglePasswordInput(inputQuery, iconQuery = undefined) {
+    var newType = "password";
+    var newIcon = "fa-lock";
+    var oldIcon = "fa-unlock";
+    var inputElements = $(inputQuery);
+    if (inputElements[0].type == "password") {
+        newType = "text";
+        newIcon = "fa-unlock";
+        oldIcon = "fa-lock";
+    }
+    inputElements.each(
+        function( index, element ) {
+            element.type = newType;
+        }
+    );
+    if (iconQuery !== undefined) {
+        $(iconQuery).removeClass(oldIcon).addClass(newIcon);
+    }
+};
+
+/**
+ * checks if the two input elements value match
+ * @param {String} inputQuery JQuery select statement for exact two input fields to check
+ */
+function checkPasswordMatch(inputQuery) {
+    var inputElements = $(inputQuery);
+    if (inputElements[0].value != inputElements[1].value) {
+        inputElements[1].setCustomValidity('Die Passwörter müssen identisch sein.');
+    } else {
+        // input is valid -- reset the error message
+        inputElements[1].setCustomValidity('');
+    }
+}
+
+/**
  * hideSection
  * add class 'hide' to element with selector 'section' in JQuery syntax
  * disables all contained input and select elements if 'disableChildren' is not set to false

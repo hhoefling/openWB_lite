@@ -45,11 +45,11 @@ var topicsToSubscribe = [
 	["openWB/config/get/SmartHome/Devices/9/device_name", 1],
 
 	// etprovider topics
-//	["openWB/global/ETProvider/modulePath", 1],
-//	["openWB/global/awattar/boolAwattarEnabled", 0],
-//	["openWB/global/awattar/MaxPriceForCharging", 1],
-//	["openWB/global/awattar/ActualPriceForCharging", 1],
-//	["openWB/global/awattar/pricelist", 1],
+	["openWB/global/ETProvider/modulePath", 1],
+	["openWB/global/awattar/boolAwattarEnabled", 1],
+	["openWB/global/awattar/MaxPriceForCharging", 1],
+	["openWB/global/awattar/ActualPriceForCharging", 1],
+	["openWB/global/awattar/pricelist", 1],
 	// graph topics
 	//
 	["openWB/graph/lastlivevalues", 1],

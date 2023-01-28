@@ -102,6 +102,9 @@ loadvars(){
 	lp2enabled=$(<ramdisk/lp2enabled)
 	lp3enabled=$(<ramdisk/lp3enabled)
 
+	etproviderprice=$(<ramdisk/etproviderprice) 
+    etprovidermaxprice=$(<ramdisk/etprovidermaxprice)    
+	
 	version=$(<web/version)
 	# EVSE DIN Plug State
 	declare -r IsNumberRegex='^[0-9]+$'
@@ -1174,9 +1177,9 @@ loadvars(){
 	if [[ $speichermodul != "none" ]] ; then
 		openwbDebugLog "MAIN" 1 "speicherleistung $speicherleistung speichersoc $speichersoc"
 	fi
-#	if (( $etprovideraktiv == 1 )) ; then
-#		openwbDebugLog "MAIN" 1 "etproviderprice $etproviderprice etprovidermaxprice $etprovidermaxprice"
-#	fi
+	if (( $etprovideraktiv == 1 )) ; then
+		openwbDebugLog "MAIN" 1 "etproviderprice $etproviderprice etprovidermaxprice $etprovidermaxprice"
+	fi
 
 printf -v p1 "LL [%4sA %5sV] [%4sA] [%4sA]" $lla1 $llv1 $llas11 $llas21
 printf -v p2 "LL [%4sA %5sV] [%4sA] [%4sA]" $lla2 $llv2 $llas12 $llas22
@@ -1578,28 +1581,28 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 		tempPubList="${tempPubList}\nopenWB/config/get/pv/priorityModeEVBattery=${speicherpveinbeziehen}"
 		echo $speicherpveinbeziehen > ramdisk/mqttspeicherpveinbeziehen
 	fi
-#	oetprovideraktiv=$(<ramdisk/mqttetprovideraktiv)
-#	if [[ "$oetprovideraktiv" != "$etprovideraktiv" ]]; then
-#		tempPubList="${tempPubList}\nopenWB/global/awattar/boolAwattarEnabled=${etprovideraktiv}"
-#		echo $etprovideraktiv > ramdisk/mqttetprovideraktiv
-#	fi
-#	oetprovider=$(<ramdisk/mqttetprovider)
-#	if [[ "$oetprovider" != "$etprovider" ]]; then
-#		tempPubList="${tempPubList}\nopenWB/global/ETProvider/modulePath=${etprovider}"
-#		echo $etprovider > ramdisk/mqttetprovider
-#	fi
-#	oetproviderprice=$(<ramdisk/mqttetproviderprice)
-#	etproviderprice=$(<ramdisk/etproviderprice)
-#	if [[ "$oetproviderprice" != "$etproviderprice" ]]; then
-#		tempPubList="${tempPubList}\nopenWB/global/awattar/ActualPriceForCharging=${etproviderprice}"
-#		echo $etproviderprice > ramdisk/mqttetproviderprice
-#	fi
-#	oetprovidermaxprice=$(<ramdisk/mqttetprovidermaxprice)
-#	etprovidermaxprice=$(<ramdisk/etprovidermaxprice)
-#	if [[ "$oetprovidermaxprice" != "$etprovidermaxprice" ]]; then
-#		tempPubList="${tempPubList}\nopenWB/global/awattar/MaxPriceForCharging=${etprovidermaxprice}"
-#		echo $etprovidermaxprice > ramdisk/mqttetprovidermaxprice
-#	fi
+	oetprovideraktiv=$(<ramdisk/mqttetprovideraktiv)
+	if [[ "$oetprovideraktiv" != "$etprovideraktiv" ]]; then
+		tempPubList="${tempPubList}\nopenWB/global/awattar/boolAwattarEnabled=${etprovideraktiv}"
+		echo $etprovideraktiv > ramdisk/mqttetprovideraktiv
+	fi
+	oetprovider=$(<ramdisk/mqttetprovider)
+	if [[ "$oetprovider" != "$etprovider" ]]; then
+		tempPubList="${tempPubList}\nopenWB/global/ETProvider/modulePath=${etprovider}"
+		echo $etprovider > ramdisk/mqttetprovider
+	fi
+	oetproviderprice=$(<ramdisk/mqttetproviderprice)
+#	etproviderprice=$(<ramdisk/etproviderprice) weiter vorne
+	if [[ "$oetproviderprice" != "$etproviderprice" ]]; then
+		tempPubList="${tempPubList}\nopenWB/global/awattar/ActualPriceForCharging=${etproviderprice}"
+		echo $etproviderprice > ramdisk/mqttetproviderprice
+	fi
+	oetprovidermaxprice=$(<ramdisk/mqttetprovidermaxprice)
+#	etprovidermaxprice=$(<ramdisk/etprovidermaxprice) weiter vorne
+	if [[ "$oetprovidermaxprice" != "$etprovidermaxprice" ]]; then
+		tempPubList="${tempPubList}\nopenWB/global/awattar/MaxPriceForCharging=${etprovidermaxprice}"
+		echo $etprovidermaxprice > ramdisk/mqttetprovidermaxprice
+	fi
 	odurchslp1=$(<ramdisk/mqttdurchslp1)
 	if [[ "$odurchslp1" != "$durchslp1" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/1/energyConsumptionPer100km=${durchslp1}"

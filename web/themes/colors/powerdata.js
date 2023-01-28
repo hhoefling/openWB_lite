@@ -201,7 +201,7 @@ class WbData {
 				break;
 			case 'currentPowerPrice':
 			case 'chargeMode':
-				//priceChart.update();
+				priceChart.update();
 				chargePointList.update();
 				break
 			case 'rfidConfigured':
@@ -313,18 +313,18 @@ class WbData {
 	}
 
 
-//	updateET(field,value) {
-//		this[field]=value;
-//		
-//		switch (field) {
-//			case 'etPrice':
-//			case 'isEtEnabled': chargePointList.updateValues();
-//			break;
-//			default:
-//				break;
-//		}
-//		priceChart.update()
-//	}
+	updateET(field, value) {
+		this[field] = value;
+		
+		switch (field) {
+			case 'etPrice':
+			case 'isEtEnabled': chargePointList.updateValues();
+			break;
+			default:
+				break;
+		}
+		priceChart.update()
+	}
 
 	updateSourceSummary(cat, field, value) {
 		this.sourceSummary[cat][field] = value;

@@ -724,16 +724,16 @@ at_reboot() {
 	sudo chmod 777 "$OPENWBBASEDIR/ramdisk/smarthomehandlerloglevel"
 
 	# update etprovider pricelist
-	#log "etprovider..."
-	#if [[ "$etprovideraktiv" == "1" ]]; then
-	#	log "update electricity pricelist..."
-	#	echo "" > /var/www/html/openWB/ramdisk/etprovidergraphlist
-	#	mosquitto_pub -r -t openWB/global/ETProvider/modulePath -m "$etprovider"
-	#	nohup "$OPENWBBASEDIR/modules/$etprovider/main.sh" >>"$LOGFILE" 2>&1 &
-	#else
-	#	log "not activated, skipping"
-	#	mosquitto_pub -r -t openWB/global/awattar/pricelist -m ""
-	#fi
+	log "etprovider..."
+	if [[ "$etprovideraktiv" == "1" ]]; then
+		log "update electricity pricelist..."
+		echo "" > /var/www/html/openWB/ramdisk/etprovidergraphlist
+		mosquitto_pub -r -t openWB/global/ETProvider/modulePath -m "$etprovider"
+		nohup "$OPENWBBASEDIR/modules/$etprovider/main.sh" >>"$LOGFILE" 2>&1 &
+	else
+		log "not activated, skipping"
+		mosquitto_pub -r -t openWB/global/awattar/pricelist -m ""
+	fi
 
 
 	# all done, remove boot and update status

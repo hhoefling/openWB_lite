@@ -1289,23 +1289,22 @@
 									</div>
   									<span class="d_label">openWB.conf displayhausmax</span>
 								</div>
-								<div class="form-row vaRow mb-1">
-									<label for="displaylp1max" class="col-md-4 col-form-label">Ladepunkt 1 Skala Max</label>
+							</div>
+								<div class="form-row vaRow mb-1 hide" id="displaylp1" name="displaylp1" >
+									<label for="xdisplaylp1max" class="col-md-4 col-form-label">Ladepunkt 1 Skala Max</label>
 									<div class="col">
-										<input type="number" min="1000" step="100" name="displaylp1max" id="displaylp1max" class="form-control" value="<?php echo $displaylp1maxold ?>">
+										<input type="number" min="1000" step="100" name="xdisplaylp1max" id="xdisplaylp1max" class="form-control" value="<?php echo $displaylp1maxold ?>">
 									</div>
   									<span class="d_label">openWB.conf displaylp1max</span>
 								</div>
-								<div class="form-row vaRow mb-1" id="displaylp2">
+								<div class="form-row vaRow mb-1 hide" id="displaylp2" name="displaylp2">
 									<label for="displaylp2max" class="col-md-4 col-form-label">Ladepunkt 2 Skala Max</label>
 									<div class="col">
 										<input type="number" min="1000" step="100" name="displaylp2max" id="displaylp2max" class="form-control" value="<?php echo $displaylp2maxold ?>">
 									</div>
   									<span class="d_label">openWB.conf displaylp2max</span>
 								</div>
-							</div>
-							<div id="displaycards" class="disabled">
-								<div class="form-row vaRow mb-1" id="displaylp3">
+								<div class="form-row vaRow mb-1 hide" id="displaylp3" name="displaylp3">
 									<label for="displaylp3max" class="col-md-4 col-form-label">Ladepunkt 3 Skala Max</label>
 									<div class="col">
 										<input type="number" min="1000" step="100" name="displaylp3max" id="displaylp3max" class="form-control" value="<?php echo $displaylp3maxold ?>">
@@ -1313,7 +1312,6 @@
   									<span class="d_label">openWB.conf displaylp3max</span>
 								</div>
 							</div>
-						</div>
 						<hr class="border-secondary">
 						<div class="form-group">
 							<div class="form-row mb-1">
@@ -1366,18 +1364,31 @@
 						}
 
 						function visibility_displaytheme() {
+							console.log('displaytheme ' , $('#displaytheme').val() )
 							switch ($('#displaytheme').val()) {
 								case '0': // Cards
 									showSection('#displaygauge');
-									showSection('#displaycards');
+									showSection('#displaylp1');
+									showSection('#displaylp2');
+									showSection('#displaylp3');
+									break;
+								case '2': // Minimal
+									hideSection('#displaygauge');
+									showSection('#displaylp1');
+									showSection('#displaylp2');
+									hideSection('#displaylp3');
 									break;
 								case '3': // Gauges
 									showSection('#displaygauge');
-									hideSection('#displaycards');
+									showSection('#displaylp1');
+									showSection('#displaylp2');
+									hideSection('#displaylp3');
 									break;
 								default:
 								hideSection('#displaygauge');
-								hideSection('#displaycards');
+									hideSection('#displaylp1');
+									hideSection('#displaylp2');
+									hideSection('#displaylp3');
 							}
 						}
 
