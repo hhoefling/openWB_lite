@@ -96,6 +96,7 @@ def _publish_price_data(pricelist_to_publish, current_module_name):
             if (index == 0):
                 # erster Eintrag ist aktueller Preis
                 file_current_price.write('%s\n' % price_data[1])
+                _write_log_entry('Setze Preis auf ' + str(price_data[1]) + 'ct/kWh.', 0)
     #publish MQTT-Daten für Preis und Graph
     os.system('mosquitto_pub -r -t openWB/global/awattar/pricelist -m "$(cat /var/www/html/openWB/ramdisk/etprovidergraphlist)"')
     os.system('mosquitto_pub -r -t openWB/global/awattar/ActualPriceForCharging -m "$(cat /var/www/html/openWB/ramdisk/etproviderprice)"')
@@ -369,7 +370,7 @@ def update_pricedata(tibber_token, home_id, debug_level):
         _write_log_entry(log_text, 1)
         _write_log_entry('Wechsel auf Modul %s' % current_module_name, 1)
     elif len(pricelist_in_file) > 0:
-        _write_log_entry('Bisherige Preisliste gelesen', 2)
+        _write_log_entry('Bisherige Preisliste wurde gelesen', 2)
         # Modul der bisherigen Liste ist mit diesem identisch, also Einträge in alter Preisliste benutzen und aufräumen
         prices_count_before_cleanup = len(pricelist_in_file)
         _write_log_entry('Bereinige bisherige Preisliste', 1)

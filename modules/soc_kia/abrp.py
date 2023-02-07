@@ -14,7 +14,8 @@ def pushABRP(soc):
     soclogging.logDebug(2, "Submitting ABRP-Data")
     
     for userToken in userTokenArray:
-        url = "https://api.iternio.com/1/tlm/send?api_key=" + requests.utils.quote(apiKey) + "&token=" + requests.utils.quote(userToken)
+        url = "https://api.iternio.com/1/tlm/send?api_key=" + \
+            requests.utils.quote(apiKey) + "&token=" + requests.utils.quote(userToken)
         data = {'tlm': {'utc': now, 'soc': soc, 'is_charging': state.isCharging()}}
     
         try:
@@ -30,7 +31,7 @@ def pushABRP(soc):
             pass
         
         try:
-            response = requests.post(url, json = data)
+            response = requests.post(url, json=data)
         except requests.Timeout as err:
             soclogging.logDebug(1, "ABRP - Connection Timeout")
             pass
@@ -39,6 +40,7 @@ def pushABRP(soc):
             pass
     
         if response.status_code != 200:
-            soclogging.logDebug(1, 'ABRP - Request failed, StatusCode: ' + str(response.status_code) + ' - Error: '+ str(response.text))   
+            soclogging.logDebug(1, 'ABRP - Request failed, StatusCode: ' +
+                                str(response.status_code) + ' - Error: ' + str(response.text))
     
     return

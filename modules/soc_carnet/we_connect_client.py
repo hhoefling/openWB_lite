@@ -21,14 +21,16 @@
 # V2.0 for new VW WE Connect portal thanks to youpixel - 2019-07-26
 # Thanks to birgersp for a number of cleanups and rewrites. See https://github.com/birgersp/carnet-client
 
+import argparse
+import logging
+import urllib3
+import sys
+import json
+import requests
+import re
 debug = False
 certverify = False
 
-import re
-import requests
-import json
-import sys
-import urllib3
 # import correct lib for python v3.x or fallback to v2.x
 try: 
     import urllib.parse as urlparse
@@ -42,9 +44,7 @@ try:
 except ImportError:
     # Python 2
     import httplib as http_client
-import logging
 # ---- end uncomment
-import argparse
 
 
 portal_base_url = 'https://www.portal.volkswagen-we.com'
@@ -108,7 +108,8 @@ def CarNetLogin(session, email, password):
     auth_base_url = 'https://identity.vwgroup.io'
 
     # Step 1
-    if debug: print ("Step 1 ===========")
+    if debug:
+        print("Step 1 ===========")
     # Get initial CSRF from landing page to get login process started.
     # Python Session handles JSESSIONID cookie
     landing_page_url = base_url + '/portal/en_GB/web/guest/home'
@@ -118,13 +119,15 @@ def CarNetLogin(session, email, password):
     csrf = extract_csrf(landing_page_response.text)
     if csrf == '':
         return '', 'Failed to get CSRF from landing page.'
-    if debug: print("_csrf from landing page : ", csrf)
+    if debug:
+        print("_csrf from landing page : ", csrf)
 
     # Step 1a,1b
     # Note: Portal performs a get-supported-browsers and get-countries at this point. We assumed en_GB
     
     # Step 2
-    if debug: print ("Step 2 ===========")
+    if debug:
+        print("Step 2 ===========")
     # Get login page url. POST returns JSON with loginURL for next step.
     # returned loginURL includes client_id for step 4
     auth_request_headers = {
@@ -144,12 +147,14 @@ def CarNetLogin(session, email, password):
         return '', 'Failed to get login url.'
     login_url = json.loads(login_page_response.text).get('loginURL').get('path')
     client_id = extract_url_parameter(login_url, 'client_id')
-    if debug: print ("client_id found: ", client_id)
+    if debug:
+        print("client_id found: ", client_id)
     if client_id == '':
         return '', 'Failed to get client_id.'
 
     # Step 3
-    if debug: print ("Step 3 ===========")
+    if debug:
+        print("Step 3 ===========")
     # Get login form url we are told to use, it will give us a new location.
     # response header location (redirect URL) includes relayState for step 5
     # https://identity.vwgroup.io/oidc/v1/authorize......
@@ -158,12 +163,14 @@ def CarNetLogin(session, email, password):
         return '', 'Failed to get authorization page.'
     login_form_url = login_url_response.headers.get('location')
     login_relay_state_token = extract_url_parameter(login_form_url, 'relayState')
-    if debug: print ("relayState found: ", login_relay_state_token)
+    if debug:
+        print("relayState found: ", login_relay_state_token)
     if login_relay_state_token == '':
         return '', 'Failed to get relay State.'
 
     # Step 4
-    if debug: print ("Step 4 ===========")
+    if debug:
+        print("Step 4 ===========")
     # Get login action url, relay state. hmac token 1 and login CSRF from form contents
     # https://identity.vwgroup.io/signin-service/v1/signin/<client_id>@relayState=<relay_state>
     login_form_location_response = session.get(login_form_url, headers=auth_request_headers, verify=certverify)
@@ -174,15 +181,18 @@ def CarNetLogin(session, email, password):
     login_form_location_response_data = remove_newline_chars(login_form_location_response.text)
     hmac_token1 = extract_login_hmac(login_form_location_response_data)
     login_csrf = extract_login_csrf(login_form_location_response_data)
-    if debug: print ("login_csrf found: ", login_csrf)
-    if debug: print ("hmac_token1 found: ", hmac_token1)
+    if debug:
+        print("login_csrf found: ", login_csrf)
+    if debug:
+        print("hmac_token1 found: ", hmac_token1)
     if login_csrf == '':
         return '', 'Failed to get login CSRF.'
     if hmac_token1 == '':
         return '', 'Failed to get 1st HMAC token.'
 
     # Step 5
-    if debug: print ("Step 5 ===========")
+    if debug:
+        print("Step 5 ===========")
     # Post initial login data
     # https://identity.vwgroup.io/signin-service/v1/<client_id>/login/identifier
     del auth_request_headers['X-CSRF-Token']
@@ -195,7 +205,8 @@ def CarNetLogin(session, email, password):
         '_csrf': login_csrf,
     }
     login_action_url = auth_base_url + '/signin-service/v1/' + client_id + '/login/identifier'
-    login_action_url_response = session.post(login_action_url, data=post_data, headers=auth_request_headers, allow_redirects=True, verify=certverify)
+    login_action_url_response = session.post(login_action_url, data=post_data,
+                                             headers=auth_request_headers, allow_redirects=True, verify=certverify)
     # performs a 303 redirect to https://identity.vwgroup.io/signin-service/v1/<client_id>/login/authenticate?relayState=<relayState>&email=<email>
     # redirected GET returns form used below.
     if login_action_url_response.status_code != 200:
@@ -203,12 +214,14 @@ def CarNetLogin(session, email, password):
     # Get 2nd hmac token from form content.
     login_action_url_response_data = remove_newline_chars(login_action_url_response.text)
     hmac_token2 = extract_login_hmac(login_action_url_response_data)
-    if debug: print ("hmac_token2 found: ", hmac_token2)
+    if debug:
+        print("hmac_token2 found: ", hmac_token2)
     if hmac_token2 == '':
         return '', 'Failed to get 2nd HMAC token.'
 
     # Step 6
-    if debug: print ("Step 6 ===========")
+    if debug:
+        print("Step 6 ===========")
     # Post login data to "login action 2" url
     # https://identity.vwgroup.io/signin-service/v1/<client_id>/login/authenticate 
     auth_request_headers['Referer'] = login_action_url
@@ -222,37 +235,43 @@ def CarNetLogin(session, email, password):
         'login': 'true'
     }
     login_action2_url = auth_base_url + '/signin-service/v1/' + client_id + '/login/authenticate'
-    login_post_response = session.post(login_action2_url, data=login_data, headers=auth_request_headers, allow_redirects=True, verify=certverify)
+    login_post_response = session.post(login_action2_url, data=login_data,
+                                       headers=auth_request_headers, allow_redirects=True, verify=certverify)
     # performs a 302 redirect to GET https://identity.vwgroup.io/oidc/v1/oauth/sso?clientId=<client_id>&relayState=<relay_state>&userId=<userID>&HMAC=<...>"
     # then a 302 redirect to GET https://identity.vwgroup.io/consent/v1/users/<userID>/<client_id>?scopes=openid%20profile%20birthdate%20nickname%20address%20email%20phone%20cars%20dealers%20mbb&relay_state=1bc582f3ff177afde55b590af92e17a006f9c532&callback=https://identity.vwgroup.io/oidc/v1/oauth/client/callback&hmac=<.....>
     # then a 302 redirect to https://identity.vwgroup.io/oidc/v1/oauth/client/callback/success?user_id=<userID>&client_id=<client_id>&scopes=openid%20profile%20birthdate%20nickname%20address%20email%20phone%20cars%20dealers%20mbb&consentedScopes=openid%20profile%20birthdate%20nickname%20address%20email%20phone%20cars%20dealers%20mbb&relay_state=<relayState>&hmac=<...>
     # then a 302 redirect to https://www.portal.volkswagen-we.com/portal/web/guest/complete-login?state=<csrf>&code=<....>
     if login_post_response.status_code != 200:
         return '', 'Failed to process login sequence.'
-    #ref2_url = login_post_response.headers.get('location') # there is no location attribute, but does not seem to matter much.
+    # ref2_url = login_post_response.headers.get('location') # there is no location attribute, but does not seem to matter much.
     ref2_url = login_post_response.url                      
     portlet_code = extract_url_parameter(ref2_url, 'code')
     state = extract_url_parameter(ref2_url, 'state')
-    if debug: print ("state found: ", state)
+    if debug:
+        print("state found: ", state)
     if portlet_code == '':
         return '', 'Failed to get portlet code.'
     if state == '':
         return '', 'Failed to get state.'
 
     # Step 7
-    if debug: print ("Step 7 ===========")
+    if debug:
+        print("Step 7 ===========")
     # Site first does a POST https://www.portal.volkswagen-we.com/portal/web/guest/complete-login/-/mainnavigation/get-countries
     # Post login data to complete login url
     # https://www.portal.volkswagen-we.com/portal/web/guest/complete-login?p_auth=<state>&p_p_id=33_WAR_cored5portlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_33_WAR_cored5portlet_javax.portlet.action=getLoginStatus
     auth_request_headers['Referer'] = ref2_url
     portlet_data = {'_33_WAR_cored5portlet_code': portlet_code}
-    final_login_url = base_url + '/portal/web/guest/complete-login?p_auth=' + state + '&p_p_id=33_WAR_cored5portlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_33_WAR_cored5portlet_javax.portlet.action=getLoginStatus'
-    complete_login_response = session.post(final_login_url, data=portlet_data, allow_redirects=False, headers=auth_request_headers, verify=certverify)
+    final_login_url = base_url + '/portal/web/guest/complete-login?p_auth=' + state + \
+        '&p_p_id=33_WAR_cored5portlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_33_WAR_cored5portlet_javax.portlet.action=getLoginStatus'
+    complete_login_response = session.post(final_login_url, data=portlet_data,
+                                           allow_redirects=False, headers=auth_request_headers, verify=certverify)
     if complete_login_response.status_code != 302:
         return '', 'Failed to post portlet page.'
 
     # Step 8
-    if debug: print ("Step 8 ===========")
+    if debug:
+        print("Step 8 ===========")
     # Get base JSON url for commands 
     base_json_url = complete_login_response.headers.get('location')
     base_json_response = session.get(base_json_url, headers=auth_request_headers, verify=certverify)
@@ -263,8 +282,10 @@ def CarNetLogin(session, email, password):
         return '', 'Failed to get final CSRF.'
     request_headers['Referer'] = base_json_url
     request_headers['X-CSRF-Token'] = csrf
-    if debug: print('login csrf token: ',csrf) 
-    if debug: print('login base json url: ',base_json_url) 
+    if debug:
+        print('login csrf token: ', csrf)
+    if debug:
+        print('login base json url: ', base_json_url)
     print('=== login complete ===')
     return base_json_url, 'OK'
 
@@ -294,7 +315,7 @@ def CarNetCheckSecurityLevel(session, url_base, data):
     url = portal_base_url + '/portal/group/' + cc + '/edit-profile/-/profile/check-security-level'
     response = session.post(url, json=data, headers=request_headers, verify=certverify)
     if response.status_code != 200:
-        return false, 'Check security failed, HTTP response ' + response.status_code
+        return False, 'Check security failed, HTTP response ' + response.status_code
     json_data = response.json()
     errCd = json_data['errorCode']
     if errCd == "0":
@@ -311,7 +332,7 @@ def retrieveCarNetInfo(session, url_base):
     print(response)
     # Resp ex: {"errorCode":"0","fullyLoadedVehiclesResponse":{"completeVehicles":[],"vehiclesNotFullyLoaded":[{"vin":"WVWZZZAUZGWxxxxxx","name":"GTE Dhr Boer","expired":false,"model":null,"modelCode":null,"modelYear":null,"imageUrl":null,"vehicleSpecificFallbackImageUrl":null,"modelSpecificFallbackImageUrl":null,"defaultImageUrl":"/portal/delegate/vehicle-image/WVWZZZAUZGWxxxxx","vehicleBrand":"v","enrollmentDate":"20160923","deviceOCU1":null,"deviceOCU2":null,"deviceMIB":null,"engineTypeCombustian":false,"engineTypeHybridOCU1":true,"engineTypeHybridOCU2":false,"engineTypeElectric":false,"engineTypeCNG":false,"engineTypeDefault":false,"stpStatus":"UNAVAILABLE","windowstateSupported":true,"dashboardUrl":"/portal/user/55e2ea85-2a5c-46c4-bb0b-f0cde8bcf22e/v_c5rlgqwltznnz_l-k7dfv5l1vxyuyxuz","vhrRequested":false,"vsrRequested":false,"vhrConfigAvailable":false,"verifiedByDealer":false,"vhr2":false,"roleEnabled":true,"isEL2Vehicle":true,"workshopMode":false,"hiddenUserProfiles":false,"mobileKeyActivated":null,"enrollmentType":"MILEAGE","ocu3Low":false,"packageServices":[{"packageServiceId":"NET.500.010.F","propertyKeyReference":"NET.500.010.1","packageServiceName":"e-Remote","trackingName":"e-Remote","activationDate":"03-11-2015","expirationDate":"03-11-2020","expired":false,"expireInAMonth":false,"packageType":"er","enrollmentPackageType":"er"}],"defaultCar":true,"vwConnectPowerLayerAvailable":false,"xprofileId":"c5rlgqwltznnz_l-k7dfv5l1vxyuyxuz","smartCardKeyActivated":null,"fullyEnrolled":true,"secondaryUser":false,"fleet":false,"touareg":false,"iceSupported":false,"flightMode":false,"esimCompatible":false,"dkyenabled":false,"selected":true}],"status":"VALID","currentVehicleValid":true}}
     vin = json.loads(response).get('fullyLoadedVehiclesResponse').get('vehiclesNotFullyLoaded')[0].get('vin')
-    print('found vin: ',vin)
+    print('found vin: ', vin)
     
     # Check on invitations of some kind.
     print(CarNetPost(session, url_base, '/-/mainnavigation/check-unanswered-invitations'))
@@ -321,7 +342,7 @@ def retrieveCarNetInfo(session, url_base):
     post_data = {
         "timeZoneId": "Europe/Amsterdam"
     }
-    #print(CarNetPostAction(session, url_base, '/-/mainnavigation/set-time-zone', post_data))
+    # print(CarNetPostAction(session, url_base, '/-/mainnavigation/set-time-zone', post_data))
     # Resp ex: {"errorCode":"0"}
     
     # Get the car last reported location
@@ -329,7 +350,7 @@ def retrieveCarNetInfo(session, url_base):
     # Resp ex: {"errorCode":"0","position":{"lat":52.xxxx,"lng":4.xxxx}}
     
     # get shutdown (no idea)
-    #print(CarNetPost(session, url_base, '-/mainnavigation/get-shutdown'))
+    # print(CarNetPost(session, url_base, '-/mainnavigation/get-shutdown'))
     # Resp ex: {"getShutdownResponse":{"enabled":false,"finalEnabled":false,"finalDate":null,"portalRedirect":null,"iosRedirect":null,"androidRedirect":null,"hideShutdownPromotion":false},"errorCode":"0"}
 
     # Get the latest messages from the car. Includes oil change etc.
@@ -337,7 +358,7 @@ def retrieveCarNetInfo(session, url_base):
     # Resp ex: {"messageList":[],"errorCode":"0"}
 
     # Get some stuff if you have apple
-    #print(CarNetPost(session, url_base, '/-/service-container/get-apple-music-status'))
+    # print(CarNetPost(session, url_base, '/-/service-container/get-apple-music-status'))
     # Resp ex: {"errorCode":"0","appleMusicStatusResponse":{"showAppleMusic":false,"appleMenu":null}}
 
     # Get the web site navigation config.
@@ -349,7 +370,7 @@ def retrieveCarNetInfo(session, url_base):
     # Resp ex: {"errorCode":"0","completeVehicleJson":{"vin":"WVWZZZAUZGWxxxx","name":"GTE Dhr Boer","expired":false,"model":"Golf","modelCode":"5G16YY","modelYear":"2016","imageUrl":null,"vehicleSpecificFallbackImageUrl":null,"modelSpecificFallbackImageUrl":null,"defaultImageUrl":"/portal/delegate/vehicle-image/WVWZZZAUZGWxxxxx","vehicleBrand":"v","enrollmentDate":"20160923","deviceOCU1":true,"deviceOCU2":false,"deviceMIB":false,"engineTypeCombustian":false,"engineTypeHybridOCU1":true,"engineTypeHybridOCU2":false,"engineTypeElectric":false,"engineTypeCNG":false,"engineTypeDefault":false,"stpStatus":"UNAVAILABLE","windowstateSupported":true,"dashboardUrl":"/portal/user/55e2ea85-2a5c-46c4-bb0b-f0cde8bcf22e/v_c5rlgqwltznnz_l-k7dfv5l1vxyuyxuz","vhrRequested":false,"vsrRequested":false,"vhrConfigAvailable":false,"verifiedByDealer":false,"vhr2":false,"roleEnabled":true,"isEL2Vehicle":true,"workshopMode":false,"hiddenUserProfiles":false,"mobileKeyActivated":null,"enrollmentType":"MILEAGE","ocu3Low":false,"packageServices":[{"packageServiceId":"NET.500.010.F","propertyKeyReference":"NET.500.010.1","packageServiceName":"e-Remote","trackingName":"e-Remote","activationDate":"03-11-2015","expirationDate":"03-11-2020","expired":false,"expireInAMonth":false,"packageType":"er","enrollmentPackageType":"er"}],"defaultCar":true,"vwConnectPowerLayerAvailable":false,"xprofileId":"c5rlgqwltznnz_l-k7dfv5l1vxyuyxuz","smartCardKeyActivated":null,"fullyEnrolled":true,"secondaryUser":false,"fleet":false,"touareg":false,"iceSupported":false,"flightMode":false,"esimCompatible":false,"dkyenabled":false,"selected":true}}
 
     # get psp status (no idea what it is)
-    #print(CarNetPost(session, url_base, '/-/mainnavigation/get-psp-status'))
+    # print(CarNetPost(session, url_base, '/-/mainnavigation/get-psp-status'))
     # Resp ex: {"errorCode":"0","pspStatusResponse":{"reminderStatus":false,"deleteStatus":false}}
 
     # Get vehicle maintenance data
@@ -372,7 +393,7 @@ def retrieveCarNetInfo(session, url_base):
     post_data = {
         'vehicleBrand': 'v'
     }
-    #print(CarNetPostAction(session, url_base, '/-/mainnavigation/get-preferred-dealer', post_data))
+    # print(CarNetPostAction(session, url_base, '/-/mainnavigation/get-preferred-dealer', post_data))
     # Resp ex: {"errorCode":"0","preferredDealerResponse":{"dealer":{"id":"00842","name":"Autobedrijf J. Maas Woerden B.V.","address":" Botnische Golf 22 WOERDEN 3446 CN","addressParts":{"houseNumber":"","streetPrefix":"","street":"Botnische Golf 22","state":"","city":"WOERDEN","postalCode":"3446 CN"},"position":{"lat":52.0733438,"lng":4.9031345},"brand":"V","phoneNumber":"088-0207600","services":["SERVICE"],"openingHours":[]},"dssAvailable":true,"stwAvailableForMarketAndBrand":false,"stwAvailableForPsp":false,"appointmentSchedulingSupported":false}}
 
     # Poll for new information as log as desired.
@@ -427,7 +448,8 @@ def stopClimat(session, url_base):
 def getClimat(session, url_base):
     try:
         estat = json.loads(CarNetPost(session, url_base, '/-/emanager/get-emanager'))
-        print('{"errorCode":"0","climatisationState":"' + estat.get('EManager').get('rpc').get('status').get('climatisationState') + '"}')
+        print('{"errorCode":"0","climatisationState":"' +
+              estat.get('EManager').get('rpc').get('status').get('climatisationState') + '"}')
     except:
         print('{"errorCode":"2","errorMsg":"Failed to get current climate state"}')     
     return 0
@@ -465,7 +487,8 @@ def getWindowMelt(session, url_base):
     try:
         estat = json.loads(CarNetPost(session, url_base, '/-/emanager/get-emanager'))
         status = estat.get('EManager').get('rpc').get('status')
-        print('{"errorCode":"0","windowHeatingStateFront":"' + status.get('windowHeatingStateFront') + '","windowHeatingStateRear":"' + status.get('windowHeatingStateRear') + '"}')
+        print('{"errorCode":"0","windowHeatingStateFront":"' + status.get('windowHeatingStateFront') +
+              '","windowHeatingStateRear":"' + status.get('windowHeatingStateRear') + '"}')
     except:
         print('{"errorCode":"2","errorMsg":"Failed to get currect windows melt state"}')    
     return 0
@@ -474,11 +497,11 @@ def remoteLock(session, url_base, spin, vin):
     post_data = {
         'vin': vin, 
         'operationId': 'LOCK',
-        'serviceId': 'rlu_v1' }
+        'serviceId': 'rlu_v1'}
     res, msg = CarNetCheckSecurityLevel(session, url_base, post_data)
     if res:
         post_data = {
-            'spin': str(spin) }
+            'spin': str(spin)}
         print(CarNetPostAction(session, url_base, '/-/vsr/remote-lock', post_data))
     else:	
         print(msg)
@@ -488,12 +511,12 @@ def remoteUnlock(session, url_base, spin, vin):
     post_data = {
         'vin': vin, 
         'operationId': 'UNLOCK',
-        'serviceId': 'rlu_v1' }
+        'serviceId': 'rlu_v1'}
     res, msg = CarNetCheckSecurityLevel(session, url_base, post_data)
 
     if res:
         post_data = {
-            'spin': str(spin) }
+            'spin': str(spin)}
         print(CarNetPostAction(session, url_base, '/-/vsr/remote-unlock', post_data))
     else:	
         print(msg)
@@ -502,14 +525,14 @@ def remoteUnlock(session, url_base, spin, vin):
 def startRemoteAccessVentilation(session, url_base, spin, vin):
     post_data = {
         'vin': vin, 
-        'operationId':'P_QSACT',
-        'serviceId':'rheating_v1' }
+        'operationId': 'P_QSACT',
+        'serviceId': 'rheating_v1'}
     res, msg = CarNetCheckSecurityLevel(session, url_base, post_data)
 
     if res:
         post_data = {
-            'startMode':'VENTILATION',
-            'spin': str(spin) }
+            'startMode': 'VENTILATION',
+            'spin': str(spin)}
         print(CarNetPostAction(session, url_base, '/-/rah/quick-start', post_data))
     else:	
         print(msg)
@@ -522,14 +545,14 @@ def stopRemoteAccessVentilation(session, url_base):
 def startRemoteAccessHeating(session, url_base, spin, vin):
     post_data = {
         'vin': vin, 
-        'operationId':'P_QSACT',
-        'serviceId':'rheating_v1' }
+        'operationId': 'P_QSACT',
+        'serviceId': 'rheating_v1'}
     res, msg = CarNetCheckSecurityLevel(session, url_base, post_data)
 
     if res:
         post_data = {
-            'startMode':'HEATING',
-            'spin': str(spin) }
+            'startMode': 'HEATING',
+            'spin': str(spin)}
         print(CarNetPostAction(session, url_base, '/-/rah/quick-start', post_data))
     else:	
         print(msg)
@@ -561,9 +584,11 @@ if __name__ == '__main__':
     parser.add_argument('-u', '--user', required=True, help='Your WE-Connect user id.')
     parser.add_argument('-p', '--password', required=True, help='Your WE-Connect password.')
     parser.add_argument('-v', '--vin', help='Your car VIN if more cars on account.')
-    parser.add_argument('-c', '--command', choices=['startCharge', 'stopCharge', 'getCharge', 'startClimate', 'stopClimate', 'getClimate', 'startWindowMelt', 'stopWindowMelt','getWindowMelt', 'getVIN', 'remoteLock', 'remoteUnlock', 'startRemoteVentilation', 'stopRemoteVentilation', 'startRemoteHeating', 'stopRemoteHeating', 'getRemoteHeating', 'getLatestReport', 'getAlerts', 'getGeofences'], help='Command to send.')
+    parser.add_argument('-c', '--command', choices=['startCharge', 'stopCharge', 'getCharge', 'startClimate', 'stopClimate', 'getClimate', 'startWindowMelt', 'stopWindowMelt', 'getWindowMelt', 'getVIN', 'remoteLock',
+                        'remoteUnlock', 'startRemoteVentilation', 'stopRemoteVentilation', 'startRemoteHeating', 'stopRemoteHeating', 'getRemoteHeating', 'getLatestReport', 'getAlerts', 'getGeofences'], help='Command to send.')
     parser.add_argument('-s', '--spin', help='Your WE-Connect s-pin needed for some commands.')
-    parser.add_argument('-i', '--index', type=int, default=0, choices=range(0, 10), help='To get the VIN for the N-th car.')
+    parser.add_argument('-i', '--index', type=int, default=0, choices=range(0, 10),
+                        help='To get the VIN for the N-th car.')
     parser.add_argument('-d', '--debug', action="store_true", help='Show debug commands.')
     args = parser.parse_args()
     CARNET_USERNAME = args.user
@@ -605,18 +630,20 @@ if __name__ == '__main__':
         
     # If a VIN is specified, put that in the base URL so more than just first car can be controlled    
     if CARNET_VIN:
-        vin_start = url.rfind('/',1,-2)
+        vin_start = url.rfind('/', 1, -2)
         url = url[0:vin_start+1] + CARNET_VIN + '/'
     else:
         resp = getVIN(session, url, args.index)
         CARNET_VIN = resp.get('vin')
         
-    if debug: print('Using VIN : ' + CARNET_VIN)
+    if debug:
+        print('Using VIN : ' + CARNET_VIN)
 	
     # We need to load a car is spin commands are used
     if CARNET_SPIN:
         response = CarNetPost(session, url, '/-/mainnavigation/load-car-details/' + CARNET_VIN)
-        if debug: print(response)	
+        if debug:
+            print(response)
     
     if CARNET_COMMAND == 'startCharge':
         startCharge(session, url)
@@ -664,25 +691,25 @@ if __name__ == '__main__':
     # Below is the flow the web app is using to determine when action really started
     # You should look at the notifications until it returns a status JSON like this
     # {"errorCode":"0","actionNotificationList":[{"actionState":"SUCCEEDED","actionType":"STOP","serviceType":"RBC","errorTitle":null,"errorMessage":null}]}
-    #print(CarNetPost(session, url, '/-/msgc/get-new-messages'))
-    #print(CarNetPost(session, url, '/-/emanager/get-notifications'))
-    #print(CarNetPost(session, url, '/-/emanager/get-emanager'))
+    # print(CarNetPost(session, url, '/-/msgc/get-new-messages'))
+    # print(CarNetPost(session, url, '/-/emanager/get-notifications'))
+    # print(CarNetPost(session, url, '/-/emanager/get-emanager'))
 	
     # Get the remote heating request status
     # After start / stop command it will first report in progress
     # {"rahRequestStatus":{"state":"REQUEST_IN_PROGRESS"},"errorCode":"0"}
     # You should look at the notifications until it returns the JSON like this
     # {"rahRequestStatus":{"state":"REQUEST_SUCCESSFUL"},"errorCode":"0"}
-    #print(CarNetPost(session, url, '/-/rah/get-request-status'))
+    # print(CarNetPost(session, url, '/-/rah/get-request-status'))
 
     # Get the remote lock/unlock status
     # After lock / unlock command it will first report in progress
     # {"errorCode":"0","rluRequestStatus":{"status":"REQUEST_IN_PROGRESS","resultData":null}}
     # You should look at the notifications until it returns the JSON like this
     # {"rahRequestStatus":{"state":"REQUEST_SUCCESSFUL"},"errorCode":"0"}
-    #print(CarNetPost(session, url, '/-/vsr/get-request-status'))
+    # print(CarNetPost(session, url, '/-/vsr/get-request-status'))
 	
     # End session properly
     response = CarNetPost(session, url, '/-/logout/revoke')
-    if debug: print(response)	
-    
+    if debug:
+        print(response)

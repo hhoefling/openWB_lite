@@ -182,12 +182,12 @@ if (( netzabschaltunghz == 1 )); then
 fi
 
 # update electricity provider prices
-#if (( etprovideraktiv == 1 )); then
-#	openwbDebugLog "MAIN" 1 "electricity provider configured; trigger price update"
-#	"$OPENWBBASEDIR/modules/$etprovider/main.sh" &
-#else
-#	openwbDebugLog "MAIN" 2 "electricity provider not set up; skipping price update"
-#fi
+if (( etprovideraktiv == 1 )); then
+	openwbDebugLog "MAIN" 1 "electricity provider configured; trigger price update"
+	"$OPENWBBASEDIR/modules/$etprovider/main.sh" &
+else
+	openwbDebugLog "MAIN" 2 "electricity provider not set up; skipping price update"
+fi
 
 # update all daily yield stats
 openwbDebugLog "MAIN" 1 "updating daily yield stats"

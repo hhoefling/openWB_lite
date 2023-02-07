@@ -1,8 +1,7 @@
 #!/bin/bash
 
-OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
+OPENWBBASEDIR=$(cd "$(dirname "$0")/../../" && pwd)
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
-MODULEDIR=$(cd `dirname $0` && pwd)
 DMOD="EVSOC"
 CHARGEPOINT=$1
 
@@ -10,15 +9,15 @@ CHARGEPOINT=$1
 if [[ -z "$debug" ]]; then
 	echo "soc_http: Seems like openwb.conf is not loaded. Reading file."
 	# try to load config
-	. $OPENWBBASEDIR/loadconfig.sh
+	. "$OPENWBBASEDIR/loadconfig.sh"
 	# load helperFunctions
-	. $OPENWBBASEDIR/helperFunctions.sh
+	. "$OPENWBBASEDIR/helperFunctions.sh"
 fi
 
 case $CHARGEPOINT in
 	2)
 		# second charge point
-		ladeleistung=$(<$RAMDISKDIR/llaktuells1)
+		ladeleistung=$(<"$RAMDISKDIR/llaktuells1")
 		soctimerfile="$RAMDISKDIR/soctimer1"
 		socfile="$RAMDISKDIR/soc1"
 		ip=$hsocip1
@@ -29,7 +28,7 @@ case $CHARGEPOINT in
 		# defaults to first charge point for backward compatibility
 		# set CHARGEPOINT in case it is empty (needed for logging)
 		CHARGEPOINT=1
-		ladeleistung=$(<$RAMDISKDIR/llaktuell)
+		ladeleistung=$(<"$RAMDISKDIR/llaktuell")
 		soctimerfile="$RAMDISKDIR/soctimer"
 		socfile="$RAMDISKDIR/soc"
 		ip=$hsocip
@@ -57,20 +56,20 @@ incrementTimer(){
 			ticksize=1
 			;;
 	esac
-	soctimer=$((soctimer+$ticksize))
-	echo $soctimer > $soctimerfile
+	soctimer=$((soctimer + ticksize))
+	echo $soctimer > "$soctimerfile"
 }
 
 getAndWriteSoc(){
 	re='^-?[0-9]+$'
-	openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: Requesting SoC $ip"
-	echo 0 > $soctimerfile
-	soc=$(curl --connect-timeout 15 -s $ip | cut -f1 -d".")
+	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Requesting SoC"
+	echo 0 > "$soctimerfile"
+	soc=$(curl --connect-timeout 15 -s "$ip" | cut -f1 -d".")
 		
 	if  [[ $soc =~ $re ]] ; then
-		if (( $soc != 0 )) ; then
-			echo $soc > $socfile
-			openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: SoC: $soc"
+		if (( soc != 0 )) ; then
+			echo "$soc" > "$socfile"
+			openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: SoC: $soc"
 		else
 			# we have a problem
 			openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: Error from http call"
@@ -81,23 +80,18 @@ getAndWriteSoc(){
 	fi
 }
 
-soctimer=$(<$soctimerfile)
-
-#openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer"
+soctimer=$(<"$soctimerfile")
+openwbDebugLog ${DMOD} 2 "Lp$CHARGEPOINT: timer = $soctimer"
 if (( ladeleistung > 500 )); then
 	if (( soctimer < intervallladen )); then
-        if [[  $(($soctimer % 18 )) -eq 0 ]] ; then   # nur einmal je 6 calls also je minute melden
-		 openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Charging, but nothing to do yet. Incrementing timer. $soctimer $intervallladen"
-        fi
+		openwbDebugLog ${DMOD} 2 "Lp$CHARGEPOINT: Charging, but nothing to do yet. Incrementing timer."
 		incrementTimer
 	else
 		getAndWriteSoc
 	fi
 else
 	if (( soctimer < intervall )); then
-        if [[  $(($soctimer % 18 )) -eq 0 ]] ; then # nur einmal je 6 calls also je minute melden
-		  openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Nothing to do yet. Incrementing timer. $soctimer $soctimer $intervall"
-        fi  
+		openwbDebugLog ${DMOD} 2 "Lp$CHARGEPOINT: Nothing to do yet. Incrementing timer."
 		incrementTimer
 	else
 		getAndWriteSoc
