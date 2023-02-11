@@ -2,7 +2,14 @@
 # coding: utf8
 import sys
 import time
+
+try:
 import RPi.GPIO as GPIO
+except ModuleNotFoundError:
+    from myisss.mylog import log_debug
+    from myisss.mygpio import GPIO
+
+
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(24, GPIO.OUT)

@@ -5,6 +5,7 @@ from myisss.mylog import log_debug
 ######################################################
 
 class CGPIO:
+    BCM = 0
     BOARD = 1
     OUT = 1
     IN = 2
@@ -17,7 +18,12 @@ class CGPIO:
         pass
 
     def setmode(self, mode) -> None:
-        log_debug(2, "GPIO.Setmode")
+        if mode == 0:
+           log_debug(2, "GPIO.Setmode: BCM (GPIO Nummern)")
+        elif mode == 1:
+           log_debug(2, "GPIO.Setmode: BOARD (pin Nummern)")
+        else:
+           log_debug(2, "GPIO.Setmode: "+str(mode) )
         pass
 
     def setup(self, nr: int, mode: int, pull_up_down: int = 0) -> None:

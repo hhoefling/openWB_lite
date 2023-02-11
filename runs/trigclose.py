@@ -2,7 +2,11 @@
 # coding: utf8
 
 import time
+try:
 import RPi.GPIO as GPIO
+except ModuleNotFoundError:
+    from myisss.mylog import log_debug
+    from myisss.mygpio import GPIO
 import argparse
 
 parser = argparse.ArgumentParser()

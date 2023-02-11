@@ -8,8 +8,15 @@ logFilename = ramdiskPath + "/openWB.log"
 try:
     import RPi.GPIO as GPIO
 except ModuleNotFoundError:
-    exit("Module RPi.GPIO missing! Maybe we are not running on supported hardware?")
+    from myisss.mylog import log_debug
+    from myisss.mygpio import GPIO
 
+
+#try:
+#    import RPi.GPIO as GPIO
+#except ModuleNotFoundError:
+#    exit("Module RPi.GPIO missing! Maybe we are not running on supported hardware?")
+#
 
 # write value to file in ramdisk
 def write_to_ramdisk(filename: str, content: str) -> None:
