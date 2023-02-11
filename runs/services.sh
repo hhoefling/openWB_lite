@@ -31,7 +31,7 @@ function rse_cron5() # $1=eneabled
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f '^python.*/rse.py')
+ isrun=$(pgrep -f '^python.*/rse.py' | head -1)
  deblog "isrun:$isrun"
  if (( $1 == 1  && $isss == 0 )) ; then
     deblog "rse enabled"
@@ -113,7 +113,7 @@ function tasker_cron5() # $1=eneabled
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f '^tsp')
+ isrun=$(pgrep -f '^tsp' | head -1)
  deblog "isrun:$isrun"
  if (( $1 == 1  && isss == 0  )) ; then
     deblog "tasker enabled"
@@ -203,7 +203,7 @@ function rfid1_cron5() # $1=eneabled
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f '^python.*/readrfid.py')
+ isrun=$(pgrep -f '^python.*/readrfid.py' | head -1)
  deblog "isrun:$isrun"
  if (( $1 >= 1  && $isss == 0 )) ; then
     deblog "rfid1 enabled"
@@ -225,7 +225,7 @@ function rfid1_reboot() # $1=eneabled
 {
  # kill if running
  # start if enabled
- isrun=$(pgrep -f '^python.*/readrfid.py')
+ isrun=$(pgrep -f '^python.*/readrfid.py'  | head -1)
  if (( ${isrun:-0} != 0 )) ; then
     rfid1_stop
  else
@@ -304,7 +304,7 @@ function rfid2_cron5() # $1=eneabled
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f '^python.*/rfid.py')
+ isrun=$(pgrep -f '^python.*/rfid.py'  | head -1)
  deblog "isrun:$isrun"
  if (( $1 == 2  && $isss == 0 )) ; then
     deblog "rfid2 enabled"
@@ -387,7 +387,7 @@ function modbus_cron5() # $1=eneabled
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f '^python.*/modbusserver.py')
+ isrun=$(pgrep -f '^python.*/modbusserver.py' | head -1)
  deblog "isrun:$isrun"
  if (( $1 == 1  && isss == 0  )) ; then
     deblog "modbusserver enabled"
@@ -472,7 +472,7 @@ function button_cron5() # $1=eneabled
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f '^python.*/ladetaster.py')
+ isrun=$(pgrep -f '^python.*/ladetaster.py' | head -1)
  deblog "isrun:$isrun"
  if (( $1 == 1  && isss == 0  )) ; then
     deblog "button enabled"
@@ -556,7 +556,7 @@ function isss_cron5() # $1=eneabled
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f '^python.*/isss.py')
+ isrun=$(pgrep -f '^python.*/isss.py' | head -1)
  deblog "isrun:$isrun"
  if (( $1 == 1)) ; then
     deblog "isss enabled"
@@ -640,7 +640,7 @@ function smarthome_cron5()
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f '^python.*/smarthomehandler.py')
+ isrun=$(pgrep -f '^python.*/smarthomehandler.py' | head -1  )
  deblog "isrun:$isrun"
  if (( $1 == 1  && isss == 0  )) ; then
     deblog "smarthomehandler enabled"
@@ -729,7 +729,7 @@ function smartmq_cron5()
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f '^python.*/smarthomemq.py')
+ isrun=$(pgrep -f '^python.*/smarthomemq.py' | head -1)
  deblog "isrun:$isrun"
  if (( $1 == 1  && isss == 0  )) ; then
     deblog "smartmq enabled"
@@ -819,7 +819,7 @@ function mqttsub_cron5()
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f '^python.*/mqttsub.py')
+ isrun=$(pgrep -f '^python.*/mqttsub.py' | head -1 )
  deblog "isrun:$isrun"
 
     if (( ${isrun:-0} == 0 )) ; then
@@ -883,7 +883,7 @@ function sysdaem_cron5() # $1=eneabled
 {
  # if enabed  start if not running
  # if disabled kill if running
- isrun=$(pgrep -f 'runs/sysdaem.sh')
+ isrun=$(pgrep -f 'runs/sysdaem.sh' | head -1)
  deblog "isrun:$isrun"
  if (( $1 == 1)) ; then
     deblog "sysdaem enabled"
@@ -912,7 +912,7 @@ function sysdaem_reboot() # $1=eneabled
    deblog "sysdaem not running"
  fi
  if (( $1 == 1)) ; then
-    isrun=$(pgrep -f 'runs/sysdaem.sh')
+    isrun=$(pgrep -f 'runs/sysdaem.sh' |head -1)
     deblog "sysdaem enabled"
     if (( ${isrun:-0} == 0 )) ; then
       sysdaem_start

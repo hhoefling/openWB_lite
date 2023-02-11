@@ -574,13 +574,14 @@ at_reboot() {
 	else
 		sudo pip3 install lxml
 	fi
+# vorgezogen, siehe oben    
 	#Prepare for evdev used in readrfid
-	if python3 -c "import evdev" &> /dev/null; then
-		log 'evdev installed...'
-	else
-		sudo pip3 install evdev
-		# restart needed!!!
-	fi
+#	if python3 -c "import evdev" &> /dev/null; then
+#		log 'evdev installed...'
+#	else
+#		sudo pip3 install evdev
+#		# restart needed!!!
+#	fi
 	#Prepare for secrets used in soc module libvwid in Python
 	VWIDMODULEDIR="$OPENWBBASEDIR/modules/soc_vwid"
 	if python3 -c "import secrets" &> /dev/null; then
