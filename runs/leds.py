@@ -4,7 +4,7 @@ import sys
 import time
 
 try:
-import RPi.GPIO as GPIO
+    import RPi.GPIO as GPIO
 except ModuleNotFoundError:
     from myisss.mylog import log_debug
     from myisss.mygpio import GPIO
