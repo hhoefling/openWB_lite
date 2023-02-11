@@ -691,6 +691,8 @@ at_reboot() {
 	sudo chmod a+r "$OPENWBBASEDIR/ramdisk/currentCommitHash"
 	sudo chmod a+r "$OPENWBBASEDIR/ramdisk/currentCommitBranches"
 
+    rm -rf /var/www/html/openWB/web/themes/dark19_01 >/dev/null 2>&1
+
 	# update broker
 	log "update broker..."
 	for i in $(seq 1 9);
@@ -721,7 +723,6 @@ at_reboot() {
 	mosquitto_pub -r -t openWB/set/graph/RequestYearGraph -m "0"
 	mosquitto_pub -r -t openWB/set/graph/RequestMonthLadelog -m "0"
 
-	rm -rf /var/www/html/openWB/web/themes/dark19_01
 	(sleep 10; mosquitto_pub -t openWB/set/ChargeMode -r -m "$bootmodus") &
 	(sleep 10; mosquitto_pub -t openWB/global/ChargeMode -r -m "$bootmodus") &
 	echo " " > "$OPENWBBASEDIR/ramdisk/lastregelungaktiv"
@@ -751,7 +752,6 @@ at_reboot() {
 	log "boot done :-)"
 }
 
-# openwbRunLoggingOutput at_reboot
-
+# now call the defined function 
 at_reboot
 
