@@ -419,12 +419,12 @@ at_reboot() {
 
 	# check for needed packages
 	log "packages 1..."
-	if python -c "import evdev" &> /dev/null; then
+	if python -c "import evdev" &> /dev/null 2>&1 ; then
 		log 'evdev for python2 installed...'
 	else
 		sudo pip install evdev
 	fi
-	if python3 -c "import evdev" &> /dev/null; then
+	if python3 -c "import evdev" &> /dev/null 2>&1 ; then
 		log 'evdev for python3 installed...'
 	else
 		sudo pip3 install evdev
@@ -604,6 +604,7 @@ at_reboot() {
 	uuid=$(</sys/class/net/eth0/address)
 	owbv=$(<"$OPENWBBASEDIR/web/version")
 	# NO curl --connect-timeout 10 -d "update=\"${releasetrain}${uuid}vers${owbv}\"" -H "Content-Type: application/x-www-form-urlencoded" -X POST https://openwb.de/tools/update.php
+    log "version ${releasetrain}${uuid}vers${owbv} not published"
 
 	# all done, remove warning in display
 	log "clear warning..."
