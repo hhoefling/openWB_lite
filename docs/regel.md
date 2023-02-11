@@ -1,5 +1,6 @@
 ## Der Ablauf der "Regel"-Schleife (durch die regel.sh) ##
 
+##### (Weiter unten auch Cront5min.sh und cornnighly.sh) #####
 Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
 
 - test ob Update oder Boot nocht aktiv ist, falls ja sofort wieder **Ende**
@@ -43,10 +44,44 @@ Hier in "Pseudo-Kode" der ablauf der Regelschleife. (Standard 10Sek Interwall)
 (1*) war vorher hinter dem ersten Blockall, wurde also mit blockiert.<br>
 (2*) war vorher hinter dem speed=3  abbruch, wurde also nur "Langsam" ausgeführt.
 
+## Aufaben die runs/cron5min.sh erledigt ##
+Hier in "Pseudo-Kode" des Ablaufs (Alle 5 Minuten)
 
+-  Ramdisk noch nicht vorhanden -> Ende
+-  Update oder boot in Arbeit-> Ende
+-  neues (leeres) Montly-Ladelog File anlegen falls noch nicht vorhaden
+-  Tagesdaten in web/logging/data/daily/<date>.csv forschreiben , eine Zeile alle 5 Minuten
+-  Netzsschutz durchführen, also wenn Netzschutz eingeschaltet ist die Netzfreqenz abtesten und gegebenfalls  Lademodedus auf 3(Stop) umstellen. Bei wiederreicher des Normalbereiches alten Lademodus wiederherstellen.
+-	Falls aktive Strompreisanbieter updaten 	
+- Tagesverbrauch errechnen und in ramdisk/daily_* screiben
+- Ip-Adresses anfragen und zur anzeige ablegen.
+- Alle Services starten/stopen die aktive sein sollen (service.sh)
+- auch isss.py starten wenn daemon-mode oder "Nur Ladepunkt"
+- LAN/ WLAN Verbindungen und zweite Netzwerkadressen prüfen.
+- (buchse.py stoppen falls nicht benötigt)	
+- Tasker starten falls nötig.
+- Pingcheck durchführen falls aktiv.
+- EVSEcheck durchführen falls aktiv.
+- Logdateien in der Ramdisk kürzen lassen.
+- sysdaem.sh nachstarten/restarten falls nötig
+
+	
+## Aufaben die runs/cronnightly.sh erledigt ##
+Hier in "Pseudo-Kode" des Ablaufs (0 Uhr nachts)
+
+- reloadDisplay in mqtt auf 1 setzen ??
+- mqtt.log resetten ???
+- Zählerstande per pushover.sh senden lassen
+- Montlyfile um neuen Tag verlängern
+- für Verbraucher 1/2 und "tasmota" die Zähler resetten.
+- ( für yourcharge die random wartezeit neu auswürfeln )
+- Updateaufforderung an alle konfiguriertem openWB-Pro Boxen senden
+- Logfile, wegen neuem Tag, erneuern (csvcalc.py)	
+
+	
 ## Der Datenfluss ##
 Es gibt mehrere Stellen an dehnen Daten aufbewahrt werden.
-
+	
 **ramdisk**  (etwa 350-400 Werte)
 
 In der Ramdisk werden die aktuellen Werte der Regellogig aufbewahrt.
