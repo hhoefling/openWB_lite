@@ -8,7 +8,7 @@ import traceback
 
 basePath = "/var/www/html/openWB"
 ramdiskPath = basePath + "/ramdisk"
-logFilename = ramdiskPath + "/isss.log"
+logFilename = ramdiskPath + "/mylog.log"
 
 
 # handling of all logging statements
@@ -23,6 +23,7 @@ def log_debug(level: int, msg: str, traceback_str: str = None) -> None:
 
 # write value to file in ramdisk
 def write_to_ramdisk(filename: str, content: str) -> None:
+    log_debug(2, "Write Ramdisk  "+ filename + "=" + content )
     with open(ramdiskPath + "/" + filename, "w") as file:
         file.write(content)
 
@@ -31,7 +32,9 @@ def write_to_ramdisk(filename: str, content: str) -> None:
 def read_from_ramdisk(filename: str) -> str:
     try:
         with open(ramdiskPath + "/" + filename, 'r') as file:
-            return file.read()
+            val=file.read().strip()
+        log_debug(2, "read Ramdisk '" + filename + "' => [" + str(val) + "]" )
+        return val
     except FileNotFoundError:
         log_debug(2, "Error reading file '" + filename + "' from ramdisk!", traceback.format_exc())
         return ""
@@ -39,6 +42,7 @@ def read_from_ramdisk(filename: str) -> str:
 
 loglevel = 2
 try:
-    loglevel = int(read_from_ramdisk("lpdaemonloglevel"))
+    with open(ramdiskPath + "/lpdaemonloglevel", 'r') as file:
+        loglevel = int(file.read().strip())
 except (FileNotFoundError, ValueError):
     pass
