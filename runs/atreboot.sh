@@ -157,7 +157,7 @@ at_reboot() {
 		fi
 	fi
 
-
+    #######---->>>>> Services.sh weiter unten
 	# check if our modbus server is running
 	# if Variable not set -> server active (old config)
 #	if [[ "$modbus502enabled" == "0" ]]; then
@@ -237,19 +237,19 @@ at_reboot() {
 	
 	
         
-    # setup push buttons handler if needed
+    # setup push buttons handler if needed -->services.sh
     # pushButtonsSetup "$ladetaster" 1
 
-    # setup rse handler if needed
+    # setup rse handler if needed -->services.sh
     # rseSetup "$rseenabled" 1
 
-    log rfidhandler...
-    # setup rfid handler if needed
+    # log rfidhandler...
+    # setup rfid handler if needed -->services.sh
     # rfidSetup "$rfidakt" 1 "$rfidlist"
 
 
     
-#	# restart smarthomehandler
+#	# restart smarthomehandler -->services.sh
 #	log "smarthome handler..."
 #	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
 #	sudo pkill -f '^python.*/smarthomehandler.py' >/dev/null
@@ -263,20 +263,21 @@ at_reboot() {
 #		nohup python3 "$OPENWBBASEDIR/runs/smarthomemq.py" >> "$OPENWBBASEDIR/ramdisk/smarthome.log" 2>&1 &
 #	fi
 
-	# restart mqttsub handler
-	log "mqtt handler..."
+	# restart mqttsub handler -->services.sh
+	#log "mqtt handler..."
 	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
-	sudo pkill -f '^python.*/mqttsub.py'
-	nohup python3 "$OPENWBBASEDIR/runs/mqttsub.py" >>"$LOGFILE" 2>&1 &
+	# sudo pkill -f '^python.*/mqttsub.py'
+	# nohup python3 "$OPENWBBASEDIR/runs/mqttsub.py" >>"$LOGFILE" 2>&1 &
 
 
-    (
-    cd "$OPENWBBASEDIR"
-    openwbDebugLog "MAIN" 0 "##### start/restart sysdaem"
-    runs/sysdaem.sh restart &
-    )
+    # -->services.sh
+    #(
+    # cd "$OPENWBBASEDIR"
+    # openwbDebugLog "MAIN" 0 "##### start/restart sysdaem"
+    # runs/sysdaem.sh restart &
+    #)
 
-	# restart legacy run server
+	# restart legacy run server -->services.sh
 	# log"legacy run server..."
 	#bash "$OPENWBBASEDIR/packages/legacy_run_server.sh"
 
@@ -397,24 +398,24 @@ at_reboot() {
 
 
 	# check for email
-	if (dpkg -l | grep "ii.*msmtp" >/dev/null) ; then
-	  log "msmtp found. Please check config"
-	else
-	  log "install a simple smtp client"
-	  sudo apt-get -q -y install bsd-mailx msmtp msmtp-mta
-	  # check for configuration
-	   if [ ! -f /etc/msmtprc ] ; then
-	     if [ -f /home/pi/msmtp/msmtprc  ] ; then
-		    log "updating global msmtprc config file"
-  			sudo cp /home/pi/msmtp/msmtprc /etc/msmtprc
-	    	sudo chown root:mail /etc/msmtprc
-	    	sudo chmod 0644 /etc/msmtprc
-		    log "updating mail.rc and aliaes file"
-			sudo cp -p /home/pi/msmtp/mail.rc /etc/mail.rc 
-			sudo cp -p /home/pi/msmtp/aliases /etc/aliases
-		 fi		 
-	   fi
-	fi
+	#if (dpkg -l | grep "ii.*msmtp" >/dev/null) ; then
+	#  log "msmtp found. Please check config"
+	#else
+	#  log "install a simple smtp client"
+	#  sudo apt-get -q -y install bsd-mailx msmtp msmtp-mta
+	#  # check for configuration
+	#   if [ ! -f /etc/msmtprc ] ; then
+	#     if [ -f /home/pi/msmtp/msmtprc  ] ; then
+	#	    log "updating global msmtprc config file"
+  	#		sudo cp /home/pi/msmtp/msmtprc /etc/msmtprc#
+	#   	sudo chown root:mail /etc/msmtprc
+	#    	sudo chmod 0644 /etc/msmtprc
+	#	    log "updating mail.rc and aliaes file"
+	#		sudo cp -p /home/pi/msmtp/mail.rc /etc/mail.rc 
+	#		sudo cp -p /home/pi/msmtp/aliases /etc/aliases
+	#	 fi		 
+	#   fi
+	#fi
 		
 
 	# check for needed packages
@@ -623,6 +624,9 @@ at_reboot() {
 
     ###############################################################
     # Make sure all services are running (restart crashed services etc.):
+    # Used for: smartmq, rse, rfid, modbus, button, mqtt_sub, tasker, sysdaem
+    # noch nicht f?r isss.py
+    # 
     log restart all daemons with services.sh
     source "/var/www/html/openWB/runs/services.sh"
     service_main reboot all
