@@ -1,4 +1,7 @@
 
+
+
+import sys
 import time
 import traceback
 
@@ -11,6 +14,7 @@ logFilename = ramdiskPath + "/isss.log"
 # handling of all logging statements
 def log_debug(level: int, msg: str, traceback_str: str = None) -> None:
     if level <= loglevel:
+        msg = msg + ' ' + sys.argv[0]
         with open(logFilename, 'a') as log_file:
             log_file.write(time.ctime() + ': ' + msg + '\n')
             if traceback_str is not None:

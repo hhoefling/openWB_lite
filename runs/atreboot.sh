@@ -459,7 +459,7 @@ at_reboot() {
 	# check for led handler
 	if (( ledsakt == 1 )); then
 		log "let leds blink.... :-) "
-		sudo python "$OPENWBBASEDIR/runs/leds.py" startup &
+		sudo python3 "$OPENWBBASEDIR/runs/leds.py" startup &
 	fi
 
 	# setup timezone

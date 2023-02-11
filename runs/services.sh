@@ -41,7 +41,7 @@ function rse_cron5() # $1=eneabled
       deblog "rse allready run"
     fi
  else    
-    deblog "rse disabled"
+    deblog "rse disabled or isss is running"
     if (( ${isrun:-0} != 0 )) ; then
     rse_stop 
     else
@@ -68,7 +68,7 @@ function rse_reboot() # $1=eneabled
       deblog "rse allready run"
     fi
  else
-    deblog "rse disabled, not start needed"
+    deblog "rse disabled or isss is running, not start needed"
  fi 
 }
 function rse_start() 
@@ -103,8 +103,8 @@ function rse_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: rse daemon shut run, but dont"
     fi  
  else
-    deblog "rse is disabled";
-    openwbDebugLog "MAIN" 2 "SERVICE: rse is disabled"
+    deblog "rse is disabled or isss is running";
+    openwbDebugLog "MAIN" 2 "SERVICE: rse is disabled, or isss is running"
  fi
 }
 
@@ -123,11 +123,11 @@ function tasker_cron5() # $1=eneabled
       deblog "tasker allready run"
     fi
  else
-    deblog "tasker disabled"
+    deblog "tasker disabled, or isss is running"
     if (( ${isrun:-0} != 0 )) ; then
        tasker_stop
     else
-      deblog "tasker disabled and not running"
+      deblog "tasker disabled or isss is running and not running"
     fi
  fi 
 }
@@ -135,14 +135,14 @@ function tasker_reboot() # $1=eneabled
 {
  # kill if running
  # start if enabled
- isrun=$(pgrep -f '^tsp')
+ isrun=$(pgrep -f '^tsp$' | head -1 )
  if (( ${isrun:-0} != 0 )) ; then
     tasker_stop
  else
    deblog "tasker not running"
  fi
  if (( $1 == 1  && isss == 0  )) ; then
-    isrun=$(pgrep -f '^tsp')
+    isrun=$(pgrep -f '^tsp$'|head -1)
     deblog "tasker enabled"
     if (( ${isrun:-0} == 0 )) ; then
       tasker_start
@@ -150,7 +150,7 @@ function tasker_reboot() # $1=eneabled
       deblog "tasker allready run"
     fi
  else
-    deblog "tasker disabled, not start needed"
+    deblog "tasker disabled or isss is running, not start needed"
  fi 
 }
 function tasker_start() 
@@ -192,8 +192,8 @@ function tasker_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: tasker daemon shut run, but dont"
     fi  
  else
-    deblog "tasker is disabled";
-    openwbDebugLog "MAIN" 2 "SERVICE: tasker is disabled"
+    deblog "tasker is disabled or issss mode aktive";
+    openwbDebugLog "MAIN" 2 "SERVICE: tasker is disabled or issss mode aktive"
  fi
 }
 
@@ -213,7 +213,7 @@ function rfid1_cron5() # $1=eneabled
       deblog "rfid1 allready run"
     fi
  else    
-    deblog "rfid1 disabled"
+    deblog "rfid1 disabled or isss is running"
     if (( ${isrun:-0} != 0 )) ; then
     rfid1_stop 
     else
@@ -240,7 +240,7 @@ function rfid1_reboot() # $1=eneabled
       deblog "rfid1 allready run"
     fi
  else
-    deblog "rfid1 disabled, not start needed"
+    deblog "rfid1 disabled or isss is running, not start needed"
  fi 
 }
 function rfid1_start() 
@@ -294,8 +294,8 @@ function rfid1_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: rfid1 daemon shut run, but dont"
     fi  
  else
-    deblog "rfid1 is disabled";
-    openwbDebugLog "MAIN" 2 "SERVICE: rfid1 is disabled"
+    deblog "rfid1 is disabled or isss is running";
+    openwbDebugLog "MAIN" 2 "SERVICE: rfid1 is disabled or isss is running "
  fi
 }
 
@@ -314,11 +314,11 @@ function rfid2_cron5() # $1=eneabled
       deblog "rfid2 allready run"
     fi
  else    
-    deblog "rfid2 disabled"
+    deblog "rfid2 disabled or isss is running"
     if (( ${isrun:-0} != 0 )) ; then
     rfid2_stop 
     else
-      deblog "rfid2 disabled and not running"
+      deblog "rfid2 disabled and not running or isss is running"
     fi
  fi 
 }
@@ -341,7 +341,7 @@ function rfid2_reboot() # $1=eneabled
       deblog "rfid2 allready run"
     fi
  else
-    deblog "rfid2 disabled, not start needed"
+    deblog "rfid2 disabled, or isss is running not start needed"
  fi 
 }
 function rfid2_start() 
@@ -376,7 +376,7 @@ function rfid2_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: rfid2 daemon shut run, but dont"
     fi  
  else
-    deblog "rfid2 is disabled";
+    deblog "rfid2 is disabled or isss is running";
     openwbDebugLog "MAIN" 2 "SERVICE: rfid2 is disabled"
  fi
 }
@@ -460,7 +460,7 @@ function modbus_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: modbusserver daemon shut run, but dont"
     fi  
  else
-    deblog "modbusserver is disabled";
+    deblog "modbusserver is disabled or isss is running";
     openwbDebugLog "MAIN" 2 "SERVICE: modbusserver is disabled"
  fi
 }
@@ -482,7 +482,7 @@ function button_cron5() # $1=eneabled
       deblog "button allready run"
     fi
  else
-    deblog "button disabled"
+    deblog "button disabled or isss is running"
     if (( ${isrun:-0} != 0 )) ; then
        button_stop
     else
@@ -544,7 +544,7 @@ function button_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: button daemon shut run, but dont"
     fi  
  else
-    deblog "button is disabled";
+    deblog "button is disabled or isss is running";
     openwbDebugLog "MAIN" 2 "SERVICE: button is disabled"
  fi
 }
@@ -677,7 +677,7 @@ function smarthome_reboot() # $1=eneabled
       deblog "smarthomehandler allready run"
     fi
  else
-    deblog "smarthomehandler disabled, not start needed"
+    deblog "smarthomehandler disabled or isss is running, not start needed "
  fi 
 }
 function smarthome_start() 
@@ -718,8 +718,8 @@ function smarthome_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: smarthomehandler daemon shut run, but dont"
     fi  
  else
-    deblog "smarthomehandler is disabled";
-    openwbDebugLog "MAIN" 2 "SERVICE: smarthomehandler is disabled"
+    deblog "smarthomehandler is disabled or isss is running";
+    openwbDebugLog "MAIN" 2 "SERVICE: smarthomehandler is disabled or isss is running"
  fi
 }
 
@@ -739,11 +739,11 @@ function smartmq_cron5()
       deblog "smartmq allready run"
     fi
  else
-    deblog "smartmq disabled"
+    deblog "smartmq disabled or isss is running"
     if (( ${isrun:-0} != 0 )) ; then
        smartmq_stop
     else
-      deblog "smartmq disabled and not running"
+      deblog "smartmq disabled and not running or isss is running"
     fi
  fi 
 }
@@ -766,7 +766,7 @@ function smartmq_reboot() # $1=eneabled
       deblog "smartmq allready run"
     fi
  else
-    deblog "smartmq disabled, not start needed"
+    deblog "smartmq disabled or isss is running, not start needed"
  fi 
 }
 function smartmq_start() 
@@ -807,8 +807,8 @@ function smartmq_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: smartmq daemon shut run, but dont"
     fi  
  else
-    deblog "smartmq is disabled";
-    openwbDebugLog "MAIN" 2 "SERVICE: smartmq is disabled"
+    deblog "smartmq is disabled or isss is running";
+    openwbDebugLog "MAIN" 2 "SERVICE: smartmq is disabled or isss is running"
  fi
 }
 
