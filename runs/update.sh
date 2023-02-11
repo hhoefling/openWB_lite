@@ -132,7 +132,11 @@ cp -p modules/soc_eq/soc_eq_acc_lp2 /tmp/soc_eq_acc_lp2
 cp -p openwb.conf /tmp/openwb.conf
 
 Log 1 "fetch new release from GitHub as pi"
+
+Log 1 "RUN git fetch origin"
 git fetch origin
+
+Log 1 "RUN git reset --hard origin/$train"
 git reset --hard origin/$train
 
 Log 1 "set permissions, Don't trust the github permissions"
