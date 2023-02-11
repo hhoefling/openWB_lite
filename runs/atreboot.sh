@@ -458,7 +458,7 @@ at_reboot() {
 
 	# check for led handler
 	if (( ledsakt == 1 )); then
-		log "led..."
+		log "let leds blink.... :-) "
 		sudo python "$OPENWBBASEDIR/runs/leds.py" startup &
 	fi
 
@@ -598,8 +598,8 @@ at_reboot() {
 		fi
 	fi
 	# update outdated urllib3 for Tesla Powerwall
-	pip3 install --upgrade urllib3
-	pip3 install --upgrade requests
+	pip3 install --upgrade urllib3 >ramdisk/pip3urllib3.log 2>&1
+	pip3 install --upgrade requests >ramdisk/pip3requests.log 2>&1
 	
 	# update version
 	log "version..."
