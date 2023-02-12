@@ -71,4 +71,4 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
 
 14.1.2023 Der Wallbox kann nun ein Name vergeben werden. Dieser wird oben links statt "openWB" angezeigt um die Box zu indentifizieren. Das braucht man nur wenn man mehrer hat (oder auf Virtellen Geräten testst)
 
-12.2.2023 Beim Wechsel vom/zum "Nur Ladepunkt" Mode werden die Diesenst angepasst. Smarthome/tasker/modbusserver werden beim issss Mode gestoppt.
+12.2.2023 Beim Wechsel vom/zum "Nur Ladepunkt" Mode werden die Dienste angepasst. Smarthome/tasker/modbusserver werden beim issss Mode gestoppt.
