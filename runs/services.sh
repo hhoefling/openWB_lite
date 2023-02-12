@@ -33,7 +33,7 @@ function rse_cron5() # $1=eneabled
  # if disabled kill if running
  isrun=$(pgrep -f '^python.*/rse.py' | head -1)
  deblog "isrun:$isrun"
- if (( $1 == 1  && $isss == 0 )) ; then
+ if (( $1 == 1 )) ; then
     deblog "rse enabled"
     if (( ${isrun:-0} == 0 )) ; then
       rse_start
@@ -41,7 +41,7 @@ function rse_cron5() # $1=eneabled
       deblog "rse allready run"
     fi
  else    
-    deblog "rse disabled or isss is running"
+    deblog "rse disabled"
     if (( ${isrun:-0} != 0 )) ; then
     rse_stop 
     else
@@ -59,7 +59,7 @@ function rse_reboot() # $1=eneabled
  else
    deblog "rse not running"
  fi
- if (( $1 == 1  && isss == 0 )) ; then
+ if (( $1 == 1  )) ; then
     isrun=$(pgrep -f '^python.*/rse.py')
     deblog "rse enabled"
     if (( ${isrun:-0} == 0 )) ; then
@@ -68,7 +68,7 @@ function rse_reboot() # $1=eneabled
       deblog "rse allready run"
     fi
  else
-    deblog "rse disabled or isss is running, not start needed"
+    deblog "rse disabled, no start needed"
  fi 
 }
 function rse_start() 
@@ -93,7 +93,7 @@ function rse_stop()
 }
 function rse_status() # $1=eneabled
 {
- if (( $1 == 1  && isss == 0 )) ; then
+ if (( $1 == 1  )) ; then
     if pgrep -f '^python.*/rse.py' > /dev/null ; then
        line=$(pgrep -fa '^python.*/rse.py')
        deblog "rse $line"
@@ -103,8 +103,8 @@ function rse_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: rse daemon shut run, but dont"
     fi  
  else
-    deblog "rse is disabled or isss is running";
-    openwbDebugLog "MAIN" 2 "SERVICE: rse is disabled, or isss is running"
+    deblog "rse is disabled ";
+    openwbDebugLog "MAIN" 2 "SERVICE: rse is disabled"
  fi
 }
 
@@ -208,7 +208,7 @@ function rfid1_cron5() # $1=eneabled
  # if disabled kill if running
  isrun=$(pgrep -f '^python.*/readrfid.py' | head -1)
  deblog "isrun:$isrun"
- if (( $1 >= 1  && $isss == 0 )) ; then
+ if (( $1 >= 1  )) ; then
     deblog "rfid1 enabled"
     if (( ${isrun:-0} == 0 )) ; then
       rfid1_start
@@ -216,7 +216,7 @@ function rfid1_cron5() # $1=eneabled
       deblog "rfid1 allready run"
     fi
  else    
-    deblog "rfid1 disabled or isss is running"
+    deblog "rfid1 disabled "
     if (( ${isrun:-0} != 0 )) ; then
     rfid1_stop 
     else
@@ -234,7 +234,7 @@ function rfid1_reboot() # $1=eneabled
  else
    deblog "rfid1 not running"
  fi
- if (( $1 >= 1  && isss == 0 )) ; then
+ if (( $1 >= 1 )) ; then
     isrun=$(pgrep -f '^python.*/readrfid.py')
     deblog "rfid1 enabled"
     if (( ${isrun:-0} == 0 )) ; then
@@ -243,7 +243,7 @@ function rfid1_reboot() # $1=eneabled
       deblog "rfid1 allready run"
     fi
  else
-    deblog "rfid1 disabled or isss is running, not start needed"
+    deblog "rfid1 disabled, not start needed"
  fi 
 }
 function rfid1_start() 
@@ -287,7 +287,7 @@ function rfid1_stop()
 }
 function rfid1_status() # $1=eneabled
 {
- if (( $1 >= 1  && isss == 0 )) ; then
+ if (( $1 >= 1 )) ; then
     if pgrep -f '^python.*/readrfid.py' > /dev/null ; then
        line=$(pgrep -fa '^python.*/readrfid.py')
        deblog "rfid1 $line"
@@ -297,8 +297,8 @@ function rfid1_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: rfid1 daemon shut run, but dont"
     fi  
  else
-    deblog "rfid1 is disabled or isss is running";
-    openwbDebugLog "MAIN" 2 "SERVICE: rfid1 is disabled or isss is running "
+    deblog "rfid1 is disabled";
+    openwbDebugLog "MAIN" 2 "SERVICE: rfid1 is disabled"
  fi
 }
 
@@ -309,7 +309,7 @@ function rfid2_cron5() # $1=eneabled
  # if disabled kill if running
  isrun=$(pgrep -f '^python.*/rfid.py'  | head -1)
  deblog "isrun:$isrun"
- if (( $1 == 2  && $isss == 0 )) ; then
+ if (( $1 == 2 )) ; then
     deblog "rfid2 enabled"
     if (( ${isrun:-0} == 0 )) ; then
       rfid2_start
@@ -317,11 +317,11 @@ function rfid2_cron5() # $1=eneabled
       deblog "rfid2 allready run"
     fi
  else    
-    deblog "rfid2 disabled or isss is running"
+    deblog "rfid2 disabled"
     if (( ${isrun:-0} != 0 )) ; then
     rfid2_stop 
     else
-      deblog "rfid2 disabled and not running or isss is running"
+      deblog "rfid2 disabled and not running"
     fi
  fi 
 }
@@ -335,7 +335,7 @@ function rfid2_reboot() # $1=eneabled
  else
    deblog "rfid2 not running"
  fi
- if (( $1 == 2  && isss == 0 )) ; then
+ if (( $1 == 2 )) ; then
     isrun=$(pgrep -f '^python.*/rfid.py')
     deblog "rfid2 enabled"
     if (( ${isrun:-0} == 0 )) ; then
@@ -344,7 +344,7 @@ function rfid2_reboot() # $1=eneabled
       deblog "rfid2 allready run"
     fi
  else
-    deblog "rfid2 disabled, or isss is running not start needed"
+    deblog "rfid2 disabled, no start needed"
  fi 
 }
 function rfid2_start() 
@@ -369,7 +369,7 @@ function rfid2_stop()
 }
 function rfid2_status() # $1=eneabled
 {
- if (( $1 == 2  && isss == 0 )) ; then
+ if (( $1 == 2  )) ; then
     if pgrep -f '^python.*/rfid.py' > /dev/null ; then
        line=$(pgrep -fa '^python.*/rfid.py')
        deblog "rfid2 $line"
@@ -379,7 +379,7 @@ function rfid2_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: rfid2 daemon shut run, but dont"
     fi  
  else
-    deblog "rfid2 is disabled or isss is running";
+    deblog "rfid2 is disabled ";
     openwbDebugLog "MAIN" 2 "SERVICE: rfid2 is disabled"
  fi
 }
@@ -477,7 +477,7 @@ function button_cron5() # $1=eneabled
  # if disabled kill if running
  isrun=$(pgrep -f '^python.*/ladetaster.py' | head -1)
  deblog "isrun:$isrun"
- if (( $1 == 1  && isss == 0  )) ; then
+ if (( $1 == 1  )) ; then
     deblog "button enabled"
     if (( ${isrun:-0} == 0 )) ; then
       button_start
@@ -485,7 +485,7 @@ function button_cron5() # $1=eneabled
       deblog "button allready run"
     fi
  else
-    deblog "button disabled or isss is running"
+    deblog "button disabled"
     if (( ${isrun:-0} != 0 )) ; then
        button_stop
     else
@@ -503,7 +503,7 @@ function button_reboot() # $1=eneabled
  else
    deblog "button not running"
  fi
- if (( $1 == 1  && isss == 0  )) ; then
+ if (( $1 == 1 )) ; then
     isrun=$(pgrep -f '^python.*/ladetaster.py')
     deblog "button enabled"
     if (( ${isrun:-0} == 0 )) ; then
@@ -537,7 +537,7 @@ function button_stop()
 }
 function button_status() # $1=eneabled
 {
- if (( $1 == 1  && isss == 0  )) ; then
+ if (( $1 == 1  )) ; then
     if pgrep -f '^python.*/ladetaster.py' > /dev/null ; then
        line=$(pgrep -fa '^python.*/ladetaster.py')
        deblog "button $line"
@@ -547,7 +547,7 @@ function button_status() # $1=eneabled
       openwbDebugLog "MAIN" 0 "SERVICE: button daemon shut run, but dont"
     fi  
  else
-    deblog "button is disabled or isss is running";
+    deblog "button is disabled";
     openwbDebugLog "MAIN" 2 "SERVICE: button is disabled"
  fi
 }
