@@ -26,6 +26,41 @@ LOGFILE="$OPENWBBASEDIR/ramdisk/openWB.log"
 # 1          1       kill/run   -      
 
 
+######### Need ISSS ? ###################
+
+needIsss=0          # 0,1,2 
+isss_mode="none"
+isss_32=32
+
+function checkIfIsssIsNeeded()
+{
+if (( isss == 1 )) || [[ "$evsecon" == "daemon" ]] || [[ "$evsecon" == "buchse" ]]; then
+    needIsss=1          // start
+    if [[ "$evsecon" == "buchse" ]]; then
+        isss_mode="socket"
+    elif [[ $lastmanagement == 1 ]]; then
+        isss_mode="duo"
+    else
+        isss_mode="daemon"
+    fi
+    prev_isss_mode=$(< $OPENWBBASEDIR/ramdisk/isss_mode)
+    deblog "needs issss.py  ( isss=$isss evsecon=$evsecon) -> $isss_mode (old:$prev_isss_mode)"
+    if [[ $prev_isss_mode != $isss_mode ]] ; then
+       needIsss=2       # zwangsweise neustart da andere Parameter
+    fi
+    isss_32=$(< /home/pi/ppbuchse)
+    re='^[0-9]+$'
+    if ! [[ $isss_32 =~ $re ]] ; then
+        openwbDebugLog "MAIN" 0 "Invalid value in ppbuchse. Set ppbuchse to 32."
+        isss_32=32
+    fi    
+fi
+deblog "isss mode:$isss_mode needed:$needIsss (0=aus 1=shut run 2=needs restart) $isss_32"
+openwbDebugLog "MAIN" 2 "isss mode:$isss_mode needed:$needIsss (0=aus 1=shut run 2=needs restart) $isss_32"
+}
+
+##
+
 ########## RSE running as PI #####################################
 function rse_cron5() # $1=eneabled
 {
@@ -84,9 +119,9 @@ function rse_start()
 function rse_stop() 
 {
    if pgrep -f '^python.*/rse.py' > /dev/null ; then
+      sudo pkill -f "^python.*/rse.py"
       deblog  "kill rse daemon"
       openwbDebugLog "MAIN" 0 "SERVICE: kill rse daemon"
-      sudo pkill -f "^python.*/rse.py"
    else
       deblog "rse daemon is actually not running "
    fi
@@ -114,8 +149,6 @@ function tasker_cron5() # $1=eneabled
  # if enabed  start if not running
  # if disabled kill if running
  isrun=$(pgrep -f '^tsp' | head -1)
- openwbDebugLog "MAIN" 2 "SERVICE: tasker_cron5 isrun:[$isrun]"
-
  deblog "isrun:$isrun"
  if (( $1 == 1  && isss == 0  )) ; then
     deblog "tasker enabled"
@@ -278,9 +311,9 @@ function rfid1_start()
 function rfid1_stop() 
 {
    if pgrep -f '^python.*/readrfid.py' > /dev/null ; then
+      sudo pkill -f "^python.*/readrfid.py"
       deblog  "kill rfid1 daemons"
       openwbDebugLog "MAIN" 0 "SERVICE: kill rfid1 daemons"
-      sudo pkill -f "^python.*/readrfid.py"
    else
       deblog "rfid1 daemon is actually not running "
    fi
@@ -360,9 +393,9 @@ function rfid2_start()
 function rfid2_stop() 
 {
    if pgrep -f '^python.*/rfid.py' > /dev/null ; then
+      sudo pkill -f "^python.*/rfid.py"
       deblog  "kill rfid2 daemon"
       openwbDebugLog "MAIN" 0 "SERVICE: kill rfid2 daemon"
-      sudo pkill -f "^python.*/rfid.py"
    else
       deblog "rfid2 daemon is actually not running "
    fi
@@ -444,9 +477,9 @@ function modbus_start()
 function modbus_stop() 
 {
    if pgrep -f '^python.*/modbusserver.py' > /dev/null ; then
+      sudo pkill -f "^python.*/modbusserver.py"
       deblog  "kill modbusserver daemon"
       openwbDebugLog "MAIN" 0 "SERVICE: kill modbusserver daemon"
-      sudo pkill -f "^python.*/modbusserver.py"
    else
       deblog "modbusserver daemon is actually not running "
    fi
@@ -528,9 +561,9 @@ function button_start()
 function button_stop() 
 {
    if pgrep -f '^python.*/ladetaster.py' > /dev/null ; then
+      sudo pkill -f "^python.*/ladetaster.py"
       deblog  "kill button daemon"
       openwbDebugLog "MAIN" 0 "SERVICE: kill button daemon"
-      sudo pkill -f "^python.*/ladetaster.py"
    else
       deblog "button daemon is actually not running "
    fi
@@ -555,16 +588,20 @@ function button_status() # $1=eneabled
 
 
 #################################################################
-function isss_cron5() # $1=eneabled
+function isss_cron5() # $needIsss $isss_mode  $isss_32
 {
  # if enabed  start if not running
  # if disabled kill if running
  isrun=$(pgrep -f '^python.*/isss.py' | head -1)
  deblog "isrun:$isrun"
- if (( $1 == 1)) ; then
-    deblog "isss enabled"
+ if (( $1 >= 1)) ; then
+    if (( $1 == 2 )) ; then
+       isss_stop     
+       deblog "isss_cron5 , isssmode has changed so, stop isss first"
+    fi     
+    isrun=$(pgrep -f '^python.*/isss.py' | head -1)
     if (( ${isrun:-0} == 0 )) ; then
-      isss_start
+       isss_start $1 $2 $3
     else
       deblog "isss allready run"
     fi
@@ -577,7 +614,7 @@ function isss_cron5() # $1=eneabled
     fi
  fi 
 }
-function isss_reboot() # $1=eneabled
+function isss_reboot() # $needIsss $isss_mode  $isss_32
 {
  # kill if running
  # start if enabled
@@ -587,11 +624,11 @@ function isss_reboot() # $1=eneabled
  else
    deblog "isss not running"
  fi
- if (( $1 == 1)) ; then
+ if (( $1 >= 1)) ; then
     isrun=$(pgrep -f '^python.*/isss.py')
     deblog "isss enabled"
     if (( ${isrun:-0} == 0 )) ; then
-      isss_start
+      isss_start $1 $2 $3
     else
       deblog "isss allready run"
     fi
@@ -599,14 +636,17 @@ function isss_reboot() # $1=eneabled
     deblog "isss disabled, not start needed"
  fi 
 }
-function isss_start() 
+function isss_start() # $needIsss $isss_mode  $isss_32 
 {
  local LFILE
  LFILE="$OPENWBBASEDIR/ramdisk/isss.log"
   if ! pgrep -f '^python.*/isss.py' > /dev/null ; then
+   echo "$2" >"$OPENWBBASEDIR/ramdisk/isss_mode"
    deblog "startup isss";
-   openwbDebugLog "MAIN" 0 "SERVICE: startup isss"
-   sudo -u pi bash -c "python3 runs/isss.py >>\"$LFILE\" 2>&1 & "
+   openwbDebugLog "MAIN" 0 "SERVICE: startup isss.py [$2] [$3] "
+   sudo -u pi bash -c "python3 runs/isss.py $2 $3 >>\"$LFILE\" 2>&1 & "
+   line=$(pgrep -fa '^python.*/isss.py')
+   deblog "isss $line"
   else
     deblog "isss allready running"
   fi
@@ -614,16 +654,16 @@ function isss_start()
 function isss_stop() 
 {
    if pgrep -f '^python.*/isss.py' > /dev/null ; then
+      sudo pkill -f "^python.*/isss.py"
       deblog  "kill isss daemon"
       openwbDebugLog "MAIN" 0 "SERVICE: kill isss daemon"
-      sudo pkill -f "^python.*/isss.py"
    else
       deblog "isss daemon is actually not running "
    fi
 }
-function isss_status() # $1=eneabled
+function isss_status() # $needIsss $isss_mode  $isss_32
 {
- if (( $1 == 1)) ; then
+ if (( $1 >= 1)) ; then
     if pgrep -f '^python.*/isss.py' > /dev/null ; then
        line=$(pgrep -fa '^python.*/isss.py')
        deblog "isss $line"
@@ -665,14 +705,14 @@ function smarthome_reboot() # $1=eneabled
 {
  # kill if running
  # start if enabled
- isrun=$(pgrep -f '^python.*/smarthomehandler.py')
+ isrun=$(pgrep -f '^python.*/smarthomehandler.py' | head -1 )
  if (( ${isrun:-0} != 0 )) ; then
     smarthome_stop
  else
    deblog "smarthomehandler not running"
  fi
  if (( $1 == 1  && isss == 0  )) ; then
-    isrun=$(pgrep -f '^python.*/smarthomehandler.py')
+    isrun=$(pgrep -f '^python.*/smarthomehandler.py' | head -1)
     deblog "smarthomehandler enabled"
     if (( ${isrun:-0} == 0 )) ; then
       smarthome_start
@@ -680,7 +720,7 @@ function smarthome_reboot() # $1=eneabled
       deblog "smarthomehandler allready run"
     fi
  else
-    deblog "smarthomehandler disabled or isss is running, not start needed "
+    deblog "smarthomehandler disabled or isss is running or smartmq aktiv, not start needed "
  fi 
 }
 function smarthome_start() 
@@ -702,9 +742,9 @@ function smarthome_start()
 function smarthome_stop() 
 {
    if pgrep -f '^python.*/smarthomehandler.py' > /dev/null ; then
+      sudo pkill -f "^python.*/smarthomehandler.py"
       deblog  "kill smarthomehandler daemon"
       openwbDebugLog "MAIN" 0 "SERVICE: kill smarthomehandler daemon"
-      sudo pkill -f "^python.*/smarthomehandler.py"
    else
       deblog "smarthomehandler daemon is actually not running "
    fi
@@ -754,7 +794,7 @@ function smartmq_reboot() # $1=eneabled
 {
  # kill if running
  # start if enabled
- isrun=$(pgrep -f '^python.*/smarthomemq.py')
+ isrun=$(pgrep -f '^python.*/smarthomemq.py' | head -1 )
  if (( ${isrun:-0} != 0 )) ; then
     smartmq_stop
  else
@@ -769,7 +809,7 @@ function smartmq_reboot() # $1=eneabled
       deblog "smartmq allready run"
     fi
  else
-    deblog "smartmq disabled or isss is running, not start needed"
+    deblog "smartmq disabled or isss is running, or old smarthome aktiv , no start needed"
  fi 
 }
 function smartmq_start() 
@@ -791,9 +831,9 @@ function smartmq_start()
 function smartmq_stop() 
 {
    if pgrep -f '^python.*/smarthomemq.py' > /dev/null ; then
+      sudo pkill -f "^python.*/smarthomemq.py"
       deblog  "kill smartmq daemon"
       openwbDebugLog "MAIN" 0 "SERVICE: kill smartmq daemon"
-      sudo pkill -f "^python.*/smarthomemq.py"
    else
       deblog "smartmq daemon is actually not running "
    fi
@@ -862,9 +902,9 @@ function mqttsub_start()
 function mqttsub_stop() 
 {
    if pgrep -f '^python.*/mqttsub.py' > /dev/null ; then
+      sudo pkill -f "^python.*/mqttsub.py"
       deblog  "kill mqttsub daemon"
       openwbDebugLog "MAIN" 0 "SERVICE: kill mqttsub daemon"
-      sudo pkill -f "^python.*/mqttsub.py"
    else
       deblog "mqttsub daemon is actually not running "
    fi
@@ -985,7 +1025,7 @@ function selectstatus()
  [[ "$1" == "all" || "$1" == "button" ]]  &&  button_status  $ladetaster
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smarthome_status $smarthome
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_status $smartmq  
- [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_status  $isss 
+ [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_status $needIsss $isss_mode  $isss_32   
  [[ "$1" == "all" || "$1" == "mqttsub" ]]  &&  mqttsub_status 1 
  [[ "$1" == "all" || "$1" == "tasker" ]]  &&  tasker_status $taskerenabled
  [[ "$1" == "all" || "$1" == "sysdaem" ]]  &&  sysdaem_status 1
@@ -1006,7 +1046,7 @@ function selectstart()
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_start $smartmq  
  [[ "$1" == "all" || "$1" == "button" ]]  &&  button_start $ladetaster
  [[ "$1" == "all" || "$1" == "mqttsub" ]]  &&  mqttsub_start 1 
-# [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_start  $isss 
+ [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_start $needIsss $isss_mode  $isss_32
  [[ "$1" == "all" || "$1" == "tasker" ]]  &&  tasker_start $taskerenabled
  [[ "$1" == "all" || "$1" == "sysdaem" ]]  &&  sysdaem_start 1
 
@@ -1025,7 +1065,7 @@ function selectstop()
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_stop $smartmq  
  [[ "$1" == "all" || "$1" == "button" ]]  &&  button_stop  $ladetaster
  [[ "$1" == "all" || "$1" == "mqttsub" ]]  &&  mqttsub_stop 1 
-# [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_stop  $isss 
+ [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_stop  
  [[ "$1" == "all" || "$1" == "tasker" ]]  &&  tasker_stop $taskerenabled
  [[ "$1" == "all" || "$1" == "sysdaem" ]]  &&  sysdaem_stop 1
 
@@ -1044,7 +1084,7 @@ function selectcron5()
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_cron5 $smartmq  
  [[ "$1" == "all" || "$1" == "button" ]]  &&  button_cron5  $ladetaster
  [[ "$1" == "all" || "$1" == "mqttsub" ]]  &&  mqttsub_cron5 1 
-# [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_cron5  $isss 
+ [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_cron5  $needIsss $isss_mode  $isss_32
  [[ "$1" == "all" || "$1" == "tasker" ]]  &&  tasker_cron5 $taskerenabled
  [[ "$1" == "all" || "$1" == "sysdaem" ]]  &&  sysdaem_cron5 1
 }
@@ -1062,7 +1102,7 @@ function selectreboot()
  [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_reboot $smartmq  
  [[ "$1" == "all" || "$1" == "button" ]]  &&  button_reboot  $ladetaster
  [[ "$1" == "all" || "$1" == "mqttsub" ]]  &&  mqttsub_reboot 1 
-# [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_reboot  $isss 
+ [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_reboot  $needIsss $isss_mode  $isss_32
  [[ "$1" == "all" || "$1" == "tasker" ]]  &&  tasker_reboot $taskerenabled
  [[ "$1" == "all" || "$1" == "sysdaem" ]]  &&  sysdaem_reboot 1
 
@@ -1071,6 +1111,7 @@ function service_main() # cmd what
 {
  what=${2:-all}
  #deblog "****ANF service_main $1 $2 ***********"
+ checkIfIsssIsNeeded
  case "$1" in
     cron5)
         selectcron5 $what
