@@ -142,7 +142,8 @@ openwbDebugLog() {
 	
 	
 	if ! realpath -e ramdisk >/dev/null 2>&1 ; then
-	    echo "$timestamp: $$ Oh no!, wrong basedir: $(pwd) " >> $LOGFILE
+	    echo "$timestamp: $$ Oh no!, wrong basedir: [$(pwd)] " >> $LOGFILE
+        cd /var/www/html/openWB
 	fi
 	
 }

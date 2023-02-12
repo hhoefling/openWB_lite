@@ -114,6 +114,8 @@ function tasker_cron5() # $1=eneabled
  # if enabed  start if not running
  # if disabled kill if running
  isrun=$(pgrep -f '^tsp' | head -1)
+ openwbDebugLog "MAIN" 2 "SERVICE: tasker_cron5 isrun:[$isrun]"
+
  deblog "isrun:$isrun"
  if (( $1 == 1  && isss == 0  )) ; then
     deblog "tasker enabled"
@@ -135,7 +137,8 @@ function tasker_reboot() # $1=eneabled
 {
  # kill if running
  # start if enabled
- isrun=$(pgrep -f '^tsp$' | head -1 )
+ isrun=$(pgrep -f '^tsp' | head -1 )
+ openwbDebugLog "MAIN" 2 "SERVICE: tasker_reboot isrun:[$isrun]"
  if (( ${isrun:-0} != 0 )) ; then
     tasker_stop
  else
@@ -156,8 +159,8 @@ function tasker_reboot() # $1=eneabled
 function tasker_start() 
 {
   if ! pgrep -f '^tsp' > /dev/null ; then
-   deblog "startup tasker";
-   openwbDebugLog "MAIN" 0 "SERVICE: startup tasker"
+    deblog "startup tasker";
+    openwbDebugLog "MAIN" 0 "SERVICE: tasker_start startup tasker"
     export TS_MAXFINISHED=10
     export TS_SAVELIST=/var/www/html/openWB/runs/tasker/tsp.dump
     # export  TS_ENV='pwd;set;mount'.
@@ -170,12 +173,12 @@ function tasker_start()
 function tasker_stop() 
 {
    if pgrep -f '^tsp' > /dev/null ; then
-      deblog  "kill tasker daemon"
-      openwbDebugLog "MAIN" 0 "SERVICE: kill tasker daemon"
       export TS_MAXFINISHED=10
       export TS_SAVELIST=/var/www/html/openWB/runs/tasker/tsp.dump
       # export  TS_ENV='pwd;set;mount'.
       sudo -u pi tsp -K
+      deblog  "kill tasker daemon"
+      openwbDebugLog "MAIN" 0 "SERVICE: tasker_stop kill tasker daemon"
    else
       deblog "tasker daemon is actually not running "
    fi
@@ -257,7 +260,7 @@ function rfid1_start()
         if pgrep -f '^python.*/readrfid.py -d event0' >/dev/null; then
             openwbDebugLog "MAIN" 2 "rfid1 configured and handler for event0 is running"
   else
-            openwbDebugLog "MAIN" 1 "rfid1 configured but handler for event0 not running; starting process"
+            openwbDebugLog "MAIN" 1 "rfid1 configured but for event0 not running; starting process"
             sudo bash -c "python3 runs/readrfid.py -d event0 >>\"$LOGFILE\" 2>&1 & "
         fi
     fi
@@ -267,7 +270,7 @@ function rfid1_start()
         if pgrep -f '^python.*/readrfid.py -d event1' >/dev/null; then
             openwbDebugLog "MAIN" 2 "rfid1 configured and handler for event1 is running"
         else
-            openwbDebugLog "MAIN" 1 "rfid1 configured but handler for event1 not running; starting process"
+            openwbDebugLog "MAIN" 1 "rfid1 configured but for event1 not running; starting process"
             sudo bash -c "python3 runs/readrfid.py -d event1 >>\"$LOGFILE\" 2>&1 & "
         fi
  fi
@@ -905,15 +908,19 @@ function sysdaem_reboot() # $1=eneabled
 {
  # kill if running
  # start if enabled
- isrun=$(pgrep -f 'runs/sysdaem.sh')
+ isrun=$(pgrep -f 'runs/sysdaem.sh' |head -1)
+ openwbDebugLog "MAIN" 0 "SERVICE: sysdaem_reboot isrun:[$isrun] soll:[$1]"
+ 
  if (( ${isrun:-0} != 0 )) ; then
     sysdaem_stop
  else
    deblog "sysdaem not running"
  fi
+ openwbDebugLog "MAIN" 0 "SERVICE: sysdaem_reboot soll:[$1]"
  if (( $1 == 1)) ; then
-    isrun=$(pgrep -f 'runs/sysdaem.sh' |head -1)
     deblog "sysdaem enabled"
+    isrun=$(pgrep -f 'runs/sysdaem.sh' |head -1)
+    openwbDebugLog "MAIN" 0 "SERVICE: sysdaem_reboot isrun:[$isrun] soll:[$1]"
     if (( ${isrun:-0} == 0 )) ; then
       sysdaem_start
     else
@@ -927,20 +934,24 @@ function sysdaem_start()
 {
   if ! pgrep -f 'runs/sysdaem.sh' > /dev/null ; then
    deblog "startup sysdaem";
-   openwbDebugLog "MAIN" 0 "SERVICE: startup sysdaem"
+   openwbDebugLog "MAIN" 0 "SERVICE: sysdaem_start startup sysdaem"
    sudo -u pi bash -c "runs/sysdaem.sh $1 >>\"$LOGFILE\" 2>&1 & "
   else
-    deblog "sysdaem allready running"
+    openwbDebugLog "MAIN" 0 "SERVICE: sysdaem_start allready run"
+    deblog "sysdaem_start sysdaem allready running"
   fi
 }
 function sysdaem_stop() 
 {
    if pgrep -f 'runs/sysdaem.sh' > /dev/null ; then
+      sudo pkill -f "runs/sysdaem.sh"; 
       deblog  "kill sysdaem daemon"
-      openwbDebugLog "MAIN" 0 "SERVICE: kill sysdaem daemon"
-      sudo pkill -f "runs/sysdaem.sh"
+      openwbDebugLog "MAIN" 0 "SERVICE: sysdaem_stop kill sysdaem daemon"
+      if pgrep -f 'runs/sysdaem.sh' > /dev/null ; then
+          sudo pkill -f "runs/sysdaem.sh"; 
+      fi
    else
-      deblog "sysdaem daemon is actually not running "
+      deblog "sysdaem_stop sysdaem is actually not running "
    fi
 }
 function sysdaem_status() # $1=eneabled

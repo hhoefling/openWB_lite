@@ -173,8 +173,11 @@
 		if( array_key_exists( 'displayaktiv', $_POST ) || array_key_exists( 'isss', $_POST) )
         {
          ?>
-			<script>$('#feedbackdiv').append("<br>Displays werden neu geladen.");</script>
+            <script>$('#feedbackdiv').append("<br>Isss changed, sync daeomons.");</script>
 		<?php
+            $debs[]=" trigger reload isss/daemons";
+            exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/services.sh reboot all>> /var/log/openWB.log 2>&1 &" );
+            
             $debs[]=" trigger reload display in MQTT";
 			exec( 'mosquitto_pub -t openWB/system/reloadDisplay -m "1"' );
 			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/execdisplay', "1");
@@ -217,7 +220,7 @@
 		if( array_key_exists( 'rfidakt', $_POST ) ){ ?>
 			<script>$('#feedbackdiv').append("<br>RFID Konfiguration wird aktualisiert.");</script>
 			<?php
-			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/services.sh reboot rfid >> /var/log/openWB.log 2>&1 &" );
+            exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/services.sh reboot rfid >> /var/log/openWB.log 2>&1 &" );
             $debs[]=" trigger services.sh reboot rfid";
 		}
 
