@@ -2,6 +2,7 @@
 import json
 # import re
 import os
+import sys
 import time
 # import struct
 import traceback
@@ -867,6 +868,11 @@ def detect_modbus_usb_port() -> str:
         return "/dev/serial0"
 
 log_debug(1, "main start")
+
+_isss=int(sys.argv[1])
+_isss_mode=sys.argv[2]
+_isss_32=int(sys.argv[3])
+log_debug(1, "main start with isss:"+str(_isss)+ " " +str(_isss_mode) + " "+str(_isss_32) )
 
 MaxEvseError = 5
 sdmid = 105
