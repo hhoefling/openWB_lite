@@ -70,3 +70,5 @@ Um auch Firefox (99.0 64B Windows) verwenden zu können muss man in about:config
 9.1.2023 Letzte Aktualisierung des Colour-Themas. Runde Ecken soweie Eingenverbrauch und Autarkiegrad übernommen. Die Visuelen Ändergnen wurden nicht übernommen da sie auf meinen Geräten zu einer schlechteren Lesebarkeit führen würde. Die weitere Entwicklung auf Snaptec geht nun in Richtung openWB 2.0 (mit VUE).
 
 14.1.2023 Der Wallbox kann nun ein Name vergeben werden. Dieser wird oben links statt "openWB" angezeigt um die Box zu indentifizieren. Das braucht man nur wenn man mehrer hat (oder auf Virtellen Geräten testst)
+
+12.2.2023 Beim Wechsel vom/zum "Nur Ladepunkt" Mode werden die Dienste angepasst. Smarthome/tasker/modbusserver werden beim issss Mode gestoppt.
