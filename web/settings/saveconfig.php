@@ -176,7 +176,7 @@
             <script>$('#feedbackdiv').append("<br>Isss changed, sync daeomons.");</script>
 		<?php
             $debs[]=" trigger reload isss/daemons";
-            exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/services.sh reboot all>> /var/log/openWB.log 2>&1 &" );
+            exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/services.sh reboot all >> /var/log/openWB.log 2>&1 &" );
             
             $debs[]=" trigger reload display in MQTT";
 			exec( 'mosquitto_pub -t openWB/system/reloadDisplay -m "1"' );
