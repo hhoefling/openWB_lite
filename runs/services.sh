@@ -165,17 +165,17 @@ function tasker_cron5() # $1=eneabled
  # if enabed  start if not running
  # if disabled kill if running
  isrun=$(pgrep -f '^tsp' | head -1)
- deblog "isrun:$isrun"
  if (( $1 == 1  && isss == 0  )) ; then
-    deblog "tasker enabled"
+    deblog "tasker is enabled"
     if (( ${isrun:-0} == 0 )) ; then
       tasker_start
     else
       deblog "tasker allready run"
     fi
  else
-    deblog "tasker disabled, or isss is running"
+    deblog "tasker is disabled, or isss is running"
     if (( ${isrun:-0} != 0 )) ; then
+        openwbDebugLog "MAIN" 2 "SERVICE: tasker_cron5 isrun:$isrun"
        tasker_stop
     else
       deblog "tasker disabled or isss is running and not running"
