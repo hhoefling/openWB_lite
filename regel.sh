@@ -136,7 +136,7 @@ if [[ $isss == "1" ]]; then
 	mosquitto_pub -r -t "openWB/system/Uptime" -m "$(uptime)"
 	mosquitto_pub -r -t "openWB/system/Timestamp" -m "$(date +%s)"
 	mosquitto_pub -r -t "openWB/system/Date" -m "$(date)"
-	openwbDebugLog "MAIN" 1 "ISSS mode Exit 0"
+	openwbDebugLog "MAIN" 1 "##### ISSS #####  Exit 0"
 	exit 0
 fi
 ptstart
