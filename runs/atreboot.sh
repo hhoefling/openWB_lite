@@ -621,11 +621,36 @@ at_reboot() {
 	chmod 777 /var/www/html/openWB/ramdisk/mqttLadereglerTxt
 
 
+# disable virt.Netword in issss mode
+    if (( isss == 1 )); then
+        ethstate=$(</sys/class/net/eth0/carrier)
+        if (( ethstate == 1 )); then
+            log "isss mode, stop virtual network on eth0"
+            sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 down
+        else
+            log "isss mode, stop virtual network on wlan0"
+            sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 down
+        fi
+    fi
+
+# check Vars for isss/buchse daemons
+#    if (( isss == 1 )); then
+#        log "isss..., set issslp2act"
+#        echo "$lastmanagement" > "$OPENWBBASEDIR/ramdisk/issslp2act"
+#    else
+#       if [[ "$evsecon" == "buchse" ]]; then
+#         log "socket..., check ppbuchse"
+#         # ppbuchse is used in isss.py to detect "openWB Buchse"
+#         if [ ! -f /home/pi/ppbuchse ]; then
+#             echo "32" > /home/pi/ppbuchse
+#         fi
+#      fi   
+#    fi
+
 
     ###############################################################
     # Make sure all services are running (restart crashed services etc.):
-    # Used for: smartmq, rse, rfid, modbus, button, mqtt_sub, tasker, sysdaem
-    # noch nicht f?r isss.py
+    # Used for: smartmq, rse, rfid, modbus, button, mqtt_sub, tasker, sysdaem, isss
     # 
     log restart all daemons with services.sh
     source "/var/www/html/openWB/runs/services.sh"
@@ -635,34 +660,21 @@ at_reboot() {
 
 #	# check for slave config and start handler
 #	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
-	sudo pkill -f '^python.*/isss.py'
+#	sudo pkill -f '^python.*/isss.py'
+
+#    # check for socket system and start handler
+#    # we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
+#   sudo pkill -f '^python.*/buchse.py'
 	
-	if (( isss == 1 )); then
-		log "isss..."
-		echo "$lastmanagement" > "$OPENWBBASEDIR/ramdisk/issslp2act"
-		nohup python3 "$OPENWBBASEDIR/runs/isss.py" >>"$OPENWBBASEDIR/ramdisk/isss.log" 2>&1 &
-		#     python3 "$OPENWBBASEDIR/runs/isss.py" &
-		# second IP already set up !
-		ethstate=$(</sys/class/net/eth0/carrier)
-		if (( ethstate == 1 )); then
-			sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 down
-		else
-			sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 down
-		fi
-	fi
-
-	# check for socket system and start handler
-	# we need sudo to kill in case of an update from an older version where this script was not run as user `pi`:
-	sudo pkill -f '^python.*/buchse.py'
-	if [[ "$evsecon" == "buchse" ]]  && [[ "$isss" == "0" ]]; then
-		log "socket..."
-		# ppbuchse is used in issss.py to detect "openWB Buchse"
-		if [ ! -f /home/pi/ppbuchse ]; then
-			echo "32" > /home/pi/ppbuchse
-		fi
-		nohup python3 "$OPENWBBASEDIR/runs/buchse.py" >>"$LOGFILE" 2>&1 &
-	fi
-
+#    if (( isss == 1 )); then
+#        log "isss..., start isss.py "
+#        nohup python3 "$OPENWBBASEDIR/runs/isss.py" >>"$OPENWBBASEDIR/ramdisk/isss.log" 2>&1 &
+#    else
+#       if [[ "$evsecon" == "buchse" ]]; then
+#         log "socket..., start buchse.py"
+#         nohup python3 "$OPENWBBASEDIR/runs/buchse.py" >>"$LOGFILE" 2>&1 &
+#      fi   
+#    fi
 
 	# update display configuration
 	if (( displayaktiv == 1 )); then

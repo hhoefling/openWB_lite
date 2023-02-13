@@ -383,18 +383,11 @@ service_main cron5 all
 #
 #fi
 
-# if this is a remote controlled system check if our isss handler is running
-if (( isss == 1 )) || [[ "$evsecon" == "daemon" ]]; then
-	openwbDebugLog "MAIN" 1 "external openWB or daemon mode configured"
-	if pgrep -f '^python.*/isss.py' > /dev/null
-	then
-		openwbDebugLog "MAIN" 1 "isss handler already running"
-	else
-		openwbDebugLog "MAIN" 0 "isss handler not running! restarting process"
-		python3 "$OPENWBBASEDIR/runs/isss.py" &
-	fi
+# is this  a "nur Ladepunkt" system 
+if (( isss == 1 )) ; then
+	openwbDebugLog "MAIN" 1 "isss mode configured"
 else
-	openwbDebugLog "MAIN" 1 "external openWB or daemon mode not configured; checking network setup"
+	openwbDebugLog "MAIN" 1 "isss mode not configured; checking network setup"
 	ethstate=$(</sys/class/net/eth0/carrier)
 	if (( ethstate == 1 )); then
 		eth00ip=$(sudo ifconfig eth0:0 |grep 'inet ' |awk '{print $2}' )
@@ -441,26 +434,26 @@ else
 	fi
 
 	# check for obsolete isss handler
-	sudo pkill -f '^python.*/isss.py' >/dev/null
+	# sudo pkill -f '^python.*/isss.py' >/dev/null
 fi
 
 
 # if this is a socket system check for our handler to control the socket lock
-if [[ "$evsecon" == "buchse" ]] && [[ "$isss" == "0" ]]; then
-	openwbDebugLog "MAIN" 1 "openWB socket configured"
-	if ps ax |grep -v grep |grep "python3 $OPENWBBASEDIR/runs/buchse.py" > /dev/null
-	then
-		openwbDebugLog "MAIN" 1 "socket handler already running"
-	else
-		openwbDebugLog "MAIN" 0 "socket handler not running! restarting process"
-		python3 $OPENWBBASEDIR/runs/buchse.py &
-	fi
-else
-	$(sudo pkill -f '^python.*/buchse.py' >/dev/null )
-	if (( $? == 0)) ; then
-		openwbDebugLog "MAIN" 0 "openWB socket not configured but socket handler is running; killing process"
-	fi
-fi
+#if [[ "$evsecon" == "buchse" ]] && [[ "$isss" == "0" ]]; then
+#	openwbDebugLog "MAIN" 1 "openWB socket configured"
+#	if ps ax |grep -v grep |grep "python3 $OPENWBBASEDIR/runs/buchse.py" > /dev/null
+#	then
+#		openwbDebugLog "MAIN" 1 "socket handler already running"
+#	else
+#		openwbDebugLog "MAIN" 0 "socket handler not running! restarting process"
+#		python3 $OPENWBBASEDIR/runs/buchse.py &
+#   fi
+#else
+#	$(sudo pkill -f '^python.*/buchse.py' >/dev/null )
+#	if (( $? == 0)) ; then
+#		openwbDebugLog "MAIN" 0 "openWB socket not configured but socket handler is running; killing process"
+#	fi
+#fi
 
 
 # setup rfid handler if needed
