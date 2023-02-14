@@ -176,7 +176,7 @@ function tasker_cron5() # $1=eneabled
     deblog "tasker is disabled, or isss is running"
     if (( ${isrun:-0} != 0 )) ; then
         openwbDebugLog "MAIN" 2 "SERVICE: tasker_cron5 isrun:$isrun"
-       tasker_stop
+        tasker_stop
     else
       deblog "tasker disabled or isss is running and not running"
     fi
