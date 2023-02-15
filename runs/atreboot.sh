@@ -231,7 +231,9 @@ at_reboot() {
 			echo "@chromium-browser --incognito --disable-pinch --overscroll-history-navigation=0 --kiosk http://localhost/openWB/web/display.php" >> /home/pi/.config/lxsession/LXDE-pi/autostart
 		fi
 		log "deleting browser cache"
-		rm -rf /home/pi/.cache/chromium
+		sudo -u pi rm -rf /home/pi/.cache/chromium
+        sudo -u pi rm -rf /home/pi/.cache/lxsession/LXDE-pi/run.log
+        sudo -u pi ln -s /dev/null /home/pi/.cache/lxsession/LXDE-pi/run.log
 		sudo /var/www/html/openWB/runs/displaybacklight.sh $displayLight
 	fi
 	
@@ -678,6 +680,11 @@ at_reboot() {
 
 	# update display configuration
 	if (( displayaktiv == 1 )); then
+		if [ ! -f /home/pi/.config/lxsession/LXDE-pi/autostart ]; then
+			mkdir /home/pi/.config/lxsession 2>&1 >/dev/null
+			mkdir /home/pi/.config/lxsession/LXDE-pi 2>&1 >/dev/null
+			cp /var/www/html/openWB/web/tools/autostart /home/pi/.config/lxsession/LXDE-pi/autostart
+		fi
 		log "display update..."
 		if grep -Fq "@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php" /home/pi/.config/lxsession/LXDE-pi/autostart
 		then

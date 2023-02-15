@@ -751,6 +751,7 @@ loadvars(){
 		fi
 		wattbezugint=$(printf "%.0f\n" $wattbezug)
 		#evu glaettung
+        local glaettungw=0
 		if (( evuglaettungakt == 1 )); then
 			if (( evuglaettung > 20 )); then
 				ganzahl=$(( evuglaettung / 10 ))
@@ -766,6 +767,7 @@ loadvars(){
 				glaettungfinal=$((glaettungw / ganzahl))
 				echo $glaettungfinal > ramdisk/glattwattbezug
 				wattbezug=$glaettungfinal
+                openwbDebugLog "MAIN" 2 "Nach Glättung Wattbezug: $wattbezug"
 			fi
 		fi
 		

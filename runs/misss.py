@@ -4,7 +4,7 @@ import json
 import os
 import sys
 import time
-# import struct
+import struct
 import traceback
 from typing import Tuple
 
@@ -14,18 +14,25 @@ from myisss.mylog import log_debug, read_from_ramdisk, write_to_ramdisk
 # from pymodbus.client.sync import ModbusSerialClient
 from myisss.mygpio import GPIO
 from myisss.mymodbus import ModbusSerialClient
+from myisss.mymodbus import lp1_00, lp1_02, lp1_04, lp1_06, lp1_08, lp1_0A, lp1_0C, lp1_0E, lp1_10, lp1_156, lp1_46
+from myisss.mymodbus import lp2_00, lp2_02, lp2_04, lp2_06, lp2_08, lp2_0A, lp2_0C, lp2_0E, lp2_10, lp2_156
+from myisss.mymodbus import evse1_1000, evse1_1002, evse2_1000, evse2_1002
 import paho.mqtt.client as mqtt
 
-basePath = "/var/www/html/openWB"
-ramdiskPath = basePath + "/ramdisk"
-logFilename = ramdiskPath + "/isss.log"
-
-DeviceValues = {}
+# Globale values als Dictionary
+# sys.getsizeof(myDict)   ->288 # Größe von myDict
+DeviceValues = {}       # last to mqtt mclient geschriebene Werte
 Values = {}
-modbusvalues = {}
+G_isss = 0
+G_isss_mode = "none"
+G_isss_32 = 32
 
 
+G_sdmid = 0
+# G_sdm2id = 106
+G_metercounter = 0
 
+G_mqttsub = None
 
 def init_gpio() -> None:
     GPIO.setwarnings(False)
@@ -46,37 +53,6 @@ def init_values() -> None:
     global DeviceValues
     global Values
     global modbusvalues
-    
-    # wird aus openWBSim/lp1/x ausgelesen
-    modbusvalues['lp1/0x0C'] = 0
-    modbusvalues['lp1/0x0E'] = 0
-    modbusvalues['lp1/0x10'] = 0
-    modbusvalues['lp1/0x00'] = 221
-    modbusvalues['lp1/0x02'] = 222
-    modbusvalues['lp1/0x04'] = 223
-    modbusvalues['lp1/0x06'] = 0
-    modbusvalues['lp1/0x08'] = 0
-    modbusvalues['lp1/0x0A'] = 0
-    modbusvalues['lp1/0x0156'] = 2333.0
-    modbusvalues['lp1/0x46'] = 50.2
-
-    # wird aus openWBSim/lp2/x ausgelesen
-    modbusvalues['lp2/0x0C'] = 0
-    modbusvalues['lp2/0x0E'] = 0
-    modbusvalues['lp2/0x10'] = 0
-    modbusvalues['lp2/0x00'] = 221
-    modbusvalues['lp2/0x02'] = 222
-    modbusvalues['lp2/0x04'] = 223
-    modbusvalues['lp2/0x06'] = 0
-    modbusvalues['lp2/0x08'] = 0
-    modbusvalues['lp2/0x0A'] = 0
-    modbusvalues['lp2/0x0156'] = 2333.0
-    modbusvalues['lp2/0x46'] = 50.2
-
-    modbusvalues['evse1/1000'] = 0
-    modbusvalues['evse1/1002'] = 0
-    modbusvalues['evse2/1000'] = 0
-    modbusvalues['evse2/1002'] = 0
     
     # global values
     DeviceValues.update({'rfidtag': str(5)})
@@ -121,87 +97,87 @@ def init_values() -> None:
 
 # read all meter values and publish to mqtt broker
 def read_meter():
-    global modbusvalues
 
-    global metercounter
+    global G_metercounter
     global evsefailure
     global modbusclient
-    global lp2installed
-    global llmeterconfiglp1
-    global sdmid
-    global sdm2id
+    global G_isss_mode   # lp2installed
+    global G_sdmid
+    # global G_sdm2id
     global lp1countphasesinuse
     global lp2countphasesinuse
     global lp1evsehres
     global lp2evsehres
     global rfidtag
 
-#    if metercounter > 0:
-#        metercounter = metercounter - 0.5
-#    if llmeterconfiglp1 == 0:
-#        log_debug(2, "Erkenne verbauten Zaehler.")
-#        # check sdm
-#        try:
-#            resp = modbusclient.read_input_registers(0x00, 2, unit=105)
-#            voltage = struct.unpack('>f', struct.pack('>HH', *resp.registers))[0]
-#            if int(voltage) > 20:
-#                llmeterconfiglp1 = 105
-#                sdmid = 105
-#                log_debug(2, "SDM Zaehler erkannt")
-#        except Exception:
-#            pass
-#        # check b23
-#        try:
-#            resp = modbusclient.read_holding_registers(0x5B00, 2, unit=201)
-#            voltage = resp.registers[1]
-#            if int(voltage) > 20:
-#                llmeterconfiglp1 = 201
-#                sdmid = 201
-#                log_debug(2, "B23 Zaehler erkannt")
-#        except Exception:
-#            pass
-#
-#    else:
-#        sdmid = llmeterconfiglp1
+    if G_metercounter > 0:
+        G_metercounter = G_metercounter - 0.5
         
-    lp1llw1 = modbusvalues['lp1/0x0C']
+    if G_sdmid == 0:
+        log_debug(2, "Erkenne verbauten Zaehler2. SDM")
+        try:
+            voltage = mbusclient.read_input_registers(0x00, 2, unit=105)
+            if int(voltage) > 20:
+                G_sdmid = 105
+                log_debug(2, "SDM Zaehler erkannt")
+        except Exception:
+            pass
+    
+    if G_sdmid == 0:
+        log_debug(2, "Erkenne verbauten Zaehler1. B23")
+        try:
+            voltage = mbusclient.read_holding_registers(0x5B00, 2, unit=201)
+            if int(voltage) > 20:
+                G_sdmid = 201
+                log_debug(2, "B23 Zaehler erkannt")
+        except Exception:
+            pass
+            
+    if G_sdmid == 0:
+        log_debug(2, "Kein Zaehler1 erkannt")
+        return
+        
+    log_debug(2, "Zaehler1 id " + str(G_sdmid))
+        
+
+    lp1llw1 = mbusclient.readvalue(lp1_0C)
     lp1llw1 = int(lp1llw1)
 
-    lp1llw2 = modbusvalues['lp1/0x0E']
+    lp1llw2 = mbusclient.readvalue(lp1_0E)
     lp1llw2 = int(lp1llw2)
     
-    lp1llw3 = modbusvalues['lp1/0x10']
+    lp1llw3 = mbusclient.readvalue(lp1_10)
     lp1llw3 = int(lp1llw3)
     lp1llg = lp1llw1 + lp1llw2 + lp1llw3
     if lp1llg < 10:
         lp1llg = 0
     write_to_ramdisk("llaktuell", str(lp1llg))
 
-    voltage = modbusvalues['lp1/0x00']
+    voltage = float(mbusclient.readvalue(lp1_00))
     lp1voltage1 = float("%.1f" % voltage)
     write_to_ramdisk("llv1", str(lp1voltage1))
-    voltage = modbusvalues['lp1/0x02']
+    voltage = float(mbusclient.readvalue(lp1_02))
     lp1voltage2 = float("%.1f" % voltage)
     write_to_ramdisk("llv2", str(lp1voltage2))
-    voltage = modbusvalues['lp1/0x04']
+    voltage = float(mbusclient.readvalue(lp1_04))
     lp1voltage3 = float("%.1f" % voltage)
     write_to_ramdisk("llv3", str(lp1voltage3))
     
-    lp1lla1 = modbusvalues['lp1/0x06'] 
+    lp1lla1 = float(mbusclient.readvalue(lp1_06))
     lp1lla1 = float("%.1f" % lp1lla1)
     write_to_ramdisk("lla1", str(lp1lla1))
-    lp1lla2 = modbusvalues['lp1/0x08']
+    lp1lla2 = float(mbusclient.readvalue(lp1_08))
     lp1lla2 = float("%.1f" % lp1lla2)
     write_to_ramdisk("lla2", str(lp1lla2))
-    lp1lla3 = modbusvalues['lp1/0x0A'] 
+    lp1lla3 = float(mbusclient.readvalue(lp1_0A))
     lp1lla3 = float("%.1f" % lp1lla3)
     write_to_ramdisk("lla3", str(lp1lla3))
     
-    lp1llkwh = modbusvalues['lp1/0x0156']
+    lp1llkwh = float(mbusclient.readvalue(lp1_156))
     lp1llkwh = float("%.3f" % lp1llkwh)
     write_to_ramdisk("llkwh", str(lp1llkwh))
     
-    hz = modbusvalues['lp1/0x46']
+    hz = float(mbusclient.readvalue(lp1_46))
     hz = float("%.2f" % hz)
     write_to_ramdisk("llhz", str(hz))
     
@@ -218,38 +194,38 @@ def read_meter():
         
     try:
 
-        if lp2installed:
+        if G_isss_mode == "duo":
             try:
                 time.sleep(0.1)
-                lp2llw1 = modbusvalues['lp2/0x0C']
+                lp2llw1 = mbusclient.readvalue(lp2_0C)
                 lp2llw1 = int(lp2llw1)
-                lp2llw2 = modbusvalues['lp2/0x0E']
+                lp2llw2 = mbusclient.readvalue(lp2_0E)
                 lp2llw2 = int(lp2llw2)
-                lp2llw3 = modbusvalues['lp2/0x10']
+                lp2llw3 = mbusclient.readvalue(lp2_10)
                 lp2llw3 = int(lp2llw3)
                 lp2llg = lp2llw1 + lp2llw2 + lp2llw3
                 if lp2llg < 10:
                     lp2llg = 0
                 write_to_ramdisk("llaktuells1", str(lp2llg))
-                voltage = modbusvalues['lp2/0x00']
+                voltage = float(mbusclient.readvalue(lp2_00))
                 lp2voltage1 = float("%.1f" % voltage)
                 write_to_ramdisk("llvs11", str(lp2voltage1))
-                voltage = modbusvalues['lp2/0x02']
+                voltage = float(mbusclient.readvalue(lp2_02))
                 lp2voltage2 = float("%.1f" % voltage)
                 write_to_ramdisk("llvs12", str(lp2voltage2))
-                voltage = modbusvalues['lp2/0x04']
+                voltage = float(mbusclient.readvalue(lp2_04))
                 lp2voltage3 = float("%.1f" % voltage)
                 write_to_ramdisk("llvs13", str(lp2voltage3))
-                lp2lla1 = modbusvalues['lp2/0x06'] 
+                lp2lla1 = float(mbusclient.readvalue(lp2_06))
                 lp2lla1 = float("%.1f" % lp2lla1)
                 write_to_ramdisk("llas11", str(lp2lla1))
-                lp2lla2 = modbusvalues['lp2/0x08']
+                lp2lla2 = float(mbusclient.readvalue(lp2_08))
                 lp2lla2 = float("%.1f" % lp2lla2)
                 write_to_ramdisk("llas12", str(lp2lla2))
-                lp2lla3 = modbusvalues['lp2/0x0A']
+                lp2lla3 = float(mbusclient.readvalue(lp2_0A))
                 lp2lla3 = float("%.1f" % lp2lla3)
                 write_to_ramdisk("llas13", str(lp2lla3))
-                lp2llkwh = modbusvalues['lp2/0x0156']
+                lp2llkwh = float(mbusclient.readvalue(lp2_156))
                 lp2llkwh = float("%.3f" % lp2llkwh)
                 write_to_ramdisk("llkwhs1", str(lp2llkwh))
                 try:
@@ -263,12 +239,12 @@ def read_meter():
                     lp2countphasesinuse = 1
                 try:
                     time.sleep(0.1)
-                    lp2ll = modbusvalues['evse2/1000']
+                    lp2ll = mbusclient.readvalue(evse2_1000)
                 except Exception:
                     lp2ll = 0
                 try:
                     time.sleep(0.1)
-                    lp2var = modbusvalues['evse2/1002']
+                    lp2var = mbusclient.readvalue(evse2_1002)
                     DeviceValues.update({'lp2readerror': str(0)})
                 except Exception:
                     DeviceValues.update({'lp2readerror': str(int(DeviceValues['lp2readerror']) + 1)})
@@ -301,14 +277,14 @@ def read_meter():
 
         try:
             time.sleep(0.1)
-            lp1ll = modbusvalues['evse1/1000']
+            lp1ll = mbusclient.readvalue(evse1_1000)
             evsefailure = 0
         except Exception:
             lp1ll = 0
             evsefailure = 1
         try:
             time.sleep(0.1)
-            lp1var = modbusvalues['evse1/1002']
+            lp1var = mbusclient.readvalue(evse1_1002)
             evsefailure = 0
             DeviceValues.update({'lp1readerror': str(0)})
         except Exception:
@@ -342,6 +318,9 @@ def read_meter():
             rfidtag = read_from_ramdisk("readtag")
         except Exception:
             pass
+            
+        log_debug( 2 , '######## '+str(G_isss) )    
+        if G_isss == 1:
         # check for parent openWB
         try:
             parentWB = read_from_ramdisk("parentWB")
@@ -349,7 +328,7 @@ def read_meter():
             parentCPlp1 = read_from_ramdisk("parentCPlp1").strip()
             # parentCPlp1 = str(int(re.sub(r'\D', '', read_from_ramdisk("parentCPlp1"))))
             parentCPlp2 = '0'
-            if lp2installed:
+                if G_isss_mode == "duo":
                 parentCPlp2 = read_from_ramdisk("parentCPlp2").strip()
         except Exception:
             log_debug(2, "Failed to get infos about parent wb! Setting default values.")
@@ -358,6 +337,11 @@ def read_meter():
             parentCPlp2 = str("0")
 
         log_debug(2, "parentWB:[" + parentWB + '] parentCPlp1:[' + parentCPlp1 + '] parentCPlp2:[' + parentCPlp2 + ']')
+        else:
+            parentWB = str("0")
+            parentCPlp1 = str("0")
+            parentCPlp2 = str("0")
+
         if parentWB != "0":
             remoteclient = mqtt.Client("openWB-isss-bulkpublisher-" + str(os.getpid()))
             remoteclient.connect(str(parentWB))
@@ -492,7 +476,8 @@ def read_meter():
                     # 2.0 
                     remoteclient.publish("openWB/set/chargepoint/" + parentCPlp1 + "/get/rfid", payload=json.dumps(rfidtag), qos=0, retain=True)
                     remoteclient.loop(timeout=2.0)
-            if lp2installed:
+
+            if G_isss_mode == "duo":
                 if "lp2countphasesinuse" in key:
                     if DeviceValues[str(key)] != str(lp2countphasesinuse):
                         mclient.publish("openWB/lp/2/countPhasesInUse", payload=str(lp2countphasesinuse), qos=0, retain=True)
@@ -635,8 +620,8 @@ def read_meter():
         if parentWB != "0":
             remoteclient.disconnect()
     except Exception:
-        metercounter = metercounter + 1
-        if metercounter > 5:
+        G_metercounter = G_metercounter + 1
+        if G_metercounter > 5:
             log_debug(2, "Get meter Fehler!", traceback.format_exc())
 
 
@@ -688,14 +673,15 @@ def load_control_values():
     global u1p3ptmpstat
     global u1p3plp2tmpstat
     global evsefailure
-    global lp2installed
+#    global lp2installed
+    global G_isss_mode
+    global G_isss
     global heartbeat
     global actcooldown
     global actcooldowntimestamp
     global lp1evsehres
     global lp2evsehres
 
-    actorstat = get_socket_state()
     try:
         if lp1evsehres == 0:
             lp1solla = int(float(read_from_ramdisk("llsoll")))
@@ -704,6 +690,8 @@ def load_control_values():
     except (FileNotFoundError, ValueError):
         log_debug(2, "Error reading configured current! Using default '0'.")
         lp1solla = 0
+        
+    if G_isss == 1:        
     try:
         heartbeat = int(read_from_ramdisk("heartbeat"))
         if heartbeat > 80:
@@ -712,8 +700,11 @@ def load_control_values():
     except (FileNotFoundError, ValueError):
         log_debug(2, "Error reading heartbeat! Using default '0'.")
         heartbeat = 0
-    log_debug(0, "LL Soll: " + str(lp1solla) + " ActorStatus: " + str(actorstat))
-    if socket_configured:
+                
+    log_debug(0, "LL Soll: " + str(lp1solla) )
+    if G_socket_configured:
+        log_debug(0, "ActorStatus: " + str(actorstat))
+        actorstat = get_socket_state()
         log_debug(1, "in Buchse " + str(evsefailure) + " lp1plugstat:" + str(Values["lp1plugstat"]))
         if actcooldowntimestamp > 50:
             tst = actcooldowntimestamp + 300
@@ -744,7 +735,7 @@ def load_control_values():
     else:
         if Values["lp1evsell"] != lp1solla:
             writelp1evse(lp1solla)
-    if lp2installed:
+    if G_isss_mode == "duo":
         try:
             if lp2evsehres == 0:
                 lp2solla = int(float(read_from_ramdisk("llsolls1")))
@@ -767,7 +758,7 @@ def load_control_values():
         u1p3pstat = 3
     u1p3pstat = switch_phases_cp1(u1p3ptmpstat, u1p3pstat)
     writelp1evse(lp1solla)
-    if lp2installed:
+    if G_isss_mode == "duo":
         try:
             u1p3plp2tmpstat = int(read_from_ramdisk("u1p3plp2stat"))
         except (FileNotFoundError, ValueError):
@@ -825,29 +816,31 @@ def switch_phases_cp2(new_phases: int, old_phases: int) -> int:
 
 def writelp1evse(lla):
     if lp1evsehres == 1:
-        mpp = pp * 100
+        mpp = G_pp * 100
         if lla > mpp:
             lla = mpp
     else:
-        if lla > pp:
-            lla = pp
+        if lla > G_pp:
+            lla = G_pp
     try:
-        mbusclient.write_registers(1000, lla, unit=1)
         log_debug(1, "Write to EVSE lp1 " + str(lla))
+        mbusclient.write_registers(1000, lla, unit=1)
+        mclient.publish("openSim/evse1/1000", str(lla), qos=0, retain=True)
     except Exception:
         log_debug(2, "FAILED Write to EVSE lp1 " + str(lla), traceback.format_exc())
 
 
 def writelp2evse(lla):
     try:
-        mbusclient.write_registers(1000, lla, unit=2)
         log_debug(1, "Write to EVSE lp2 " + str(lla))
+        mbusclient.write_registers(1000, lla, unit=2)
+        mclient.publish("openSim/evse2/1000", str(lla), qos=0, retain=True)
     except Exception:
         log_debug(2, "FAILED Write to EVSE lp2 " + str(lla), traceback.format_exc())
 
 
 # check for "openWB Buchse"
-def check_for_socket() -> Tuple[bool, int]:
+def NC_check_for_socket() -> Tuple[bool, int]:
     try:
         with open('/home/pi/ppbuchse', 'r') as value:
             pp_value = int(value.read())
@@ -867,19 +860,17 @@ def detect_modbus_usb_port() -> str:
     except FileNotFoundError:
         return "/dev/serial0"
 
-log_debug(1, "main start")
 
-_isss=int(sys.argv[1])
-_isss_mode=sys.argv[2]
-_isss_32=int(sys.argv[3])
-log_debug(1, "main start with isss:"+str(_isss)+ " " +str(_isss_mode) + " "+str(_isss_32) )
+log_debug(1, "###### main start #######")
+
+G_isss = int(sys.argv[1])  # 1 wenn "nur ladepunkt" als mit parent.pflic5 + heartbeat
+G_isss_mode = sys.argv[2]
+G_isss_32 = int(sys.argv[3])
+log_debug(1, "main start with isss:" + str(G_isss) + " " + str(G_isss_mode) + " " + str(G_isss_32))
 
 MaxEvseError = 5
-sdmid = 105
-sdm2id = 106
 actorstat = 0
 evsefailure = 0
-llmeterconfiglp1 = 0
 
 lp1evsehres = 0
 lp2evsehres = 0
@@ -892,18 +883,8 @@ rfidtag = 0
 lp1countphasesinuse = 1
 lp2countphasesinuse = 2
 heartbeat = 0
-metercounter = 0
 actcooldown = 0
 actcooldowntimestamp = 0
-# check for openWB DUO in slave mode
-lp2installed = False
-try:
-    if int(read_from_ramdisk("issslp2act")) == 1:
-        lp2installed = True
-except (FileNotFoundError, ValueError):
-    log_debug(1, "Error reading issslp2act! Guessing cp2 is not configured.")
-    
-log_debug(1, "lp2installed:" + str(lp2installed))
 
 log_debug(1, "init gpio")
 init_gpio()
@@ -911,21 +892,57 @@ log_debug(1, "init values")
 init_values()
 
 log_debug(1, "sock")
-socket_configured, pp = check_for_socket()
+G_socket_configured = int( G_isss_mode == "socket")
+G_pp = G_isss_32
 
 log_debug(1, "seradd")
 seradd = detect_modbus_usb_port()
 
+# connect to broker and subscribe to set topics
+def on_connect(client, userdata, flags, rc):
+    #subscribe to all set topics
+    #client.subscribe("openWB/#", 2)
+    mclient.subscribe("openWB/set/isss/#", 2)
+    mclient.subscribe("openSim/#", 2)
+
+# handle each set topic
+def on_message(client, userdata, msg):
+    # log all messages before any error forces this process to die
+    if (len(msg.payload.decode("utf-8")) >= 1):
+        payload=msg.payload.decode("utf-8")
+        #lock.acquire()
+        log_debug(2,"MClient.Topic: [%s] Message: [%s]" % (msg.topic, payload ) )
+        t = msg.topic.replace("openSim/","")
+        mbusclient.writevalue(t, payload)
+
+# ReInit-Loop
+mainloops=0
+while True:
+    mainloops=20
+    log_debug( 2, "##############################################");
+    log_debug( 2, "######## Topic ##############################");
+    log_debug( 2, "connect modbus device");
+    
+    mclient = mqtt.Client("openWB-isss-subscripter-" + str(os.getpid()))
+    mclient.on_connect = on_connect
+    mclient.on_message = on_message
+    mclient.connect("localhost", 1883)
+    mclient.loop_start()
       
-        
-# connect with USB/modbus device
-# with ModbusSerialClient(method="rtu", port=seradd, baudrate=9600, stopbits=1, bytesize=8, timeout=1) as client:
-mbusclient = ModbusSerialClient()
-with mbusclient:
+    mbusclient = ModbusSerialClient(method="rtu", port=seradd, baudrate=9600, stopbits=1, bytesize=8, timeout=1)
+    with mbusclient:
     log_debug(1, "modbusclient createt.")
     # start our control loop
-    while True:
-        log_debug(1, "Loop...")
+        while mainloops>0:
+            log_debug(1, "Main Loop..." + str(mainloops))
+            mclient.publish("openSim/ticker", str(mainloops), qos=0, retain=True)
         read_meter()
-        # load_control_values()
+            load_control_values()
         time.sleep(1)
+            mclient.loop()
+            mainloops = mainloops - 1
+        mbusclient.close()
+        mclient.loop_stop() 
+        mclient.disconnect()
+    log_debug(2, "mainloops abgelaufen, reinit")            
+# ##### END ####
