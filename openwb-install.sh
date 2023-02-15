@@ -205,7 +205,7 @@ done
 
 echo "installing pymodbus"
 sudo pip install  -U pymodbus
-sudo pip3 install  -U pymodbus
+#sudo pip3 install  -U pymodbus3
 sudo pip3 install --upgrade requests
 
 echo "check for paho-mqtt"
