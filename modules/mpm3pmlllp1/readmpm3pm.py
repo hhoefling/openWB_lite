@@ -7,7 +7,13 @@ import sys
 # import ConfigParser
 import struct
 # import binascii
-from pymodbus.client.sync import ModbusTcpClient
+
+
+try:
+  from pymodbus.client import ModbusTcpClient
+except:
+  from pymodbus.client.sync import ModbusTcpClient
+
 
 ipadd = str(sys.argv[1])
 idadd = int(sys.argv[2])
