@@ -669,7 +669,7 @@
 									<div class="form-row mb-1">
 										<label for="smaemdllid" class="col-md-4 col-form-label">Seriennummer</label>
 										<div class="col">
-											<input class="form-control" type="text" name="smaemdllid" id="smaemdllid" value="< ? php echo $smaemdllidold ?>">
+											<input class="form-control" type="text" name="smaemdllid" id="smaemdllid" value="<?php echo $smaemdllidold ?>">
 											<span class="form-text small">
 												Gültige Werte: Seriennummer. Hier die Seriennummer des SMA Meter für die Ladeleistung angeben.
 											</span>
@@ -1511,7 +1511,7 @@
 									<div class="form-row mb-1">
 										<label for="evnotifyakey" class="col-md-4 col-form-label">Akey</label>
 										<div class="col">
-											<input class="form-control" type="text" name="evnotifyakey" id="evnotifyakey" value="< ? php echo $evnotifyakeyold ?>">
+											<input class="form-control" type="text" name="evnotifyakey" id="evnotifyakey" value="<?php echo $evnotifyakeyold ?>">
 											<span class="form-text small">
 												Akey des EVNotify Kontos
 											</span>
@@ -1520,7 +1520,7 @@
 									<div class="form-row mb-1">
 										<label for="evnotifytoken" class="col-md-4 col-form-label">Token</label>
 										<div class="col">
-											<input class="form-control" type="text" name="evnotifytoken" id="evnotifytoken" value="< ? php echo $evnotifytokenold ?>">
+											<input class="form-control" type="text" name="evnotifytoken" id="evnotifytoken" value="<?php echo $evnotifytokenold ?>">
 											<span class="form-text small">
 												Token des Kontos
 											</span>
@@ -1987,13 +1987,13 @@
 									<div class="form-row mb-1">
 										<label for="soc_tronity_client_id_lp1" class="col-md-4 col-form-label">Client ID</label>
 										<div class="col">
-											<input class="form-control" type="text" required placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" pattern="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" name="soc_tronity_client_id_lp1" id="soc_tronity_client_id_lp1" value="< ? php echo $soc_tronity_client_id_lp1old ?>">
+											<input class="form-control" type="text" required placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" pattern="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" name="soc_tronity_client_id_lp1" id="soc_tronity_client_id_lp1" value="<?php echo $soc_tronity_client_id_lp1old ?>">
 										</div>
 									</div>
 									<div class="form-row mb-1">
 										<label for="soc_tronity_client_secret_lp1" class="col-md-4 col-form-label">Client Secret</label>
 										<div class="col">
-											<input class="form-control" type="text" required placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" pattern="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" name="soc_tronity_client_secret_lp1" id="soc_tronity_client_secret_lp1" value="< ? php echo $soc_tronity_client_secret_lp1old ?>">
+											<input class="form-control" type="text" required placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" pattern="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" name="soc_tronity_client_secret_lp1" id="soc_tronity_client_secret_lp1" value="<?php echo $soc_tronity_client_secret_lp1old ?>">
 										</div>
 									</div>
 									<div class="form-row mb-1">
@@ -2020,14 +2020,14 @@
 														<i class="fas fa-car"></i>
 													</div>
 												</div>
-												<input required readonly class="form-control" type="text" name="soc_tronity_vehicle_id_lp1" id="soc_tronity_vehicle_id_lp1" value="< ? php echo $soc_tronity_vehicle_id_lp1old ?>">
+												<input required readonly class="form-control" type="text" name="soc_tronity_vehicle_id_lp1" id="soc_tronity_vehicle_id_lp1" value="<?php echo $soc_tronity_vehicle_id_lp1old ?>">
 											</div>
 										</div>
 									</div>
 									<div class="form-row mb-1">
 										<label for="soc_tronity_intervall" class="col-md-4 col-form-label">Abfrageintervall Standby</label>
 										<div class="col">
-											<input class="form-control" type="number" min="0" step="1" name="soc_tronity_intervall" id="soc_tronity_intervall" value="< ? php echo $soc_tronity_intervallold ?>">
+											<input class="form-control" type="number" min="0" step="1" name="soc_tronity_intervall" id="soc_tronity_intervall" value="<?php echo $soc_tronity_intervallold ?>">
 											<span class="form-text small">
 												Gibt an, in welchem Intervall in Minuten der Ladestand des Autos abgefragt werden soll, wenn nicht geladen wird.
 											</span>
@@ -2036,7 +2036,7 @@
 									<div class="form-row mb-1">
 										<label for="soc_tronity_intervallladen" class="col-md-4 col-form-label">Abfrageintervall Laden</label>
 										<div class="col">
-											<input class="form-control" type="number" min="0" step="1" name="soc_tronity_intervallladen" id="soc_tronity_intervallladen" value="< ? php echo $soc_tronity_intervallladenold ?>">
+											<input class="form-control" type="number" min="0" step="1" name="soc_tronity_intervallladen" id="soc_tronity_intervallladen" value="<?php echo $soc_tronity_intervallladenold ?>">
 											<span class="form-text small">
 												Gibt an, in welchem Intervall in Minuten der Ladestand des Autos während des Ladens abgefragt werden soll.
 											</span>
@@ -3231,7 +3231,7 @@
 									<div class="form-row mb-1">
 										<label for="evnotifyakeylp2" class="col-md-4 col-form-label">Akey</label>
 										<div class="col">
-											<input class="form-control" type="text" name="evnotifyakeylp2" id="evnotifyakeylp2" value="< ? php echo $evnotifyakeylp2old ?>">
+											<input class="form-control" type="text" name="evnotifyakeylp2" id="evnotifyakeylp2" value="<?php echo $evnotifyakeylp2old ?>">
 											<span class="form-text small">
 												Akey des EVNotify Kontos
 											</span>
@@ -3240,7 +3240,7 @@
 									<div class="form-row mb-1">
 										<label for="evnotifytokenlp2" class="col-md-4 col-form-label">Token</label>
 										<div class="col">
-											<input class="form-control" type="text" name="evnotifytokenlp2" id="evnotifytokenlp2" value="< ? php echo $evnotifytokenlp2old ?>">
+											<input class="form-control" type="text" name="evnotifytokenlp2" id="evnotifytokenlp2" value="<?php echo $evnotifytokenlp2old ?>">
 											<span class="form-text small">
 												Token des Kontos
 											</span>
@@ -3835,13 +3835,13 @@
 									<div class="form-row mb-1">
 										<label for="soc_tronity_client_id_lp2" class="col-md-4 col-form-label">Client ID</label>
 										<div class="col">
-											<input class="form-control" type="text" required placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" pattern="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" name="soc_tronity_client_id_lp2" id="soc_tronity_client_id_lp2" value="< ? php echo $soc_tronity_client_id_lp2old ?>">
+											<input class="form-control" type="text" required placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" pattern="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" name="soc_tronity_client_id_lp2" id="soc_tronity_client_id_lp2" value="<?php echo $soc_tronity_client_id_lp2old ?>">
 										</div>
 									</div>
 									<div class="form-row mb-1">
 										<label for="soc_tronity_client_secret_lp2" class="col-md-4 col-form-label">Client Secret</label>
 										<div class="col">
-											<input class="form-control" type="text" required placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" pattern="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" name="soc_tronity_client_secret_lp2" id="soc_tronity_client_secret_lp2" value="< ? php echo $soc_tronity_client_secret_lp2old ?>">
+											<input class="form-control" type="text" required placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" pattern="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" name="soc_tronity_client_secret_lp2" id="soc_tronity_client_secret_lp2" value="<?php echo $soc_tronity_client_secret_lp2old ?>">
 										</div>
 									</div>
 									<div class="form-row mb-1">
@@ -3868,7 +3868,7 @@
 														<i class="fas fa-car"></i>
 													</div>
 												</div>
-												<input required readonly class="form-control" type="text" name="soc_tronity_vehicle_id_lp2" id="soc_tronity_vehicle_id_lp2" value=" < ?php echo $soc_tronity_vehicle_id_lp2old ?>">
+												<input required readonly class="form-control" type="text" name="soc_tronity_vehicle_id_lp2" id="soc_tronity_vehicle_id_lp2" value="<?php echo $soc_tronity_vehicle_id_lp2old ?>">
 											</div>
 										</div>
 									</div>

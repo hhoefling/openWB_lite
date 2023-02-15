@@ -213,7 +213,7 @@
 							<div class="form-row mb-1">
 								<label for="wryoulessip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wryoulessip" id="wryoulessip" value="< ? php echo $wryoulessipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wryoulessip" id="wryoulessip" value="<?php echo $wryoulessipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12
 									</span>
@@ -223,11 +223,11 @@
 							<label class="col-md-4 col-form-label">Alternative Auslesung</label>
 							<div class="col">
 								<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-									<label class="btn btn-outline-info< ? php if($wryoulessaltold == 0) echo " active" ?>">
-										<input type="radio" name="wryoulessalt" id="wryoulessaltNo" value="0"< ? php if($wryoulessaltold == 0) echo " checked=\"checked\"" ?>>Nein (S0)
+									<label class="btn btn-outline-info<?php if($wryoulessaltold == 0) echo " active" ?>">
+										<input type="radio" name="wryoulessalt" id="wryoulessaltNo" value="0"<?php if($wryoulessaltold == 0) echo " checked=\"checked\"" ?>>Nein (S0)
 									</label>
-									<label class="btn btn-outline-info< ? php if($wryoulessaltold == 1) echo " active" ?>">
-										<input type="radio" name="wryoulessalt" id="wryoulessaltYes" value="1"< ? php if($wryoulessaltold == 1) echo " checked=\"checked\"" ?>>Ja
+									<label class="btn btn-outline-info<?php if($wryoulessaltold == 1) echo " active" ?>">
+										<input type="radio" name="wryoulessalt" id="wryoulessaltYes" value="1"<?php if($wryoulessaltold == 1) echo " checked=\"checked\"" ?>>Ja
 									</label>
 								</div>
 								<span class="form-text small">
@@ -241,7 +241,7 @@
 							<div class="form-row mb-1">
 								<label for="wrsunwaysip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wrsunwaysip" id="wrsunwaysip" value="< ? php echo $wrsunwaysipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wrsunwaysip" id="wrsunwaysip" value="<?php echo $wrsunwaysipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12
 									</span>
@@ -250,7 +250,7 @@
 							<div class="form-row mb-1">
 								<label for="wrsunwayspw" class="col-md-4 col-form-label">Passwort</label>
 								<div class="col">
-									<input class="form-control" type="password" name="wrsunwayspw" id="wrsunwayspw" value="< ? php echo htmlspecialchars($wrsunwayspwold) ?>">
+									<input class="form-control" type="password" name="wrsunwayspw" id="wrsunwayspw" value="<?php echo htmlspecialchars($wrsunwayspwold) ?>">
 								</div>
 							</div>
 						</div>
@@ -260,7 +260,7 @@
 							<div class="form-row mb-1">
 								<label for="bezug_solarlog_ip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="bezug_solarlog_ip" id="bezug_solarlog_ip" value="< ? php echo $bezug_solarlog_ipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="bezug_solarlog_ip" id="bezug_solarlog_ip" value="<?php echo $bezug_solarlog_ipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12<br>
 										Wenn ein Eigenverbrauchszähler installiert ist bitte EVU SolarLog Modul nutzen. Wenn nicht dann dieses Modul.
@@ -274,7 +274,7 @@
 							<div class="form-row mb-1">
 								<label for="discovergypvid" class="col-md-4 col-form-label">Meter ID des Zählers</label>
 								<div class="col">
-									<input class="form-control" type="text" name="discovergypvid" id="discovergypvid" value="< ? php echo htmlspecialchars($discovergypvidold) ?>">
+									<input class="form-control" type="text" name="discovergypvid" id="discovergypvid" value="<?php echo htmlspecialchars($discovergypvidold) ?>">
 									<span class="form-text small">
 										Gültige Werte ID. Um die ID herauszufinden mit dem Browser die Adresse "https://api.discovergy.com/public/v1/meters" aufrufen und dort Benutzername und Passwort eingeben. Hier wird nun u.a. die ID des Zählers angezeigt.<br>
 										Die Benutzerdaten werden im Discovergy EVU Modul konfiguriert.
@@ -288,7 +288,7 @@
 							<div class="form-row mb-1">
 								<label for="solarview_hostname" class="col-md-4 col-form-label">Hostname/IP des SolarView TCP-Servers</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|[a-zA-Z0-9.\-_]+$" name="solarview_hostname" id="solarview_hostname" value="< ? php echo $solarview_hostnameold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|[a-zA-Z0-9.\-_]+$" name="solarview_hostname" id="solarview_hostname" value="<?php echo $solarview_hostnameold ?>">
 									<span class="form-text small">
 										Gültige Werte Hostname oder IP-Adresse.
 									</span>
@@ -297,7 +297,7 @@
 							<div class="form-row mb-1">
 								<label for="solarview_port" class="col-md-4 col-form-label">Port des Solarview TCP-Servers</label>
 								<div class="col">
-									<input class="form-control" type="number" name="solarview_port" id="solarview_port" value="< ? php echo htmlspecialchars($solarview_portold) ?>">
+									<input class="form-control" type="number" name="solarview_port" id="solarview_port" value="<?php echo htmlspecialchars($solarview_portold) ?>">
 									<span class="form-text small">
 										Gültige Werte Port, z.B. 15000.
 									</span>
@@ -329,7 +329,7 @@
 							<div class="form-row mb-1">
 								<label for="kostalplenticoreip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="kostalplenticoreip" id="kostalplenticoreip" value="< ? php echo $kostalplenticoreipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="kostalplenticoreip" id="kostalplenticoreip" value="<?php echo $kostalplenticoreipold ?>">
 									<span class="form-text small">
 										Gültige Werte: IP-Adresse des 1. Kostal Plenticore. An diesem muss (wenn vorhanden) der EM300/das KSEM und ggf. Speicher angeschlossen sein.
 										Modbus/Sunspec (TCP) muss im WR aktiviert sein (Port 1502, Unit-ID 71).
@@ -342,7 +342,7 @@
 							<div class="form-row mb-1">
 								<label for="name_wechselrichter1" class="col-md-4 col-form-label">Name</label>
 								<div class="col">
-									<input class="form-control" type="text" name="name_wechselrichter1" id="name_wechselrichter1" value="< ? php echo $name_wechselrichter1old ?>">
+									<input class="form-control" type="text" name="name_wechselrichter1" id="name_wechselrichter1" value="<?php echo $name_wechselrichter1old ?>">
 									<span class="form-text small">
 										Freie Bezeichnung des Wechselrichters zu Anzeigezwecken, kann leer bleiben.
 									</span>
@@ -351,7 +351,7 @@
 							<div class="form-row mb-1">
 								<label for="kostalplenticoreip2" class="col-md-4 col-form-label">WR 2 IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|none$" name="kostalplenticoreip2" id="kostalplenticoreip2" value="< ? php echo $kostalplenticoreip2old ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|none$" name="kostalplenticoreip2" id="kostalplenticoreip2" value="<?php echo $kostalplenticoreip2old ?>">
 									<span class="form-text small">
 										Gültige Werte: IP-Adresse des 2. Kostal Plenticore oder "none". An diesem WR darf kein Speicher angeschlossen sein.
 										Wenn nur ein WR genutzt wird, muss der Wert "none" gesetzt werden, ansonsten muss Modbus/Sunspec (TCP) im WR aktiviert sein (Port 1502, Unit-ID 71).
@@ -364,7 +364,7 @@
 								<div class="form-row mb-1">
 								<label for="name_wechselrichter2" class="col-md-4 col-form-label">WR 2 Name</label>
 								<div class="col">
-									<input class="form-control" type="text" name="name_wechselrichter2" id="name_wechselrichter2" value="< ? php echo $name_wechselrichter2old ?>">
+									<input class="form-control" type="text" name="name_wechselrichter2" id="name_wechselrichter2" value="<?php echo $name_wechselrichter2old ?>">
 									<span class="form-text small">
 										Freie Bezeichnung des zweiten Wechselrichters zu Anzeigezwecken, kann leer bleiben.
 									</span>
@@ -373,7 +373,7 @@
 							<div class="form-row mb-1">
 								<label for="kostalplenticoreip3" class="col-md-4 col-form-label">WR 3 IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|none$" name="kostalplenticoreip3" id="kostalplenticoreip3" value="< ? php echo $kostalplenticoreip3old ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|none$" name="kostalplenticoreip3" id="kostalplenticoreip3" value="<?php echo $kostalplenticoreip3old ?>">
 									<span class="form-text small">
 										Gültige Werte: IP-Adresse des 3. Kostal Plenticore oder "none". An diesem WR darf kein Speicher angeschlossen sein.
 										Wenn nur ein WR genutzt wird, muss der Wert "none" gesetzt werden, ansonsten muss Modbus/Sunspec (TCP) im WR aktiviert sein (Port 1502, Unit-ID 71).
@@ -386,7 +386,7 @@
 							<div class="form-row mb-1">
 								<label for="name_wechselrichter3" class="col-md-4 col-form-label">WR 3 Name</label>
 								<div class="col">
-									<input class="form-control" type="text" name="name_wechselrichter3" id="name_wechselrichter3" value="< ? php echo $name_wechselrichter3old ?>">
+									<input class="form-control" type="text" name="name_wechselrichter3" id="name_wechselrichter3" value="<?php echo $name_wechselrichter3old ?>">
 									<span class="form-text small">
 										Freie Bezeichnung des dritten Wechselrichters zu Anzeigezwecken, kann leer bleiben.
 									</span>
@@ -399,19 +399,19 @@
 							<div class="form-row mb-1">
 								<label for="wr_smartme_user" class="col-md-4 col-form-label">Smartme Benutzername</label>
 								<div class="col">
-									<input class="form-control" type="text" name="wr_smartme_user" id="wr_smartme_user" value="< ? php echo $wr_smartme_userold ?>">
+									<input class="form-control" type="text" name="wr_smartme_user" id="wr_smartme_user" value="<?php echo $wr_smartme_userold ?>">
 								</div>
 							</div>
 							<div class="form-row mb-1">
 								<label for="wr_smartme_pass" class="col-md-4 col-form-label">Passwort</label>
 								<div class="col">
-									<input class="form-control" type="password" name="wr_smartme_pass" id="wr_smartme_pass" value="< ? php echo htmlspecialchars($wr_smartme_passold) ?>">
+									<input class="form-control" type="password" name="wr_smartme_pass" id="wr_smartme_pass" value="<?php echo htmlspecialchars($wr_smartme_passold) ?>">
 								</div>
 							</div>
 							<div class="form-row mb-1">
 								<label for="wr_smartme_url" class="col-md-4 col-form-label">Smartme URL</label>
 								<div class="col">
-									<input class="form-control" type="text" name="wr_smartme_url" id="wr_smartme_url" value="< ? php echo $wr_smartme_urlold ?>">
+									<input class="form-control" type="text" name="wr_smartme_url" id="wr_smartme_url" value="<?php echo $wr_smartme_urlold ?>">
 								</div>
 							</div>
 						</div>
@@ -540,7 +540,7 @@
 							<div class="form-row mb-1">
 								<label for="solaredgepvip" class="col-md-4 col-form-label">WR Solaredge IP</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solaredgepvip" id="solaredgepvip" value="< ? php echo $solaredgepvipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solaredgepvip" id="solaredgepvip" value="<?php echo $solaredgepvipold ?>">
 									<span class="form-text small">
 										Gültige Werte: IP Adresse des SolarEdge Wechselrichters. Modbus TCP muss am WR aktiviert werden, der Port ist auf 502 zu stellen.
 									</span>
@@ -550,11 +550,11 @@
 								<label class="col-md-4 col-form-label">Weiteres SmartMeter mit auslesen</label>
 								<div class="col">
 									<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-										<label class="btn btn-outline-info< ? php if($wr1extprodold == 0) echo " active" ?>">
-											<input type="radio" name="wr1extprod" id="wr1extprodNo" value="0"< ? php if($wr1extprodold == 0) echo " checked=\"checked\"" ?>>Nein
+										<label class="btn btn-outline-info<?php if($wr1extprodold == 0) echo " active" ?>">
+											<input type="radio" name="wr1extprod" id="wr1extprodNo" value="0"<?php if($wr1extprodold == 0) echo " checked=\"checked\"" ?>>Nein
 										</label>
-										<label class="btn btn-outline-info< ? php if($wr1extprodold == 1) echo " active" ?>">
-											<input type="radio" name="wr1extprod" id="wr1extprodYes" value="1"< ? php if($wr1extprodold == 1) echo " checked=\"checked\"" ?>>Ja
+										<label class="btn btn-outline-info<?php if($wr1extprodold == 1) echo " active" ?>">
+											<input type="radio" name="wr1extprod" id="wr1extprodYes" value="1"<?php if($wr1extprodold == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
 									</div>
 									<span class="form-text small">
@@ -568,11 +568,11 @@
 								<label class="col-md-4 col-form-label">Batterieleistung von PV abziehen</label>
 								<div class="col">
 									<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-										<label class="btn btn-outline-info< ? php if($solaredgesubbatold == 0) echo " active" ?>">
-											<input type="radio" name="solaredgesubbat" id="solaredgesubbatNo" value="0"< ? php if($solaredgesubbatold == 0) echo " checked=\"checked\"" ?>>Nein
+										<label class="btn btn-outline-info<?php if($solaredgesubbatold == 0) echo " active" ?>">
+											<input type="radio" name="solaredgesubbat" id="solaredgesubbatNo" value="0"<?php if($solaredgesubbatold == 0) echo " checked=\"checked\"" ?>>Nein
 										</label>
-										<label class="btn btn-outline-info< ? php if($solaredgesubbatold == 1) echo " active" ?>">
-											<input type="radio" name="solaredgesubbat" id="solaredgesubbatYes" value="1"< ? php if($solaredgesubbatold == 1) echo " checked=\"checked\"" ?>>Ja
+										<label class="btn btn-outline-info<?php if($solaredgesubbatold == 1) echo " active" ?>">
+											<input type="radio" name="solaredgesubbat" id="solaredgesubbatYes" value="1"<?php if($solaredgesubbatold == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
 									</div>
 									<span class="form-text small">
@@ -583,7 +583,7 @@
 							<div class="form-row mb-1">
 								<label for="solaredgepvslave1" class="col-md-4 col-form-label">WR 1 Solaredge ID</label>
 								<div class="col">
-									<input class="form-control" type="number" min="0" step="1" name="solaredgepvslave1" id="solaredgepvslave1" value="< ? php echo $solaredgepvslave1old ?>">
+									<input class="form-control" type="number" min="0" step="1" name="solaredgepvslave1" id="solaredgepvslave1" value="<?php echo $solaredgepvslave1old ?>">
 									<span class="form-text small">
 										Gültige Werte Zahl. ID des SolarEdge Wechselrichters. Normalerweise 1.
 									</span>
@@ -592,7 +592,7 @@
 							<div class="form-row mb-1">
 								<label for="solaredgepvslave2" class="col-md-4 col-form-label">WR 2 Solaredge ID</label>
 								<div class="col">
-									<input class="form-control" type="text" name="solaredgepvslave2" id="solaredgepvslave2" value="< ? php echo $solaredgepvslave2old ?>">
+									<input class="form-control" type="text" name="solaredgepvslave2" id="solaredgepvslave2" value="<?php echo $solaredgepvslave2old ?>">
 									<span class="form-text small">
 										Gültige Werte Zahl oder none. ID des zweiten SolarEdge Wechselrichters. Wenn nur ein WR genutzt wird auf none setzen.
 									</span>
@@ -601,7 +601,7 @@
 							<div class="form-row mb-1">
 								<label for="solaredgepvslave3" class="col-md-4 col-form-label">WR 3 Solaredge ID</label>
 								<div class="col">
-									<input class="form-control" type="text" name="solaredgepvslave3" id="solaredgepvslave3" value="< ? php echo $solaredgepvslave3old ?>">
+									<input class="form-control" type="text" name="solaredgepvslave3" id="solaredgepvslave3" value="<?php echo $solaredgepvslave3old ?>">
 									<span class="form-text small">
 										Gültige Werte Zahl oder none. ID des dritten SolarEdge Wechselrichters. Wenn weniger WR genutzt werden auf none setzen.
 									</span>
@@ -610,7 +610,7 @@
 							<div class="form-row mb-1">
 								<label for="solaredgepvslave4" class="col-md-4 col-form-label">WR 4 Solaredge ID</label>
 								<div class="col">
-									<input class="form-control" type="text" name="solaredgepvslave4" id="solaredgepvslave4" value="< ? php echo $solaredgepvslave4old ?>">
+									<input class="form-control" type="text" name="solaredgepvslave4" id="solaredgepvslave4" value="<?php echo $solaredgepvslave4old ?>">
 									<span class="form-text small">
 										Gültige Werte Zahl oder none. ID des vierten SolarEdge Wechselrichters. Wenn weniger WR genutzt werden auf none setzen.
 									</span>
@@ -619,7 +619,7 @@
 							<div class="form-row mb-1">
 								<label for="solaredgewr2ip" class="col-md-4 col-form-label">WR 2 IP</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|none$" name="solaredgewr2ip" id="solaredgewr2ip" value="< ? php echo $solaredgewr2ipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|none$" name="solaredgewr2ip" id="solaredgewr2ip" value="<?php echo $solaredgewr2ipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP oder none. IP des zweiten SolarEdge Wechselrichters. Ist nur nötig, wenn 2 Wechselrichter genutzt werden die nicht per Modbus miteinander verbunden sind.
 									</span>
@@ -632,14 +632,14 @@
 							<div class="form-row mb-1">
 								<label for="studer_ip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="studer_ip" id="studer_ip" value="< ? php echo $studer_ipold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="studer_ip" id="studer_ip" value="<?php echo $studer_ipold ?>">
 										<span class="form-text small">Gültige Werte IP Adresse im Format: 192.168.0.12</span>
 								</div>
 							</div>
 							<div class="form-row mb-1">
 								<label for="studer_xt" class="col-md-4 col-form-label">Anzahl XT-Devices</label>
 								<div class="col">
-										<input class="form-control" type="text" pattern="^([1-9])$" name="studer_xt" id="studer_xt" value="< ? php echo $studer_xtold ?>">
+										<input class="form-control" type="text" pattern="^([1-9])$" name="studer_xt" id="studer_xt" value="<?php echo $studer_xtold ?>">
 										<span class="form-text small">Anzahl (1-9) der Studer XT-Devices im System (XTS/XTM/XTH)</span>
 								</div>
 							</div>
@@ -647,11 +647,11 @@
 								<label class="col-md-4 col-form-label">Typ des MPPT Solarladeregler</label>
 								<div class="col">
 									<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-										<label class="btn btn-outline-info< ? php if($studer_vc_typeold == 'VT') echo " active" ?>">
-											<input type="radio" name="studer_vc_type" id="studer_vc_typeNo" value="VT"< ? php if($studer_vc_typeold == 'VT') echo " checked=\"checked\"" ?>>VT
+										<label class="btn btn-outline-info<?php if($studer_vc_typeold == 'VT') echo " active" ?>">
+											<input type="radio" name="studer_vc_type" id="studer_vc_typeNo" value="VT"<?php if($studer_vc_typeold == 'VT') echo " checked=\"checked\"" ?>>VT
 										</label>
-										<label class="btn btn-outline-info< ? php if($studer_vc_typeold == VS) echo " active" ?>">
-											<input type="radio" name="studer_vc_type" id="studer_vc_typeYes" value="VS"< ? php if($studer_vc_typeold == 'VS') echo " checked=\"checked\"" ?>>VS
+										<label class="btn btn-outline-info<?php if($studer_vc_typeold == VS) echo " active" ?>">
+											<input type="radio" name="studer_vc_type" id="studer_vc_typeYes" value="VS"<?php if($studer_vc_typeold == 'VS') echo " checked=\"checked\"" ?>>VS
 										</label>
 									</div>
 									<span class="form-text small">
@@ -662,7 +662,7 @@
 							<div class="form-row mb-1">
 								<label for="studer_vc" class="col-md-4 col-form-label">Anzahl MPPT Solarladeregler</label>
 								<div class="col">
-										<input class="form-control" type="text" pattern="^([1-9])$" name="studer_vc" id="studer_vc" value="< ? php echo $studer_vcold ?>">
+										<input class="form-control" type="text" pattern="^([1-9])$" name="studer_vc" id="studer_vc" value="<?php echo $studer_vcold ?>">
 										<span class="form-text small">Anzahl (1-9) der Studer MPPT Solarladeregler im System (VS/VT)</span>
 								</div>
 							</div>
@@ -673,7 +673,7 @@
 							<div class="form-row mb-1">
 								<label for="solaxip" class="col-md-4 col-form-label">WR Solax IP</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solaxip" id="solaxip" value="< ? php echo $solaxipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solaxip" id="solaxip" value="<?php echo $solaxipold ?>">
 									<span class="form-text small">
 										Gültige Werte: IPs. IP Adresse des Solax Wechselrichters. 
 									</span>
@@ -686,7 +686,7 @@
 							<div class="form-row mb-1">
 								<label for="wrfroniusip" class="col-md-4 col-form-label">WR Fronius IP</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wrfroniusip" id="wrfroniusip" value="< ? php echo $wrfroniusipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wrfroniusip" id="wrfroniusip" value="<?php echo $wrfroniusipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12. IP Adresse des Fronius Wechselrichters. Werden hier und im Feld unten zwei verschiedene Adressen eingetragen, muss hier die Adresse des Wechselrichters stehen, an dem das SmartMeter angeschlossen ist.
 									</span>
@@ -696,11 +696,11 @@
 								<label class="col-md-4 col-form-label">Handelt es sich um einen Gen24?</label>
 								<div class="col">
 									<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-										<label class="btn btn-outline-info< ? php if($wrfroniusisgen24old == 0) echo " active" ?>">
-											<input type="radio" name="froniusisgen24" id="froniusisgen24No" value="0"< ? php if($wrfroniusisgen24old == 0) echo " checked=\"checked\"" ?>>Nein
+										<label class="btn btn-outline-info<?php if($wrfroniusisgen24old == 0) echo " active" ?>">
+											<input type="radio" name="froniusisgen24" id="froniusisgen24No" value="0"<?php if($wrfroniusisgen24old == 0) echo " checked=\"checked\"" ?>>Nein
 										</label>
-										<label class="btn btn-outline-info< ? php if($wrfroniusisgen24old == 1) echo " active" ?>">
-											<input type="radio" name="froniusisgen24" id="froniusisgen24Yes" value="1"< ? php if($wrfroniusisgen24old == 1) echo " checked=\"checked\"" ?>>Ja
+										<label class="btn btn-outline-info<?php if($wrfroniusisgen24old == 1) echo " active" ?>">
+											<input type="radio" name="froniusisgen24" id="froniusisgen24Yes" value="1"<?php if($wrfroniusisgen24old == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
 									</div>
 									<span class="form-text small">
@@ -711,7 +711,7 @@
 							<div class="form-row mb-1">
 								<label for="wrfronius2ip" class="col-md-4 col-form-label">WR Fronius 2 IP</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|none$" name="wrfronius2ip" id="wrfronius2ip" value="< ? php echo $wrfronius2ipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])|none$" name="wrfronius2ip" id="wrfronius2ip" value="<?php echo $wrfronius2ipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12. IP Adresse des zweiten Fronius Wechselrichters. Sind nur Symos in Nutzung, welche über Fronius Solar Net / DATCOM miteinander verbunden sind, reicht die Angabe der Adresse eines Wechselrichters im ersten Feld. Sind aber z.B. Symo und Symo Hybrid im Einsatz, müssen diese beide angegeben werden (hier dann die Adresse des Wechselrichters, an dem das SmartMeter NICHT angeschlossen ist). Ist kein zweiter Wechselrichter vorhanden, dann bitte hier "none" eintragen.
 									</span>
@@ -812,7 +812,7 @@
 							<div class="form-row mb-1">
 								<label for="vzloggerpvip" class="col-md-4 col-form-label">IP Adresse und Port</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5]):[1-9][0-9]*$" name="vzloggerpvip" id="vzloggerpvip" value="< ? php echo $vzloggerpvipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5]):[1-9][0-9]*$" name="vzloggerpvip" id="vzloggerpvip" value="<?php echo $vzloggerpvipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP:Port z.B. 192.168.0.12:8080.
 									</span>
@@ -821,7 +821,7 @@
 							<div class="form-row mb-1">
 								<label for="vzloggerpvline" class="col-md-4 col-form-label">Vzloggerpv Zeile</label>
 								<div class="col">
-									<input class="form-control" type="number" min="1" step="1" name="vzloggerpvline" id="vzloggerpvline" value="< ? php echo $vzloggerpvlineold ?>">
+									<input class="form-control" type="number" min="1" step="1" name="vzloggerpvline" id="vzloggerpvline" value="<?php echo $vzloggerpvlineold ?>">
 									<span class="form-text small">
 										Gültige Werte z.B. Zahl. Bitte auf der Shell ausführen: "curl -s IPdesVZLogger:Port/ | jq .|cat -n"<br>
 										Nun zählen in welcher Zeile der gewünschte Wert steht und diesen hier eintragen.
@@ -855,7 +855,7 @@
 							<div class="form-row mb-1">
 								<label for="smaemdpvid" class="col-md-4 col-form-label">Seriennummer des SMA Energy Meter</label>
 								<div class="col">
-									<input class="form-control" type="text" name="smaemdpvid" id="smaemdpvid" value="< ? php echo $smaemdpvidold ?>">
+									<input class="form-control" type="text" name="smaemdpvid" id="smaemdpvid" value="<?php echo $smaemdpvidold ?>">
 									<span class="form-text small">
 									Gültige Werte Seriennummer. Hier die Seriennummer des SMA Meter für die PV angeben. <br>ACHTUNG! Dies ist nur das richtige Modul wenn ein extra EnergyMeter nur für die PV vorhanden ist. Im Normalfall ist immer "SMA ModbusTCP WR" zu wählen.<br>Ist nur ein HomeManager vorhanden ist dieses Modul nicht richtig.
 									</span>

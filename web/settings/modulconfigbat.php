@@ -111,14 +111,14 @@
 								<div class="form-row mb-1">
 									<label for="lgessv1ip" class="col-md-4 col-form-label">IP Adresse</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="lgessv1ip" id="lgessv1ip" value="< ? php echo $lgessv1ipold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="lgessv1ip" id="lgessv1ip" value="<?php echo $lgessv1ipold ?>">
 										<span class="form-text small">Gültige Werte IP Adresse im Format: 192.168.0.12</span>
 									</div>
 								</div>
 								<div class="form-row mb-1">
 									<label for="lgessv1pass" class="col-md-4 col-form-label">Password</label>
 									<div class="col">
-										<input class="form-control" type="password" name="lgessv1pass" id="lgessv1pass" value="< ? php echo $lgessv1passold ?>">
+										<input class="form-control" type="password" name="lgessv1pass" id="lgessv1pass" value="<?php echo $lgessv1passold ?>">
 										<span class="form-text small">
 											Standardmäßig ist hier die Registrierungsnummer des LG ESS 1.0VI anzugeben.
 										</span>
@@ -128,8 +128,8 @@
 									<label for="ess_api_ver" class="col-md-4 col-form-label">API-Version</label>
 									<div class="col">
 										<select name="ess_api_ver" id="ess_api_ver" class="form-control">
-											<option < ? php if($ess_api_verold == "10.2019") echo "selected" ?> value="10.2019">API-Version Oktober 2019</option>
-											<option < ? php if($ess_api_verold == "01.2020") echo "selected" ?> value="01.2020">API-Version Januar 2020</option>
+											<option <?php if($ess_api_verold == "10.2019") echo "selected" ?> value="10.2019">API-Version Oktober 2019</option>
+											<option <?php if($ess_api_verold == "01.2020") echo "selected" ?> value="01.2020">API-Version Januar 2020</option>
 										</select>
 										<span class="form-text small">
 											Falls Sie nicht wissen, welche API-Version benötigen, benutzten Sie bitte die neueste API-Version.
@@ -172,11 +172,11 @@
 									<label for="solarwattmethod1" class="col-md-4 col-form-label">Abrufmethode EVU/Batterie</label>
 									<div class="col">
 										<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-											<label class="btn btn-outline-info< ? php if($solarwattmethodold == 0) echo " active" ?>">
-												<input type="radio" name="solarwattmethod" id="solarwattmethod1" value="0"< ? php if($solarwattmethodold == 0) echo " checked=\"checked\"" ?>>Energy Manager
+											<label class="btn btn-outline-info<?php if($solarwattmethodold == 0) echo " active" ?>">
+												<input type="radio" name="solarwattmethod" id="solarwattmethod1" value="0"<?php if($solarwattmethodold == 0) echo " checked=\"checked\"" ?>>Energy Manager
 											</label>
-											<label class="btn btn-outline-info< ? php if($solarwattmethodold == 1) echo " active" ?>">
-												<input type="radio" name="solarwattmethod" id="solarwattmethod2" value="1"< ? php if($solarwattmethodold == 1) echo " checked=\"checked\"" ?>>Gateway
+											<label class="btn btn-outline-info<?php if($solarwattmethodold == 1) echo " active" ?>">
+												<input type="radio" name="solarwattmethod" id="solarwattmethod2" value="1"<?php if($solarwattmethodold == 1) echo " checked=\"checked\"" ?>>Gateway
 											</label>
 										</div>
 										<span class="form-text small">
@@ -217,7 +217,7 @@
 								<div class="form-row mb-1">
 									<label for="studer_ip" class="col-md-4 col-form-label">IP Adresse</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="studer_ip" id="studer_ip" value="< ? php echo $studer_ipold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="studer_ip" id="studer_ip" value="<?php echo $studer_ipold ?>">
 										<span class="form-text small">Gültige Werte IP Adresse im Format: 192.168.0.12</span>
 									</div>
 								</div>
@@ -234,8 +234,8 @@
 									<label for="multifems" class="col-md-4 col-form-label">Anzahl der verbauten Speicher</label>
 									<div class="col">
 										<select name="multifems" id="multifems" class="form-control">
-											<option < ? php if($multifemsold == 0) echo "selected" ?> value="0">Ein Speicher vorhanden</option>
-											<option < ? php if($multifemsold == 1) echo "selected" ?> value="1">Zwei Speicher vorhanden</option>
+											<option <?php if($multifemsold == 0) echo "selected" ?> value="0">Ein Speicher vorhanden</option>
+											<option <?php if($multifemsold == 1) echo "selected" ?> value="1">Zwei Speicher vorhanden</option>
 										</select>
 									</div>
 								</div>
@@ -316,7 +316,7 @@
 								<div class="form-row mb-1">
 									<label for="vartaspeicherip" class="col-md-4 col-form-label">IP Adresse</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="vartaspeicherip" id="vartaspeicherip" value="< ? php echo $vartaspeicheripold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="vartaspeicherip" id="vartaspeicherip" value="<?php echo $vartaspeicheripold ?>">
 										<span class="form-text small">Gültige Werte IP Adresse im Format: 192.168.0.12</span>
 									</div>
 								</div>
@@ -324,8 +324,8 @@
 									<label for="usevartamodbus" class="col-md-4 col-form-label">Ausleseart Modbus</label>
 									<div class="col">
 										<select name="usevartamodbus" id="usevartamodbus" class="form-control">
-											<option < ? php if($usevartamodbusold == "0") echo "selected" ?> value="0">Nein</option>
-											<option < ? php if($usevartamodbusold == "1") echo "selected" ?> value="1">Ja</option>
+											<option <?php if($usevartamodbusold == "0") echo "selected" ?> value="0">Nein</option>
+											<option <?php if($usevartamodbusold == "1") echo "selected" ?> value="1">Ja</option>
 										</select>
 										<span class="form-text small">Für z.B. Pulse, Element, Neo.</span>
 									</div>
@@ -340,8 +340,8 @@
 									<label for="vartaspeicherip" class="col-md-4 col-form-label">Firmware Version</label>
 									<div class="col">
 										<select name="alphav123" id="alphav123" class="form-control">
-											<option < ? php if($alphav123old == "0") echo "selected" ?> value="0">EMS älter als 1.23V</option>
-											<option < ? php if($alphav123old == "1") echo "selected" ?> value="1">EMS 1.23V oder neuer</option>
+											<option <?php if($alphav123old == "0") echo "selected" ?> value="0">EMS älter als 1.23V</option>
+											<option <?php if($alphav123old == "1") echo "selected" ?> value="1">EMS 1.23V oder neuer</option>
 										</select>
 									</div>
 								</div>
@@ -354,7 +354,7 @@
 								<div class="form-row mb-1">
 									<label for="speicherpwip" class="col-md-4 col-form-label">IP Adresse</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="speicherpwip" id="speicherpwip" value="< ? php echo $speicherpwipold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="speicherpwip" id="speicherpwip" value="<?php echo $speicherpwipold ?>">
 										<span class="form-text small">Gültige Werte IP Adresse im Format: 192.168.0.12</span>
 									</div>
 								</div>
@@ -362,8 +362,8 @@
 									<label for="speicherpwloginneeded" class="col-md-4 col-form-label">Anmeldung erforderlich</label>
 									<div class="col">
 										<select name="speicherpwloginneeded" id="speicherpwloginneeded" class="form-control">
-											<option < ? php if($speicherpwloginneededold == "0") echo "selected" ?> value="0">Nein</option>
-											<option < ? php if($speicherpwloginneededold == "1") echo "selected" ?> value="1">Ja</option>
+											<option <?php if($speicherpwloginneededold == "0") echo "selected" ?> value="0">Nein</option>
+											<option <?php if($speicherpwloginneededold == "1") echo "selected" ?> value="1">Ja</option>
 										</select>
 										<span class="form-text small">Ab Version 20.49 stehen die Daten erst nach einer Anmeldung an der Powerwall zur Verfügung. Bei "Ja" müssen auch Benutzername und Passwort angegeben werden.</span>
 									</div>
@@ -371,14 +371,14 @@
 								<div class="form-row mb-1">
 									<label for="speicherpwuser" class="col-md-4 col-form-label">Benutzername</label>
 									<div class="col">
-										<input class="form-control" type="text" name="speicherpwuser" id="speicherpwuser" value="< ? php echo $speicherpwuserold ?>">
+										<input class="form-control" type="text" name="speicherpwuser" id="speicherpwuser" value="<?php echo $speicherpwuserold ?>">
 										<span class="form-text small">Benutzername für den lokalen Login auf der Powerwall.</span>
 									</div>
 								</div>
 								<div class="form-row mb-1">
 									<label for="speicherpwpass" class="col-md-4 col-form-label">Passwort</label>
 									<div class="col">
-										<input class="form-control" type="password" name="speicherpwpass" id="speicherpwpass" value="< ? php echo $speicherpwpassold ?>">
+										<input class="form-control" type="password" name="speicherpwpass" id="speicherpwpass" value="<?php echo $speicherpwpassold ?>">
 										<span class="form-text small">Passwort für den lokalen Login auf der Powerwall. Das Passwort sind üblicherweise die letzten 5 Stellen der Seriennummer.</span>
 									</div>
 								</div>
@@ -391,7 +391,7 @@
 								<div class="form-row mb-1">
 									<label for="sonnenecoip" class="col-md-4 col-form-label">IP Adresse</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="sonnenecoip" id="sonnenecoip" value="< ? php echo $sonnenecoipold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="sonnenecoip" id="sonnenecoip" value="<?php echo $sonnenecoipold ?>">
 										<span class="form-text small">Gültige Werte IP Adresse im Format: 192.168.0.12</span>
 									</div>
 								</div>
@@ -399,9 +399,9 @@
 									<label for="sonnenecoalternativ" class="col-md-4 col-form-label">Datenverbindung</label>
 									<div class="col">
 										<select name="sonnenecoalternativ" id="sonnenecoalternativ" class="form-control">
-											<option < ? php if($sonnenecoalternativold == "0") echo "selected" ?> value="0">Rest-API 1 (z. B. ECO 4)</option>
-											<option < ? php if($sonnenecoalternativold == "2") echo "selected" ?> value="2">Rest-API 2 (z. B. ECO 6)</option>
-											<option < ? php if($sonnenecoalternativold == "1") echo "selected" ?> value="1">JSON-API (z. B. ECO 8)</option>
+											<option <?php if($sonnenecoalternativold == "0") echo "selected" ?> value="0">Rest-API 1 (z. B. ECO 4)</option>
+											<option <?php if($sonnenecoalternativold == "2") echo "selected" ?> value="2">Rest-API 2 (z. B. ECO 6)</option>
+											<option <?php if($sonnenecoalternativold == "1") echo "selected" ?> value="1">JSON-API (z. B. ECO 8)</option>
 										</select>
 										<span class="form-text small">
 											Je nach Sonnen Batterie muss die richtige Datenverbindung ausgewählt werden.
@@ -421,7 +421,7 @@
 								<div class="form-row mb-1">
 									<label for="e3dcip" class="col-md-4 col-form-label">IP Adresse</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^(none)|((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="e3dcip" id="e3dcip" value="< ? php echo $e3dcipold ?>">
+										<input class="form-control" type="text" pattern="^(none)|((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="e3dcip" id="e3dcip" value="<?php echo $e3dcipold ?>">
 										<span class="form-text small">Gültige Werte IP Adresse im Format: 192.168.0.12</span>
 									</div>
 								</div>
@@ -429,15 +429,15 @@
 									<label for="e3dcextprod" class="col-md-4 col-form-label">Externe Produktion des E3DC mit einbeziehen</label>
 									<div class="col">
 										<select name="e3dcextprod" id="e3dcextprod" class="form-control">
-											<option < ? php if($e3dcextprodold == "0") echo "selected" ?> value="0">Nein</option>
-											<option < ? php if($e3dcextprodold == "1") echo "selected" ?> value="1">Ja</option>
+											<option <?php if($e3dcextprodold == "0") echo "selected" ?> value="0">Nein</option>
+											<option <?php if($e3dcextprodold == "1") echo "selected" ?> value="1">Ja</option>
 										</select>
 									</div>
 								</div>
 								<div class="form-row mb-1">
 									<label for="e3dc2ip" class="col-md-4 col-form-label">2. IP Adresse</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^(none)|((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="e3dc2ip" id="e3dc2ip" value="< ? php echo $e3dc2ipold ?>">
+										<input class="form-control" type="text" pattern="^(none)|((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="e3dc2ip" id="e3dc2ip" value="<?php echo $e3dc2ipold ?>">
 										<span class="form-text small">
 											Gültige Werte IP Adresse im Format: 192.168.0.12<br>
 											Wenn nicht vorhanden none eintragen.
@@ -465,7 +465,7 @@
 								<div class="form-row mb-1">
 									<label for="sunnyislandip" class="col-md-4 col-form-label">IP Adresse</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="sunnyislandip" id="sunnyislandip" value="< ? php echo $sunnyislandipold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="sunnyislandip" id="sunnyislandip" value="<?php echo $sunnyislandipold ?>">
 										<span class="form-text small">Gültige Werte IP Adresse im Format: 192.168.0.12</span>
 									</div>
 								</div>
@@ -478,7 +478,7 @@
 								<div class="form-row mb-1">
 									<label for="solaredgespeicherip" class="col-md-4 col-form-label">IP Adresse</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solaredgespeicherip" id="solaredgespeicherip" value="< ? php echo $solaredgespeicheripold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solaredgespeicherip" id="solaredgespeicherip" value="<?php echo $solaredgespeicheripold ?>">
 										<span class="form-text small">
 											Gültige Werte IP Adresse im Format: 192.168.0.12<br>
 											IP Adresse des Solaredge Wechselrichters an dem der Speicher angeschlossen ist.
@@ -490,8 +490,8 @@
 										<label for="solaredgezweiterspeicher" class="col-md-4 col-form-label">Ist ein zweiter Speicher am Wechselrichter angeschlossen?</label>
 										<div class="col">
 											<select name="solaredgezweiterspeicher" id="solaredgezweiterspeicher" class="form-control">
-												<option < ? php if($solaredgezweiterspeicherold == 0) echo "selected" ?> value="0">Nein</option>
-												<option < ? php if($solaredgezweiterspeicherold == 1) echo "selected" ?> value="1">Ja</option>
+												<option <?php if($solaredgezweiterspeicherold == 0) echo "selected" ?> value="0">Nein</option>
+												<option <?php if($solaredgezweiterspeicherold == 1) echo "selected" ?> value="1">Ja</option>
 											</select>
 										</div>
 									</div>
@@ -606,21 +606,21 @@
 								<div class="form-row mb-1">
 									<label for="bydhvuser" class="col-md-4 col-form-label">Benutzername</label>
 									<div class="col">
-										<input class="form-control" type="text" name="bydhvuser" id="bydhvuser" value="< ? php echo $bydhvuserold ?>">
+										<input class="form-control" type="text" name="bydhvuser" id="bydhvuser" value="<?php echo $bydhvuserold ?>">
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="form-row mb-1">
 										<label for="bydhvpass" class="col-md-4 col-form-label">Passwort</label>
 										<div class="col">
-											<input class="form-control" type="password" name="bydhvpass" id="bydhvpass" value="< ? php echo $bydhvpassold ?>">
+											<input class="form-control" type="password" name="bydhvpass" id="bydhvpass" value="<?php echo $bydhvpassold ?>">
 										</div>
 									</div>
 								</div>
 								<div class="form-row mb-1">
 									<label for="bydhvip" class="col-md-4 col-form-label">IP Adresse</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="bydhvip" id="bydhvip" value="< ? php echo $bydhvipold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="bydhvip" id="bydhvip" value="<?php echo $bydhvipold ?>">
 										<span class="form-text small">
 											Gültige Werte IP Adresse im Format: 192.168.0.12
 										</span>

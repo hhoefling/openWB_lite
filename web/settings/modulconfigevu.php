@@ -130,8 +130,8 @@
 								<label for="sungrowsr" class="col-md-4 col-form-label">Version des Sungrow</label>
 								<div class="col">
 									<select name="sungrowsr" id="sungrowsr" class="form-control">
-										<option < ? php if($sungrowsrold == 0) echo "selected" ?> value="0">SH (Hybrid)</option>
-										<option < ? php if($sungrowsrold == 1) echo "selected" ?> value="1">SG (kein Hybrid)</option>
+										<option <?php if($sungrowsrold == 0) echo "selected" ?> value="0">SH (Hybrid)</option>
+										<option <?php if($sungrowsrold == 1) echo "selected" ?> value="1">SG (kein Hybrid)</option>
 									</select>
 								</div>
 							</div>
@@ -309,7 +309,7 @@
 							<div class="form-row mb-1">
 								<label for="bezug_victronip" class="col-md-4 col-form-label">Victron IP</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="bezug_victronip" id="bezug_victronip" value="< ? php echo $bezug_victronipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="bezug_victronip" id="bezug_victronip" value="<?php echo $bezug_victronipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12<br>
 										IP Adresse des Victron, z.B. GX.
@@ -319,7 +319,7 @@
 							<div class="form-row mb-1">
 								<label for="bezug_id" class="col-md-4 col-form-label">ID</label>
 								<div class="col">
-									<input class="form-control" type="text" name="bezug_id" id="bezug_id" value="< ? php echo $bezug_idold ?>">
+									<input class="form-control" type="text" name="bezug_id" id="bezug_id" value="<?php echo $bezug_idold ?>">
 									<span class="form-text small">Gültige Werte ID. ID Adresse</span>
 								</div>
 							</div>
@@ -330,7 +330,7 @@
 							<div class="form-row mb-1">
 								<label for="femsip" class="col-md-4 col-form-label">Fenecon IP</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="femsip" id="femsip" value="< ? php echo $femsipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="femsip" id="femsip" value="<?php echo $femsipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12<br>
 										IP Adresse des Fenecon FEMS.
@@ -340,7 +340,7 @@
 							<div class="form-row mb-1">
 								<label for="femskacopw" class="col-md-4 col-form-label">Passwort</label>
 								<div class="col">
-									<input class="form-control" type="password" name="femskacopw" id="femskacopw" value="< ? php echo htmlspecialchars($femskacopwold) ?>">
+									<input class="form-control" type="password" name="femskacopw" id="femskacopw" value="<?php echo htmlspecialchars($femskacopwold) ?>">
 									<span class="form-text small">
 										Bei Nutzung von Fenecon FEMS ist das Passwort im Normalfall user, bei Kaco mit Hy-Control ist das Passwort meist admin.
 									</span>
@@ -353,7 +353,7 @@
 							<div class="form-row mb-1">
 								<label for="solarworld_emanagerip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solarworld_emanagerip" id="solarworld_emanagerip" value="< ? php echo $solarworld_emanageripold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solarworld_emanagerip" id="solarworld_emanagerip" value="<?php echo $solarworld_emanageripold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12<br>
 										IP Adresse des Solarworld eManager.
@@ -367,19 +367,19 @@
 							<div class="form-row mb-1">
 								<label for="discovergyuser" class="col-md-4 col-form-label">Discovergy Username (Email)</label>
 								<div class="col">
-									<input class="form-control" type="email" name="discovergyuser" id="discovergyuser" value="< ? php echo htmlspecialchars($discovergyuserold) ?>">
+									<input class="form-control" type="email" name="discovergyuser" id="discovergyuser" value="<?php echo htmlspecialchars($discovergyuserold) ?>">
 								</div>
 							</div>
 							<div class="form-row mb-1">
 								<label for="discovergypass" class="col-md-4 col-form-label">Passwort</label>
 								<div class="col">
-									<input class="form-control" type="password" name="discovergypass" id="discovergypass" value="< ? php echo htmlspecialchars($discovergypassold) ?>">
+									<input class="form-control" type="password" name="discovergypass" id="discovergypass" value="<?php echo htmlspecialchars($discovergypassold) ?>">
 								</div>
 							</div>
 							<div class="form-row mb-1">
 								<label for="discovergyevuid" class="col-md-4 col-form-label">Meter ID</label>
 								<div class="col">
-									<input class="form-control" type="text" name="discovergyevuid" id="discovergyevuid" value="< ? php echo $discovergyevuidold ?>">
+									<input class="form-control" type="text" name="discovergyevuid" id="discovergyevuid" value="<?php echo $discovergyevuidold ?>">
 									<span class="form-text small">
 										Gültige Werte ID. Um die ID herauszufinden mit dem Browser die Adresse "https://api.discovergy.com/public/v1/meters" aufrufen und dort Benutzername und Passwort eingeben.
 										Hier wird nun u.a. die ID des Zählers angezeigt.
@@ -393,7 +393,7 @@
 							<div class="form-row mb-1">
 								<label for="ksemip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="ksemip" id="ksemip" value="< ? php echo $ksemipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="ksemip" id="ksemip" value="<?php echo $ksemipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12
 									</span>
@@ -422,11 +422,11 @@
 									<label class="col-md-4 col-form-label">Einbauposition</label>
 									<div class="col">
 										<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-											<label class="btn btn-outline-info< ? php if($kostalplenticorehausold == 0) echo " active" ?>">
-												<input type="radio" name="kostalplenticorehaus" id="kostalplenticorehausOff" value="0"< ? php if($kostalplenticorehausold == 0) echo " checked=\"checked\"" ?>>Pos. 1
+											<label class="btn btn-outline-info<?php if($kostalplenticorehausold == 0) echo " active" ?>">
+												<input type="radio" name="kostalplenticorehaus" id="kostalplenticorehausOff" value="0"<?php if($kostalplenticorehausold == 0) echo " checked=\"checked\"" ?>>Pos. 1
 											</label>
-											<label class="btn btn-outline-info< ? php if($kostalplenticorehausold == 1) echo " active" ?>">
-												<input type="radio" name="kostalplenticorehaus" id="kostalplenticorehausOn" value="1"< ? php if($kostalplenticorehausold == 1) echo " checked=\"checked\"" ?>>Pos. 2
+											<label class="btn btn-outline-info<?php if($kostalplenticorehausold == 1) echo " active" ?>">
+												<input type="radio" name="kostalplenticorehaus" id="kostalplenticorehausOn" value="1"<?php if($kostalplenticorehausold == 1) echo " checked=\"checked\"" ?>>Pos. 2
 											</label>
 										</div>
 										<span class="form-text small">
@@ -530,7 +530,7 @@
 								<div class="form-row mb-1">
 									<label for="vzloggerip" class="col-md-4 col-form-label">Vzlogger IP Adresse inkl Port</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5]):[0-9]+$" name="vzloggerip" id="vzloggerip" value="< ? php echo $vzloggeripold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5]):[0-9]+$" name="vzloggerip" id="vzloggerip" value="<?php echo $vzloggeripold ?>">
 										<span class="form-text small">
 											Gültige Werte IP:Port z.B. 192.168.0.12:8080
 										</span>
@@ -539,7 +539,7 @@
 								<div class="form-row mb-1">
 									<label for="vzloggerline" class="col-md-4 col-form-label">Vzlogger Watt Zeile</label>
 									<div class="col">
-										<input class="form-control" type="number" min="1" step="1" name="vzloggerline" id="vzloggerline" value="< ? php echo $vzloggerlineold ?>">
+										<input class="form-control" type="number" min="1" step="1" name="vzloggerline" id="vzloggerline" value="<?php echo $vzloggerlineold ?>">
 										<span class="form-text small">
 											Gültige Werte z.B. Zahl. Bitte auf der Shell ausführen: "curl -s IPdesVZLogger:Port/ | jq .|cat -n"<br>
 											Nun zählen in welcher Zeile die aktullen Watt stehen und diesen hier eintragen.
@@ -549,7 +549,7 @@
 								<div class="form-row mb-1">
 									<label for="vzloggerkwhline" class="col-md-4 col-form-label">Vzlogger Bezug Wh Zeile</label>
 									<div class="col">
-										<input class="form-control" type="text" name="vzloggerkwhline" id="vzloggerkwhline" value="< ? php echo $vzloggerkwhlineold ?>">
+										<input class="form-control" type="text" name="vzloggerkwhline" id="vzloggerkwhline" value="<?php echo $vzloggerkwhlineold ?>">
 										<span class="form-text small">
 											Gültige Werte z.B. Zahl. Bitte auf der Shell ausführen: "curl -s IPdesVZLogger:Port/ | jq .|cat -n"<br>
 											Nun zählen in welcher Zeile die Gesamt Wh stehen und diesen hier eintragen. Der Wert dient rein dem Logging.
@@ -560,7 +560,7 @@
 								<div class="form-row mb-1">
 									<label for="vzloggerekwhline" class="col-md-4 col-form-label">Vzlogger Einspeisung Wh Zeile</label>
 									<div class="col">
-										<input class="form-control" type="text" name="vzloggerekwhline" id="vzloggerekwhline" value="< ? php echo $vzloggerekwhlineold ?>">
+										<input class="form-control" type="text" name="vzloggerekwhline" id="vzloggerekwhline" value="<?php echo $vzloggerekwhlineold ?>">
 										<span class="form-text small">
 											Gültige Werte z.B. Zahl. Bitte auf der Shell ausführen: "curl -s IPdesVZLogger:Port/ | jq .|cat -n"<br>
 											Nun zählen in welcher Zeile die Gesamt eingespeisten Wh stehen und diesen hier eintragen.
@@ -634,19 +634,19 @@
 							<div class="form-row mb-1">
 								<label for="bezug_smartme_user" class="col-md-4 col-form-label">Smartme Benutzername</label>
 								<div class="col">
-									<input class="form-control" type="text" name="bezug_smartme_user" id="bezug_smartme_user" value="< ? php echo htmlspecialchars($bezug_smartme_userold) ?>">
+									<input class="form-control" type="text" name="bezug_smartme_user" id="bezug_smartme_user" value="<?php echo htmlspecialchars($bezug_smartme_userold) ?>">
 								</div>
 							</div>
 							<div class="form-row mb-1">
 								<label for="bezug_smartme_pass" class="col-md-4 col-form-label">Passwort</label>
 								<div class="col">
-									<input class="form-control" type="password" name="bezug_smartme_pass" id="bezug_smartme_pass" value="< ? php echo htmlspecialchars($bezug_smartme_passold) ?>">
+									<input class="form-control" type="password" name="bezug_smartme_pass" id="bezug_smartme_pass" value="<?php echo htmlspecialchars($bezug_smartme_passold) ?>">
 								</div>
 							</div>
 							<div class="form-row mb-1">
 								<label for="bezug_smartme_url" class="col-md-4 col-form-label">Smartme Url</label>
 								<div class="col">
-									<input class="form-control" type="text" name="bezug_smartme_url" id="bezug_smartme_url" value="< ? php echo $bezug_smartme_urlold ?>">
+									<input class="form-control" type="text" name="bezug_smartme_url" id="bezug_smartme_url" value="<?php echo $bezug_smartme_urlold ?>">
 								</div>
 							</div>
 						</div>
@@ -656,7 +656,7 @@
 							<div class="form-row mb-1">
 								<label for="smashmbezugid" class="col-md-4 col-form-label">Seriennummer</label>
 								<div class="col">
-									<input class="form-control" type="text" name="smashmbezugid" id="smashmbezugid" value="< ? php echo $smashmbezugidold ?>">
+									<input class="form-control" type="text" name="smashmbezugid" id="smashmbezugid" value="<?php echo $smashmbezugidold ?>">
 									<span class="form-text small">
 										Gültige Werte: Seriennummer. Hier die Seriennummer des SMA Meter für Bezug/Einspeisung anzugeben.
 										Ist nur erforderlich wenn mehrere SMA HomeManager in Betrieb sind, ansonsten none eintragen. Funktioniert auch mit Energy Meter statt Home Manager.
@@ -670,7 +670,7 @@
 							<div class="form-row mb-1">
 								<label for="bezug_smartfox_ip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="bezug_smartfox_ip" id="bezug_smartfox_ip" value="< ? php echo $bezug_smartfox_ipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="bezug_smartfox_ip" id="bezug_smartfox_ip" value="<?php echo $bezug_smartfox_ipold ?>">
 									<span class="form-text small">
 										Gültige Werte IP Adresse im Format: 192.168.0.12
 									</span>
@@ -683,7 +683,7 @@
 							<div class="form-row mb-1">
 								<label for="smaemdbezugid" class="col-md-4 col-form-label">Seriennummer des SMA Energy Meter</label>
 								<div class="col">
-									<input class="form-control" type="text" name="smaemdbezugid" id="smaemdbezugid" value="< ? php echo $smaemdbezugidold ?>">
+									<input class="form-control" type="text" name="smaemdbezugid" id="smaemdbezugid" value="<?php echo $smaemdbezugidold ?>">
 									<span class="form-text small">
 										Gültige Werte Seriennummer. Hier die Seriennummer des SMA Meter für Bezug/Einspeisung angeben<br>
 										Infos zum SMA Energy Meter <a href="https://github.com/snaptec/openWB#extras">HIER</a>
@@ -698,12 +698,12 @@
 								<div class="form-row mb-1">
 									<label for="wrfroniusip" class="col-md-4 col-form-label">Fronius IP</label>
 									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wrfroniusip" id="wrfroniusip" value="< ? php echo $wrfroniusipold ?>">
+										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="wrfroniusip" id="wrfroniusip" value="<?php echo $wrfroniusipold ?>">
 										<span class="form-text small">
 											Gültige Werte IP Adresse im Format: 192.168.0.12<br>
 											IP Adresse des Fronius WR.
 										</span>
-										<button id="wattbezugfroniusload" class="btn btn-primary" type="button" data-value="< ? php echo $wrfroniusip ?>">Daten auslesen</button>
+										<button id="wattbezugfroniusload" class="btn btn-primary" type="button" data-value="<?php echo $wrfroniusip ?>">Daten auslesen</button>
 										<button id="wattbezugfroniusmanual" class="btn btn-primary hide" type="button">Daten manuell eingeben</button>
 										<span id="wattbezugfroniusloadmessage" class="form-text small"></span>
 									</div>
@@ -712,11 +712,11 @@
 									<label class="col-md-4 col-form-label">Energymeter ID</label>
 									<div class="col">
 										<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-											<label class="btn btn-outline-info< ? php if($froniuserzeugungold == 0) echo " active" ?>">
-												<input type="radio" name="froniuserzeugung" id="froniuserzeugung0" value="0"< ? php if($froniuserzeugungold == 0) echo " checked=\"checked\"" ?>>0
+											<label class="btn btn-outline-info<?php if($froniuserzeugungold == 0) echo " active" ?>">
+												<input type="radio" name="froniuserzeugung" id="froniuserzeugung0" value="0"<?php if($froniuserzeugungold == 0) echo " checked=\"checked\"" ?>>0
 											</label>
-											<label class="btn btn-outline-info< ? php if($froniuserzeugungold == 1) echo " active" ?>">
-												<input type="radio" name="froniuserzeugung" id="froniuserzeugung1" value="1"< ? php if($froniuserzeugungold == 1) echo " checked=\"checked\"" ?>>1
+											<label class="btn btn-outline-info<?php if($froniuserzeugungold == 1) echo " active" ?>">
+												<input type="radio" name="froniuserzeugung" id="froniuserzeugung1" value="1"<?php if($froniuserzeugungold == 1) echo " checked=\"checked\"" ?>>1
 											</label>
 										</div>
 									</div>
@@ -733,11 +733,11 @@
 									<label class="col-md-4 col-form-label">Energymeter Installationsort</label>
 									<div class="col">
 										<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-											<label class="btn btn-outline-info< ? php if($froniusmeterlocationold == 0) echo " active" ?>">
-												<input type="radio" name="froniusmeterlocation" id="froniusmeterlocation0" data-option="0" value="0"< ? php if($froniusmeterlocationold == 0) echo " checked=\"checked\"" ?>>EVU Zweig
+											<label class="btn btn-outline-info<?php if($froniusmeterlocationold == 0) echo " active" ?>">
+												<input type="radio" name="froniusmeterlocation" id="froniusmeterlocation0" data-option="0" value="0"<?php if($froniusmeterlocationold == 0) echo " checked=\"checked\"" ?>>EVU Zweig
 											</label>
-											<label class="btn btn-outline-info< ? php if($froniusmeterlocationold == 1) echo " active" ?>">
-												<input type="radio" name="froniusmeterlocation" id="froniusmeterlocation1" data-option="1" value="1"< ? php if($froniusmeterlocationold == 1) echo " checked=\"checked\"" ?>>Hausverbrauchszweig
+											<label class="btn btn-outline-info<?php if($froniusmeterlocationold == 1) echo " active" ?>">
+												<input type="radio" name="froniusmeterlocation" id="froniusmeterlocation1" data-option="1" value="1"<?php if($froniusmeterlocationold == 1) echo " checked=\"checked\"" ?>>Hausverbrauchszweig
 											</label>
 										</div>
 									</div>
@@ -747,11 +747,11 @@
 									<label class="col-md-4 col-form-label">Kompatibilitätsmodus für die Primo Reihe</label>
 									<div class="col">
 										<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-											<label class="btn btn-outline-info< ? php if($froniusprimoold == 0) echo " active" ?>">
-												<input type="radio" name="froniusprimo" id="froniusprimoOff" value="0"< ? php if($froniusprimoold == 0) echo " checked=\"checked\"" ?>>Aus
+											<label class="btn btn-outline-info<?php if($froniusprimoold == 0) echo " active" ?>">
+												<input type="radio" name="froniusprimo" id="froniusprimoOff" value="0"<?php if($froniusprimoold == 0) echo " checked=\"checked\"" ?>>Aus
 											</label>
-											<label class="btn btn-outline-info< ? php if($froniusprimoold == 1) echo " active" ?>">
-												<input type="radio" name="froniusprimo" id="froniusprimoOn" value="1"< ? php if($froniusprimoold == 1) echo " checked=\"checked\"" ?>>An
+											<label class="btn btn-outline-info<?php if($froniusprimoold == 1) echo " active" ?>">
+												<input type="radio" name="froniusprimo" id="froniusprimoOn" value="1"<?php if($froniusprimoold == 1) echo " checked=\"checked\"" ?>>An
 											</label>
 										</div>
 									</div>
@@ -760,14 +760,14 @@
 									<label class="col-md-4 col-form-label">Kompatibilitätsmodus für Gen24 / neuere Symo</label>
 									<div class="col">
 										<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-											<label class="btn btn-outline-info< ? php if($froniusvar2old == 0) echo " active" ?>">
-												<input type="radio" name="froniusvar2" id="froniusvar2Off" value="0"< ? php if($froniusvar2old == 0) echo " checked=\"checked\"" ?>>Aus
+											<label class="btn btn-outline-info<?php if($froniusvar2old == 0) echo " active" ?>">
+												<input type="radio" name="froniusvar2" id="froniusvar2Off" value="0"<?php if($froniusvar2old == 0) echo " checked=\"checked\"" ?>>Aus
 											</label>
-											<label class="btn btn-outline-info< ? php if($froniusvar2old == 1) echo " active" ?>">
-												<input type="radio" name="froniusvar2" id="froniusvar2v1" value="1"< ? php if($froniusvar2old == 1) echo " checked=\"checked\"" ?>>Variante 1
+											<label class="btn btn-outline-info<?php if($froniusvar2old == 1) echo " active" ?>">
+												<input type="radio" name="froniusvar2" id="froniusvar2v1" value="1"<?php if($froniusvar2old == 1) echo " checked=\"checked\"" ?>>Variante 1
 											</label>
-											<label class="btn btn-outline-info< ? php if($froniusvar2old == 2) echo " active" ?>">
-												<input type="radio" name="froniusvar2" id="froniusvar2v2" value="2"< ? php if($froniusvar2old == 2) echo " checked=\"checked\"" ?>>Variante 2
+											<label class="btn btn-outline-info<?php if($froniusvar2old == 2) echo " active" ?>">
+												<input type="radio" name="froniusvar2" id="froniusvar2v2" value="2"<?php if($froniusvar2old == 2) echo " checked=\"checked\"" ?>>Variante 2
 											</label>
 
 										</div>
@@ -832,11 +832,11 @@
 									<label class="col-md-4 col-form-label">Kompatibilitätsmodus bei vorhandenem Speicher</label>
 									<div class="col">
 										<div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-											<label class="btn btn-outline-info< ? php if($bezug_solarlog_speichervold == 0) echo " active" ?>">
-												<input type="radio" name="bezug_solarlog_speicherv" id="bezug_solarlog_speichervOff" value="0"< ? php if($bezug_solarlog_speichervold == 0) echo " checked=\"checked\"" ?>>Nein
+											<label class="btn btn-outline-info<?php if($bezug_solarlog_speichervold == 0) echo " active" ?>">
+												<input type="radio" name="bezug_solarlog_speicherv" id="bezug_solarlog_speichervOff" value="0"<?php if($bezug_solarlog_speichervold == 0) echo " checked=\"checked\"" ?>>Nein
 											</label>
-											<label class="btn btn-outline-info< ? php if($bezug_solarlog_speichervold == 1) echo " active" ?>">
-												<input type="radio" name="bezug_solarlog_speicherv" id="bezug_solarlog_speichervOn" value="1"< ? php if($bezug_solarlog_speichervold == 1) echo " checked=\"checked\"" ?>>Ja
+											<label class="btn btn-outline-info<?php if($bezug_solarlog_speichervold == 1) echo " active" ?>">
+												<input type="radio" name="bezug_solarlog_speicherv" id="bezug_solarlog_speichervOn" value="1"<?php if($bezug_solarlog_speichervold == 1) echo " checked=\"checked\"" ?>>Ja
 											</label>
 										</div>
 									</div>
@@ -849,7 +849,7 @@
 							<div class="form-row mb-1">
 								<label for="solaredgeip" class="col-md-4 col-form-label">IP Adresse</label>
 								<div class="col">
-									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solaredgeip" id="solaredgeip" value="< ? php echo $solaredgeipold ?>">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solaredgeip" id="solaredgeip" value="<?php echo $solaredgeipold ?>">
 									<span class="form-text small">
 										IP Adresse des Solaredge Wechselrichters im lokalen Netzwerk.<br>
 										Hierfür muss ein EVU Zähler am SolarEdge Wechselrichter per Modbus angebunden sein.<br>
