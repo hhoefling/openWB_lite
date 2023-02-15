@@ -58,14 +58,7 @@ function setCookieSameSite(
 			${$key."old"} = trim( $value, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes
 		}
         if( empty($devicenameold) ) $devicenameold='OpenWb';
-        ?>
-            <!-- some scripts -->
-            <script>
-                var devicename = "<?php echo $devicenameold; ?>"
-                var isss = "<?php echo $isssold; ?>"
-                var hassim = "<?php echo $hassim; ?>"
-            </script>
-        <?php
+
 		// check for acknoledgement of dataprotection
 		if ( $datenschutzackold == 0 && $clouduserold !== "leer") {
 			// load dataprotection page
@@ -98,6 +91,14 @@ function setCookieSameSite(
 			// therefore delete old cookies by having them expire immediately
 		    // setcookie('openWBTheme', '', time() - 3600, '/openWB/web');
 			include 'themes/'.$_COOKIE['openWBTheme'].'/theme.html';
+            ?>
+            <!-- some scripts -->
+            <script>
+                var devicename = "<?php echo $devicenameold; ?>"
+                var isss = "<?php echo $isssold; ?>"
+                var hassim = "<?php echo $hassim; ?>"
+            </script>
+            <?php            
 		}
 	}
 ?>
