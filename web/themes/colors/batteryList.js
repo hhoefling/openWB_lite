@@ -53,7 +53,7 @@ class BatteryList {
       row.append("td")
         .attr("class", "tablecell py-1 px-1")
         .attr("style", "vertical-align: middle;")
-        .text(formatWattH(wbdata.batteryEnergyImport*1000));
+        .text(formatWattH(wbdata.batteryEnergyImport * 1000));
 
       // Daily Export
       row.append("td")

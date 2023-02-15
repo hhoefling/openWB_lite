@@ -94,7 +94,7 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	}
 	else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
 		setInputValue('MaxPriceForCharging', mqttpayload);
-//		loadElectricityPriceChart();
+		loadElectricityPriceChart();
 	}
 	else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
 		$('#aktuellerStrompreis').text(parseFloat(mqttpayload).toLocaleString(undefined, {maximumFractionDigits: 2}) + ' ct/kWh');
