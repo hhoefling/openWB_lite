@@ -80,7 +80,7 @@ class ChargePointList {
     const limitMode = wbdata.chargePoint[wbdata.chargePointToConfig].chargeLimitation;
     d3.select(".pricechartColumn").classed ("col-12", (limitMode == 0));
     d3.select(".pricechartColumn").classed ("col-10", (limitMode == 2 || limitMode == 1));
-    // d3.select(".pricechartColumn").classed ("col-10", (limitMode == 1));
+    d3.select(".pricechartColumn").classed ("col-10", (limitMode == 1));
     d3.select(".energyResetButton").classed ("hide", (limitMode != 1));
 
   }
