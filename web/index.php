@@ -57,7 +57,7 @@ function setCookieSameSite(
 			list($key, $value) = explode("=", $line, 2);
 			${$key."old"} = trim( $value, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes
 		}
-
+        if( empty($devicenameold) ) $devicenameold='OpenWb';
         ?>
             <!-- some scripts -->
             <script>
