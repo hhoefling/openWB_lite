@@ -28,8 +28,17 @@ dpkg -l >/home/pi/firstdpkg.txt
 apt-get -q -y install whois dnsmasq hostapd openssl vim bc sshpass apache2 php php-gd php-curl php-xml php-json  
 apt-get -q -y install libapache2-mod-php jq  i2c-tools git mosquitto mosquitto-clients 
 apt-get -q -y install socat python3-pip python-pip-whl 
+
+if uname -a | grep -q 5.15 ; then isBullseye=1; else isBullseye=0; fi; 
+
 if (( isPC == 0 )) ; then
-  apt-get -q -y install python-pip python-rpi.gpioa raspberrypi-kernel-headers
+  if (( isBullseye == 0 )) ; then
+	# Buster
+	apt-get -q -y install python-pip python-rpi.gpioa
+  else
+	# bullseye
+	apt-get -q -y install python3-pip python3-rpi.gpio
+  fi
 fi
 # pip2 on Bullseye, replace pip3, that's bad:-( 
 #apt-get -q -y install python2-pip python2
