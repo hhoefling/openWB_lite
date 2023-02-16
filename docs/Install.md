@@ -22,7 +22,7 @@ Zuerst normal installieren wie oben.
 - Nun nocheinmal neu booten Jetzt erscheint nicht mehr der LX-Desktop sondern es wird der Chromium-Browser im Kiost mode gestartet.
 
 - Zur Rotation des Dispaly um 180 Grad noch in der /boot/config.txt nach dem vc4 treiber suchen und lcd_rotate=2 darunter setzen
-
+```
 # Enable DRM VC4 V3D driver
 dtoverlay=vc4-fkms-v3d
 max_framebuffers=2
