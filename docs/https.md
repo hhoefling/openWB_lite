@@ -62,6 +62,15 @@ sudo systemctl restart apache2
 
 Damit auch die MQTTT Ankopplung mit den WebSockets weiterhin klappt sind noch ein paar weiter Änderungen nötig. In meinem openWB_lite Fork sind diese Änderungen schon alle eingearbeitet. Wer eine original openWB über https betreiben will muss also noch weiter Änderungen einpflegen. Es ist eigendlich immer das gleiche. In den Jscript files die für die MQTT Konnection zuständig sind steht immer etwas der Art:
 
+Zuerst das Servercerticat des Appache kopieren
+```
+cp   /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/mosquitto/certs/openwb.pem
+cp   /etc/ssl/private/ssl-cert-snakeoil.key /etc/mosquitto/certs/openwb.key
+cd /etc/mosquitto/certs
+chmod 0700 *
+chown mosquitto:www-data *
+```
+
 z.b. in der setupMqttServices.js
 <pre><code>
 //Connect Options
