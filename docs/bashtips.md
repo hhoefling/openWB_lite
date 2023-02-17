@@ -3,6 +3,10 @@ Testen ob eine Varaibale definiert ist derren Namen in einer anderen Variablen s
 Also kein konstanter Name. z.b wenn der Name Teil einer Namensliste ist
 
 ```
+unset irgendeinevar
+varname="irgendeinevar"
+
+
 declare -n pointertovar=$varname
 if ${pointertovar+"false"}
 then
