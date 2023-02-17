@@ -1,6 +1,6 @@
 
 Testen ob eine Varaibale definiert ist derren Namen in einer anderen Variablen steht.
-Also kein konstanter Name. z.b Aus ein Teil einer Namensliste
+Also kein konstanter Name. z.b wenn der Name Teil einer Namensliste ist
 
 ```
 declare -n pointertovar=$varname
