@@ -200,6 +200,8 @@
 
 			$(document).ready(function(){
 
+               $('.devicename').text("<?php echo trim($devicenameold); ?>");
+
 				$('textarea').on('change keyup paste', function() {
 					var length = $(this).val().length;
 					var length = 500-length;

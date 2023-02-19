@@ -130,7 +130,8 @@ var thevalues = [
 	["openWB/config/get/sofort/lp/1/current", "#"],
 	["openWB/config/get/sofort/lp/2/current", "#"],
 	["openWB/config/get/sofort/lp/3/current", "#"],
-	["openWB/system/reloadDisplay", "#"]
+	["openWB/system/reloadDisplay", "#"],
+	["openWB/system/devicename", ".devicename"]
 ];
 
 function getCol(matrix, col){
@@ -824,6 +825,9 @@ function handlevar(mqttmsg, mqttpayload, mqtttopic, htmldiv) {
 		if ( mqttpayload == "1" ) {
 			reloadDisplay();
 		}
+	}
+	else if ( mqttmsg == "openWB/system/devicename" ) {
+			$(".devicename").text(mqttpayload);
 	}
 	else {
 		thevalues.forEach(function(thevar){

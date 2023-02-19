@@ -1025,13 +1025,13 @@ $numDevices = 9;
 		<!-- load mqtt library -->
 		<script src = "js/mqttws31.js" ></script>
 		<!-- load topics -->
-		<script src = "settings/topicsToSubscribe_smarthomeconfig.js?ver=20210215" ></script>
+		<script src = "settings/topicsToSubscribe_smarthomeconfig.js?ver=20220215" ></script>
 		<!-- load helper functions -->
 		<script src = "settings/helperFunctions.js?ver=20210215" ></script>
 		<!-- load service -->
-		<script src = "settings/setupMqttServices.js?ver=20201207" ></script>
+		<script src = "settings/setupMqttServices.js?ver=20211207" ></script>
 		<!-- load mqtt handler-->
-		<script src = "settings/processAllMqttMsg.js?ver=20210104" ></script>
+		<script src = "settings/processAllMqttMsg.js?ver=20220104" ></script>
 
 		<script>
 			<?php for( $devicenum = 1; $devicenum <= $numDevices; $devicenum++ ) { ?>

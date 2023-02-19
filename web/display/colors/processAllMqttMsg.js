@@ -546,6 +546,8 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 		$('.systemUptime').text(mqttpayload);
 	} else if (mqttmsg == 'openWB/system/Version') {
 		$('.systemVersion').text(mqttpayload);
+	} else if (mqttmsg == 'openWB/system/devicename') {
+		$('.devicename').text(mqttpayload);
 	}
 
 }

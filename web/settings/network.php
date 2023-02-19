@@ -239,6 +239,10 @@
 					$('#navNetworkSettings').addClass('disabled');
 				}
 			);
+			$(document).ready(function(){
+                $('.devicename').text("<?php echo trim($devicenameold); ?>");
+			});
+            
 		</script>
 
 	</body>

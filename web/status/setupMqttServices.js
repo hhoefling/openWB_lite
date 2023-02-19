@@ -11,6 +11,7 @@
 var topicsToSubscribe = [
 	["openWB/global/WAllChargePoints", 1],
 	["openWB/global/kWhCounterAllChargePoints", 1],
+	["openWB/system/devicename", 1],
 	["openWB/evu/ASchieflast", 1],
 	["openWB/evu/APhase1", 1],
 	["openWB/evu/APhase2", 1],

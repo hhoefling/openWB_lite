@@ -41,6 +41,13 @@
 		$authfile = $_SERVER['DOCUMENT_ROOT'].'/openWB/web/settings/.htaccess';
 		$passwordfile = $_SERVER['DOCUMENT_ROOT'].'/openWB/web/settings/.passwd';
 		$tempfile = $_SERVER['DOCUMENT_ROOT'].'/openWB/web/settings/temppassword';
+			$lines = file($_SERVER['DOCUMENT_ROOT'].'/openWB/openwb.conf');
+			foreach($lines as $line) {
+				if(strpos($line, "devicename=") !== false) {
+					list(, $devicename) = explode("=", $line);
+				}
+			}
+            
 		?>
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
@@ -181,6 +188,8 @@ AUTHEND
 
 		<script>
  			$(document).ready(function(){
+                $('.devicename').text("<?php echo trim($devicename); ?>");
+
  				// disable navbar entry for current page
 				$('#navPasswortschutz').addClass('disabled');
 			});

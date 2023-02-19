@@ -9,6 +9,7 @@
 // line[1] = load counter (if needed)
 
 var topicsToSubscribe = [
+	["openWB/system/devicename", 0],
 	["openWB/system/debuglevel", 0],
 	// global settings
 	["openWB/housebattery/boolHouseBatteryConfigured", 0],

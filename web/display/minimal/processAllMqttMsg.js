@@ -34,5 +34,7 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 		if( mqttpayload == '1' ){
 			reloadDisplay();
 		}
+	} else if (mqttmsg == 'openWB/system/devicename') {
+		$('.devicename').text(mqttpayload);
 	}
 }

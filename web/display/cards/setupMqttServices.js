@@ -35,6 +35,8 @@ var topicsToSubscribe = [
 	["openWB/system/Version", 1],
 	["openWB/system/wizzardDone", 1],
 	["openWB/system/reloadDisplay", 1],
+	["openWB/system/devicename", 1],
+    
 	// pv topics
 	["openWB/pv/W", 1],
 	["openWB/pv/DailyYieldKwh", 1],

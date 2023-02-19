@@ -46,6 +46,7 @@ var thevalues = [
 	["openWB/system/MonthLadelogData12"],
 	["openWB/system/ConfiguredChargePoints"],
 	["openWB/system/priceForKWh"],
+	["openWB/system/devicename"],
 	["openWB/global/rfidConfigured"],
 	["openWB/lp/1/boolChargePointConfigured"],
 	["openWB/lp/2/boolChargePointConfigured"],
@@ -90,10 +91,12 @@ function handlevar(mqttmsg, mqttpayload) {
 				break;
 		}
 	}
-	else if ( mqttmsg == "openWB/system/priceForKWh" ) {
-		PriceForKWh = mqttpayload;
-		gotprice = 1;
-		putladelogtogether();
+    else if ( mqttmsg =='openWB/system/Version' ) {
+		$('.systemVersion').text(mqttpayload);
+	}
+    else if ( mqttmsg =='openWB/system/devicename' ) {
+        console.log('system.. ', mqttmsg,' ',mqttpayload);
+		$('.devicename').text(mqttpayload);
 
 	}
 	else if( mqttmsg.match( /^openwb\/system\/MonthLadelogData[1-9][0-9]*$/i )){

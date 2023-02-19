@@ -306,6 +306,9 @@ class WbData {
 				this.updateSourceSummary("batOut", "energy", value);
 				yieldMeter.update();
 				break;
+            case 'batterySoc':
+                powerMeter.update();
+                break;                
 			default:
 				break;
 		}

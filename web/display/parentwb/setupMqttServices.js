@@ -11,7 +11,9 @@
 var topicsToSubscribe = [
 	// system topics
 	["openWB/system/reloadDisplay", 1],
-	["openWB/system/parentWB", 1]
+	["openWB/system/parentWB", 1],
+	["openWB/system/devicename", 1]
+    
 ];
 
 // holds number of topics flagged 1 initially

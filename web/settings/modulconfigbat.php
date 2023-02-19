@@ -868,6 +868,8 @@
 			// wizzard specific code
 			$(document).ready(function(){
 
+                $('.devicename').text("<?php echo trim($devicenameold); ?>");
+
 				$('#abortWizzardBtn').on("click",function() {
 					$('#abortWizzardConfirmationModal').modal();
 				});

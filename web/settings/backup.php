@@ -79,7 +79,7 @@
 					<div class="row">
 						<div class="col">
 							<?php echo implode('<br>',$output);  ?>
-							<!-- <pre>	<?php print_r( $_SERVER );  ?> </pre> -->
+							<!--  <pre>	< ? php print_r( $_GLOBALS );  ? > </pre>  -->
 							
 						</div>
 					</div>
@@ -126,7 +126,10 @@
 				}
 			);
 
-		</script>
+			$(document).ready(function(){
+                $('.devicename').text("<?php echo trim($devicename); ?>");
+			});
 
+</script>
 	</body>
 </html>

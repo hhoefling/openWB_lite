@@ -145,7 +145,7 @@
 			<div id="preloader-info" class="row justify-content-center mt-2">
 				<div class="col-10 col-sm-6">
 					Bitte warten, während die Seite aufgebaut wird.
-					<br><span id="openWB">openwb</span>
+					<br><span class="devicename">openWB</span>
 				</div>
 			</div>
 			<div class="row justify-content-center mt-2">
@@ -321,7 +321,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+ÿ 		肀ـ  v>
 			</div>
 
 
@@ -633,7 +633,7 @@
 			{ url: "themes/navbar.html", cache: false },
 			function (data) {
 				$("#nav-placeholder").replaceWith(data);
-			$("#openWB").replaceWith(devicename);
+			//$("#openWB").replaceWith(devicename);
 			}
 		);
 
@@ -714,11 +714,11 @@
 				// load mqtt library
 				'js/mqttws31.js',
 				// some helper functions
-				'themes/colors/helperFunctions.js?ver=20220526',
+				'themes/colors/helperFunctions.js?ver=20230526',
 				// functions for processing messages
-				'themes/colors/processAllMqttMsg.js?ver=20220213',
+				'themes/colors/processAllMqttMsg.js?ver=20230213',
 				// functions performing mqtt and start mqtt-service
-				'themes/colors/setupMqttServices.js?ver=20220119',
+				'themes/colors/setupMqttServices.js?ver=20230119',
 			];
 			scriptsToLoad.forEach(function (src) {
 				var script = document.createElement('script');
@@ -727,7 +727,6 @@
 				document.body.appendChild(script);
 			});
 
-			$("#openWB").replaceWith(devicename);
 			wbdata.init();
 			powerGraph.init();
 			powerMeter.init();

@@ -597,6 +597,9 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 		$('#time').text(time);
 		$('#date').text(date);
 	}
+	else if (mqttmsg == 'openWB/system/devicename') {
+      $('.devicename').text(mqttpayload);
+    } 
 }
 
 function processPvMessages(mqttmsg, mqttpayload) {
