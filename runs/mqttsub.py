@@ -1252,13 +1252,13 @@ def on_message(client, userdata, msg):
             if (msg.topic == "openWB/set/lp/3/DirectChargeSubMode"):
                 if (int(msg.payload) == 0):
                     replaceAll("lademstats2=",msg.payload.decode("utf-8"))
-                    #replaceAll("sofortsocstatlp2=",msg.payload.decode("utf-8"))
+                    #replaceAll("sofortsocstatlp3=",msg.payload.decode("utf-8"))
                 if (int(msg.payload) == 1):
                     replaceAll("lademstats2=",msg.payload.decode("utf-8"))
-                    #replaceAll("sofortsocstatlp2=","0")
+                    #replaceAll("sofortsocstatlp3=","0")
                 #if (int(msg.payload) == 2):
                 #    replaceAll("lademstats2=","0")
-                #    replaceAll("sofortsocstatlp2=","1")
+                #    replaceAll("sofortsocstatlp3=","1")
             if (msg.topic == "openWB/set/isss/ClearRfid"):
                 if (int(msg.payload) > 0 and int(msg.payload) <=1):
                     f = open('/var/www/html/openWB/ramdisk/readtag', 'w')
