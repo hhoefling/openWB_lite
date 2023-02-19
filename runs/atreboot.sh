@@ -118,9 +118,9 @@ at_reboot() {
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/v001"
 	sudo chmod -R 0777 "$OPENWBBASEDIR/web/logging/data/"
 	
-	sudo touch $RAMDISKDIR/smarthome.log
-	sudo chown pi:pi $RAMDISKDIR/smarthome.log 
-	sudo chmod -R 0777 $RAMDISKDIR/smarthome.log
+	sudo touch $OPENWBBASEDIR/ramdisk/smarthome.log
+	sudo chown pi:pi $OPENWBBASEDIR/ramdisk/smarthome.log 
+	sudo chmod -R 0777 $OPENWBBASEDIR/ramdisk/smarthome.log
 
 
 	# update openwb.conf
