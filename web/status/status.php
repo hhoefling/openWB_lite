@@ -758,13 +758,13 @@
 			$('#collapseEight').on('shown.bs.collapse', function(){
 				llanbindunglog();
 			});
-			$('.reloadLLEventLog').click(function(event){
+			$('.reloadEventLog').click(function(event){
 				lleventlog();
 			});
 			$('#collapseNine').on('shown.bs.collapse', function(){
 				lleventlog();
 			});
-			$('.reloadLLDbgLog').click(function(event){
+			$('.reloadDbgLog').click(function(event){
 				lldbglog();
 			});
 			$('#collapseTen').on('shown.bs.collapse', function(){
