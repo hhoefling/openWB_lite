@@ -99,6 +99,7 @@
 		<input type="hidden" name="displaypincode" id="displaypincode" value="<?php echo $displaypincodeold; ?>" />
 
 		<div id="main">
+            <div class="devicename">OpenWB</div>
 			<div style="font-size: 18px; height: 20px; top: 0px; left: 740px; text-align:center; position: absolute; width: 65px; color: white;" id="theclock"></div>
 			<div id="gaugediv">
 				<canvas id="lp1" style="height: 600px; top: -150px; left: 20px; position: absolute; width: 760px;"></canvas>
@@ -184,9 +185,9 @@
 					// load mqtt library
 					'js/mqttws31.js',
 					// functions for processing messages
-					'display/minimal/processAllMqttMsg.js?ver=20201201',
+					'display/minimal/processAllMqttMsg.js?ver=20231201',
 					// functions performing mqtt and start mqtt-service
-					'display/minimal/setupMqttServices.js?ver=20201201',
+					'display/minimal/setupMqttServices.js?ver=20231201',
 				];
 
 				scriptsToLoad.forEach(function(src) {

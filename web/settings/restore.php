@@ -47,6 +47,14 @@
 			</div>
 
 			<?php
+            
+            	 $lines = file($_SERVER['DOCUMENT_ROOT'].'/openWB/openwb.conf');
+			     foreach($lines as $line) {
+				    if(strpos($line, "devicename=") !== false) {
+					   list(, $devicename) = explode("=", $line);
+			     	}
+			     }
+            
 				// Returns a file size limit in bytes based on the PHP upload_max_filesize
 				// and post_max_size
 				function file_upload_max_size() {
@@ -138,6 +146,8 @@
 			);
 
 			$(document).ready(function() {
+
+                $('.devicename').text("<?php echo trim($devicename); ?>");
 
 				$("#fileToUpload").on("change",function(e){
 					//get the file name without path

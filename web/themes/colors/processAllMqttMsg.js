@@ -59,7 +59,7 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/global
 	// called by handlevar
 	processPreloader(mqttmsg);
-	console.log( 'processETProviderMessages(', mqttmsg, ' , ', mqttpayload,')' )
+	//console.log( 'processETProviderMessages(', mqttmsg, ' , ', mqttpayload,')' )
     
  // colors theme
  if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
@@ -658,6 +658,7 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/system
 	// called by handlevar
 	processPreloader(mqttmsg);
+    //console.log(mqttmsg, ' ', mqttpayload);
 	if (mqttmsg == 'openWB/system/debuglevel') {
 		var i = parseInt(mqttpayload, 10);
 		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
@@ -690,6 +691,10 @@ function processSystemMessages(mqttmsg, mqttpayload) {
       var rawval = mqttpayload.split('average:');
       var ss = (rawval[1]).split(/,\s+/)[0];
       $('#uptime').html('<small>CPU: '+ss+'</small>');
+    } 
+	else if (mqttmsg == 'openWB/system/devicename') {
+     console.log('set devicename from ', mqttmsg, ' ', mqttpayload);
+      $('.devicename').text(mqttpayload);
     } 
 	else if (mqttmsg.match(/^openwb\/system\/daygraphdata[1-9][0-9]*$/i)) {
 		powerGraph.updateDay(mqttmsg, mqttpayload);

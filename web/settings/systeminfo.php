@@ -44,7 +44,9 @@
 				if(strpos($line, "releasetrain=") !== false) {
 					list(, $releasetrain) = explode("=", $line);
 				}
-			}
+				else if(strpos($line, "devicename=") !== false) {
+					list(, $devicename) = explode("=", $line);
+				}			}
 			$releasetrain = trim($releasetrain);
 
 			if ( $releasetrain == "" ) {
@@ -214,6 +216,8 @@
 			);
 
 			$(document).ready(function(){
+
+                $('.devicename').text("<?php echo trim($devicename); ?>");
 
 				function getVersion(dataURL) {
 					// read dataURL filecontent = releasetrain version and return it

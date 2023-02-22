@@ -105,6 +105,7 @@ var averbraucher1e = [];
 var ahausverbrauch = [];
 var alpa = [];
 var thevalues = [
+	["openWB/system/devicename", ".devicename"],
 	["openWB/system/DayGraphData1", "#"],
 	["openWB/system/DayGraphData2", "#"],
 	["openWB/system/DayGraphData3", "#"],
@@ -159,7 +160,10 @@ function handlevar(mqttmsg, mqttpayload) {
 		var index = mqttmsg.match(/\d+/)[0];
 		window['d'+index+'name']=mqttpayload;
 	}
-	if ( mqttmsg.match( /^openwb\/system\/daygraphdata[1-9][0-9]*$/i ) ) {
+    else if ( mqttmsg=="openWB/system/devicename" ) {
+       $(".devicename").text(mqttpayload);
+    }
+    else if ( mqttmsg.match( /^openwb\/system\/daygraphdata[1-9][0-9]*$/i ) ) {
 		// matches to all messages containing "openwb/graph/daygraphdata#"
 		// where # is an integer > 0
 		// search is case insensitive

@@ -66,7 +66,7 @@
 		<div role="main" class="container" style="margin-top:20px">
 			<div class="card border-secondary">
 				<div class="card-header bg-secondary">
-					<span id="openWB">openwb</span> ist nur als Ladepunkt konfiguriert
+					<span class="devicename">openwb</span> ist nur als Ladepunkt konfiguriert
 				</div>
 				<div class="card-body p-0">
 					<div class="row mx-0">
@@ -88,7 +88,7 @@
             $(document).ready(function()
                 {
                 console.log('docready', hassim, isss);
-                $("#openWB").replaceWith(devicename);
+                //$("#openWB").replaceWith(devicename);
                 if( hassim > '')
                    $("#simlink").html('Hier gehts zur ISSS-<a href="' +  hassim + '">Simulation</a>');
                  

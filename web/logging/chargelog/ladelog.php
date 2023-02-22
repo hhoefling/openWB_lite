@@ -30,7 +30,7 @@
 		<!-- Font Awesome, all styles -->
 		<link href="fonts/font-awesome-5.8.2/css/all.css" rel="stylesheet">
 		<!-- include settings-style -->
-		<link rel="stylesheet" type="text/css" href="logging/chargelog/ladelog_style.css?ver=20210202">
+		<link rel="stylesheet" type="text/css" href="logging/chargelog/ladelog_style.css?ver=20230102">
 		<!-- important scripts to be loaded -->
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
@@ -39,7 +39,7 @@
 		<script src="js/bootstrap4-toggle/bootstrap4-toggle.min.js"></script>
 		<script src="js/mqttws31.js"></script>
 		<script src="logging/chargelog/helperFunctions.js?ver=20210202"></script>
-		<script src="logging/chargelog/ladelog.js?ver=20210202"></script>
+		<script src="logging/chargelog/ladelog.js?ver=20230102"></script>
 		<script>
 			function getCookie(cname) {
 				var name = cname + '=';

@@ -5028,3 +5028,9 @@
 
 	</body>
 </html>
+<script>
+			$(document).ready(function(){
+                $('.devicename').text("<?php echo trim($devicenameold); ?>");
+			});
+            
+</script>

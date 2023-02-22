@@ -35,6 +35,7 @@ var d8name = 'Device 8';
 var d9name = 'Device 9';
 var d10name = 'Device 10';
 var thevalues = [
+	["openWB/system/devicename", "#"],
 	["openWB/system/YearGraphDatan1", "#"],
 	["openWB/system/YearGraphDatan2", "#"],
 	["openWB/system/YearGraphDatan3", "#"],
@@ -116,7 +117,10 @@ function handlevar(mqttmsg, mqttpayload) {
 		var index = mqttmsg.match(/\d+/)[0];
 		window['d'+index+'name']=mqttpayload;
 	}
-	if ( mqttmsg.match( /^openwb\/system\/yeargraphdatan[1-9][0-9]*$/i ) ) {
+    else if ( mqttmsg=="openWB/system/devicename" ) {
+       $(".devicename").text(mqttpayload);
+    }
+	else if ( mqttmsg.match( /^openwb\/system\/yeargraphdatan[1-9][0-9]*$/i ) ) {
 		// matches to all messages containing "openwb/graph/monthgraphdata#"
 		// where # is an integer > 0
 		// search is case insensitive

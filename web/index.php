@@ -57,7 +57,7 @@ function setCookieSameSite(
 			list($key, $value) = explode("=", $line, 2);
 			${$key."old"} = trim( $value, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes
 		}
-        if( empty($devicenameold) ) $devicenameold='OpenWb';
+        //if( empty($devicenameold) ) $devicenameold='OpenWb';
 
 		// check for acknoledgement of dataprotection
 		if ( $datenschutzackold == 0 && $clouduserold !== "leer") {
@@ -94,7 +94,7 @@ function setCookieSameSite(
             ?>
             <!-- some scripts -->
             <script>
-                var devicename = "<?php echo $devicenameold; ?>"
+                //var devicename = "< ? php echo $devicenameold;  ? >"
                 var isss = "<?php echo $isssold; ?>"
                 var hassim = "<?php echo $hassim; ?>"
             </script>

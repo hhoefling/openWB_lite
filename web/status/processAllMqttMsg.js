@@ -54,7 +54,9 @@ function handlevar(mqttmsg, mqttpayload) {
 		else if ( mqttmsg.match( /^openwb\/SmartHome\//i) ) {
 		processSmartHomeMsg(mqttmsg, mqttpayload);
 	}
-	
+	else if ( mqttmsg.match( /^openwb\/system\//i) ) {
+		processSystemMsg(mqttmsg, mqttpayload);
+	}
 	else if ( mqttmsg.match( /^openwb\/global\//i) ) {
 		processGlobalMsg(mqttmsg, mqttpayload);
 	}
@@ -70,6 +72,16 @@ function processGlobalMsg (mqttmsg, mqttpayload) {
 			break;
 		case "openWB/global/kWhCounterAllChargePoints":
 			fractionDigitsShow(mqttpayload, '#kWhCounterAll');
+			break;
+		default:
+			console.log("Unknown topic: "+mqttmsg+": "+mqttpayload);
+			break;
+	}
+}
+function processSystemMsg (mqttmsg, mqttpayload) {
+	switch(mqttmsg){
+		case "openWB/system/devicename":
+			$(".devicename").text(mqttpayload);
 			break;
 		default:
 			console.log("Unknown topic: "+mqttmsg+": "+mqttpayload);

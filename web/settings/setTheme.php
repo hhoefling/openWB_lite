@@ -94,6 +94,14 @@
 					$themeCookie = $_COOKIE['openWBTheme'];
 				}
 			}
+            
+			$lines = file($_SERVER['DOCUMENT_ROOT'].'/openWB/openwb.conf');
+			foreach($lines as $line) {
+				if(strpos($line, "devicename=") !== false) {
+					list(, $devicename) = explode("=", $line);
+				}
+			}
+            
 		?>
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
@@ -173,6 +181,7 @@
 			};
 
 			$(document).ready(function(){
+                $('.devicename').text("<?php echo trim($devicename); ?>");
 				$('.carousel-control-prev').click(function(){
 					notSaved();
 				});

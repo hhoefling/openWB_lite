@@ -100,6 +100,7 @@ var topicsToSubscribe = [
 	// system topics
 	["openWB/system/Timestamp", 1],
 	["openWB/system/debuglevel", 1],	
+	["openWB/system/devicename", 1],	
 	
 	// pv topics
 	["openWB/pv/W", 1],

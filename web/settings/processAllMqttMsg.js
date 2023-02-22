@@ -44,6 +44,10 @@ function processMessages(mqttmsg, mqttpayload) {
 //		}
 		return	
 	}
+    else if ( mqttmsg=="openWB/system/devicename" ) {
+       $(".devicename").text(mqttpayload);
+       return
+    }
 	
     var topicIdentifier = mqttmsg.substring(mqttmsg.lastIndexOf('/')+1);
     // check if topic contains subgroup like /lp/1/
