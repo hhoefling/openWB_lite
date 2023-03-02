@@ -91,6 +91,11 @@ function handlevar(mqttmsg, mqttpayload) {
 				break;
 		}
 	}
+	else if ( mqttmsg == "openWB/system/priceForKWh" ) {
+		PriceForKWh = mqttpayload;
+		gotprice = 1;
+		putladelogtogether();
+	}
     else if ( mqttmsg =='openWB/system/Version' ) {
 		$('.systemVersion').text(mqttpayload);
 	}
@@ -278,6 +283,15 @@ function putladelogtogether() {
             var maxkm=0
             var minkm=9999999
             var gefahrkm=0;
+			var summs=[];
+			summs[0]=0;
+			summs[1]=0;
+			summs[2]=0;
+			summs[3]=0;
+			summs[4]=0;
+			summs[5]=0;
+			summs[6]=0;
+			summs[7]=0;
 
 			testout.forEach(function(row) {
 				var price = "0";
@@ -285,6 +299,7 @@ function putladelogtogether() {
 				rowcount+=1;
 				content += "<tr>";
 				var cellcount=0;
+				var cell4="";
 				row.forEach(function(cell) {
 
 					cellcount+=1;
@@ -299,6 +314,7 @@ function putladelogtogether() {
 							content += "<td class=\"text-right\">" + cell + "</td>";
 							break;
 						case 4: // geladene kWh
+						    cell4=cell;
 							totalkwh = parseFloat(totalkwh) + parseFloat(cell);
 							price = parseFloat(cell) * PriceForKWh;
 							totalprice = parseFloat(totalprice) + parseFloat(price);
@@ -323,6 +339,8 @@ function putladelogtogether() {
 							content += "<td class=\"text-right\">" + hourString + ":" + minuteString + "</td>";
 							break;
 						case 8: // Lademodus
+						    summs[cell]= parseFloat(summs[cell]) + parseFloat(cell4);
+							console.log(summs);
 							if (cell == 2) {
 								content += "<td>" + "Nur PV" + "</td>" ;
 							} else if (cell == 0) {
@@ -369,7 +387,32 @@ function putladelogtogether() {
                         '<th scope="col">RFID Tag</th>'+
                         '<th scope="col" class="text-right">' + gefahrkm.toFixed(0) + ' gefahrene km</th>'+
                         '<th scope="col" class="text-right">' + totalprice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '€ Kosten</th>'+
-                        '</tr></thead>';
+                        '</tr>';
+			content += '<tr><th scope="col">Ladeart</th><th scope="col" colspan="1">Summe</th></tr>';
+			for(var i=1; i<8; i++){
+			 if ( parseFloat(summs[i])>0 ) 
+			 {
+				content += '<tr>';
+				// content += '<td>'+i+'</td>'; 
+				if (i == 2) {
+					content += "<td>" + "Nur PV" + "</td>" ;
+				} else if (i == 0) {
+					content += "<td>" + "Sofort" + "</td>" ;
+				} else if (i == 1) {
+					content += "<td>" + "Min+PV" + "</td>" ;
+				} else if (i == 4) {
+					content += "<td>" + "Standby" + "</td>" ;
+				} else if (i == 3) {
+					content += "<td>" + "Standby" + "</td>" ;
+				} else if (i == 7) {
+					content += "<td>" + "Nachtladen" + "</td>" ;
+				} else {
+					content += "<td>" + i + "</td>" ;
+				}
+				content += '<td>' + parseFloat(summs[i]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kWh</td>'; 
+				content += '</tr>';			
+			 }
+			}
 			content += "</tfoot></table>";
 			$("#ladelogtablediv").html(content);
 		} else {
