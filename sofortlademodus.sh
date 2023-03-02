@@ -1,4 +1,6 @@
 #!/bin/bash
+openwbDebugLog "MAIN" 2 "Source sofortladen.sh (mode:$lademodus) mode=0"
+
 sofortlademodus(){
 	if [[ $schieflastaktiv == "1" ]]; then
 		if [[ $u1p3paktiv == "1" ]]; then
