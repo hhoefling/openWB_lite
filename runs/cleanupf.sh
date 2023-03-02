@@ -2,6 +2,7 @@
 
 # Truncate Logfile to max 1024KB each
 # Truncate only if bigger, let the file untouched if less.
+# runs from cleanup.sh as root
 
 f=$1
 kb=${2:-1024}
