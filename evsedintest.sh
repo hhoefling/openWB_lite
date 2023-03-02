@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2009,SC2086
 
 evsedintest() {
 	evsedintestlp1=$(<ramdisk/evsedintestlp1)
