@@ -60,6 +60,7 @@
 		</script>
 		<script>
 		  var debugold=<?php echo $debugold;?>;
+          var debugmode=<?php echo $debugold;?>;
 		  console.log('openWB debug aus openwb.conf:',debugold);
 		</script>		
 		

@@ -50,6 +50,19 @@
 
 	<body>
 		<?php
+            $lines = file('/var/www/html/openWB/openwb.conf');
+            $refreshDuration = 8;
+            foreach($lines as $line) {
+
+                if(strpos($line, "devicename=") !== false) {
+                    list(, $devicenameold) = explode("=", $line, 2);
+                    $devicenameold = trim( $devicenameold, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes       
+                }
+                if(strpos($line, "debug=") !== false) {
+                    list(, $debugold) = explode("=", $line, 2);
+                    $debugold = trim( $debugold, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes                    
+                }
+            }
 
 			/**
 			 * read settings for input elements from config file
@@ -214,6 +227,11 @@ ECHODAYROWTAIL;
 			}  // end echoDayRow
 
 		?>
+        <script>
+          var debugold=<?php echo $debugold;?>;
+          var devicename='<?php echo $devicenameold;?>';
+          console.log('openWB debug aus openwb.conf:',debugold);
+        </script>    
 
 <!-- begin of html body -->
 
@@ -308,6 +326,7 @@ ECHOFORMGROUPTAIL;
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navAutolock').addClass('disabled');
+                    $('.devicename').text(devicename);
 				}
 			);
 

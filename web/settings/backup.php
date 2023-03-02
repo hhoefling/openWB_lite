@@ -123,12 +123,9 @@
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navBackup').addClass('disabled');
+					$('.devicename').text("<?php echo trim($devicename); ?>");
 				}
 			);
-
-			$(document).ready(function(){
-                $('.devicename').text("<?php echo trim($devicename); ?>");
-			});
 
 </script>
 	</body>

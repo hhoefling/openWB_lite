@@ -168,7 +168,7 @@
 						<div class="col">
 							<p><pre style="font-size:0.7em;"><?php 
 											$lines=[];
-											exec('sudo ps -efl | grep -E "openWB|runs|tsp" | grep -v grep | grep -v sudo ', $lines);
+											exec('sudo ps -efl | grep -E "openWB|runs|tsp|puller|skoda" | grep -v grep | grep -v sudo ', $lines);
                                             $lines[]="";
 											echo implode('<br>',$lines);
                                        ?>

@@ -51,6 +51,7 @@
 		?>
 		<script>
 		  var debugold=<?php echo $debugold;?>;
+          var devicename='<?php echo $devicenameold;?>';
 		  console.log('openWB debug aus openwb.conf:',debugold);
 		</script>		
 
@@ -199,6 +200,7 @@
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navZielladen').addClass('disabled');
+                    $('.devicename').text(devicename);                    
 				}
 			);
 

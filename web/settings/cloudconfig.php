@@ -36,12 +36,19 @@
 		<script src = "settings/helperFunctions.js?ver=20220714" ></script>
 	</head>
 
-	<body>
 		<?php
 
 			$lines = file('/var/www/html/openWB/openwb.conf');
 			foreach($lines as $line) {
 
+                if(strpos($line, "devicename=") !== false) {
+                    list(, $devicenameold) = explode("=", $line, 2);
+                    $devicenameold = trim( $devicenameold, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes       
+                }
+                if(strpos($line, "debug=") !== false) {
+                    list(, $debugold) = explode("=", $line, 2);
+                    $debugold = trim( $debugold, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes                    
+                }
 				if(strpos($line, "clouduser=") !== false) {
 					list(, $clouduserold) = explode("=", $line, 2);
 				}
@@ -74,6 +81,13 @@
 			}
 
 		?>
+        <script>
+          var debugold=<?php echo $debugold;?>;
+          var devicename='<?php echo $devicenameold;?>';
+          console.log('openWB Debugmode:',debugold);
+        </script>
+
+	<body>
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
 
@@ -243,6 +257,7 @@
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navOpenwbCloud').addClass('disabled');
+                   $('.devicename').text(devicename);
 				}
 			);
 

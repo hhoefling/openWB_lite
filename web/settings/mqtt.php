@@ -40,14 +40,26 @@
 			$lines = file('/var/www/html/openWB/openwb.conf');
 			$refreshDuration = 8;
 			foreach($lines as $line) {
+
+                if(strpos($line, "devicename=") !== false) {
+                    list(, $devicenameold) = explode("=", $line, 2);
+                    $devicenameold = trim( $devicenameold, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes       
+                }
 				if(strpos($line, "debug=") !== false) {
-					list(, $debugold) = explode("=", $line);
+                    list(, $debugold) = explode("=", $line, 2);
+                    $debugold = trim( $debugold, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes                    
 				}
 			}
 
 			$lines = file('/etc/os-release');
 			$tlsv13Supported = empty(preg_grep('/VERSION_CODENAME=stretch/', $lines)) && empty(preg_grep('/VERSION_CODENAME=jessie/', $lines)) && empty(preg_grep('/VERSION_CODENAME=wheezy/', $lines));
 		?>
+        <script>
+          var debugold=<?php echo $debugold;?>;
+          var devicename='<?php echo $devicenameold;?>';
+          console.log('openWB debug aus openwb.conf:',debugold);
+        </script>    
+                
 		<div id="nav"></div> <!-- placeholder for navbar -->
 		<div role="main" class="container" style="margin-top:20px">
 			<?php
@@ -384,6 +396,8 @@
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navMqttBruecke').addClass('disabled');
+                    $('.devicename').text(devicename);                    
+                    
 				}
 			);
 

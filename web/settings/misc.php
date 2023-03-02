@@ -60,7 +60,6 @@
 		</script>
 	</head>
 
-	<body>
 
 		<?php
 			$lines = file($_SERVER['DOCUMENT_ROOT'] . '/openWB/openwb.conf');
@@ -71,6 +70,13 @@
 
 			$lastrfid = explode(',',trim( file_get_contents( '/var/www/html/openWB/ramdisk/rfidlasttag' )))[0];
 		?>
+        <script>
+          var debugold=<?php echo $debugold;?>;
+          var devicename='<?php echo $devicenameold;?>';
+          console.log('openWB debug aus openwb.conf:',debugold);
+        </script>        
+
+	<body>
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
 
@@ -1506,6 +1512,8 @@
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navVerschiedenes').addClass('disabled');
+                    $('.devicename').text(devicename);                    
+                    
 				}
 			);
 		</script>

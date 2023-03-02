@@ -49,6 +49,11 @@
 			}
          //echo "<pre>"; print_r($GLOBALS); echo "</pre>";
 		?>
+        <script>
+          var debugold=<?php echo $debugold;?>;
+          var devicename='<?php echo $devicenameold;?>';
+          console.log('openWB debug aus openwb.conf:',debugold);
+        </script>        
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
 
@@ -562,6 +567,7 @@
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navNachtladen').addClass('disabled');
+                    $('.devicename').text(devicename);
 				}
 			);
 
