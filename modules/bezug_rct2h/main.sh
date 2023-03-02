@@ -4,6 +4,9 @@ startms=$(($(date +%s%N)/1000000))
 SELF=$(cd `dirname $0`   &&  pwd)
 OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
 stamp="$OPENWBBASEDIR/ramdisk/rct2.last"
+RCT=$(basename `dirname $0`)
+RCT=${RCT/bezug_/}
+# rct2 oder rct2h oder rct2x
 
 # check if config file is already in env
 if [[ -z "$debug" ]]; then
@@ -18,8 +21,11 @@ function Log()
 {
  level=$1;
  shift;
- openwbDebugLog "MAIN" $level "RCT2h: $*"
+ openwbDebugLog "MAIN" $level "${RCT^^}: $*"
 }
+
+
+Log 2 "wattbezugmodul:$wattbezugmodul"
 
 
 now=`date +%s`
@@ -52,7 +58,7 @@ fi
 
 endms=$(($(date +%s%N)/1000000))
 let "ms=( endms - startms )"
-Log 1 "bezug runns $ms Millisec"
+Log 1 "bezug runs $ms Millisec"
 
 # Nehme wattbezug als ergbenis mit zurueck da beim Bezug-Module ein Returnwert erwartet wird.
 cat  /var/www/html/openWB/ramdisk/wattbezug

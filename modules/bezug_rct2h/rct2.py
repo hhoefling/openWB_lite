@@ -183,7 +183,7 @@ def main():
             writeRam('evuhz', freq, '0x1C4A665F grid_pll[0].f')
 #    die Standart-openWB2 liefert keine Frequenz ab
 #    nehme die vom EVU stattdessen
-            writeRam('llhz', freq, '0x1C4A665F grid_pll[0].f')
+#            writeRam('llhz', freq, '0x1C4A665F grid_pll[0].f')
 
             stat1 = int(stat1.value)
             stat2 = int(stat2.value)
