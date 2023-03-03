@@ -1,0 +1,5 @@
+# openwb-lite-version:1
+@xscreensaver -no-splash
+@point-rpi
+@xset s 600
+@chromium-browser --incognito --disable-pinch --overscroll-history-navigation=0 --kiosk http://localhost/openWB/web/display.php
