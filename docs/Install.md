@@ -94,4 +94,19 @@ Regelzeiten von 60 Sekunden sind kaum zu unterschreiten. Also weit weg von 10 Se
 Also wird mein alter Raspi weiterhin als WLan-Hotspot mit Packetfilter arbeiten.
 Dafür reicht die Rechenleistung aus und ich kann meinen Handy-App's damit auf die Finger schauen.
 
-
+## USB-Boot auf dem 3B+ ##
+Mit dem folgendeb Befehl kann man testen ob der 3B+ schon für das Booten von den USB Ports vorbereitet ist.
+```
+vcgencmd otp_dump | grep 17:
+```
+wenn als Ausgabe
+```
+17:3020000a
+```
+erscheint ist alles in Ordnung.
+Falls nicht kann mit
+```
+echo program_usb_boot_mode=1 | sudo tee -a /boot/config.txt
+sudo reboot
+```
+Nachgeholfen werden.
