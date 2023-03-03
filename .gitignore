@@ -5,7 +5,6 @@
 *.sav
 *.list
 x.sh
-lastcommit
 openwb.conf.*
 web/backup/*.tar.gz
 ramdisk/
@@ -21,5 +20,5 @@ modules/soc_tesla/tokens.*
 modules/soc_i3/token*
 modules/soc_eq/soc_eq_acc_*
 .vscode/settings.json
-xmodules/unsuported
 modules/soc_manuallp2/authorized_keys
+authorized_keys
