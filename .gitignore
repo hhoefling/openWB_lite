@@ -9,6 +9,7 @@ web/backup/*.tar.gz
 ramdisk/
 .DS_Store
 .ftp*
+modules/unsuported/
 web/ladelog
 web/logging/data/
 web/settings/.htaccess
