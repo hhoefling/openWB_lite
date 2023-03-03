@@ -4,6 +4,8 @@
 *.bak
 *.sav
 *.list
+x.sh
+lastcommit
 openwb.conf.*
 web/backup/*.tar.gz
 ramdisk/
