@@ -114,6 +114,7 @@
 				</form>
 			</div>
 
+<!---
 			<div class="card border-secondary">
 				<form class="form" id="sendTokenForm" action="./settings/starttunnel.php" method="POST">
 					<div class="card-header bg-secondary">
@@ -178,6 +179,7 @@
 					</div>
 				</form>
 			</div>
+--->
 
 		</div>  <!-- container -->
 
@@ -195,20 +197,17 @@
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navDebugging').addClass('disabled');
+                    $('.devicename').text("<?php echo trim($devicenameold); ?>");
 				}
 			);
 
-			$(document).ready(function(){
-
-               $('.devicename').text("<?php echo trim($devicenameold); ?>");
-
-				$('textarea').on('change keyup paste', function() {
-					var length = $(this).val().length;
-					var length = 500-length;
-					$('#textareaTextLength').text(length+"/500");
-				});
-
-			});
+//			$(document).ready(function(){
+//				$('textarea').on('change keyup paste', function() {
+//					var length = $(this).val().length;
+//					var length = 500-length;
+//					$('#textareaTextLength').text(length+"/500");
+//				});
+//			});
 
 		</script>
 

@@ -932,13 +932,13 @@ def on_message(client, userdata, msg):
                     sendcommand = ["/var/www/html/openWB/runs/replaceinconfig.sh", "nurpv70dynw=", msg.payload.decode("utf-8")]
                     subprocess.run(sendcommand)
                     client.publish("openWB/config/get/pv/nurpv70dynw", msg.payload.decode("utf-8"), qos=0, retain=True)
-            if (msg.topic == "openWB/set/system/GetRemoteSupport"):
-                if ( 5 <= len(msg.payload.decode("utf-8")) <=50 ):
-                    f = open('/var/www/html/openWB/ramdisk/remotetoken', 'w')
-                    f.write(msg.payload.decode("utf-8"))
-                    f.close()
-                    getsupport = ["/var/www/html/openWB/runs/initremote.sh"]
-                    subprocess.run(getsupport)
+#            if (msg.topic == "openWB/set/system/GetRemoteSupport"):
+#                if ( 5 <= len(msg.payload.decode("utf-8")) <=50 ):
+#                    f = open('/var/www/html/openWB/ramdisk/remotetoken', 'w')
+#                    f.write(msg.payload.decode("utf-8"))
+#                    f.close()
+#                    getsupport = ["/var/www/html/openWB/runs/initremote.sh"]
+#                    subprocess.run(getsupport)
             if (msg.topic == "openWB/set/hook/HookControl"):
                 if (int(msg.payload) >= 0 and int(msg.payload) <=30):
                     hookmsg=msg.payload.decode("utf-8")
@@ -1003,32 +1003,32 @@ def on_message(client, userdata, msg):
                     client.publish("openWB/set/system/PerformUpdate", "0", qos=0, retain=True)
                     setTopicCleared = True
                     subprocess.run("/var/www/html/openWB/runs/update.sh")
-            if (msg.topic == "openWB/set/system/SendDebug"):
-                payload = msg.payload.decode("utf-8")
-                if ( 20 <= len(payload) <=1000 ):
-                    try:
-                        json_payload = json_loads(str(payload))
-                    except JSONDecodeError:
-                        file = open('/var/www/html/openWB/ramdisk/mqtt.log', 'a')
-                        file.write("payload is not valid JSON, fallback to simple text\n")
-                        file.close()
-                        payload = payload.rpartition('email: ')
-                        json_payload = { "message": payload[0], "email": payload[2] }
-                    finally:
-                        if (re.match(emailallowed, json_payload["email"])):
-                            f = open('/var/www/html/openWB/ramdisk/debuguser', 'w')
-                            f.write("%s\n%s\n" % (json_payload["message"], json_payload["email"]))
-                            f.close()
-                            f = open('/var/www/html/openWB/ramdisk/debugemail', 'w')
-                            f.write(json_payload["email"] + "\n")
-                            f.close()
-                        else:
-                            file = open('/var/www/html/openWB/ramdisk/mqtt.log', 'a')
-                            file.write("payload does not contain a valid email: '%s'\n" % (str(json_payload["email"])))
-                            file.close()
-                        client.publish("openWB/set/system/SendDebug", "0", qos=0, retain=True)
-                        setTopicCleared = True
-                        subprocess.run("/var/www/html/openWB/runs/senddebuginit.sh")
+#            if (msg.topic == "openWB/set/system/SendDebug"):
+#                payload = msg.payload.decode("utf-8")
+#                if ( 20 <= len(payload) <=1000 ):
+#                    try:
+#                        json_payload = json_loads(str(payload))
+#                    except JSONDecodeError:
+#                        file = open('/var/www/html/openWB/ramdisk/mqtt.log', 'a')
+#                        file.write("payload is not valid JSON, fallback to simple text\n")
+#                        file.close()
+#                        payload = payload.rpartition('email: ')
+#                        json_payload = { "message": payload[0], "email": payload[2] }
+#                    finally:
+#                        if (re.match(emailallowed, json_payload["email"])):
+#                            f = open('/var/www/html/openWB/ramdisk/debuguser', 'w')
+#                            f.write("%s\n%s\n" % (json_payload["message"], json_payload["email"]))
+#                            f.close()
+#                            f = open('/var/www/html/openWB/ramdisk/debugemail', 'w')
+#                            f.write(json_payload["email"] + "\n")
+#                            f.close()
+#                        else:
+#                            file = open('/var/www/html/openWB/ramdisk/mqtt.log', 'a')
+#                            file.write("payload does not contain a valid email: '%s'\n" % (str(json_payload["email"])))
+#                            file.close()
+#                        client.publish("openWB/set/system/SendDebug", "0", qos=0, retain=True)
+#                        setTopicCleared = True
+#                        subprocess.run("/var/www/html/openWB/runs/senddebuginit.sh")
             if (msg.topic == "openWB/set/system/reloadDisplay"):
                 if (int(msg.payload) >= 0 and int(msg.payload) <= 1):
                     client.publish("openWB/system/reloadDisplay", msg.payload.decode("utf-8"), qos=0, retain=True)
