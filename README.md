@@ -18,7 +18,7 @@ Raspberry Pi 4 Model B Rev 1.4 (2GB)
 Kernel: Linux 5.10.103-v7l+ GNU/Linux (Buster)
 Python 3.7.3
 ```
-Seit Januar 2013 wird alles auf Debian 11/Bulleye umgestellt.
+Seit Januar 2023 wird alles auf Debian 11/Bulleye umgestellt.
 Diese läuft jetzt auf:
 ```
 Raspberry Pi 4 Model B Rev 1.4 (2GB)
