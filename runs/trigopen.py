@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 #
 # Hardware Ebene
 # Up u1p3check.sh 

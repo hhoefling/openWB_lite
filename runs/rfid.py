@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 # used for mode=2 zusätzlich zu den beiden input daemons
 import os
 import time

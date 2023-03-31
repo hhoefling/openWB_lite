@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 #coding: utf8
 #
 # Up atreboot.sh
