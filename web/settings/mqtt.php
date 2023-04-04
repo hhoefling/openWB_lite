@@ -45,10 +45,10 @@
                     list(, $devicenameold) = explode("=", $line, 2);
                     $devicenameold = trim( $devicenameold, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes       
                 }
-				if(strpos($line, "debug=") !== false) {
+                if(strpos($line, "debug=") !== false) {
                     list(, $debugold) = explode("=", $line, 2);
                     $debugold = trim( $debugold, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes                    
-				}
+                }
 			}
 
 			$lines = file('/etc/os-release');
