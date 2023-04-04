@@ -48,7 +48,7 @@ function processMessages(mqttmsg, mqttpayload) {
        $(".devicename").text(mqttpayload);
        return
     }
-	
+    
     var topicIdentifier = mqttmsg.substring(mqttmsg.lastIndexOf('/')+1);
     // check if topic contains subgroup like /lp/1/
     var topicSubGroup = mqttmsg.match( /(\w+)\/(\d\d?)\// );
