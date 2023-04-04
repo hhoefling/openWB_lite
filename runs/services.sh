@@ -485,6 +485,7 @@ function modbus_start()
    deblog "startup modbusserver";
    openwbDebugLog "MAIN" 0 "SERVICE: startup modbusserver"
    #sudo bash -c "python3 \"$OPENWBBASEDIR/runs/modbusserver/modbusserver.py\" >>\"$LOGFILE\" 2>&1 & "
+   # nicht als PI, bind socket<1024   
    sudo bash -c "python3 runs/modbusserver/modbusserver.py >>\"$LOGFILE\" 2>&1 & "
   else
     deblog "modbusserver allready running"
