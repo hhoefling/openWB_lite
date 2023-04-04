@@ -68,6 +68,7 @@
 										<input type="range" class="form-control-range rangeInput" name="minEVSECurrentAllowed" id="minEVSECurrentAllowed" min="6" max="16" step="1" value="6" data-default="6" data-topicprefix="openWB/config/get/global/">
 									</div>
 								</div>
+                                <span class="d_label">openWB/config/get/global/minEVSECurrentAllowed minimalstromstaerke</span>				
 							</div>
 						</div>
 					</div>  <!-- end card body Allgemeine Einstellungen Sofort -->
