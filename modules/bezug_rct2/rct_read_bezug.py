@@ -106,8 +106,8 @@ def main():
             faultState=2
              # speicher in mqtt 
            
-        os.system('mosquitto_pub -r -t openWB/evu/faultState -m "' + str(faultState) +'"')
-        os.system('mosquitto_pub -r -t openWB/evu/faultStr -m "' + str(faultStr) +'"')
+        os.system('mosquitto_pub -r -t openWB/set/evu/faultState -m "' + str(faultState) +'"')
+        os.system('mosquitto_pub -r -t openWB/set/evu/faultStr -m "' + str(faultStr) +'"')
 
         rct_lib.close(clientsocket)
     sys.exit(0)
