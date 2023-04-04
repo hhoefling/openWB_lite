@@ -67,18 +67,16 @@ done
 
 ptend loop16 500
 
-	
 
 	
+	
 # Bleibe bim Inc. ind regel.sh
-# graphtimer=$(<ramdisk/graphtimer)
-# echo $(( graphtimer = (graphtimer+1)%6 )) >ramdisk/graphtimer
-#
 	
 ptstart
+
 	#Long Time Graphing, ein mal je Minute bzw jeden 6 call		
 	if (( graphtimer == 1 )); then
-		openwbDebugLog "MAIN" 2 "graphing.sh ---- TIME make long time graph"	
+		openwbDebugLog "MAIN" 2 "graphing.sh ---- TIME make long time graph, IncVar=1"	
 		if (( dspeed == "3" )); then
 			livegraphtime="240"
 		else
@@ -91,3 +89,4 @@ ptstart
  ptend rest 100
  ptx=$xpt
 }
+
