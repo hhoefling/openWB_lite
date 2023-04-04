@@ -57,7 +57,7 @@ def main():
         faultState=0
 
         if ( stat1 + stat2 + stat3) > 0:
-            if( bstat1 == 8):
+            if( stat1 == 8):
                     faultStr = "Battery Balancing aktive"
                     faultState=1
             else:
