@@ -220,7 +220,7 @@
 		if( array_key_exists( 'rfidakt', $_POST ) ){ ?>
 			<script>$('#feedbackdiv').append("<br>RFID Konfiguration wird aktualisiert.");</script>
 			<?php
-            exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/services.sh reboot rfid >> /var/log/openWB.log 2>&1 &" );
+			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/services.sh reboot rfid >> /var/log/openWB.log 2>&1 &" );
             $debs[]=" trigger services.sh reboot rfid";
 		}
 
