@@ -10,7 +10,15 @@ LOGFILE="/var/log/openWB.log"
 # always check for existing log file!, (shout be never needed)
 if [[ ! -f $LOGFILE ]]; then
 	sudo touch $LOGFILE
+	sudo chown pi:pi $LOGFILE
 	sudo chmod 777 $LOGFILE
+fi
+ERRFILE="/var/log/openwb.error.log"
+# always check for existing log file!, (shout be never needed)
+if [[ ! -f $ERRFILE ]]; then
+	sudo touch $ERRFILE
+	sudo chown pi:pi $ERRFILE
+	sudo chmod 777 $ERRFILE
 fi
 
 
@@ -70,6 +78,26 @@ at_reboot() {
 	# no code will run here, functions need to be called
 	. "$OPENWBBASEDIR/runs/initRamdisk.sh"
 	. "$OPENWBBASEDIR/runs/updateConfig.sh"
+	
+	boot_config_source="$OPENWBBASEDIR/web/files/boot_config.txt"
+	boot_config_target="/boot/config.txt"
+	echo "checking init in $boot_config_target..."
+	if versionMatch "$boot_config_source" "$boot_config_target"; then
+		echo "already up to date"
+	else
+		echo "openwb section not found or outdated"
+		pattern_begin=$(grep -m 1 '#' "$boot_config_source")
+		pattern_end=$(grep '#' "$boot_config_source" | tail -n 1)
+		sudo sed -i "/$pattern_begin/,/$pattern_end/d" "$boot_config_target"
+		echo "adding init to $boot_config_target..."
+		sudo tee -a "$boot_config_target" <"$boot_config_source" >/dev/null
+		echo "done"
+		echo "new configuration active after next boot"
+	fi
+
+#####################
+	
+	
 #	. "$OPENWBBASEDIR/runs/rfid/rfidHelper.sh"
 #	. "$OPENWBBASEDIR/runs/pushButtons/pushButtonsHelper.sh"
 #	. "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
@@ -320,7 +348,7 @@ at_reboot() {
 	then
 		log "...ok"
 	else
-		sudo cp "/var/www/html/openWB/web/tools/000-default.conf" /etc/apache2/sites-available/
+		sudo cp "/var/www/html/openWB/runs/files/000-default.conf" /etc/apache2/sites-available/
 		log "...updated"
 		restartService=1
 	fi
@@ -329,7 +357,7 @@ at_reboot() {
 	then
 		log "...ok"
 	else
-		sudo cp "/var/www/html/openWB/web/tools/001-openwb_ssl.conf" /etc/apache2/sites-available/
+		sudo cp "/var/www/html/openWB/runs/files/001-openwb_ssl.conf" /etc/apache2/sites-available/
 		log "...updated"
 		restartService=1
 	fi
@@ -495,13 +523,13 @@ at_reboot() {
 	# check for mosquitto configuration
 #	if ! sudo grep -q "openwb-lite-version:1$" /etc/mosquitto/mosquitto.conf; then
 #		log "you need to updating mosquitto.conf!!!! "
-#		sudo cp "/var/www/html/openWB/web/files/main_mosquitto.conf" /etc/mosquitto/mosquitto.conf
+#		sudo cp "/var/www/html/openWB/runs/files/main_mosquitto.conf" /etc/mosquitto/mosquitto.conf
 #		restartService=1
 #	fi
 
 	if ! sudo grep -q "openwb-lite-version:1$" /etc/mosquitto/conf.d/openwb.conf; then
 		log "updating mosquitto openwb.conf"
-		sudo cp "/var/www/html/openWB/web/files/mosquitto.conf" /etc/mosquitto/conf.d/openwb.conf
+		sudo cp "/var/www/html/openWB/runs/files/mosquitto.conf" /etc/mosquitto/conf.d/openwb.conf
 		restartService=1
 	fi
 	if [[ ! -f /etc/mosquitto/certs/openwb.key ]]; then
@@ -575,7 +603,8 @@ at_reboot() {
 	if python3 -c "import lxml" &> /dev/null; then
 		log 'lxml installed...'
 	else
-		sudo pip3 install lxml
+		# sudo pip3 install lxml  #2626
+        sudo apt-get install python3-lxml
 	fi
 # vorgezogen, siehe oben    
 	#Prepare for evdev used in readrfid
@@ -678,21 +707,6 @@ at_reboot() {
 #      fi   
 #    fi
 
-	# update display configuration
-	if (( displayaktiv == 1 )); then
-		if [ ! -f /home/pi/.config/lxsession/LXDE-pi/autostart ]; then
-			mkdir /home/pi/.config/lxsession 2>&1 >/dev/null
-			mkdir /home/pi/.config/lxsession/LXDE-pi 2>&1 >/dev/null
-			cp /var/www/html/openWB/web/tools/autostart /home/pi/.config/lxsession/LXDE-pi/autostart
-		fi
-		log "display update..."
-		if grep -Fq "@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php" /home/pi/.config/lxsession/LXDE-pi/autostart
-		then
-			sed -i "s,@chromium-browser --incognito --disable-pinch --kiosk http://localhost/openWB/web/display.php,@chromium-browser --incognito --disable-pinch --overscroll-history-navigation=0 --kiosk http://localhost/openWB/web/display.php,g" /home/pi/.config/lxsession/LXDE-pi/autostart
-		fi
-	else 
-	    log "display not active"
-	fi
 
 	# get local ip
 	ip route get 1 | awk '{print $7;exit}' > /var/www/html/openWB/ramdisk/ipaddress
@@ -711,7 +725,6 @@ at_reboot() {
 	sudo chmod a+r "$OPENWBBASEDIR/ramdisk/currentCommitBranches"
 
     rm -rf /var/www/html/openWB/web/themes/dark19_01 >/dev/null 2>&1
-
 	# update broker
 	log "update broker..."
 	for i in $(seq 1 9);
@@ -772,5 +785,6 @@ at_reboot() {
 }
 
 # now call the defined function 
+
 at_reboot
 
