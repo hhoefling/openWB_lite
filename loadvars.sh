@@ -16,33 +16,90 @@ function timerun()  # time cmd paras
  local cmd=$1
  shift;
  
- openwbDebugLog "MAIN" 0 "EXEC:timout $time $cmd $*"
+# openwbDebugLog "MAIN" 0 "EXEC:timout $time $cmd $*"
  if timeout -k $time $time $cmd $*  >/dev/null
  then
    rc=$? 	# 0
    # log Ok $rc
  else
    rc=$?	# err or 124
-   openwbDebugLog "DEB" 0 "TIMEOUT:$rc $time [$cmd] [$*]  "
+   openwbDebugLog "ERR" 0 "TIMEOUT:$rc $time [$cmd] [$*]  "
    openwbDebugLog "MAIN" 0 "ERROR TIMEOUT:$rc $time [$cmd] [$*]  "
  fi
  return $rc
 }
 
 
-function dotimed(){
+function dotimed()
+{
  local mod=$1
  local time=${2:-0}
  if [[ -x $mod ]] ; then
 	if (( time > 0 ))  ; then
+		xpt=$ptx 
+ 		ptstart
    	   	timerun $time $mod
+		rc=$?
+		ptend $mod 100
+		ptx=$xpt 
 	else
-		openwbDebugLog "MAIN" 2 "EXEC $mod &"
 		$mod &
+		rc=0
 	fi	   
  else	 
   	openwbDebugLog "MAIN" 1 "NO $mod found"
+	rc=0
  fi
+ 
+ return $rc
+}
+
+
+#########################################################
+### Openwb.conf Sync module 
+#########################################################
+
+#
+# Dateiname , zu prüfen ob sync nötig ist
+#
+lasttimecheckerfile="ramdisk/mqttcvc/lasttimeOWBCchanged"
+
+# cacheverzeichniss um die Daten nur bei ver#änderung zum MQTT zu senden
+function initMqttcvc()
+{
+ if [ -d ramdisk/mqttcvc ] ; then
+   rm -r ramdisk/mqttcvc
+ fi
+ mkdir ramdisk/mqttcvc
+ chown pi:pi ramdisk/mqttcvc
+ openwbDebugLog "DEB" 0 "MQTTcvc cache cleared"
+ for mq in "${!mqttconfvar[@]}"; do     # all keys also die mqtt-pfade
+   name="${mqttconfvar[$mq]}"
+   declare -n pointertovar=$name
+    if ${pointertovar+"false"}
+    then
+        openwbDebugLog "DEB" 2 "MQTTcvc config variable $name ist not defined as shell variable"
+    else
+       echo "#noval#" > ramdisk/mqttcvc/${name}
+    fi   
+ done
+ echo "0" > $lasttimecheckerfile    # init -> sofortiges sync
+}
+
+function syncopenwbconf()
+{
+   for mq in "${!mqttconfvar[@]}"; do     # all keys also die mqtt-pfade
+        thevarname=${mqttconfvar[$mq]:-""}
+        theval=${!thevarname:-""}
+        oldname=mqttcvc/${mqttconfvar[$mq]}
+        oldval=""
+        if [ -r ramdisk/${oldname} ] ; then
+            oldval=$(<ramdisk/$oldname)
+        fi
+        if [[ "$oldval" != "$theval" ]]; then
+                    openwbDebugLog "DEB" 2 "MQTTcvc $thevarname changed [${oldval}] to [$theval] store to $mq"
+ fi
+  done
 }
 
 loadvars(){
@@ -431,6 +488,7 @@ loadvars(){
 		pv2vorhanden="1"
 		echo 1 > ramdisk/pv2vorhanden
 #########################################################################						
+		openwbDebugLog "MAIN" 2 "EXEC:timerun 5: modules/$pv2wattmodul/main.sh"
 	    dotimed "modules/$pv2wattmodul/main.sh" 5
 		if [[ $? -eq 124 ]] ; then
 			openwbModulePublishState "PV" 2 "Die PV-2 Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 2
@@ -466,6 +524,7 @@ loadvars(){
 	#Speicher werte
 	if [[ $speichermodul != "none" ]] ; then
 #########################################################################						
+		openwbDebugLog "MAIN" 2 "EXEC:timerun 5: modules/$speichermodul/main.sh"
 		dotimed "modules/$speichermodul/main.sh" 5 
 		if [[ $? -eq 124 ]] ; then
 			openwbModulePublishState "BAT" 2 "Die Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen."
@@ -608,6 +667,7 @@ loadvars(){
 			soc1vorhanden=0
 		fi
 #########################################################################						
+		openwbDebugLog "MAIN" 2 "EXEC:timerun 5: modules/$ladeleistungs1modul/main.sh"
 		dotimed "modules/$ladeleistungs1modul/main.sh" 5
 		if [[ $? -eq 124 ]] ; then
 			openwbModulePublishState "LP" 2 "Die LL-Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 2
@@ -658,6 +718,7 @@ loadvars(){
 	#dritter ladepunkt
 	if ((lastmanagements2 == 1)); then
 #########################################################################						
+		openwbDebugLog "MAIN" 2 "EXEC:timerun 5: modules/$ladeleistungs2modul/main.sh"
 		dotimed "modules/$ladeleistungs2modul/main.sh" 5
 		if [[ $? -eq 124 ]] ; then
 			openwbModulePublishState "LP" 2 "Die LL-Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 3
@@ -738,9 +799,10 @@ loadvars(){
 		#	openwbDebugLog "DEB" 0 " EVU > 5 !!! "
 		#	wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
 		#fi
+		openwbDebugLog "MAIN" 2 "EXEC:timerun 5: modules/$wattbezugmodul/main.sh"
 		dotimed "modules/$wattbezugmodul/main.sh" 5
 		if [[ $? -eq 124 ]] ; then
-			openwbModulePublishState "EVU" 2 "Die EVU Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 1
+			openwbModulePublishState "EVU" 2 "Die EVU Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 
 		fi
 		wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
 		openwbDebugLog "MAIN" 2 "Wattbezug: $wattbezug"
@@ -1206,23 +1268,23 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 	# date&timestamp now in pubmqtt.sh
 	tempPubList="openWB/system/Uptime=$(uptime)"
 
+    opvwatt=$(<ramdisk/mqttpvwatt)
 	if [[ "$opvwatt" != "$pvwatt" ]]; then
 		tempPubList="${tempPubList}\nopenWB/pv/W=${pvwatt}"
 		echo $pvwatt > ramdisk/mqttpvwatt
 	fi
+    owattbezug=$(<ramdisk/mqttwattbezug)
 	if [[ "$owattbezug" != "$wattbezug" ]]; then
 		tempPubList="${tempPubList}\nopenWB/evu/W=${wattbezug}"
 		echo $wattbezug > ramdisk/mqttwattbezug
 	fi
-	if [[ "$ollaktuell" != "$ladeleistunglp1" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/1/W=${ladeleistunglp1}"
-		echo $ladeleistunglp1 > ramdisk/mqttladeleistunglp1
-	fi
+    oladestatus=$(<ramdisk/mqttlastladestatus)
 	if [[ "$oladestatus" != "$ladestatus" ]]; then
 		tempPubList="${tempPubList}\nopenWB/ChargeStatus=${ladestatus}"
 		echo $ladestatus > ramdisk/mqttlastladestatus
 	fi
 	# TODO: wann wird der Lademodus geändert?
+    olademodus=$(<ramdisk/mqttlastlademodus)
 	if [[ "$olademodus" != "$lademodus" ]]; then
 		tempPubList="${tempPubList}\nopenWB/global/ChargeMode=${lademodus}"
 		echo $lademodus > ramdisk/mqttlastlademodus
@@ -1245,46 +1307,67 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 		 tempPubList="${tempPubList}\nopenWB/lp/1/boolChargeAtNight=0"
 	fi
 
+    ohausverbrauch=$(<ramdisk/mqtthausverbrauch)
 	if [[ "$ohausverbrauch" != "$hausverbrauch" ]]; then
 		tempPubList="${tempPubList}\nopenWB/global/WHouseConsumption=${hausverbrauch}"
 		echo $hausverbrauch > ramdisk/mqtthausverbrauch
 	fi
-	if [[ "$ollaktuells1" != "$ladeleistungs1" ]]; then
+    
+    oladeleistunglp1=$(<ramdisk/mqttladeleistunglp1)
+    if [[ "$oladeleistunglp1" != "$ladeleistunglp1" ]]; then
+        tempPubList="${tempPubList}\nopenWB/lp/1/W=${ladeleistunglp1}"
+        echo $ladeleistunglp1 > ramdisk/mqttladeleistunglp1
+    fi
+    
+    oladeleistungs1=$(<ramdisk/mqttladeleistungs1)
+	if [[ "$oladeleistungs1" != "$ladeleistungs1" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/2/W=${ladeleistungs1}"
 		echo $ladeleistungs1 > ramdisk/mqttladeleistungs1
 	fi
-	if [[ "$ollaktuells2" != "$ladeleistungs2" ]]; then
+    
+    oladeleistungs2=$(<ramdisk/mqttladeleistungs2)
+	if [[ "$oladeleistungs2" != "$ladeleistungs2" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/3/W=${ladeleistungs2}"
 		echo $ladeleistungs2 > ramdisk/mqttladeleistungs2
 	fi
+ 
+# statt ramdisk hier mqttt lesen   
+    ollkombiniert=$(<ramdisk/mqttladeleistung)
 	if [[ "$ollkombiniert" != "$ladeleistung" ]]; then
 		tempPubList="${tempPubList}\nopenWB/global/WAllChargePoints=${ladeleistung}"
 		echo $ladeleistung > ramdisk/mqttladeleistung
 	fi
+    ospeicherleistung=$(<ramdisk/mqttspeicherleistung)
 	if [[ "$ospeicherleistung" != "$speicherleistung" ]]; then
 		tempPubList="${tempPubList}\nopenWB/housebattery/W=${speicherleistung}"
 		echo $speicherleistung > ramdisk/mqttspeicherleistung
 	fi
+    ospeichersoc=$(<ramdisk/mqttspeichersoc)
 	if [[ "$ospeichersoc" != "$speichersoc" ]]; then
 		tempPubList="${tempPubList}\nopenWB/housebattery/%Soc=${speichersoc}"
 		echo $speichersoc > ramdisk/mqttspeichersoc
 	fi
+    osoc=$(<ramdisk/mqttsoc)
 	if [[ "$osoc" != "$soc" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/1/%Soc=${soc}"
 		echo $soc > ramdisk/mqttsoc
 	fi
+    osoc1=$(<ramdisk/mqttsoc1)
 	if [[ "$osoc1" != "$soc1" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/2/%Soc=${soc1}"
 		echo $soc1 > ramdisk/mqttsoc1
 	fi
+    ostopchargeafterdisclp1=$(<ramdisk/mqttstopchargeafterdisclp1)
 	if [[ "$ostopchargeafterdisclp1" != "$stopchargeafterdisclp1" ]]; then
 		tempPubList="${tempPubList}\nopenWB/config/get/lp/1/stopchargeafterdisc=${stopchargeafterdisclp1}"
 		echo $stopchargeafterdisclp1 > ramdisk/mqttstopchargeafterdisclp1
 	fi
+    ostopchargeafterdisclp2=$(<ramdisk/mqttstopchargeafterdisclp2)
 	if [[ "$ostopchargeafterdisclp2" != "$stopchargeafterdisclp2" ]]; then
 		tempPubList="${tempPubList}\nopenWB/config/get/lp/2/stopchargeafterdisc=${stopchargeafterdisclp2}"
 		echo $stopchargeafterdisclp2 > ramdisk/mqttstopchargeafterdisclp2
 	fi
+    ostopchargeafterdisclp3=$(<ramdisk/mqttstopchargeafterdisclp3)
 	if [[ "$ostopchargeafterdisclp3" != "$stopchargeafterdisclp3" ]]; then
 		tempPubList="${tempPubList}\nopenWB/config/get/lp/3/stopchargeafterdisc=${stopchargeafterdisclp3}"
 		echo $stopchargeafterdisclp3 > ramdisk/mqttstopchargeafterdisclp3
@@ -1292,7 +1375,7 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 
 	# lp4-lp8
 
-	if [[ $rfidakt == "1" ]]; then
+	if [[ $rfidakt == "1" ]]; then # function call
 		rfid
 	fi
 
@@ -1316,61 +1399,73 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 	gelrlp2=$(<ramdisk/gelrlp2)
 	gelrlp3=$(<ramdisk/gelrlp3)
 
-	lastregelungaktiv=$(<ramdisk/lastregelungaktiv)
+	lastregelungaktiv=$(<ramdisk/lastregelungaktiv) # reload , maybee cleared
 	hook1akt=$(<ramdisk/hook1akt)
 	hook2akt=$(<ramdisk/hook2akt)
 	hook3akt=$(<ramdisk/hook3akt)
+    odailychargelp1=$(<ramdisk/mqttdailychargelp1)
 	if [[ "$odailychargelp1" != "$dailychargelp1" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/1/kWhDailyCharged=${dailychargelp1}"
 		echo $dailychargelp1 > ramdisk/mqttdailychargelp1
 	fi
+    odailychargelp2=$(<ramdisk/mqttdailychargelp2)
 	if [[ "$odailychargelp2" != "$dailychargelp2" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/2/kWhDailyCharged=${dailychargelp2}"
 		echo $dailychargelp2 > ramdisk/mqttdailychargelp2
 	fi
+    odailychargelp3=$(<ramdisk/mqttdailychargelp3)
 	if [[ "$odailychargelp3" != "$dailychargelp3" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/3/kWhDailyCharged=${dailychargelp3}"
 		echo $dailychargelp3 > ramdisk/mqttdailychargelp3
 	fi
+    orestzeitlp1=$(<ramdisk/mqttrestzeitlp1)
 	if [[ "$orestzeitlp1" != "$restzeitlp1" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/1/TimeRemaining=${restzeitlp1}"
 		echo $restzeitlp1 > ramdisk/mqttrestzeitlp1
 	fi
+    orestzeitlp2=$(<ramdisk/mqttrestzeitlp2)
 	if [[ "$orestzeitlp2" != "$restzeitlp2" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/2/TimeRemaining=${restzeitlp2}"
 		echo $restzeitlp2 > ramdisk/mqttrestzeitlp2
 	fi
+    orestzeitlp3=$(<ramdisk/mqttrestzeitlp3)
 	if [[ "$orestzeitlp3" != "$restzeitlp3" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/3/TimeRemaining=${restzeitlp3}"
 		echo $restzeitlp3 > ramdisk/mqttrestzeitlp3
 	fi
+    ogelrlp1=$(<ramdisk/mqttgelrlp1)
 	if [[ "$ogelrlp1" != "$gelrlp1" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/1/kmCharged=${gelrlp1}"
 		echo $gelrlp1 > ramdisk/mqttgelrlp1
 	fi
+    ogelrlp2=$(<ramdisk/mqttgelrlp2)
 	if [[ "$ogelrlp2" != "$gelrlp2" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/2/kmCharged=${gelrlp2}"
 		echo $gelrlp2 > ramdisk/mqttgelrlp2
 	fi
+    ogelrlp3=$(<ramdisk/mqttgelrlp3)
 	if [[ "$ogelrlp3" != "$gelrlp3" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/3/kmCharged=${gelrlp3}"
 		echo $gelrlp3 > ramdisk/mqttgelrlp3
 	fi
-	ohook1_aktiv=$(<ramdisk/mqtthook1_aktiv)
-	if [[ "$ohook1_aktiv" != "$hook1_aktiv" ]]; then
-		tempPubList="${tempPubList}\nopenWB/hook/1/boolHookConfigured=${hook1_aktiv}"
-		echo $hook1_aktiv > ramdisk/mqtthook1_aktiv
-	fi
-	ohook2_aktiv=$(<ramdisk/mqtthook2_aktiv)
-	if [[ "$ohook2_aktiv" != "$hook2_aktiv" ]]; then
-		tempPubList="${tempPubList}\nopenWB/hook/2/boolHookConfigured=${hook2_aktiv}"
-		echo $hook2_aktiv > ramdisk/mqtthook2_aktiv
-	fi
-	ohook3_aktiv=$(<ramdisk/mqtthook3_aktiv)
-	if [[ "$ohook3_aktiv" != "$hook3_aktiv" ]]; then
-		tempPubList="${tempPubList}\nopenWB/hook/3/boolHookConfigured=${hook3_aktiv}"
-		echo $hook3_aktiv > ramdisk/mqtthook3_aktiv
-	fi
+    
+    
+     
+#    ohook1_aktiv=$(<ramdisk/mqtthook1_aktiv)
+#    if [[ "$ohook1_aktiv" != "$hook1_aktiv" ]]; then    ## openwb.conf->mqtt
+#        tempPubList="${tempPubList}\nopenWB/hook/1/boolHookConfigured=${hook1_aktiv}"
+#        echo $hook1_aktiv > ramdisk/mqtthook1_aktiv
+#    fi
+#	ohook2_aktiv=$(<ramdisk/mqtthook2_aktiv)
+#	if [[ "$ohook2_aktiv" != "$hook2_aktiv" ]]; then ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/hook/2/boolHookConfigured=${hook2_aktiv}"
+#		echo $hook2_aktiv > ramdisk/mqtthook2_aktiv
+#	fi
+#	ohook3_aktiv=$(<ramdisk/mqtthook3_aktiv)
+#	if [[ "$ohook3_aktiv" != "$hook3_aktiv" ]]; then ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/hook/3/boolHookConfigured=${hook3_aktiv}"
+#		echo $hook3_aktiv > ramdisk/mqtthook3_aktiv
+#	fi
 
 	if (( ohook1akt != hook1akt )); then
 		tempPubList="${tempPubList}\nopenWB/boolHook1Active=${hook1akt}"
@@ -1390,75 +1485,77 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 		echo -n "$version" > ramdisk/mqttversion
 	fi
 
-	ocp1config=$(<ramdisk/mqttCp1Configured)
-	if [[ "$ocp1config" != "1" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/1/boolChargePointConfigured=1"
-		echo 1 > ramdisk/mqttCp1Configured
-	fi
+# erster ist immer vorhanden nicht abschaltbar
+#	ocp1config=$(<ramdisk/mqttCp1Configured)
+#	if [[ "$ocp1config" != "1" ]]; then
+#		tempPubList="${tempPubList}\nopenWB/lp/1/boolChargePointConfigured=1"
+#		echo 1 > ramdisk/mqttCp1Configured
+#	fi
+# 2 und 3 sind anschaltbar
+#	olastmanagement=$(<ramdisk/mqttlastmanagement)
+#	if [[ "$olastmanagement" != "$lastmanagement" ]]; then  ## openwb.conf->mqtt
+#       tempPubList="${tempPubList}\nopenWB/lp/2/boolChargePointConfigured=${lastmanagement}"
+#        echo $lastmanagement > ramdisk/mqttlastmanagement
+#    fi
+#    olastmanagements2=$(<ramdisk/mqttlastmanagements2)
+#    if [[ "$olastmanagements2" != "$lastmanagements2" ]]; then   ## openwb.conf->mqtt
+#        tempPubList="${tempPubList}\nopenWB/lp/3/boolChargePointConfigured=${lastmanagements2}"
+#        echo $lastmanagements2 > ramdisk/mqttlastmanagements2
+#    fi
 
-	olastmanagement=$(<ramdisk/mqttlastmanagement)
-	if [[ "$olastmanagement" != "$lastmanagement" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/2/boolChargePointConfigured=${lastmanagement}"
-		echo $lastmanagement > ramdisk/mqttlastmanagement
+    osocvorhanden=$(<ramdisk/mqttsocvorhanden)
+    if [[ "$osocvorhanden" != "$socvorhanden" ]]; then
+        tempPubList="${tempPubList}\nopenWB/lp/1/boolSocConfigured=${socvorhanden}"
+        echo $socvorhanden > ramdisk/mqttsocvorhanden
 	fi
 	osoc1vorhanden=$(<ramdisk/mqttsoc1vorhanden)
 	if [[ "$osoc1vorhanden" != "$soc1vorhanden" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/2/boolSocConfigured=${soc1vorhanden}"
 		echo $soc1vorhanden > ramdisk/mqttsoc1vorhanden
 	fi
-	osocvorhanden=$(<ramdisk/mqttsocvorhanden)
-	if [[ "$osocvorhanden" != "$socvorhanden" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/1/boolSocConfigured=${socvorhanden}"
-		echo $socvorhanden > ramdisk/mqttsocvorhanden
-	fi
 
-	olastmanagements2=$(<ramdisk/mqttlastmanagements2)
-	if [[ "$olastmanagements2" != "$lastmanagements2" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/3/boolChargePointConfigured=${lastmanagements2}"
-		echo $lastmanagements2 > ramdisk/mqttlastmanagements2
-	fi
 
 	# lp4-lp8
 
-	olademstat=$(<ramdisk/mqttlademstat)
-	if [[ "$olademstat" != "$lademstat" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/1/boolDirectModeChargekWh=${lademstat}"
-		echo $lademstat > ramdisk/mqttlademstat
-	fi
-	olademstats1=$(<ramdisk/mqttlademstats1)
-	if [[ "$olademstats1" != "$lademstats1" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/2/boolDirectModeChargekWh=${lademstats1}"
-		echo $lademstats1 > ramdisk/mqttlademstats1
-	fi
-	olademstats2=$(<ramdisk/mqttlademstats2)
-	if [[ "$olademstats2" != "$lademstats2" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/3/boolDirectModeChargekWh=${lademstats2}"
-		echo $lademstats2 > ramdisk/mqttlademstats2
-	fi
+#	olademstat=$(<ramdisk/mqttlademstat)
+#	if [[ "$olademstat" != "$lademstat" ]]; then   ## openwb.conf->mqtt
+#        tempPubList="${tempPubList}\nopenWB/lp/1/boolDirectModeChargekWh=${lademstat}"
+#		echo $lademstat > ramdisk/mqttlademstat
+#	fi
+#	olademstats1=$(<ramdisk/mqttlademstats1)
+#	if [[ "$olademstats1" != "$lademstats1" ]]; then   ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/lp/2/boolDirectModeChargekWh=${lademstats1}"
+#		echo $lademstats1 > ramdisk/mqttlademstats1
+#	fi
+#	olademstats2=$(<ramdisk/mqttlademstats2)
+#	if [[ "$olademstats2" != "$lademstats2" ]]; then   ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/lp/3/boolDirectModeChargekWh=${lademstats2}"
+#		echo $lademstats2 > ramdisk/mqttlademstats2
+#	fi
 
 	# lp4-lp8
 
-	osofortsocstatlp1=$(<ramdisk/mqttsofortsocstatlp1)
-	if [[ "$osofortsocstatlp1" != "$sofortsocstatlp1" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/1/boolDirectChargeModeSoc=${sofortsocstatlp1}"
-		echo $sofortsocstatlp1 > ramdisk/mqttsofortsocstatlp1
-	fi
+#	osofortsocstatlp1=$(<ramdisk/mqttsofortsocstatlp1)
+#	if [[ "$osofortsocstatlp1" != "$sofortsocstatlp1" ]]; then ## openwb.conf->mqtt
+#        tempPubList="${tempPubList}\nopenWB/lp/1/boolDirectChargeModeSoc=${sofortsocstatlp1}"#
+#		echo $sofortsocstatlp1 > ramdisk/mqttsofortsocstatlp1
+#	fi
+#	osofortsocstatlp2=$(<ramdisk/mqttsofortsocstatlp2)
+#	if [[ "$osofortsocstatlp2" != "$sofortsocstatlp2" ]]; then ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/lp/2/boolDirectChargeModeSoc=${sofortsocstatlp2}"
+#		echo $sofortsocstatlp2 > ramdisk/mqttsofortsocstatlp2
+#	fi
+#	osofortsocstatlp3=$(<ramdisk/mqttsofortsocstatlp3)
+#	if (( osofortsocstatlp3 != sofortsocstatlp3 )); then   ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/boolsofortlademodussoclp3=${sofortsocstatlp3}"
+#		echo $sofortsocstatlp3 > ramdisk/mqttsofortsocstatlp3
+#	fi
 
-	osofortsocstatlp2=$(<ramdisk/mqttsofortsocstatlp2)
-	if [[ "$osofortsocstatlp2" != "$sofortsocstatlp2" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/2/boolDirectChargeModeSoc=${sofortsocstatlp2}"
-		echo $sofortsocstatlp2 > ramdisk/mqttsofortsocstatlp2
-	fi
-	osofortsocstatlp3=$(<ramdisk/mqttsofortsocstatlp3)
-	if (( osofortsocstatlp3 != sofortsocstatlp3 )); then
-		tempPubList="${tempPubList}\nopenWB/boolsofortlademodussoclp3=${sofortsocstatlp3}"
-		echo $sofortsocstatlp3 > ramdisk/mqttsofortsocstatlp3
-	fi
-	osofortsoclp3=$(<ramdisk/mqttsofortsoclp3)
-	if (( osofortsoclp3 != sofortsoclp3 )); then
-		tempPubList="${tempPubList}\nopenWB/percentsofortlademodussoclp3=${sofortsoclp3}"
-		echo $sofortsoclp3 > ramdisk/mqttsofortsoclp3
-	fi
+#	osofortsoclp3=$(<ramdisk/mqttsofortsoclp3)
+#    if (( osofortsoclp3 != sofortsoclp3 )); then       ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/percentsofortlademodussoclp3=${sofortsoclp3}"
+#		echo $sofortsoclp3 > ramdisk/mqttsofortsoclp3
+#	fi
 	ospeichervorhanden=$(<ramdisk/mqttspeichervorhanden)
 	if (( ospeichervorhanden != speichervorhanden )); then
 		tempPubList="${tempPubList}\nopenWB/housebattery/boolHouseBatteryConfigured=${speichervorhanden}"
@@ -1474,34 +1571,34 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 		tempPubList="${tempPubList}\nopenWB/pv/2/boolPVConfigured=${pv2vorhanden}"
 		echo $pv2vorhanden > ramdisk/mqttpv2vorhanden
 	fi
-	olp1name=$(<ramdisk/mqttlp1name)
-	if [[ "$olp1name" != "$lp1name" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/1/strChargePointName=${lp1name}"
-		echo $lp1name > ramdisk/mqttlp1name
-	fi
-	olp2name=$(<ramdisk/mqttlp2name)
-	if [[ "$olp2name" != "$lp2name" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/2/strChargePointName=${lp2name}"
-		echo $lp2name > ramdisk/mqttlp2name
-	fi
-	olp3name=$(<ramdisk/mqttlp3name)
-	if [[ "$olp3name" != "$lp3name" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/3/strChargePointName=${lp3name}"
-		echo $lp3name > ramdisk/mqttlp3name
-	fi
+#	olp1name=$(<ramdisk/mqttlp1name)
+#	if [[ "$olp1name" != "$lp1name" ]]; then       ## openwb.conf->mqtt
+#        tempPubList="${tempPubList}\nopenWB/lp/1/strChargePointName=${lp1name}"
+#		echo $lp1name > ramdisk/mqttlp1name
+#	fi
+#	olp2name=$(<ramdisk/mqttlp2name)
+#	if [[ "$olp2name" != "$lp2name" ]]; then       ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/lp/2/strChargePointName=${lp2name}"
+#		echo $lp2name > ramdisk/mqttlp2name
+#	fi
+#	olp3name=$(<ramdisk/mqttlp3name)
+#	if [[ "$olp3name" != "$lp3name" ]]; then       ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/lp/3/strChargePointName=${lp3name}"
+#		echo $lp3name > ramdisk/mqttlp3name
+#	fi
 	
 	# lp4-lp8
 	
-	ozielladenaktivlp1=$(<ramdisk/mqttzielladenaktivlp1)
-	if [[ "$ozielladenaktivlp1" != "$zielladenaktivlp1" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/1/boolFinishAtTimeChargeActive=${zielladenaktivlp1}"
-		echo $zielladenaktivlp1 > ramdisk/mqttzielladenaktivlp1
-	fi
-	onachtladen=$(<ramdisk/mqttnachtladen)
-	if [[ "$onachtladen" != "$nachtladen" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/1/boolChargeAtNight=${nachtladen}"
-		echo $nachtladen > ramdisk/mqttnachtladen
-	fi
+#	ozielladenaktivlp1=$(<ramdisk/mqttzielladenaktivlp1)
+#	if [[ "$ozielladenaktivlp1" != "$zielladenaktivlp1" ]]; then ## openwb.conf->mqtt
+#        tempPubList="${tempPubList}\nopenWB/lp/1/boolFinishAtTimeChargeActive=${zielladenaktivlp1}"
+#		echo $zielladenaktivlp1 > ramdisk/mqttzielladenaktivlp1
+#	fi
+#	onachtladen=$(<ramdisk/mqttnachtladen)
+#	if [[ "$onachtladen" != "$nachtladen" ]]; then     ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/lp/1/boolChargeAtNight=${nachtladen}"
+#		echo $nachtladen > ramdisk/mqttnachtladen
+#	fi
 	onachtladens1=$(<ramdisk/mqttnachtladens1)
 	if [[ "$onachtladens1" != "$nachtladens1" ]]; then
 		tempPubList="${tempPubList}\nopenWB/lp/2/boolChargeAtNight=${nachtladens1}"
