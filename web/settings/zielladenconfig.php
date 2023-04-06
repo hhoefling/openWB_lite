@@ -78,7 +78,7 @@
 										<input type="radio" name="zielladenaktivlp1" id="zielladenaktivlp1On" value="1"<?php if($zielladenaktivlp1old == 1) echo " checked=\"checked\"" ?>>An
 									</label>
 								</div>
-							   <div class="d_label">zielladenaktivlp1</div>				
+							   <div class="d_label">openwb zielladenaktivlp1</div>				
 							</div>
 							<div id="zielladenaktivlp1div" class="disabled">
 								<div class="card-text alert alert-info">
@@ -93,7 +93,7 @@
 												<input type="range" class="form-control-range rangeInput" name="zielladensoclp1" id="zielladensoclp1" min="0" max="100" step="1" value="<?php echo $zielladensoclp1old; ?>">
 											</div>
 										</div>
-							         <span class="d_label">zielladensoclp1</span>				
+							         <span class="d_label">openwb zielladensoclp1</span>				
 										<span class="form-text small">Der SoC Wert auf den geladen werden soll.</span>
 									</div>
 								</div>
@@ -101,7 +101,7 @@
 									<label for="zielladenuhrzeitlp1" class="col-md-4 col-form-label">Ziel-Zeitpunkt</label>
 									<div class="col">
 										<input class="form-control" type="text" pattern="20[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31)) (0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])" name="zielladenuhrzeitlp1" id="zielladenuhrzeitlp1" value="<?php echo $zielladenuhrzeitlp1old; ?>">
-							         <span class="d_label">zielladenuhrzeitlp1</span>				
+							         <span class="d_label">openwb zielladenuhrzeitlp1</span>				
 										<span class="form-text small">Gültige Werte YYYY-MM-DD HH:MM, z.B. 2018-12-16 06:15. Ende der gewünschten Ladezeit. Das Datum muss exakt in diesem Format mit Leerzeichen zwischen Monat und Stunde eingegeben werden.</span>
 										<!--
 											test datetime input (not supported by all Browsers)
@@ -119,7 +119,7 @@
 												<input type="range" class="form-control-range rangeInput" name="zielladenalp1" id="zielladenalp1" min="6" max="32" step="1" value="<?php echo $zielladenalp1old; ?>">
 											</div>
 										</div>
-							         <span class="d_label">zielladenalp1</span>				
+							         <span class="d_label">openwb zielladenalp1</span>				
 										<span class="form-text small">Ampere mit denen geladen werden soll um den Ziel SoC zu erreichen.</span>
 									</div>
 								</div>
@@ -137,7 +137,7 @@
 												<input type="radio" name="zielladenphasenlp1" id="zielladenphasenlp13" value="3"<?php if($zielladenphasenlp1old == 3) echo " checked=\"checked\"" ?>>3
 											</label>
 										</div>
-							         <span class="d_label">zielladenphasenlp1</span>				
+							         <span class="d_label">openwb zielladenphasenlp1</span>				
 										<span class="form-text small">Achtung wenn mehr als eine Phase genutzt wird, muss für Standby auf 3-Phasig stehen.</span>
 									</div>
 								</div>
@@ -150,7 +150,7 @@
 												<input type="range" class="form-control-range rangeInput" name="zielladenmaxalp1" id="zielladenmaxalp1" min="6" max="32" step="1" value="<?php echo $zielladenmaxalp1old; ?>">
 											</div>
 										</div>
-							         <span class="d_label">zielladenmaxalp1</span>				
+							         <span class="d_label">openwb zielladenmaxalp1</span>				
 										<span class="form-text small">Ampere mit denen geladen werden kann, um den Ziel SoC zu erreichen. Orientiert an der Leistung der Hausinstallation, oder der des zu ladenden Autos.</span>
 									</div>
 								</div>								
