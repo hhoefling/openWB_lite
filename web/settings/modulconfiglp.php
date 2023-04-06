@@ -104,7 +104,7 @@
 									</optgroup>
 									<optgroup label="andere Ladepunkte">
 										<option <?php if($evseconold == "goe") echo "selected" ?> value="goe">Go-e</option>
-										<option <?php if($evseconold == "keba") echo "selected" ?> value="keba">Keba</option>
+										<!--<option <?php if($evseconold == "keba") echo "selected" ?> value="keba">Keba</option>-->
 										<option <?php if($evseconold == "nrgkick") echo "selected" ?> value="nrgkick">NRGKick + Connect</option>
 										<option <?php if($evseconold == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi / smartWB</option>
 										<option <?php if($evseconold == "twcmanager") echo "selected" ?> value="twcmanager">Tesla TWC mit TWCManager</option> 
@@ -292,6 +292,7 @@
 								</div>
 							</div>
 						</div>
+<!--
 						<div id="evseconkeba" class="hide">
 							<input type="hidden" name="ladeleistungmodul" value="keballlp1">
 							<div class="form-group">
@@ -307,6 +308,7 @@
 								</div>
 							</div>
 						</div>
+-->
 						<div id="evseconhttp" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -446,7 +448,7 @@
 											<option <?php if($ladeleistungmodulold == "mpm3pmtripple") echo "selected" ?> value="mpm3pmtripple">openWB Tripple</option>
 										</optgroup>
 										<optgroup label="andere Messgeräte">
-											<option <?php if($ladeleistungmodulold == "fsm63a3modbusll") echo "selected" ?> value="fsm63a3modbusll">FSM63A3 Modbus</option>
+											<!--<option <?php if($ladeleistungmodulold == "fsm63a3modbusll") echo "selected" ?> value="fsm63a3modbusll">FSM63A3 Modbus</option>-->
 											<option <?php if($ladeleistungmodulold == "mpm3pmll") echo "selected" ?> value="mpm3pmll">MPM3PM</option>
 											<option <?php if($ladeleistungmodulold == "sdm120modbusll") echo "selected" ?> value="sdm120modbusll">SDM 120 Modbus</option>
 											<option <?php if($ladeleistungmodulold == "sdm630modbusll") echo "selected" ?> value="sdm630modbusll">SDM 630 Modbus</option>
@@ -568,6 +570,7 @@
 									</div>
 								</div>
 							</div>
+<!--
 							<div id="llmfsm" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -589,6 +592,7 @@
 									</div>
 								</div>
 							</div>
+-->
 							<div id="llmsdm" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -2114,7 +2118,7 @@
 							hideSection('#evsecongoe');
 							hideSection('#evseconnrgkick');
 							hideSection('#evseconmastereth');
-							hideSection('#evseconkeba');
+							//hideSection('#evseconkeba');
 							hideSection('#openwb12');
 							hideSection('#openwbauto');
 							hideSection('#openwb12mid');
@@ -2188,9 +2192,9 @@
 							if($('#evsecon').val() == 'nrgkick') {
 								showSection('#evseconnrgkick');
 							}
-							if($('#evsecon').val() == 'keba') {
-								showSection('#evseconkeba');
-							}
+							//if($('#evsecon').val() == 'keba') {
+							//	showSection('#evseconkeba');
+							//}
 							if($('#evsecon').val() == 'twcmanager') {
 								showSection('#evsecontwcmanager');
 							}
@@ -2208,7 +2212,7 @@
 							hideSection('#llsma');
 							hideSection('#sdm120div');
 							hideSection('#rs485lanlp1');
-							hideSection('#llmfsm');
+							//hideSection('#llmfsm');
 							hideSection('#httpll');
 							hideSection('#mpm3pmlllp1div');
 							hideSection('#mqttll');
@@ -2244,10 +2248,10 @@
 								showSection('#llmpm3pm');
 								showSection('#rs485lanlp1');
 							}
-							if($('#ladeleistungmodul').val() == 'fsm63a3modbusll') {
-								showSection('#rs485lanlp1');
-								showSection('#llmfsm');
-							}
+							//if($('#ladeleistungmodul').val() == 'fsm63a3modbusll') {
+							//	showSection('#rs485lanlp1');
+							//	showSection('#llmfsm');
+							//}
 							if($('#ladeleistungmodul').val() == 'mqttll') {
 								showSection('#mqttll');
 							}
@@ -2457,7 +2461,7 @@
 									</optgroup>
 									<optgroup label="andere Ladepunkte">
 										<option <?php if($evsecons1old == "goe") echo "selected" ?> value="goe">Go-e</option>
-										<option <?php if($evsecons1old == "keba") echo "selected" ?> value="keba">Keba</option>
+										<!--<option <?php if($evsecons1old == "keba") echo "selected" ?> value="keba">Keba</option>-->
 										<option <?php if($evsecons1old == "nrgkick") echo "selected" ?> value="nrgkick">NRGKick + Connect</option>
 										<option <?php if($evsecons1old == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi</option>
 									</optgroup>
@@ -2599,6 +2603,7 @@
 								</div>
 							</div>
 						</div>
+<!--
 						<div id="evseconkebas1" class="hide">
 							<input type="hidden" name="ladeleistungs1modul" value="keballlp2">
 							<div class="form-group">
@@ -2614,6 +2619,7 @@
 								</div>
 							</div>
 						</div>
+-->
 						<div id="evseconmbs1" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -4080,7 +4086,7 @@
 							hideSection('#llmodullp2');
 							hideSection('#evsecongoes1');
 							hideSection('#evsecoslaveeth');
-							hideSection('#evseconkebas1');
+							//hideSection('#evseconkebas1');
 							hideSection('#evseconnrgkicks1');
 							hideSection('#openwb12s1v1');
 							hideSection('#openwb12s1v2');
@@ -4133,9 +4139,9 @@
 							if($('#evsecons1').val() == 'slaveeth') {
 								showSection('#evsecoslaveeth');
 							}
-							if($('#evsecons1').val() == 'keba') {
-								showSection('#evseconkebas1');
-							}
+							//if($('#evsecons1').val() == 'keba') {
+							//	showSection('#evseconkebas1');
+							//}
 							if($('#evsecons1').val() == 'nrgkick') {
 								showSection('#evseconnrgkicks1');
 							}

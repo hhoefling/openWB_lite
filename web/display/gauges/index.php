@@ -425,7 +425,7 @@
 						?>
 						<div class="row col-xs-12 text-center" style="height: 100px;">
 							<div class="col-xs-2">
-								<span id="lp1enableddiv" class="fa fa-2x" style="cursor: pointer;" onclick="lp1enabledclick()"></span><span id="stationlp1" class="fas fa-2x fa-charging-station"></span>
+								<span id="lp1enableddiv" class="fa fa-2x" style="cursor: pointer;" onclick="lp1checkenabledclick()"></span><span id="stationlp1" class="fas fa-2x fa-charging-station"></span>
 							</div>
 							<div class="col-xs-3">
 								<div id="speedlp1">

@@ -1246,6 +1246,7 @@
 										<option <?php if($displaythemeold == 3) echo "selected" ?> value="3">Gauges</option>
 										<option <?php if($displaythemeold == 4) echo "selected" ?> value="4">YourCharge</option>
 										<option <?php if($displaythemeold == 5) echo "selected" ?> value="5">Colors</option>
+                                        <option <?php if($displaythemeold == 6) echo "selected" ?> value="6">Colors-HH</option>
 									</select>
   									<span class="d_label">openWB.conf displaytheme</span>
 								</div>

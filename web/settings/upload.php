@@ -139,6 +139,7 @@
 		</script>
 		<?php
 			if($uploadOk === true) {
+				sleep(5);				
 				exec("sudo -u pi " . escapeshellarg($_SERVER['DOCUMENT_ROOT']) . "/openWB/runs/restore.sh");
 				?>
 					<script>
