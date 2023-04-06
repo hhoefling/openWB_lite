@@ -12,6 +12,7 @@ sofortlademodus(){
 	fi
 	if (( etprovideraktiv == 1 )); then
 		actualprice=$(<ramdisk/etproviderprice)
+        openwbDebugLog "DEB" 1 "etprovideraktiv == 1, price: $actualprice max:$etprovidermaxprice"
 		if (( $(echo "$actualprice <= $etprovidermaxprice" |bc -l) )); then
 			#price lower than max price, enable charging
 			openwbDebugLog "MAIN" 1 "Aktiviere Ladung (preisbasiert), Preis $actualprice, Max $etprovidermaxprice"
