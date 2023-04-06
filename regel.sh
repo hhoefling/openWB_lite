@@ -141,6 +141,8 @@ if [[ $isss == "1" ]]; then
 fi
 ptstart
 
+lademodus=$(<ramdisk/lademodus)
+
 # Must be first
 source loadvars.sh
 source minundpv.sh
@@ -193,27 +195,28 @@ ptstart
 # ./ladelog.sh &
 ptend "ladelog" 100
 
-incvar graphtimer 5 
-#graphtimer=$(<ramdisk/graphtimer)
-#if (( graphtimer < 5 )); then
-#	graphtimer=$((graphtimer+1))
-#	echo $graphtimer > ramdisk/graphtimer
-#else
-#	graphtimer=0
-#	echo $graphtimer > ramdisk/graphtimer
-#fi
-#######################################
+IncVar graphtimer 6 
 
+#######################################
 if (( displayaktiv == 1 )); then
-	execdisplay=$(<ramdisk/execdisplay)
-	if (( execdisplay == 1 )); then
+   if ! flagIsClear execdisplay ; then
+        openwbDebugLog "MAIN" 1 "EXEC runs/displaybacklight.sh $displayLight and reloadDisplay.sh"
 		export DISPLAY=:0 && xset s "$displaysleep" && xset dpms "$displaysleep" "$displaysleep" "$displaysleep"
-		echo 0 > ramdisk/execdisplay
-		openwbDebugLog "MAIN" 1 "EXEC runs/displaybacklight.sh $displayLight"
-		sudo runs/displaybacklight.sh $displayLight
+        runs/displaybacklight.sh $displayLight
+        runs/reloadDisplay.sh 
 	fi
 fi
 
+#if (( displayaktiv == 1 )); then
+#	execdisplay=$(<ramdisk/execdisplay)
+#	if (( execdisplay == 1 )); then
+#        echo 0 > ramdisk/execdisplay
+#        openwbDebugLog "MAIN" 1 "EXEC runs/displaybacklight.sh $displayLight and reloadDisplay.sh"
+#        export DISPLAY=:0 && xset s "$displaysleep" && xset dpms "$displaysleep" "$displaysleep" "$displaysleep"
+#        runs/displaybacklight.sh $displayLight
+#        runs/reloadDisplay.sh 
+#	fi
+#fi
 
 #######################################
 # check rfid
@@ -402,13 +405,11 @@ fi
 
 # 0,2,3  Norm=10S,Langsam=20S,sehr langsam=1Min
 if [[ $dspeed == "3" ]]; then
-    regeltimer=0 
-	incvar regeltimer 5
-	if (( regeltimer!=0 )) ; then 
-		openwbDebugLog "MAIN" 0 "DSpeed=3, EXIT 0  Now ($regeltimer) "
+	if ! IncVar regeltimer 6 ; then
+		openwbDebugLog "MAIN" 0 "DSpeed=3, EXIT 0  Now IncVar: ($regeltimer) "
 		exit 0
  	else 		
-		openwbDebugLog "MAIN" 0 "DSpeed=3, run at ($regeltimer) "
+		openwbDebugLog "MAIN" 0 "DSpeed=3, run at IncVar: ($regeltimer) "
 	fi
 fi
 
@@ -443,10 +444,8 @@ fi
 
 
  
-evsemodbustimer=0		
-incvar evsemodbustimer 30
-if (( evsemodbustimer == 0 )) ; then
-   	openwbDebugLog "MAIN" 1 "call evse modbus check, every 5 minutes"
+if IncVar evsemodbustimer 30 ; then
+       openwbDebugLog "MAIN" 1 "call evse modbus check, every 5 minutes IncVar"
    	evsemodbuscheck5
 fi
 
