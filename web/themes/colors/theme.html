@@ -240,7 +240,7 @@
 				<figure id="powergraph" class="wb-subwidget mb-0"></figure>
 			</div>
 			<!-- Energie heute (yieldmeter) -->
-			<div class="wb-widget col-md p-2 m-1 rounded shadow">
+			<div class="rounded shadow wb-widget col-md p-2 m-1 ">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-8 px-0">
@@ -262,8 +262,8 @@
 
 		<div class="row py-0 px-0">
 			<!-- Ladepunkte (chargePointList) -->
-			<div class="wb-widget col-md p-2 m-1 rounded shadow">
-				<h3 class="mt-0">Ladepunkte <small id="LadereglerTxt"> notext </small></h3>
+			<div class="rounded shadow wb-widget col-md p-2 m-1 ">			
+				<h3 class="mt-0"><span class="fas fa-charging-station" style="color: var(--color-charging)">&nbsp;</span>Ladepunkte <small id="LadereglerTxt"> notext </small></h3>
 				<div class="pb-3 wb-subwidget">
 					<div style="text-align:center;">
 						<span id="lastregelungaktiv" class="regularTextSize text-red animate-alertPulsation"></span>
@@ -275,7 +275,7 @@
 
 			<!-- Speicher (batteryList) -->
 			<div class="rounded shadow wb-widget col-md p-2 m-1" id="batteryWidget">
-				<h3>Speicher <small id="BatSupportTxt"> notext </small></h3>
+				<h3><span class="fas fa-car-battery" style="color: var(--color-battery)">&nbsp;</span>Speicher <small id="BatSupportTxt"> notext </small></h3>
 				<div class="wb-subwidget pb-3 ">
 					<div id="batteryStatus"></div>
 				</div>
@@ -283,7 +283,7 @@
 
 			<!-- Smart Home (smartHomeList) -->
 			<div class="rounded shadow wb-widget col-md p-2 m-1" id="smartHomeWidget">
-				<h3>Geräte</h3>
+				<h3><span class="fas fa-plug" style="color: var(--color-devices)">&nbsp;</span>Geräte</h3>
 				<div class="wb-subwidget pb-3 ">
 					<div id="smartHomeTable"></div>
 				</div>
@@ -292,7 +292,7 @@
 			<!-- Preisbasiertes Laden -->
 			
 			<div class="rounded shadow wb-widget col-md-4 p-2 m-1 priceConfiguration" id="priceConfigWidget">
-				<h3 class="mt-0">Preisbasiertes Laden</h3>
+				<h3 class="mt-0"><span class="fas fa-chart-line" style="color: var(--color-charging)">&nbsp;</span>Preisbasiertes Laden</h3>
 				<div class="pb-3 wb-subwidget">
 					<div class="row p-0 m-0 ">
 						<div class="col-12 pricechartColumn p-0 m-0">
@@ -321,13 +321,13 @@
 							</div>
 						</div>
 					</div>
-				<div>
+				</div>
 			</div>
 
 
 			<!-- Ladepunkt Konfig -->
 			<div class="rounded shadow wb-widget col-md p-2 m-1" id="chargePointConfigWidget">
-				<h3 class="mt-0">Einstellungen Ladepunkte</h3>
+				<h3 class="mt-0"><span class="fas fa-cog" style="color: var(--color-charging)">&nbsp;</span>Einstellungen Ladepunkte</h3>
 				<div class="pb-3 wb-subwidget">
 					<!-- depending on charge mode show options -->
 					<form id="minundpvladenEinstellungen" class="hide">
@@ -771,10 +771,10 @@
 					if (!isNaN(parseInt(dev)) && dev > 0 && dev < 10) {
 						var isEnabled = $(this).hasClass("lpEnabledStyle")
 						if (isEnabled) {
-							publish("0", "openWB/config/set/SmartHome/Devices" + dev + "/device_manual_control");
+							publish("0", "openWB/config/set/SmartHome/Device" + dev + "/device_manual_control");
 							$(this).removeClass('lpEnabledStyle').removeClass('lpDisabledStyle').addClass('lpWaitingStyle');
 						} else {
-							publish("1", "openWB/config/set/SmartHome/Devices" + dev + "/device_manual_control");
+							publish("1", "openWB/config/set/SmartHome/Device" + dev + "/device_manual_control");
 							$(this).removeClass('lpEnabledStyle').removeClass('lpDisabledStyle').addClass('lpWaitingStyle');
 
 						}

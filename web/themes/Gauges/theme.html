@@ -535,7 +535,6 @@
 		</form>
 
 		<form id="sofortladenEinstellungen" class="hide">
-<!--		
 			<div class="hide" id="priceBasedCharging">
 				<hr class="border-secondary">
 				<div class="row justify-content-center">
@@ -558,10 +557,9 @@
 					Preis
 					<button type="button" class="btn btn-secondary ml-3 priceMore"><i class="far fa-plus-square"></i></button>
 				</div>
-			</div>  < ! --/ priceBasedCharging -- >
+			</div>  <!--/ priceBasedCharging -->
 
 			<hr class="border-secondary">
--->			
 			<div class="row justify-content-center">
 				<h3 class="font-weight-bold text-center text-lightgrey">Sofortladen Stromstärke</h3>
 			</div>
@@ -1407,10 +1405,10 @@
 					if ( !isNaN(dev) && dev > 0 && dev < 10 ) {
 						var isEnabled = $(this).hasClass("lpEnabledStyle")
 						if ( isEnabled ) {
-							publish("0", "openWB/config/set/SmartHome/Devices" + dev + "/device_manual_control");
+							publish("0", "openWB/config/set/SmartHome/Device" + dev + "/device_manual_control");
 							$(this).removeClass('lpEnabledStyle').removeClass('lpDisabledStyle').addClass('lpWaitingStyle');
 						} else {
-							publish("1", "openWB/config/set/SmartHome/Devices" + dev + "/device_manual_control");
+							publish("1", "openWB/config/set/SmartHome/Device" + dev + "/device_manual_control");
 							$(this).removeClass('lpEnabledStyle').removeClass('lpDisabledStyle').addClass('lpWaitingStyle');
 
 						}
@@ -1541,7 +1539,7 @@
 				var label = $('label[for="' + elementId + '"].valueLabel');
 				label.addClass('text-danger');
 				 if ( $.escapeSelector(elementId) == 'MaxPriceForCharging') {
-				 	// marks times in the pricechart where the price is low enough so charging would be allowed
+					// marks times in the price chart where the price is low enough so charging would be allowed
 	 			 	var priceAnnotations = createPriceAnnotations();
 	 			 	electricityPricechart.options.annotation.annotations = priceAnnotations;
 	 			 	electricityPricechart.update();

@@ -5,7 +5,7 @@ Based on Theme "dark" by Michael Ortenstein
 2020 Lutz Bender
 */
 
-html{
+html {
 	min-height: 100%;
 	min-width: 100%;
 }
@@ -44,7 +44,7 @@ body > .container {
 		opacity: 1;
 	}
 }
-@-moz-keyframes alertPulsation{
+@-moz-keyframes alertPulsation {
 	0% {
 		opacity: 1;
 	}
