@@ -225,39 +225,6 @@ initRamdisk(){
 # HH
 	echo 0 > $RamdiskPath/speichervorhanden
 
-	# temp mqtt
-	echo -1 > $RamdiskPath/mqttdurchslp2
-	echo -1 > $RamdiskPath/mqttdurchslp3
-	echo -1 > $RamdiskPath/mqttgelrlp1
-	echo -1 > $RamdiskPath/mqttgelrlp2
-	echo -1 > $RamdiskPath/mqttgelrlp3
-	echo -1 > $RamdiskPath/mqttladeleistunglp1
-	echo -1 > $RamdiskPath/mqttladeleistungs1
-	echo -1 > $RamdiskPath/mqttladeleistungs2
-	echo -1 > $RamdiskPath/mqttlastchargestat
-	echo -1 > $RamdiskPath/mqttlastchargestats1
-	echo -1 > $RamdiskPath/mqttlastladestatus
-	echo -1 > $RamdiskPath/mqttlastplugstat
-	echo -1 > $RamdiskPath/mqttlastplugstats1
-	echo -1 > $RamdiskPath/mqttpv1vorhanden
-	echo -1 > $RamdiskPath/mqttpv2vorhanden
-	echo -1 > $RamdiskPath/mqttetprovidermaxprice
-	echo -1 > $RamdiskPath/mqttetproviderprice
-	echo -1 > $RamdiskPath/mqttlademkwhs1
-	echo -1 > $RamdiskPath/mqttlademkwhs2
-	echo -1 > $RamdiskPath/mqttllsolls1
-	echo -1 > $RamdiskPath/mqttllsolls2
-	echo -1 > $RamdiskPath/mqttsoc1
-	echo -1 > $RamdiskPath/mqttspeicherleistung
-	echo -1 > $RamdiskPath/mqttspeichervorhanden
-	echo -1 > $RamdiskPath/mqttlastmanagement
-	echo -1 > $RamdiskPath/mqttlastmanagements1
-	echo -1 > $RamdiskPath/mqttlastmanagements2
-	echo -1 > $RamdiskPath/mqttspeichersoc
-	echo -1 > $RamdiskPath/mqttrfidlasttag
-	echo -1 > $RamdiskPath/mqttrfidlp1
-	echo -1 > $RamdiskPath/mqttrfidlp2
-	echo -1 > $RamdiskPath/mqttrfidlp3
 
 	# rfid
 	echo $rfidlist > $RamdiskPath/rfidlist
@@ -378,6 +345,12 @@ initRamdisk(){
 	echo 0 > $RamdiskPath/temp_evupf2
 	echo 0 > $RamdiskPath/temp_evupf3
 
+
+#	"mqttmsmoduslp${i}::-1" \
+#	"mqttdisplaylp${i}max::-1" \
+#	"mqttzielladenaktivlp${i}::-1" \
+#	"mqttlp${i}name::Lp${i}" \
+
 	# init common files for lp1 to lp8
 	# "<ramdiskFileName>:<MqttTopic>:<defaultValue>"
 	# <Mqtt-Topic> is optional and request to broker will be skipped if empty
@@ -396,10 +369,6 @@ initRamdisk(){
 			"lp${i}sofortll:openWB/config/get/sofort/lp/${i}/current:10" \
 			"rfidlp${i}::0" \
 			"boolstopchargeafterdisclp${i}::0" \
-			"mqttzielladenaktivlp${i}::-1" \
-			"mqttmsmoduslp${i}::-1" \
-			"mqttlp${i}name::Lp${i}" \
-			"mqttdisplaylp${i}max::-1" \
 			"mqttautolockstatuslp${i}::-1" \
 			"mqttautolockconfiguredlp${i}::-1"
 		do
@@ -424,114 +393,150 @@ initRamdisk(){
 		done
 	done
 
+	# temp mqtt
+#	echo -1 > $RamdiskPath/mqttdurchslp2
+#	echo -1 > $RamdiskPath/mqttdurchslp3
+	echo -1 > $RamdiskPath/mqttgelrlp1
+	echo -1 > $RamdiskPath/mqttgelrlp2
+	echo -1 > $RamdiskPath/mqttgelrlp3
+	echo -1 > $RamdiskPath/mqttladeleistunglp1
+	echo -1 > $RamdiskPath/mqttladeleistungs1
+	echo -1 > $RamdiskPath/mqttladeleistungs2
+	echo -1 > $RamdiskPath/mqttlastchargestat
+	echo -1 > $RamdiskPath/mqttlastchargestats1
+	echo -1 > $RamdiskPath/mqttlastladestatus
+	echo -1 > $RamdiskPath/mqttlastplugstat
+	echo -1 > $RamdiskPath/mqttlastplugstats1
+	echo -1 > $RamdiskPath/mqttpv1vorhanden
+	echo -1 > $RamdiskPath/mqttpv2vorhanden
+	echo -1 > $RamdiskPath/mqttetprovidermaxprice
+	echo -1 > $RamdiskPath/mqttetproviderprice
+#	echo -1 > $RamdiskPath/mqttlademkwhs1
+#	echo -1 > $RamdiskPath/mqttlademkwhs2
+	echo -1 > $RamdiskPath/mqttllsolls1
+	echo -1 > $RamdiskPath/mqttllsolls2
+	echo -1 > $RamdiskPath/mqttsoc1
+	echo -1 > $RamdiskPath/mqttspeicherleistung
+	echo -1 > $RamdiskPath/mqttspeichervorhanden
+#	echo -1 > $RamdiskPath/mqttlastmanagement
+#	echo -1 > $RamdiskPath/mqttlastmanagements1
+#	echo -1 > $RamdiskPath/mqttlastmanagements2
+	echo -1 > $RamdiskPath/mqttspeichersoc
+	echo -1 > $RamdiskPath/mqttrfidlasttag
+	echo -1 > $RamdiskPath/mqttrfidlp1
+	echo -1 > $RamdiskPath/mqttrfidlp2
+	echo -1 > $RamdiskPath/mqttrfidlp3
+
+
+#		"mqttlademkwh:-1" \
 #		"mqttlademkwhlp4:-1" \
 #		"mqttlademkwhlp5:-1" \
 #		"mqttlademkwhlp6:-1" \
 #		"mqttlademkwhlp7:-1" \
 #		"mqttlademkwhlp8:-1" \
+#		"mqttlademstat:-1" \
+#		"mqttlademstats1:-1" \
+#		"mqttlademstats2:-1" \
 #		"mqttlademstatlp4:-1" \
 #		"mqttlademstatlp5:-1" \
 #		"mqttlademstatlp6:-1" \
 #		"mqttlademstatlp7:-1" \
 #		"mqttlademstatlp8:-1" \
 #		"mqttRandomSleepValue:-1" \
+#		"mqttsofortsoclp1:-1" \
+#		"mqttsofortsoclp2:-1" \
+#		"mqttsofortsoclp3:-1" \
+#		"mqttsofortsocstatlp1:-1" \
+#		"mqttsofortsocstatlp2:-1" \
+#		"mqttsofortsocstatlp3:-1" \
+#		"mqttspeicherpveinbeziehen:-1" \
+#		"mqttspeicherpvui:-1" \
+#		"mqttabschaltuberschuss:-1" \
+#		"mqttabschaltverzoegerung:-1" \
+#		"mqttadaptfaktor:-1" \
+#		"mqttadaptpv:-1" \
+#		"mqttevuglaettungakt:-1" \
+#		"mqttnlakt_minpv:-1" \
+#		"mqttnlakt_nurpv:-1" \
+#		"mqttnlakt_sofort:-1" \
+#		"mqttnlakt_standby:-1" \
+#		"mqtthook1_aktiv:-1" \
+#		"mqtthook2_aktiv:-1" \
+#		"mqtthook3_aktiv:-1" \
+#		"mqttdurchslp1:-1" \
+#		"mqttverbraucher1_aktiv:-1" \
+#		"mqttverbraucher1_name:notset" \
+#		"mqttverbraucher2_aktiv:-1" \
+#		"mqttverbraucher2_name:notset" \
+#		"mqttminimalalp2pv:-1" \
+#		"mqttminimalampv:-1" \
+#		"mqttminimalapv:-1" \
+#		"mqttmaxnurpvsoclp1:-1" \
+#		"mqttminnurpvsocll:-1" \
+#		"mqttminnurpvsoclp1:-1" \
+#		"mqttstopchargepvatpercentlp1:-1" \
+#		"mqttstopchargepvatpercentlp2:-1" \
+#		"mqttstopchargepvatpercentlp3:-1" \
+#		"mqttstopchargepvpercentagelp1:-1" \
+#		"mqttstopchargepvpercentagelp2:-1" \
+#		"mqttstopchargepvpercentagelp3:-1" \
+#		"mqttmindestuberschuss:-1" \
+#		"mqtteinschaltverzoegerung:-1" \
+#   	"mqttpvbezugeinspeisung:-1" \
+#		"mqttoffsetpv:-1" \
+#		"mqttspeichermaxwatt:-1" \
+#		"mqttspeichersocnurpv:-1" \
+#		"mqttspeicherwattnurpv:-1" \
+#		"mqttspeichersocminpv:-1" \
+#		"mqttspeichersochystminpv:-1" \
+#		"mqttnurpv70dynact:-1" \
+#		"mqttnurpv70dynw:-1" \
+#		"mqttmaximalstromstaerke:-1" \
+#		"mqttminimalstromstaerke:-1" \
+#		"mqttdatenschutzack:-1" \
+#		"mqttu1p3paktiv:-1" \
+#		"mqttu1p3pminundpv:-1" \
+#		"mqttu1p3pnl:-1" \
+#		"mqttu1p3pnurpv:-1" \
+#		"mqttu1p3psofort:-1" \
+#		"mqttu1p3pstandby:-1" \
+#		"mqttdisplayevumax:-1" \
+#		"mqttdisplayhausanzeigen:-1" \
+#		"mqttdisplayhausmax:-1" \
+#		"mqttdisplaypvmax:-1" \
+#		"mqttdisplayspeichermax:-1" \
+#		"mqttrfidakt:-1" \
+#		"mqttetprovideraktiv:-1" \
+#   	"mqttetprovider:notset" \
+#		"mqttwizzarddone:-1" \
+#		"mqttpreisjekwh:-1" \
+#		"mqttCp1Configured:-1" \
+#		"mqttnachtladen:-1" \
+#		"mqttnachtladens1:-1" \
+#		"mqtthausverbrauchstat:-1" \
+#		"mqttheutegeladen:-1" \
+
 
 # init other files
 	for f in \
-		"mqttCp1Configured:-1" \
-		"mqttabschaltuberschuss:-1" \
-		"mqttabschaltverzoegerung:-1" \
-		"mqttadaptfaktor:-1" \
-		"mqttadaptpv:-1" \
 		"mqttaktgeladen:-1" \
 		"mqttaktgeladens1:-1" \
 		"mqttaktgeladens2:-1" \
 		"mqttdailychargelp1:-1" \
 		"mqttdailychargelp2:-1" \
 		"mqttdailychargelp3:-1" \
-		"mqttdatenschutzack:-1" \
-		"mqttdisplayevumax:-1" \
-		"mqttdisplayhausanzeigen:-1" \
-		"mqttdisplayhausmax:-1" \
-		"mqttdisplaypvmax:-1" \
-		"mqttdisplayspeichermax:-1" \
-		"mqttdurchslp1:-1" \
-		"mqtteinschaltverzoegerung:-1" \
-		"mqttevuglaettungakt:-1" \
 		"mqtthausverbrauch:-1" \
-		"mqtthausverbrauchstat:-1" \
-		"mqttheutegeladen:-1" \
-		"mqtthook1_aktiv:-1" \
-		"mqtthook2_aktiv:-1" \
-		"mqtthook3_aktiv:-1" \
-		"mqttlademkwh:-1" \
-		"mqttlademstat:-1" \
-		"mqttlademstats1:-1" \
-		"mqttlademstats2:-1" \
 		"mqttlastlademodus:-1" \
-		"mqttmaximalstromstaerke:-1" \
-		"mqttmaxnurpvsoclp1:-1" \
-		"mqttmindestuberschuss:-1" \
-		"mqttminimalalp2pv:-1" \
-		"mqttminimalampv:-1" \
-		"mqttminimalapv:-1" \
-		"mqttminimalstromstaerke:-1" \
-		"mqttminnurpvsocll:-1" \
-		"mqttminnurpvsoclp1:-1" \
-		"mqttnachtladen:-1" \
-		"mqttnachtladens1:-1" \
-		"mqttnlakt_minpv:-1" \
-		"mqttnlakt_nurpv:-1" \
-		"mqttnlakt_sofort:-1" \
-		"mqttnlakt_standby:-1" \
-		"mqttnurpv70dynact:-1" \
-		"mqttnurpv70dynw:-1" \
-		"mqttoffsetpv:-1" \
-		"mqttpreisjekwh:-1" \
-		"mqttpvbezugeinspeisung:-1" \
 		"mqttpvwatt:-1" \
 		"mqttrestzeitlp1:-1" \
 		"mqttrestzeitlp2:-1" \
 		"mqttrestzeitlp3:-1" \
-		"mqttrfidakt:-1" \
 		"mqttsoc1vorhanden:-1" \
 		"mqttsoc:-1" \
 		"mqttsocvorhanden:-1" \
-		"mqttsofortsoclp1:-1" \
-		"mqttsofortsoclp2:-1" \
-		"mqttsofortsoclp3:-1" \
-		"mqttsofortsocstatlp1:-1" \
-		"mqttsofortsocstatlp2:-1" \
-		"mqttsofortsocstatlp3:-1" \
-		"mqttspeichermaxwatt:-1" \
-		"mqttspeicherpveinbeziehen:-1" \
-		"mqttspeicherpvui:-1" \
-		"mqttspeichersochystminpv:-1" \
-		"mqttspeichersocminpv:-1" \
-		"mqttspeichersocnurpv:-1" \
-		"mqttspeicherwattnurpv:-1" \
-		"mqttstopchargepvatpercentlp1:-1" \
-		"mqttstopchargepvatpercentlp2:-1" \
-		"mqttstopchargepvatpercentlp3:-1" \
-		"mqttstopchargepvpercentagelp1:-1" \
-		"mqttstopchargepvpercentagelp2:-1" \
-		"mqttstopchargepvpercentagelp3:-1" \
-		"mqttu1p3paktiv:-1" \
-		"mqttu1p3pminundpv:-1" \
-		"mqttu1p3pnl:-1" \
-		"mqttu1p3pnurpv:-1" \
-		"mqttu1p3psofort:-1" \
-		"mqttu1p3pstandby:-1" \
 		"mqttupdateinprogress:-1" \
-		"mqttverbraucher1_aktiv:-1" \
-		"mqttverbraucher1_name:notset" \
-		"mqttverbraucher2_aktiv:-1" \
-		"mqttverbraucher2_name:notset" \
 		"mqttversion:-1" \
-		"mqttwattbezug:-1" \
-		"mqttetprovideraktiv:-1" \
-		"mqttetprovider:notset" \
-		"mqttwizzarddone:-1"
+		"mqttwattbezug:-1" 
 	do
 		IFS=':' read -r -a tuple <<< "$f"
 		currentRamdiskFileVar="\"$RamdiskPath/${tuple[0]}\""
