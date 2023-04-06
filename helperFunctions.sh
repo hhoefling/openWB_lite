@@ -161,33 +161,67 @@ openwbRunLoggingOutput() {
 }
 export -f openwbRunLoggingOutput
 
-
+#===================================================================
 
 # Increment var with Name $1 to $2 (0..n) default 5
-function incvar()
+function IncVar()   
 {
  local -n pvar=$1
  local -i toval=${2:-"5"}
  local fn="/var/www/html/openWB/ramdisk/${!pvar}"
- openwbDebugLog "MAIN" 2 "incvar:  increment file $fn  '${!pvar}'  to $toval"
+ # openwbDebugLog "MAIN" 2 "IncVar:  increment file $fn  '${!pvar}'  to $toval"
  pvar=$(cat "$fn" 2>/dev/null); rc=$?
  if [ ! $rc -eq  0 ] ; then
-   openwbDebugLog "MAIN" 2 "incvar: file $fn not found, use 0"
+   openwbDebugLog "MAIN" 2 "IncVar: file $fn not found, use 0"
    pvar=0
  fi
- if (( pvar < toval )); then
 	 pvar=$((pvar + 1))
- else
+ if (( pvar >= toval )); then
 	 pvar=0
+         res=0
+         openwbDebugLog "MAIN" 2 "IncVar: '$1 has $2 reached"
+ else
+         res=1
  fi
  echo $pvar >"$fn"
- openwbDebugLog "MAIN" 2 "incvar: '${!pvar}' now $pvar"
+ return "$res"
 }
 
-export -f incvar
-# sample
-# incvar testtimer 5
+export -f IncVar
 
+# Sample
+# if IncVar evsemodbustimer 30 ; then
+#   openwbDebugLog "MAIN" 1 "call evse modbus check, every 5 minutes"
+#   evsemodbuscheck5
+# fi
+
+#===================================================================
+
+function flagIsClear() # $1=name
+{
+ local -n pvar=$1
+ local fn="/var/www/html/openWB/ramdisk/${!pvar}"
+ pvar=$(cat "$fn" 2>/dev/null); rc=$?
+ if [ ! $rc -eq  0 ] ; then
+   openwbDebugLog "MAIN" 2 "Warning flagIsClear: file $fn not found, created as 0"
+   pvar=0
+ fi
+ if(( pvar != 0 )) ; then
+     openwbDebugLog "MAIN" 2 "flagIsClear [$1] fired"
+ fi
+ echo "0" >"$fn"
+ return "$pvar"
+}
+
+export -f  flagIsClear
+
+
+# sample
+#if ! flagIsClear testfliper2  ; then
+#  echo "war auf <>0 gesetzt"
+#else
+#  echo "war clear"
+#fi
 
 #===================================================================
 # FUNCTION trap_befor ()
