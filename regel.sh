@@ -30,7 +30,7 @@ OPENWBBASEDIR=/var/www/html/openWB
 set -o pipefail
 set -o nounset
 cd /var/www/html/openWB/ || exit 1
-# use kostant ramdisk  , no var RAMDISK h
+# use kostant ramdisk  , no var RAMDISK
 
 ############### profiling
 ptx=0
@@ -81,7 +81,7 @@ function cleanup()
 {
 	local endregel=$(date +%s)
 	local t=$((endregel-startregel))
-	openwbDebugLog "DEB" 0 "**** Regulation loop needs $t Sekunden"
+	openwbDebugLog "DEB" 0 "**** Regulation loop needs $t Sekunden TIME"
 	if [ "$t" -le "8" ] ; then   # 1..8 Ok
 		openwbDebugLog "MAIN" 0 "**** Regulation loop needs $t Sekunden"
 	elif [ "$t" -le "9" ] ; then # 8,9 Warning 
@@ -93,7 +93,7 @@ function cleanup()
 	fi
 }
 trap cleanup EXIT
-################################################
+########### End Laufzeit protokolieren
 
 #######################
 openwbDebugLog "MAIN" 0 "**** Regulation loop start ****"
@@ -259,7 +259,7 @@ trap_befor endladeregler EXIT
 ptstart
 loadvars
 ptend loadvars 2000
-openwbDebugLog "MAIN" 1 "Zeit zum abfragen aller Werte $pt Millisekunden"
+openwbDebugLog "MAIN" 1 "loadvars Zeit zum abfragen aller Werte $pt Millisekunden"
 
 
 
@@ -654,6 +654,7 @@ if [[ $nurpv70dynact == "1" ]]; then
 		openwbDebugLog "MAIN" 1 "PV 70% aktiv! derzeit genutzter Überschuss $uberschuss"
 		openwbDebugLog "PV" 0 "70% Grenze aktiv. Alter Überschuss: $((uberschuss + nurpv70dynw)), Neuer verfügbarer Uberschuss: $uberschuss"
 		openwbDebugLog "MAIN" 0 "--NurPV 70% Grenze aktiv. Alter Überschuss: $((uberschuss + nurpv70dynw)), Neuer verfügbarer Uberschuss: $uberschuss"
+		bmeld "Bat70 aktiv => U:${uberschuss}W"
 	fi
 fi
 

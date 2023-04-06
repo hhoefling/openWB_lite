@@ -186,7 +186,7 @@ sudo service mosquitto start
 # check for mosquitto configuration
 if [ ! -f /etc/mosquitto/conf.d/openwb.conf ]; then
 	echo "updating mosquitto config file"
-	sudo cp /var/www/html/openWB/web/files/mosquitto.conf /etc/mosquitto/conf.d/openwb.conf
+	sudo cp /var/www/html/openWB/runs/files/mosquitto.conf /etc/mosquitto/conf.d/openwb.conf
 #	sudo service mosquitto reload
 	sudo service mosquitto restart
 fi

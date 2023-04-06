@@ -165,6 +165,12 @@ do
 	((owbpro_num++))
 done
 
+openwbDebugLog "MAIN" 0 "clear journald logfiles..."
+# journal-Logfile bereinigen
+sudo journalctl --rotate
+sudo journalctl --vacuum-time=1d
+
+
 # monthly . csv updaten
 openwbDebugLog "MAIN" 0 "Trigger update of logfiles..."
 python3 /var/www/html/openWB/runs/csvcalc.py --input /var/www/html/openWB/web/logging/data/daily/ --output /var/www/html/openWB/web/logging/data/v001/ --partial /var/www/html/openWB/ramdisk/ --mode A >> /var/www/html/openWB/ramdisk/csvcalc.log 2>&1 &

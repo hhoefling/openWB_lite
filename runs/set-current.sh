@@ -234,26 +234,26 @@ function setChargingCurrentgoe () {
 # Parameters:
 # 1: current
 # 2: kebaiplp1
-function setChargingCurrentkeba () {
-	if [[ $evsecon == "keba" ]]; then
-		sudo python3 /var/www/html/openWB/modules/keballlp1/check502.py "$kebaiplp1" >> /var/www/html/openWB/ramdisk/port.log 2>&1
-		modbus=$(<"/var/www/html/openWB/ramdisk/port_502_$kebaiplp1" )
-		if [[ $modbus == "0" ]] ; then
-			#modbus 0 means udp interface
-			kebacurr=$(( current * 1000 ))
-			if [[ $current -eq 0 ]]; then
-				echo -n "ena 0" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
-			else
-				echo -n "ena 1" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
-				echo -n "curr $kebacurr" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
-				echo -n "display 1 10 10 0 S$current" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
-			fi
-		else
-			#modbus 1 means modbus interface 
-			sudo python3 /var/www/html/openWB/modules/keballlp1/setcurrkeba.py "$kebaiplp1" "$current" >> /var/www/html/openWB/ramdisk/port.log 2>&1
-		fi
-	fi
-}
+# function setChargingCurrentkeba () {
+# 	if [[ $evsecon == "keba" ]]; then
+# 		sudo python3 /var/www/html/openWB/modules/keballlp1/check502.py "$kebaiplp1" >> /var/www/html/openWB/ramdisk/port.log 2>&1
+# 		modbus=$(<"/var/www/html/openWB/ramdisk/port_502_$kebaiplp1" )
+# 		if [[ $modbus == "0" ]] ; then
+# 			#modbus 0 means udp interface
+# 			kebacurr=$(( current * 1000 ))
+# 			if [[ $current -eq 0 ]]; then
+# 				echo -n "ena 0" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
+# 			else
+# 				echo -n "ena 1" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
+# 				echo -n "curr $kebacurr" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
+# 				echo -n "display 1 10 10 0 S$current" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
+# 			fi
+# 		else
+# 			#modbus 1 means modbus interface 
+# 			sudo python3 /var/www/html/openWB/modules/keballlp1/setcurrkeba.py "$kebaiplp1" "$current" >> /var/www/html/openWB/ramdisk/port.log 2>&1
+# 		fi
+# 	fi
+# }
 
 #################################################
 function setChargingCurrentnrgkick () {
@@ -338,9 +338,9 @@ function setChargingCurrent () {
 	if [[ $evsecon == "nrgkick" ]]; then
 		setChargingCurrentnrgkick "$current" "$nrgkicktimeoutlp1" "$nrgkickiplp1" "$nrgkickmaclp1" "$nrgkickpwlp1"
 	fi
-	if [[ $evsecon == "keba" ]]; then
-		setChargingCurrentkeba "$current" "$kebaiplp1"
-	fi
+# 	if [[ $evsecon == "keba" ]]; then
+# 		setChargingCurrentkeba "$current" "$kebaiplp1"
+# 	fi
 	if [[ $evsecon == "twcmanager" ]]; then
 		setChargingCurrenttwcmanager "$current" "$twcmanagerlp1ip" "$twcmanagerlp1port" "$twcmanagerlp1httpcontrol"
 	fi
@@ -484,7 +484,7 @@ if [[ $lastmanagement == "1" ]]; then
 		evsewifiiplp1=$evsewifiiplp2
 		goeiplp1=$goeiplp2
 		goetimeoutlp1=$goetimeoutlp2
-		kebaiplp1=$kebaiplp2
+# 		kebaiplp1=$kebaiplp2
 		nrgkickiplp1=$nrgkickiplp2
 		nrgkicktimeoutlp1=$nrgkicktimeoutlp2
 		nrgkickmaclp1=$nrgkickmaclp2

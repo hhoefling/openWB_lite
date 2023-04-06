@@ -96,11 +96,12 @@ class ModbusSerialClient:
 # Simulation via mqtt
     def readvalue(self, valname):
         val = modbusvalues[valname]
+        log_debug(2, "get modbusvalues[" + str(valname) + "] as [" + str(val) +  "]" )
         return val  
 # Simulation via mqtt
     def writevalue(self, valname: str, val: str):
         modbusvalues[valname] = val
-        log_debug(2, "modbusvalues[" + str(valname) + "] = [" + str(val) +  "]" )
+        log_debug(2, "set modbusvalues[" + str(valname) + "] to  [" + str(val) +  "]" )
 
 
 # unit 201 = B23 , unit 105 = sdm,    1 = esve
@@ -242,15 +243,11 @@ class ModbusSerialClient:
         return resp
 
     def write_registers(self, reg: int, val: int, unit: int = 1) -> None:
-        log_debug(2, "Wriet_registers " + hex(reg) + " cnt:" + "unit=" + str(unit) + " " + str(val))
+        log_debug(2, "write_registers " + hex(reg) + " cnt:" + "unit=" + str(unit) + " " + str(val))
         if( unit == 1 ):         # evse 1
             if ( reg == 1000):
                 modbusvalues[evse1_1000]=val                              
-            if ( reg == 1002):
-                modbusvalues[evse1_1002]=val                              
         if( unit == 2 ):         # evse 1
             if ( reg == 1000):
                 modbusvalues[evse2_1000]=val                              
-            if ( reg == 1002):
-                modbusvalues[evse2_1002]=val                              
         pass

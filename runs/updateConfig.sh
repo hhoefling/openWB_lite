@@ -1186,12 +1186,12 @@ updateConfig(){
 #	if ! grep -Fq "froniusvar2=" $ConfigFile; then
 #		echo "froniusvar2=0" >> $ConfigFile
 #	fi
-	if ! grep -Fq "kebaiplp1=" $ConfigFile; then
-		echo "kebaiplp1=192.168.25.25" >> $ConfigFile
-	fi
-	if ! grep -Fq "kebaiplp2=" $ConfigFile; then
-		echo "kebaiplp2=192.168.25.25" >> $ConfigFile
-	fi
+#	if ! grep -Fq "kebaiplp1=" $ConfigFile; then
+#		echo "kebaiplp1=192.168.25.25" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "kebaiplp2=" $ConfigFile; then
+#		echo "kebaiplp2=192.168.25.25" >> $ConfigFile
+#	fi
 	if ! grep -Fq "graphinteractiveam=" $ConfigFile; then
 		echo "graphinteractiveam=1" >> $ConfigFile
 	fi
@@ -1249,12 +1249,12 @@ updateConfig(){
 	if ! grep -Fq "speicher1_ip2=" $ConfigFile; then
 		echo "speicher1_ip2=192.168.0.17" >> $ConfigFile
 	fi
-	if ! grep -Fq "fsm63a3modbusllsource=" $ConfigFile; then
-		echo "fsm63a3modbusllsource=/dev/ttyUSB2" >> $ConfigFile
-	fi
-	if ! grep -Fq "fsm63a3modbusllid=" $ConfigFile; then
-		echo "fsm63a3modbusllid=8" >> $ConfigFile
-	fi
+#	if ! grep -Fq "fsm63a3modbusllsource=" $ConfigFile; then
+#		echo "fsm63a3modbusllsource=/dev/ttyUSB2" >> $ConfigFile
+#	fi
+#	if ! grep -Fq "fsm63a3modbusllid=" $ConfigFile; then
+#		echo "fsm63a3modbusllid=8" >> $ConfigFile
+#	fi
 	if ! grep -Fq "wakeupzoelp1=" $ConfigFile; then
 		echo "wakeupzoelp1=0" >> $ConfigFile
 	fi

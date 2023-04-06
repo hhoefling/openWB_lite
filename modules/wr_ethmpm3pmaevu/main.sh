@@ -15,8 +15,6 @@ else
 	MYLOGFILE="${RAMDISKDIR}/nurpv.log"
 fi
 
-#python3 ${OPENWBBASEDIR}/modules/wr_pvkitflex/test.py "1" ${pvflexip} ${pvflexport} ${pvflexid} "1" >>${MYLOGFILE} 2>&1
-
 if (( pvkitversion == 1 )); then
 	python3 ${OPENWBBASEDIR}/modules/wr_pvkit/readlovato.py "1" "192.168.192.15" "8899" "8" >>${MYLOGFILE} 2>&1
 elif (( pvkitversion == 2 )); then

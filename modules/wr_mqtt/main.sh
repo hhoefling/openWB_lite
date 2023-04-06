@@ -9,7 +9,7 @@ if [[ -z "$debug" ]]; then
 	. $OPENWBBASEDIR/helperFunctions.sh
 fi
 
-DMOD="MAIN"
+DMOD="PV"
 Debug=$debug
 
 pvkwh=$(<${RAMDISKDIR}/pvkwh)

@@ -21,8 +21,8 @@ writeifchanged()
 		echo $checktxt >$cf
 		mosquitto_pub -t "openWB/set/${token}/$t1" -r -m "$sollstate"
 		mosquitto_pub -t "openWB/set/${token}/$t2" -r -m "$solltxt"
-		openwbDebugLog "MAIN" 2 "writeifchanged:  $sollstate $solltxt"
-		
+		openwbDebugLog "MAIN" 2 "writeifchanged:  $token $sollstate $solltxt"
+		openwbDebugLog "ERR" 0 "ERR: $token $sollstate $solltxt"
  fi
 }
 
@@ -79,7 +79,7 @@ openwbModulePublishState() {
 export -f openwbModulePublishState
 
 openwbDebugLog() {
-	# $1: Channel (MAIN=default, EVSOC, PV, MQTT, RFID, SMARTHOME, CHARGESTAT, DEB, EVENT)
+	# $1: Channel (MAIN=default, EVSOC, PV, MQTT, RFID, SMARTHOME, CHARGESTAT, DEB, EVENT, ERR)
 	# $2: Level (0=Info, 1=Regelwerte , 2=Berechnungsgrundlage)
 	# $3: Meldung (String)
 	LOGFILE="/var/log/openWB.log"
@@ -94,6 +94,9 @@ openwbDebugLog() {
 	# echo "LVL: $2 DEBUG: $debug DEBUGLEVEL: $DEBUGLEVEL" >> $LOGFILE
 	if (( $2 <= DEBUGLEVEL )); then
 		case $1 in
+			"ERR")
+				LOGFILE="/var/log/openwb.error.log"
+				;;
 			"DEB")
 				LOGFILE="/var/www/html/openWB/ramdisk/dbg.log"
 				;;

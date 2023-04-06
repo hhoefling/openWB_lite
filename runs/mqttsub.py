@@ -193,7 +193,7 @@ def on_message(client, userdata, msg):
 
             if (("openWB/set/lp" in msg.topic) and ("ChargePointEnabled" in msg.topic)):
                 devicenumb = re.sub(r'\D', '', msg.topic)
-                if (1 <= int(devicenumb) <= numberOfSupportedLP and 0 <= int(msg.payload) <= 1):
+                if (1 <= int(devicenumb) <= numberOfSupportedLP and 0 <= int(msg.payload) <= 1):  # 8
                     f = open('/var/www/html/openWB/ramdisk/lp' + str(devicenumb) + 'enabled', 'w')
                     f.write(msg.payload.decode("utf-8"))
                     f.close()

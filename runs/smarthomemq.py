@@ -343,6 +343,8 @@ def update_devices():
                     mydevice = Svampair()
                 elif (device_type == 'lambda'):
                     mydevice = Slambda()
+                elif (device_type == 'ratiotherm'):
+                    mydevice = Sratiotherm()
                 elif (device_type == 'tasmota'):
                     mydevice = Stasmota()
                 elif (device_type == 'avm'):

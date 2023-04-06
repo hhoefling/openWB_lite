@@ -1149,6 +1149,16 @@ function service_main() # cmd what
 {
  what=${2:-all}
  #deblog "****ANF service_main $1 $2 ***********"
+ 
+ 
+    if ((isss == 0)) && [ -f "./ramdisk/parentWB" ]; then
+        deblog "****Switch off isss, remove parentWB *********"
+        rm "./ramdisk/parentWB"
+        mosquitto_pub -t "openWB/system/parentWB" -m "localhost" -r
+    fi
+ 
+ 
+ 
  checkIfIsssIsNeeded
  case "$1" in
     cron5)
@@ -1179,7 +1189,7 @@ function service_main() # cmd what
 
 
 if (( runmain>0 )) ; then
- #echo "run $0 directly"
+ #echo "run $0 directly or from php/apache"
  service_main $1 $2
 fi
  

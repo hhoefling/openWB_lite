@@ -24,9 +24,9 @@ nurpvlademodus()
 	openwbDebugLog "PV" 0 "NurPV (1:$llalt 2:$llalts1 3:$llalts2):Max:[$maxllvar] (Min:$minimalapv)-> $llalt "  
 
 	if [[ $schieflastaktiv == "1" ]]; then
-		if [[ $u1p3paktiv == "1" ]]; then
+		if [[ $u1p3paktiv == "1" ]]; then                # config 0/1  u1p3 aktive
 			u1p3pstat=$(<ramdisk/u1p3pstat)
-			if [[ $u1p3pstat == "1" ]]; then
+			if [[ $u1p3pstat == "1" ]]; then			# aktuell 1 phasig?
 				if (( schieflastmaxa < maximalstromstaerke )); then
 					maximalstromstaerke=$schieflastmaxa
 					openwbDebugLog "PV" 0 "NurPV Maximalstromstärke begrenzt auf $schieflastmaxa da Schieflastbegrenzung konfiguriert (bei u1p3=1)"

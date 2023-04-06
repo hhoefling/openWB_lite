@@ -82,7 +82,8 @@ def _write_log_entry(message, msg_debug_level = 0):
     if msg_debug_level == 0 or _openWB_debug_level is None or msg_debug_level <= _openWB_debug_level:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S:')
         line = timestamp + ' Modul tibbergetprices.py: ' + message + '\n'
-        with open('/var/www/html/openWB/ramdisk/openWB.log', 'a') as f:
+        # with open('/var/www/html/openWB/ramdisk/openWB.log', 'a') as f:
+        with open('/var/www/html/openWB/ramdisk/etprovider.log', 'a') as f:
             f.write(line)
 
 def _publish_price_data(pricelist_to_publish, current_module_name):
