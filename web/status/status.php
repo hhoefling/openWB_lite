@@ -129,6 +129,10 @@
 				readLogFile("/openWB/ramdisk/event.log", "#lleventdiv");
 			}
 
+            function etproviderlog() {
+                readLogFile("/openWB/ramdisk/etprovider.log", "#etproviderdiv");
+            }
+
 			function lldbglog() {
 				readLogFile("/openWB/ramdisk/dbg.log", "#lldbgdiv");
 			}
@@ -616,6 +620,15 @@
 						<button class="btn btn-info reloadDbgLog" style="margin-bottom:12px" type="reset">Aktualisieren <i class="fas fa-redo-alt"></i> </button>
 						<pre id="lldbgdiv">Lade Daten...</pre>
 					</div>
+                    <div class="card-header bg-secondary collapsed" data-toggle="collapse" data-target="#collapse11">
+                        <a class="card-title">Et-Provider Log</a>
+                    </div>
+                    <div id="collapse11" class="card-body collapse" data-parent="#accordion">
+                        <button class="btn btn-info reloadEtProviderLog" style="margin-bottom:12px" type="reset">Aktualisieren <i class="fas fa-redo-alt"></i> </button>
+                        <pre id="etproviderdiv">Lade Daten...</pre>
+                    </div>
+
+
 				</div>
 			</div>
 
@@ -770,6 +783,14 @@
 			$('#collapseTen').on('shown.bs.collapse', function(){
 				lldbglog();
 			});			
+            $('.reloadEtProviderLog').click(function(event){
+                etproviderlog();
+            });
+            $('#collapse11').on('shown.bs.collapse', function(){
+                etproviderlog();
+            });
+
+            			
 		</script>
 
 	</body>
