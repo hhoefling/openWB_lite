@@ -70,18 +70,17 @@ incrementTimer(){
 }
 
 soctimer=$(<$soctimerfile)
-openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer"
 if (( soctimer < socIntervall )); then
-	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Nothing to do yet. Incrementing timer."
+	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer , Nothing to do yet. Incrementing."
 	incrementTimer
 else
-	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Calculating manual SoC"
+	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer, Calculating manual SoC"
 	# reset timer
 	echo 0 > $soctimerfile
 
 	# read current meter
-	if [[ -f "$meterFile" ]]; then
-		currentMeter=$(<$meterFile)
+	if [[ -f "$meterFile" ]]; then					# "$RAMDISKDIR/llkwhs1"
+		currentMeter=$(<$meterFile)					# llkwhs1
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentMeter: $currentMeter"
 
 		# read manual Soc

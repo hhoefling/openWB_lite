@@ -1,6 +1,12 @@
 #!/bin/bash
 # dies ist utf8 äöüäöü
 
+# Gloval und sofort beim sourcen
+lademodus=$(<ramdisk/lademodus)
+
+openwbDebugLog "MAIN" 2 "Source loadvars.sh (mode:$lademodus)"
+
+
 function awokedisplay()
 {
   openwbDebugLog "MAIN" 0 "Awoke internal Display"
@@ -94,10 +100,12 @@ function syncopenwbconf()
         oldname=mqttcvc/${mqttconfvar[$mq]}
         oldval=""
         if [ -r ramdisk/${oldname} ] ; then
-            oldval=$(<ramdisk/$oldname)
+            oldval=$(<ramdisk/${oldname})
         fi
-        if [[ "$oldval" != "$theval" ]]; then
+        if [[ "${oldval}" != "$theval" ]]; then
                     openwbDebugLog "DEB" 2 "MQTTcvc $thevarname changed [${oldval}] to [$theval] store to $mq"
+                    tempPubList="${tempPubList}\nopenWB/${mq}=${theval}"
+                    echo $theval > ramdisk/${oldname}
  fi
   done
 }
@@ -117,35 +125,11 @@ loadvars(){
 	sofortlls1=$(<ramdisk/lp2sofortll)
 	sofortlls2=$(<ramdisk/lp3sofortll)
 
-	#get oldvars for mqtt
-	opvwatt=$(<ramdisk/mqttpvwatt)
-	owattbezug=$(<ramdisk/mqttwattbezug)
-	ollaktuell=$(<ramdisk/mqttladeleistunglp1)
-	ohausverbrauch=$(<ramdisk/mqtthausverbrauch)
-	ollkombiniert=$(<ramdisk/llkombiniert)
-	ollaktuells1=$(<ramdisk/mqttladeleistungs1)
-	ollaktuells2=$(<ramdisk/mqttladeleistungs2)
-	ospeicherleistung=$(<ramdisk/mqttspeicherleistung)
-	oladestatus=$(<ramdisk/mqttlastladestatus)
-	olademodus=$(<ramdisk/mqttlastlademodus)
-	osoc=$(<ramdisk/mqttsoc)
-	osoc1=$(<ramdisk/mqttsoc1)
-	ostopchargeafterdisclp1=$(<ramdisk/mqttstopchargeafterdisclp1)
-	ostopchargeafterdisclp2=$(<ramdisk/mqttstopchargeafterdisclp2)
-	ostopchargeafterdisclp3=$(<ramdisk/mqttstopchargeafterdisclp3)
-	ospeichersoc=$(<ramdisk/mqttspeichersoc)
-	odailychargelp1=$(<ramdisk/mqttdailychargelp1)
-	odailychargelp2=$(<ramdisk/mqttdailychargelp2)
-	odailychargelp3=$(<ramdisk/mqttdailychargelp3)
-	oaktgeladens1=$(<ramdisk/mqttaktgeladens1)
-	oaktgeladens2=$(<ramdisk/mqttaktgeladens2)
-	oaktgeladen=$(<ramdisk/mqttaktgeladen)
-	orestzeitlp1=$(<ramdisk/mqttrestzeitlp1)
-	orestzeitlp2=$(<ramdisk/mqttrestzeitlp2)
-	orestzeitlp3=$(<ramdisk/mqttrestzeitlp3)
-	ogelrlp1=$(<ramdisk/mqttgelrlp1)
-	ogelrlp2=$(<ramdisk/mqttgelrlp2)
-	ogelrlp3=$(<ramdisk/mqttgelrlp3)
+
+#NC   oaktgeladens1=$(<ramdisk/mqttaktgeladens1)
+#NC   oaktgeladens2=$(<ramdisk/mqttaktgeladens2)
+#NC   oaktgeladen=$(<ramdisk/mqttaktgeladen)
+    
 #NC	olastregelungaktiv=$(<ramdisk/lastregelungaktiv)
 #NC	oLadereglerTxt=$(<ramdisk/LadereglerTxt)
 	ohook1akt=$(<ramdisk/hook1akt)
@@ -161,6 +145,8 @@ loadvars(){
 
 	etproviderprice=$(<ramdisk/etproviderprice) 
     etprovidermaxprice=$(<ramdisk/etprovidermaxprice)    
+	
+    #ollkombiniert=$(<ramdisk/llkombiniert)
 	
 	version=$(<web/version)
 	# EVSE DIN Plug State
@@ -464,6 +450,7 @@ loadvars(){
 		pv1vorhanden="1"
 		echo 1 > ramdisk/pv1vorhanden
 #########################################################################						
+		openwbDebugLog "MAIN" 2 "EXEC:timerun 5: modules/$pvwattmodul/main.sh"
 	    dotimed "modules/$pvwattmodul/main.sh" 5
 		if [[ $? -eq 124 ]] ; then
 			openwbModulePublishState "PV" 2 "Die PV-1 Werte konnten nicht innerhalb des Timeouts abgefragt werden. Bitte Konfiguration und Gerätestatus prüfen." 1
@@ -1551,6 +1538,7 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 #		echo $sofortsocstatlp3 > ramdisk/mqttsofortsocstatlp3
 #	fi
 
+# Obsolete
 #	osofortsoclp3=$(<ramdisk/mqttsofortsoclp3)
 #    if (( osofortsoclp3 != sofortsoclp3 )); then       ## openwb.conf->mqtt
 #		tempPubList="${tempPubList}\nopenWB/percentsofortlademodussoclp3=${sofortsoclp3}"
@@ -1599,94 +1587,95 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 #		tempPubList="${tempPubList}\nopenWB/lp/1/boolChargeAtNight=${nachtladen}"
 #		echo $nachtladen > ramdisk/mqttnachtladen
 #	fi
-	onachtladens1=$(<ramdisk/mqttnachtladens1)
-	if [[ "$onachtladens1" != "$nachtladens1" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/2/boolChargeAtNight=${nachtladens1}"
-		echo $nachtladens1 > ramdisk/mqttnachtladens1
-	fi
-	onlakt_sofort=$(<ramdisk/mqttnlakt_sofort)
-	if [[ "$onlakt_sofort" != "$nlakt_sofort" ]]; then
-		tempPubList="${tempPubList}\nopenWB/boolChargeAtNight_direct=${nlakt_sofort}"
-		echo $nlakt_sofort > ramdisk/mqttnlakt_sofort
-	fi
-	onlakt_nurpv=$(<ramdisk/mqttnlakt_nurpv)
-	if [[ "$onlakt_nurpv" != "$nlakt_nurpv" ]]; then
-		tempPubList="${tempPubList}\nopenWB/boolChargeAtNight_nurpv=${nlakt_nurpv}"
-		echo $nlakt_nurpv > ramdisk/mqttnlakt_nurpv
-	fi
-	onlakt_minpv=$(<ramdisk/mqttnlakt_minpv)
-	if [[ "$onlakt_minpv" != "$nlakt_minpv" ]]; then
-		tempPubList="${tempPubList}\nopenWB/boolChargeAtNight_minpv=${nlakt_minpv}"
-		echo $nlakt_minpv > ramdisk/mqttnlakt_minpv
-	fi
+#	onachtladens1=$(<ramdisk/mqttnachtladens1)
+#	if [[ "$onachtladens1" != "$nachtladens1" ]]; then     ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/lp/2/boolChargeAtNight=${nachtladens1}"
+#		echo $nachtladens1 > ramdisk/mqttnachtladens1
+#	fi
+#	onlakt_sofort=$(<ramdisk/mqttnlakt_sofort)
+#	if [[ "$onlakt_sofort" != "$nlakt_sofort" ]]; then  ## openwb.conf->mqtt
+#       tempPubList="${tempPubList}\nopenWB/boolChargeAtNight_direct=${nlakt_sofort}"
+#		echo $nlakt_sofort > ramdisk/mqttnlakt_sofort
+#	fi
+#	onlakt_nurpv=$(<ramdisk/mqttnlakt_nurpv)
+#	if [[ "$onlakt_nurpv" != "$nlakt_nurpv" ]]; then  ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/boolChargeAtNight_nurpv=${nlakt_nurpv}"
+#		echo $nlakt_nurpv > ramdisk/mqttnlakt_nurpv
+#	fi
+#	onlakt_minpv=$(<ramdisk/mqttnlakt_minpv)
+#	if [[ "$onlakt_minpv" != "$nlakt_minpv" ]]; then  ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/boolChargeAtNight_minpv=${nlakt_minpv}"
+#		echo $nlakt_minpv > ramdisk/mqttnlakt_minpv
+#	fi
+#	onlakt_standby=$(<ramdisk/mqttnlakt_standby)
+#	if [[ "$onlakt_standby" != "$nlakt_standby" ]]; then    ## openwb.conf->mqtt   
+#		tempPubList="${tempPubList}\nopenWB/boolChargeAtNight_standby=${nlakt_standby}"
+#		echo $nlakt_standby > ramdisk/mqttnlakt_standby
+#	fi
+#    ohausverbrauchstat=$(<ramdisk/mqtthausverbrauchstat)
+#    if [[ "$ohausverbrauchstat" != "$hausverbrauchstat" ]]; then  ## openwb.conf->mqtt
+#        tempPubList="${tempPubList}\nopenWB/boolDisplayHouseConsumption=${hausverbrauchstat}"
+#        echo $hausverbrauchstat > ramdisk/mqtthausverbrauchstat
+#    fi
+#    oheutegeladen=$(<ramdisk/mqttheutegeladen)
+#    if [[ "$oheutegeladen" != "$heutegeladen" ]]; then  ## openwb.conf->mqtt
+#        tempPubList="${tempPubList}\nopenWB/boolDisplayDailyCharged=${heutegeladen}"
+#        echo $heutegeladen > ramdisk/mqttheutegeladen
+#    fi
+#	oevuglaettungakt=$(<ramdisk/mqttevuglaettungakt)
+#	if [[ "$oevuglaettungakt" != "$evuglaettungakt" ]]; then    ## openwb.conf->mqtt
+#       tempPubList="${tempPubList}\nopenWB/boolEvuSmoothedActive=${evuglaettungakt}"
+#		echo $evuglaettungakt > ramdisk/mqttevuglaettungakt
+#	fi
 
-	onlakt_standby=$(<ramdisk/mqttnlakt_standby)
-	if [[ "$onlakt_standby" != "$nlakt_standby" ]]; then
-		tempPubList="${tempPubList}\nopenWB/boolChargeAtNight_standby=${nlakt_standby}"
-		echo $nlakt_standby > ramdisk/mqttnlakt_standby
-	fi
-	ohausverbrauchstat=$(<ramdisk/mqtthausverbrauchstat)
-	if [[ "$ohausverbrauchstat" != "$hausverbrauchstat" ]]; then
-		tempPubList="${tempPubList}\nopenWB/boolDisplayHouseConsumption=${hausverbrauchstat}"
-		echo $hausverbrauchstat > ramdisk/mqtthausverbrauchstat
-	fi
-	oheutegeladen=$(<ramdisk/mqttheutegeladen)
-	if [[ "$oheutegeladen" != "$heutegeladen" ]]; then
-		tempPubList="${tempPubList}\nopenWB/boolDisplayDailyCharged=${heutegeladen}"
-		echo $heutegeladen > ramdisk/mqttheutegeladen
-	fi
-	oevuglaettungakt=$(<ramdisk/mqttevuglaettungakt)
-	if [[ "$oevuglaettungakt" != "$evuglaettungakt" ]]; then
-		tempPubList="${tempPubList}\nopenWB/boolEvuSmoothedActive=${evuglaettungakt}"
-		echo $evuglaettungakt > ramdisk/mqttevuglaettungakt
-	fi
-	onurpv70dynact=$(<ramdisk/mqttnurpv70dynact)
-	if [[ "$onurpv70dynact" != "$nurpv70dynact" ]]; then
-#NC		tempPubList="${tempPubList}\nopenWB/pv/bool70PVDynActive=${nurpv70dynact}"
-		tempPubList="${tempPubList}\nopenWB/config/get/pv/nurpv70dynact=${nurpv70dynact}"
-		echo $nurpv70dynact > ramdisk/mqttnurpv70dynact
-	fi
-	onurpv70dynw=$(<ramdisk/mqttnurpv70dynw)
-	if [[ "$onurpv70dynw" != "$nurpv70dynw" ]]; then
-		tempPubList="${tempPubList}\nopenWB/pv/W70PVDyn=${nurpv70dynw}"
-		tempPubList="${tempPubList}\nopenWB/config/get/pv/nurpv70dynw=${nurpv70dynw}"
-		echo $nurpv70dynw > ramdisk/mqttnurpv70dynw
-	fi
+#	onurpv70dynact=$(<ramdisk/mqttnurpv70dynact)
+#	if [[ "$onurpv70dynact" != "$nurpv70dynact" ]]; then   ## openwb.conf->mqtt
+##NC		tempPubList="${tempPubList}\nopenWB/pv/bool70PVDynActive=${nurpv70dynact}"
+#		tempPubList="${tempPubList}\nopenWB/config/get/pv/nurpv70dynact=${nurpv70dynact}"
+#		echo $nurpv70dynact > ramdisk/mqttnurpv70dynact
+#	fi
+    
+#	onurpv70dynw=$(<ramdisk/mqttnurpv70dynw)
+#	if [[ "$onurpv70dynw" != "$nurpv70dynw" ]]; then       ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/pv/W70PVDyn=${nurpv70dynw}"
+#		tempPubList="${tempPubList}\nopenWB/config/get/pv/nurpv70dynw=${nurpv70dynw}"
+#		echo $nurpv70dynw > ramdisk/mqttnurpv70dynw
+#	fi
 
-	overbraucher1_name=$(<ramdisk/mqttverbraucher1_name)
-	if [[ "$overbraucher1_name" != "$verbraucher1_name" ]]; then
-		tempPubList="${tempPubList}\nopenWB/Verbraucher/1/Name=${verbraucher1_name}"
-		echo $verbraucher1_name > ramdisk/mqttverbraucher1_name
-	fi
-	overbraucher1_aktiv=$(<ramdisk/mqttverbraucher1_aktiv)
-	if [[ "$overbraucher1_aktiv" != "$verbraucher1_aktiv" ]]; then
-		tempPubList="${tempPubList}\nopenWB/Verbraucher/1/Configured=${verbraucher1_aktiv}"
-		echo $verbraucher1_aktiv > ramdisk/mqttverbraucher1_aktiv
-	fi
-	overbraucher2_aktiv=$(<ramdisk/mqttverbraucher2_aktiv)
-	if [[ "$overbraucher2_aktiv" != "$verbraucher2_aktiv" ]]; then
-		tempPubList="${tempPubList}\nopenWB/Verbraucher/2/Configured=${verbraucher2_aktiv}"
-		echo $verbraucher2_aktiv > ramdisk/mqttverbraucher2_aktiv
-	fi
+#	overbraucher1_name=$(<ramdisk/mqttverbraucher1_name)
+#	if [[ "$overbraucher1_name" != "$verbraucher1_name" ]]; then ## openwb.conf->mqtt  
+#       tempPubList="${tempPubList}\nopenWB/Verbraucher/1/Name=${verbraucher1_name}"
+#        echo $verbraucher1_name > ramdisk/mqttverbraucher1_name
+#    fi
+#    overbraucher1_aktiv=$(<ramdisk/mqttverbraucher1_aktiv)
+#    if [[ "$overbraucher1_aktiv" != "$verbraucher1_aktiv" ]]; then ## openwb.conf->mqtt
+#        tempPubList="${tempPubList}\nopenWB/Verbraucher/1/Configured=${verbraucher1_aktiv}"
+#		echo $verbraucher1_aktiv > ramdisk/mqttverbraucher1_aktiv
+#	fi
+#	overbraucher2_aktiv=$(<ramdisk/mqttverbraucher2_aktiv)
+#	if [[ "$overbraucher2_aktiv" != "$verbraucher2_aktiv" ]]; then ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/Verbraucher/2/Configured=${verbraucher2_aktiv}"
+#		echo $verbraucher2_aktiv > ramdisk/mqttverbraucher2_aktiv
+#	fi
+#	overbraucher2_name=$(<ramdisk/mqttverbraucher2_name)
+#	if [[ "$overbraucher2_name" != "$verbraucher2_name" ]]; then ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/Verbraucher/2/Name=${verbraucher2_name}"
+#		echo $verbraucher2_name > ramdisk/mqttverbraucher2_name
+#	fi
 
-	overbraucher2_name=$(<ramdisk/mqttverbraucher2_name)
-	if [[ "$overbraucher2_name" != "$verbraucher2_name" ]]; then
-		tempPubList="${tempPubList}\nopenWB/Verbraucher/2/Name=${verbraucher2_name}"
-		echo $verbraucher2_name > ramdisk/mqttverbraucher2_name
-	fi
+#   ospeicherpveinbeziehen=$(<ramdisk/mqttspeicherpveinbeziehen)
+#   if [[ "$ospeicherpveinbeziehen" != "$speicherpveinbeziehen" ]]; then ## openwb.conf->mqtt
+#       tempPubList="${tempPubList}\nopenWB/config/get/pv/priorityModeEVBattery=${speicherpveinbeziehen}"
+#       echo $speicherpveinbeziehen > ramdisk/mqttspeicherpveinbeziehen
+#   fi
 
-	ospeicherpveinbeziehen=$(<ramdisk/mqttspeicherpveinbeziehen)
-	if [[ "$ospeicherpveinbeziehen" != "$speicherpveinbeziehen" ]]; then
-		tempPubList="${tempPubList}\nopenWB/config/get/pv/priorityModeEVBattery=${speicherpveinbeziehen}"
-		echo $speicherpveinbeziehen > ramdisk/mqttspeicherpveinbeziehen
-	fi
 	oetprovideraktiv=$(<ramdisk/mqttetprovideraktiv)
-	if [[ "$oetprovideraktiv" != "$etprovideraktiv" ]]; then
+    if [[ "$oetprovideraktiv" != "$etprovideraktiv" ]]; then ## openwb.conf->mqtt
 		tempPubList="${tempPubList}\nopenWB/global/awattar/boolAwattarEnabled=${etprovideraktiv}"
 		echo $etprovideraktiv > ramdisk/mqttetprovideraktiv
 	fi
 	oetprovider=$(<ramdisk/mqttetprovider)
-	if [[ "$oetprovider" != "$etprovider" ]]; then
+	if [[ "$oetprovider" != "$etprovider" ]]; then  ## openwb.conf->mqtt
 		tempPubList="${tempPubList}\nopenWB/global/ETProvider/modulePath=${etprovider}"
 		echo $etprovider > ramdisk/mqttetprovider
 	fi
@@ -1702,21 +1691,22 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 		tempPubList="${tempPubList}\nopenWB/global/awattar/MaxPriceForCharging=${etprovidermaxprice}"
 		echo $etprovidermaxprice > ramdisk/mqttetprovidermaxprice
 	fi
-	odurchslp1=$(<ramdisk/mqttdurchslp1)
-	if [[ "$odurchslp1" != "$durchslp1" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/1/energyConsumptionPer100km=${durchslp1}"
-		echo $durchslp1 > ramdisk/mqttdurchslp1
-	fi
-	odurchslp2=$(<ramdisk/mqttdurchslp2)
-	if [[ "$odurchslp2" != "$durchslp2" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/2/energyConsumptionPer100km=${durchslp2}"
-		echo $durchslp2 > ramdisk/mqttdurchslp2
-	fi
-	odurchslp3=$(<ramdisk/mqttdurchslp3)
-	if [[ "$odurchslp3" != "$durchslp3" ]]; then
-		tempPubList="${tempPubList}\nopenWB/lp/3/energyConsumptionPer100km=${durchslp3}"
-		echo $durchslp3 > ramdisk/mqttdurchslp3
-	fi
+
+#	odurchslp1=$(<ramdisk/mqttdurchslp1)
+#	if [[ "$odurchslp1" != "$durchslp1" ]]; then ## openwb.conf->mqtt
+#       tempPubList="${tempPubList}\nopenWB/lp/1/energyConsumptionPer100km=${durchslp1}"
+#		echo $durchslp1 > ramdisk/mqttdurchslp1
+#	fi
+#	odurchslp2=$(<ramdisk/mqttdurchslp2)
+#	if [[ "$odurchslp2" != "$durchslp2" ]]; then ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/lp/2/energyConsumptionPer100km=${durchslp2}"
+#		echo $durchslp2 > ramdisk/mqttdurchslp2
+#	fi
+#	odurchslp3=$(<ramdisk/mqttdurchslp3)
+#	if [[ "$odurchslp3" != "$durchslp3" ]]; then ## openwb.conf->mqtt
+#		tempPubList="${tempPubList}\nopenWB/lp/3/energyConsumptionPer100km=${durchslp3}"
+#		echo $durchslp3 > ramdisk/mqttdurchslp3
+#	fi
 	# publish last RFID scans as CSV with timestamp
 	timestamp="$(date +%s)"
 
@@ -1757,81 +1747,34 @@ printf -v pv "PV [%5sW|%5sW]=%5sW ladeleistung=%s llalt=%s nachladen [%d/%d] Min
 #	fi
 
 	declare -A mqttconfvar
-	mqttconfvar["config/get/pv/minFeedinPowerBeforeStart"]=mindestuberschuss
-	mqttconfvar["config/get/pv/maxPowerConsumptionBeforeStop"]=abschaltuberschuss
-	mqttconfvar["config/get/pv/stopDelay"]=abschaltverzoegerung
-	mqttconfvar["config/get/pv/startDelay"]=einschaltverzoegerung
-	mqttconfvar["config/get/pv/minCurrentMinPv"]=minimalampv
-	mqttconfvar["config/get/pv/lp/1/minCurrent"]=minimalapv
-	mqttconfvar["config/get/pv/lp/2/minCurrent"]=minimalalp2pv
-	mqttconfvar["config/get/pv/lp/1/minSocAlwaysToChargeTo"]=minnurpvsoclp1
-	mqttconfvar["config/get/pv/lp/1/maxSocToChargeTo"]=maxnurpvsoclp1
-	mqttconfvar["config/get/pv/lp/1/minSocAlwaysToChargeToCurrent"]=minnurpvsocll
-	mqttconfvar["config/get/pv/chargeSubmode"]=pvbezugeinspeisung
-	mqttconfvar["config/get/pv/regulationPoint"]=offsetpv
-	mqttconfvar["config/get/pv/boolShowPriorityIconInTheme"]=speicherpvui
-	mqttconfvar["config/get/pv/minBatteryChargePowerAtEvPriority"]=speichermaxwatt
-	mqttconfvar["config/get/pv/minBatteryDischargeSocAtBattPriority"]=speichersocnurpv
-	mqttconfvar["config/get/pv/batteryDischargePowerAtBattPriority"]=speicherwattnurpv
-	mqttconfvar["config/get/pv/socStartChargeAtMinPv"]=speichersocminpv
-	mqttconfvar["config/get/pv/socStopChargeAtMinPv"]=speichersochystminpv
-	mqttconfvar["config/get/pv/boolAdaptiveCharging"]=adaptpv
-	mqttconfvar["config/get/pv/adaptiveChargingFactor"]=adaptfaktor
-	mqttconfvar["config/get/pv/nurpv70dynact"]=nurpv70dynact
-	mqttconfvar["config/get/pv/nurpv70dynw"]=nurpv70dynw
-	mqttconfvar["config/get/global/maxEVSECurrentAllowed"]=maximalstromstaerke
-	mqttconfvar["config/get/global/minEVSECurrentAllowed"]=minimalstromstaerke
-	mqttconfvar["config/get/global/dataProtectionAcknoledged"]=datenschutzack
-	mqttconfvar["config/get/u1p3p/sofortPhases"]=u1p3psofort
-	mqttconfvar["config/get/u1p3p/standbyPhases"]=u1p3pstandby
-	mqttconfvar["config/get/u1p3p/nurpvPhases"]=u1p3pnurpv
-	mqttconfvar["config/get/u1p3p/minundpvPhases"]=u1p3pminundpv
-	mqttconfvar["config/get/u1p3p/nachtPhases"]=u1p3pnl
-	mqttconfvar["config/get/u1p3p/isConfigured"]=u1p3paktiv
-	mqttconfvar["config/get/sofort/lp/1/energyToCharge"]=lademkwh
-	mqttconfvar["config/get/sofort/lp/2/energyToCharge"]=lademkwhs1
-	mqttconfvar["config/get/sofort/lp/3/energyToCharge"]=lademkwhs2
-	mqttconfvar["config/get/sofort/lp/1/socToChargeTo"]=sofortsoclp1
-	mqttconfvar["config/get/sofort/lp/2/socToChargeTo"]=sofortsoclp2
-	mqttconfvar["config/get/sofort/lp/1/chargeLimitation"]=msmoduslp1
-	mqttconfvar["config/get/sofort/lp/2/chargeLimitation"]=msmoduslp2
-	mqttconfvar["config/get/sofort/lp/3/chargeLimitation"]=msmoduslp3
-	mqttconfvar["config/get/pv/lp/1/socLimitation"]=stopchargepvatpercentlp1
-	mqttconfvar["config/get/pv/lp/2/socLimitation"]=stopchargepvatpercentlp2
-	mqttconfvar["config/get/pv/lp/1/maxSoc"]=stopchargepvpercentagelp1
-	mqttconfvar["config/get/pv/lp/2/maxSoc"]=stopchargepvpercentagelp2
-	mqttconfvar["global/rfidConfigured"]=rfidakt
-	mqttconfvar["system/priceForKWh"]=preisjekwh
-	mqttconfvar["system/wizzardDone"]=wizzarddone
-
-	mqttconfvar["config/get/display/displayLight"]=displayLight
-	mqttconfvar["config/get/display/displayPinAktiv"]=displaypinaktiv
-	
-	mqttconfvar["config/get/display/chartEvuMinMax"]=displayevumax
-	mqttconfvar["config/get/display/chartBatteryMinMax"]=displayspeichermax
-	mqttconfvar["config/get/display/chartPvMax"]=displaypvmax
-	mqttconfvar["config/get/display/showHouseConsumption"]=displayhausanzeigen
-	mqttconfvar["config/get/display/chartHouseConsumptionMax"]=displayhausmax
-	mqttconfvar["config/get/display/chartLp/1/max"]=displaylp1max
-	mqttconfvar["config/get/display/chartLp/2/max"]=displaylp2max
-	mqttconfvar["config/get/display/chartLp/3/max"]=displaylp3max
-
-	for mq in "${!mqttconfvar[@]}"; do
-#		theval=${!mqttconfvar[$mq]}
-		theval=${!mqttconfvar[$mq]:-""}
-		declare o${mqttconfvar[$mq]}
-		declare ${mqttconfvar[$mq]}
-
-		#tempnewname=${mqttconfvar[$mq]}
-		#tempnewname="${mqttconfvar[$mq]}"
-
-		tempoldname=o${mqttconfvar[$mq]}
-		tempoldname=$(<ramdisk/mqtt"${mqttconfvar[$mq]}")
-		if [[ "$tempoldname" != "$theval" ]]; then
-			tempPubList="${tempPubList}\nopenWB/${mq}=${theval}"
-			echo $theval > ramdisk/mqtt${mqttconfvar[$mq]}
+    declare -i needsync=0
+    #
+    # Abtesten ob anlegen/syncen noetig ist =1 =10 =11
+    #
+    [ ! -d ramdisk/mqttcvc ] && needsync+=10    # after reboot
+    lasttimeOWBCchanged=$(stat --format='%Y'  openwb.conf)
+    [ -r $lasttimecheckerfile ] && ox=$(<$lasttimecheckerfile)
+    ox=${ox:-"0"}
+    openwbDebugLog "DEB" 0 "MQTTcvc syncopenwbconf lasttimeOWBCchanged:$lasttimeOWBCchanged ox:$ox" 
+    
+    if (( lasttimeOWBCchanged > ox )) ; then    # after openwb.conf has changed
+        needsync+=1    
+    fi
+    mqttconfvar["system/lasttimeOWBCchanged"]=lasttimeOWBCchanged
+    
+    #######################################################################
+    xpt1=$ptx            
+    ptstart
+    openwbDebugLog "MAIN" 2 "MQTTcvc needsource:$needsync "
+    if (( needsync > 0  )) ; then
+        # nun ausführen nachdem das array gelesen wurde
+        openwbDebugLog "DEB" 0 "MQTTcvc syncopenwbconf needsource:$needsync Loading nqttvarconf.sh"
+        source mqttconfvar.sh
+        (( needsync > 10 )) && initMqttcvc
+        (( needsync > 0  )) && syncopenwbconf
 		fi
-	done
+    ptend syncopenwbconf 20
+    ptx=$xpt1            
 
 	
 if (( debug > 1 )); then

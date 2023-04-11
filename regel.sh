@@ -141,8 +141,6 @@ if [[ $isss == "1" ]]; then
 fi
 ptstart
 
-lademodus=$(<ramdisk/lademodus)
-
 # Must be first
 source loadvars.sh
 source minundpv.sh
