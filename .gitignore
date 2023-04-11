@@ -10,6 +10,7 @@ web/backup/*.tar.gz
 ramdisk/
 .DS_Store
 .ftp*
+none.*
 schnapper.txt
 modules/unsuported/
 web/ladelog
