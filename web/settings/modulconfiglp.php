@@ -107,7 +107,7 @@
 										<!--<option <?php if($evseconold == "keba") echo "selected" ?> value="keba">Keba</option>-->
 										<option <?php if($evseconold == "nrgkick") echo "selected" ?> value="nrgkick">NRGKick + Connect</option>
 										<option <?php if($evseconold == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi / smartWB</option>
-										<option <?php if($evseconold == "twcmanager") echo "selected" ?> value="twcmanager">Tesla TWC mit TWCManager</option> 
+										<!-- <option <?php if($evseconold == "twcmanager") echo "selected" ?> value="twcmanager">Tesla TWC mit TWCManager</option> --> 
 									</optgroup>
 									<optgroup label="generische Module">
 										<option <?php if($evseconold == "httpevse") echo "selected" ?> value="httpevse">HTTP (httpevse)</option>
@@ -708,7 +708,7 @@
 								<select name="socmodul" id="socmodul" class="form-control">
 									<option <?php if($socmodulold == "none") echo "selected" ?> value="none">Nicht vorhanden</option>
 									<optgroup label="universelle Module">
-										<option <?php if($socmodulold == "soc_evcc") echo "selected" ?> value="soc_evcc">EVCC</option>
+										<!-- <option <?php if($socmodulold == "soc_evcc") echo "selected" ?> value="soc_evcc">EVCC</option> -->
 										<!-- <option <?php if($socmodulold == "soc_evnotify") echo "selected" ?> value="soc_evnotify">EVNotify</option> -->
 										<option <?php if($socmodulold == "soc_http") echo "selected" ?> value="soc_http">HTTP</option>
 										<option <?php if($socmodulold == "soc_manual") echo "selected" ?> value="soc_manual">Manuell + Berechnung</option>
@@ -716,6 +716,7 @@
 										<option <?php if($socmodulold == "soc_mqtt") echo "selected" ?> value="soc_mqtt">MQTT</option>
 										<!-- <option <?php if($socmodulold == "soc_tronity") echo "selected" ?> value="soc_tronity">Tronity</option> -->
 									</optgroup>
+<!--
 									<optgroup label="Fahrzeughersteller">
 										<option <?php if($socmodulold == "soc_audi") echo "selected" ?> value="soc_audi">Audi</option>
 										<option <?php if($socmodulold == "soc_i3") echo "selected" ?> value="soc_i3">BMW &amp; Mini</option>
@@ -735,6 +736,7 @@
 										<option <?php if($socmodulold == "soc_id") echo "selected" ?> value="soc_id">VW ID</option>
 										<option <?php if($socmodulold == "soc_zerong") echo "selected" ?> value="soc_zerong">Zero NG</option>
 									</optgroup>
+-->
 								</select>
 								<div id="socoldevccwarning" class="mt-1 alert alert-danger hide">
 									Dieses Modul nutzt eine nicht mehr unterstützte Version von EVCC-SOC und wird nicht weiter gepflegt.
@@ -810,6 +812,7 @@
 									<span class="text-info">openWB/set/lp/1/SocKM</span> Killometerstand des PKW bei der letzten SOC-Abfrage<br>
 							     </div>							
 							</div>
+<!--
 							<div id="socmtesla" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -880,6 +883,8 @@
 									});
 								</script>
 							</div>
+-->                         
+<!--       
 							<div id="socmbluelink" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -911,6 +916,8 @@
 									</div>
 								</div>
 							</div>
+-->                         
+<!--   
 							<div id="socmkia" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -974,7 +981,7 @@
 												</div>
 											</div>
 										</div>
-								<!--	</div>  -->
+								< ! --	</div>  -- >
 								</div>
 								<script>
 									$(function() {
@@ -994,6 +1001,8 @@
 									});
 								</script>
 							</div>
+-->
+<!--                            
 							<div id="socmzerong" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -1034,6 +1043,8 @@
 									</div>
 								</div>
 							</div>
+-->                            
+<!--
 							<div id="socmaudi" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -1065,6 +1076,8 @@
 									</div>
 								</div>
 							</div>
+-->                         
+<!--   
 							<div id="socmid" class="hide">
 								<div class="form-group">
 									<div class="alert alert-info">
@@ -1100,6 +1113,8 @@
 
 								</div>
 							</div>
+-->                            
+<!--
 							<div id="socvag" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -1166,6 +1181,8 @@
 									</div>
 								</div>
 							</div>
+-->
+<!--
 							<div id="socevcc" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -1297,6 +1314,7 @@
 									});
 								</script>
 							</div>
+-->                            
 							<div id="socmanualSkoda" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -1407,6 +1425,7 @@
 									</div>
 								</div>
 							</div>
+<!--                            
 							<div id="soczoe" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -1445,6 +1464,8 @@
 									</div>
 								</div>
 							</div>
+-->                            
+<!--
 							<div id="socmyrenault" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -1510,6 +1531,7 @@
 									</div>
 								</div>
 							</div>
+-->                            
 <!--							
 							<div id="socevnotify" class="hide">
 								<div class="form-group">
@@ -1534,6 +1556,7 @@
 								</div>
 							</div>
 -->							
+<!--
 							<div id="socleaf" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -1556,6 +1579,8 @@
 									</div>
 								</div>
 							</div>
+-->
+<!--
 							<div id="soci3" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -1596,6 +1621,8 @@
 									</div>
 								</div>
 							</div>
+-->                         
+<!--   
 							<div id="soccarnet" class="hide">
 								<div class="form-group">
 									<div class="alert alert-info">
@@ -1630,6 +1657,8 @@
 									</div>
 								</div>
 							</div>
+-->                            
+<!--
 							<div id="socmypeugeot" class="hide">
 								<div class="form-group">
 									<div class="card-text alert alert-info">
@@ -1724,6 +1753,8 @@
 								});
 								</script>
 							</div>
+-->                            
+<!--                            
 							<div id="socmyopel" class="hide">
 								<div class="form-group">
 									<div class="card-text alert alert-info">
@@ -1819,6 +1850,8 @@
 								});
 								</script>
 							</div>
+-->
+<!--                            
 							<div id="socpsa" class="hide">
 								<div class="form-group">
 									<div class="card-text alert alert-info">
@@ -1935,6 +1968,8 @@
 									});
 								</script>
 							</div>
+-->
+<!--                            
 							<div id="socmeq" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -1981,6 +2016,7 @@
 									</div>
 								</div>
 							</div>
+-->                            
 <!--							
 							<div id="soctronity" class="hide">
 								<div class="form-group">
@@ -2263,27 +2299,27 @@
 							hideSection('#socmodullp1');
 							hideSection('#socmnone');
 							hideSection('#socmhttp');
-							hideSection('#socleaf');
-							hideSection('#soci3');
-							hideSection('#soczoe');
-							//hideSection('#socevnotify');
-							hideSection('#socmtesla');
-							hideSection('#soccarnet');
-							hideSection('#socmzerong');
-							hideSection('#socmeq');
-							hideSection('#socmaudi');
-							hideSection('#socmid');
-							hideSection('#socvag');
-							hideSection('#socevcc');
 							hideSection('#socmqtt');
-							hideSection('#socmbluelink');
-							hideSection('#socmkia');
+							//hideSection('#socleaf');
+							//hideSection('#soci3');
+							//hideSection('#soczoe');
+							//hideSection('#socevnotify');
+							//hideSection('#socmtesla');
+							//hideSection('#soccarnet');
+							//hideSection('#socmzerong');
+							//hideSection('#socmeq');
+							//hideSection('#socmaudi');
+							//hideSection('#socmid');
+							//hideSection('#socvag');
+							//hideSection('#socevcc');
+							//hideSection('#socmbluelink');
+							//hideSection('#socmkia');
 							hideSection('#socmuser');
 							hideSection('#socmpass');
-							hideSection('#socmyrenault');
-							hideSection('#socmypeugeot');
-							hideSection('#socmyopel');
-							hideSection('#socpsa');
+							//hideSection('#socmyrenault');
+							//hideSection('#socmypeugeot');
+							//hideSection('#socmyopel');
+							//hideSection('#socpsa');
 							hideSection('#socmanual');
 							hideSection('#socmanualSkoda');
 							//hideSection('#soctronity');
@@ -2297,91 +2333,91 @@
 								showSection('#socmodullp1', false); // do not enable all input child-elements!
 								showSection('#stopsocnotpluggedlp1');
 							}
-							if($('#socmodul').val() == 'soc_volvo') {
-								showSection('#socmuser');
-								showSection('#socmpass');
-							}
+							//if($('#socmodul').val() == 'soc_volvo') {
+							//	showSection('#socmuser');
+							//	showSection('#socmpass');
+							//}
 							if($('#socmodul').val() == 'soc_mqtt') {
 								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3145')
 								showSection('#socsupportinfo');
 								showSection('#socmqtt');
 							}
-							if($('#socmodul').val() == 'soc_bluelink') {
-								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3138')
-								showSection('#socsupportinfo');
-								showSection('#socmkia');
-								showSection('#socmbluelink');
-							}
-							if($('#socmodul').val() == 'soc_id') {
-								showSection('#socoldevccwarning');
-								showSection('#socmid');
-							}
-							if($('#socmodul').val() == 'soc_vag') {
-								showSection('#socoldevccwarning');
-								showSection('#socvag');
-							}
-							if($('#socmodul').val() == 'soc_evcc') {
-								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3134')
-								showSection('#socsupportinfo');
-								showSection('#socevcc');
-							}
-							if($('#socmodul').val() == 'soc_kia') {
-								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3137')
-								showSection('#socsupportinfo');
-								showSection('#socmkia');
-								showSection('#socmbluelink');
-							}
-							if($('#socmodul').val() == 'soc_audi') {
-								showSection('#socoldevccwarning');
-								showSection('#socmaudi');
-							}
-							if($('#socmodul').val() == 'soc_myrenault') {
-								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3139')
-								showSection('#socsupportinfo');
-								showSection('#socmyrenault');
-							}
+							//if($('#socmodul').val() == 'soc_bluelink') {
+							//	$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3138')
+							//	showSection('#socsupportinfo');
+							//	showSection('#socmkia');
+							//	showSection('#socmbluelink');
+							//}
+							//if($('#socmodul').val() == 'soc_id') {
+							//	showSection('#socoldevccwarning');
+							//	showSection('#socmid');
+							//}
+							//if($('#socmodul').val() == 'soc_vag') {
+							//	showSection('#socoldevccwarning');
+							//	showSection('#socvag');
+							//}
+							//if($('#socmodul').val() == 'soc_evcc') {
+							//	$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3134')
+							//	showSection('#socsupportinfo');
+							//	showSection('#socevcc');
+							//}
+							//if($('#socmodul').val() == 'soc_kia') {
+							//	$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3137')
+							//	showSection('#socsupportinfo');
+							//	showSection('#socmkia');
+							//	showSection('#socmbluelink');
+							//}
+							//if($('#socmodul').val() == 'soc_audi') {
+							//	showSection('#socoldevccwarning');
+							//	showSection('#socmaudi');
+							//}
+							//if($('#socmodul').val() == 'soc_myrenault') {
+							//	$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3139')
+							//	showSection('#socsupportinfo');
+							//	showSection('#socmyrenault');
+							//}
 							if($('#socmodul').val() == 'soc_http') {
 								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3143')
 								showSection('#socsupportinfo');
 								showSection('#socmhttp');
 							}
-							if($('#socmodul').val() == 'soc_zerong') {
-								showSection('#socmzerong');
-							}
-							if($('#socmodul').val() == 'soc_eq') {
-								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3135')
-								showSection('#socsupportinfo');
-								showSection('#socmeq');
-							}
-							if($('#socmodul').val() == 'soc_leaf') {
-								showSection('#socleaf');
-							}
-							if($('#socmodul').val() == 'soc_i3') {
-								showSection('#soci3');
-							}
-							if($('#socmodul').val() == 'soc_zoe') {
-								showSection('#soczoe');
-							}
+							//if($('#socmodul').val() == 'soc_zerong') {
+							//	showSection('#socmzerong');
+							//}
+							//if($('#socmodul').val() == 'soc_eq') {
+							//	$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3135')
+							//	showSection('#socsupportinfo');
+							//	showSection('#socmeq');
+							//}
+							//if($('#socmodul').val() == 'soc_leaf') {
+							//	showSection('#socleaf');
+							//}
+							//if($('#socmodul').val() == 'soc_i3') {
+							//	showSection('#soci3');
+							//}
+							//if($('#socmodul').val() == 'soc_zoe') {
+							//	showSection('#soczoe');
+							//}
 							//if($('#socmodul').val() == 'soc_evnotify') {
 							//	showSection('#socevnotify');
 							//}
-							if($('#socmodul').val() == 'soc_tesla') {
-								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3141')
-								showSection('#socsupportinfo');
-								showSection('#socmtesla');
-							}
-							if($('#socmodul').val() == 'soc_carnet') {
-								showSection('#soccarnet');
-							}
-							if($('#socmodul').val() == 'soc_mypeugeot') {
-								showSection('#socmypeugeot');
-							}
-							if($('#socmodul').val() == 'soc_myopel') {
-								showSection('#socmyopel');
-							}
-							if($('#socmodul').val() == 'soc_psa') {
-								showSection('#socpsa');
-							}
+							//if($('#socmodul').val() == 'soc_tesla') {
+							//	$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3141')
+							//	showSection('#socsupportinfo');
+							//	showSection('#socmtesla');
+							//}
+							//if($('#socmodul').val() == 'soc_carnet') {
+							//	showSection('#soccarnet');
+							//}
+							//if($('#socmodul').val() == 'soc_mypeugeot') {
+							//	showSection('#socmypeugeot');
+							//}
+							//if($('#socmodul').val() == 'soc_myopel') {
+							//	showSection('#socmyopel');
+							//}
+							//if($('#socmodul').val() == 'soc_psa') {
+							//	showSection('#socpsa');
+							//}
 							if($('#socmodul').val() == 'soc_manual') {
 								$('#socsuportlink').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3144')
 								showSection('#socsupportinfo');
@@ -2884,7 +2920,7 @@
 								<select name="socmodul1" id="socmodul1" class="form-control">
 									<option <?php if($socmodul1old == "none") echo "selected" ?> value="none">Nicht vorhanden</option>
 									<optgroup label="universelle Module">
-										<option <?php if($socmodul1old == "soc_evcclp2") echo "selected" ?> value="soc_evcclp2">EVCC</option>
+										<!-- <option <?php if($socmodul1old == "soc_evcclp2") echo "selected" ?> value="soc_evcclp2">EVCC</option> -->
 										<!-- <option <?php if($socmodul1old == "soc_evnotifys1") echo "selected" ?> value="soc_evnotifys1">EVNotify</option> -->
 										<option <?php if($socmodul1old == "soc_http1") echo "selected" ?> value="soc_http1">HTTP</option>
 										<option <?php if($socmodul1old == "soc_manuallp2Skoda") echo "selected" ?> value="soc_manuallp2Skoda">Skoda-API & Manuell + Berechnung</option>
@@ -2892,6 +2928,7 @@
 										<option <?php if($socmodul1old == "soc_mqtt") echo "selected" ?> value="soc_mqtt">MQTT</option>
 										<!-- <option <?php if($socmodul1old == "soc_tronitylp2") echo "selected" ?> value="soc_tronitylp2">Tronity</option> -->
 									</optgroup>
+<!--
 									<optgroup label="Fahrzeughersteller">
 										<option <?php if($socmodul1old == "soc_audilp2") echo "selected" ?> value="soc_audilp2">Audi</option>
 										<option <?php if($socmodul1old == "soc_i3s1") echo "selected" ?> value="soc_i3s1">BMW &amp; Mini</option>
@@ -2911,6 +2948,7 @@
 										<option <?php if($socmodul1old == "soc_idlp2") echo "selected" ?> value="soc_idlp2">VW ID</option>
 										<option <?php if($socmodul1old == "soc_zeronglp2") echo "selected" ?> value="soc_zeronglp2">Zero NG</option>
 									</optgroup>
+-->
 								</select>
 								<div id="socoldevccwarninglp2" class="mt-1 alert alert-danger hide">
 									Dieses Modul nutzt eine nicht mehr unterstützte Version von EVCC-SOC und wird nicht weiter gepflegt.
@@ -3008,6 +3046,7 @@
 									<span class="text-info">openWB/set/lp/2/SocKM</span> Killometerstand des PKW bei der letzten SOC-Abfrage
 							     </div>							
 							</div>
+<!--                            
 							<div id="socmzeronglp2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -3048,6 +3087,8 @@
 									</div>
 								</div>
 							</div>
+-->                            
+<!--
 							<div id="socmteslalp2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -3098,6 +3139,8 @@
 									</div>
 								</div>
 							</div>
+-->                         
+<!--   
 							<div id="soccarnetlp2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -3129,6 +3172,8 @@
 									</div>
 								</div>
 							</div>
+-->
+<!--
 							<div id="soczoelp2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -3167,6 +3212,8 @@
 									</div>
 								</div>
 							</div>
+-->                            
+<!--                            
 							<div id="socmyrenaultlp2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -3232,6 +3279,7 @@
 									</div>
 								</div>
 							</div>
+-->                            
 <!--
 							<div id="socevnotifylp2" class="hide">
 								<div class="form-group">
@@ -3327,6 +3375,7 @@
 									</div>
 								</div>
 							</div>
+<!--
 							<div id="socleaf1" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -3349,6 +3398,8 @@
 									</div>
 								</div>
 							</div>
+-->                            
+<!--
 							<div id="soci31" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -3389,6 +3440,7 @@
 									</div>
 								</div>
 							</div>
+-->                            
 							<div id="socmpin2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -3415,6 +3467,7 @@
 									</div>
 								</div>
 							</div>
+<!--
 							<div id="socmypeugeotlp2" class="hide">
 								<div class="form-group">
 									<div class="card-text alert alert-info">
@@ -3510,6 +3563,8 @@
 								});
 								</script>
 							</div>
+-->
+<!--
 							<div id="socmyopellp2" class="hide">
 								<div class="form-group">
 									<div class="card-text alert alert-info">
@@ -3605,6 +3660,8 @@
 								});
 								</script>
 							</div>
+-->                         
+<!--   
 							<div id="socpsalp2" class="hide">
 								<div class="form-group">
 									<div class="card-text alert alert-info">
@@ -3721,6 +3778,8 @@
 								});
 								</script>
 							</div>
+-->                            
+<!--                            
 							<div id="socmeqlp2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -3766,6 +3825,8 @@
 									</div>
 								</div>
 							</div>
+-->                            
+<!--
 							<div id="socmkialp2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -3811,7 +3872,7 @@
 												</div>
 											</div>
 										</div>
-								<!--	</div>  -->
+								< ! --	</div>  -- >
 								</div>
 								<script>
 								$(function() {
@@ -3831,6 +3892,7 @@
 								});
 								</script>
 							</div>
+-->                            
 <!--							
 							<div id="soctronitylp2" class="hide">
 								<div class="form-group">
@@ -3938,6 +4000,7 @@
 								</script>
 							</div>
 -->							
+<!--
 							<div id="socevcclp2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -4051,6 +4114,8 @@
 									});
 								</script>
 							</div>
+-->
+                            
 							<div id="socmintervall2" class="hide">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -4193,26 +4258,26 @@
 							hideSection('#socmpin2');
 							hideSection('#socmnone1');
 							hideSection('#socmhttp1');
-							hideSection('#socleaf1');
-							hideSection('#soci31');
+							//hideSection('#socleaf1');
+							//hideSection('#soci31');
 							//hideSection('#socevnotifylp2');
-							hideSection('#soczoelp2');
-							hideSection('#socmteslalp2');
-							hideSection('#socmeqlp2');
-							hideSection('#socmyrenaultlp2');
-							hideSection('#soccarnetlp2');
-							hideSection('#socmzeronglp2');
-							hideSection('#socmypeugeotlp2');
-							hideSection('#socmyopellp2');
-							hideSection('#socpsalp2');
-							hideSection('#socmvin2');
+							//hideSection('#soczoelp2');
+							//hideSection('#socmteslalp2');
+							//hideSection('#socmeqlp2');
+							//hideSection('#socmyrenaultlp2');
+							//hideSection('#soccarnetlp2');
+							//hideSection('#socmzeronglp2');
+							//hideSection('#socmypeugeotlp2');
+							//hideSection('#socmyopellp2');
+							//hideSection('#socpsalp2');
+							//hideSection('#socmvin2');
 							hideSection('#socmintervall2');
 							hideSection('#socmintervallladen2');
 							hideSection('#socmanuallp2');
 							hideSection('#socmanuallp2Skoda');
 							//hideSection('#soctronitylp2');
-							hideSection('#socevcclp2');
-							hideSection('#socmkialp2');
+							//hideSection('#socevcclp2');
+							//hideSection('#socmkialp2');
 							hideSection('#socoldevccwarninglp2');
 							hideSection('#socsupportinfolp2');
 							hideSection('#socnosupportinfolp2');
@@ -4234,96 +4299,96 @@
 								showSection('#socmintervall2');
 								showSection('#socmintervallladen2');
 							}
-							if($('#socmodul1').val() == 'soc_audilp2') {
-								showSection('#socoldevccwarninglp2');
-								showSection('#socmuser2');
-								showSection('#socmpass2');
-								showSection('#socmvin2');
-							}
-							if($('#socmodul1').val() == 'soc_bluelinklp2') {
-								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3138')
-								showSection('#socsupportinfolp2');
-								showSection('#socmuser2');
-								showSection('#socmpass2');
-								showSection('#socmpin2');
-								showSection('#socmvin2');
-								showSection('#socmintervall2');
-								showSection('#socmkialp2');
-							}
-							if($('#socmodul1').val() == 'soc_kialp2') {
-								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3137')
-								showSection('#socsupportinfolp2');
-								showSection('#socmuser2');
-								showSection('#socmpass2');
-								showSection('#socmpin2');
-								showSection('#socmvin2');
-								showSection('#socmintervall2');
-								showSection('#socmkialp2');
-							}
-							if($('#socmodul1').val() == 'soc_idlp2') {
-								showSection('#socoldevccwarninglp2');
-								showSection('#socmuser2');
-								showSection('#socmpass2');
-								showSection('#socmvin2');
-							}
-							if($('#socmodul1').val() == 'soc_vaglp2') {
-								showSection('#socoldevccwarninglp2');
-								showSection('#socmtype2');
-								showSection('#socmuser2');
-								showSection('#socmpass2');
-								showSection('#socmvin2');
-								showSection('#socmintervall2');
-								showSection('#socmintervallladen2');
-							}
-							if($('#socmodul1').val() == 'soc_evcclp2') {
-								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3134')
-								showSection('#socsupportinfolp2');
-								showSection('#socevcclp2');
-								showSection('#socmintervall2');
-								showSection('#socmintervallladen2');
-							}
-							if($('#socmodul1').val() == 'soc_leafs1') {
-								showSection('#socleaf1');
-							}
-							if($('#socmodul1').val() == 'soc_myrenaultlp2') {
-								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3139')
-								showSection('#socsupportinfolp2');
-								showSection('#socmyrenaultlp2');
-							}
-							if($('#socmodul1').val() == 'soc_i3s1') {
-								showSection('#soci31');
-							}
+							//if($('#socmodul1').val() == 'soc_audilp2') {
+							//	showSection('#socoldevccwarninglp2');
+							//	showSection('#socmuser2');
+							//	showSection('#socmpass2');
+							//	showSection('#socmvin2');
+							//}
+							//if($('#socmodul1').val() == 'soc_bluelinklp2') {
+							//	$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3138')
+							//	showSection('#socsupportinfolp2');
+							//	showSection('#socmuser2');
+							//	showSection('#socmpass2');
+							//	showSection('#socmpin2');
+							//	showSection('#socmvin2');
+							//	showSection('#socmintervall2');
+							//	showSection('#socmkialp2');
+							//}
+							//if($('#socmodul1').val() == 'soc_kialp2') {
+							//	$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3137')
+							//	showSection('#socsupportinfolp2');
+							//	showSection('#socmuser2');
+							//	showSection('#socmpass2');
+							//	showSection('#socmpin2');
+							//	showSection('#socmvin2');
+							//	showSection('#socmintervall2');
+							//	showSection('#socmkialp2');
+							//}
+							//if($('#socmodul1').val() == 'soc_idlp2') {
+							//	showSection('#socoldevccwarninglp2');
+							//	showSection('#socmuser2');
+							//	showSection('#socmpass2');
+							//	showSection('#socmvin2');
+							//}
+							//if($('#socmodul1').val() == 'soc_vaglp2') {
+							//	showSection('#socoldevccwarninglp2');
+							//	showSection('#socmtype2');
+							//	showSection('#socmuser2');
+							//	showSection('#socmpass2');
+							//	showSection('#socmvin2');
+							//	showSection('#socmintervall2');
+							//	showSection('#socmintervallladen2');
+							//}
+							//if($('#socmodul1').val() == 'soc_evcclp2') {
+							//	$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3134')
+							//	showSection('#socsupportinfolp2');
+							//	showSection('#socevcclp2');
+							//	showSection('#socmintervall2');
+							//	showSection('#socmintervallladen2');
+							//}
+							//if($('#socmodul1').val() == 'soc_leafs1') {
+							//	showSection('#socleaf1');
+							//}
+							//if($('#socmodul1').val() == 'soc_myrenaultlp2') {
+							//	$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3139')
+							//	showSection('#socsupportinfolp2');
+							//	showSection('#socmyrenaultlp2');
+							//}
+							//if($('#socmodul1').val() == 'soc_i3s1') {
+							//	showSection('#soci31');
+							//}
 							//if($('#socmodul1').val() == 'soc_evnotifys1') {
 							//	showSection('#socevnotifylp2');
 							//}
-							if($('#socmodul1').val() == 'soc_zoelp2') {
-								showSection('#soczoelp2');
-							}
-							if($('#socmodul1').val() == 'soc_eqlp2') {
-								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3135')
-								showSection('#socsupportinfolp2');
-								showSection('#socmeqlp2');
-							}
-							if($('#socmodul1').val() == 'soc_carnetlp2') {
-								showSection('#soccarnetlp2');
-							}
-							if($('#socmodul1').val() == 'soc_teslalp2') {
-								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3141')
-								showSection('#socsupportinfolp2');
-								showSection('#socmteslalp2');
-							}
-							if($('#socmodul1').val() == 'soc_zeronglp2') {
-								showSection('#socmzeronglp2');
-							}
-							if($('#socmodul1').val() == 'soc_mypeugeotlp2') {
-								showSection('#socmypeugeotlp2');
-							}
-							if($('#socmodul1').val() == 'soc_myopellp2') {
-								showSection('#socmyopellp2');
-							}
-							if($('#socmodul1').val() == 'soc_psalp2') {
-								showSection('#socpsalp2');
-							}
+							//if($('#socmodul1').val() == 'soc_zoelp2') {
+							//	showSection('#soczoelp2');
+							//}
+							//if($('#socmodul1').val() == 'soc_eqlp2') {
+							//	$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3135')
+							//	showSection('#socsupportinfolp2');
+							//	showSection('#socmeqlp2');
+							//}
+							//if($('#socmodul1').val() == 'soc_carnetlp2') {
+							//	showSection('#soccarnetlp2');
+							//}
+							//if($('#socmodul1').val() == 'soc_teslalp2') {
+							//	$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3141')
+							//	showSection('#socsupportinfolp2');
+							//	showSection('#socmteslalp2');
+							//}
+							//if($('#socmodul1').val() == 'soc_zeronglp2') {
+							//	showSection('#socmzeronglp2');
+							//}
+							//if($('#socmodul1').val() == 'soc_mypeugeotlp2') {
+							//	showSection('#socmypeugeotlp2');
+							//}
+							//if($('#socmodul1').val() == 'soc_myopellp2') {
+							//	showSection('#socmyopellp2');
+							//}
+							//if($('#socmodul1').val() == 'soc_psalp2') {
+							//	showSection('#socpsalp2');
+							//}
 							if($('#socmodul1').val() == 'soc_manuallp2') {
 								$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3144')
 								showSection('#socsupportinfolp2');
@@ -4332,10 +4397,10 @@
 							if($('#socmodul1').val() == 'soc_manuallp2Skoda') {
 								showSection('#socmanuallp2Skoda');
 							}
-							if($('#socmodul1').val() == 'soc_volvolp2') {
-								showSection('#socmuser2');
-								showSection('#socmpass2');
-							}
+							//if($('#socmodul1').val() == 'soc_volvolp2') {
+							//	showSection('#socmuser2');
+							//	showSection('#socmpass2');
+							//}
 							//if($('#socmodul1').val() == 'soc_tronitylp2') {
 							//	$('#socsuportlinklp2').attr('href', 'https://openwb.de/forum/viewtopic.php?f=12&t=3142')
 							//	showSection('#socsupportinfolp2');
