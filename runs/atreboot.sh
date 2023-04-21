@@ -50,6 +50,8 @@ at_reboot() {
 	}
 	log "started $$"
 
+    if uname -a | grep -q 5.15 ; then isBullseye=1; else isBullseye=0; fi; 
+
 	# (sleep 600; sudo kill $(ps aux |grep '[a]treboot.sh' | awk '{print $2}') >/dev/null 2>&1; echo 0 > /var/www/html/openWB/ramdisk/bootinprogress; echo 0 > /var/www/html/openWB/ramdisk/updateinprogress) &
 	# start Watchdog
 	( pid=$$; cnt=0; 
@@ -576,9 +578,16 @@ at_reboot() {
 		# restart needed!!!
 	fi
 	if python3 -c "import pymodbus" &> /dev/null; then
-		log 'pymodbus installed...'
+		log 'pymodbus for python3 installed...'
 	else
-		sudo pip3 install pymodbus
+        echo "installing pymodbus for python3 "
+        if (( isBullseye == 0 )) ; then
+            # Buster
+            sudo pip3 install -U --force-reinstall pymodbus==2.4.0
+        else
+            # bullseye
+            sudo pip3 install -U --force-reinstall pymodbus==2.5.3
+        fi
 		# restart needed!!!
 	fi
 	if python3 -c "import requests" &> /dev/null; then
