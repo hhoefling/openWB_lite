@@ -48,7 +48,7 @@ Inzwischen läuft auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display häng
 - - Bezug/Pv/Speicher  **RCT** / **RCT2** / **RCT2h** /  **MQTT** / **HTTP**
 - - LP   In den OpenWB Varianten und  **HTTP** / **MQTT** 
 - - SOC **Manual** /  **Citigo** / **MQTT** / **HTTP**
-- - Sonsitges: Tibber
+- - Sonstiges: Tibber
 - Das Integrierte Display wird in seiner Funktion erweitert. Bei mir ist die openWB nicht öffentlich zugänglich (hängt auf der Innenseite der Aussenwand). Daher kann ich auf dem Display auch die normal Web-Oberfläche verwenden. Lediglich für die eventuell nötigen Tastattureingabe ist ein Zugang mit einem PC & Browser nötig.
 - Die Helligkeit der Hintergrundbeleuchtung ist nun Regelbar.
 - - Umstellung auf HTTPS und verwendung von "Same-Site=Lax"
