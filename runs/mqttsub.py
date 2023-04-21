@@ -798,6 +798,7 @@ def process_SetPv(client, msg):
 def process_configSetGlobal(client, msg):
     payload = msg.payload.decode("utf-8")
     dolog("process_configSetGlobal Topic: [%s] Message: [%s]" % (msg.topic, payload))
+    if (msg.topic == "openWB/config/set/global/minEVSECurrentAllowed"):
         if (int(payload) >= 6 and int(payload) <= 32):
             replaceinconfig("minimalstromstaerke=", payload)
             publish(client, msg.topic.replace('set/','get/'), payload)
