@@ -9,10 +9,7 @@ import struct
 # import binascii
 
 
-try:
-  from pymodbus.client import ModbusTcpClient
-except:
-  from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client.sync import ModbusTcpClient
 
 
 ipadd = str(sys.argv[1])
