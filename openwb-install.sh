@@ -33,7 +33,7 @@ if uname -a | grep -q 5.15 ; then isBullseye=1; else isBullseye=0; fi;
 
 if (( isPC == 0 )) ; then
   if (( isBullseye == 0 )) ; then
-	# Buster
+    # Buster/Stretch
 	apt-get -q -y install python-pip python-rpi.gpioa
   else
 	# bullseye
@@ -213,8 +213,15 @@ for d in /etc/php/*/apache2/conf.d ; do
 done
 
 echo "installing pymodbus"
-sudo pip install  -U pymodbus
-#sudo pip3 install  -U pymodbus3
+if (( isBullseye == 0 )) ; then
+    # Buster
+    sudo pip install  -U pymodbus
+    sudo pip3 install -U --force-reinstall pymodbus==2.4.0
+else
+    # bullseye
+    sudo pip3 install -U --force-reinstall pymodbus==2.5.3
+fi
+
 sudo pip3 install --upgrade requests
 
 echo "check for paho-mqtt"
