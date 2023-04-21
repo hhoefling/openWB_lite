@@ -31,7 +31,7 @@ Inzwischen läuft auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display häng
 ## Abweichungen zur normalen openWB
 - Diese Version arbeite nicht mit dem Legathy-Run-Server (LRS) der ab 12.2022 sucessive eingebaut wurde. Gerade die RCT2 Module haben damit Probleme. Daher versuche ich die jeweils letzte Version der Module zu verwenden die noch ohne den LRS auskommt.
 - Reduktion auf LP1-LP3, dies ist weitgehend abgeschlossen.
-- Ich werde alle Module die ich nicht selbst verwende aus dem Repository herausnehmen. Wenn jemand dieser Module verwenden, oder sogar daran mitarbeiten möchte, kann ich sie gerne die in der letzen (vor LRS) Version heraussuchen und wieder hinzufügen. "auf Vorrat" werde ich die Module nicht mitpflegen. Im Einzelfall muss dann geprüft werden ob Aktualisierungen in der officzellen OpenWB vorgenommen wurden und bei relevanz diese dann Nachpflegen. Rausgenommen wird ebenfalls die Preismodule. Mein Ziel ist einfaches PV-Überschuss laden. Strombezug ist zweitrangig.
+- Ich werde alle Module die ich nicht selbst verwende aus dem Repository herausnehmen. Wenn jemand dieser Module verwenden, oder sogar daran mitarbeiten möchte, kann ich sie gerne die in der letzen (vor LRS) Version heraussuchen und wieder hinzufügen. "auf Vorrat" werde ich die Module nicht mitpflegen. Im Einzelfall muss dann geprüft werden ob Aktualisierungen in der offiziellen OpenWB vorgenommen wurden und bei relevanz diese dann Nachpflegen. Rausgenommen wird ebenfalls die Preismodule. Mein Ziel ist einfaches PV-Überschuss laden. Strombezug ist zweitrangig.
 - Nicht übernommen wurde die Umwidmung der mqtt Zuweisungen zur pv Leistung. Bei der 1.9'er bis hin zur 254 wurde dort ein negativer Wert von der Datenquelle abgelegt. Diese Version behält dies verhalten bei  da sonst auch älter Backups dann ihr gültigkeit verlieren würden. OpenwWB selbst hatte dies dann mit der 1.9.259 auch wieder zurückgenommen.
 - Ladelog um KM ergänzen. wird via MQTT aus dem Skoda-SoC Module übergeben. 
 - Ladelog Export nach Excel an die deutsche Variante der Trennzeichen angepasst. Ausserdem wurde ein Jahresexport zugefügt
@@ -48,6 +48,7 @@ Inzwischen läuft auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display häng
 - - Bezug/Pv/Speicher  **RCT** / **RCT2** / **RCT2h** /  **MQTT** / **HTTP**
 - - LP   In den OpenWB Varianten und  **HTTP** / **MQTT** 
 - - SOC **Manual** /  **Citigo** / **MQTT** / **HTTP**
+- - Sonsitges: Tibber
 - Das Integrierte Display wird in seiner Funktion erweitert. Bei mir ist die openWB nicht öffentlich zugänglich (hängt auf der Innenseite der Aussenwand). Daher kann ich auf dem Display auch die normal Web-Oberfläche verwenden. Lediglich für die eventuell nötigen Tastattureingabe ist ein Zugang mit einem PC & Browser nötig.
 - Die Helligkeit der Hintergrundbeleuchtung ist nun Regelbar.
 - - Umstellung auf HTTPS und verwendung von "Same-Site=Lax"
@@ -66,7 +67,7 @@ Weiter Info **[History](docs/history.md)**
 - Eigenes Buster-ISO-Image mit unterstützung des integrierten Display.
 - Bullseye hat keine verwendbares Pyhton2.x. (es fehlt z.b. GPIO nach dem Nachinstallieren). Da die Kernmodule alle noch in python2 geschrieben sind scheidet bullseye erst mal aus. Inzwischen habe ich python 2.7.16 und GPIO 0.7.0 installieren können. Also werde ich auch mit Bullseye weitertesten.
 - Bullseye zum testen in einer VM auf dem PC
-- Für mich irrelevante Functionen werden entfernen. (awatar, tibber,  pushover, evse ) Wenn jemand diese Module benötigt, bitte melden, vieleicht lassen sie sich ja aus der alten 1'9er-24x übernehmen und weiterverwenden.
+- Für mich irrelevante Functionen werden entfernen. (awatar, pushover, evse ) Wenn jemand diese Module benötigt, bitte melden, vieleicht lassen sie sich ja aus der alten 1'9er-24x übernehmen und weiterverwenden.
 - Erweiterung der Log Funktion um die Regelmodule besser zu debugen. 
 - Ich habe nun begonnen mich von Stretch und Buster zu verabschieden.
 - Aktuell wird nur noch unter Bullseye weitergetestet. Damit hat aber endgültig Python2.7 ausgedient. Allerdings sind die vielen kleinen Python Sripte unter python3.9 ca. 50% langsamer als unter Python2.7 auf einenm Strech/Buster System. Aber sollange bei meiner Hadrware-Mischung keine Regel-Laufzeit über 8 Sekunden daraus resultiert werde ich das in Kauf nehmen. Aber eine Vollausgestatte Box mit Taster/Led/Rfid/DUO, da wird es schon eng mit der Laufzeit unter Python3.9
