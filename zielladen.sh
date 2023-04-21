@@ -64,7 +64,7 @@ ziellademodus(){
 				openwbDebugLog "MAIN" 1 "setzte Soctimer hoch zum Abfragen des aktuellen SoC"
 					echo 20000 > /var/www/html/openWB/ramdisk/soctimer
 				echo 1 > ramdisk/ladungdurchziel
-				openwbDebugLog "MAIN" 0 "*** exit 0"
+				openwbDebugLog "MAIN" 0 "*** EXIT 0"
 				exit 0
 			else
     		    	meld " ZL: kann nicht, will aber"
@@ -81,7 +81,7 @@ ziellademodus(){
 							zielneu=$zielladenmaxalp1
 						fi
 						runs/set-current.sh $zielneu m
-					    openwbDebugLog "MAIN" 0 "*** exit 0"
+					    openwbDebugLog "MAIN" 0 "*** EXIT 0"
 						exit 0
 					fi
 				fi
@@ -99,7 +99,7 @@ ziellademodus(){
 							zielneu=$minimalstromstaerke
 						fi
 						runs/set-current.sh $zielneu m
-					    openwbDebugLog "MAIN" 0 "*** exit 0"
+					    openwbDebugLog "MAIN" 0 "*** EXIT 0"
 						exit 0
 					fi
 				fi
@@ -108,7 +108,7 @@ ziellademodus(){
 	fi
 	if (( ladungdurchziel == 1 )); then
 	# breche regel.sh hier ab 
-		openwbDebugLog "MAIN" 0 "*** exit 0,  abord regel in Zielladen"
+		openwbDebugLog "MAIN" 0 "*** EXIT 0,  abord regel in Zielladen"
 		exit 0
 	fi
 }

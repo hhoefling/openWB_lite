@@ -136,7 +136,7 @@ if [[ $isss == "1" ]]; then
 	mosquitto_pub -r -t "openWB/system/Uptime" -m "$(uptime)"
 	mosquitto_pub -r -t "openWB/system/Timestamp" -m "$(date +%s)"
 	mosquitto_pub -r -t "openWB/system/Date" -m "$(date)"
-	openwbDebugLog "MAIN" 1 "##### ISSS #####  Exit 0"
+	openwbDebugLog "MAIN" 1 "##### ISSS #####  EXIT 0"
 	exit 0
 fi
 ptstart
@@ -251,7 +251,7 @@ LadereglerTxt=""
 BatSupportTxt=""
 function endladeregler()
 {
- openwbDebugLog "MAIN" 0 "LadereglerTxt: $LadereglerTxt $BatSupportTxt"
+ openwbDebugLog "MAIN" 1 "LadereglerTxt: $LadereglerTxt $BatSupportTxt"
  mosquitto_pub -r -t "openWB/global/strLaderegler" -m "${LadereglerTxt:-None} "
  mosquitto_pub -r -t "openWB/global/strBatSupport" -m "${BatSupportTxt:-None} "
 }
@@ -277,7 +277,7 @@ ptend graphing 600
 if (( u1p3paktiv == 1 )); then
 	blockall=$(<ramdisk/blockall)
 	if (( blockall == 1 )); then
-		openwbDebugLog "MAIN" 1 "----- Phasen Umschaltung noch aktiv... beende (exit 0) -----"
+		openwbDebugLog "MAIN" 1 "----- Phasen Umschaltung noch aktiv... beende (EXIT 0) -----"
 		exit 0
 	fi
 fi
@@ -310,12 +310,12 @@ ptend evsedintest 100
 
 #u1p3p switch
 if (( u1p3paktiv == 1 )); then
-	openwbDebugLog "MAIN" 0 "Start u1p3switsch"
+	openwbDebugLog "MAIN" 1 "Start u1p3switsch"
 	u1p3pswitch
-	openwbDebugLog "MAIN" 0 "End u1p3switsch"
+	openwbDebugLog "MAIN" 1 "End u1p3switsch"
 	blockall=$(<ramdisk/blockall)
 	if (( blockall == 1 )); then
-		openwbDebugLog "MAIN" 1 "Phasen Umschaltung wurde aktiv... beende (exit 0)"
+		openwbDebugLog "MAIN" 1 "Phasen Umschaltung wurde aktiv... beende (EXIT 0)"
 		exit 0
 	fi
 fi
@@ -489,7 +489,7 @@ if [[ $loadsharinglp12 == "1" ]]; then
 		chargingphases=$(( lp1c + lp2c ))
 		if (( chargingphases > 2 )); then
 			runs/set-current.sh "$agrenze" all   # alle auf 8 damit summe nicht>16
-			openwbDebugLog "CHARGESTAT" 0 "Alle Ladepunkte, Loadsharing LP1-LP2 aktiv. Setze Ladestromstärke auf $agrenze (exit 0)"
+			openwbDebugLog "CHARGESTAT" 0 "Alle Ladepunkte, Loadsharing LP1-LP2 aktiv. Setze Ladestromstärke auf $agrenze (EXIT 0)"
 			exit 0
 		fi
 	fi
@@ -536,7 +536,7 @@ if (( llalt > LLPHASENTEST )); then
 	echo $anzahlphasen > ramdisk/anzahlphasen
 	echo $anzahlphasen > ramdisk/lp1anzahlphasen
 	openwbDebugLog "PV" 0 "LP1 aktive Phasen während Ladung= $anzahlphasen"
-	openwbDebugLog "MAIN" 0 "--NurPV LP1 aktive Phasen während Ladung= $anzahlphasen"
+	openwbDebugLog "MAIN" 1 "--NurPV LP1 aktive Phasen während Ladung= $anzahlphasen"
 else
 	# wir laden nicht, könten aber daher future-phasen bestimmen 
 	if (( plugstat == 1 )) && (( lp1enabled == 1 )); then
@@ -556,13 +556,13 @@ else
 		fi
 #		if (( lademodus == $NURPV2 )); then
 #				anzahlphasen=1; ## starte immer mit 1
-#				openwbDebugLog "MAIN" 0 " -- NurPV Setze Anzahl Phasen fix = 1 bei NurPV bei keiner Ladung"
+#				openwbDebugLog "MAIN" 1 " -- NurPV Setze Anzahl Phasen fix = 1 bei NurPV bei keiner Ladung"
 #		fi
 	else # nicht angesteckt oder disabled
 		anzahlphasen=0
 	fi
 	openwbDebugLog "PV" 0 "LP1 Anzahl Phasen während keiner Ladung= $anzahlphasen"
-	openwbDebugLog "MAIN" 0 "--NurPV LP1 Anzahl Phasen während keiner Ladung= $anzahlphasen"
+	openwbDebugLog "MAIN" 1 "--NurPV LP1 Anzahl Phasen während keiner Ladung= $anzahlphasen"
 fi
 
 
@@ -628,7 +628,7 @@ if [ "$anzahlphasen" -ge "24" ]; then
 	echo $anzahlphasen > ramdisk/anzahlphasen
 fi
 openwbDebugLog "PV" 0 "Gesamt Anzahl Phasen= $anzahlphasen (0..24 korrigiert)"
-openwbDebugLog "MAIN" 0 "-- NurPV regel.sh Gesamt Anzahl Phasen= $anzahlphasen (0..24 korrigiert)"
+openwbDebugLog "MAIN" 1 "-- NurPV regel.sh Gesamt Anzahl Phasen= $anzahlphasen (0..24 korrigiert)"
 
 ########################
 # Sofort Laden
@@ -650,7 +650,7 @@ if [[ $nurpv70dynact == "1" ]]; then
 		#abschaltuberschuss=$((minimalapv * 230 * anzahlphasen))
 		openwbDebugLog "MAIN" 1 "PV 70% aktiv! derzeit genutzter Überschuss $uberschuss"
 		openwbDebugLog "PV" 0 "70% Grenze aktiv. Alter Überschuss: $((uberschuss + nurpv70dynw)), Neuer verfügbarer Uberschuss: $uberschuss"
-		openwbDebugLog "MAIN" 0 "--NurPV 70% Grenze aktiv. Alter Überschuss: $((uberschuss + nurpv70dynw)), Neuer verfügbarer Uberschuss: $uberschuss"
+		openwbDebugLog "MAIN" 1 "--NurPV 70% Grenze aktiv. Alter Überschuss: $((uberschuss + nurpv70dynw)), Neuer verfügbarer Uberschuss: $uberschuss"
 		bmeld "Bat70 aktiv => U:${uberschuss}W"
 	fi
 fi
@@ -697,5 +697,5 @@ fi
 
 
 
-openwbDebugLog "MAIN" 1 "Regulation normal end (exit 0)"
+openwbDebugLog "MAIN" 1 "Regulation normal end (EXIT 0)"
 

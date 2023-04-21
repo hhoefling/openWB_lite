@@ -422,7 +422,7 @@ private_nachtlademodus(){
 				openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Nachtladen. Ladung mit $llnachtreturn Ampere, Zielsoc: $diesersocs1 % soc: $soc1 "
 			fi
 		fi
-		openwbDebugLog "MAIN" 0 "*** exit 0"
+		openwbDebugLog "MAIN" 0 "*** EXIT 0"
 		exit 0
 	fi
 }

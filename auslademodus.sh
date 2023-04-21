@@ -32,7 +32,7 @@ auslademodus(){
 
 		openwbDebugLog "CHARGESTAT" 0 "Alle Ladepunkte, Lademodus Stop. Stoppe Ladung"
 	fi
-	openwbDebugLog "MAIN" 0 "*** exit 0 (auslademodus)"
+	openwbDebugLog "MAIN" 0 "*** EXIT 0 (auslademodus)"
 	exit 0
 }
 
@@ -57,6 +57,6 @@ semiauslademodus(){
 		openwbDebugLog "CHARGESTAT" 0 "LP3, Lademodus Standby. Ladefreigabe noch aktiv. Stoppe Ladung"
 	fi
 
-	openwbDebugLog "MAIN" 0 "*** exit 0 (semiauslademodus)"
+	openwbDebugLog "MAIN" 0 "*** EXIT 0 (semiauslademodus)"
 	exit 0
 }

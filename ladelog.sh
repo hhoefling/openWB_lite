@@ -14,6 +14,32 @@ if [[ -z "$debug" ]]; then
 	openwbDebugLog "MAIN" 0 "Ladelog start"
 fi
 
+############### profiling Anf
+ptx=0
+pt=0
+
+declare -F ptstart &>/dev/null || {
+ ptstart()
+ {
+   ptx=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
+ }
+ ptend()
+ {
+ local txt=${1:-}
+ local max=${2:-200}
+ local te
+ te=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
+ pt=$(( te - ptx))
+ if (( pt > max ))  ; then
+   openwbDebugLog "DEB" 1 "TIME **** ${txt} needs $pt ms. (max:$max)"
+   openwbDebugLog "MAIN" 2 "TIME **** ${txt} needs $pt ms. (max:$max)"
+ fi
+ }
+} 
+############### profiling End
+
+ptstart 
+
 
 
 monthlyfile="web/logging/data/ladelog/$(date +%Y%m).csv"
@@ -435,4 +461,6 @@ fi
 
 # LP4-LP8
 
+
+ptend "ladelog " 10
 

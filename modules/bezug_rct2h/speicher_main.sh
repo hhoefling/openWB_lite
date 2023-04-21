@@ -37,8 +37,3 @@ endms=$(($(date +%s%N)/1000000))
 let "ms=( endms - startms )"
 Log 1 "bat runs $ms Millisec"
 
-
-
-exit 0
-
-

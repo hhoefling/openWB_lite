@@ -109,7 +109,7 @@ evsedintest() {
 			sleep 1
 			sudo python runs/evsewritembusdev.py $evsesources2 $evseids2 1000 0
 			sleep 1
-			openwbDebugLog "MAIN" 0 "*** EVSE exit 0"
+			openwbDebugLog "MAIN" 0 "*** EVSE EXIT 0"
 			exit 0
 		else
 			openwbDebugLog "MAIN" 0 "EVSE LP3 nothing to do for $evsecons2"
