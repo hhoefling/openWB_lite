@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # import sys
 import os
 import os.path
@@ -10,20 +10,7 @@ import struct
 # import binascii
 from pymodbus.client.sync import ModbusSerialClient
 
-
-def detect_modbus_usb_port():
-    """guess USB/modbus device name"""
-    known_devices = ("/dev/ttyUSB0", "/dev/ttyACM0", "/dev/serial0")
-    for device in known_devices:
-        try:
-            with open(device):
-                return device
-        except FileNotFoundError:
-            pass
-    return known_devices[-1]  # this does not make sense, but is the same behavior as the old code
-
-
-seradd = detect_modbus_usb_port()
+seradd = str(sys.argv[1])
 
 client = ModbusSerialClient(method="rtu", port=seradd, baudrate=9600, stopbits=1, bytesize=8, timeout=1)
 
