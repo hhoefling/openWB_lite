@@ -112,3 +112,48 @@ Dann noch ein
 strip /local/bin/python3.11
 ```
 Um die Datei von ~16MB auf 3.8Mb zu reduzieren.
+
+
+Leider klappt pip nicht da ssl nicht unterstützt wird.
+
+Also versuchn wir es mit openssl 1.1.1
+
+Zuerst download von https://www.openssl.org/source/
+
+Ich habe diese Version verwendet.
+```
+9650  	2023-Feb-07 15:38:20  	openssl-1.1.1t.tar.gz (SHA256) (PGP sign) (SHA1)
+```
+
+Entpackt in /usr/local/src
+ tar -xvzf openssl-1.1.1t.tar.gz
+	./config
+	make
+	make install
+	
+	Nun die Libs umlinken
+
+```
+cd /usr/lib/arm-linux-gnueabihf
+mv libssl.so.1.1 libssl.so.1.1.0
+ln -fs /usr/local/lib/libssl.so.1.1 libssl.so.1.1
+ln -fs /usr/local/lib/libssl.so.1.1 libssl.so
+mv libcrypto.so.1.1  libcryto.so.1.1.0
+ln -fs /usr/local/lib/libcrypto.so.1.1 libcrypto.so
+ln -fs /usr/local/lib/libcrypto.so.1.1 libcrypto.so
+```
+
+Danach testen
+```
+root@pi67:~# openssl version
+OpenSSL 1.1.1t  7 Feb 2023
+```
+
+
+
+
+	
+	
+	
+	
+
