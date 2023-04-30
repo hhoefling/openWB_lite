@@ -37,14 +37,14 @@ root@pi67:~# openssl version
 OpenSSL 1.1.1t  7 Feb 2023
 ```
 
-
-
-
+## Nun Python3.11.3 installieren ##
 
 
 Go to
+
 https://www.python.org/downloads/
-Download z.b Python 3.11.3 Gzipped source Tarball to /opt auf dem Pi
+
+Download z.b Python 3.11.3 Gzipped Source-Tarball to /opt auf dem Pi
 
 ```
 cd /opt
