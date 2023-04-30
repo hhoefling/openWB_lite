@@ -44,6 +44,12 @@ root@pi67:~# openssl version
 OpenSSL 1.1.1t  7 Feb 2023
 ```
 
+## Auch diese Libs muss nachinstalliert werden ##
+
+```
+apt install libffi-dev
+```
+
 ## Nun Python3.11.3 installieren ##
 
 
