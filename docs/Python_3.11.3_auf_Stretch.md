@@ -1,23 +1,26 @@
 
 
-## Ich versuche Python 3.11.3 auf einem opemwb-Streach Pi3b+ zu installieren. ##
+## Ich versuche Python 3.11.3 auf einem openWB-Streach Pi3b+ zu installieren. ##
 
 
-## Zuerst muss openssl 1.1.1 installiert werden ##
+### Zuerst muss openssl 1.1.1 installiert werden ###
 Download von https://www.openssl.org/source/
+
 Ich habe diese Version verwendet.
 ```
 9650  	2023-Feb-07 15:38:20  	openssl-1.1.1t.tar.gz (SHA256) (PGP sign) (SHA1)
 ```
 
 Entpackt in /usr/local/src
- tar -xvzf openssl-1.1.1t.tar.gz
-	./config
-	make
-	make install
-	
-	Nun die Libs umlinken
 
+```
+tar -xvzf openssl-1.1.1t.tar.gz
+./config
+make
+make install
+``` 	
+### Nun die Libs umlinken ###
+ 
 ```
 cd /usr/lib/arm-linux-gnueabihf
 mv libssl.so.1.1 libssl.so.1.1.0
