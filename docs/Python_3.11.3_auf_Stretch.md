@@ -24,10 +24,10 @@ make install
 ```
 cd /usr/lib/arm-linux-gnueabihf
 mv libssl.so.1.1 libssl.so.1.1.0
+mv libcrypto.so.1.1  libcryto.so.1.1.0
 ln -fs /usr/local/lib/libssl.so.1.1 libssl.so.1.1
 ln -fs /usr/local/lib/libssl.so.1.1 libssl.so
-mv libcrypto.so.1.1  libcryto.so.1.1.0
-ln -fs /usr/local/lib/libcrypto.so.1.1 libcrypto.so
+ln -fs /usr/local/lib/libcrypto.so.1.1 libcrypto.so.1.1
 ln -fs /usr/local/lib/libcrypto.so.1.1 libcrypto.so
 cd /etc/ld.so.conf.d/
 vi openssl.1.1.1.conf 
@@ -130,6 +130,9 @@ Dann noch ein
 strip /local/bin/python3.11
 ```
 Um die Datei von ~16MB auf 3.8Mb zu reduzieren.
+
+
+https://linuxhint.com/update-open-ssl-raspberry-pi/
 
 
 
