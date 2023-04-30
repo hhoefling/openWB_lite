@@ -55,39 +55,9 @@ sudo make altinstall
 ```
 warten.... (~40 Minuten)
 
-dann
-```
-/opt/Python-3.11.3/Modules/_ctypes/_ctypes.c:118:17: fatal error: ffi.h: Datei oder Verzeichnis nicht gefunden
- #include <ffi.h>
-                 ^
-compilation terminated.
+es geht weiter...
 
-The necessary bits to build these optional modules were not found:
-_bz2                  _curses               _curses_panel
-_dbm                  _gdbm                 _hashlib
-_lzma                 _ssl                  _tkinter
-_uuid                 readline
-To find the necessary bits, look in setup.py in detect_modules() for the module's name.
-
-
-The following modules found by detect_modules() in setup.py have not
-been built, they are *disabled* by configure:
-_sqlite3
-
-
-Failed to build these modules:
-_ctypes
-
-
-Could not build the ssl module!
-Python requires a OpenSSL 1.1.1 or newer
-
-running build_scripts
-creating build/scripts-3.11
-
-```
-aber es geht weiter...
-bis zum
+Dann
 
 ```
 0:00:00 load avg: 2.56 Run tests sequentially (timeout: 20 min)
