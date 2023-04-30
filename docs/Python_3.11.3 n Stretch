@@ -99,4 +99,16 @@ Tests result: SUCCESS
 ```
 
 Und weiter gehts
+das ganze ended mit
+```
+Successfully installed pip-22.3.1 setuptools-65.5.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting 
+behaviour with the system package manager. It is recommended to use a 
+virtual environment instead: https://pip.pypa.io/warnings/venv
+```
 
+Dann noch ein 
+```
+strip /local/bin/python3.11
+```
+Um die Datei von ~16MB auf 3.8Mb zu reduzieren.
