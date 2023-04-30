@@ -29,6 +29,13 @@ ln -fs /usr/local/lib/libssl.so.1.1 libssl.so
 mv libcrypto.so.1.1  libcryto.so.1.1.0
 ln -fs /usr/local/lib/libcrypto.so.1.1 libcrypto.so
 ln -fs /usr/local/lib/libcrypto.so.1.1 libcrypto.so
+cd /etc/ld.so.conf.d/
+vi openssl.1.1.1.conf 
+i /usr/local/lib
+wq
+
+ldconfig -v
+
 ```
 
 Danach testen
