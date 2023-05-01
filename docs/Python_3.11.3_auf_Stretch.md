@@ -167,8 +167,9 @@ pip3 verlangt nach **rust**
 also 
 
 nachinstalliern aus den Quellen da rust nicht im repository von Stretch ist
+```
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
+```
 	
 	
 	
