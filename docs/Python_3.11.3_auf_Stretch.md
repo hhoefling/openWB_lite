@@ -140,9 +140,28 @@ Um die Datei von ~16MB auf 3.8Mb zu reduzieren.
 
 https://linuxhint.com/update-open-ssl-raspberry-pi/
 
+## Benutzung von python 3.11.3 ##
 
-
-
+```
+python3.11 -m pip install --upgrade pip
+python3.11 -m pip install aiohttp
+python3.11 -m pip install jwt
+python3.11 -m pip list
+Package            Version
+------------------ -------
+aiohttp            3.8.4
+aiosignal          1.3.1
+async-timeout      4.0.2
+attrs              23.1.0
+charset-normalizer 3.1.0
+frozenlist         1.3.3
+idna               3.4
+multidict          6.0.4
+pip                23.1.2
+setuptools         65.5.0
+yarl               1.9.2
+```
+	
 	
 	
 	
