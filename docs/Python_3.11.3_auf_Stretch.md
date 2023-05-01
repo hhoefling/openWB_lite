@@ -145,7 +145,7 @@ https://linuxhint.com/update-open-ssl-raspberry-pi/
 ```
 python3.11 -m pip install --upgrade pip
 python3.11 -m pip install aiohttp
-python3.11 -m pip install jwt
+python3.11 -m pip install pyjwt
 python3.11 -m pip list
 Package            Version
 ------------------ -------
@@ -158,20 +158,9 @@ frozenlist         1.3.3
 idna               3.4
 multidict          6.0.4
 pip                23.1.2
+PyJWT              2.6.0
 setuptools         65.5.0
 yarl               1.9.2
 ```
-Hmmm	
-jwt wurde nicht installiert.
-pip3 verlangt nach **rust**
-also 
-
-nachinstalliern aus den Quellen da rust nicht im repository von Stretch ist
-```
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-	
-	
-	
 	
 
