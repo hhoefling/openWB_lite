@@ -145,8 +145,10 @@ https://linuxhint.com/update-open-ssl-raspberry-pi/
 ```
 python3.11 -m pip install --upgrade pip
 python3.11 -m pip install aiohttp
-python3.11 -m pip install pyjwt bs4 paho-mqtt
-python3.11 -m pip list
+python3.11 -m pip install pyjwt bs4 paho-mqtt urllib3
+python3.11 -m pip install pymodbus==2.5.3
+ython3.11 -m pip list
+
 Package            Version
 ------------------ -------
 aiohttp            3.8.4
@@ -159,10 +161,15 @@ charset-normalizer 3.1.0
 frozenlist         1.3.3
 idna               3.4
 multidict          6.0.4
+paho-mqtt          1.6.1
 pip                23.1.2
 PyJWT              2.6.0
+pymodbus           2.5.3
+pyserial           3.5
 setuptools         65.5.0
+six                1.16.0
 soupsieve          2.4.1
+urllib3            2.0.1
 yarl               1.9.2
 
 ```
