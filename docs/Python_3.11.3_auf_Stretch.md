@@ -1,6 +1,6 @@
 
 
-## Ich versuche Python 3.11.3 auf einem openWB-Streach Pi3b+ zu installieren. ##
+## Ich versuche Python 3.11.3 auf einem openWB-Stretch Pi3b+ zu installieren. ##
 
 
 ### Zuerst muss openssl 1.1.1 installiert werden ###
@@ -161,7 +161,14 @@ pip                23.1.2
 setuptools         65.5.0
 yarl               1.9.2
 ```
-	
+Hmmm	
+jwt wurde nicht installiert.
+pip3 verlangt nach **rust**
+also 
+
+nachinstalliern aus den Quellen da rust nicht im repository von Stretch ist
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 	
 	
 	
