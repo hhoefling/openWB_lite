@@ -685,10 +685,8 @@ def process_SetPv(client, msg):
         if (0 <= int(payload) <= 2):
             publish(client, msg.topic.replace('set/','get/'), payload)
     elif (msg.topic == "openWB/set/pv/1/faultStr"):
-        if (1 <= devicenumb <= 2):
             publish(client, msg.topic.replace('set/','get/'), payload)
     elif (msg.topic == "openWB/set/pv/2/faultStr"):
-        if (1 <= devicenumb <= 2):
             publish(client, msg.topic.replace('set/','get/'), payload)
     elif (msg.topic == "openWB/config/set/pv/lp/1/minSocAlwaysToChargeTo"):
         if (int(payload) >= 0 and int(payload) <= 80):

@@ -58,10 +58,16 @@ def main():
 
         if ( stat1 + stat2 + stat3) > 0:
             if( stat1 == 8):
-                    faultStr = "Battery Balancing aktive"
+                    faultStr = "Battery Balancing aktive (C8)"
+                    faultState=1
+            elif( stat1 == 512):
+                    faultStr = "Battery Balancing aktive (C512)"
+                    faultState=1
+            elif( stat1 == 1024):
+                    faultStr = "Battery Balancing aktive (C1024)"
                     faultState=1
             else:
-                    faultStr = "Battery ALARM Battery-Status nicht 0"
+                    faultStr = "Battery ALARM Battery-Status "+str(stat1)+" "+str(stat2)+" "+str(stat3)
                     faultState=2
             # speicher in mqtt 
             os.system('mosquitto_pub -r -t openWB/set/houseBattery/faultState -m "' + str(faultState) +'"')

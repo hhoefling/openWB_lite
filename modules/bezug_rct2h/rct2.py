@@ -255,10 +255,16 @@ def main():
             spfaultState=0
             if ( bstat1 + bstat2 + bstat3) > 0:
                 if( bstat1 == 8):
-                    spfaultStr = "Battery Balancing aktive"
+                    spfaultStr = "Battery Balancing aktive (C8)"
+                    spfaultState=1
+                elif( bstat1 == 512):
+                    spfaultStr = "Battery Balancing aktive (C512)"
+                    spfaultState=1
+                elif( bstat1 == 1024):
+                    spfaultStr = "Battery Balancing aktive (C1024)"
                     spfaultState=1
                 else:
-                    spfaultStr = "Battery ALARM Battery-Status nicht 0"
+                    spfaultStr = "Battery ALARM Battery-Status "+str(bstat1)+" "+str(bstat2)+" "+str(bstat3)
                     spfaultState=2
                 rct_lib.dbglog("Sp-Status " , bstat1, bstat2, bstat3 ) 
                 rct_lib.dbglog("spfaultstate: ", spfaultState, spfaultStr) 
