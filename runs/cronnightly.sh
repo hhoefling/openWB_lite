@@ -112,6 +112,9 @@ d10="0"
 echo "$(date +%Y%m%d),$bezug,$einspeisung,$pv,$ll1,$ll2,$ll3,$llg,$verbraucher1iwh,$verbraucher1ewh,$verbraucher2iwh,$verbraucher2ewh,$ll4,$ll5,$ll6,$ll7,$ll8,$speicherikwh,$speicherekwh,$d1,$d2,$d3,$d4,$d5,$d6,$d7,$d8,$d9,$d10" >> "$monthlyfile"
 
 if [[ $verbraucher1_typ == "tasmota" ]]; then
+    # 
+    # füer tasmota kwh summenzähler via openwb.conf rüberetten, und im tasmota resetten
+    #
 	verbraucher1_oldwh=$(curl -s "http://$verbraucher1_ip/cm?cmnd=Status%208" | jq '.StatusSNS.ENERGY.Total')
 	if [[ $? == "0" ]]; then
 		if [ -z "$verbraucher1_tempwh" ]; then
@@ -126,6 +129,9 @@ if [[ $verbraucher1_typ == "tasmota" ]]; then
 	fi
 fi
 if [[ $verbraucher2_typ == "tasmota" ]]; then
+    # 
+    # füer tasmota kwh summenzähler via openwb.conf rüberetten, und im tasmota resetten
+    #
 	verbraucher2_oldwh=$(curl -s "http://$verbraucher2_ip/cm?cmnd=Status%208" | jq '.StatusSNS.ENERGY.Total')
 	if [[ $? == "0" ]]; then
 		if [ -z "$verbraucher2_tempwh" ]; then
