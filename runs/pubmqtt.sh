@@ -1,7 +1,35 @@
 #!/bin/bash
-# Alle Werte aus ENV uebergeben
-# Asyncron gestartet am Ende von loadvars.sh und slavemode.sh(yourcharge) 
 
+declare -F ptstart &> /dev/null || {
+############### profiling
+  ptx=0
+  pt=0
+  ptstart()
+  {
+     ptx=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
+  }
+  ptend()
+  {
+   local txt=${1:-}
+   local max=${2:-200}   
+   local te
+   te=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
+   pt=$(( te - ptx))
+   if (( pt > max ))  ; then
+     openwbDebugLog "DEB" 1 "PUBMQTT TIME **** ${txt} needs $pt ms. (max:$max)"
+     openwbDebugLog "MAIN" 2 "PUBMQTT TIME **** ${txt} needs $pt ms. (max:$max)"
+   fi
+  }
+}
+
+ptstart
+
+ if [ ! -d ramdisk/mqttvar ] ; then
+    sudo -u pi mkdir ramdisk/mqttvar
+    sudo -u pi chmod 0777 ramdisk/mqttvar
+ fi 
+# Asyncron gestartet am Ende von loadvars.sh und slavemode.sh(yourcharge) 
+# alle ramdisk variablen ins mqtt ?bertragen die sich ge䮤er haben
 declare -A mqttvar
 mqttvar["system/IpAddress"]=ipaddress
 mqttvar["system/ConfiguredChargePoints"]=ConfiguredChargePoints
@@ -41,8 +69,8 @@ mqttvar["lp/1/kWhCounter"]=llkwh
 mqttvar["lp/2/kWhCounter"]=llkwhs1
 mqttvar["lp/3/kWhCounter"]=llkwhs2
 mqttvar["Verbraucher/1/Watt"]=verbraucher1_watt
-mqttvar["Verbraucher/1/WhImported"]=verbraucher1_wh
 mqttvar["Verbraucher/1/WhExported"]=verbraucher1_whe
+mqttvar["Verbraucher/1/WhImported"]=verbraucher1_wh
 mqttvar["Verbraucher/1/DailyYieldImportkWh"]=daily_verbraucher1ikwh
 mqttvar["Verbraucher/1/DailyYieldExportkWh"]=daily_verbraucher1ekwh
 mqttvar["Verbraucher/2/Watt"]=verbraucher2_watt
@@ -153,20 +181,36 @@ mqttvar["system/CommitBranches"]=currentCommitBranches
 #	mqttvar["socket/MeterSerialNumber"]=socketSerial
 #fi
 
+mqttvar["lp/1/plugStartkWh"]=pluggedladunglp1startkwh
+mqttvar["lp/1/pluggedladungakt"]=pluggedladungaktlp1
+# mqttvar["lp/1/lmStatus"]=lmStatusLp1
+mqttvar["lp/1/tagScanInfo"]=tagScanInfoLp1
+
+mqttvar["lp/2/plugStartkWh"]=pluggedladunglp2startkwh
+mqttvar["lp/2/pluggedladungakt"]=pluggedladungaktlp2
+# mqttvar["lp/2/lmStatus"]=lmStatusLp2
+mqttvar["lp/2/tagScanInfo"]=tagScanInfoLp2
+
+mqttvar["lp/3/plugStartkWh"]=pluggedladunglp3startkwh
+mqttvar["lp/3/pluggedladungakt"]=pluggedladungaktlp3
+# mqttvar["lp/3/lmStatus"]=lmStatusLp3
+# mqttvar["lp/3/tagScanInfo"]=tagScanInfoLp3
+
+
 #for i in $(seq 1 8);
-for i in $(seq 1 3);
-do
-	for f in \
-		"lp/${i}/plugStartkWh:pluggedladunglp${i}startkwh" \
-		"lp/${i}/pluggedladungakt:pluggedladungaktlp${i}" \
-		"lp/${i}/lmStatus:lmStatusLp${i}" \
-		"lp/${i}/tagScanInfo:tagScanInfoLp${i}" 
-	do
-		IFS=':' read -r -a tuple <<< "$f"
-		#echo "Setting mqttvar[${tuple[0]}]=${tuple[1]}"
-		mqttvar["${tuple[0]}"]=${tuple[1]}
-	done
-done
+#for i in $(seq 1 3);
+#do
+#	for f in \
+#		"lp/${i}/plugStartkWh:pluggedladunglp${i}startkwh" \
+#		"lp/${i}/pluggedladungakt:pluggedladungaktlp${i}" \
+#		"lp/${i}/lmStatus:lmStatusLp${i}" \
+#		"lp/${i}/tagScanInfo:tagScanInfoLp${i}" 
+#	do
+#		IFS=':' read -r -a tuple <<< "$f"
+#		echo "Setting mqttvar[${tuple[0]}]=${tuple[1]}"
+#		mqttvar["${tuple[0]}"]=${tuple[1]}
+#	done
+#done
 
 
 timestamp="$(date +%s)"
@@ -175,27 +219,31 @@ tempPubList="${tempPubList}\nopenWB/system/Timestamp=${timestamp}"
 
 [ -f  /sys/class/thermal/thermal_zone0/temp ] &&  tempPubList="${tempPubList}\nopenWB/global/cpuTemp=$(echo "scale=2; `cat /sys/class/thermal/thermal_zone0/temp` / 1000" | bc)"
 
-for mq in "${!mqttvar[@]}"; do
-	declare o${mqttvar[$mq]}
-	declare ${mqttvar[$mq]}
-	tempnewname=${mqttvar[$mq]}
-	tempoldname=o${mqttvar[$mq]}
+openwbDebugLog "MAIN" 2 "PUBMQTT check ${#mqttvar[@]} ramdisk variablen" 
+for topic in "${!mqttvar[@]}"; do
+	# declare o${mqttvar[$topic]}
+	# declare ${mqttvar[$topic]}
+	varname=${mqttvar[$topic]}
 
-	if [ -r ramdisk/"${mqttvar[$mq]}" ]; then
-
-		tempnewname=$(<ramdisk/"${mqttvar[$mq]}")
-
-		if [ -r ramdisk/mqtt"${mqttvar[$mq]}" ]; then
-			tempoldname=$(<ramdisk/mqtt"${mqttvar[$mq]}")
+	if [ -r ramdisk/"${varname}" ]; then
+		newval=$(<ramdisk/"${varname}")
+		if [ -r ramdisk/mqttvar/"${varname}" ]; then
+			oldval=$(<ramdisk/mqttvar/"${varname}")
 		else
-			tempoldname=""
+            openwbDebugLog "MAIN" 1 "PUBMQTT Variable [$varname] nicht im mqttvar cache gefunden, Init to Leerstr"
+			oldval=""
+            echo "$oldval" >ramdisk/mqttvar/"${varname}"
 		fi
 
-		if [[ "$tempoldname" != "$tempnewname" ]]; then
-			tempPubList="${tempPubList}\nopenWB/${mq}=${tempnewname}"
-			echo $tempnewname > ramdisk/mqtt${mqttvar[$mq]}
+		if [[ "$oldval" != "$newval" ]]; then
+            openwbDebugLog "MAIN" 3 "PUBMQTT Vari:[${varname}]  topic:[$topic] oldval:[$oldval] newval:[$newval]"
+			tempPubList="${tempPubList}\nopenWB/${topic}=${newval}"
+            # auch " " abspeichern als " " nicht als ""
+			echo "${newval}" >ramdisk/mqttvar/"${varname}"
 		fi
-		#echo ${mqttvar[$mq]} $mq
+    else
+        openwbDebugLog "ERR" 1 "PUBMQTT ERR Variable $varname nicht in ramdisk gefunden, Init to 0"
+        echo "0" > ramdisk/"${varname}"    
 	fi
 done
 
@@ -213,8 +261,15 @@ done
 
 
 if [[ $debug == "2" ]]; then	
-	echo "pubmqtt.Publist:"
+    openwbDebugLog "MAIN" 2 "PUBMQTT publist"
 	echo -e $tempPubList
 	#echo "Running Python: runs/mqttpub.py -q 0 -r &"
 fi	
 echo -e $tempPubList | python3 runs/mqttpub.py -q 0 -r &
+ptend pubmqtt 50
+
+exit 0
+
+
+
+

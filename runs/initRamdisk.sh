@@ -32,6 +32,12 @@ initRamdisk(){
 	echo "nicht angefragt" > $RamdiskPath/evsedintestlp1
 	echo "nicht angefragt" > $RamdiskPath/evsedintestlp2
 	echo "nicht angefragt" > $RamdiskPath/evsedintestlp3
+    
+    echo 0 > $RamdiskPath/lmStatusLp1
+    echo 0 > $RamdiskPath/lmStatusLp2
+    echo 0 > $RamdiskPath/tagScanInfoLp1
+    echo 0 > $RamdiskPath/tagScanInfoLp2
+    
 	echo 0 > $RamdiskPath/restzeitlp1m
 	echo 0 > $RamdiskPath/restzeitlp2m
 	echo 0 > $RamdiskPath/restzeitlp3m
@@ -426,6 +432,10 @@ initRamdisk(){
 	echo -1 > $RamdiskPath/mqttrfidlp1
 	echo -1 > $RamdiskPath/mqttrfidlp2
 	echo -1 > $RamdiskPath/mqttrfidlp3
+    echo -1 > $RamdiskPath/mqttlmStatusLp1
+    echo -1 > $RamdiskPath/mqttlmStatusLp2
+    echo -1 > $RamdiskPath/mqtttagScanInfoLp1
+    echo -1 > $RamdiskPath/mqtttagScanInfoLp2
 
 
 #		"mqttlademkwh:-1" \

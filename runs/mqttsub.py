@@ -227,8 +227,7 @@ def on_connect(client, userdata, flags, rc):
 #  openWB/config/set/SmartHome/xxxxx 
 def process_configSetSmarthome(client, msg):
             payload = msg.payload.decode("utf-8")
-#
-    dolog("process_configSetSmarthome Topic: [%s] Message: [%s]" % (msg.topic, payload))
+    # dolog("process_configSetSmarthome Topic: [%s] Message: [%s]" % (msg.topic, payload))
     if (msg.topic == "openWB/config/set/SmartHome/maxBatteryPower"):
         if (0 <= int(payload) <= 30000):
             ramdisk.write('smarthomehandlermaxbatterypower', payload)
@@ -241,6 +240,8 @@ def process_configSetSmarthome(client, msg):
         if (int(payload) >= 0 and int(payload) <= 2):
             ramdisk.write('smarthomehandlerloglevel', payload)
             publish(client, msg.topic.replace('set/','get/'), payload)
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 #
 # ############################################
@@ -248,11 +249,10 @@ def process_configSetSmarthome(client, msg):
 #  openWB/config/set/SmartHome/Device/[0-9]/xxx 
 def process_configSetSmarthomeDevice(client, msg):
     payload = msg.payload.decode("utf-8")
-#
     m = re.match(r".*/Devices[s]*/(\d+)/.*", msg.topic)
     if m:
         devicenumb = int(m[1])
-        dolog("process_configSetSmarthomeDevice Topic: [%s] Message: [%s] dev[%s]" % (msg.topic, payload, devicenumb))
+        # dolog("process_configSetSmarthomeDevice Topic: [%s] Message: [%s] dev[%s]" % (msg.topic, payload, devicenumb))
         if msg.topic.endswith('device_configured'):
             if (1 <= int(devicenumb) <= numberOfSupportedDevices and 0 <= int(payload) <= 1):
                 writetoconfig(shconfigfile, 'smarthomedevices', 'device_configured_' + str(devicenumb), payload)
@@ -588,8 +588,8 @@ def process_configSetSmarthomeDevice(client, msg):
                     except ValueError:
                         pass
                     else:
-                    writetoconfig(shconfigfile, 'smarthomedevices', 'device_acthortype_' + str(devicenumb), payload)
                     publish(client, msg.topic.replace('set/','get/'), payload)
+                        writetoconfig(shconfigfile, 'smarthomedevices', 'device_acthortype_' + str(devicenumb), payload)
         elif msg.topic.endswith('device_lambdaueb'):
                 validTypes = ['UP', 'UN', 'UZ']
                 if (1 <= int(devicenumb) <= numberOfSupportedDevices):
@@ -601,6 +601,10 @@ def process_configSetSmarthomeDevice(client, msg):
                     else:
                     writetoconfig(shconfigfile, 'smarthomedevices', 'device_lambdaueb_' + str(devicenumb), payload)
                     publish(client, msg.topic.replace('set/','get/'), payload)
+        else:
+            dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 
 
@@ -610,7 +614,7 @@ def process_configSetSmarthomeDevice(client, msg):
 #  openWB/config/set/display/xxx 
 def process_configSetDisplay(client, msg):
     payload = msg.payload.decode("utf-8")
-    dolog("process_configSetDisplay Topic: [%s] Message: [%s] " % (msg.topic, payload))
+    # dolog("process_configSetDisplay Topic: [%s] Message: [%s] " % (msg.topic, payload))
     if (msg.topic == "openWB/config/set/display/displayLight"):
         if (int(payload) >= 10 and int(payload) <= 250):
             replaceinconfig("displayLight=", payload)
@@ -623,6 +627,8 @@ def process_configSetDisplay(client, msg):
     elif (msg.topic == "openWB/config/set/display/displaypincode"):
         if (int(payload) >= 1000 and int(payload) <= 99999999):
             replaceinconfig("displaypincode=", payload)
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 
 #
@@ -632,7 +638,7 @@ def process_configSetDisplay(client, msg):
 # openWB/set/pv
 def process_SetPv(client, msg):
     payload = msg.payload.decode("utf-8")
-    dolog("process_SetPv Topic: [%s] Message: [%s]" % (msg.topic, payload))
+    # dolog("process_SetPv Topic: [%s] Message: [%s]" % (msg.topic, payload))
 
     if (msg.topic == "openWB/config/set/pv/minFeedinPowerBeforeStart"):
         if (int(payload) >= -100000 and int(payload) <= 100000):
@@ -764,10 +770,13 @@ def process_SetPv(client, msg):
         if (float(payload) >= 0 and float(payload) <= 10000000000):
             pvkwhcounter = float(payload) * 1000
             ramdisk.write('pvkwh', str(pvkwhcounter))
+    elif (msg.topic == "openWB/set/pv/WhCounter"):
+        if (float(payload) >= 0 and float(payload) <= 10000000000):
+            ramdisk.write('pvkwh', payload)
     elif (msg.topic == "openWB/set/pv/1/WhCounter"):
         if (float(payload) >= 0 and float(payload) <= 10000000000):
             ramdisk.write('pvkwh', payload)
-    if (msg.topic == "openWB/set/pv/1/W"):
+    elif (msg.topic == "openWB/set/pv/1/W"):
         if (float(payload) >= -10000000 and float(payload) <= 100000000):
             if (float(payload) > 1):
                 pvwatt = int(float(payload)) * -1
@@ -777,7 +786,7 @@ def process_SetPv(client, msg):
     elif (msg.topic == "openWB/set/pv/2/kWhCounter"):
         if (float(payload) >= 0 and float(payload) <= 10000000000):
             pvkwhcounter = float(payload) * 1000
-            ramdisk.write('pvkwh', str(pvkwhcounter))
+            ramdisk.write('pv2kwh', str(pvkwhcounter))
     elif (msg.topic == "openWB/set/pv/2/WhCounter"):
         if (float(payload) >= 0 and float(payload) <= 10000000000):
             ramdisk.write('pv2kwh', payload)
@@ -788,6 +797,8 @@ def process_SetPv(client, msg):
                 else:
                 pvwatt = int(float(payload))
             ramdisk.write('pv2watt', str(pvwatt))
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 #
 # ############################################
@@ -795,7 +806,7 @@ def process_SetPv(client, msg):
 #  openWB/config/set/global/xxx 
 def process_configSetGlobal(client, msg):
     payload = msg.payload.decode("utf-8")
-    dolog("process_configSetGlobal Topic: [%s] Message: [%s]" % (msg.topic, payload))
+    # dolog("process_configSetGlobal Topic: [%s] Message: [%s]" % (msg.topic, payload))
     if (msg.topic == "openWB/config/set/global/minEVSECurrentAllowed"):
         if (int(payload) >= 6 and int(payload) <= 32):
             replaceinconfig("minimalstromstaerke=", payload)
@@ -820,6 +831,8 @@ def process_configSetGlobal(client, msg):
         if (int(payload) >= 0 and int(payload) <= 1):
             replaceinconfig("cpunterbrechunglp2=", payload)
             publish(client, msg.topic.replace('set/','get/'), payload)
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 
 
@@ -829,7 +842,7 @@ def process_configSetGlobal(client, msg):
 #  openWB/config/set/u1p3p
 def process_configsetu1p3p(client, msg):
     payload = msg.payload.decode("utf-8")
-    dolog("process_configsetu1p3p Topic: [%s] Message: [%s]" % (msg.topic, payload))
+    # dolog("process_configsetu1p3p Topic: [%s] Message: [%s]" % (msg.topic, payload))
     if (msg.topic == "openWB/config/set/u1p3p/standbyPhases"):
         if (int(payload) >= 1 and int(payload) <= 3):
             replaceinconfig("u1p3pstandby=", payload)
@@ -854,6 +867,8 @@ def process_configsetu1p3p(client, msg):
         if (int(payload) >= 0 and int(payload) <= 1):
             replaceinconfig("u1p3paktiv=", payload)
             publish(client, msg.topic.replace('set/','get/'), payload)
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 
 
@@ -866,7 +881,7 @@ def process_configSetSofortLpNum(client, msg):
     m = re.match(r".*/lp/(\d+)/.*", msg.topic)
     if m:
         devicenumb = int(m[1])
-        dolog("process_configSetSofortLpNum Topic: [%s] Message: [%s] dev[%s]" % (msg.topic, payload, devicenumb))
+        # dolog("process_configSetSofortLpNum Topic: [%s] Message: [%s] dev[%s]" % (msg.topic, payload, devicenumb))
         if msg.topic.endswith('/current'):
             if (1 <= int(devicenumb) <= numberOfSupportedLP and 6 <= int(payload) <= 32):
                 publish(client, msg.topic.replace('set/','get/'), payload)
@@ -941,6 +956,10 @@ def process_configSetSofortLpNum(client, msg):
                     else:
                     publish(client, "openWB/lp/2/boolDirectChargeModeSoc", "0")
                 publish(client, "openWB/config/get/sofort/lp/2/chargeLimitation", payload)
+        else:
+            dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 #
 # ############################################
@@ -948,7 +967,7 @@ def process_configSetSofortLpNum(client, msg):
 #  openWB/set/system
 def process_SetSystem(client, msg):
     payload = msg.payload.decode("utf-8")
-    dolog("process_SetSystem Topic: [%s] Message: [%s]" % (msg.topic, payload))
+    # dolog("process_SetSystem Topic: [%s] Message: [%s]" % (msg.topic, payload))
             if (msg.topic == "openWB/set/system/GetRemoteSupport"):
         if (5 <= len(payload) <= 50):
             ramdisk.write('remotetoken', payload)
@@ -966,6 +985,8 @@ def process_SetSystem(client, msg):
         if ( int(payload) >= 0 and int(payload) <= 1 ):
             publish(client, msg.topic.replace('set/',''), payload)
             xsubprocess(["/var/www/html/openWB/runs/reloadDisplay.sh", payload])
+    elif (msg.topic == "openWB/set/system/topicSender"):
+        pass
     # elif (msg.topic == "openWB/config/set/releaseTrain"):
     elif (msg.topic == "openWB/set/system/releaseTrain"):
         if (payload == "stable17" or payload == "master" or payload == "beta" or payload.startswith("yc/")):
@@ -1001,6 +1022,8 @@ def process_SetSystem(client, msg):
                 client.publish("openWB/set/system/SendDebug", "0", qos=0, retain=True)
                     setTopicCleared = True
                 subprocess.run("/var/www/html/openWB/runs/senddebuginit.sh")
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 #
 # ############################################
@@ -1008,7 +1031,7 @@ def process_SetSystem(client, msg):
 #  openWB/set/isss
 def process_SetIsss(client, msg):
     payload = msg.payload.decode("utf-8")
-    dolog("process_SetIsss Topic: [%s] Message: [%s]" % (msg.topic, payload))
+    # dolog("process_SetIsss Topic: [%s] Message: [%s]" % (msg.topic, payload))
     if (msg.topic == "openWB/set/isss/ClearRfid"):
         if (int(payload) > 0 and int(payload) <= 1):
             ramdisk.write('readtag', "0")
@@ -1039,6 +1062,8 @@ def process_SetIsss(client, msg):
     elif (msg.topic == "openWB/set/isss/parentCPlp2"):
         publish(client, "openWB/system/parentCPlp2", payload)
         ramdisk.write('parentCPlp2', payload)
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 
 
@@ -1048,7 +1073,7 @@ def process_SetIsss(client, msg):
 #  openWB/set/graph
 def process_SetGraph(client, msg):
     payload = msg.payload.decode("utf-8")
-    dolog("process_SetGraph Topic: [%s] Message: [%s]" % (msg.topic, payload))
+    # dolog("process_SetGraph Topic: [%s] Message: [%s]" % (msg.topic, payload))
     if (msg.topic == "openWB/set/graph/LiveGraphDuration"):
         if (int(payload) >= 20 and int(payload) <= 120):
             replaceinconfig("livegraph=", payload)
@@ -1181,6 +1206,8 @@ def process_SetGraph(client, msg):
                     client.publish("openWB/system/MonthLadelogData11", "empty", qos=0, retain=True)
                     client.publish("openWB/system/MonthLadelogData12", "empty", qos=0, retain=True)
                 setTopicCleared = True
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 
 #
@@ -1189,7 +1216,7 @@ def process_SetGraph(client, msg):
 #  openWB/set/evu
 def process_SetEvu(client, msg):
     payload = msg.payload.decode("utf-8")
-    dolog("process_SetEvu Topic: [%s] Message: [%s]" % (msg.topic, payload))
+    # dolog("process_SetEvu Topic: [%s] Message: [%s]" % (msg.topic, payload))
             if (msg.topic == "openWB/set/evu/W"):
         if (float(payload) >= -100000 and float(payload) <= 100000):
                     ramdisk.write('wattbezug', payload)
@@ -1225,6 +1252,8 @@ def process_SetEvu(client, msg):
             publish(client, msg.topic.replace('set/',''), payload)
     elif (msg.topic == "openWB/set/evu/faultStr"):
         publish(client, msg.topic.replace('set/',''), payload)
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 #
 # ############################################
@@ -1232,7 +1261,7 @@ def process_SetEvu(client, msg):
 #  openWB/set  # der ganze rest
 def process_Set(client, msg):
     payload = msg.payload.decode("utf-8")
-    dolog("process_Set Topic: [%s] Message: [%s]" % (msg.topic, payload))
+    # dolog("process_Set Topic: [%s] Message: [%s]" % (msg.topic, payload))
     if (msg.topic == "openWB/set/hook/HookControl"):
         if (int(payload) >= 0 and int(payload) <= 30):
             hookmsg = payload
@@ -1269,6 +1298,8 @@ def process_Set(client, msg):
             publish(client, "openWB/housebattery/faultState", payload)
     elif (msg.topic == "openWB/set/houseBattery/faultStr"):
         publish(client, "openWB/housebattery/faultStr", payload)
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 
 
@@ -1281,11 +1312,15 @@ def process_configSetLpNum(client, msg):
     m = re.match(r".*/lp/(\d+)/.*", msg.topic)
     if m:
         devicenumb = int(m[1])
-        dolog("process_configSetLpNum Topic: [%s] Message: [%s] dev[%s]" % (msg.topic, payload, devicenumb))
+        # dolog("process_configSetLpNum Topic: [%s] Message: [%s] dev[%s]" % (msg.topic, payload, devicenumb))
         if msg.topic.endswith('stopchargeafterdisc'):
             if (1 <= int(devicenumb) <= numberOfSupportedLP and 0 <= int(payload) <= 1):
                 replaceinconfig( "stopchargeafterdisclp" + str(devicenumb) + "=", payload)
                 publish(client, msg.topic.replace('set/','get/'), payload)
+        else:
+            dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 
 #
@@ -1297,7 +1332,7 @@ def process_SetLpNum(client, msg):
     m = re.match(r".*/lp/(\d+)/.*", msg.topic)
     if m:
         devicenumb = int(m[1])
-        dolog("process_SetLpNum Topic: [%s] Message: [%s] dev[%s]" % (msg.topic, payload, devicenumb))
+        # dolog("process_SetLpNum Topic: [%s] Message: [%s] dev[%s]" % (msg.topic, payload, devicenumb))
         if msg.topic.endswith('ChargePointEnabled'):
             if (1 <= int(devicenumb) <= numberOfSupportedLP and 0 <= int(payload) <= 1):
                 ramdisk.write('lp' + str(devicenumb) + 'enabled', payload)
@@ -1476,7 +1511,6 @@ def process_SetLpNum(client, msg):
         elif msg.topic.endswith('/APhase3'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(payload) <= 3000)):
                     if (devicenumb == 1):
-                        filename = "lla3"
                     ramdisk.write("lla3", payload)
                     elif (devicenumb == 2):
                     ramdisk.write("llas13", payload)
@@ -1490,6 +1524,10 @@ def process_SetLpNum(client, msg):
                     ramdisk.write("llhzs1", payload)
                     elif (devicenumb == 3):
                     ramdisk.write("llhzs2", payload)
+        else:
+            dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
+    else:
+        dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
 
 
@@ -1505,7 +1543,7 @@ def on_message(client, userdata, msg):
         try:
             setTopicCleared = False
             payload = msg.payload.decode("utf-8")
-            dolog("Topic: [%s] Message: [%s]" % (msg.topic, payload))
+            # dolog("Topic: [%s] Message: [%s]" % (msg.topic, payload))
             
             if msg.topic.startswith(  'openWB/config/set/SmartHome/Device'):   # ok
                 process_configSetSmarthomeDevice(client, msg)
@@ -1537,6 +1575,8 @@ def on_message(client, userdata, msg):
                 process_SetEvu(client,  msg)
             elif msg.topic.startswith('openWB/set'):
                 process_Set(client,  msg)
+            else:
+                dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
             # clear all set topics if not already done
             if (not(setTopicCleared)):
@@ -1553,3 +1593,12 @@ client.on_message = on_message
 client.connect(mqtt_broker_ip, 1883)
 client.loop_forever()
 client.disconnect()
+
+# "openWB/set/pv/1/kWhCounter " --> 'pvkwh'
+# "openWB/set/pv/1/WhCounter"     > 'pvkwh'
+# "openWB/set/pv/1/W"             > 'pvwatt'
+# "openWB/set/pv/2/kWhCounter"    > 'pvkwh'
+# "openWB/set/pv/2/WhCounter"     > 'pv2kwh'
+# "openWB/set/pv/2/W"             > 'pv2watt'
+# openWB/set/system/topicSender
+

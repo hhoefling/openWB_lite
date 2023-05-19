@@ -1,7 +1,7 @@
-
-
-
-
+#
+# Aufz䨬ung der openwb.conf variablen die in den MQTT-Baum hochgepsiegelt werden.
+# source file for openwbconf.sh
+#
 mqttconfvar["hook/1/boolHookConfiguredX"]=hook1_aktiv
 mqttconfvar["hook/2/boolHookConfiguredX"]=hook2_aktiv
 mqttconfvar["hook/3/boolHookConfiguredX"]=hook3_aktiv
@@ -66,8 +66,6 @@ mqttconfvar["config/get/pv/socStartChargeAtMinPv"]=speichersocminpv
 mqttconfvar["config/get/pv/socStopChargeAtMinPv"]=speichersochystminpv
 mqttconfvar["config/get/pv/boolAdaptiveCharging"]=adaptpv
 mqttconfvar["config/get/pv/adaptiveChargingFactor"]=adaptfaktor
-mqttconfvar["config/get/pv/nurpv70dynact"]=nurpv70dynact
-mqttconfvar["config/get/pv/nurpv70dynw"]=nurpv70dynw
 mqttconfvar["config/get/global/maxEVSECurrentAllowed"]=maximalstromstaerke
 mqttconfvar["config/get/global/minEVSECurrentAllowed"]=minimalstromstaerke
 mqttconfvar["config/get/global/dataProtectionAcknoledged"]=datenschutzack

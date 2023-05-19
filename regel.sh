@@ -151,6 +151,7 @@ source graphing.sh
 source nachtladen.sh
 source zielladen.sh
 source evsedintest.sh
+source verbraucher.sh
 source hook.sh
 (( u1p3paktiv == 1 ))  && source u1p3p.sh
 # NC source goecheck.sh
@@ -266,6 +267,14 @@ openwbDebugLog "MAIN" 1 "loadvars Zeit zum abfragen aller Werte $pt Millisekunde
 
 #hooks - externe geraete
 hook
+
+#hooks - externe verbaucher  (simcount schon vorher in loadvars)
+ptstart
+doverbraucher
+ptend verbraucher 20
+
+
+
 
 #Graphing, vorgezogen damit auch bei blockall die daten weitergeführt werden
 ptstart
