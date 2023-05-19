@@ -1010,6 +1010,8 @@ updateConfig(){
 	if ! grep -Fq "verbraucher1_urlh=" $ConfigFile; then
 		echo "verbraucher1_urlh='http://url'" >> $ConfigFile
 	fi
+    
+# tasmota summenzaehler    
 	if ! grep -Fq "verbraucher1_tempwh=" $ConfigFile; then
 		echo "verbraucher1_tempwh=0" >> $ConfigFile
 	fi
