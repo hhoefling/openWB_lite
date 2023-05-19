@@ -62,6 +62,12 @@
 				});
 			});
 		</script>
+        <style>
+            /* prevent touch gestures */
+            html, body {
+                overscroll-behavior: none;
+            }
+        </style>
 	</head>
 	<body>
 		<input type="hidden" name="lastmanagement" id="lastmanagement" value="<?php echo trim($lastmanagementold); ?>" />
