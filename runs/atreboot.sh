@@ -81,7 +81,7 @@ at_reboot() {
 	. "$OPENWBBASEDIR/runs/initRamdisk.sh"
 	. "$OPENWBBASEDIR/runs/updateConfig.sh"
 	
-	boot_config_source="$OPENWBBASEDIR/web/files/boot_config.txt"
+	boot_config_source="$OPENWBBASEDIR/runs/files/boot_config.txt"
 	boot_config_target="/boot/config.txt"
 	echo "checking init in $boot_config_target..."
 	if versionMatch "$boot_config_source" "$boot_config_target"; then
@@ -132,15 +132,15 @@ at_reboot() {
 	sudo chmod 0777 "$OPENWBBASEDIR/smarthome.ini"
 	sudo chmod 0777 "$OPENWBBASEDIR/ramdisk"
 	sudo chmod 0777 "$OPENWBBASEDIR/ramdisk/"
-	sudo chmod 0777 "$OPENWBBASEDIR/web/files/"*
+	sudo chmod 0777 "$OPENWBBASEDIR/runs/files/"*
 	sudo find "$OPENWBBASEDIR" \( -name "*.sh"  -or -name "*.py" \)  -exec chmod 0755 {} \; 
 		
 	# die schreiben in ihr verzeichniss
-	sudo chmod -R 0777 "$OPENWBBASEDIR/modules/soc_i3"
-	sudo chmod -R 0777 "$OPENWBBASEDIR/modules/soc_eq"
-	sudo chmod -R 0777 "$OPENWBBASEDIR/modules/soc_tesla"
+#	sudo chmod -R 0777 "$OPENWBBASEDIR/modules/soc_i3"
+#	sudo chmod -R 0777 "$OPENWBBASEDIR/modules/soc_eq"
+#	sudo chmod -R 0777 "$OPENWBBASEDIR/modules/soc_tesla"
 
-	sudo chmod 0777 "$OPENWBBASEDIR/web/files/"*
+	sudo chmod 0777 "$OPENWBBASEDIR/runs/files/"*
 	
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/daily"
 	mkdir -p "$OPENWBBASEDIR/web/logging/data/monthly"
@@ -346,6 +346,7 @@ at_reboot() {
 	# check for apache configuration
 	log "apache..."
 	restartService=0
+    # Stand version 1
 	if grep -q "openwb-lite-version:1$" /etc/apache2/sites-available/000-default.conf >/dev/null 2>&1
 	then
 		log "...ok"
@@ -355,7 +356,8 @@ at_reboot() {
 		restartService=1
 	fi
 	
-	if grep -q "openwb-lite-version:1$" /etc/apache2/sites-available/001-openwb_ssl.conf >/dev/null 2>&1
+    # Stand version 2
+	if grep -q "openwb-lite-version:2$" /etc/apache2/sites-available/001-openwb_ssl.conf >/dev/null 2>&1
 	then
 		log "...ok"
 	else
@@ -796,4 +798,6 @@ at_reboot() {
 # now call the defined function 
 
 at_reboot
+    log "atreboot end"
+
 
