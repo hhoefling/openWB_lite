@@ -48,6 +48,12 @@ IfModule mod_ssl.c>
 
                 ProxyPass "/mqtt" "ws://localhost:9001"
                 ProxyPass "/ws" "ws://localhost:9001"
+        <Directory /var/www/>
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+        </Directory>
+                        
         </VirtualHost>
 </IfModule>
 ```
