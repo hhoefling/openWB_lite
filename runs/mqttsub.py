@@ -226,7 +226,7 @@ def on_connect(client, userdata, flags, rc):
 #
 #  openWB/config/set/SmartHome/xxxxx 
 def process_configSetSmarthome(client, msg):
-            payload = msg.payload.decode("utf-8")
+    payload = msg.payload.decode("utf-8")
     # dolog("process_configSetSmarthome Topic: [%s] Message: [%s]" % (msg.topic, payload))
     if (msg.topic == "openWB/config/set/SmartHome/maxBatteryPower"):
         if (0 <= int(payload) <= 30000):
@@ -538,69 +538,69 @@ def process_configSetSmarthomeDevice(client, msg):
                 publish(client, msg.topic.replace('set/','get/'), payload)
                 ramdisk.write('smarthome_device_manual_' + str(devicenumb), payload)
         elif msg.topic.endswith('device_pbtype'):
-                validDeviceTypespb = ['none', 'shellypb']
+            validDeviceTypespb = ['none', 'shellypb']
             if (1 <= int(devicenumb) <= numberOfSupportedDevices and len(str(payload)) > 2):
                     try:
                         # just check vor payload in list, deviceTypeIndex is not used
-                    deviceTypeIndex = validDeviceTypespb.index(payload)
+                        deviceTypeIndex = validDeviceTypespb.index(payload)
                     except ValueError:
                         pass
                     else:
-                    writetoconfig(shconfigfile, 'smarthomedevices', 'device_pbtype_' + str(devicenumb), payload)
-                    publish(client, msg.topic.replace('set/','get/'), payload)
+                        writetoconfig(shconfigfile, 'smarthomedevices', 'device_pbtype_' + str(devicenumb), payload)
+                        publish(client, msg.topic.replace('set/','get/'), payload)
         elif msg.topic.endswith('device_type'):
             validDeviceTypes = ['none', 'shelly', 'tasmota', 'acthor', 'lambda', 'elwa', 'idm', 'vampair', 'stiebel', 
                                 'http', 'avm', 'mystrom', 'viessmann', 'mqtt', 'NXDACXX', 'ratiotherm', 'pyt']    # 'pyt' is deprecated and will be removed!
             if (1 <= int(devicenumb) <= numberOfSupportedDevices and len(str(payload)) > 2):
                     try:
                         # just check vor payload in list, deviceTypeIndex is not used
-                    deviceTypeIndex = validDeviceTypes.index(payload)
+                        deviceTypeIndex = validDeviceTypes.index(payload)
                     except ValueError:
                         pass
                     else:
-                    writetoconfig(shconfigfile, 'smarthomedevices', 'device_type_' + str(devicenumb), payload)
-                    publish(client, msg.topic.replace('set/','get/'), payload)
+                        writetoconfig(shconfigfile, 'smarthomedevices', 'device_type_' + str(devicenumb), payload)
+                        publish(client, msg.topic.replace('set/','get/'), payload)
         elif msg.topic.endswith('device_measureType'):
-                validDeviceMeasureTypes = ['shelly', 'tasmota', 'http', 'mystrom', 'sdm630', 'lovato', 'we514', 'fronius', 'json', 'avm', 'mqtt', 'sdm120', 'smaem']   # 'pyt' is deprecated and will be removed!
+            validDeviceMeasureTypes = ['shelly', 'tasmota', 'http', 'mystrom', 'sdm630', 'lovato', 'we514', 'fronius', 'json', 'avm', 'mqtt', 'sdm120', 'smaem']   # 'pyt' is deprecated and will be removed!
             if (1 <= int(devicenumb) <= numberOfSupportedDevices and len(str(payload)) > 2):
                     try:
                         #  just check vor payload in list, deviceMeasureTypeIndex is not used
-                    deviceMeasureTypeIndex = validDeviceMeasureTypes.index(payload)
+                        deviceMeasureTypeIndex = validDeviceMeasureTypes.index(payload)
                     except ValueError:
                         pass
                     else:
-                    writetoconfig(shconfigfile, 'smarthomedevices', 'device_measuretype_' + str(devicenumb), payload)
-                    publish(client, msg.topic.replace('set/','get/'), payload)
+                        writetoconfig(shconfigfile, 'smarthomedevices', 'device_measuretype_' + str(devicenumb), payload)
+                        publish(client, msg.topic.replace('set/','get/'), payload)
         elif msg.topic.endswith('device_measureurlc'):
                 if (1 <= int(devicenumb) <= numberOfSupportedDevices):
-                if (payload == "none"):
+                    if (payload == "none"):
                         # print("received message 'none'")
-                    publish(client, msg.topic.replace('set/','get/'), "" )
+                        publish(client, msg.topic.replace('set/','get/'), "" )
                     else:
-                    publish(client, msg.topic.replace('set/','get/'), payload)
+                        publish(client, msg.topic.replace('set/','get/'), payload)
                 writetoconfig(shconfigfile, 'smarthomedevices', 'device_measureurlc_' + str(devicenumb), payload)
         elif msg.topic.endswith('device_acthortype'):
                 validDeviceTypes = ['M1', 'M3', '9s', '9s18']
                 if (1 <= int(devicenumb) <= numberOfSupportedDevices):
                     try:
                         # just check vor payload in list, deviceTypeIndex is not used
-                    deviceTypeIndex = validDeviceTypes.index(payload)
+                        deviceTypeIndex = validDeviceTypes.index(payload)
                     except ValueError:
                         pass
                     else:
-                    publish(client, msg.topic.replace('set/','get/'), payload)
+                        publish(client, msg.topic.replace('set/','get/'), payload)
                         writetoconfig(shconfigfile, 'smarthomedevices', 'device_acthortype_' + str(devicenumb), payload)
         elif msg.topic.endswith('device_lambdaueb'):
                 validTypes = ['UP', 'UN', 'UZ']
                 if (1 <= int(devicenumb) <= numberOfSupportedDevices):
                     try:
                         # just check for payload in list, TypeIndex is not used
-                    TypeIndex = validTypes.index(payload)
+                        TypeIndex = validTypes.index(payload)
                     except ValueError:
                         pass
                     else:
-                    writetoconfig(shconfigfile, 'smarthomedevices', 'device_lambdaueb_' + str(devicenumb), payload)
-                    publish(client, msg.topic.replace('set/','get/'), payload)
+                        writetoconfig(shconfigfile, 'smarthomedevices', 'device_lambdaueb_' + str(devicenumb), payload)
+                        publish(client, msg.topic.replace('set/','get/'), payload)
         else:
             dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
     else:
@@ -794,7 +794,7 @@ def process_SetPv(client, msg):
         if (float(payload) >= -10000000 and float(payload) <= 100000000):
             if (float(payload) > 1):
                 pvwatt = int(float(payload)) * -1
-                else:
+            else:
                 pvwatt = int(float(payload))
             ramdisk.write('pv2watt', str(pvwatt))
     else:
@@ -924,7 +924,7 @@ def process_configSetSofortLpNum(client, msg):
         elif msg.topic.endswith('chargeLimitation'):
             if (3 <= devicenumb <= numberOfSupportedLP and 0 <= int(payload) <= 1):
                 replaceinconfig("msmoduslp" + str(devicenumb) + "=", payload)
-                    time.sleep(0.4)
+                time.sleep(0.4)
                 if (int(payload) == 1):
                     replaceinconfig("lademstatlp" + str(devicenumb) + "=", "1")
                     publish(client, "openWB/lp/" + str(devicenumb) + "/boolDirectModeChargekWh", payload)
@@ -953,7 +953,7 @@ def process_configSetSofortLpNum(client, msg):
                     publish(client, "openWB/lp/2/boolDirectModeChargekWh", "0")
                 if (int(payload) == 2):
                     publish(client, "openWB/lp/2/boolDirectChargeModeSoc", "1")
-                    else:
+                else:
                     publish(client, "openWB/lp/2/boolDirectChargeModeSoc", "0")
                 publish(client, "openWB/config/get/sofort/lp/2/chargeLimitation", payload)
         else:
@@ -968,7 +968,7 @@ def process_configSetSofortLpNum(client, msg):
 def process_SetSystem(client, msg):
     payload = msg.payload.decode("utf-8")
     # dolog("process_SetSystem Topic: [%s] Message: [%s]" % (msg.topic, payload))
-            if (msg.topic == "openWB/set/system/GetRemoteSupport"):
+    if (msg.topic == "openWB/set/system/GetRemoteSupport"):
         if (5 <= len(payload) <= 50):
             ramdisk.write('remotetoken', payload)
             xsubprocess(["/var/www/html/openWB/runs/initremote.sh"])
@@ -1020,7 +1020,7 @@ def process_SetSystem(client, msg):
                     file.write("payload does not contain a valid email: '%s'\n" % (str(json_payload["email"])))
                     file.close()
                 client.publish("openWB/set/system/SendDebug", "0", qos=0, retain=True)
-                    setTopicCleared = True
+                setTopicCleared = True
                 subprocess.run("/var/www/html/openWB/runs/senddebuginit.sh")
     else:
         dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
@@ -1080,132 +1080,132 @@ def process_SetGraph(client, msg):
     elif (msg.topic == "openWB/set/graph/RequestLiveGraph"):      # NC, maybe from cloud?
         if (int(payload) == 1):
             xsubprocess(["/var/www/html/openWB/runs/sendlivegraphdata.sh"])
-                else:
+        else:
             publish(client, "openWB/system/LiveGraphData", "empty")
-                setTopicCleared = True
+            setTopicCleared = True
     elif (msg.topic == "openWB/set/graph/RequestLLiveGraph"):
         if (int(payload) == 1):
             xsubprocess(["/var/www/html/openWB/runs/sendllivegraphdata.sh"])
-                else:
-                    client.publish("openWB/system/1alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/2alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/3alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/4alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/5alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/6alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/7alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/8alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/9alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/10alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/11alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/12alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/13alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/14alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/15alllivevalues", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/16alllivevalues", "empty", qos=0, retain=True)
-                setTopicCleared = True
+        else:
+            client.publish("openWB/system/1alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/2alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/3alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/4alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/5alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/6alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/7alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/8alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/9alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/10alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/11alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/12alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/13alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/14alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/15alllivevalues", "empty", qos=0, retain=True)
+            client.publish("openWB/system/16alllivevalues", "empty", qos=0, retain=True)
+            setTopicCleared = True
     elif (msg.topic == "openWB/set/graph/RequestDayGraph"):
         if (int(payload) >= 1 and int(payload) <= 20501231):
             xsubprocess(["/var/www/html/openWB/runs/senddaygraphdata.sh", payload])
-                else:
-                    client.publish("openWB/system/DayGraphData1", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData2", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData3", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData4", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData5", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData6", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData7", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData8", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData9", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData10", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData11", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/DayGraphData12", "empty", qos=0, retain=True)
-                setTopicCleared = True
+        else:
+            client.publish("openWB/system/DayGraphData1", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData2", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData3", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData4", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData5", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData6", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData7", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData8", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData9", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData10", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData11", "empty", qos=0, retain=True)
+            client.publish("openWB/system/DayGraphData12", "empty", qos=0, retain=True)
+            setTopicCleared = True
     elif (msg.topic == "openWB/set/graph/RequestMonthGraph"):
         if (int(payload) >= 1 and int(payload) <= 205012):
             xsubprocess(["/var/www/html/openWB/runs/sendmonthgraphdata.sh", payload])
-                else:
-                    client.publish("openWB/system/MonthGraphData1", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData2", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData3", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData4", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData5", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData6", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData7", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData8", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData9", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData10", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData11", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphData12", "empty", qos=0, retain=True)
-                setTopicCleared = True
+        else:
+            client.publish("openWB/system/MonthGraphData1", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData2", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData3", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData4", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData5", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData6", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData7", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData8", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData9", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData10", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData11", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphData12", "empty", qos=0, retain=True)
+            setTopicCleared = True
     elif (msg.topic == "openWB/set/graph/RequestMonthGraphv1"):
         if (int(payload) >= 1 and int(payload) <= 205012):
             xsubprocess(["/var/www/html/openWB/runs/sendmonthgraphdatav1.sh", payload])
-                else:
-                    client.publish("openWB/system/MonthGraphDatan1", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan2", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan3", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan4", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan5", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan6", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan7", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan8", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan9", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan10", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan11", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthGraphDatan12", "empty", qos=0, retain=True)
-                setTopicCleared = True
+        else:
+            client.publish("openWB/system/MonthGraphDatan1", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan2", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan3", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan4", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan5", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan6", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan7", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan8", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan9", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan10", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan11", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthGraphDatan12", "empty", qos=0, retain=True)
+            setTopicCleared = True
     elif (msg.topic == "openWB/set/graph/RequestYearGraph"):
         if (int(payload) >= 1 and int(payload) <= 2050):
             xsubprocess(["/var/www/html/openWB/runs/sendyeargraphdata.sh", payload])
-                else:
-                    client.publish("openWB/system/YearGraphData1", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData2", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData3", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData4", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData5", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData6", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData7", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData8", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData9", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData10", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData11", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphData12", "empty", qos=0, retain=True)
-                setTopicCleared = True
+        else:
+            client.publish("openWB/system/YearGraphData1", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData2", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData3", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData4", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData5", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData6", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData7", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData8", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData9", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData10", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData11", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphData12", "empty", qos=0, retain=True)
+            setTopicCleared = True
     elif (msg.topic == "openWB/set/graph/RequestYearGraphv1"):
         if (int(payload) >= 1 and int(payload) <= 2050):
             xsubprocess(["/var/www/html/openWB/runs/sendyeargraphdatav1.sh", payload])
-                else:
-                    client.publish("openWB/system/YearGraphDatan1", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan2", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan3", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan4", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan5", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan6", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan7", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan8", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan9", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan10", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan11", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/YearGraphDatan12", "empty", qos=0, retain=True)
-                setTopicCleared = True
+        else:
+            client.publish("openWB/system/YearGraphDatan1", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan2", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan3", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan4", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan5", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan6", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan7", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan8", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan9", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan10", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan11", "empty", qos=0, retain=True)
+            client.publish("openWB/system/YearGraphDatan12", "empty", qos=0, retain=True)
+            setTopicCleared = True
     elif (msg.topic == "openWB/set/graph/RequestMonthLadelog"):
         if (int(payload) >= 1 and int(payload) <= 205012):
             xsubprocess(["/var/www/html/openWB/runs/sendladelog.sh", payload])
-                else:
-                    client.publish("openWB/system/MonthLadelogData1", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData2", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData3", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData4", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData5", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData6", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData7", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData8", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData9", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData10", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData11", "empty", qos=0, retain=True)
-                    client.publish("openWB/system/MonthLadelogData12", "empty", qos=0, retain=True)
-                setTopicCleared = True
+        else:
+            client.publish("openWB/system/MonthLadelogData1", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData2", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData3", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData4", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData5", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData6", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData7", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData8", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData9", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData10", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData11", "empty", qos=0, retain=True)
+            client.publish("openWB/system/MonthLadelogData12", "empty", qos=0, retain=True)
+            setTopicCleared = True
     else:
         dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
 
@@ -1217,7 +1217,7 @@ def process_SetGraph(client, msg):
 def process_SetEvu(client, msg):
     payload = msg.payload.decode("utf-8")
     # dolog("process_SetEvu Topic: [%s] Message: [%s]" % (msg.topic, payload))
-            if (msg.topic == "openWB/set/evu/W"):
+    if (msg.topic == "openWB/set/evu/W"):
         if (float(payload) >= -100000 and float(payload) <= 100000):
                     ramdisk.write('wattbezug', payload)
     elif (msg.topic == "openWB/set/evu/APhase1"):
@@ -1418,112 +1418,112 @@ def process_SetLpNum(client, msg):
                     publish(client, "openWB/lp/2/%Soc", soc)
         elif msg.topic.endswith('/faultState'):
                 if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= int(payload) <= 2)):
-                publish(client, msg.topic.replace('set/',''), payload)
+                    publish(client, msg.topic.replace('set/',''), payload)
         elif msg.topic.endswith('/faultStr'):
                 if (1 <= devicenumb <= numberOfSupportedLP):
-                publish(client, msg.topic.replace('set/',''), payload)
+                    publish(client, msg.topic.replace('set/',''), payload)
         elif msg.topic.endswith('socFaultState'):
                 if ((1 <= devicenumb <= 2) and (0 <= int(payload) <= 2)):
-                publish(client, msg.topic.replace('set/',''), payload)
+                    publish(client, msg.topic.replace('set/',''), payload)
         elif msg.topic.endswith('socFaultStr'):
                 if (1 <= devicenumb <= 2):
-                publish(client, msg.topic.replace('set/',''), payload)
+                    publish(client, msg.topic.replace('set/',''), payload)
         elif msg.topic.endswith('/socKM'):
                 if (1 <= devicenumb <= numberOfSupportedLP):
-                publish(client, msg.topic.replace('set/',''), payload)
-                ramdisk.write('soc' + str(devicenumb) + 'KM', payload)
+                    publish(client, msg.topic.replace('set/',''), payload)
+                    ramdisk.write('soc' + str(devicenumb) + 'KM', payload)
         elif msg.topic.endswith('socRange'):
                 if (1 <= devicenumb <= numberOfSupportedLP):
-                publish(client, msg.topic.replace('set/',''), payload)
-                ramdisk.write('soc' + str(devicenumb) + 'Range', payload)
+                    publish(client, msg.topic.replace('set/',''), payload)
+                    ramdisk.write('soc' + str(devicenumb) + 'Range', payload)
         elif msg.topic.endswith('/plugStat'):
                 if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= int(payload) <= 1)):
                     if (devicenumb == 1):
-                    ramdisk.write("plugstat", payload)
+                        ramdisk.write("plugstat", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("plugstats1", payload)
+                        ramdisk.write("plugstats1", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("plugstatlp3", payload)
+                        ramdisk.write("plugstatlp3", payload)
         elif msg.topic.endswith('/chargeStat'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= int(payload) <= 1)):
                     if (devicenumb == 1):
-                    ramdisk.write("chargestat", payload)
+                        ramdisk.write("chargestat", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("chargestats1", payload)
+                        ramdisk.write("chargestats1", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("chargestatlp3", payload)
+                        ramdisk.write("chargestatlp3", payload)
         elif msg.topic.endswith('/W'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= int(payload) <= 100000)):
                     if (devicenumb == 1):
-                    ramdisk.write("llaktuell", payload)
+                        ramdisk.write("llaktuell", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("llaktuells1", payload)
+                        ramdisk.write("llaktuells1", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("llaktuells2", payload)
+                        ramdisk.write("llaktuells2", payload)
         elif msg.topic.endswith('/kWhCounter'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(payload) <= 10000000000)):
                     if (devicenumb == 1):
-                    ramdisk.write("llkwh", payload)
+                        ramdisk.write("llkwh", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("llkwhs1", payload)
+                        ramdisk.write("llkwhs1", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("llkwhs2", payload)
+                        ramdisk.write("llkwhs2", payload)
         elif msg.topic.endswith('/VPhase1'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(payload) <= 300)):
                     if (devicenumb == 1):
-                    ramdisk.write("llv1", payload)
+                        ramdisk.write("llv1", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("llv11", payload)
+                        ramdisk.write("llv11", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("llv21", payload)
+                        ramdisk.write("llv21", payload)
         elif msg.topic.endswith('/VPhase2'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(payload) <= 300)):
                     if (devicenumb == 1):
-                    ramdisk.write("llv2", payload)
+                        ramdisk.write("llv2", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("llvs12", payload)
+                        ramdisk.write("llvs12", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("llvs22", payload)
+                        ramdisk.write("llvs22", payload)
         elif msg.topic.endswith('/VPhase3'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(payload) <= 300)):
                     if (devicenumb == 1):
-                    ramdisk.write("llv3", payload)
+                        ramdisk.write("llv3", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("llvs13", payload)
+                        ramdisk.write("llvs13", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("llvs23", payload)
+                        ramdisk.write("llvs23", payload)
         elif msg.topic.endswith('/APhase1'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(payload) <= 3000)):
                     if (devicenumb == 1):
-                    ramdisk.write("lla1", payload)
+                        ramdisk.write("lla1", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("llas11", payload)
+                        ramdisk.write("llas11", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("llas21", payload)
+                        ramdisk.write("llas21", payload)
         elif msg.topic.endswith('/APhase2'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(payload) <= 3000)):
                     if (devicenumb == 1):
-                    ramdisk.write("lla2", payload)
+                        ramdisk.write("lla2", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("llas12", payload)
+                        ramdisk.write("llas12", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("llaas22", payload)
+                        ramdisk.write("llaas22", payload)
         elif msg.topic.endswith('/APhase3'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(payload) <= 3000)):
                     if (devicenumb == 1):
-                    ramdisk.write("lla3", payload)
+                        ramdisk.write("lla3", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("llas13", payload)
+                        ramdisk.write("llas13", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("llas23", payload)
+                        ramdisk.write("llas23", payload)
         elif msg.topic.endswith('/HzFrequenz'):
             if ((1 <= devicenumb <= numberOfSupportedLP) and (0 <= float(payload) <= 80)):
                     if (devicenumb == 1):
-                    ramdisk.write("llhz", payload)
+                        ramdisk.write("llhz", payload)
                     elif (devicenumb == 2):
-                    ramdisk.write("llhzs1", payload)
+                        ramdisk.write("llhzs1", payload)
                     elif (devicenumb == 3):
-                    ramdisk.write("llhzs2", payload)
+                        ramdisk.write("llhzs2", payload)
         else:
             dolog("WARNING Topic: [%s] Message: [%s] not matched" % (msg.topic, payload))
     else:
