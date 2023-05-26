@@ -656,14 +656,14 @@ class PowerGraph {
   calcValue(i, array, oldArray) {
     var val = (array[i] - oldArray[i]) * 12;
     if (val < 0 || val > 150000) {
-      val = 0;
+        val = 0;
     }
     return val;
   }
 	calcMonthlyValue(i, array) {
 		var val = Math.floor(+array[i] * 1000)
-		if (val < 0 ) {
-      val = 0;
+		if (val < 0) {
+            val = 0;
     }
     return val;
   }

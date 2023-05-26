@@ -73,6 +73,7 @@ class WbData {
 		this.prefs = {};
 		this.chargePointToConfig = 0;
 		this.minCurrent = 6;
+		this.displaylocked = true;
 	};
 
 	init() {
@@ -189,7 +190,7 @@ class WbData {
 				this.updateConsumerSummary();
 				powerMeter.update();
 				break;
-			case 'currentPowerPrice':		// NC
+			case 'currentPowerPrice':
 				chargePointList.updateValues();
 				break;
 			case 'chargeMode':
@@ -473,7 +474,11 @@ function switchToEnergyView() {
 	powerGraph.deactivateLive()
 }
 function showStatus() {
+	if (wbdata.displaylocked == false) {
 	$("#statusModal").modal("show");
+	} else {
+		$("#lockInfoModal").modal("show");
+	}
 }
 
 function showCode() {
@@ -542,7 +547,6 @@ function updateMaxPriceInput(value) {
 		publish(value, "openWB/set/awattar/MaxPriceForCharging" )
 		wbdata.maxPriceDelayTimer = null;
 	}, 2000)
-  
 
 }
 

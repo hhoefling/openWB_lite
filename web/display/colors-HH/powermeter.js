@@ -89,6 +89,7 @@ class PowerMeter {
 //    this.addLabel(svg, this.width / 2 - this.margin / 4, this.height / 2 - this.margin + 15, "end", wbdata.usageSummary.batIn); // Bat:
 
     
+// oben Links    
     if (wbdata.chargePoint[0].isSocConfigured) {
       this.addLabelWithColor(svg,
         (  -this.width / 2 ),
@@ -97,6 +98,7 @@ class PowerMeter {
         (wbdata.chargePoint[0].name + ": " + (wbdata.chargePoint[0].soc) + "%"),
         wbdata.chargePoint[0].color);
     }
+// oben rechts    
     if (wbdata.chargePoint[1].isSocConfigured) {
       this.addLabelWithColor(svg,
         (    this.width / 2),
@@ -105,6 +107,7 @@ class PowerMeter {
         (wbdata.chargePoint[1].name + ": " + (wbdata.chargePoint[1].soc) + "%"),
         wbdata.chargePoint[1].color);
     }
+// unten links    
     if (wbdata.batterySoc > 0) {
       this.addLabelWithColor(svg,
         (-this.width / 2 - this.margin.left / 4 + 10),
@@ -113,61 +116,18 @@ class PowerMeter {
         ("Speicher: " + wbdata.batterySoc + "%"),
         wbdata.usageSummary.batIn.color);
     }
-
-
-/*
-    if (wbdata.chargePoint[0].isSocConfigured) {
+// unten rechts    
+    if(true)  // (wbdata.isEtEnabled) 
+    {
       this.addLabelWithColor(svg,
-        (-this.width / 2 - this.margin / 4 + 10),
-        (-this.height / 2 + this.margin + 5),
-        "start",
-        (wbdata.chargePoint[0].name + "XXXXXXXXX: " + (wbdata.chargePoint[0].soc) + "%"),
-        wbdata.chargePoint[0].color);
-    }
-
-    if (wbdata.chargePoint[1].isSocConfigured) {
-      this.addLabelWithColor(svg,
-        (this.width / 2 + this.margin / 4 - 10),
-        (-this.height / 2 + this.margin + 5),
+        ( this.width / 2 - this.margin.right / 4 - 10),
+        ((this.height - this.margin.top - this.margin.bottom) / 2 + 15),
         "end",
-        (wbdata.chargePoint[1].name + "XXXXXXXXXXX: " + (wbdata.chargePoint[1].soc) + "%"),
-        wbdata.chargePoint[1].color);
-    }
-    if (wbdata.batterySoc > 0) {
-      this.addLabelWithColor(svg,
-        (this.margin ),          //  this.width / 2 - this.margin / 4 + 10),
-        ((this.height - this.margin.top - this.margin.bottom) /2 + 15),
-        "start",
-        ("Speicher: " + wbdata.batterySoc + "%"),
+        ("ct/kWh: " + wbdata.etPrice + ""),
         wbdata.usageSummary.batIn.color);
     }
-*/	
-	
-/*	  
-    this.updateDisplayRatio();
-    this.drawSourceArc(svg);
-    this.drawUsageArc(svg);
-    this.addLabel(svg, 0, -this.height / 2 * 3 / 5, "middle", wbdata.sourceSummary.pv); // PV
-    this.addLabel(svg, 0, -this.height / 2 * 2 / 5, "middle", wbdata.sourceSummary.evuIn); // Netz
-    this.addLabel(svg, this.width / 2 - this.margin.left / 4, (this.height - this.margin.top - this.margin.bottom) / 2 + 15, "end", wbdata.sourceSummary.batOut); // Speicher Out
-    this.addLabel(svg, 0, -this.height / 2 * 2 / 5, "middle", wbdata.usageSummary.evuOut);  // Export
-    this.addLabel(svg, 0, this.height / 2 * 1 / 5, "middle", wbdata.usageSummary.charging); // Laden
-    this.addLabel(svg, 0, this.height / 2 * 3 / 5, "middle", wbdata.usageSummary.devices); // Geräte
-    this.addLabel(svg, this.width / 2 - this.margin.left / 4, (this.height - this.margin.top - this.margin.bottom) / 2 + 15, "end", wbdata.usageSummary.batIn); // Speicher in
-    this.addLabel(svg, 0, this.height / 2 * 2 / 5, "middle", wbdata.usageSummary.house);  // Haus
-
-    if (wbdata.batterySoc > 0) {
-      this.addLabelWithColor(svg,
-        (-this.width / 2 - this.margin.left / 4 + 10),
-        ((this.height - this.margin.top - this.margin.bottom) / 2 + 15),
-        "start",
-        ("Speicher: " + wbdata.batterySoc + "%"),
-        wbdata.usageSummary.batIn.color);
-    }
-
-*/
-
-
+//        (this.height / 2 - this.margin + 15),
+// Mittellinie
     if (this.showRelativeArcs) {
       svg.append("text")
         .attr("x", 0)

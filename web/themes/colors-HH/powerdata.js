@@ -31,7 +31,11 @@ class WbData {
 			"month": this.graphDate.getMonth(),
 			"year": this.graphDate.getFullYear()
 		}
-		this.rfidConfigured = false;
+        this.etPrice = 0;
+        this.etMaxPrice = 0;
+        this.etPriceList = "";
+        this.isEtEnabled = false;		
+        this.rfidConfigured = false;
 		// sammelpunkte fuer die Daten
 		this.consumer = [new Consumer(), new Consumer()];
 		this.chargePoint = Array.from({ length: 3 }, (v, i) => new ChargePoint(i));
@@ -317,7 +321,7 @@ class WbData {
 
 
 	updateET(field, value) {
-		this[field] = value;
+		this[field] = value;    // set wbdata.isEtEnabled = treue/false 
 		
 		switch (field) {
 			case 'etPrice':

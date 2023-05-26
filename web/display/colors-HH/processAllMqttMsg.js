@@ -52,8 +52,8 @@ function handlevar(mqttmsg, mqttpayload) {
 	// receives all messages and calls respective function to process them
 	if (mqttmsg.match(/^openwb\/graph\//i)) { processGraphMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/evu\//i)) { processEvuMessages(mqttmsg, mqttpayload); }
-	else if ( mqttmsg.match( /^openwb\/global\/awattar\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
-	else if ( mqttmsg.match( /^openwb\/global\/ETProvider\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
+	else if (mqttmsg.match( /^openwb\/global\/awattar\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
+	else if (mqttmsg.match( /^openwb\/global\/ETProvider\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/global\//i)) { processGlobalMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/housebattery\//i)) { processHousebatteryMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/system\//i)) { processSystemMessages(mqttmsg, mqttpayload); }

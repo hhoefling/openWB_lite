@@ -315,7 +315,7 @@ var topicsToSubscribe = [
 	["openWB/config/get/SmartHome/Devices/6/mode", 1],
 	["openWB/config/get/SmartHome/Devices/7/mode", 1],
 	["openWB/config/get/SmartHome/Devices/8/mode", 1],
-	["openWB/config/get/SmartHome/Devices/9/mode", 1]
+	["openWB/config/get/SmartHome/Devices/9/mode", 1],
 
 	// etprovider topics
 	["openWB/global/ETProvider/modulePath", 1],

@@ -4,12 +4,12 @@ html, body {
 }
 
 body {
-  height: 100vh;
-  background: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: Open Sans;
+    height: 100vh;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Open Sans;
 }
 
 #codeModal {

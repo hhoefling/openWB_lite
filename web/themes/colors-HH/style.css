@@ -23,7 +23,8 @@ body {
 	/* Old browsers */
 	background: var(--color-bg);
 }
-body > .container {
+
+body>.container {
 	padding: 55px 15px 0;
 }
 h3 {
@@ -34,7 +35,7 @@ h4 {
 	color: var(--color-axis);
 }
 
-body > .container-fluid {
+body>.container-fluid {
 	padding: 55px 15px 0;
 }
 @keyframes alertPulsation {
@@ -50,21 +51,8 @@ body > .container-fluid {
 		opacity: 1;
 	}
 }
-@-o-keyframes alertPulsation{
-	0% {
-		opacity: 1;
-	}
 
-	50% {
-		opacity: 0;
-}
-
-	100% {
-		opacity: 1;
-	}
-}
-
-@-moz-keyframes alertPulsation{
+@-o-keyframes alertPulsation {
 	0% {
 		opacity: 1;
 	}
@@ -77,7 +65,22 @@ body > .container-fluid {
 		opacity: 1;
 	}
 }
-@-webkit-keyframes alertPulsation{
+
+@-moz-keyframes alertPulsation {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes alertPulsation {
 	0% {
 		opacity: 1;
 	}
@@ -102,7 +105,7 @@ body > .container-fluid {
 }
 
 .pull-right {
-	float:right
+	float: right
 }
 
 .row.no-gutter [class*='col-']:first-child:not(:only-child) {
@@ -123,7 +126,7 @@ body > .container-fluid {
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 }
 
-.cursor-pointer{
+.cursor-pointer {
 	cursor: pointer;
 }
 
@@ -206,11 +209,11 @@ body > .container-fluid {
 }
 
 .bg-apricot {
-	background-color:#fefedf;
+	background-color: #fefedf;
 }
 
 .bg-orange {
-	background-color:#fcbe1e;
+	background-color: #fcbe1e;
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
@@ -446,9 +449,9 @@ h4 {
 /* Overarching colors */
 :root {
 	--fontCol: rgba(160, 160, 160, 0.82);
-	--gridCol: rgba(160,160,160, 0.82);
-	--xgridCol: rgba(160,160,160, 0.82);
-	--tickCol: rgba(160,160,160, 0.82);
+	--gridCol: rgba(160, 160, 160, 0.82);
+	--xgridCol: rgba(160, 160, 160, 0.82);
+	--tickCol: rgba(160, 160, 160, 0.82);
 	--evuCol: rgba(178, 34, 34, 1);
 	--color-switchRed: #d12020;
 	--color-switchGreen: #4db662;
@@ -608,7 +611,7 @@ h4 {
 }
 .wb-widget {
 	background-color: var(--color-bg);
-	border: 0.5px solid var(--color-frame) ;
+	border: 0.5px solid var(--color-frame);
 }
 
 .wb-subwidget {

@@ -153,8 +153,6 @@ class YieldMeter {
 	}
 
 	drawChart(svg) {
-	    //console.log(this.plotdata);
-		
 		let chargedata = this.plotdata.filter(d => d.name == "Laden")
 		const ymax = d3.max(this.plotdata, (d) => d.energy);
 		this.xScale.domain(this.plotdata.map((d) => d.name));

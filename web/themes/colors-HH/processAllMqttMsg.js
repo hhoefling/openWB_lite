@@ -62,19 +62,19 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	//console.log( 'processETProviderMessages(', mqttmsg, ' , ', mqttpayload,')' )
     
  // colors theme
- if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
-	wbdata.updateET ('etProviderName', mqttpayload);
-} else if ( mqttmsg == 'openWB/global/ETProvider/modulePath' ) {
-	wbdata.updateET ('etModulePath', mqttpayload);
-} else if ( mqttmsg == 'openWB/global/awattar/boolAwattarEnabled' ) {
-	wbdata.updateET('isEtEnabled' ,(mqttpayload == '1'))
-} else if ( mqttmsg == 'openWB/global/awattar/pricelist' ) {
-	wbdata.updateET('etPriceList',mqttpayload);
-} else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
-	wbdata.updateET ('etMaxPrice', parseFloat(mqttpayload));
-} else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
-	wbdata.updateET ('etPrice', parseFloat(mqttpayload));
-}
+	if (mqttmsg == 'openWB/global/ETProvider/providerName') {
+		wbdata.updateET('etProviderName', mqttpayload);
+	} else if (mqttmsg == 'openWB/global/ETProvider/modulePath') {
+		wbdata.updateET('etModulePath', mqttpayload);
+	} else if (mqttmsg == 'openWB/global/awattar/boolAwattarEnabled') {
+		wbdata.updateET('isEtEnabled', (mqttpayload == '1'))
+	} else if (mqttmsg == 'openWB/global/awattar/pricelist') {
+		wbdata.updateET('etPriceList', mqttpayload);
+	} else if (mqttmsg == 'openWB/global/awattar/MaxPriceForCharging') {
+		wbdata.updateET('etMaxPrice', parseFloat(mqttpayload));
+	} else if (mqttmsg == 'openWB/global/awattar/ActualPriceForCharging') {
+		wbdata.updateET('etPrice', parseFloat(mqttpayload));
+	}
 	// end color theme
 	if (mqttmsg == 'openWB/global/ETProvider/providerName') {
 		$('.etproviderName').text(mqttpayload);
@@ -285,7 +285,6 @@ function processGraphMessages(mqttmsg, mqttpayload) {
 	}
 	else if (mqttmsg == 'openWB/graph/lastlivevalues') {
 		powerGraph.updateLive(mqttmsg, mqttpayload);
-		console.log('lastlivevalues:' +  mqttpayload.length );
 		/* 	if ( initialread > 0) {
 				//updateGraph(mqttpayload);
 			}
@@ -690,12 +689,12 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	else if (mqttmsg == 'openWB/system/Uptime') {
       var rawval = mqttpayload.split('average:');
       var ss = (rawval[1]).split(/,\s+/)[0];
-      $('#uptime').html('<small>CPU: '+ss+'</small>');
+      $('#uptime').html('<small>HH CPU: '+ss+'</small>');
     } 
 	else if (mqttmsg == 'openWB/system/devicename') {
      console.log('set devicename from ', mqttmsg, ' ', mqttpayload);
       $('.devicename').text(mqttpayload);
-    } 
+    }
 	else if (mqttmsg.match(/^openwb\/system\/daygraphdata[1-9][0-9]*$/i)) {
 		powerGraph.updateDay(mqttmsg, mqttpayload);
 	}

@@ -69,7 +69,7 @@
 
 		#preloader-image {
 			max-width: 300px;
-			filter:var(--invertLogo)
+			filter: var(--invertLogo)
 		}
 
 		#preloader-info {
@@ -632,7 +632,6 @@
 			{ url: "themes/navbar.html", cache: false },
 			function (data) {
 				$("#nav-placeholder").replaceWith(data);
-			    //$("#openWB").replaceWith(devicename);
 			}
 		);
 
@@ -770,10 +769,10 @@
 					if (!isNaN(parseInt(dev)) && dev > 0 && dev < 10) {
 						var isEnabled = $(this).hasClass("lpEnabledStyle")
 						if (isEnabled) {
-							publish("0", "openWB/config/set/SmartHome/Device" + dev + "/device_manual_control");
+							publish("0", "openWB/config/set/SmartHome/Devices/" + dev + "/device_manual_control");
 							$(this).removeClass('lpEnabledStyle').removeClass('lpDisabledStyle').addClass('lpWaitingStyle');
 						} else {
-							publish("1", "openWB/config/set/SmartHome/Device" + dev + "/device_manual_control");
+							publish("1", "openWB/config/set/SmartHome/Devices/" + dev + "/device_manual_control");
 							$(this).removeClass('lpEnabledStyle').removeClass('lpDisabledStyle').addClass('lpWaitingStyle');
 
 						}
@@ -826,7 +825,7 @@
 
 			function sendCode() {
 				let value = document.getElementById('codeInput').value
-				if(value.length >0) {
+				if (value.length > 0) {
 					publish(value, 'openWB/set/system/SimulateRFID')
 					$('#chargeModeModal').modal('hide')
 				}
@@ -835,7 +834,7 @@
 				sendCode()
 			})
 
-			$('#codeInput').change (function() {
+			$('#codeInput').change(function () {
 				sendCode()
 			})
 

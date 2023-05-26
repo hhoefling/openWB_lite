@@ -195,6 +195,12 @@ class WbData {
 			case 'chargeMode':
 				chargePointList.updateValues();
 				break;
+// bei theme
+//            case 'currentPowerPrice':
+//            case 'chargeMode':
+//                priceChart.update();
+//                chargePointList.update();
+//                break                
 			case 'rfidConfigured':
 				d3.select('#codeButton').classed ("hide", (!value))
 				break
@@ -306,11 +312,12 @@ class WbData {
 		switch (field) {
 			case 'etPrice':
 			case 'isEtEnabled': chargePointList.updateValues();
-			break;
+			                    break;
 			default:
-				break;
+				                break;
 		}
-		priceChart.update()
+		priceChart.update();
+        powerMeter.update();
 	}
 
 	updateSourceSummary(cat, field, value) {
