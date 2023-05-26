@@ -1018,6 +1018,7 @@ updateConfig(){
 	if ! grep -Fq "verbraucher2_tempwh=" $ConfigFile; then
 		echo "verbraucher2_tempwh=0" >> $ConfigFile
 	fi
+    
 	if ! grep -Fq "verbraucher2_name=" $ConfigFile; then
 		echo "verbraucher2_name=Name" >> $ConfigFile
 	fi
