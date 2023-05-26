@@ -1,5 +1,5 @@
 #
-# Aufz䨬ung der openwb.conf variablen die in den MQTT-Baum hochgepsiegelt werden.
+# Aufzählung der openwb.conf variablen die in den MQTT-Baum hochgepsiegelt werden.
 # source file for openwbconf.sh
 #
 mqttconfvar["hook/1/boolHookConfiguredX"]=hook1_aktiv
