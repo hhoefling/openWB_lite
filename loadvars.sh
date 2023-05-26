@@ -101,7 +101,7 @@ loadvars(){
 
 	etproviderprice=$(<ramdisk/etproviderprice) 
     etprovidermaxprice=$(<ramdisk/etprovidermaxprice)    
-	
+
     verbraucher1_watt=$(<ramdisk/verbraucher1_watt)
     verbraucher2_watt=$(<ramdisk/verbraucher2_watt)
 
