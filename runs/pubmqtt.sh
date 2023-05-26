@@ -260,7 +260,7 @@ done
 #tempPubList="${tempPubList}\nopenWB/global/diskFree=$(echo ${sysinfo} | jq -r '.diskfree')"
 
 
-if [[ $debug == "2" ]]; then	
+if [[ $debug == "2" ]]; then
     openwbDebugLog "MAIN" 2 "PUBMQTT publist"
 	echo -e $tempPubList
 	#echo "Running Python: runs/mqttpub.py -q 0 -r &"
