@@ -74,7 +74,7 @@
 	</head>
 	<body>
 		<div id="preload"> 
-			openWB startet... bitte warten
+			openWB startet... <br>bitte warten
 		</div>
 		<div id="loaded" style="visibility: hidden">
 			<button id="goButton">Klicken zum Interface laden</button>
@@ -84,7 +84,7 @@
 				document.getElementById("preload").style.visibility = "hidden";
 				document.getElementById("loaded").style.visibility = "visible";
 			}
-			setTimeout(changevis, 30000);
+			setTimeout(changevis, 10000);
 
 			$('#goButton').on("click", function(event){
 				window.location.href = "display/display.php";
