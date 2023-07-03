@@ -29,7 +29,7 @@ ptstart
     sudo -u pi chmod 0777 ramdisk/mqttvar
  fi 
 # Asyncron gestartet am Ende von loadvars.sh und slavemode.sh(yourcharge) 
-# alle ramdisk variablen ins mqtt ?bertragen die sich ge䮤er haben
+# alle ramdisk variablen ins mqtt übertragen die sich geänder haben
 declare -A mqttvar
 mqttvar["system/IpAddress"]=ipaddress
 mqttvar["system/ConfiguredChargePoints"]=ConfiguredChargePoints
