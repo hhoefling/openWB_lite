@@ -108,6 +108,8 @@ def main():
             rct_lib.close(clientsocket)
             raise(e)
             
+    else:
+        print( "Battery Controler " + str(rct_lib.host) + " not availble" )
     sys.exit(0)
 
 if __name__ == "__main__":

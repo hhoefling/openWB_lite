@@ -1,6 +1,6 @@
 #!/bin/bash
-
-# Dummy no call at all.
-#
-# return last value to loadvars.sh
-cat /var/www/html/openWB/ramdisk/pvwatt
+#!/bin/bash
+# aus modules/wr_rctxx/main.sh  modules/bezug_rctxx/wr_main.sh machen
+B=${0/wr_/bezug_}
+B=${B/main.sh/wr_main.sh}
+$B

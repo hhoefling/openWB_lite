@@ -71,6 +71,7 @@ def init_tab():
 # Entry point with parameter check
 def main():
     rct_lib.init(sys.argv)
+    print("running on python:{}".format(sys.version) )
     init_tab()
 
     clientsocket = rct_lib.connect_to_server()

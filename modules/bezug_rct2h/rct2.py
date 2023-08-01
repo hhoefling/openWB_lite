@@ -254,14 +254,17 @@ def main():
             spfaultStr=' '
             spfaultState=0
             if ( bstat1 + bstat2 + bstat3) > 0:
-                if( bstat1 == 8):
-                    spfaultStr = "Battery Balancing aktive (C8)"
+                if( bstat1 == 256):
+                    spfaultStr = "??? (bat_status C256)"
                     spfaultState=1
                 elif( bstat1 == 512):
-                    spfaultStr = "Battery Balancing aktive (C512)"
+                    spfaultStr = "Leistungstest (bat_status C512)"
                     spfaultState=1
                 elif( bstat1 == 1024):
-                    spfaultStr = "Battery Balancing aktive (C1024)"
+                    spfaultStr = "Battery Balancing aktive (bat_status C1024)"
+                    spfaultState=1
+                elif( bstat1 == 8):
+                    spfaultStr = "Battery Balancing aktive (bat_status C8)"
                     spfaultState=1
                 else:
                     spfaultStr = "Battery ALARM Battery-Status "+str(bstat1)+" "+str(bstat2)+" "+str(bstat3)
