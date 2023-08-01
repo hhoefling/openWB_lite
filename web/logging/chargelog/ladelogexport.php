@@ -24,7 +24,8 @@
       $file=[];
       foreach ($files as $current) 
       {
-        preg_match('/\/var\/www\/html\/openWB\/web\/logging\/data\/ladelog\/([0-9]{4})([0-9]{2})\.csv/',$current,$m);
+        if( preg_match('/\.*\/ladelog\/([0-9]{4})([0-9]{2})\.csv/',$current,$m) )
+         {
         if( $m[1] == $year )
         { 
           $onef = file($current);
@@ -33,6 +34,7 @@
              if( trim($line) > '')
                $file[]=$line;
         }  
+      }
       }
    	  header('Content-Type: application/csv; charset=UTF-8');
       header('Content-Disposition: attachment;filename="ladelog_'.$year.'.csv";');
@@ -163,17 +165,20 @@
 						$files = glob($_SERVER['DOCUMENT_ROOT'] . "/openWB/web/logging/data/ladelog/*.csv");
 						arsort($files);
 						$rowClasses = "";
-						foreach ($files as $current) {
+						foreach ($files as $current) 
+                        {
+                         if( preg_match('/\.*\/ladelog\/([0-9]{4})([0-9]{2})\.csv/',$current,$m) )
+                         {
 					?>
 						<div class="row<?php echo $rowClasses; ?>">
 							<label class="col-6 col-form-label">
 								<?php 
-									preg_match('/\/var\/www\/html\/openWB\/web\/logging\/data\/ladelog\/([0-9]{4})([0-9]{2})\.csv/',$current,$m);
-									$years[$m[1]]='found'; 
+                                    $year=$m[1]; 
 									$month = $m[2];
+                                    $years[$year]='found'; 
 									setlocale(LC_TIME, "de_DE.UTF-8");
-									$month_name = strftime('%B', mktime(0, 0, 0, $month));
-									echo "$month_name ", $m[1];
+									$month_name = strftime('%B', mktime(0, 0, 0, $month,1,$year));
+									echo "$month_name ", $year;
 								?>
 							</label>
 							<div class="col-6 text-right">
@@ -184,6 +189,7 @@
 							</div>
 						</div>
 					<?php
+                       }
 						$rowClasses = " border-top pt-2";
 						}
 
