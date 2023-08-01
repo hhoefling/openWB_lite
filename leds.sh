@@ -21,7 +21,7 @@ ledsteuerung() {
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
 				fi
-				sudo python runs/leds.py $ledsofort &
+				sudo python3 runs/leds.py $ledsofort &
 				echo $ledsofort > ramdisk/ledstatus
 			fi
 		fi
@@ -30,7 +30,7 @@ ledsteuerung() {
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
 				fi
-				sudo python runs/leds.py $ledminpv &
+				sudo python3 runs/leds.py $ledminpv &
 				echo $ledminpv > ramdisk/ledstatus
 			fi
 		fi
@@ -40,7 +40,7 @@ ledsteuerung() {
 					echo "kill"
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
 				fi
-				sudo python runs/leds.py $lednurpv &
+				sudo python3 runs/leds.py $lednurpv &
 				echo $lednurpv > ramdisk/ledstatus
 			fi
 		fi
@@ -49,7 +49,7 @@ ledsteuerung() {
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
 				fi
-				sudo python runs/leds.py $ledstop &
+				sudo python3 runs/leds.py $ledstop &
 				echo $ledstop > ramdisk/ledstatus
 			fi
 		fi
@@ -58,7 +58,7 @@ ledsteuerung() {
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
 				fi
-				sudo python runs/leds.py $ledstandby &
+				sudo python3 runs/leds.py $ledstandby &
 				echo $ledstandby > ramdisk/ledstatus
 			fi
 		fi
@@ -68,7 +68,7 @@ ledsteuerung() {
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
 				fi
-				sudo python runs/leds.py $led0sofort &
+				sudo python3 runs/leds.py $led0sofort &
 				echo $led0sofort > ramdisk/ledstatus
 			fi
 		fi
@@ -77,7 +77,7 @@ ledsteuerung() {
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
 				fi
-				sudo python runs/leds.py $led0minpv &
+				sudo python3 runs/leds.py $led0minpv &
 				echo $led0minpv > ramdisk/ledstatus
 			fi
 		fi
@@ -87,7 +87,7 @@ ledsteuerung() {
 					echo "kill"
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
 				fi
-				sudo python runs/leds.py $led0nurpv &
+				sudo python3 runs/leds.py $led0nurpv &
 				echo $led0nurpv > ramdisk/ledstatus
 			fi
 		fi
@@ -96,7 +96,7 @@ ledsteuerung() {
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
 				fi
-				sudo python runs/leds.py $led0stop &
+				sudo python3 runs/leds.py $led0stop &
 				echo $led0stop > ramdisk/ledstatus
 			fi
 		fi
@@ -105,7 +105,7 @@ ledsteuerung() {
 				if [ ! -z "$ledrunning" ]; then
 					sudo kill $(ps aux |grep '[l]eds.py' | awk '{print $2}')
 				fi
-				sudo python runs/leds.py $led0standby &
+				sudo python3 runs/leds.py $led0standby &
 				echo $led0standby > ramdisk/ledstatus
 			fi
 		fi
