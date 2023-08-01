@@ -208,25 +208,28 @@ at_reboot() {
 #	fi
 
 
-	if ! [ -x "$(command -v tsp)" ];then
-		sudo apt-get -qq update
-		sleep 1
-		sudo apt-get -qq install task-spooler
-	fi
-	# check if our task-scheduler is running
-	if ((taskerenabled == 0 )); then
-	  	log "tasker not enabled, stop Service if running"
-	   	sudo -u pi tsp -K
-	else
-		if pgrep tsp >/dev/null 
-	    #if ps ax |grep -v grep |grep "[t]sp" > /dev/null
-	    then
-  	   		log "tasker already running"
-    	else
-	        log "tasker not running! restarting a new tsp process"
-          	sudo -u pi runs/tasker/start.sh
-    	fi
-	fi
+
+  #######---->>>>> Services.sh weiter unten
+  
+#	if ! [ -x "$(command -v tsp)" ];then
+#		sudo apt-get -qq update
+#		sleep 1
+#		sudo apt-get -qq install task-spooler
+#	fi
+#	# check if our task-scheduler is running
+#	if ((taskerenabled == 0 )); then
+#	  	log "tasker not enabled, stop Service if running"
+#	   	sudo -u pi tsp -K
+#	else
+#		if pgrep tsp >/dev/null 
+#	    #if ps ax |grep -v grep |grep "[t]sp" > /dev/null
+#	    then
+#         	log "tasker already running"
+#    	else
+#	        log "tasker not running! restarting a new tsp process"
+#          	sudo -u pi runs/tasker/start.sh
+#    	fi
+#	fi
 
 
 
