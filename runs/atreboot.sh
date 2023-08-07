@@ -209,6 +209,11 @@ at_reboot() {
 
 
 
+	if [[ ! -x /usr/bin/mmc ]] ; then
+	  log "install mmc tool"
+	  sudo apt-get -q -y install mmc-utils
+	fi
+
   #######---->>>>> Services.sh weiter unten
   
 #	if ! [ -x "$(command -v tsp)" ];then
