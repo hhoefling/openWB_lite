@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# set_current for slaveeth
 import sys
 from pymodbus.client.sync import ModbusTcpClient
 

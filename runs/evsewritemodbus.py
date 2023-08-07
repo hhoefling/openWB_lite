@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# nur von set_current
 import sys
 from pymodbus.client.sync import ModbusSerialClient
 

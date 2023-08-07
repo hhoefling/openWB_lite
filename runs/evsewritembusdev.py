@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# evsetest etc.  write modbus 
 import sys
 from pymodbus.client.sync import ModbusSerialClient
 

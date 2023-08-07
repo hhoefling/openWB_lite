@@ -2145,7 +2145,7 @@ updateConfig(){
 
 	newlines=$(wc -l $ConfigFile | cut -f 1 -d " ")
 	if (( newlines != clines )) ; then
-  	   log "Config file Update done. changed"
+  	   log "Config file Update done. File has changed from $clines to $newlines"
   	   return 1
   	else
   	   log "Config file Update done, file has same size."

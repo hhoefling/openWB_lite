@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# for evseinttest.sh masterethframer
 import sys
 from pymodbus.transaction import ModbusRtuFramer
 from pymodbus.client.sync import ModbusTcpClient

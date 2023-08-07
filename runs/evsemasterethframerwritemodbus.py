@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# set_current for masterethframer
 import sys
 from pymodbus.transaction import ModbusRtuFramer
 from pymodbus.client.sync import ModbusTcpClient
