@@ -362,10 +362,10 @@ def connect_to_server():
     try:
         clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         clientsocket.connect((host, port))
-        dbglog('connect to ', host, 'port', port)
+        dbglog('connect to ', host, ' port', port)
         return clientsocket
     except:
-        errlog('unable to connect to', host, 'port', port)
+        errlog('unable to connect to', host, ' port', port)
         return None
 
 # send a frame to RCT
