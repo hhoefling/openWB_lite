@@ -184,7 +184,7 @@ def encode_by_type(data_type, value):
         return None
 
 
-# FRAME
+# class Frame
 start_token = b'+'
 escape_token = b'-'
 
@@ -204,7 +204,7 @@ FRAME_CRC16_LENGTH = 2              # nr of bytes for CRC16 field
 
 
 class Frame:
-    def __init__(self, command = 0, address = 0, frame_type=FRAME_TYPE_STANDARD):
+    def __init__(self, command=0, address=0, frame_type=FRAME_TYPE_STANDARD):
         self.command = command
         self.address = address        # for plant communication only
         self.idList = []
@@ -234,8 +234,7 @@ class Frame:
                 self.pendingCount += 1
 
     # consume all data, extract frames and decode them.
-    # Incomplete frames remain in self.rxStream for the nexht data chunk
-
+    # Incomplete frames remain in self.rxStream for the next data chunk
     def consume(self, data):
         for d in data:
             c = bytes([d])
@@ -268,7 +267,7 @@ class Frame:
                     self.FrameLength += 2                                                   # 2 bytes header
                 else:
                     if len(self.rxStream) == self.FrameLength + FRAME_CRC16_LENGTH:
-                        #print(binascii.hexlify(self.rxStream))
+                        # print(binascii.hexlify(self.rxStream))
                         self.decode()
                         self.rxStream = b""
 
@@ -279,8 +278,8 @@ class Frame:
         received = struct.unpack(">H", self.rxStream[crc16_pos:crc16_pos+2])[0]
         calculated = self.CRC16(self.rxStream[1:crc16_pos]) 
         if received != calculated:
-            #print(binascii.hexlify(self.rxStream))
-            #print("CRC Error: {}".format(binascii.hexlify(self.rxStream)))
+            # print(binascii.hexlify(self.rxStream))
+            # print("CRC Error: {}".format(binascii.hexlify(self.rxStream)))
             self.statisticCrc16Error += 1
             return
 
@@ -294,7 +293,7 @@ class Frame:
             data_length = struct.unpack(">B", bytes([self.rxStream[2]]))[0]   # 1 byte length
             idx = 3
 
-        # substract frame type specific length
+        # subtract frame type specific length
         data_length -= self.frame_type
 
         # extract 32 bit ID
@@ -308,7 +307,7 @@ class Frame:
 
         # extract the payload from the stream
         data = self.rxStream[idx:idx+data_length]
-        #data_dump = binascii.hexlify(data)                
+        # data_dump = binascii.hexlify(data)
 
         # just decode responses 
         if data_length > 0 and (self.command == cmd_response or self.command == cmd_long_response):
@@ -318,7 +317,7 @@ class Frame:
                     # received ID found in the list. store the value in the item! 
                     item.value = decode_value(item.data_type, data)
                     # mark the ID item in the list as "not pending" (just if not yet done)
-                    if item.pending == True: 
+                    if item.pending is True:
                         item.pending = False
                         self.pendingCount -= 1
                         self.statisticRxConsumed += 1
