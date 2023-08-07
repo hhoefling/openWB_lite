@@ -128,7 +128,6 @@ initRamdisk(){
 	echo 20000 > $RamdiskPath/soctimer
 	echo 20000 > $RamdiskPath/soctimer1
 	echo 28 > $RamdiskPath/evsemodbustimer
-	# touch $RamdiskPath/llog
 	touch $RamdiskPath/llog1
 	touch $RamdiskPath/llogs1
 	touch $RamdiskPath/llogs2
