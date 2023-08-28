@@ -130,8 +130,8 @@ loadvars(){
 ### 64  modbusevsesource=/dev/ttyUSB0 modbusevseid=1
 		
 ##################### 1002 get Vehicle Status
-		openwbDebugLog "MAIN" 1 "EXEC: modbusevse sudo python runs/readmodbus.py ip:$modbusevsesource id:$modbusevseid reg:1002 cnt:1"
-		evseplugstate=$(sudo python runs/readmodbus.py $modbusevsesource $modbusevseid 1002 1)
+		openwbDebugLog "MAIN" 1 "EXEC: modbusevse sudo python3 runs/readmodbus.py ip:$modbusevsesource id:$modbusevseid reg:1002 cnt:1"
+		evseplugstate=$(sudo python3 runs/readmodbus.py $modbusevsesource $modbusevseid 1002 1)
 #########################################################################						
 		if [ -z "${evseplugstate}" ] || ! [[ "${evseplugstate}" =~ $IsNumberRegex ]]; then
 			# EVSE read returned empty or non-numeric value --> use last state for this loop
@@ -389,9 +389,9 @@ loadvars(){
 	fi
 
 	# Werte für die Berechnung ermitteln
-	lademodus=$(<ramdisk/lademodus)
+	lademodus=$(<ramdisk/lademodus)        # haben wir oben schon eingelesen, sollte noch der selbe sein
 	if [ -z "$lademodus" ] ; then
-		mosquitto_pub -r -t "openWB/set/ChargeMode" -m "$bootmodus"
+		mosquitto_pub -r -t "openWB/set/ChargeMode" -m "$bootmodus"  # > ../set/.. Write to Ramdisk und mqtt 
 		lademodus=$bootmodus
 	fi
 	llalt=$(cat ramdisk/llsoll)
