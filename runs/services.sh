@@ -1185,7 +1185,7 @@ function service_main() # cmd what
         selectstart $what
         ;;
     *)
-        echo "Usage: ${BASH_SOURCE[0]} {start|stop|restart|status [all|rse|rfid|modbus|smarthome|led|buttons|isss|mqttsub]}"
+        echo "Usage: ${BASH_SOURCE[0]} {start|stop|restart|status [all|rse|rfid|modbus|smarthome|led|buttons|isss|mqttsub|sysdaem]}"
         ;;
  esac
 }
