@@ -50,6 +50,9 @@ putter()
   local val="$1"
   local name=$2
   local topic=${3:-""}
+  if [[ "$val" == "" ]] ; then
+    val=" "
+  fi 
   if [[ "$val" != "${cache[$name]}" ]] ; then
     cache[$name]="$val"
 	#openwbDebugLog "DEB" 1 "$name now [${cache[$name]}] topic:$topic"
