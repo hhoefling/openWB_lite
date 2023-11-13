@@ -72,7 +72,7 @@ Weiter Info **[History](docs/history.md)**
 - Ich habe nun begonnen mich von Stretch und Buster zu verabschieden.
 - Aktuell wird nur noch unter Bullseye weitergetestet. Damit hat aber endgültig Python2.7 ausgedient. Allerdings sind die vielen kleinen Python Sripte unter python3.9 ca. 50% langsamer als unter Python2.7 auf einenm Strech/Buster System. Aber sollange bei meiner Hadrware-Mischung keine Regel-Laufzeit über 8 Sekunden daraus resultiert werde ich das in Kauf nehmen. Aber eine Vollausgestatte Box mit Taster/Led/Rfid/DUO, da wird es schon eng mit der Laufzeit unter Python3.9
 - Nov 2023. Seit ich Tibber als Stromanbieter habe kommen mir viele neue Idene wie man openWB und den Hausakku damit sinnvoll koppeln kann.
-- In der Testühase befindet sich folgende Änderungen.
+- In der Testphase befindet sich folgende Änderungen.
 -	- Die Anzeige des Preisselektors bei allen Lademodi ausser Stop.
 -	- Verwendung des Preiselektors um das Laden des Hausakkus zu niedrigpreis Zeiten zu ermöglichen.
 -	- Entladesperre für den Hausakku um beim Sofortladen/Nachladen/Morgenladen das entladen des Hausakkus zu verhindern.
