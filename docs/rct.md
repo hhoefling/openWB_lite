@@ -1,7 +1,7 @@
 ** Hier sammle ich Informationen über meinen RCT Wechserichter **
 
 
-## Ablauf der Kalibarion ##
+## Ablauf der Kalibrierung ##
 
 | bat_status (B1) | batery_status (B2) | battery-status2 (B3) | Bemerkung |
 |:-------------- |:-------------------:|:--------------------:|----------:|
