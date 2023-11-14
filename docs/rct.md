@@ -12,10 +12,11 @@
 |	0	| 0  | 	0 | Soc 0% Erreicht, Target wieder auf 97% |
 
 Also B1  in  [8,1024] -> Kalibrierung läuft.
+
 Oder B3 in [8,264,1024] -> Kalibrierung läuft.
+
 Während des gesamten Procedur war der WR zu jeder Zeit abfragbar und lieferte alle Werte
 Also auch bezüglich des Akkus, (Ströme, Spannungen und Soc etc.)
-
 Balacing habe ich noch nicht verfolgen können.
 
 
