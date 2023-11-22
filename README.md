@@ -106,7 +106,5 @@ Weiter Info **[History](docs/history.md)**
 **[Tips zur Umstellung auf HTTPS](docs/https.md)**
 
 
-*** Ping ***
-*** Pong ***
-*** Pong ***
+
 
