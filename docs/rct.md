@@ -1,6 +1,7 @@
 ** Hier sammle ich Informationen über meinen RCT Wechserichter **
 
-RCT Power Storage DC 4.0/6.0 (von 2021)
+RCT Power Storage DC 6.0 (von 2021)
+Ein Hybrid wechselrichter mit Akku
 
 
 ## Ablauf der Kalibrierung ##
