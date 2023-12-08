@@ -13,6 +13,7 @@ function Log()
  shift;
  echo  "$0 $*"
  echo  "$0 $*" >>/var/log/openWB.log
+ echo  "$0 $*" >>/var/log/openWB_update.log
 }
  
 cd /var/www/html/openWB
@@ -32,7 +33,13 @@ if [[ $SELF != 'copyfromupdate.sh' ]] ; then
   exec ./copyfromupdate.sh
   exit 0 # never reached
 fi
-trap "rm  ./copyfromupdate.sh"  EXIT
+
+function cleanup()
+{
+  Log 0 "now remove copyfromupdate.sh"
+  rm  ./copyfromupdate.sh
+}
+trap cleanup EXIT
 Log 0 "Running, now it is save to override $ORG"
 
 
