@@ -1373,24 +1373,6 @@ def process_SetLpNum(client, msg):
             # if (int(payload) == 2):
             #    replaceAll("lademstats2=", "0")
             #    replaceAll("sofortsocstatlp3=", "1")
-        elif (msg.topic == "openWB/set/lp/1/AutolockStatus"):
-            if (int(payload) >= 0 and int(payload) <= 3):
-                ramdisk.write('autolockstatuslp1', payload)
-                    #  values used for AutolockStatus flag:
-                    #  0 = standby
-                    #  1 = waiting for autolock
-                    #  2 = autolock performed
-                    #  3 = auto-unlock performed
-                    # warum im mqtt nur bei lp1 und nicht bei lp2,3++
-                publish(client, "openWB/lp/1/AutolockStatus", payload)
-        elif (msg.topic == "openWB/set/lp/2/AutolockStatus"):
-            if (int(payload) >= 0 and int(payload) <= 3):
-                ramdisk.write('autolockstatuslp2', payload)
-                publish(client, "openWB/lp/2/AutolockStatus", payload)
-        elif (msg.topic == "openWB/set/lp/3/AutolockStatus"):
-            if (int(payload) >= 0 and int(payload) <= 3):
-                ramdisk.write('autolockstatuslp3', payload)
-                publish(client, "openWB/lp/3/AutolockStatus", payload)
         elif msg.topic.endswith('ChargePointEnabled'):
             if (1 <= devicenumb <= numberOfSupportedLP and 0 <= int(payload) <= 1):  # 8
                 ramdisk.write('lp' + str(devicenumb) + 'enabled', payload)

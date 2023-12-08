@@ -182,8 +182,8 @@ if [[ $dspeed == "2" ]]; then
 fi
 # dspeed=3 weiter unten
 
-# process autolock
-./processautolock.sh &   # Asncron , keine rückwirkung auf Variablen
+### NC # process autolock
+### NC ./processautolock.sh &   # Asncron , keine rückwirkung auf Variablen
 
 
 ptstart

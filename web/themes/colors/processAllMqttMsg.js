@@ -966,17 +966,6 @@ function processLpMessages(mqttmsg, mqttpayload) {
 		// respective charge point configured
 		wbdata.updateCP(index, "configured", (mqttpayload == 1));
 	}
-	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
-		wbdata.updateCP(index, "isAutolockConfigured", (mqttpayload == 1));
-	}
-	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockstatus$/i)) {
-		// values used for AutolockStatus flag:
-		// 0 = standby
-		// 1 = waiting for autolock
-		// 2 = autolock performed
-		// 3 = auto-unlock performed
-		wbdata.updateCP(index, "autoLockStatus", mqttpayload);
-	}
 	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/energyconsumptionper100km$/i)) {
 		// store configured value in element attribute
 		// to calculate charged km upon receipt of charged energy
@@ -1086,48 +1075,6 @@ function processLpMessages(mqttmsg, mqttpayload) {
 				$('[data-lp="' + index + '"]').show();
 				break;
 
-		}
-	}
-	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
-		var index = getIndex(mqttmsg);  // extract first match = number from
-		var parent = $('[data-lp="' + index + '"]');  // get parent row element for charge point
-		var element = parent.find('.autolockConfiguredLp');  // now get parents respective child element
-		if (mqttpayload == 0) {
-			element.hide();
-		} else {
-			element.show();
-		}
-	}
-	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockstatus$/i)) {
-		// values used for AutolockStatus flag:
-		// 0 = standby
-		// 1 = waiting for autolock
-		// 2 = autolock performed
-		// 3 = auto-unlock performed
-		var index = getIndex(mqttmsg);  // extract number between two / /
-		var parent = $('[data-lp="' + index + '"]');  // get parent row element for charge point
-		var element = parent.find('.autolockConfiguredLp');  // now get parents respective child element
-		switch (mqttpayload) {
-			case '0':
-				// remove animation from span and set standard colored key icon
-				element.removeClass('fa-lock fa-lock-open animate-alertPulsation text-red text-green');
-				element.addClass('fa-key');
-				break;
-			case '1':
-				// add animation to standard icon
-				element.removeClass('fa-lock fa-lock-open text-red text-green');
-				element.addClass('fa-key animate-alertPulsation');
-				break;
-			case '2':
-				// add red locked icon
-				element.removeClass('fa-lock-open fa-key animate-alertPulsation text-green');
-				element.addClass('fa-lock text-red');
-				break;
-			case '3':
-				// add green unlock icon
-				element.removeClass('fa-lock fa-key animate-alertPulsation text-red');
-				element.addClass('fa-lock-open text-green');
-				break;
 		}
 	}
 

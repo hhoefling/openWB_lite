@@ -1,4 +1,7 @@
 #!/bin/bash
+# NC
+exit
+
 set -eo pipefail
 
 #####

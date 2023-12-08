@@ -285,7 +285,6 @@ initRamdisk(){
 #NC	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL1
 #NC	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL2
 #NC	echo 0 > $RamdiskPath/TotalCurrentConsumptionOnL3
-	echo 0 > $RamdiskPath/autolocktimer
 	echo 0 > $RamdiskPath/blockall
 	echo 0 > $RamdiskPath/devicetotal_watt
 	echo 0 > $RamdiskPath/etprovidermaxprice
@@ -369,13 +368,9 @@ initRamdisk(){
 			"lp${i}phasen::0" \
 			"lp${i}enabled::1" \
 			"restzeitlp${i}::0" \
-			"autolockstatuslp${i}::0" \
-			"autolockconfiguredlp${i}::0" \
 			"lp${i}sofortll:openWB/config/get/sofort/lp/${i}/current:10" \
 			"rfidlp${i}::0" \
-			"boolstopchargeafterdisclp${i}::0" \
-			"mqttautolockstatuslp${i}::-1" \
-			"mqttautolockconfiguredlp${i}::-1"
+			"boolstopchargeafterdisclp${i}::0" 
 		do
 			IFS=':' read -r -a tuple <<< "$f"
 			currentRamdiskFileVar="\"$RamdiskPath/${tuple[0]}\""
