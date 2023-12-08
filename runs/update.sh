@@ -12,9 +12,9 @@ function Log()
  level=$1;
  shift;
  timestamp=$(date +"%Y-%m-%d %H:%M:%S")
- echo  "$timestamp $$ $0 $*"
- echo  "$timestamp $$ $0 $*" >>/var/log/openWB.log
- echo  "$timestamp $$ $0 $*" >>/var/www/html/openWB/ramdisk/openWB_update.log
+ echo  "$timestamp: $$ $0 $*"
+ echo  "$timestamp: $$ $0 $*" >>/var/log/openWB.log
+ echo  "$timestamp: $$ $0 $*" >>/var/www/html/openWB/ramdisk/openWB_update.log
 }
  
 cd /var/www/html/openWB
@@ -30,7 +30,7 @@ if [[ $SELF != 'copyfromupdate.sh' ]] ; then
   export ORG
   [ -f ./copyfromupdate.sh ] && rm ./copyfromupdate.sh
   cp -p $0 ./copyfromupdate.sh
-  Log 0 "$ORG terminates now"
+  Log 0 "$SELF terminates now."
   exec ./copyfromupdate.sh
   exit 0 # never reached
 fi
@@ -172,7 +172,7 @@ Log 1 "check links for standart theme"
 )
 
 
-Log 1 "end. now calling atreboot.sh as pi "
+Log 1 "ends. now calling atreboot.sh as pi "
 
 # now treat system as in booting state
 nohup sudo -u pi /var/www/html/openWB/runs/atreboot.sh >> /var/log/openWB.log 2>&1 &
