@@ -19,6 +19,7 @@ function Log()
  
 cd /var/www/html/openWB
 . /var/www/html/openWB/loadconfig.sh
+date "+%Y-%m-%d %H:%m:%S: start" >/var/www/html/openWB/ramdisk/openWB_update.log
 
 # fallls das Script "überschrieben" wird statt mit "Delete/Write" neu erzeugt zu werden
 # dann wird mittendrin die neue Version ausgeführt
