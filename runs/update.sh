@@ -11,9 +11,10 @@ function Log()
 {
  level=$1;
  shift;
- echo  "$0 $*"
- echo  "$0 $*" >>/var/log/openWB.log
- echo  "$0 $*" >>/var/www/html/openWB/ramdisk/openWB_update.log
+ timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+ echo  "$timestamp $$ $0 $*"
+ echo  "$timestamp $$ $0 $*" >>/var/log/openWB.log
+ echo  "$timestamp $$ $0 $*" >>/var/www/html/openWB/ramdisk/openWB_update.log
 }
  
 cd /var/www/html/openWB
