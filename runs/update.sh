@@ -13,7 +13,7 @@ function Log()
  shift;
  echo  "$0 $*"
  echo  "$0 $*" >>/var/log/openWB.log
- echo  "$0 $*" >>/var/log/openWB_update.log
+ echo  "$0 $*" >>/var/www/html/openWB/ramdisk/openWB_update.log
 }
  
 cd /var/www/html/openWB
