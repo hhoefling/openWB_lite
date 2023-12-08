@@ -200,9 +200,10 @@ IncVar graphtimer 6
 if (( displayaktiv == 1 )); then
    if ! flagIsClear execdisplay ; then
         openwbDebugLog "MAIN" 1 "EXEC runs/displaybacklight.sh $displayLight and reloadDisplay.sh"
-		export DISPLAY=:0 && xset s "$displaysleep" && xset dpms "$displaysleep" "$displaysleep" "$displaysleep"
+	# export DISPLAY=:0 && xset s "$displaysleep" && xset dpms "$displaysleep" "$displaysleep" "$displaysleep"
+	sudo bash -c "export DISPLAY=:0 && xset s $displaysleep && xset dpms $displaysleep $displaysleep $displaysleep"
         runs/displaybacklight.sh $displayLight
-        runs/reloadDisplay.sh 
+        sudo runs/reloadDisplay.sh 
 	fi
 fi
 
