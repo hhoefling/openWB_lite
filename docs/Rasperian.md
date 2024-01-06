@@ -100,7 +100,7 @@ apt update
 apt install mosquitto/buster
 ```
 
-Fundstuck zum Display
+Fundstück zum Display
 
 ```
 If only using the console and not a desktop environment, you can edit the kernel’s /boot/firmware/cmdline.txt file to pass the required orientation to the system.
