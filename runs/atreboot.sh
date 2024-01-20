@@ -794,6 +794,14 @@ at_reboot() {
 	fi
 
 
+	log "logrotate..."
+	if [ ! -f /etc/logrotate.d/openwb ]; then
+		sudo  cp runs/files/openwb /etc/logrotate.d/.
+	    log "logrotate config file copied."
+	fi
+    
+    
+
 	# all done, remove boot and update status
 	log "remove boot und update marker"
 	echo 0 > /var/www/html/openWB/ramdisk/bootinprogress
