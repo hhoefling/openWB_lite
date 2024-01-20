@@ -431,6 +431,16 @@ initRamdisk(){
     echo -1 > $RamdiskPath/mqtttagScanInfoLp1
     echo -1 > $RamdiskPath/mqtttagScanInfoLp2
 
+    echo -1 > $RamdiskPath/mqttladeleistung
+    echo -1 > $RamdiskPath/ramdisk/mqttstopchargeafterdisclp1
+    echo -1 > $RamdiskPath/ramdisk/mqttstopchargeafterdisclp2
+    echo -1 > $RamdiskPath/ramdisk/mqttstopchargeafterdisclp3
+
+    echo -1 > $RamdiskPath/ramdisk/mqttetprovideraktiv
+    echo -1 > $RamdiskPath/ramdisk/mqttetprovidermaxprice
+    echo -1 > $RamdiskPath/ramdisk/mqttetproviderprice
+    echo -1 > $RamdiskPath/ramdisk/mqttetprovider
+
 
 #		"mqttlademkwh:-1" \
 #		"mqttlademkwhlp4:-1" \
