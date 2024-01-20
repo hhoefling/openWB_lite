@@ -60,7 +60,7 @@ var topicsToSubscribe = [
 	["openWB/system/wizzardDone", 1],
 	["openWB/system/reloadDisplay", 1],
 	["openWB/system/devicename", 1],
-	
+    ["openWB/system/regelneeds", 1],	
 	
 	// pv topics
 	["openWB/pv/W", 1],

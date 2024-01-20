@@ -31,6 +31,7 @@ ptstart
 # Asyncron gestartet am Ende von loadvars.sh und slavemode.sh(yourcharge) 
 # alle ramdisk variablen ins mqtt übertragen die sich geänder haben
 declare -A mqttvar
+mqttvar["system/regelneeds"]=regelneeds
 mqttvar["system/IpAddress"]=ipaddress
 mqttvar["system/ConfiguredChargePoints"]=ConfiguredChargePoints
 mqttvar["evu/APhase1"]=bezuga1

@@ -136,6 +136,7 @@ var topicsToSubscribe = [
 	["openWB/system/debuglevel", 1],	
 	["openWB/system/Uptime", 1],
 	["openWB/system/devicename", 1],
+    ["openWB/system/regelneeds", 1],
 	// pv topics
 	["openWB/pv/W", 1],
 	["openWB/pv/DailyYieldKwh", 1],

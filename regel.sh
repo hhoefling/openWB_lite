@@ -82,6 +82,7 @@ function cleanup()
 	local endregel=$(date +%s)
 	local t=$((endregel-startregel))
 	openwbDebugLog "DEB" 0 "**** Regulation loop needs $t Sekunden TIME"
+	echo $t >ramdisk/regelneeds
 	if [ "$t" -le "8" ] ; then   # 1..8 Ok
 		openwbDebugLog "MAIN" 0 "**** Regulation loop needs $t Sekunden"
 	elif [ "$t" -le "9" ] ; then # 8,9 Warning 

@@ -123,7 +123,7 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 		// Chartline (y-Achse) ist Preis in ct/kWh
 		electricityPriceChartline = getCol(csvData, 1);
 
-	//	loadElectricityPriceChart();
+		loadElectricityPriceChart();
 	}
 	else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
 		setInputValue('MaxPriceForCharging', mqttpayload);
@@ -542,6 +542,14 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 		if (mqttpayload == '1') {
 			reloadDisplay();
 		}
+    } else if (mqttmsg == 'openWB/system/regelneeds') {
+      // console.log('set regelneeds from ', mqttmsg, ' ', mqttpayload);
+      $('#regelneeds').text(mqttpayload);
+      if (makeInt(mqttpayload) < 8 ) {
+            $('#backlightConfigButton').removeClass("bg-danger").addClass("bg-success");
+        } else {
+            $('#backlightConfigButton').removeClass("bg-success").addClass("bg-danger");
+        }
 	} else if (mqttmsg == 'openWB/system/Uptime') {
 		$('.systemUptime').text(mqttpayload);
 	} else if (mqttmsg == 'openWB/system/Version') {

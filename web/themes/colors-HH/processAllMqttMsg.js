@@ -695,6 +695,16 @@ function processSystemMessages(mqttmsg, mqttpayload) {
      console.log('set devicename from ', mqttmsg, ' ', mqttpayload);
       $('.devicename').text(mqttpayload);
     }
+    else if (mqttmsg == 'openWB/system/regelneeds') {
+     console.log('set regelneeds from ', mqttmsg, ' ', mqttpayload);
+      $('#regelneeds').text(mqttpayload);
+      if (makeInt(mqttpayload) < 8 ) {
+            $('#regelneeds').removeClass("bg-danger").addClass("bg-success");
+        } else {
+            $('#regelneeds').removeClass("bg-success").addClass("bg-danger");
+        }
+      
+    } 
 	else if (mqttmsg.match(/^openwb\/system\/daygraphdata[1-9][0-9]*$/i)) {
 		powerGraph.updateDay(mqttmsg, mqttpayload);
 	}
