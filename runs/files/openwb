@@ -1,0 +1,23 @@
+
+/var/log/rct.log
+{
+        rotate 4
+        weekly
+	size 100k
+        missingok
+        notifempty
+        compress
+        delaycompress
+}
+
+/var/log/openwb.error.log
+{
+        rotate 4
+        weekly
+	size 100k
+        missingok
+        notifempty
+        compress
+        delaycompress
+}
+
