@@ -32,27 +32,6 @@ set -o nounset
 cd /var/www/html/openWB/ || exit 1
 # use kostant ramdisk  , no var RAMDISK
 
-############### profiling
-ptx=0
-pt=0
-ptstart()
-{
-   ptx=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
-}
-ptend()
-{
- local txt=${1:-}
- local max=${2:-200}   
- local te
- te=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
- pt=$(( te - ptx))
- if (( pt > max ))  ; then
-   openwbDebugLog "DEB" 1 "TIME **** ${txt} needs $pt ms. (max:$max)"
-   openwbDebugLog "MAIN" 2 "TIME **** ${txt} needs $pt ms. (max:$max)"
- fi
-}
-
-
 source helperFunctions.sh
 if pidof -x -o $$ "${BASH_SOURCE[0]}"
 then
