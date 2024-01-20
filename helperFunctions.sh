@@ -292,6 +292,7 @@ declare -F ptstart &>/dev/null || {
  {
    ptx=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
  }
+export -f ptstart
  ptend()
  {
  local txt=${1:-}
@@ -305,7 +306,7 @@ declare -F ptstart &>/dev/null || {
  fi
  }
 } 
-############### profiling End
+export -f ptend 
 
 # Enable all python scripts to import from the "package"-directory without fiddling with sys.path individually
 SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
