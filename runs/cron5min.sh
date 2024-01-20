@@ -18,8 +18,8 @@ RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
 # . "$OPENWBBASEDIR/runs/rse/rseHelper.sh"
 
 if [ -e "$OPENWBBASEDIR/ramdisk/updateinprogress" ] && [ -e "$OPENWBBASEDIR/ramdisk/bootinprogress" ]; then
-	updateinprogress=$(<"$OPENWBBASEDIR/ramdisk/updateinprogress")
-	bootinprogress=$(<"$OPENWBBASEDIR/ramdisk/bootinprogress")
+	read updateinprogress <$OPENWBBASEDIR/ramdisk/updateinprogress
+	read bootinprogress  <$OPENWBBASEDIR/ramdisk/bootinprogress
 	if (( updateinprogress == "1" )); then
 		openwbDebugLog "MAIN" 0 "##### cron5min.sh Update in progress EXIT 0"
 		exit 0
@@ -61,10 +61,10 @@ if [[ ! -f "$monthlyladelogfile" ]]; then
 	echo > "$monthlyladelogfile"
 fi
 
-ll1=$(<$RAMDISKDIR/llkwh)  # Zählerstand LP1
-ll2=$(<$RAMDISKDIR/llkwhs1)  # Zählerstand LP2
-ll3=$(<$RAMDISKDIR/llkwhs2)  # Zählerstand LP3
-llg=$(<$RAMDISKDIR/llkwhges)
+read ll1 <$RAMDISKDIR/llkwh  # Zählerstand LP1
+read ll2 <$RAMDISKDIR/llkwhs1  # Zählerstand LP2
+read ll3 <$RAMDISKDIR/llkwhs2  # Zählerstand LP3
+read llg <$RAMDISKDIR/llkwhges
 
 # ins Log als Wh
 ll1=$(echo "$ll1 * 1000" | bc)
@@ -79,47 +79,47 @@ ll7=0
 ll8=0
 
 # calculate daily stats
-bezug=$(<$RAMDISKDIR/bezugkwh)
-einspeisung=$(<$RAMDISKDIR/einspeisungkwh)
+read bezug <$RAMDISKDIR/bezugkwh
+read einspeisung <$RAMDISKDIR/einspeisungkwh
 if [[ $pv2wattmodul != "none" ]]; then
-	pv=$(<$RAMDISKDIR/pvallwh)
+	read pv <$RAMDISKDIR/pvallwh
 else
-	pv=$(<$RAMDISKDIR/pvkwh)
+	read pv <$RAMDISKDIR/pvkwh
 fi
-soc=$(<$RAMDISKDIR/soc)
-soc1=$(<$RAMDISKDIR/soc1)
-speicheri=$(<$RAMDISKDIR/speicherikwh)
-speichere=$(<$RAMDISKDIR/speicherekwh)
-speichersoc=$(<$RAMDISKDIR/speichersoc)
-verbraucher1=$(<$RAMDISKDIR/verbraucher1_wh)
-verbraucher2=$(<$RAMDISKDIR/verbraucher2_wh)
+read soc <$RAMDISKDIR/soc
+read soc1 <$RAMDISKDIR/soc1
+read speicheri <$RAMDISKDIR/speicherikwh
+read speichere <$RAMDISKDIR/speicherekwh
+read speichersoc <$RAMDISKDIR/speichersoc
+read verbraucher1 <$RAMDISKDIR/verbraucher1_wh
+read verbraucher2 <$RAMDISKDIR/verbraucher2_wh
 # verbraucher3=$(<$RAMDISKDIR/verbraucher3_wh)
 verbraucher3NC=0  # NC
-temp1=$(<$RAMDISKDIR/device1_temp0)
-temp2=$(<$RAMDISKDIR/device1_temp1)
-temp3=$(<$RAMDISKDIR/device1_temp2)
-temp4=$(<$RAMDISKDIR/device2_temp0)
-temp5=$(<$RAMDISKDIR/device2_temp1)
-temp6=$(<$RAMDISKDIR/device2_temp2)
-d1=$(<$RAMDISKDIR/device1_wh)
-d2=$(<$RAMDISKDIR/device2_wh)
-d3=$(<$RAMDISKDIR/device3_wh)
-d4=$(<$RAMDISKDIR/device4_wh)
-d5=$(<$RAMDISKDIR/device5_wh)
-d6=$(<$RAMDISKDIR/device6_wh)
-d7=$(<$RAMDISKDIR/device7_wh)
-d8=$(<$RAMDISKDIR/device8_wh)
-d9=$(<$RAMDISKDIR/device9_wh)
+read temp1 <$RAMDISKDIR/device1_temp0
+read temp2 <$RAMDISKDIR/device1_temp1
+read temp3 <$RAMDISKDIR/device1_temp2
+read temp4 <$RAMDISKDIR/device2_temp0
+read temp5 <$RAMDISKDIR/device2_temp1
+read temp6 <$RAMDISKDIR/device2_temp2
+read d1 <$RAMDISKDIR/device1_wh
+read d2 <$RAMDISKDIR/device2_wh
+read d3 <$RAMDISKDIR/device3_wh
+read d4 <$RAMDISKDIR/device4_wh
+read d5 <$RAMDISKDIR/device5_wh
+read d6 <$RAMDISKDIR/device6_wh
+read d7 <$RAMDISKDIR/device7_wh
+read d8 <$RAMDISKDIR/device8_wh
+read d9 <$RAMDISKDIR/device9_wh
 d10="0"
-d1haus=$(<$RAMDISKDIR/smarthome_device_minhaus_1)
-d2haus=$(<$RAMDISKDIR/smarthome_device_minhaus_2)
-d3haus=$(<$RAMDISKDIR/smarthome_device_minhaus_3)
-d4haus=$(<$RAMDISKDIR/smarthome_device_minhaus_4)
-d5haus=$(<$RAMDISKDIR/smarthome_device_minhaus_5)
-d6haus=$(<$RAMDISKDIR/smarthome_device_minhaus_6)
-d7haus=$(<$RAMDISKDIR/smarthome_device_minhaus_7)
-d8haus=$(<$RAMDISKDIR/smarthome_device_minhaus_8)
-d9haus=$(<$RAMDISKDIR/smarthome_device_minhaus_9)
+read d1haus <$RAMDISKDIR/smarthome_device_minhaus_1
+read d2haus <$RAMDISKDIR/smarthome_device_minhaus_2
+read d3haus <$RAMDISKDIR/smarthome_device_minhaus_3
+read d4haus <$RAMDISKDIR/smarthome_device_minhaus_4
+read d5haus <$RAMDISKDIR/smarthome_device_minhaus_5
+read d6haus <$RAMDISKDIR/smarthome_device_minhaus_6
+read d7haus <$RAMDISKDIR/smarthome_device_minhaus_7
+read d8haus <$RAMDISKDIR/smarthome_device_minhaus_8
+read d9haus <$RAMDISKDIR/smarthome_device_minhaus_9
 
 # now add a line to our daily csv
 if ! [[ -e "$headfile.csv" ]] ; then
@@ -133,17 +133,17 @@ openwbDebugLog "MAIN" 1 "daily csv updated: $dailyfile.csv"
 # temporary disabled
 # netzabschaltunghz=0
 if (( netzabschaltunghz == 1 )); then
-	hz=$(<"$RAMDISKDIR/llhz")
+	read hz <"$RAMDISKDIR/llhz"
 	hz=$(echo "$hz * 100" | bc | sed 's/\..*$//')
 	openwbDebugLog "MAIN" 1 "Netzschutz konfiguriert; aktuelle Frequenz: ${hz}"
-	netzschutz=$(<"$RAMDISKDIR/netzschutz")
+	read netzschutz <"$RAMDISKDIR/netzschutz"
 	if (( netzschutz == 0 )); then
 		# grid protection is not set
 		if (( hz > 4500 )) && (( hz < 5300 )); then
 			if (( hz > 5180 )); then
 				# grid power overload detected
 				# store current charge mode
-				lademodus=$(<"$RAMDISKDIR/lademodus")
+				read lademodus <"$RAMDISKDIR/lademodus"
 				echo "$lademodus" > "$RAMDISKDIR/templademodus"
 				# set charge mode to stop
 				echo $STOP3 > "$RAMDISKDIR/lademodus"
@@ -155,7 +155,7 @@ if (( netzabschaltunghz == 1 )); then
 			if (( hz < 4920 )); then
 				# grid power underload detected
 				# store current charge mode
-				lademodus=$(<"$RAMDISKDIR/lademodus")
+				read lademodus <"$RAMDISKDIR/lademodus"
 				echo "$lademodus" > "$RAMDISKDIR/templademodus"
 				# set grid protection
 				echo 1 > "$RAMDISKDIR/netzschutz"
@@ -171,7 +171,7 @@ if (( netzabschaltunghz == 1 )); then
 		if (( hz > 4960 )) && (( hz < 5100 )); then
 			# grid is in normal load range
 			# restore last charge mode
-			templademodus=$(<"$RAMDISKDIR/templademodus")
+			read templademodus <"$RAMDISKDIR/templademodus"
 			echo "$templademodus" > "$RAMDISKDIR/lademodus"
 			# remove grid protection
 			echo 0 > "$RAMDISKDIR/netzschutz"
@@ -388,7 +388,7 @@ if (( isss == 1 )) ; then
 	openwbDebugLog "MAIN" 1 "isss mode configured"
 else
 	openwbDebugLog "MAIN" 1 "isss mode not configured; checking network setup"
-	ethstate=$(</sys/class/net/eth0/carrier)
+	read ethstate </sys/class/net/eth0/carrier
 	if (( ethstate == 1 )); then
 		eth00ip=$(sudo ifconfig eth0:0 |grep 'inet ' |awk '{print $2}' )
 		openwbDebugLog "MAIN" 1 "check virt ip for eth0  [$eth00ip] = [$virtual_ip_eth0] "
@@ -400,7 +400,7 @@ else
 		fi
 
 		if [ -d /sys/class/net/wlan0 ]; then  			# wlanchip found
-			wlanstate=$(</sys/class/net/wlan0/carrier)
+			read wlanstate </sys/class/net/wlan0/carrier
 			openwbDebugLog "MAIN" 1 "eth0 and wlan0 exists check wlancarrier:$wlanstate"
 			if (( wlanstate == 1 )); then
 				wlan00ip=$(sudo ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
@@ -408,7 +408,7 @@ else
 				if [ "$wlan00ip" != "" ] ; then
 					openwbDebugLog "MAIN" 1 "remove virt ip for wlan"
 					sudo ifconfig wlan0:0 "$virtual_ip_wlan0" netmask 255.255.255.0 down
-					wlanstate=$(</sys/class/net/wlan0/carrier)
+					read wlanstate </sys/class/net/wlan0/carrier
 					if (( wlanstate == 1 )); then
 						openwbDebugLog "MAIN" 1 "now stop hostapd and dnsmasq"
 						sudo systemctl stop hostapd >/dev/null 2>&1

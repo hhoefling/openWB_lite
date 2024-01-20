@@ -59,7 +59,7 @@ function checkIfIsssIsNeeded()  # -> none or cmd to start
       isss_mode="socket"
       needIsss=1
       if [[ -r /home/pi/ppbuchse ]] ; then
-         isss_32=$(< /home/pi/ppbuchse)
+         read isss_32 </home/pi/ppbuchse
          re='^[0-9]+$'
          if ! [[ $isss_32 =~ $re ]] ; then
            openwbDebugLog "MAIN" 0 "Invalid or no value in ppbuchse. use default 32."
@@ -1057,7 +1057,7 @@ function sysdaem_status() # $1=eneabled
 function selectstatus()
 {
  local -i smartmq smarthome
- smartmq=$(<"/var/www/html/openWB/ramdisk/smartmq")
+ raad smartmq <"/var/www/html/openWB/ramdisk/smartmq"
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  services_log "****ANF Status for openWB.Services $1 $smartmq $smarthome ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_status  $rseenabled
@@ -1077,7 +1077,7 @@ function selectstatus()
 function selectstart()
 {
  local -i smartmq smarthome
- smartmq=$(<"/var/www/html/openWB/ramdisk/smartmq")
+ read smartmq <"/var/www/html/openWB/ramdisk/smartmq"
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #services_log "****ANF Start for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_start  $rseenabled
@@ -1096,7 +1096,7 @@ function selectstart()
 function selectstop()
 {
  local -i smartmq smarthome
- smartmq=$(<"/var/www/html/openWB/ramdisk/smartmq")
+ read smartmq <"/var/www/html/openWB/ramdisk/smartmq"
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #services_log "****ANF Stop for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_stop $rseenabled  
@@ -1115,7 +1115,7 @@ function selectstop()
 function selectcron5()
 {
  local -i smartmq smarthome
- smartmq=$(<"/var/www/html/openWB/ramdisk/smartmq")
+ read smartmq <"/var/www/html/openWB/ramdisk/smartmq"
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #services_log "****ANF cron5 for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_cron5  $rseenabled
@@ -1133,7 +1133,7 @@ function selectcron5()
 function selectreboot()
 {
  local -i smartmq smarthome
- smartmq=$(<"/var/www/html/openWB/ramdisk/smartmq")
+ read smartmq <"/var/www/html/openWB/ramdisk/smartmq"
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #services_log "****ANF reboot for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_reboot $rseenabled  

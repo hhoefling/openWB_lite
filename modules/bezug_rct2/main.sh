@@ -22,7 +22,7 @@ fi
 
 python3 /var/www/html/openWB/modules/bezug_rct2/rct_read_bezug.py $opt --ip=$bezug1_ip >/dev/null
 
-wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
+read wattbezug </var/www/html/openWB/ramdisk/wattbezug
 echo $wattbezug
 exit 0
 
@@ -32,10 +32,10 @@ if
   #openwbDebugLog "DEB" 0 "EVU.." 
   timeout 8 python3 /var/www/html/openWB/modules/bezug_rct2/rct_read_bezug.py $opt --ip=$bezug1_ip >/dev/null
 then
-  wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
+  read wattbezug </var/www/html/openWB/ramdisk/wattbezug
 else
   openwbDebugLog "DEB" 0 " EVU > 2 !!! "
-  wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
+  read wattbezug </var/www/html/openWB/ramdisk/wattbezug
 fi
 
 echo $wattbezug

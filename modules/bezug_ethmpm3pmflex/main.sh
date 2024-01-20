@@ -34,5 +34,5 @@ else
 fi
 openwbDebugLog ${DMOD} 2 "EVU RET: ${ret}"
 
-wattbezug=$(<${RAMDISKDIR}/wattbezug)
+read wattbezug <${RAMDISKDIR}/wattbezug
 echo $wattbezug

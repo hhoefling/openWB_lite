@@ -4,7 +4,7 @@ ip=$2
 chargepcp=$3
 outputname="extopenwb"$chargep"temp"
 timeout 1 mosquitto_sub -v -h $ip -t openWB/lp/$chargepcp/# > /var/www/html/openWB/ramdisk/$outputname
-myipaddress=$(</var/www/html/openWB/ramdisk/ipaddress)
+read myipaddress </var/www/html/openWB/ramdisk/ipaddress
 #values=$(</var/www/html/openWB/ramdisk/extopenwb$chargeptemp)
 #echo -e $values
 #watt=$(mosquitto_sub -C 1 -h $ip -t openWB/lp/1/W) 
@@ -42,7 +42,7 @@ if [[ $(wc -l </var/www/html/openWB/ramdisk/$outputname) -ge 5 ]]; then
 		echo $kWhCounter > /var/www/html/openWB/ramdisk/llkwh
 		echo $boolPlugStat > /var/www/html/openWB/ramdisk/plugstat
 		echo $boolChargeStat > /var/www/html/openWB/ramdisk/chargestat
-		soc=$(</var/www/html/openWB/ramdisk/soc)
+		read soc </var/www/html/openWB/ramdisk/soc
 		mosquitto_pub -h $ip -r -t openWB/set/lp/$chargepcp/%Soc -m "$soc"
 
 
@@ -58,7 +58,7 @@ if [[ $(wc -l </var/www/html/openWB/ramdisk/$outputname) -ge 5 ]]; then
 		echo $kWhCounter > /var/www/html/openWB/ramdisk/llkwhs1
 		echo $boolPlugStat > /var/www/html/openWB/ramdisk/plugstats1
 		echo $boolChargeStat > /var/www/html/openWB/ramdisk/chargestats1
-		soc=$(</var/www/html/openWB/ramdisk/soc1)
+		read soc </var/www/html/openWB/ramdisk/soc1
 		mosquitto_pub -h $ip -r -t openWB/set/lp/$chargepcp/%Soc -m "$soc"
 
 	fi
@@ -106,7 +106,7 @@ if [[ $(wc -l </var/www/html/openWB/ramdisk/$outputname) -ge 5 ]]; then
 else
 	openwbModulePublishState "LP" 1 "Keine Daten vom LP erhalten, IP Korrekt?" $chargep
 	openwbDebugLog "MAIN" 0 "Keine Daten von externe openWB LP $chargep empfangen"
-	errcounter=$(</var/www/html/openWB/ramdisk/errcounterextopenwb)
+	read errcounter </var/www/html/openWB/ramdisk/errcounterextopenwb
 	errcounter=$((errcounter+1))
 	echo $errcounter > /var/www/html/openWB/ramdisk/errcounterextopenwb
 	if (( errcounter > 5 )); then

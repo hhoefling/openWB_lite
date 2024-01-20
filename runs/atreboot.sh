@@ -344,7 +344,7 @@ at_reboot() {
 
 	# check for LAN/WLAN connection
 	log "LAN/WLAN..."
-	ethstate=$(</sys/class/net/eth0/carrier)
+	read ethstate </sys/class/net/eth0/carrier
 	if (( ethstate == 1 )); then
 		sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 up
 	else
@@ -653,8 +653,8 @@ at_reboot() {
 	
 	# update version
 	log "version..."
-	uuid=$(</sys/class/net/eth0/address)
-	owbv=$(<"$OPENWBBASEDIR/web/version")
+	read uuid </sys/class/net/eth0/address
+	read owbv <$OPENWBBASEDIR/web/version
 	# NO curl --connect-timeout 10 -d "update=\"${releasetrain}${uuid}vers${owbv}\"" -H "Content-Type: application/x-www-form-urlencoded" -X POST https://openwb.de/tools/update.php
     log "version ${releasetrain}${uuid}vers${owbv} not published"
 
@@ -673,7 +673,7 @@ at_reboot() {
 
 # disable virt.Netword in issss mode
     if (( isss == 1 )); then
-        ethstate=$(</sys/class/net/eth0/carrier)
+        read ethstate </sys/class/net/eth0/carrier
         if (( ethstate == 1 )); then
             log "isss mode, stop virtual network on eth0"
             sudo ifconfig eth0:0 "$virtual_ip_eth0" netmask 255.255.255.0 down

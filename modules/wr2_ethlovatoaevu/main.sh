@@ -7,7 +7,7 @@ else
 fi
 
 
-pvwatt2=$(</var/www/html/openWB/ramdisk/pv2watt)
+read pvwatt2 </var/www/html/openWB/ramdisk/pv2watt
 echo $pvwatt2
 
 

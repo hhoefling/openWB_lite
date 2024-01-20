@@ -23,5 +23,5 @@ elif (( pvkitversion == 2 )); then
 else
 	python3 ${OPENWBBASEDIR}/modules/wr_pvkit/readmpm3pm.py >>${MYLOGFILE} 2>&1
 fi
-pvwatt=$(<${RAMDISKDIR}/pvwatt)
+read pvwatt <${RAMDISKDIR}/pvwatt)
 echo $pvwatt

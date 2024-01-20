@@ -38,9 +38,9 @@ Log()
 # Example: ./set-current.sh 9 s1
 # sets charging current on point "s1" to 9A
 
-lp1enabled=$(<ramdisk/lp1enabled)
-lp2enabled=$(<ramdisk/lp2enabled)
-lp3enabled=$(<ramdisk/lp3enabled)
+read lp1enabled <ramdisk/lp1enabled
+read lp2enabled <ramdisk/lp2enabled
+read lp3enabled <ramdisk/lp3enabled
 #####
 #
 # functions
@@ -301,7 +301,7 @@ function setChargingCurrent () {
 	if [[ $evsecon == "modbusevse" ]]; then
 		if [[ "$modbusevseid" == 0 ]]; then
 			if [ -f /var/www/html/openWB/ramdisk/evsemodulconfig ]; then
-				modbusevsesource=$(<ramdisk/evsemodulconfig)
+				read modbusevsesource <ramdisk/evsemodulconfig
 				modbusevseid=1
 
 			else
@@ -310,7 +310,7 @@ function setChargingCurrent () {
 				else
 					echo "/dev/serial0" > ramdisk/evsemodulconfig
 				fi
-				modbusevsesource=$(<ramdisk/evsemodulconfig)
+				read modbusevsesource <ramdisk/evsemodulconfig
 				modbusevseid=1
 
 			fi

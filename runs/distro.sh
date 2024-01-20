@@ -1,6 +1,6 @@
 #!/bin/bash
 
-debv=$(</etc/debian_version)
+read debv </etc/debian_version
 i=(${debv//./ })
 
 case $i in

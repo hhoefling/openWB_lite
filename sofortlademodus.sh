@@ -4,14 +4,14 @@ openwbDebugLog "MAIN" 2 "Source sofortladen.sh (mode:$lademodus) mode=0"
 sofortlademodus(){
 	if [[ $schieflastaktiv == "1" ]]; then
 		if [[ $u1p3paktiv == "1" ]]; then
-			u1p3pstat=$(<ramdisk/u1p3pstat)
+			read u1p3pstat <ramdisk/u1p3pstat
 			if [[ $u1p3pstat == "1" ]]; then
 				maximalstromstaerke=$schieflastmaxa
 			fi
 		fi
 	fi
 	if (( etprovideraktiv == 1 )); then
-		actualprice=$(<ramdisk/etproviderprice)
+		read actualprice <ramdisk/etproviderprice
         openwbDebugLog "DEB" 1 "etprovideraktiv == 1, price: $actualprice max:$etprovidermaxprice"
 		if (( $(echo "$actualprice <= $etprovidermaxprice" |bc -l) )); then
 			#price lower than max price, enable charging
@@ -45,7 +45,7 @@ sofortlademodus(){
 	if (( lastmmaxw < 10 ));then
 		lastmmaxw=40000
 	fi
-	aktgeladen=$(<ramdisk/aktgeladen)
+	read aktgeladen <ramdisk/aktgeladen
 	#mit einem Ladepunkt
 	if [[ $lastmanagement == "0" ]]; then
 		if (( msmoduslp1 == "2" )); then
@@ -263,7 +263,7 @@ sofortlademodus(){
 		if (( ladeleistunglp2 > 100)); then activechargepoints=$((activechargepoints + 1)); fi
 		if (( ladeleistunglp3 > 100)); then activechargepoints=$((activechargepoints + 1)); fi
 		#mit mehr als einem ladepunkt
-		aktgeladens1=$(<ramdisk/aktgeladens1)
+		read aktgeladens1 <ramdisk/aktgeladens1
 		if (( evua1 < lastmaxap1 )) && (( evua2 < lastmaxap2 )) &&  (( evua3 < lastmaxap3 )) && (( wattbezug < lastmmaxw )); then
 			evudiff1=$((lastmaxap1 - evua1 ))
 			evudiff2=$((lastmaxap2 - evua2 ))
@@ -465,7 +465,7 @@ sofortlademodus(){
 
 			#Ladepunkt 3
 			if [[ $lastmanagements2 == "1" ]]; then
-				aktgeladens2=$(<ramdisk/aktgeladens2)
+				read aktgeladens2 <ramdisk/aktgeladens2
 				if (( msmoduslp3 == "1" )) && (( $(echo "$aktgeladens2 > $lademkwhs2" |bc -l) )); then
 					# Ernergie-Limit gesetzt und erreicht
 					if grep -q 1 ramdisk/ladestatuss2; then
@@ -652,7 +652,7 @@ sofortlademodus(){
 				openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Sofort. Ladung geändert auf $llneus1 Ampere"
 			fi
 			if [[ $lastmanagements2 == "1" ]]; then
-				aktgeladens2=$(<ramdisk/aktgeladens2)
+				read aktgeladens2 <ramdisk/aktgeladens2
 				if (( msmoduslp2 == "1" )) && (( $(echo "$aktgeladens2 > $lademkwhs2" |bc -l) )); then
 					if grep -q 1 ramdisk/ladestatuss2; then
 						runs/set-current.sh 0 s2

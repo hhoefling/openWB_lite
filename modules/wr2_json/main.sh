@@ -32,7 +32,7 @@ if [ ! -z "$wr2jsonkwh" ]; then
 	pvkwh=$(echo $answer | jq -r "$wr2jsonkwh")
 	if ! [[ $pvkwh =~ $re ]] ; then
 		openwbDebugLog ${DMOD} 1 "PV2kWh Not Numeric: $pvkwh . Check if Filter is correct or WR is in standby"
-		pvkwh=$(</var/www/html/openWB/ramdisk/pv2kwh)
+		read pvkwh </var/www/html/openWB/ramdisk/pv2kwh
 	fi
 else
 	openwbDebugLog ${DMOD} 2 "PV2kWh NoFilter is set"

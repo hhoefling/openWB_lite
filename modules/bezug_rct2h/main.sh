@@ -31,7 +31,7 @@ Log 2 "wattbezugmodul:$wattbezugmodul"
 now=`date +%s`
 # check Lastrun
 if [ -f "$stamp" ] ; then
-	lastrun=$(<$stamp)
+	read lastrun <$stamp
 else	
 	let "lastrun= now - secs"
 	echo "$lastrun" >$stamp

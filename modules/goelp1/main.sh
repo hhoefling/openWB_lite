@@ -43,7 +43,7 @@ if [[ "$rc" == "0" ]] ; then
 		echo $llkwh > /var/www/html/openWB/ramdisk/llkwh
 	fi
 	rfid=$(echo $output | jq -r '.uby')
-	oldrfid=$(</var/www/html/openWB/ramdisk/tmpgoelp1rfid)
+	read oldrfid </var/www/html/openWB/ramdisk/tmpgoelp1rfid
 	if [[ $rfid != $oldrfid ]] ; then
 		echo $rfid > /var/www/html/openWB/ramdisk/readtag
 		echo $rfid > /var/www/html/openWB/ramdisk/tmpgoelp1rfid

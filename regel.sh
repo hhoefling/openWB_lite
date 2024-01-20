@@ -61,8 +61,8 @@ then
 fi
 
 if [ -e ramdisk/updateinprogress ] && [ -e ramdisk/bootinprogress ]; then
-	updateinprogress=$(<ramdisk/updateinprogress)
-	bootinprogress=$(<ramdisk/bootinprogress)
+	read updateinprogress <ramdisk/updateinprogress
+	read bootinprogress <ramdisk/bootinprogress
 	if (( updateinprogress == "1" )); then
 		openwbDebugLog "MAIN" 0 "Update in progress EXIT 0"
 		exit 0
@@ -130,7 +130,7 @@ fi
 date=$(date)
 re='^-?[0-9]+$'
 if [[ $isss == "1" ]]; then
-	heartbeat=$(<ramdisk/heartbeat)
+	read heartbeat <ramdisk/heartbeat
 	heartbeat=$((heartbeat+10))
 	echo $heartbeat > ramdisk/heartbeat
 	mosquitto_pub -r -t "openWB/system/Uptime" -m "$(uptime)"
@@ -285,7 +285,7 @@ ptend graphing 600
 
 
 if (( u1p3paktiv == 1 )); then
-	blockall=$(<ramdisk/blockall)
+	read blockall <ramdisk/blockall
 	if (( blockall == 1 )); then
 		openwbDebugLog "MAIN" 1 "----- Phasen Umschaltung noch aktiv... beende (EXIT 0) -----"
 		exit 0
@@ -323,7 +323,7 @@ if (( u1p3paktiv == 1 )); then
 	openwbDebugLog "MAIN" 1 "Start u1p3switsch"
 	u1p3pswitch
 	openwbDebugLog "MAIN" 1 "End u1p3switsch"
-	blockall=$(<ramdisk/blockall)
+	read blockall <ramdisk/blockall
 	if (( blockall == 1 )); then
 		openwbDebugLog "MAIN" 1 "Phasen Umschaltung wurde aktiv... beende (EXIT 0)"
 		exit 0
@@ -335,8 +335,8 @@ if (( cpunterbrechunglp1 == 1 )); then
 	if (( plugstat == 1 )) && (( lp1enabled == 1 )); then
 		if (( llalt > 5 )); then
 			if (( ladeleistung < 100 )); then
-				cpulp1waraktiv=$(<ramdisk/cpulp1waraktiv)
-				cpulp1counter=$(<ramdisk/cpulp1counter)
+				read cpulp1waraktiv <ramdisk/cpulp1waraktiv
+				read cpulp1counter <ramdisk/cpulp1counter
 				if (( cpulp1counter > 5 )); then
 					if (( cpulp1waraktiv == 0 )); then
 						openwbDebugLog "MAIN" 0 "CP Unterbrechung an LP1 wird durchgeführt"
@@ -375,8 +375,8 @@ if (( cpunterbrechunglp2 == 1 )); then
 	if (( plugstatlp2 == 1 )) && (( lp2enabled == 1 )); then
 		if (( llalts1 > 5 )); then
 			if (( ladeleistunglp2 < 100 )); then
-				cpulp2waraktiv=$(<ramdisk/cpulp2waraktiv)
-				cpulp2counter=$(<ramdisk/cpulp2counter)
+				read cpulp2waraktiv <ramdisk/cpulp2waraktiv
+				read cpulp2counter <ramdisk/cpulp2counter
 				if (( cpulp2counter > 5 )); then
 					if (( cpulp2waraktiv == 0 )); then
 						openwbDebugLog "MAIN" 0 "CP Unterbrechung an LP2 wird durchgeführt"
@@ -427,8 +427,8 @@ fi
 
 #Prüft ob der RSE (Rundsteuerempfängerkontakt) geschlossen ist, wenn ja wird die Ladung pausiert.
 if (( rseenabled == 1 )); then
-	rsestatus=$(<ramdisk/rsestatus)
-	rseaktiv=$(<ramdisk/rseaktiv)
+	read rsestatus <ramdisk/rsestatus
+	read rseaktiv <ramdisk/rseaktiv
 	if (( rsestatus == 1 )); then
 		echo "RSE Kontakt aktiv, pausiere Ladung" > ramdisk/lastregelungaktiv
 		if (( rseaktiv == 0 )); then
@@ -441,7 +441,7 @@ if (( rseenabled == 1 )); then
 	else
 		if (( rseaktiv == 1 )); then
 			openwbDebugLog "CHARGESTAT" 0 "RSE Kontakt deaktiviert, setze auf alten Lademodus zurück"
-			rselademodus=$(<ramdisk/rseoldlademodus)
+			read rselademodus <ramdisk/rseoldlademodus
 			echo "$rselademodus" > ramdisk/lademodus
 			mosquitto_pub -r -t openWB/set/ChargeMode -m "$rselademodus"
 			echo 0 > ramdisk/rseaktiv
@@ -521,7 +521,7 @@ prenachtlademodus
 
 #######################
 #Ladestromstarke berechnen
-anzahlphasen=$(<ramdisk/anzahlphasen)
+read anzahlphasen <ramdisk/anzahlphasen
 if (( anzahlphasen > 9 )); then
 	anzahlphasen=1
 fi
@@ -650,7 +650,7 @@ fi
 ########################
 # Berechnung für PV Regelung
 if [[ $nurpv70dynact == "1" ]]; then
-	nurpv70status=$(<ramdisk/nurpv70dynstatus)
+	read nurpv70status <ramdisk/nurpv70dynstatus
 	if [[ $nurpv70status == "1" ]]; then
 		uberschuss=$((uberschuss - nurpv70dynw))           # ue - 6000 = 
 		# Schwelle zum Beginn der Ladung

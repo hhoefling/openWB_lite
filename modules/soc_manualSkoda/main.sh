@@ -25,7 +25,7 @@ function socLog()
 function getrvar()
 {  # ramdisk-fileName, defaultwert
   if [ -f $RAMDISKDIR/$1 ] ; then 
-	  val=$(<$RAMDISKDIR/$1)
+	  real val <$RAMDISKDIR/$1
   else 
 	  val=$2
   fi

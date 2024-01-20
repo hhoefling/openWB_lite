@@ -17,7 +17,7 @@ fi
 case $CHARGEPOINT in
 	2)
 		# second charge point
-		ladeleistung=$(<"$RAMDISKDIR/llaktuells1")
+		read ladeleistung <"$RAMDISKDIR/llaktuells1"
 		soctimerfile="$RAMDISKDIR/soctimer1"
 		socfile="$RAMDISKDIR/soc1"
 		ip=$hsocip1
@@ -28,7 +28,7 @@ case $CHARGEPOINT in
 		# defaults to first charge point for backward compatibility
 		# set CHARGEPOINT in case it is empty (needed for logging)
 		CHARGEPOINT=1
-		ladeleistung=$(<"$RAMDISKDIR/llaktuell")
+		read ladeleistung <"$RAMDISKDIR/llaktuell"
 		soctimerfile="$RAMDISKDIR/soctimer"
 		socfile="$RAMDISKDIR/soc"
 		ip=$hsocip
@@ -80,7 +80,7 @@ getAndWriteSoc(){
 	fi
 }
 
-soctimer=$(<"$soctimerfile")
+read soctimer <"$soctimerfile"
 #openwbDebugLog ${DMOD} 2 "Lp$CHARGEPOINT: timer = $soctimer"
 if (( ladeleistung > 500 )); then
 	if (( soctimer < intervallladen )); then

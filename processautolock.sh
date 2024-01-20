@@ -31,9 +31,9 @@ set -eo pipefail
 cd /var/www/html/openWB/
 
 # sets variables necessary due to inconsistent naming
-powerLp1=$(<ramdisk/llaktuell)
-powerLp2=$(<ramdisk/llaktuells1)
-powerLp3=$(<ramdisk/llaktuells2)
+read powerLp1 <ramdisk/llaktuell
+read powerLp2 <ramdisk/llaktuells1
+read powerLp3 <ramdisk/llaktuells2
 isConfiguredLp1="1"
 isConfiguredLp2=$lastmanagement
 isConfiguredLp3=$lastmanagements2
@@ -69,8 +69,8 @@ if [ "$second" -lt "10" ]; then
 			fi
 
 			# now process the settings...
-			lpenabled=$(<$lpFilename)  # read ramdisk value for lp enabled
-			statusFlag=$(<$statusFlagFilename)  # read flag from ramdisk
+			read lpenabled <$lpFilename  # read ramdisk value for lp enabled
+			read statusFlag <$statusFlagFilename  # read flag from ramdisk
 			if [ "$lpenabled" = "1" ] && [ $timeOfDay = "$lockTime" ] && [ $statusFlag != "1" ]; then
 				# if the charge point is enabled and auto lock time is now
 				# and flag not already set, set flag "waiting for autolock"
@@ -102,7 +102,7 @@ do
 	statusFlagFilename="ramdisk/autolockstatuslp${chargePoint}"  # name autolock status file
 	if [ "${!variableConfiguredLpName}" = "1" ]; then
 		# charge point is configured, so process it
-		statusFlag=$(<$statusFlagFilename)  # read ramdisk value for autolock wait flag
+		read statusFlag <$statusFlagFilename  # read ramdisk value for autolock wait flag
 
 		# check all settings if any time is configured for lp to set flag for icon in theme
 		isAutolockConfigured=false

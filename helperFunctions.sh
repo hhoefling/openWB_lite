@@ -14,7 +14,7 @@ writeifchanged()
  if ! [ -f $cf ]; then
 	  cached=""
  else
-    cached=$(<$cf)
+    read cached <$cf
  fi
  #openwbDebugLog "MAIN" 0 "checkcache [$checktxt] [$cf] [$cached] $t1 $t2"
  if [[ "$cached" != "$checktxt" ]] ; then

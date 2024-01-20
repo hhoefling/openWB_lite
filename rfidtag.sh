@@ -21,7 +21,7 @@ rfid() {
 
 	setLpPlugChangeState
 
-	lasttag=$(<"ramdisk/readtag")
+	read lasttag <"ramdisk/readtag"
 
 	if [[ $lasttag != "0" ]]; then
 		if [ "$lasttag" == "$rfidlp1c1" ] || [ "$lasttag" == "$rfidlp1c2" ]  || [ "$lasttag" == "$rfidlp1c3" ] ; then
@@ -93,13 +93,13 @@ setLpPlugChangeState() {
 		echo "$plugstat" > "ramdisk/accPlugstatChangeDetectLp1"
 	fi
 	local oplugstat
-	oplugstat=$(<"ramdisk/accPlugstatChangeDetectLp1")
+	read oplugstat <ramdisk/accPlugstatChangeDetectLp1
 
 	if [ ! -f "ramdisk/accPlugstatChangeDetectLp2" ]; then
 		echo "$plugstats1" > "ramdisk/accPlugstatChangeDetectLp2"
 	fi
 	local oplugstats1
-	oplugstats1=$(<"ramdisk/accPlugstatChangeDetectLp2")
+	read oplugstats1 <ramdisk/accPlugstatChangeDetectLp2
 
 	pluggedLp=0
 
@@ -168,7 +168,7 @@ checkTagValidAndSetStartScanData() {
 	fi
 
 	local rfidlist
-	rfidlist=$(<"$ramdiskFileForCp")
+	read rfidlist =<$ramdiskFileForCp
 	openwbDebugLog "MAIN" 2 "rfidlist(LP${chargePoint})='${rfidlist}'"
 
 	# leave right away if we have no list of valid RFID tags for the charge point

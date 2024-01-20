@@ -3,11 +3,11 @@
 u1p3pswitch(){
 
 	if (( u1p3paktiv == 1 )); then
-		u1p3pstat=$(<ramdisk/u1p3pstat)
-		nachtladenstate=$(<ramdisk/nachtladenstate)
-		nachtladen2state=$(<ramdisk/nachtladen2state)
-        nachtladenstates1=$(<ramdisk/nachtladenstates1)   # "Nachtladen" LP2
-        nachtladen2states1=$(<ramdisk/nachtladen2states1) # "Morgensladen" LP2
+		read u1p3pstat <ramdisk/u1p3pstat
+		read nachtladenstate <ramdisk/nachtladenstate
+		read nachtladen2state <ramdisk/nachtladen2state
+        read nachtladenstates1 <ramdisk/nachtladenstates1   # "Nachtladen" LP2
+        read nachtladen2states1 <ramdisk/nachtladen2states1 # "Morgensladen" LP2
 	
 		if [ -z "$u1p3schaltparam" ]; then
 			u1p3schaltparam=8
@@ -47,7 +47,7 @@ u1p3pswitch(){
 								runs/u1p3pcheck.sh 1
 							fi
 							if (( u1p3pstat == 3 )); then
-								urcounter=$(<ramdisk/urcounter)
+								read urcounter <ramdisk/urcounter
 								if (( urcounter < urwaittime )); then
 									if (( urcounter < urwaittime - 60 )); then
 										urcounter=$((urwaittime - 60))
@@ -78,7 +78,7 @@ u1p3pswitch(){
 								runs/u1p3pcheck.sh 1
 							fi
 							if (( u1p3pstat == 3 )); then
-								urcounter=$(<ramdisk/urcounter)
+								read urcounter <ramdisk/urcounter
 								if (( urcounter < urwaittime )); then
 									if (( urcounter < urwaittime - 60 )); then
 										urcounter=$((urwaittime - 60))
@@ -164,7 +164,7 @@ u1p3pswitch(){
 				if (( lademodus == 1 )); then
 					if (( u1p3pstat != u1p3pminundpv )); then
 						if (( u1p3pminundpv == 4 )); then
-							oldll=$(<ramdisk/llsoll)
+							read oldll <ramdisk/llsoll
 							if (( u1p3pstat == 1 )); then
 								if [[ $schieflastaktiv == "1" ]]; then
 									maximalstromstaerke=$schieflastmaxa
@@ -183,7 +183,7 @@ u1p3pswitch(){
 									fi
 								fi
 								if (( oldll == maximalstromstaerke )); then
-									uhcounter=$(<ramdisk/uhcounter)
+									read uhcounter <ramdisk/uhcounter
 									if (( uhcounter < uhwaittime )); then
 										if (( maximalstromstaerke == 16 )); then
 											if (( uberschuss > 500 )); then
@@ -228,7 +228,7 @@ u1p3pswitch(){
 									fi
 								fi
 								if (( oldll == minimalampv )); then
-									urcounter=$(<ramdisk/urcounter)
+									read urcounter <ramdisk/urcounter
 									if (( urcounter < urwaittime )); then
 										urcounter=$((urcounter + 10))
 										echo $urcounter > ramdisk/urcounter
@@ -268,7 +268,7 @@ u1p3pswitch(){
 				if (( lademodus == 2 )); then
 					if (( u1p3pstat != u1p3pnurpv )); then
 						if (( u1p3pnurpv == 4 )); then
-							oldll=$(<ramdisk/llsoll)
+							read oldll <ramdisk/llsoll
 							if (( u1p3pstat == 1 )); then
 								if [[ $schieflastaktiv == "1" ]]; then
 									maximalstromstaerke=$schieflastmaxa
@@ -287,7 +287,7 @@ u1p3pswitch(){
 									fi
 								fi
 								if (( oldll == maximalstromstaerke )); then
-									uhcounter=$(<ramdisk/uhcounter)
+									read uhcounter <ramdisk/uhcounter
 									if (( uhcounter < uhwaittime )); then
 										uhcounter=$((uhcounter + 10))
 										echo $uhcounter > ramdisk/uhcounter
@@ -322,7 +322,7 @@ u1p3pswitch(){
 									fi
 								fi
 								if (( oldll == minimalapv )); then
-									urcounter=$(<ramdisk/urcounter)
+									read urcounter <ramdisk/urcounter
 									if (( urcounter  < urwaittime )); then
 										urcounter=$((urcounter + 10))
 										echo $urcounter > ramdisk/urcounter

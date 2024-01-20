@@ -61,7 +61,7 @@ function syncopenwbconf()
         oldname=mqttcvc/${mqttconfvar[$mq]}
         oldval=""
         if [ -r ramdisk/${oldname} ] ; then
-            oldval=$(<ramdisk/${oldname})
+            read oldval <ramdisk/${oldname}
         fi
         if [[ "${oldval}" != "$theval" ]]; then
                     openwbDebugLog "DEB" 2 "MQTTcvc $thevarname changed [${oldval}] to [$theval] store to $mq"

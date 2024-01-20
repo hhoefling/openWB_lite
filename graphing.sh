@@ -13,9 +13,9 @@ ptstart
 	
 	#Live Graphing
 	if [[ $pv2wattmodul != "none" ]]; then
-		pvwatt=$(<ramdisk/pvallwatt)
+		read pvwatt <ramdisk/pvallwatt
 	else
-		pvwatt=$(<ramdisk/pvwatt)
+		read pvwatt <ramdisk/pvwatt
 	fi
 	pvgraph=$((-pvwatt))
 	

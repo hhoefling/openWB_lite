@@ -69,7 +69,7 @@ incrementTimer(){
 	echo $soctimer > $soctimerfile
 }
 
-soctimer=$(<$soctimerfile)
+read soctimer <$soctimerfile
 if (( soctimer < socIntervall )); then
 	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer , Nothing to do yet. Incrementing."
 	incrementTimer
@@ -80,12 +80,12 @@ else
 
 	# read current meter
 	if [[ -f "$meterFile" ]]; then					# "$RAMDISKDIR/llkwhs1"
-		currentMeter=$(<$meterFile)					# llkwhs1
+		read currentMeter <$meterFile					# llkwhs1
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentMeter: $currentMeter"
 
 		# read manual Soc
 		if [[ -f "$manualSocFile" ]]; then
-			manualSoc=$(<$manualSocFile)
+			read manualSoc <$manualSocFile
 		else
 			# set manualSoc to 0 as a starting point
 			manualSoc=0
@@ -95,7 +95,7 @@ else
 
 		# read manualMeterFile if file exists and manualMeterFile is newer than manualSocFile
 		if [[ -f "$manualMeterFile" ]] && [[ "$manualMeterFile" -nt "$manualSocFile" ]]; then
-			manualMeter=$(<$manualMeterFile)
+			read manualMeter <$manualMeterFile
 		else
 			# manualMeterFile does not exist or is outdated
 			# update manualMeter with currentMeter
@@ -106,7 +106,7 @@ else
 
 		# read current soc
 		if [[ -f "$socFile" ]] ; then      
-			currentSoc=$(<$socFile)
+			read currentSoc <$socFile
 		else
 			currentSoc=$manualSoc
 			echo $currentSoc > $socFile

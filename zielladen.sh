@@ -9,9 +9,10 @@ openwbDebugLog "MAIN" 2 "Source zielladen.sh immer wenn aktiv"
 #// aufruf bei zielladenaktivlp1>0
 ziellademodus(){
 
-	local zielladenkorrektura=$(<ramdisk/zielladenkorrektura)
+    local zielladenkorrektura
+    read zielladenkorrektura <ramdisk/zielladenkorrektura
 
-	ladestatus=$(<ramdisk/ladestatus)
+	read ladestatus <ramdisk/ladestatus
 
 	#verbleibende Zeit berechnen
 	local dateaktuell=$(date '+%Y-%m-%d %H:%M')

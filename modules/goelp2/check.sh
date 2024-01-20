@@ -9,7 +9,7 @@ goecheck2(){
 			if [[ "$rc" == "0" ]] ; then
 				state=$(echo $output | jq -r '.alw')
 				if grep -q 1 ramdisk/ladestatuss1; then
-					lp2enabled=$(<ramdisk/lp2enabled)
+					read lp2enabled <ramdisk/lp2enabled
 					if ((state == "0"))  && (( lp2enabled == "1" )) ; then
 						curl --silent --connect-timeout $goetimeoutlp2 -s http://$goeiplp2/mqtt?payload=alw=1 > /dev/null
 					fi
@@ -21,7 +21,7 @@ goecheck2(){
 				fi
 				fwv=$(echo $output | jq -r '.fwv' | grep -Po "[1-9]\d{1,2}")
 				oldcurrent=$(echo $output | jq -r '.amp')
-				current=$(<ramdisk/llsolls1)
+				read current <ramdisk/llsolls1
 				if (( oldcurrent != $current )) && (( $current != 0 )); then
 					if (($fwv >= 40)) ; then
 						curl --silent --connect-timeout $goetimeoutlp2 -s http://$goeiplp2/mqtt?payload=amx=$current > /dev/null

@@ -12,8 +12,8 @@ fi
 DMOD="PV"
 Debug=$debug
 
-pvkwh=$(<${RAMDISKDIR}/pvkwh)
-pvwatt=$(<${RAMDISKDIR}/pvwatt)
+read pvkwh <${RAMDISKDIR}/pvkwh
+read pvwatt <${RAMDISKDIR}/pvwatt
 openwbDebugLog ${DMOD} 1 "PVWatt: ${pvwatt}  PVkWh: ${pvkwh}"
 openwbModulePublishState "PV" 0 "Kein Fehler" 1
 echo $pvwatt

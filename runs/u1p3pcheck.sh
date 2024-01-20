@@ -106,32 +106,32 @@ fi
 
 if [[ "$1" == "stop" ]]; then
 	if [[ $evsecon == "modbusevse" ]]; then
-		oldll=$(<ramdisk/llsoll)
+		read oldll <ramdisk/llsoll
 		echo "$oldll" > ramdisk/tmpllsoll
 		runs/set-current.sh 0 m
 	fi
 	if [[ $evsecon == "daemon" ]]; then
-		oldll=$(<ramdisk/llsoll)
+		read oldll <ramdisk/llsoll
 		echo "$oldll" > ramdisk/tmpllsoll
 		runs/set-current.sh 0 m
 	fi
 	if [[ $evsecon == "extopenwb" ]]; then
 		mosquitto_pub -r -t openWB/set/isss/Current -h "$chargep1ip" -m "0"
-		oldll=$(<ramdisk/llsoll)
+		read oldll <ramdisk/llsoll
 		echo "$oldll" > ramdisk/tmpllsoll
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "daemon" ]]; then
-		oldlls1=$(<ramdisk/llsolls1)
+		read oldlls1 <ramdisk/llsolls1
 		echo "$oldlls1" > ramdisk/tmpllsolls1
 		runs/set-current.sh 0 s1
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "extopenwb" ]]; then
-		oldlls1=$(<ramdisk/llsolls1)
+		read oldlls1 <ramdisk/llsolls1
 		echo "$oldlls1" > ramdisk/tmpllsolls1
 		mosquitto_pub -r -t openWB/set/isss/Current -h "$chargep2ip" -m "0"
 	fi
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "extopenwb" ]]; then
-		oldlls2=$(<ramdisk/llsolls2)
+		read oldlls2 <ramdisk/llsolls2
 		echo "$oldlls2" > ramdisk/tmpllsolls2
 		
 		mosquitto_pub -r -t openWB/set/isss/Current -h "$chargep3ip" -m "0"
@@ -139,22 +139,22 @@ if [[ "$1" == "stop" ]]; then
 # lp4-lp8
 
 	if [[ $evsecon == "ipevse" ]]; then ## Alter Satellit ohne Pi3
-		oldll=$(<ramdisk/llsoll)
+		read oldll <ramdisk/llsoll
 		echo "$oldll" > ramdisk/tmpllsoll
 		runs/set-current.sh 0 m
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "modbusevse" && $u1p3plp2aktiv == "1" ]]; then
-		oldlls1=$(<ramdisk/llsolls1)
+		read oldlls1 <ramdisk/llsolls1
 		echo "$oldlls1" > ramdisk/tmpllsolls1
 		runs/set-current.sh 0 s1
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "ipevse" && $u1p3plp2aktiv == "1" ]]; then
-		oldlls1=$(<ramdisk/llsolls1)
+		read oldlls1 <ramdisk/llsolls1
 		echo "$oldlls1" > ramdisk/tmpllsolls1
 		runs/set-current.sh 0 s1
 	fi
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "ipevse" && $u1p3plp3aktiv == "1" ]]; then
-		oldlls2=$(<ramdisk/llsolls2)
+		read oldlls2 <ramdisk/llsolls2
 		echo "$oldlls2" > ramdisk/tmpllsolls2
 		runs/set-current.sh 0 s2
 	fi
@@ -164,47 +164,47 @@ fi
 
 if [[ "$1" == "start" ]]; then
 	if [[ $evsecon == "modbusevse" ]]; then
-		oldll=$(<ramdisk/tmpllsoll)
+		read oldll <ramdisk/tmpllsoll
 		runs/set-current.sh "$oldll" m
 	fi
 	if [[ $evsecon == "daemon" ]]; then
-		oldll=$(<ramdisk/tmpllsoll)
+		read oldll <ramdisk/tmpllsoll
 		runs/set-current.sh "$oldll" m
 	fi
 
 	if [[ $evsecon == "ipevse" ]]; then ## Alter Satellit ohne Pi3
-		oldll=$(<ramdisk/tmpllsoll)
+		read oldll <ramdisk/tmpllsoll
 		runs/set-current.sh "$oldll" m
 	fi
 	if [[ $evsecon == "extopenwb" ]]; then
-		oldll=$(<ramdisk/tmpllsoll)
+		read oldll <ramdisk/tmpllsoll
 		mosquitto_pub -r -t openWB/set/isss/Current -h "$chargep1ip" -m "$oldll"
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "extopenwb" ]]; then
-		oldlls1=$(<ramdisk/tmpllsolls1)
+		read oldlls1 <ramdisk/tmpllsolls1
 		mosquitto_pub -r -t openWB/set/isss/Current -h "$chargep2ip" -m "$oldlls1"
 	fi
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "extopenwb" ]]; then
-		oldlls2=$(<ramdisk/tmpllsolls2)
+		raad oldlls2 <ramdisk/tmpllsolls2
 		mosquitto_pub -r -t openWB/set/isss/Current -h "$chargep3ip" -m "$oldlls1"
 	fi
 # lp4-lp8
 
 	if [[ $lastmanagement == 1 && $evsecons1 == "modbusevse" && $u1p3plp2aktiv == "1" ]]; then
-		oldlls1=$(<ramdisk/tmpllsolls1)
+		read oldlls1 <ramdisk/tmpllsolls1
 		runs/set-current.sh "$oldlls1" s1
 	fi
 	if [[ $lastmanagement == 1 && $evsecons1 == "daemon" && $u1p3plp2aktiv == "1" ]]; then
-		oldlls1=$(<ramdisk/tmpllsolls1)
+		read oldlls1 <ramdisk/tmpllsolls1
 		runs/set-current.sh "$oldlls1" s1
 	fi
 
 	if [[ $lastmanagement == 1 && $evsecons1 == "ipevse" && $u1p3plp2aktiv == "1" ]]; then
-		oldlls1=$(<ramdisk/tmpllsolls1)
+		read oldlls1 <ramdisk/tmpllsolls1
 		runs/set-current.sh "$oldlls1" s1
 	fi
 	if [[ $lastmanagements2 == 1 && $evsecons2 == "ipevse" && $u1p3plp3aktiv == "1" ]]; then
-		oldlls2=$(<ramdisk/tmpllsolls2)
+		read oldlls2 <ramdisk/tmpllsolls2
 		runs/set-current.sh "$oldlls2" s2
 	fi
 # lp4-lp8

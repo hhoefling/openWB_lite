@@ -71,7 +71,7 @@ smgeraet() # $1 gnr 1,2,3
 	if (( Chook_aktiv == "1" )); then
 		if (( Vhookakt == 0 )); then		# von loadvars eingelesen
 			if (( uberschuss > Chookein_watt )); then
-			    Thookeinschaltverzcounter=$(<ramdisk/$Fhookeinschaltverzcounter)
+			    read Thookeinschaltverzcounter <ramdisk/$Fhookeinschaltverzcounter
 			    openwbDebugLog "MAIN" 2 "Hook $Fhookeinschaltverzcounter is $Thookeinschaltverzcounter "
 				if (( Thookeinschaltverzcounter > Chookeinschaltverz)); then
 					echo 0 > ramdisk/$Fhookeinschaltverzcounter
@@ -97,7 +97,7 @@ smgeraet() # $1 gnr 1,2,3
 		    #Chook_dauer=1
 			if test $(find "ramdisk/$Fhookaktiv" -mmin +$Chook_dauer); then
 				if (( uberschuss < Chookaus_watt )); then
-					hookcounter=$(<ramdisk/$Fhookcounter)
+					read hookcounter  <ramdisk/$Fhookcounter
 					openwbDebugLog "MAIN" 2 "off counter $Fhookcounter is $hookcounter "
 					if (( hookcounter < Chook_ausverz )); then
 						hookcounter=$((Vhookcounter + 10))
@@ -135,7 +135,7 @@ hook(){
 	fi
 
 	# Steckt der Stecker...
-		plugstat=$(<ramdisk/plugstat)
+		read plugstat <ramdisk/plugstat
 	
 	if (( angesteckthooklp1 == 1 )); then
 	    hooker $((plugstat==1)) "angesteckthooklp1aktiv"  $angesteckthooklp1_url "Angesteckt-WebHook"
@@ -146,7 +146,7 @@ hook(){
 
 	# geht bei ladeleustung>100w sofort auf 1 (ladelog.sh)
 	# geht 50Sec nach ladestop auf 0 (von ladelog.sh) verzögert um u1p3 unterbrechungen zu überbrücken 
-		ladungaktivlp1=$(<ramdisk/ladungaktivlp1)
+		read ladungaktivlp1 <ramdisk/ladungaktivlp1
 	      
 	if (( ladestarthooklp1 == 1 )); then
 		hooker  $((ladungaktivlp1==1)) "ladestarthooklp1aktiv"  $ladestarthooklp1_url "Ladestart-WebHook"

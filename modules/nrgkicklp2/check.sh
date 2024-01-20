@@ -21,7 +21,7 @@ nrgkickcheck2(){
 				fi
 			fi
 			oldcurrent=$(echo $output | jq -r '.Values.ChargingCurrent.Value')
-			current=$(<ramdisk/llsolls1)
+			read current <ramdisk/llsolls1
 			if (( oldcurrent != $current )) ; then
 				openwbDebugLog "MAIN" 2 "nachtrigger ladestrom"
 				curl --silent --connect-timeout $nrgkicktimeoutlp2 -s -X PUT -H "Content-Type: application/json" --data "{ "Values": {"ChargingStatus": { "Charging": true }, "ChargingCurrent": { "Value": $current}, "DeviceMetadata":{"Password": $nrgkickpwlp2}}}" $nrgkickiplp2/api/settings/$nrgkickmaclp2 > /dev/null

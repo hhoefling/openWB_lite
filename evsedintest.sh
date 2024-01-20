@@ -2,7 +2,7 @@
 # shellcheck disable=SC2009,SC2086
 
 evsedintest() {
-	evsedintestlp1=$(<ramdisk/evsedintestlp1)
+	read evsedintestlp1 <ramdisk/evsedintestlp1
 	if [[ $evsedintestlp1 == "ausstehend" ]]; then
 		if [[ $evsecon == "modbusevse" ]]; then 
 			if [[ $modbusevsesource = *virtual* ]]; then
@@ -50,7 +50,7 @@ evsedintest() {
 			echo "$evsecon konfiguriert" > ramdisk/evsedintestlp1
 		fi
 	fi
-	evsedintestlp2=$(<ramdisk/evsedintestlp2)
+	read evsedintestlp2 <ramdisk/evsedintestlp2
 	if [[ $evsedintestlp2 == "ausstehend" ]]; then
 		if [[ $evsecons1 == "modbusevse" ]]; then
 			if [[ $evsesources1 = *virtual* ]]; then
@@ -83,7 +83,7 @@ evsedintest() {
 			echo "$evsecons1 konfiguriert" > ramdisk/evsedintestlp2
 		fi
 	fi
-	evsedintestlp3=$(<ramdisk/evsedintestlp3)
+	read evsedintestlp3 <ramdisk/evsedintestlp3
 	if [[ $evsedintestlp3 == "ausstehend" ]]; then
 		if [[ $evsecons2 == "modbusevse" ]]; then
 			if [[ $evsesources2 = *virtual* ]]; then
@@ -117,7 +117,7 @@ evsedintest() {
 		fi
 	fi
 
-	evseausgelesen=$(<ramdisk/evseausgelesen)
+	read evseausgelesen <ramdisk/evseausgelesen
 	if [[ $evseausgelesen == "0" ]]; then
 		openwbDebugLog "MAIN" 0 "EVSE LPx config auslesen"
 		if [[ $evsecon == "modbusevse" ]]; then 
@@ -172,7 +172,7 @@ evsedintest() {
 	fi
 	
 	
-	progevselp1=$(<ramdisk/progevsedinlp1)
+	read progevselp1 <ramdisk/progevsedinlp1
 	if [[ $progevselp1 == "1" ]]; then
 		if [[ $evsecon == "modbusevse" ]]; then 
 			if [[ $modbusevsesource = *virtual* ]]; then
@@ -186,21 +186,21 @@ evsedintest() {
 				echo "echo" > /dev/null
 			fi
 			sleep 1
-			lp12000=$(<ramdisk/progevsedinlp12000)
+			read lp12000 <ramdisk/progevsedinlp12000
 			sudo python runs/evsewritembusdev.py $modbusevsesource $modbusevseid 2000 $lp12000
 			sleep 1
-			lp12007=$(<ramdisk/progevsedinlp12007)
+			read lp12007 <ramdisk/progevsedinlp12007
 			sudo python runs/evsewritembusdev.py $modbusevsesource $modbusevseid 2007 $lp12007
 		elif [[ $evsecon == "masterethframer" ]]; then
-			lp12000=$(<ramdisk/progevsedinlp12000)
+			read lp12000 <ramdisk/progevsedinlp12000
 			sudo python runs/evsewritembusethframerdev.py 192.168.193.18 1 2000 $lp12000
 			sleep 1
-			lp12007=$(<ramdisk/progevsedinlp12007)
+			read lp12007 <ramdisk/progevsedinlp12007
 			sudo python runs/evsewritembusethframerdev.py 192.168.193.18 1 2007 $lp12007
 		fi
 		echo 0 > ramdisk/progevsedinlp1
 	fi
-	progevselp2=$(<ramdisk/progevsedinlp2)
+	read progevselp2 <ramdisk/progevsedinlp2
 	if [[ $progevselp2 == "1" ]]; then
 		if [[ $evsecons1 == "modbusevse" ]]; then 
 			if [[ $modbusevsesource = *virtual* ]]; then
@@ -213,10 +213,10 @@ evsedintest() {
 				echo "echo" > /dev/null
 			fi
 			sleep 1
-			lp22000=$(<ramdisk/progevsedinlp22000)
+			read lp22000 <ramdisk/progevsedinlp22000
 			sudo python runs/evsewritembusdev.py $evsesources1 $evseids1 2000 $lp22000
 			sleep 1
-			lp22007=$(<ramdisk/progevsedinlp22007)
+			read lp22007 <ramdisk/progevsedinlp22007
 			sudo python runs/evsewritembusdev.py $evsesources1 $evseids1 2007 $lp22007
 		fi
 		echo 0 > ramdisk/progevsedinlp2

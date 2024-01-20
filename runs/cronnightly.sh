@@ -36,17 +36,17 @@ echo "reset" > /var/www/html/openWB/ramdisk/mqtt.log
 
 monthlyfile="/var/www/html/openWB/web/logging/data/monthly/$(date +%Y%m).csv"
 
-bezug=$(</var/www/html/openWB/ramdisk/bezugkwh)
-einspeisung=$(</var/www/html/openWB/ramdisk/einspeisungkwh)
+read bezug </var/www/html/openWB/ramdisk/bezugkwh
+read einspeisung </var/www/html/openWB/ramdisk/einspeisungkwh
 if [[ $pv2wattmodul != "none" ]]; then
-	pv=$(</var/www/html/openWB/ramdisk/pvallwh)
+	read pv </var/www/html/openWB/ramdisk/pvallwh
 else
-	pv=$(</var/www/html/openWB/ramdisk/pvkwh)
+	read pv </var/www/html/openWB/ramdisk/pvkwh
 fi
 
-ll1=$(<"$RAMDISKDIR/llkwh")  # Zählerstand LP1
-ll2=$(<"$RAMDISKDIR/llkwhs1")  # Zählerstand LP2
-ll3=$(<"$RAMDISKDIR/llkwhs2")  # Zählerstand LP3
+read ll1<"$RAMDISKDIR/llkwh"  # Zählerstand LP1
+read ll2<"$RAMDISKDIR/llkwhs1"  # Zählerstand LP2
+read ll3<"$RAMDISKDIR/llkwhs2"  # Zählerstand LP3
 ll4=0 #$(<"$RAMDISKDIR/llkwhlp4")  # Zählerstand LP4
 ll5=0 #$(<"$RAMDISKDIR/llkwhlp5")  # Zählerstand LP5
 ll6=0 #$(<"$RAMDISKDIR/llkwhlp6")  # Zählerstand LP6
@@ -92,21 +92,22 @@ ll3=$(echo "$ll3 * 1000" | bc)
 #ll8=$(echo "$ll8 * 1000" | bc)
 llg=$(echo "$llg * 1000" | bc)
 
-speicherikwh=$(</var/www/html/openWB/ramdisk/speicherikwh)
-speicherekwh=$(</var/www/html/openWB/ramdisk/speicherekwh)
-verbraucher1iwh=$(</var/www/html/openWB/ramdisk/verbraucher1_wh)
-verbraucher1ewh=$(</var/www/html/openWB/ramdisk/verbraucher1_whe)
-verbraucher2iwh=$(</var/www/html/openWB/ramdisk/verbraucher2_wh)
-verbraucher2ewh=$(</var/www/html/openWB/ramdisk/verbraucher2_whe)
-d1=$(</var/www/html/openWB/ramdisk/device1_wh)
-d2=$(</var/www/html/openWB/ramdisk/device2_wh)
-d3=$(</var/www/html/openWB/ramdisk/device3_wh)
-d4=$(</var/www/html/openWB/ramdisk/device4_wh)
-d5=$(</var/www/html/openWB/ramdisk/device5_wh)
-d6=$(</var/www/html/openWB/ramdisk/device6_wh)
-d7=$(</var/www/html/openWB/ramdisk/device7_wh)
-d8=$(</var/www/html/openWB/ramdisk/device8_wh)
-d9=$(</var/www/html/openWB/ramdisk/device9_wh)
+read speicherikwh </var/www/html/openWB/ramdisk/speicherikwh
+read speicherekwh </var/www/html/openWB/ramdisk/speicherekwh
+read verbraucher1iwh </var/www/html/openWB/ramdisk/verbraucher1_wh
+read verbraucher1ewh </var/www/html/openWB/ramdisk/verbraucher1_whe
+read verbraucher2iwh </var/www/html/openWB/ramdisk/verbraucher2_wh
+read verbraucher2ewh </var/www/html/openWB/ramdisk/verbraucher2_whe
+read d1 </var/www/html/openWB/ramdisk/device1_wh
+read d2 </var/www/html/openWB/ramdisk/device2_wh
+read d3 </var/www/html/openWB/ramdisk/device3_wh
+read d4 </var/www/html/openWB/ramdisk/device4_wh
+read d5 </var/www/html/openWB/ramdisk/device5_wh
+read d6 </var/www/html/openWB/ramdisk/device6_wh
+read d7 </var/www/html/openWB/ramdisk/device7_wh
+read d8 </var/www/html/openWB/ramdisk/device8_wh
+read d9 </var/www/html/openWB/ramdisk/device9_wh)
+
 d10="0"
 
 echo "$(date +%Y%m%d),$bezug,$einspeisung,$pv,$ll1,$ll2,$ll3,$llg,$verbraucher1iwh,$verbraucher1ewh,$verbraucher2iwh,$verbraucher2ewh,$ll4,$ll5,$ll6,$ll7,$ll8,$speicherikwh,$speicherekwh,$d1,$d2,$d3,$d4,$d5,$d6,$d7,$d8,$d9,$d10" >> "$monthlyfile"

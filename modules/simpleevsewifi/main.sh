@@ -62,7 +62,7 @@ if ! [ -z "$output" ]; then
 		echo $rfidtag > /var/www/html/openWB/ramdisk/readtag
 		curl --connect-timeout $evsewifitimeoutlp1 -s http://$evsewifiiplp1/clearRfid
 	fi
-	llswb1=$(</var/www/html/openWB/ramdisk/llsoll)
+	read llswb1 </var/www/html/openWB/ramdisk/llsoll
 	if [[ $llakt != $llswb1 ]]; then
 		curl --silent --connect-timeout $evsewifitimeoutlp1 -s http://$evsewifiiplp1/setCurrent?current=$llswb1 > /dev/null
 	fi

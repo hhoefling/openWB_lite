@@ -220,9 +220,9 @@ for topic in "${!mqttvar[@]}"; do
 	varname=${mqttvar[$topic]}
 
 	if [ -r ramdisk/"${varname}" ]; then
-		newval=$(<ramdisk/"${varname}")
+		read newval <ramdisk/"${varname}"
 		if [ -r ramdisk/mqttvar/"${varname}" ]; then
-			oldval=$(<ramdisk/mqttvar/"${varname}")
+			read oldval <ramdisk/mqttvar/"${varname}"
 		else
             openwbDebugLog "MAIN" 1 "PUBMQTT Variable [$varname] nicht im mqttvar cache gefunden, Init to Leerstr"
 			oldval=""

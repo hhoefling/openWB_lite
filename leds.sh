@@ -2,9 +2,9 @@
 
 ledsteuerung() {
 
-	ledstatus=$(<ramdisk/ledstatus)
-	lademodus=$(<ramdisk/lademodus)
-	ladestatus=$(<ramdisk/ladestatus)
+	read ledstatus <ramdisk/ledstatus
+	read lademodus <ramdisk/lademodus
+	read ladestatus <ramdisk/ladestatus
 	#0 sofort
 	#1 min pv
 	#2 nur pv

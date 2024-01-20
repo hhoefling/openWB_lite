@@ -25,7 +25,7 @@ nurpvlademodus()
 
 	if [[ $schieflastaktiv == "1" ]]; then
 		if [[ $u1p3paktiv == "1" ]]; then                # config 0/1  u1p3 aktive
-			u1p3pstat=$(<ramdisk/u1p3pstat)
+			read u1p3pstat <ramdisk/u1p3pstat
 			if [[ $u1p3pstat == "1" ]]; then			# aktuell 1 phasig?
 				if (( schieflastmaxa < maximalstromstaerke )); then
 					maximalstromstaerke=$schieflastmaxa
@@ -386,7 +386,7 @@ nurpvlademodus()
 				exit 0
 			else
 				if [[ $nurpv70dynact == "1" ]]; then
-					nurpv70status=$(<ramdisk/nurpv70dynstatus)
+					read nurpv70status <ramdisk/nurpv70dynstatus
 					if [[ $nurpv70status == "1" ]]; then
 						abschaltuberschuss=$(( 1500 * anzahlphasen ))
 						openwbDebugLog "MAIN" 1 "NurPV Setze neue Abschwaltschwelle"
