@@ -358,6 +358,7 @@ initRamdisk(){
 	# init common files for lp1 to lp8
 	# "<ramdiskFileName>:<MqttTopic>:<defaultValue>"
 	# <Mqtt-Topic> is optional and request to broker will be skipped if empty
+
 #	for i in $(seq 1 8);
 	for i in $(seq 1 3);
 	do
@@ -432,14 +433,14 @@ initRamdisk(){
     echo -1 > $RamdiskPath/mqtttagScanInfoLp2
 
     echo -1 > $RamdiskPath/mqttladeleistung
-    echo -1 > $RamdiskPath/ramdisk/mqttstopchargeafterdisclp1
-    echo -1 > $RamdiskPath/ramdisk/mqttstopchargeafterdisclp2
-    echo -1 > $RamdiskPath/ramdisk/mqttstopchargeafterdisclp3
+    echo -1 > $RamdiskPath/mqttstopchargeafterdisclp1
+    echo -1 > $RamdiskPath/mqttstopchargeafterdisclp2
+    echo -1 > $RamdiskPath/mqttstopchargeafterdisclp3
 
-    echo -1 > $RamdiskPath/ramdisk/mqttetprovideraktiv
-    echo -1 > $RamdiskPath/ramdisk/mqttetprovidermaxprice
-    echo -1 > $RamdiskPath/ramdisk/mqttetproviderprice
-    echo -1 > $RamdiskPath/ramdisk/mqttetprovider
+    echo -1 > $RamdiskPath/mqttetprovideraktiv
+    echo -1 > $RamdiskPath/mqttetprovidermaxprice
+    echo -1 > $RamdiskPath/mqttetproviderprice
+    echo -1 > $RamdiskPath/mqttetprovider
 
 
 #		"mqttlademkwh:-1" \
