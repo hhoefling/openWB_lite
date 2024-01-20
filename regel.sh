@@ -32,6 +32,9 @@ set -o nounset
 cd /var/www/html/openWB/ || exit 1
 # use kostant ramdisk  , no var RAMDISK
 
+
+
+
 source helperFunctions.sh
 if pidof -x -o $$ "${BASH_SOURCE[0]}"
 then
@@ -40,17 +43,17 @@ then
 fi
 
 if [ -e ramdisk/updateinprogress ] && [ -e ramdisk/bootinprogress ]; then
-	read updateinprogress <ramdisk/updateinprogress
-	read bootinprogress <ramdisk/bootinprogress
+	read -r updateinprogress <ramdisk/updateinprogress
+	read -r bootinprogress <ramdisk/bootinprogress
 	if (( updateinprogress == "1" )); then
-		openwbDebugLog "MAIN" 0 "Update in progress EXIT 0"
+		openwbDebugLog "MAIN" 0 "Update in progress (EXIT 0)"
 		exit 0
 	elif (( bootinprogress == "1" )); then
-		openwbDebugLog "MAIN" 0 "Boot in progress EXIT 0"
+		openwbDebugLog "MAIN" 0 "Boot in progress (EXIT 0)"
 		exit 0
 	fi
 else
-	openwbDebugLog "MAIN" 0 "Ramdisk not set up. Maybe we are still booting. EXIT 0"
+	openwbDebugLog "MAIN" 0 "Ramdisk not set up. Maybe we are still booting. (EXIT 0)"
 	exit 0
 fi
 
@@ -60,7 +63,7 @@ function cleanup()
 {
 	local endregel=$(date +%s)
 	local t=$((endregel-startregel))
-	openwbDebugLog "DEB" 0 "**** Regulation loop needs $t Sekunden TIME"
+	openwbDebugLog "DEB" 0 "**** Regulation loop needs $t Sekunden"
 	echo $t >ramdisk/regelneeds
 	if [ "$t" -le "8" ] ; then   # 1..8 Ok
 		openwbDebugLog "MAIN" 0 "**** Regulation loop needs $t Sekunden"
@@ -75,14 +78,26 @@ function cleanup()
 trap cleanup EXIT
 ########### End Laufzeit protokolieren
 
-#######################
-openwbDebugLog "MAIN" 0 "**** Regulation loop start ****"
-#######################
 
 #config file einlesen, auch debug mode, vorher defaults=2
 ptstart
  source loadconfig.sh
-ptend loadconfig 50
+ptend loadconfig 200
+
+#######################
+openwbDebugLog "MAIN" 0 "TIME ** Regulation loop start ****"
+
+
+
+needgoe=$( [[ ( "$evsecon" == "goe" ) \
+           || ( "$lastmanagement"   == "1" && "$evsecons1" == "goe" ) \
+           || ( "$lastmanagements2" == "1" && "$evsecons2" == "goe" ) \
+           ]] && echo 1 || echo 0 )
+neednrgkick=$( [[ ( "$evsecon" == "nrgkick" ) \
+               || ( "$lastmanagement"   == "1" && "$evsecons1" == "nrgkick" ) \
+               ]] && echo 1 || echo 0 )
+openwbDebugLog "MAIN" 1 "needgoe:[$needgoe] neednrgkick:[$neednrgkick] "
+
 
 
 
@@ -110,13 +125,13 @@ fi
 date=$(date)
 re='^-?[0-9]+$'
 if [[ $isss == "1" ]]; then
-	read heartbeat <ramdisk/heartbeat
+	read -r heartbeat <ramdisk/heartbeat
 	heartbeat=$((heartbeat+10))
 	echo $heartbeat > ramdisk/heartbeat
 	mosquitto_pub -r -t "openWB/system/Uptime" -m "$(uptime)"
 	mosquitto_pub -r -t "openWB/system/Timestamp" -m "$(date +%s)"
 	mosquitto_pub -r -t "openWB/system/Date" -m "$(date)"
-	openwbDebugLog "MAIN" 1 "##### ISSS #####  EXIT 0"
+	openwbDebugLog "MAIN" 1 "ISSS mode (EXIT 0)"
 	exit 0
 fi
 ptstart
@@ -126,6 +141,7 @@ source loadvars.sh
 source minundpv.sh
 source nurpv.sh
 source auslademodus.sh
+source semiauslademodus.sh
 source sofortlademodus.sh
 source graphing.sh
 source nachtladen.sh
@@ -154,7 +170,7 @@ if [[ $dspeed == "2" ]]; then
 
 	if [ -e ramdisk/5sec ]; then
 		rm ramdisk/5sec
-		openwbDebugLog "MAIN" 1 "**** Regulation speed2-loop EXIT 0"
+		openwbDebugLog "MAIN" 1 "**** Regulation speed2-loop exits (EXIT 0)"
 		exit 0
 	else
 		echo 0 > ramdisk/5sec
@@ -187,16 +203,6 @@ if (( displayaktiv == 1 )); then
 	fi
 fi
 
-#if (( displayaktiv == 1 )); then
-#	execdisplay=$(<ramdisk/execdisplay)
-#	if (( execdisplay == 1 )); then
-#        echo 0 > ramdisk/execdisplay
-#        openwbDebugLog "MAIN" 1 "EXEC runs/displaybacklight.sh $displayLight and reloadDisplay.sh"
-#        export DISPLAY=:0 && xset s "$displaysleep" && xset dpms "$displaysleep" "$displaysleep" "$displaysleep"
-#        runs/displaybacklight.sh $displayLight
-#        runs/reloadDisplay.sh 
-#	fi
-#fi
 
 #######################################
 # check rfid
@@ -233,7 +239,7 @@ LadereglerTxt=""
 BatSupportTxt=""
 function endladeregler()
 {
- openwbDebugLog "MAIN" 1 "LadereglerTxt: $LadereglerTxt $BatSupportTxt"
+ openwbDebugLog "MAIN" 0 "LadereglerTxt: $LadereglerTxt $BatSupportTxt"
  mosquitto_pub -r -t "openWB/global/strLaderegler" -m "${LadereglerTxt:-None} "
  mosquitto_pub -r -t "openWB/global/strBatSupport" -m "${BatSupportTxt:-None} "
 }
@@ -242,7 +248,7 @@ trap_befor endladeregler EXIT
 ptstart
 loadvars
 ptend loadvars 2000
-openwbDebugLog "MAIN" 1 "loadvars Zeit zum abfragen aller Werte $pt Millisekunden"
+openwbDebugLog "MAIN" 1 "Zeit zum abfragen aller Werte $pt Millisekunden"
 
 
 
@@ -263,11 +269,10 @@ graphing
 ptend graphing 600 
 
 
-
 if (( u1p3paktiv == 1 )); then
-	read blockall <ramdisk/blockall
+	read -r blockall <ramdisk/blockall
 	if (( blockall == 1 )); then
-		openwbDebugLog "MAIN" 1 "----- Phasen Umschaltung noch aktiv... beende (EXIT 0) -----"
+		openwbDebugLog "MAIN" 1 "U1P3 ----- Phasenumschaltung aktiv... beende  (EXIT 0) -----"
 		exit 0
 	fi
 fi
@@ -300,12 +305,12 @@ ptend evsedintest 100
 
 #u1p3p switch
 if (( u1p3paktiv == 1 )); then
-	openwbDebugLog "MAIN" 1 "Start u1p3switsch"
+	openwbDebugLog "MAIN" 0 "U1P3 Start u1p3switsch"
 	u1p3pswitch
-	openwbDebugLog "MAIN" 1 "End u1p3switsch"
-	read blockall <ramdisk/blockall
+	openwbDebugLog "MAIN" 0 "U1P3 End u1p3switsch"
+	read -r blockall <ramdisk/blockall
 	if (( blockall == 1 )); then
-		openwbDebugLog "MAIN" 1 "Phasen Umschaltung wurde aktiv... beende (EXIT 0)"
+		openwbDebugLog "MAIN" 1 "U1P3 Phasenumschaltung wurde aktiviert... beende (EXIT 0)"
 		exit 0
 	fi
 fi
@@ -315,8 +320,8 @@ if (( cpunterbrechunglp1 == 1 )); then
 	if (( plugstat == 1 )) && (( lp1enabled == 1 )); then
 		if (( llalt > 5 )); then
 			if (( ladeleistung < 100 )); then
-				read cpulp1waraktiv <ramdisk/cpulp1waraktiv
-				read cpulp1counter <ramdisk/cpulp1counter
+				read -r cpulp1waraktiv <ramdisk/cpulp1waraktiv
+				read -r cpulp1counter <ramdisk/cpulp1counter
 				if (( cpulp1counter > 5 )); then
 					if (( cpulp1waraktiv == 0 )); then
 						openwbDebugLog "MAIN" 0 "CP Unterbrechung an LP1 wird durchgeführt"
@@ -355,8 +360,8 @@ if (( cpunterbrechunglp2 == 1 )); then
 	if (( plugstatlp2 == 1 )) && (( lp2enabled == 1 )); then
 		if (( llalts1 > 5 )); then
 			if (( ladeleistunglp2 < 100 )); then
-				read cpulp2waraktiv <ramdisk/cpulp2waraktiv
-				read cpulp2counter <ramdisk/cpulp2counter
+				read -r cpulp2waraktiv <ramdisk/cpulp2waraktiv
+				read -r cpulp2counter <ramdisk/cpulp2counter
 				if (( cpulp2counter > 5 )); then
 					if (( cpulp2waraktiv == 0 )); then
 						openwbDebugLog "MAIN" 0 "CP Unterbrechung an LP2 wird durchgeführt"
@@ -407,8 +412,8 @@ fi
 
 #Prüft ob der RSE (Rundsteuerempfängerkontakt) geschlossen ist, wenn ja wird die Ladung pausiert.
 if (( rseenabled == 1 )); then
-	read rsestatus <ramdisk/rsestatus
-	read rseaktiv <ramdisk/rseaktiv
+	read -r rsestatus <ramdisk/rsestatus
+	read -r rseaktiv <ramdisk/rseaktiv
 	if (( rsestatus == 1 )); then
 		echo "RSE Kontakt aktiv, pausiere Ladung" > ramdisk/lastregelungaktiv
 		if (( rseaktiv == 0 )); then
@@ -421,7 +426,7 @@ if (( rseenabled == 1 )); then
 	else
 		if (( rseaktiv == 1 )); then
 			openwbDebugLog "CHARGESTAT" 0 "RSE Kontakt deaktiviert, setze auf alten Lademodus zurück"
-			read rselademodus <ramdisk/rseoldlademodus
+			read -r rselademodus <ramdisk/rseoldlademodus
 			echo "$rselademodus" > ramdisk/lademodus
 			mosquitto_pub -r -t openWB/set/ChargeMode -m "$rselademodus"
 			echo 0 > ramdisk/rseaktiv
@@ -442,7 +447,7 @@ fi
 
 #Lademodus STOP3 == Aus
 if (( lademodus == $STOP3 )); then
-	auslademodus
+	auslademodus	# Exit 0 !!!!
 fi
 
 #loadsharing check
@@ -501,7 +506,7 @@ prenachtlademodus
 
 #######################
 #Ladestromstarke berechnen
-read anzahlphasen <ramdisk/anzahlphasen
+read -r anzahlphasen <ramdisk/anzahlphasen
 if (( anzahlphasen > 9 )); then
 	anzahlphasen=1
 fi
@@ -534,14 +539,14 @@ else
 			echo 1 > ramdisk/anzahlphasen
 		fi
 		if (( u1p3paktiv == 1 )); then
-			anzahlphasen=$(cat ramdisk/u1p3pstat)	# letzer stand von u1P3, statt mit 1 zu beginnen
+			read -r anzahlphasen <ramdisk/u1p3pstat
 			openwbDebugLog "PV" 0 "LP1 u1p3aktiv, nehme u1p3pstat:$u1p3pstat als mogliche phasenanzahl"
 		else
 		    openwbDebugLog "PV" 0 "LP1 nehme letzte phasenanzzahl als mogliche phasenanzahl"
 			if [ -f ramdisk/lp1anzahlphasen ]; then
-				anzahlphasen=$(cat ramdisk/lp1anzahlphasen)
+				read -r anzahlphasen <ramdisk/lp1anzahlphasen
 			else
-				anzahlphasen=$(cat ramdisk/anzahlphasen)
+				read -r anzahlphasen <ramdisk/anzahlphasen
 			fi
 		fi
 #		if (( lademodus == $NURPV2 )); then
@@ -554,7 +559,6 @@ else
 	openwbDebugLog "PV" 0 "LP1 Anzahl Phasen während keiner Ladung= $anzahlphasen"
 	openwbDebugLog "MAIN" 1 "--NurPV LP1 Anzahl Phasen während keiner Ladung= $anzahlphasen"
 fi
-
 
 
 lp2anzahlphasen=0
@@ -581,14 +585,14 @@ if (( lastmanagement == 1 )); then		# lastmanagement == 1 means that it's on ope
 				echo 1 > ramdisk/anzahlphasen
 			fi
 #			if (( u1p3plp2aktiv == 1 )); then   ## immmer false da variable unbekannt
-#				lp2anzahlphasen=$(cat ramdisk/u1p3pstat)
+				read -r lp2anzahlphasen <ramdisk/u1p3pstat
 #				anzahlphasen=$((lp2anzahlphasen + anzahlphasen))
 #			else
 				if [ ! -f ramdisk/lp2anzahlphasen ]; then
 					echo 1 > ramdisk/lp2anzahlphasen
 					anzahlphasen=$((anzahlphasen + 1 ))
 				else
-					lp2anzahlphasen=$(cat ramdisk/lp2anzahlphasen)
+					read -r lp2anzahlphasen <ramdisk/lp2anzahlphasen
 					anzahlphasen=$((lp2anzahlphasen + anzahlphasen))
 				fi
 #			fi
@@ -630,7 +634,7 @@ fi
 ########################
 # Berechnung für PV Regelung
 if [[ $nurpv70dynact == "1" ]]; then
-	read nurpv70status <ramdisk/nurpv70dynstatus
+	read -r nurpv70status <ramdisk/nurpv70dynstatus
 	if [[ $nurpv70status == "1" ]]; then
 		uberschuss=$((uberschuss - nurpv70dynw))           # ue - 6000 = 
 		# Schwelle zum Beginn der Ladung
@@ -639,7 +643,7 @@ if [[ $nurpv70dynact == "1" ]]; then
 		abschaltuberschuss=-1500
 		#abschaltuberschuss=$((minimalapv * 230 * anzahlphasen))
 		openwbDebugLog "MAIN" 1 "PV 70% aktiv! derzeit genutzter Überschuss $uberschuss"
-		openwbDebugLog "PV" 0 "70% Grenze aktiv. Alter Überschuss: $((uberschuss + nurpv70dynw)), Neuer verfügbarer Uberschuss: $uberschuss"
+		openwbDebugLog "PV" 0 "7: 70% Grenze aktiv. Alter Überschuss: $((uberschuss + nurpv70dynw)), Neuer verfügbarer Uberschuss: $uberschuss"
 		openwbDebugLog "MAIN" 1 "--NurPV 70% Grenze aktiv. Alter Überschuss: $((uberschuss + nurpv70dynw)), Neuer verfügbarer Uberschuss: $uberschuss"
 		bmeld "Bat70 aktiv => U:${uberschuss}W"
 	fi
@@ -688,4 +692,5 @@ fi
 
 
 openwbDebugLog "MAIN" 1 "Regulation normal end (EXIT 0)"
+exit 0
 
