@@ -50,6 +50,7 @@
 	<link rel="stylesheet" type="text/css" href="css/normalize-8.0.1.css">
 	<!-- Font Awesome, all styles -->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5.8.2/css/all.css">
+	<link rel="stylesheet" href="themes/colors-HH/style.css?v=20052020">
 	<!-- local css due to async loading of theme css -->
 	<style>
 		#preloader {
@@ -114,10 +115,6 @@
 		    document.cookie = name + "=" + (value || '')  + expires + "; path=/openWB/;SameSite=Lax";
 			console.log('setCookie '+name+'='+value);
 		}
-
-
-		// include special Theme style
-		$('head').append('<link rel="stylesheet" href="themes/' + themeCookie + '/style.css?v=20052020">');
 	</script>
 	<script src="themes/colors-HH/js/d3.v6.min.js"></script>
 	<script src="themes/colors-HH/powerdata.js"></script>
@@ -144,8 +141,8 @@
 			</div>
 			<div id="preloader-info" class="row justify-content-center mt-2">
 				<div class="col-10 col-sm-6">
-					Bitte warten, während die Seite aufgebaut wird.
-					<br><span class="devicename">openWB</span>&nbsp;HH
+					Bitte geduld, während die Seite aufgebaut wird.
+					<br><span class="devicename">openWB</span>&nbsp;Theme colors-HH
 				</div>
 			</div>
 			<div class="row justify-content-center mt-2">
@@ -179,6 +176,9 @@
 					</span>
 				</button>
 		
+			</div>
+			<div id="regelneeds" class="col text-center">
+				&nbsp;
 			</div>
 			<div id="time" class="col text-right">
 				&nbsp;
@@ -683,7 +683,7 @@
 					landingpageShown = true;
 					setTimeout(function () {
 						// delay a little bit
-						$("#preloader").fadeOut(1000);
+						$("#preloader").fadeOut(600);
 					}, 500);
 				}
 			}
