@@ -81,7 +81,7 @@ Weiter Info **[History](docs/history.md)**
 -	- Grafisch wird das ganze in das Colors-Thema integriert (in das Batterie-Widget)
   
  *************
-**[RCT DC6, Nachldaen und anderes](docs/rct_regelung.md)**
+**[RCT DC6, Preis/Nachladen und anderes](docs/rct_regelung.md)**
 
  ****************
 
