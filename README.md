@@ -80,6 +80,8 @@ Weiter Info **[History](docs/history.md)**
 -	- Anzeige diverser Statusinformationen über den Wechselrichter und den Hausakku.
 -	- Grafisch wird das ganze in das Colors-Thema integriert (in das Batterie-Widget)
   
+ *************
+**[RCT DC6, Nachldaen und anderes](docs/rct_regelung.md)**
 
  ****************
 
