@@ -8,23 +8,23 @@ Auch Doof ist es wenn der Niedrige Strompreis nicht genutzt werden kann um den T
 Das wird Wirschaftlich bei ca. 10Cent unterschied zwischen Hoch/Tief-Preis. Diew kommt aber nicht so häufig vor wie man sich das erhoft.
 Also wird der Haupnutzen darin liegen den Akku vor ungewünschter Entladung zu schützen.
 
-Es wurden Eingriffe un die folgen module gemacht.
+Es wurden Eingriffe un die folgen Module gemacht.
 
 - hook.sh
   	Sende "Ladestart" Event via mwtt
   	Sende "Ladestop" Event via mwtt
 
-	regel.sh
+- regel.sh
     testet ob der Preis das Laden ermöglicht und sende entsprechende Events über MQTT
 
-web/theme/colors-HH
+- web/theme/colors-HH
 	 Stellt den Zustand dar und sende Steuerevents via MQTT
 	 Der Tibber Preis wird dauerhaft und nicht nur bei "Sofortladen" dargestellt.
 
- mqttsub.py
+  mqttsub.py
  		Empfängt die Events und ruft damit rct_setter.sh auf
 
-rct_setter.sh
+- rct_setter.sh
 	Nach diversen Logischen prüfungen wird via
  	rct_set.py und rctw.py der Wechselrichrer beeinfusst
 
