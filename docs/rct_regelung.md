@@ -1,2 +1,2 @@
-## Regelung der Batterie meiners RCT DC6 mit Batterie ##
+## Regelung der Batterie meiners RCT DC6 ##
 
