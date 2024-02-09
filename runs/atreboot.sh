@@ -178,15 +178,6 @@ at_reboot() {
 	fi
 
 
-
-	# check if tesla wall connector is configured and start daemon
-	if [[ $evsecon == twcmanager ]]; then
-		log "twcmanager..."
-		if [[ $twcmanagerlp1ip == "localhost/TWC" ]]; then
-			screen -dm -S TWCManager /var/www/html/TWC/TWCManager.py &
-		fi
-	fi
-
     #######---->>>>> Services.sh weiter unten
 	# check if our modbus server is running
 	# if Variable not set -> server active (old config)

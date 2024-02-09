@@ -78,6 +78,17 @@ openwbModulePublishState() {
 
 export -f openwbModulePublishState
 
+
+rlog()  # rlog TAG Messages
+{
+ if [[ -n "$debloggerip" ]] ; then
+   d=$1
+   shift;
+   logger --id=$$ -t $d -n $debloggerip -- $*
+ fi
+}
+export -f rlog
+
 openwbDebugLog() {
 	# $1: Channel (MAIN=default, EVSOC, PV, MQTT, RFID, SMARTHOME, CHARGESTAT, DEB, EVENT, ERR)
 	# $2: Level (0=Info, 1=Regelwerte , 2=Berechnungsgrundlage)

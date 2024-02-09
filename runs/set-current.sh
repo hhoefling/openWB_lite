@@ -174,20 +174,6 @@ function setChargingCurrentWifi () {
 	fi
 }
 
-#################################################
-function setChargingCurrenttwcmanager () {
-	if [[ $evsecon == "twcmanager" ]]; then
-		if [[ $twcmanagerlp1httpcontrol -eq 1 ]]; then
-			if [[ $current -eq 0 ]]; then
-				curl -s --connect-timeout 3 -X POST -d "" "http://$twcmanagerlp1ip:$twcmanagerlp1port/api/cancelChargeNow" > /dev/null
-			else
-				curl -s --connect-timeout 3 -X POST -d "{ \"chargeNowRate\": $current, \"chargeNowDuration\": 86400 }" "http://$twcmanagerlp1ip:$twcmanagerlp1port/api/chargeNow" > /dev/null
-			fi
-		else
-			curl -s --connect-timeout 3 "http://$twcmanagerlp1ip/index.php?&nonScheduledAmpsMax=$current&submit=Save" > /dev/null
-		fi
-	fi
-}
 
 #################################################
 function setChargingCurrenthttp () {
@@ -228,32 +214,6 @@ function setChargingCurrentgoe () {
 		fi
 	fi
 }
-
-#################################################
-# function for setting the current - keba charger
-# Parameters:
-# 1: current
-# 2: kebaiplp1
-# function setChargingCurrentkeba () {
-# 	if [[ $evsecon == "keba" ]]; then
-# 		sudo python3 /var/www/html/openWB/modules/keballlp1/check502.py "$kebaiplp1" >> /var/www/html/openWB/ramdisk/port.log 2>&1
-# 		modbus=$(<"/var/www/html/openWB/ramdisk/port_502_$kebaiplp1" )
-# 		if [[ $modbus == "0" ]] ; then
-# 			#modbus 0 means udp interface
-# 			kebacurr=$(( current * 1000 ))
-# 			if [[ $current -eq 0 ]]; then
-# 				echo -n "ena 0" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
-# 			else
-# 				echo -n "ena 1" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
-# 				echo -n "curr $kebacurr" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
-# 				echo -n "display 1 10 10 0 S$current" | socat - UDP-DATAGRAM:"$kebaiplp1":7090
-# 			fi
-# 		else
-# 			#modbus 1 means modbus interface 
-# 			sudo python3 /var/www/html/openWB/modules/keballlp1/setcurrkeba.py "$kebaiplp1" "$current" >> /var/www/html/openWB/ramdisk/port.log 2>&1
-# 		fi
-# 	fi
-# }
 
 #################################################
 function setChargingCurrentnrgkick () {
@@ -337,12 +297,6 @@ function setChargingCurrent () {
 	fi
 	if [[ $evsecon == "nrgkick" ]]; then
 		setChargingCurrentnrgkick "$current" "$nrgkicktimeoutlp1" "$nrgkickiplp1" "$nrgkickmaclp1" "$nrgkickpwlp1"
-	fi
-# 	if [[ $evsecon == "keba" ]]; then
-# 		setChargingCurrentkeba "$current" "$kebaiplp1"
-# 	fi
-	if [[ $evsecon == "twcmanager" ]]; then
-		setChargingCurrenttwcmanager "$current" "$twcmanagerlp1ip" "$twcmanagerlp1port" "$twcmanagerlp1httpcontrol"
 	fi
 	if [[ $evsecon == "ipevse" ]]; then
 		setChargingCurrentIpModbus "$current" "$evseip" "$ipevseid"
@@ -484,7 +438,6 @@ if [[ $lastmanagement == "1" ]]; then
 		evsewifiiplp1=$evsewifiiplp2
 		goeiplp1=$goeiplp2
 		goetimeoutlp1=$goetimeoutlp2
-# 		kebaiplp1=$kebaiplp2
 		nrgkickiplp1=$nrgkickiplp2
 		nrgkicktimeoutlp1=$nrgkicktimeoutlp2
 		nrgkickmaclp1=$nrgkickmaclp2
@@ -493,9 +446,6 @@ if [[ $lastmanagement == "1" ]]; then
 		ipevseid=$evseidlp2
 		chargep1ip=$chargep2ip
 		chargep1cp=$chargep2cp
-		twcmanagerlp1ip=$twcmanagerlp2ip
-		twcmanagerlp1port=$twcmanagerlp2port
-		twcmanagerlp1httpcontrol=$twcmanagerlp2httpcontrol
 		owbpro1ip=$owbpro2ip
 		# dirty call (no parameters, all is set above...)
 		if (( lp2enabled == 0 )); then

@@ -104,10 +104,8 @@
 									</optgroup>
 									<optgroup label="andere Ladepunkte">
 										<option <?php if($evseconold == "goe") echo "selected" ?> value="goe">Go-e</option>
-										<!--<option <?php if($evseconold == "keba") echo "selected" ?> value="keba">Keba</option>-->
 										<option <?php if($evseconold == "nrgkick") echo "selected" ?> value="nrgkick">NRGKick + Connect</option>
 										<option <?php if($evseconold == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi / smartWB</option>
-										<!-- <option <?php if($evseconold == "twcmanager") echo "selected" ?> value="twcmanager">Tesla TWC mit TWCManager</option> --> 
 									</optgroup>
 									<optgroup label="generische Module">
 										<option <?php if($evseconold == "httpevse") echo "selected" ?> value="httpevse">HTTP (httpevse)</option>
@@ -292,23 +290,6 @@
 								</div>
 							</div>
 						</div>
-<!--
-						<div id="evseconkeba" class="hide">
-							<input type="hidden" name="ladeleistungmodul" value="keballlp1">
-							<div class="form-group">
-								<div class="form-row mb-1">
-									<label for="kebaiplp1" class="col-md-4 col-form-label">IP Adresse</label>
-									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="kebaiplp1" id="kebaiplp1" value="<?php echo $kebaiplp1old ?>">
-										<span class="form-text small">
-											Gültige Werte IP Adresse im Format: 192.168.0.12<br>
-											Erforder eine Keba C- oder X- Series. Die Smart Home Funktion (UDP Schnittstelle) muss per DIP Switch in der Keba aktiviert sein!
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
--->
 						<div id="evseconhttp" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -340,27 +321,6 @@
 						</div>
 						
 						
-						<div id="evsecontwcmanager" class="hide">
-							<input type="hidden" name="ladeleistungmodul" value="twcmanagerlp1">
-							<div class="form-group">
-								<div class="form-row mb-1">
-									<label for="twcmanagerlp1ip" class="col-md-4 col-form-label">IP Adresse</label>
-									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="twcmanagerlp1ip" id="twcmanagerlp1ip" value="<?php echo $twcmanagerlp1ipold ?>">
-										<span class="form-text small">
-											Gültige Werte IP Adresse im Format: 192.168.0.12
-										</span>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label for="twcmanagerlp1phasen" class="col-md-4 col-form-label">Anzahl Phasen</label>
-									<div class="col">
-										<input class="form-control" type="number" min="1" max="3" step="1" name="twcmanagerlp1phasen" id="twcmanagerlp1phasen" value="<?php echo $twcmanagerlp1phasenold ?>">
-										<span class="form-text small">Definiert die genutzte Anzahl der Phasen zur korrekten Errechnung der Ladeleistung (BETA).</span>
-									</div>
-								</div>
-							</div>
-						</div>
 						<div id="evsecongoe" class="hide">
 							<input type="hidden" name="ladeleistungmodul" value="goelp1">
 							<div class="form-group">
@@ -1458,7 +1418,7 @@
 												</label>
 											</div>
 											<span class="form-text small">
-												Erfordert einen openWB Ladepunkt, Go-e oder Keba. Nicht kompatibel mit EVSE Wifi und SimpleEVSE WB (mit DAC).
+												Erfordert einen openWB Ladepunkt, Go-e. Nicht kompatibel mit EVSE Wifi und SimpleEVSE WB (mit DAC).
 											</span>
 										</div>
 									</div>
@@ -1525,7 +1485,7 @@
 												</label>
 											</div>
 											<span class="form-text small">
-												Erfordert einen openWB Ladepunkt, Go-e oder Keba. Nicht kompatibel mit EVSE Wifi und SimpleEVSE WB (mit DAC).
+												Erfordert einen openWB Ladepunkt, Go-e. Nicht kompatibel mit EVSE Wifi und SimpleEVSE WB (mit DAC).
 											</span>
 										</div>
 									</div>
@@ -2154,13 +2114,11 @@
 							hideSection('#evsecongoe');
 							hideSection('#evseconnrgkick');
 							hideSection('#evseconmastereth');
-							//hideSection('#evseconkeba');
 							hideSection('#openwb12');
 							hideSection('#openwbauto');
 							hideSection('#openwb12mid');
 							hideSection('#openwb12v2mid');
 							hideSection('#evseconhttp');
-							hideSection('#evsecontwcmanager');
 							hideSection('#evseconipevse');
 							hideSection('#openwbbuchse');
 							hideSection('#openwbdaemon');
@@ -2227,12 +2185,6 @@
 							}
 							if($('#evsecon').val() == 'nrgkick') {
 								showSection('#evseconnrgkick');
-							}
-							//if($('#evsecon').val() == 'keba') {
-							//	showSection('#evseconkeba');
-							//}
-							if($('#evsecon').val() == 'twcmanager') {
-								showSection('#evsecontwcmanager');
 							}
 							if($('#evsecon').val() == 'ipevse') {
 								showSection('#evseconipevse');
@@ -2497,7 +2449,6 @@
 									</optgroup>
 									<optgroup label="andere Ladepunkte">
 										<option <?php if($evsecons1old == "goe") echo "selected" ?> value="goe">Go-e</option>
-										<!--<option <?php if($evsecons1old == "keba") echo "selected" ?> value="keba">Keba</option>-->
 										<option <?php if($evsecons1old == "nrgkick") echo "selected" ?> value="nrgkick">NRGKick + Connect</option>
 										<option <?php if($evsecons1old == "simpleevsewifi") echo "selected" ?> value="simpleevsewifi">SimpleEVSEWifi</option>
 									</optgroup>
@@ -2639,23 +2590,6 @@
 								</div>
 							</div>
 						</div>
-<!--
-						<div id="evseconkebas1" class="hide">
-							<input type="hidden" name="ladeleistungs1modul" value="keballlp2">
-							<div class="form-group">
-								<div class="form-row mb-1">
-									<label for="kebaiplp2" class="col-md-4 col-form-label">IP Adresse</label>
-									<div class="col">
-										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="kebaiplp2" id="kebaiplp2" value="<?php echo $kebaiplp2old ?>">
-										<span class="form-text small">
-											Gültige Werte IP Adresse im Format: 192.168.0.12<br>
-											Erforder eine Keba C- oder X- Series. Die Smart Home Funktion (UDP Schnittstelle) muss per DIP Switch in der Keba aktiviert sein!
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
--->
 						<div id="evseconmbs1" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -3206,7 +3140,7 @@
 												</label>
 											</div>
 											<span class="form-text small">
-												Erfordert einen openWB Ladepunkt, Go-e oder Keba. Nicht kompatibel mit EVSE Wifi und SimpleEVSE WB (mit DAC).
+												Erfordert einen openWB Ladepunkt, Go-e . Nicht kompatibel mit EVSE Wifi und SimpleEVSE WB (mit DAC).
 											</span>
 										</div>
 									</div>
@@ -3273,7 +3207,7 @@
 												</label>
 											</div>
 											<span class="form-text small">
-												Erfordert einen openWB Ladepunkt, Go-e oder Keba. Nicht kompatibel mit EVSE Wifi und SimpleEVSE WB (mit DAC).
+												Erfordert einen openWB Ladepunkt, Go-e.  Nicht kompatibel mit EVSE Wifi und SimpleEVSE WB (mit DAC).
 											</span>
 										</div>
 									</div>
@@ -4151,7 +4085,6 @@
 							hideSection('#llmodullp2');
 							hideSection('#evsecongoes1');
 							hideSection('#evsecoslaveeth');
-							//hideSection('#evseconkebas1');
 							hideSection('#evseconnrgkicks1');
 							hideSection('#openwb12s1v1');
 							hideSection('#openwb12s1v2');
@@ -4204,9 +4137,6 @@
 							if($('#evsecons1').val() == 'slaveeth') {
 								showSection('#evsecoslaveeth');
 							}
-							//if($('#evsecons1').val() == 'keba') {
-							//	showSection('#evseconkebas1');
-							//}
 							if($('#evsecons1').val() == 'nrgkick') {
 								showSection('#evseconnrgkicks1');
 							}

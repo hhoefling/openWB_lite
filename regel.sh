@@ -84,6 +84,9 @@ ptstart
  source loadconfig.sh
 ptend loadconfig 200
 
+# rlog MAIN "regel..."
+
+
 #######################
 openwbDebugLog "MAIN" 0 "TIME ** Regulation loop start ****"
 
