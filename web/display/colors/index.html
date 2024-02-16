@@ -834,12 +834,15 @@
 				wbdata.displaylocked = false;
 				$('#displaylock').find('.fa-lock').addClass('hide');
 				$('#displaylock').find('.fa-unlock').removeClass('hide');
+        $("#homebutton").removeClass("hide");
+        $("#setupbutton").removeClass("hide");
 				lockTimeoutHandler = window.setTimeout(lockDisplay, lockTimeout);
 			} else {
 				wbdata.displaylocked = true;
 				$('#displaylock').find('.fa-lock').removeClass('hide');
 				$('#displaylock').find('.fa-unlock').addClass('hide');
-
+		$("#homebutton").addClass("hide");
+		$("#setupbutton").addClass("hide");
 				window.clearTimeout(lockTimeoutHandler);
 				lockTimeoutHandler = null;
 			}
