@@ -57,7 +57,6 @@ function setCookieSameSite(
 			list($key, $value) = explode("=", $line, 2);
 			${$key."old"} = trim( $value, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes
 		}
-        //if( empty($devicenameold) ) $devicenameold='OpenWb';
 
 		// check for acknoledgement of dataprotection
 		if ( $datenschutzackold == 0 && $clouduserold !== "leer") {
@@ -90,7 +89,7 @@ function setCookieSameSite(
 			// set to /openWB/web/. So from now on path is /openWB/ to access cookie from all subdirectories
 			// therefore delete old cookies by having them expire immediately
 		    // setcookie('openWBTheme', '', time() - 3600, '/openWB/web');
-			include 'themes/'.$_COOKIE['openWBTheme'].'/theme.html';
+			include 'themes/' . $_COOKIE['openWBTheme' ]. '/theme.html';
             ?>
             <!-- some scripts -->
             <script>
