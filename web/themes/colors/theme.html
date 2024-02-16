@@ -1,3 +1,16 @@
+<?php
+// heist html, wird aber von index.php geincluded
+$theme = $_COOKIE['openWBTheme'];  // colors-hh oder colors
+
+function  geturl($file)
+{
+ global $theme;
+ $fn=sprintf('themes/%s/%s', $theme,$file);
+ $ftime=filemtime($fn);
+ return sprintf('%s?v=%d' , $fn,$ftime);
+
+}
+?>
 <!DOCTYPE html>
 <html lang="de" class="theme-dark">
 
@@ -29,10 +42,10 @@
 	<link rel="apple-touch-icon" sizes="144x144" href="img/favicons/apple-icon-144x144.png">
 	<link rel="apple-touch-icon" sizes="152x152" href="img/favicons/apple-icon-152x152.png">
 	<link rel="apple-touch-icon" sizes="180x180" href="img/favicons/apple-icon-180x180.png">
-	<link rel="icon" type="image/png" sizes="192x192" href="img/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicons/favicon-16x16.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="img/favicons/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="img/favicons/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="img/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="img/favicons/android-icon-192x192.png">
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 	<link rel="apple-touch-icon" sizes="57x57" href="img/favicons/apple-touch-icon-57x57.png">
@@ -96,7 +109,7 @@
 				}
 				if (c.indexOf(name) == 0) {
 					val=c.substring(name.length, c.length);
-					console.log('getCookie '+cname+'='+val); 
+					console.log('theme.php getCookie '+cname+'='+val); 
 					return val;
 				}
 			}
@@ -117,18 +130,30 @@
 
 
 		// include special Theme style
-		$('head').append('<link rel="stylesheet" href="themes/' + themeCookie + '/style.css?v=20052020">');
+	 	$('head').append('<link rel="stylesheet" href="<?php echo geturl('style.css');?>">');
+		
+		var debugmode=0;
+        var debugold=<?php echo $debugold;?>;
+  		var debugmode=debugold; // defaults to openwb.conf debug
+  		console.log('debugold', debugold, ' debugmode now:',debugmode);
+  		tmp=getCookie('debugmode');
+  		if ( tmp>'')
+   		{ 
+    		debugmode=tmp;	// override
+    		console.log('debugmode from cookie:[debugmode]',debugmode);
+   		} else console.log('Cookie debugmode not set'); 
+		console.log('window.debugmode' + window.debugmode)
+		
 	</script>
-	<script src="themes/colors/js/d3.v6.min.js"></script>
-	<script src="themes/colors/powerdata.js"></script>
-	<script src="themes/colors/powermeter.js"></script>
-	<script src="themes/colors/yieldmeter.js"></script>
-	<script src="themes/colors/powergraph.js"></script>
-	<script src="themes/colors/chargePointList.js"></script>
-	<script src="themes/colors/smartHomeList.js"></script>
-	<script src="themes/colors/batteryList.js"></script>
-	<script src="themes/colors/pricechart.js"></script>
-
+    <script src="<?php echo geturl('js/d3.v6.min.js');?>"></script>
+	<script src="<?php echo geturl('powerdata.js');?>"></script>
+	<script src="<?php echo geturl('powermeter.js');?>"></script>
+	<script src="<?php echo geturl('yieldmeter.js');?>"></script>
+	<script src="<?php echo geturl('powergraph.js');?>"></script>
+	<script src="<?php echo geturl('chargePointList.js');?>"></script>
+	<script src="<?php echo geturl('smartHomeList.js');?>"></script>
+	<script src="<?php echo geturl('batteryList.js');?>"></script>
+	<script src="<?php echo geturl('pricechart.js');?>"></script>
 
 </head>
 
@@ -714,11 +739,11 @@
 				// load mqtt library
 				'js/mqttws31.js',
 				// some helper functions
-				'themes/colors/helperFunctions.js?ver=20230526',
+				'<?php echo geturl('helperFunctions.js');?>',			
 				// functions for processing messages
-				'themes/colors/processAllMqttMsg.js?ver=20230213',
+				'<?php echo geturl('processAllMqttMsg.js');?>',			
 				// functions performing mqtt and start mqtt-service
-				'themes/colors/setupMqttServices.js?ver=20230119',
+				'<?php echo geturl('setupMqttServices.js');?>'
 			];
 			scriptsToLoad.forEach(function (src) {
 				var script = document.createElement('script');
@@ -938,8 +963,15 @@
 		});  // end document ready
 	</script>
 
+<?php
+			if( $debugold>9)
+			{
+			 echo "<pre>";
+			 $lines=[];
+			 print_r($GLOBALS);  
+			 echo "</pre>";
+			}   
+?>
 </body>
 
 </html>
-
-

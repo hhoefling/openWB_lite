@@ -1,3 +1,20 @@
+<?php
+
+$theme = $_COOKIE['openWBTheme'];  // colors-hh oder colors
+
+function  geturl($file)
+{
+ global $theme;
+ 
+ // echo '<link rel="stylesheet" type="text/css" href="style.css?' . filemtime('style.css') . '" />';
+//	<link rel="stylesheet" href="themes/colors-HH/style.css?v=200520203">');
+// file = style.css
+ $fn=sprintf('themes/%s/%s', $theme,$file);
+ $ftime=filemtime($fn);
+ return sprintf('%s?v=%d' , $fn,$ftime);
+
+}
+?>
 <!DOCTYPE html>
 <html lang="de" class="theme-dark">
 
@@ -29,10 +46,10 @@
 	<link rel="apple-touch-icon" sizes="144x144" href="img/favicons/apple-icon-144x144.png">
 	<link rel="apple-touch-icon" sizes="152x152" href="img/favicons/apple-icon-152x152.png">
 	<link rel="apple-touch-icon" sizes="180x180" href="img/favicons/apple-icon-180x180.png">
-	<link rel="icon" type="image/png" sizes="192x192" href="img/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicons/favicon-16x16.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="img/favicons/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="img/favicons/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="img/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="img/favicons/android-icon-192x192.png">
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 	<link rel="apple-touch-icon" sizes="57x57" href="img/favicons/apple-touch-icon-57x57.png">
@@ -116,16 +133,15 @@
 			console.log('setCookie '+name+'='+value);
 		}
 	</script>
-	<script src="themes/colors-HH/js/d3.v6.min.js"></script>
-	<script src="themes/colors-HH/powerdata.js"></script>
-	<script src="themes/colors-HH/powermeter.js"></script>
-	<script src="themes/colors-HH/yieldmeter.js"></script>
-	<script src="themes/colors-HH/powergraph.js"></script>
-	<script src="themes/colors-HH/chargePointList.js"></script>
-	<script src="themes/colors-HH/smartHomeList.js"></script>
-	<script src="themes/colors-HH/batteryList.js"></script>
-	<script src="themes/colors-HH/pricechart.js?ver=20230213"></script>
-
+    <script src="<?php echo geturl('js/d3.v6.min.js');?>"></script>
+	<script src="<?php echo geturl('powerdata.js');?>"></script>
+	<script src="<?php echo geturl('powermeter.js');?>"></script>
+	<script src="<?php echo geturl('yieldmeter.js');?>"></script>
+	<script src="<?php echo geturl('powergraph.js');?>"></script>
+	<script src="<?php echo geturl('chargePointList.js');?>"></script>
+	<script src="<?php echo geturl('smartHomeList.js');?>"></script>
+	<script src="<?php echo geturl('batteryList.js');?>"></script>
+	<script src="<?php echo geturl('pricechart.js');?>"></script>
 
 </head>
 
@@ -665,7 +681,7 @@
 				var countTopicsToBeReceived = topicsToSubscribe.length - countTopicsNotForPreloader;
 				var percentageReceived = (countTopicsReceived / countTopicsToBeReceived * 100).toFixed(0);
 				var timeBetweenTwoMessages = Date.now() - timeOfLastMqttMessage;
-				if (timeBetweenTwoMessages > 3000) {
+				if (timeBetweenTwoMessages > 1000) {
 					// latest after 3 sec without new messages
 					percentageReceived = 100;
 					// debug output
@@ -712,11 +728,11 @@
 				// load mqtt library
 				'js/mqttws31.js',
 				// some helper functions
-				'themes/colors-HH/helperFunctions.js?ver=20230526',
+				'<?php echo geturl('helperFunctions.js');?>',			
 				// functions for processing messages
-				'themes/colors-HH/processAllMqttMsg.js?ver=20230213',
+				'<?php echo geturl('processAllMqttMsg.js');?>',			
 				// functions performing mqtt and start mqtt-service
-				'themes/colors-HH/setupMqttServices.js?ver=20230119',
+				'<?php echo geturl('setupMqttServices.js');?>'
 			];
 			scriptsToLoad.forEach(function (src) {
 				var script = document.createElement('script');
@@ -825,7 +841,7 @@
 
 			function sendCode() {
 				let value = document.getElementById('codeInput').value
-				if (value.length > 0) {
+				if(value.length > 0) {
 					publish(value, 'openWB/set/system/SimulateRFID')
 					$('#chargeModeModal').modal('hide')
 				}
