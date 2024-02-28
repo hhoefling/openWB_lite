@@ -5,6 +5,7 @@
 *.sav
 *.list
 x.sh
+openwb.conf
 openwb.conf.*
 web/backup/*.tar.gz
 ramdisk/
