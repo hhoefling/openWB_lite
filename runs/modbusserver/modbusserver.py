@@ -13,6 +13,7 @@ conf.SIGNED_VALUES = True
 TCPServer.allow_reuse_address = True
 app = get_server(TCPServer, ('0.0.0.0', 502), RequestHandler)
 
+
 def form_sint32(value, startreg):
     secondreg = startreg + 1
     try:
@@ -26,6 +27,8 @@ def form_sint32(value, startreg):
     except:
         data_store[startreg] = -1
         data_store[secondreg] = -1
+
+
 def form_lpkwhsint32(value, startreg):
     secondreg = startreg + 1
     try:
@@ -38,6 +41,8 @@ def form_lpkwhsint32(value, startreg):
     except:
         data_store[startreg] = -1
         data_store[secondreg] = -1
+
+
 def form_sint16(value, startreg):
     try:
         with open('/var/www/html/openWB/ramdisk/' + value, 'r') as var:
@@ -47,6 +52,8 @@ def form_sint16(value, startreg):
         data_store[startreg] = readvar
     except:
         data_store[startreg] = -1
+
+
 def form_100sint16(value, startreg):
     try:
         with open('/var/www/html/openWB/ramdisk/' + value, 'r') as var:
@@ -57,6 +64,8 @@ def form_100sint16(value, startreg):
         data_store[startreg] = readvar
     except:
         data_store[startreg] = -1
+
+
 def get_pos(number, n):
     return number // 10**n % 10
 
@@ -219,6 +228,7 @@ def read_data_store(slave_id, function_code, address):
 
     return data_store[address]
 
+
 def write_ramdisk(name, value):
     f = open('/var/www/html/openWB/ramdisk/' + str(name), 'w')
     f.write(str(value))
@@ -242,6 +252,8 @@ def write_data_store(slave_id, function_code, address, value):
         if (askedvalue == 52):
             if (value >= 6 and value <= 32):
                 write_ramdisk("lp"+str(chargepoint)+"sofortll", value)
+
+
 if __name__ == '__main__':
     try:
         app.serve_forever()
