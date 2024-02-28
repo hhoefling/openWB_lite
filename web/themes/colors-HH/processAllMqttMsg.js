@@ -6,7 +6,7 @@
  */
 
 var graphrefreshcounter = 0;
-
+var debuglevel = 0;
 
 function getCol(matrix, col) {
 	var column = [];
@@ -62,18 +62,18 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	//console.log( 'processETProviderMessages(', mqttmsg, ' , ', mqttpayload,')' )
     
  // colors theme
-	if (mqttmsg == 'openWB/global/ETProvider/providerName') {
-		wbdata.updateET('etProviderName', mqttpayload);
-	} else if (mqttmsg == 'openWB/global/ETProvider/modulePath') {
-		wbdata.updateET('etModulePath', mqttpayload);
-	} else if (mqttmsg == 'openWB/global/awattar/boolAwattarEnabled') {
-		wbdata.updateET('isEtEnabled', (mqttpayload == '1'))
-	} else if (mqttmsg == 'openWB/global/awattar/pricelist') {
-		wbdata.updateET('etPriceList', mqttpayload);
-	} else if (mqttmsg == 'openWB/global/awattar/MaxPriceForCharging') {
-		wbdata.updateET('etMaxPrice', parseFloat(mqttpayload));
-	} else if (mqttmsg == 'openWB/global/awattar/ActualPriceForCharging') {
-		wbdata.updateET('etPrice', parseFloat(mqttpayload));
+ if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
+	wbdata.updateET ('etProviderName', mqttpayload);
+ } else if ( mqttmsg == 'openWB/global/ETProvider/modulePath' ) {
+	wbdata.updateET ('etModulePath', mqttpayload);
+ } else if ( mqttmsg == 'openWB/global/awattar/boolAwattarEnabled' ) {
+	wbdata.updateET('isEtEnabled' ,(mqttpayload == '1'))
+ } else if ( mqttmsg == 'openWB/global/awattar/pricelist' ) {
+	wbdata.updateET('etPriceList',mqttpayload);
+ } else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
+	wbdata.updateET ('etMaxPrice', parseFloat(mqttpayload));
+ } else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
+	wbdata.updateET ('etPrice', parseFloat(mqttpayload));
 	}
 	// end color theme
 	if (mqttmsg == 'openWB/global/ETProvider/providerName') {
@@ -268,10 +268,10 @@ function processGraphMessages(mqttmsg, mqttpayload) {
 		}
 		//checkgraphload();
 	}
-	else if (mqttmsg.match(/^openwb\/graph\/[1-9][0-9]*alllivevalues$/i)) {
-		powerGraph.updateLive(mqttmsg, mqttpayload);
+	else if (m = mqttmsg.match(/^openwb\/graph\/([1-9][0-9]*)alllivevalues$/i)) {
+		powerGraph.updateLive(mqttmsg, mqttpayload , m[1] );
 		
-		var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];
+		var index = m[1];
 		console.log('alllivevalues['+index+ '] :' +  mqttpayload.length );
 		
 		
@@ -284,7 +284,8 @@ function processGraphMessages(mqttmsg, mqttpayload) {
 		}*/
 	}
 	else if (mqttmsg == 'openWB/graph/lastlivevalues') {
-		powerGraph.updateLive(mqttmsg, mqttpayload);
+		powerGraph.updateLive(mqttmsg, mqttpayload, -1 );
+		console.log('lastlivevalues:' +  mqttpayload.length );
 		/* 	if ( initialread > 0) {
 				//updateGraph(mqttpayload);
 			}
@@ -491,7 +492,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 		// graph will be redrawn after 5 minutes (new data pushed from cron5min.sh)
 		var csvaData = [];
 		var rawacsv = mqttpayload.split(/\r?\n|\r/);
-		// skip first entry: it is module-name responsible for list
+//		// skip first entry: it is module-name responsible for list
 		for (var i = 1; i < rawcsv.length; i++) {
 			csvaData.push(rawacsv[i].split(','));
 		}
@@ -620,10 +621,11 @@ function processHousebatteryMessages(mqttmsg, mqttpayload) {
 		wbdata.updateBat("batterySoc", speicherSoc);
 	}
 	else if (mqttmsg == 'openWB/housebattery/soctarget') {
-		var Soct = makeInt(mqttpayload);
-		if (isNaN(Soct) || Soct < 0 || Soct > 100) {
-			Soct = 0;
-		}
+		var Soct = mqttpayload;
+//		var Soct = makeInt(mqttpayload);
+//		if (isNaN(Soct) || Soct < 0 || Soct > 100) {
+//			Soct = 0;
+//		}
 		wbdata.updateBat("soctarget", Soct);
 	}
 	else if (mqttmsg == 'openWB/housebattery/boolHouseBatteryConfigured') {
@@ -634,6 +636,9 @@ function processHousebatteryMessages(mqttmsg, mqttpayload) {
 	}
 	else if (mqttmsg == 'openWB/housebattery/DailyYieldImportKwh') {
 		wbdata.updateBat("batteryEnergyImport", makeFloat(mqttpayload))
+	}
+    else {
+        console.log('****** Unknown :', mqttmsg, ' ', mqttpayload);
 	}
 	// end color theme
 
@@ -705,11 +710,11 @@ function processSystemMessages(mqttmsg, mqttpayload) {
         }
       
     } 
-	else if (mqttmsg.match(/^openwb\/system\/daygraphdata[1-9][0-9]*$/i)) {
-		powerGraph.updateDay(mqttmsg, mqttpayload);
+	else if (m = mqttmsg.match(/^openwb\/system\/daygraphdata([1-9][0-9]*)$/i)) {
+		powerGraph.updateDay(mqttmsg, mqttpayload, m[1] );
 	}
-	else if (mqttmsg.match(/^openwb\/system\/monthgraphdatan[1-9][0-9]*$/i)) {
-		powerGraph.updateMonth(mqttmsg, mqttpayload);
+	else if (m = mqttmsg.match(/^openwb\/system\/monthgraphdatan([1-9][0-9]*)$/i)) {
+		powerGraph.updateMonth(mqttmsg, mqttpayload, m[1]);
 	}
 }
 

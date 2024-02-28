@@ -20,7 +20,7 @@ class WbData {
 		this.housePower = 0;		// akt watt
 		this.smartHomePower = 0;	// akt watt
 		this.houseEnergy = 0;		// counter KWH
-		this.soctarget = 0;
+		this.soctarget = '';
 		this.batteryEnergyExport = 0;	// counter
 		this.batteryEnergyImport = 0;   // counter
 		this.batteryPowerExport = 0;
@@ -293,6 +293,7 @@ class WbData {
 
 	updateBat(field, value) {
 		this[field] = value;
+        console.log('updateBat  field:',field,' = ', value);
 		switch (field) {
 			case 'batteryPowerImport':
 				this.updateUsageSummary("batIn", "power", value);

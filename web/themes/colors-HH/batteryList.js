@@ -65,7 +65,7 @@ class BatteryList {
       const scell = row.append("td")
         .attr("class", "tablecell py-1 px-1")
            .attr("style", "vertical-align: middle;");
-      scell.html( wbdata.batterySoc + " %" + "&nbsp;<small>(" + wbdata.soctarget + "%</small>)" );
+      scell.html( wbdata.batterySoc + " %" + "<br>&nbsp;<small>(" + wbdata.soctarget + "</small>)" );
     }
     else {
       d3.select("div#batteryWidget").classed("hide", true);
