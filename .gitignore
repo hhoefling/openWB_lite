@@ -4,6 +4,7 @@
 *.bak
 *.sav
 *.list
+*.conf
 x.sh
 openwb.conf
 openwb.conf.*
