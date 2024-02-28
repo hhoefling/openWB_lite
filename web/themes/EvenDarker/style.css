@@ -38,7 +38,6 @@ body > .container {
 	50%  { opacity:0; }
 	100% { opacity:1; }
 }
-
 .animate-alertPulsation {
 	-webkit-animation: alertPulsation 3s infinite;
 	-moz-animation: alertPulsation 3s infinite;
