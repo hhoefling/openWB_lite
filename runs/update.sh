@@ -29,17 +29,17 @@ SELF=`basename $0`
 if [[ $SELF != 'copyfromupdate.sh' ]] ; then
   ORG=$0
   export ORG
-  [ -f ./copyfromupdate.sh ] && rm ./copyfromupdate.sh
-  cp -p $0 ./copyfromupdate.sh
+  [ -f /var/www/html/openWB/copyfromupdate.sh ] && rm /var/www/html/openWB/copyfromupdate.sh
+  cp -p $0 /var/www/html/openWB/copyfromupdate.sh
   Log 0 "$SELF terminates now."
-  exec ./copyfromupdate.sh
+  exec /var/www/html/openWB/copyfromupdate.sh
   exit 0 # never reached
 fi
 
 function cleanup()
 {
   Log 0 "now remove copyfromupdate.sh"
-  rm  ./copyfromupdate.sh
+  rm  /var/www/html/openWB/copyfromupdate.sh
 }
 trap cleanup EXIT
 Log 0 "Running, now it is save to override $ORG"
