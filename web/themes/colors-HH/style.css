@@ -218,6 +218,10 @@ body>.container-fluid {
 
 /* Extra small devices (portrait phones, less than 576px) */
 /* No media query since this is the default in Bootstrap */
+#mediacss:after{ 
+        content: "none"; 
+    } 
+    
 h1 {
 	font-size: 1.6rem;
 }
@@ -262,6 +266,9 @@ h4 {
 
 /* Small devices (landscape phones, 576px and up) */
 @media screen and (min-width: 576px) {
+    #mediacss:after{ 
+        content: "576"; 
+    } 
 	h1 {
 		font-size: 2.1rem;
 	}
@@ -313,6 +320,9 @@ h4 {
 
 /* Medium devices (tablets, 768px and up) */
 @media screen and (min-width: 768px) {
+    #mediacss:after{ 
+        content: "768"; 
+    } 
 	h1 {
 		font-size: 1.5rem;
 	}
@@ -358,6 +368,9 @@ h4 {
 
 /* Large devices (desktops, 992px and up) */
 @media screen and (min-width: 992px) {
+    #mediacss:after{ 
+        content: "992"; 
+    } 
 	h1 {
 		font-size: 1.5rem;
 	}
@@ -371,7 +384,7 @@ h4 {
  	}
 
 	h4 {
-		font-size: 0.9rem;
+		font-size: 1.0rem;
 	}
 	
 	.verySmallTextSize {
@@ -403,6 +416,9 @@ h4 {
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+    #mediacss:after{ 
+        content: "1200"; 
+    } 
 	h1 {
 		font-size: 3rem;
 	}
@@ -521,7 +537,7 @@ h4 {
 	--color-house: #7f7f7f;
 	--color-charging: #1f78b4;
 	--color-export: #b2df8a;
-	--color-axis: #666666;
+    --color-axis: #CFCFCF;
 	--color-grid: black;
 	--color-frame: #999999;
 	--color-subframe: #333333;

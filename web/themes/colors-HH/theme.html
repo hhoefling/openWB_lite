@@ -1,14 +1,10 @@
 <?php
-
+// heist html, wird aber von index.php geincluded
 $theme = $_COOKIE['openWBTheme'];  // colors-hh oder colors
 
 function  geturl($file)
 {
  global $theme;
- 
- // echo '<link rel="stylesheet" type="text/css" href="style.css?' . filemtime('style.css') . '" />';
-//	<link rel="stylesheet" href="themes/colors-HH/style.css?v=200520203">');
-// file = style.css
  $fn=sprintf('themes/%s/%s', $theme,$file);
  $ftime=filemtime($fn);
  return sprintf('%s?v=%d' , $fn,$ftime);
@@ -34,7 +30,6 @@ function  geturl($file)
 	<link rel="apple-touch-startup-image"
 		media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
 		href="img/favicons/splash1125x2436w.png">
-	<meta name="apple-mobile-web-app-title" content="openWB">
 
 	<meta name="description" content="openWB">
 	<meta name="keywords" content="openWB">
@@ -54,8 +49,7 @@ function  geturl($file)
 	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 	<link rel="apple-touch-icon" sizes="57x57" href="img/favicons/apple-touch-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="img/favicons/apple-touch-icon-60x60.png">
-	<!--link rel="manifest" href="./manifest.json"-->
-	<link rel="manifest" href="/openWB/web/manifest.json">
+	<link rel="manifest" href="manifest.json">
 	<link rel="shortcut icon" href="img/favicons/favicon.ico">
 	<!-- link rel="apple-touch-startup-image" href="img/loader.gif"> -->
 	<meta name="msapplication-config" content="img/favicons/browserconfig.xml">
@@ -67,7 +61,6 @@ function  geturl($file)
 	<link rel="stylesheet" type="text/css" href="css/normalize-8.0.1.css">
 	<!-- Font Awesome, all styles -->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5.8.2/css/all.css">
-	<link rel="stylesheet" href="themes/colors-HH/style.css?v=20052020">
 	<!-- local css due to async loading of theme css -->
 	<style>
 		#preloader {
@@ -114,7 +107,7 @@ function  geturl($file)
 				}
 				if (c.indexOf(name) == 0) {
 					val=c.substring(name.length, c.length);
-					console.log('getCookie '+cname+'='+val); 
+					console.log('theme.php getCookie '+cname+'='+val); 
 					return val;
 				}
 			}
@@ -132,6 +125,23 @@ function  geturl($file)
 		    document.cookie = name + "=" + (value || '')  + expires + "; path=/openWB/;SameSite=Lax";
 			console.log('setCookie '+name+'='+value);
 		}
+
+
+		// include special Theme style
+	 	$('head').append('<link rel="stylesheet" href="<?php echo geturl('style.css');?>">');
+		
+		var debugmode=0;
+        var debugold=<?php echo $debugold;?>;
+  		var debugmode=debugold; // defaults to openwb.conf debug
+  		console.log('debugold', debugold, ' debugmode now:',debugmode);
+  		tmp=getCookie('debugmode');
+  		if ( tmp>'')
+   		{ 
+    		debugmode=tmp;	// override
+    		console.log('debugmode from cookie:[debugmode]',debugmode);
+   		} else console.log('Cookie debugmode not set'); 
+		console.log('window.debugmode' + window.debugmode)
+  
 	</script>
     <script src="<?php echo geturl('js/d3.v6.min.js');?>"></script>
 	<script src="<?php echo geturl('powerdata.js');?>"></script>
@@ -148,6 +158,7 @@ function  geturl($file)
 <body>
 	<!-- Preloader with Progress Bar -->
 	<!-- style instead of css due to async loading of theme css -->
+	<!--  display:none statt hide   -->
 	<div id="preloader">
 		<div id="preloader-inner">
 			<div class="row">
@@ -158,7 +169,7 @@ function  geturl($file)
 			<div id="preloader-info" class="row justify-content-center mt-2">
 				<div class="col-10 col-sm-6">
 					Bitte geduld, während die Seite aufgebaut wird.
-					<br><span class="devicename">openWB</span>&nbsp;Theme colors-HH
+					<br><span class="devicename">openWB</span>&nbsp;Theme <?php echo $theme; ?>
 				</div>
 			</div>
 			<div class="row justify-content-center mt-2">
@@ -176,7 +187,10 @@ function  geturl($file)
 	<!-- Landing Page -->
 	<div id="nav-placeholder">
 	</div>
-	<div class="container-fluid">
+	<div id="altclicker" class="container-fluid">
+
+
+		<!-- Kopfzeile -->
 		<div class="row py-1 verySmallTextSize" style="color: var(--color-fg)">
 			<div id="date" class="col text-left">
 				&nbsp;
@@ -197,10 +211,14 @@ function  geturl($file)
 				&nbsp;
 			</div>
 			<div id="time" class="col text-right">
-				&nbsp;
+				&nbsp;needs
 			</div>
 		</div>
+		<!-- Kopfzeile Ende -->
+
+
 		<div class="row py-0">
+			<!-- Obere reihe mit drei elementen -->
 			<!-- Aktuelle Leistung (powermeter) -->
 			<div class="rounded shadow wb-widget col-md p-2 m-1">
 				<div class="container-fluid">
@@ -215,7 +233,7 @@ function  geturl($file)
 								</button>
 								<div class="dropdown-menu dropdown-menu-right colormenu">
 									<a class="dropdown-item" href="#" onclick="switchTheme()"><span class="fa fa-adjust px-0"></span>
-										Hintergrund ändern</a>
+									<span  id="mediacss">Hintergrund ändern </span></a>
 									<a class="dropdown-item" href="#" onclick="toggleGrid()"><span class="fa fa-th px-0"></span> Graph:
 										Raster an/aus</a>
 									<a class="dropdown-item" href="#" onclick="switchDisplay()"><span
@@ -260,7 +278,7 @@ function  geturl($file)
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-8 px-0">
-							<h3 id="energyheading">Energie heute</h3>
+							<h3 id="energyheading">Energie Heute</h3>
 						</div>
 						<div class="col-4 px-0" style="text-align: right;">
 							<button class="btn btn-outline-secondary btn-sm " id="calendarButton"><span
@@ -276,6 +294,7 @@ function  geturl($file)
 			</div>
 		</div>
 
+		<!-- zweite reihe  -->
 		<div class="row py-0 px-0">
 			<!-- Ladepunkte (chargePointList) -->
 			<div class="rounded shadow wb-widget col-md p-2 m-1 ">
@@ -323,7 +342,7 @@ function  geturl($file)
 									<button type="button" class="btn btn-secondary priceLess"><i class="far fa-minus-square"></i></button>
 							</div>
 							<div class="col-8">
-									<input type="range" class="form-control-range maxPriceInput" id="maxPrice" min="-25" max="95"
+									<input type="range" class="form-control-range maxPriceInput" id="maxPrice" min="-15" max="55"
 										step="0.1" value="0" data-initialized="0">
 							</div>
 							<div class="col-2 m-0 p-0 text-right">
@@ -650,6 +669,39 @@ function  geturl($file)
 				$("#nav-placeholder").replaceWith(data);
 			}
 		);
+ if ( debugold>0)	//
+   {
+    console.log("Bind altclicker ");
+    $('#altclicker').bind('click', function(event){
+    console.log('date clicked')
+     if(  event.ctrlKey   &&  event.shiftKey)
+     {
+        console.log('shift-Ctrl pressed set debugmode=3' )
+		event.preventDefault();
+		debugmode=3
+  	    setCookie('debugmode', 3, 2);		// Mode 3 für 2 Tage
+		alert( "Set Debug mode to 3");
+        this.click(event);
+     }
+     else if(event.ctrlKey || event.shiftKey)
+     {
+       console.log('shift or cntrl pressd set debugmode=2' )
+	    debugmode=2
+	    setCookie('debugmode', 2, 2);		// Mode 4 für 2 Tage
+	    alert( "Set Debug mode to 2");
+	  this.click(event);
+     }	  
+     else if(event.altKey)
+     {
+      console.log('alt pressd set debugmode=4' )
+	    debugmode=4
+	    setCookie('debugmode', 4, 2);		// Mode 4 für 2 Tage
+	    alert( "Set Debug mode to 4");
+	  this.click(event);
+     }	  
+    });
+  }
+ 
 
 
 		var timeOfLastMqttMessage = 0;  // holds timestamp of last received message
@@ -720,19 +772,14 @@ function  geturl($file)
 		})();
 
 		$(document).ready(function () {
-
+			console.log('------------ $(document).ready ------------------' )
 			// load scripts synchronously in order specified
 			var scriptsToLoad = [
-				// load Chart.js library
-				'js/Chart.bundle.min.js',
-				// load mqtt library
-				'js/mqttws31.js',
-				// some helper functions
-				'<?php echo geturl('helperFunctions.js');?>',			
-				// functions for processing messages
-				'<?php echo geturl('processAllMqttMsg.js');?>',			
-				// functions performing mqtt and start mqtt-service
-				'<?php echo geturl('setupMqttServices.js');?>'
+				// NC 'js/Chart.bundle.js',		// load Chart.js library
+				'js/mqttws31.js',			// load mqtt library
+				'<?php echo geturl('helperFunctions.js');?>',		// some helper functions			
+				'<?php echo geturl('processAllMqttMsg.js');?>',		// functions for processing messages			
+				'<?php echo geturl('setupMqttServices.js');?>'		// functions performing mqtt and start mqtt-service
 			];
 			scriptsToLoad.forEach(function (src) {
 				var script = document.createElement('script');
@@ -741,6 +788,8 @@ function  geturl($file)
 				document.body.appendChild(script);
 			});
 
+
+			console.log('------------ $(document).ready  all scripts sheduled (but not loaded) -----' )
 			wbdata.init();
 			powerGraph.init();
 			powerMeter.init();
@@ -750,6 +799,8 @@ function  geturl($file)
 			batteryList.init();
 			priceChart.init();
 			$("#homebutton").addClass("hide");
+			if (Math.floor(wbdata.batterydischarge_max)>0)   // rct vorhanden, sonst default -1
+				$("#rctbatmenu").addClass("hide");
 
 			$('.enableLp').click(function (event) {
 				// send mqtt set to enable/disable charge point after click
@@ -841,7 +892,7 @@ function  geturl($file)
 
 			function sendCode() {
 				let value = document.getElementById('codeInput').value
-				if(value.length > 0) {
+				if (value.length > 0) {
 					publish(value, 'openWB/set/system/SimulateRFID')
 					$('#chargeModeModal').modal('hide')
 				}
@@ -949,9 +1000,19 @@ function  geturl($file)
 					// subscribeMqttGraphSegments();
 				}
 			});
+			console.log('------------ $(document).ready --end ----------------' )
 		});  // end document ready
 	</script>
 
+<?php
+			if( $debugold>9)
+			{
+			 echo "<pre>";
+			 $lines=[];
+			 print_r($GLOBALS);  
+			 echo "</pre>";
+			}   
+?>
 </body>
 
 </html>

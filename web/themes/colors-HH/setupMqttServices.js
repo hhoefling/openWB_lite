@@ -12,8 +12,8 @@ var topicsToSubscribe = [
 	// Status Konfiguration Ladepunkt
 
 	["openWB/lp/1/boolChargePointConfigured", 0],
-	["openWB/lp/2/boolChargePointConfigured", 0],
-	["openWB/lp/3/boolChargePointConfigured", 0],
+	["openWB/lp/2/boolChargePointConfigured", 1],
+	["openWB/lp/3/boolChargePointConfigured", 1],
 //	["openWB/lp/4/boolChargePointConfigured", 0],
 //	["openWB/lp/5/boolChargePointConfigured", 0],
 //	["openWB/lp/6/boolChargePointConfigured", 0],
@@ -386,9 +386,9 @@ function publish(payload, topic) {
 	message.qos = 2;
 	message.retained = true;
 	client.send(message);
-	var message = new Messaging.Message("local client uid: " + clientuid + " sent: " + topic);
-	message.destinationName = "openWB/set/system/topicSender";
-	message.qos = 2;
-	message.retained = true;
-	client.send(message);
+//	var message = new Messaging.Message("local client uid: " + clientuid + " sent: " + topic);
+//	message.destinationName = "openWB/set/system/topicSender";
+//	message.qos = 2;
+//	message.retained = true;
+//	client.send(message);
 }

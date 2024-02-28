@@ -166,10 +166,12 @@ class PowerGraph {
     }
   }
 
-  updateLive(topic, payload) {
+  updateLive(topic, payload, sindex) {
+    // console.log('updateLive:', topic, sindex); 
     if (wbdata.graphMode == 'live') { // only update if live graph is active
       if (this.initialized) { // steady state
-        if (topic === "openWB/graph/lastlivevalues") {
+        //if (topic === "openWB/graph/lastlivevalues") {
+        if (sindex < 0) {
           const values = this.extractLiveValues(payload.toString());
           this.graphRefreshCounter++;
           this.graphData.push(values);
@@ -181,10 +183,12 @@ class PowerGraph {
         }
 				else console.log('live+initited, but wrong topic:' + topic );
       } else { // init phase
-        const t = topic;
-        if (t.substring(t.length - 13, t.length) === "alllivevalues") {
+        // const t = topic;
+        // if (t.substring(t.length - 13, t.length) === "alllivevalues") {
+        if ( sindex > 0) {
           // init message
-          const serialNo = t.substring(13, t.length - 13);
+          const serialNo = sindex; // t.substring(13, t.length - 13);
+          
 					var bulkdata = payload.toString().split("\n");
           if (bulkdata.length <= 1) {
             bulkdata = [];
@@ -217,7 +221,7 @@ class PowerGraph {
 		else console.log('graphmode ('+wbdata.graphMode+') , ignore topic' + topic );
   }
 
-  updateDay(topic, payload) {
+  updateDay(topic, payload, serialNo) {
     var segment;
     if (payload == 'empty') {
       segment = [];
@@ -226,7 +230,9 @@ class PowerGraph {
       if (segment[0] == "") {
         segment = [];
       }
-      const serialNo = topic.substring(26, topic.length);
+      //const serialNo = topic.substring(26, topic.length);
+
+      //console.log(topic , "serialNo:" , +serialNo );
       if (serialNo != "") {
         if (typeof (this.staging[+serialNo - 1]) === 'undefined') {
           this.staging[+serialNo - 1] = segment;
@@ -256,9 +262,10 @@ class PowerGraph {
     }
   }
 
-  updateMonth(topic, payload) {
+  updateMonth(topic, payload, serialNo) {
     if (payload != 'empty') {
-			const serialNo = topic.substring(29, topic.length);
+      // const serialNo = topic.substring(29, topic.length);
+      console.log(topic , "serialNo:" , +serialNo );
 
       var segment = payload.toString().split("\n");
       if (segment[0] == "") {
@@ -662,7 +669,7 @@ class PowerGraph {
   }
 	calcMonthlyValue(i, array) {
 		var val = Math.floor(+array[i] * 1000)
-		if (val < 0) {
+		if (val < 0 ) {
             val = 0;
     }
     return val;

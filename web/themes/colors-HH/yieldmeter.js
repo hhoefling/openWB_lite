@@ -124,7 +124,7 @@ class YieldMeter {
 	plotfilter(row) {
 		if (row.energy > 0) {
 			if (row.id >=0) {
-				console.log('Skip SH row:', row);			
+				//console.log('Skip SH row:', row);			
 			  	return false
 			}
 			else if (row.name == "Geräte") {
@@ -153,6 +153,8 @@ class YieldMeter {
 	}
 
 	drawChart(svg) {
+	    //console.log(this.plotdata);
+		
 		let chargedata = this.plotdata.filter(d => d.name == "Laden")
 		const ymax = d3.max(this.plotdata, (d) => d.energy);
 		this.xScale.domain(this.plotdata.map((d) => d.name));

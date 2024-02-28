@@ -79,7 +79,7 @@ class ChargePointList {
         .text("Strompreis: " + wbdata.etPrice + " ct/kWh");
     }
 */
-    d3.select ("div#chargePointConfigWidget").classed ("hide", (wbdata.chargeMode != "0" && wbdata.chargeMode != "1"))
+    d3.select("div#chargePointConfigWidget").classed("hide", (wbdata.chargeMode != "0" && wbdata.chargeMode != "1"))
   }
 
   updateValues() {

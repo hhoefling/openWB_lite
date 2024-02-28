@@ -25,7 +25,8 @@ class PriceChart {
   update() {
     var svg = this.createOrUpdateSvg();
     
-    d3.select(".priceConfiguration").classed("hide", !((wbdata.chargeMode == "0") && wbdata.isEtEnabled));
+//    d3.select(".priceConfiguration").classed("hide", !((wbdata.chargeMode == "0") && wbdata.isEtEnabled));
+    d3.select(".priceConfiguration").classed("hide", !( (wbdata.chargeMode != "3") && wbdata.isEtEnabled));
     d3.select(".labelMaxPrice").text(wbdata.etMaxPrice + " ct/kWh");
     d3.select(".maxPriceInput").property("value", wbdata.etMaxPrice);
       
@@ -102,9 +103,9 @@ class PriceChart {
       .attr("class", "axis")
       .call(xAxisGenerator);
     //xAxis.attr("transform", "translate(0," + (height / 2 - 6) + ")");
-    xAxis.attr("transform", "translate(" + this.margin.left + "," + (height + this.margin.top) + ")");
+    xAxis.attr("transform", "translate(" + this.margin.left + "," + (height -2 + this.margin.top ) + "  )");
     xAxis.selectAll(".tick")
-    .attr("font-size", 10)
+    .attr("font-size", 9)
     .attr("color", this.bgColor);
     xAxis.selectAll(".tick line")
     .attr("stroke", this.bgColor)
@@ -124,7 +125,7 @@ class PriceChart {
 
     yAxis.attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
     yAxis.selectAll(".tick")
-      .attr("font-size", 12)
+      .attr("font-size", 9)
       .attr("color", this.bgColor);
 
     yAxis.selectAll(".tick line")
