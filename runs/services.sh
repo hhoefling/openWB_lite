@@ -404,7 +404,7 @@ function rfid2_start()
 {
         services_log "startup rfid2";
         if pgrep -f '^python.*/rfid.py' >/dev/null; then
-            openwbDebugLog "MAIN" 2 "rfid2 configured "
+            openwbDebugLog "MAIN" 2 "rfid2 allredy running "
         else
             openwbDebugLog "MAIN" 1 "rfid2 configured but handler not running; starting process"
             sudo -u pi bash -c "python3 runs/rfid.py >>\"$LOGFILE\" 2>&1 &" 
@@ -1057,9 +1057,9 @@ function sysdaem_status() # $1=eneabled
 function selectstatus()
 {
  local -i smartmq smarthome
- raad smartmq <"/var/www/html/openWB/ramdisk/smartmq"
+ read smartmq </var/www/html/openWB/ramdisk/smartmq
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
- services_log "****ANF Status for openWB.Services $1 $smartmq $smarthome ***********"
+ openwbDebugLog "MAIN" 2 "****ANF Status for openWB.Services $1 smartmq:$smartmq smarthome:$smarthome ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_status  $rseenabled
  [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid1_status  $rfidakt
  [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid2_status  $rfidakt
@@ -1077,26 +1077,26 @@ function selectstatus()
 function selectstart()
 {
  local -i smartmq smarthome
- read smartmq <"/var/www/html/openWB/ramdisk/smartmq"
+ read smartmq </var/www/html/openWB/ramdisk/smartmq
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
- #services_log "****ANF Start for openWB.Services $1 ***********"
- [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_start  $rseenabled
- [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid1_start $rfidakt
- [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid2_start $rfidakt
- [[ "$1" == "all" || "$1" == "modbus" ]]  &&  modbus_start $modbus502enabled
- [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smarthome_start $smarthome
- [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_start $smartmq  
- [[ "$1" == "all" || "$1" == "button" ]]  &&  button_start $ladetaster
- [[ "$1" == "all" || "$1" == "mqttsub" ]]  &&  mqttsub_start 1 
- [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_start $needIsss $isss_mode  $isss_32
- [[ "$1" == "all" || "$1" == "tasker" ]]  &&  tasker_start $taskerenabled
- [[ "$1" == "all" || "$1" == "sysdaem" ]]  &&  sysdaem_start 1
+ openwbDebugLog "MAIN" 2 "****ANF start for openWB.Services $1 smartmq:$smartmq smarthome:$smarthome ***********"
+ [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_cron5  $rseenabled
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid1_cron5 $rfidakt
+ [[ "$1" == "all" || "$1" == "rfid" ]] &&  rfid2_cron5 $rfidakt
+ [[ "$1" == "all" || "$1" == "modbus" ]]  &&  modbus_cron5 $modbus502enabled
+ [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smarthome_cron5 $smarthome
+ [[ "$1" == "all" || "$1" == "smarthome" ]]  &&  smartmq_cron5 $smartmq  
+ [[ "$1" == "all" || "$1" == "button" ]]  &&  button_cron5 $ladetaster
+ [[ "$1" == "all" || "$1" == "mqttsub" ]]  &&  mqttsub_cron5 1 
+ [[ "$1" == "all" || "$1" == "isss" ]]  &&  isss_cron5 $needIsss $isss_mode  $isss_32
+ [[ "$1" == "all" || "$1" == "tasker" ]]  &&  tasker_cron5 $taskerenabled
+ [[ "$1" == "all" || "$1" == "sysdaem" ]]  &&  sysdaem_cron5 1
 
 }
 function selectstop()
 {
  local -i smartmq smarthome
- read smartmq <"/var/www/html/openWB/ramdisk/smartmq"
+ read smartmq</var/www/html/openWB/ramdisk/smartmq
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #services_log "****ANF Stop for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_stop $rseenabled  
@@ -1115,7 +1115,7 @@ function selectstop()
 function selectcron5()
 {
  local -i smartmq smarthome
- read smartmq <"/var/www/html/openWB/ramdisk/smartmq"
+ read smartmq</var/www/html/openWB/ramdisk/smartmq
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #services_log "****ANF cron5 for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_cron5  $rseenabled
@@ -1133,7 +1133,7 @@ function selectcron5()
 function selectreboot()
 {
  local -i smartmq smarthome
- read smartmq <"/var/www/html/openWB/ramdisk/smartmq"
+ read smartmq</var/www/html/openWB/ramdisk/smartmq
  if (( smartmq == 1 )) ; then smarthome=0; else smarthome=1; fi
  #services_log "****ANF reboot for openWB.Services $1 ***********"
  [[ "$1" == "all" || "$1" == "rse" ]]  &&  rse_reboot $rseenabled  
@@ -1152,7 +1152,8 @@ function selectreboot()
 function service_main() # cmd what
 {
  what=${2:-all}
- #services_log "****ANF service_main $1 $2 ***********"
+ # services_log "****ANF service_main $1 $2 ***********"
+ openwbDebugLog "MAIN" 2 "***ANF service..sh main [$1] [$2] *********"
  
  
     if ((isss == 0)) && [ -f "./ramdisk/parentWB" ]; then
@@ -1185,7 +1186,7 @@ function service_main() # cmd what
         selectstart $what
         ;;
     *)
-        echo "Usage: ${BASH_SOURCE[0]} {start|stop|restart|status [all|rse|rfid|modbus|smarthome|led|buttons|isss|mqttsub|sysdaem]}"
+    			echo "Usage: ${BASH_SOURCE[0]} {start|stop|restart|status [all|rse|rfid|modbus|smarthome|buttons|tasker|isss|mqttsub|sysdaem]}"
         ;;
  esac
 }
