@@ -4,7 +4,7 @@ Stylesheet zum openWB Standard-Theme
 2019-2020 Michael Ortenstein
 */
 
-html {
+html{
 	min-height: 100%;
 	min-width: 100%;
 }
@@ -15,65 +15,29 @@ body {
 	/* Old browsers */
 	background: white;
 }
-
-body>.container {
-	padding: 55px 15px 25px;
+body > .container {
+	padding: 55px 15px 0;
 }
 
 @keyframes alertPulsation {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
+	0%   { opacity:1; }
+	50%  { opacity:0; }
+	100% { opacity:1; }
 }
-
-@-o-keyframes alertPulsation {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
+@-o-keyframes alertPulsation{
+	0%   { opacity:1; }
+	50%  { opacity:0; }
+	100% { opacity:1; }
 }
-
-@-moz-keyframes alertPulsation {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
+@-moz-keyframes alertPulsation{
+	0%   { opacity:1; }
+	50%  { opacity:0; }
+	100% { opacity:1; }
 }
-
-@-webkit-keyframes alertPulsation {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
+@-webkit-keyframes alertPulsation{
+	0%   { opacity:1; }
+	50%  { opacity:0; }
+	100% { opacity:1; }
 }
 .animate-alertPulsation {
 	-webkit-animation: alertPulsation 1s infinite;
@@ -87,7 +51,7 @@ body>.container {
 }
 
 .pull-right {
-	float: right
+	float:right
 }
 
 .row.no-gutter [class*='col-']:first-child:not(:only-child) {
@@ -108,7 +72,7 @@ body>.container {
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 }
 
-.cursor-pointer {
+.cursor-pointer{
 	cursor: pointer;
 }
 
@@ -187,11 +151,11 @@ body>.container {
 }
 
 .bg-apricot {
-	background-color: #fefedf;
+	background-color:#fefedf;
 }
 
 .bg-orange {
-	background-color: #fcbe1e;
+	background-color:#fcbe1e;
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
@@ -381,7 +345,7 @@ h3 {
 	--lp2bgCol: rgba(50, 30, 105, 0.7);
 	--evuCol: rgba(255, 0, 0, 0.7);
 	--evubgCol: rgba(255, 10, 13, 0.3);
-	--pvCol: rgba(0, 255, 0, 0.7);
+	--pvCol: rgba(0, 255, 0, 0.7);;
 	--pvbgCol: rgba(10, 255, 13, 0.3);
 	--speicherCol: rgba(255, 153, 13, 0.7);
 	--speicherbgCol: rgba(200, 255, 13, 0.3);
@@ -409,7 +373,7 @@ h3 {
 	--lp7bgCol: blue;
 	--lp8Col: rgba(50, 50, 55, 0.7);
 	--lp8bgCol: blue;
-	--d1Col: rgba(200, 150, 200, 0.7);
+	--d1Col: rgba(230, 50, 220, 0.7);
 	--d1bgCol: blue;
 	--d2Col: rgba(200, 100, 200, 0.7);
 	--d2bgCol: blue;
@@ -425,7 +389,7 @@ h3 {
 	--d7bgCol: blue;
 	--d8Col: rgba(0, 200, 200, 0.7);
 	--d8bgCol: blue;
-	--d9Col: rgba(200, 200, 200, 0.7);
+	--d9Col: rgba(200, 200, 200, 0.7) ;
 	--d9bgCol: blue;
 }
 
@@ -437,20 +401,4 @@ h3 {
 .openwb-device-2 {
 	color: rgb(255 255 204);
 	background-color: rgb(150 150 0);
-}
-
-@media screen and (max-width: 575px) {
-	#date {
-		padding-right: 0;
-		padding-left: 5px;
-	}
-
-	#time {
-		padding-right: 5px;
-		padding-left: 0;
-	}
-}
-
-.row.middle {
-	align-items: center;
 }

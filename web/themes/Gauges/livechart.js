@@ -133,7 +133,8 @@ var all16p;
 var hidehaus;
 var myLine;
 
-function loadgraph(animationDuration = 1000) {
+function loadgraph(animationDuration = 1000) 
+{
     console.log('loadgraph')
 	var lineChartData = {
 		labels: atime,
@@ -638,7 +639,7 @@ function putgraphtogether() {
 			  csvData.push(rawcsv[i].split(","));
 		}
 		csvData.pop();
-		// Retrieved data from csv file content
+		// Retrived data from csv file content
 		var splittime = [];
 		getCol(csvData, 0).forEach(function(zeit){
 			splittime.push(zeit.substring(0, zeit.length -3));
