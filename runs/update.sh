@@ -159,7 +159,8 @@ sudo chmod 777 /var/www/html/openWB/openwb.conf
 sudo chmod 777 /var/www/html/openWB/ramdisk/*
 sleep 1
 
-sudo chown -R pi:www-data /var/www/html/openWB/web/backup,web/tools/upload
+sudo chown -R pi:www-data /var/www/html/openWB/web/backup
+sudo chown -R pi:www-data /var/www/html/openWB/web/tools/upload
 sudo chmod -R g+w /var/www/html/openWB/web/tools/upload
 
 
