@@ -71,7 +71,6 @@ class ChargePointList {
         .style("font-size", "1.1em")
 				.text("Strompreis: " + wbdata.etPrice + " ct/kWh");
     }
-
 */
 		d3.select("div#chargePointConfigWidget").classed("hide", (wbdata.chargeMode != "0" && wbdata.chargeMode != "1"))
   }
@@ -128,6 +127,7 @@ class ChargePointList {
 			.attr("class", "tablecell px-1 py-1")
 			.style("vertical-align", "middle")
 			.style("text-align", "center");
+
 		cell.append("span").text(
 			formatWatt(row.power) + " " + this.phaseSymbols[row.phasesInUse] + " " + row.targetCurrent + " A"
 		)
