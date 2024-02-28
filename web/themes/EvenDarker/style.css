@@ -14,62 +14,29 @@ body {
 	color: white;
 }
 body > .container {
-	padding: 55px 15px 25px;
+	padding: 55px 15px 0;
 }
 
 @keyframes alertPulsation {
-	0% {
-		opacity: 1;
+	0%   { opacity:1; }
+	50%  { opacity:0; }
+	100% { opacity:1; }
 }
-
-	50% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-}
-}
-
 @-o-keyframes alertPulsation{
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
+	0%   { opacity:1; }
+	50%  { opacity:0; }
+	100% { opacity:1; }
 }
-@-moz-keyframes alertPulsation {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0;
-}
-
-	100% {
-		opacity: 1;
-}
+@-moz-keyframes alertPulsation{
+	0%   { opacity:1; }
+	50%  { opacity:0; }
+	100% { opacity:1; }
 }
 
 @-webkit-keyframes alertPulsation{
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0;
-}
-
-	100% {
-		opacity: 1;
-}
+	0%   { opacity:1; }
+	50%  { opacity:0; }
+	100% { opacity:1; }
 }
 
 .animate-alertPulsation {
@@ -517,13 +484,6 @@ h3 {
 }
 
 .datepicker table tr td span.focused,
-.datepicker table tr td span:hover,
-.datepicker .datepicker-switch:hover,
-.datepicker .next:hover,
-.datepicker .prev:hover,
-.datepicker tfoot tr th:hover,
-.datepicker table tr td.day:hover,
-.datepicker table tr td.focused {
 	color: #000000;
 }
 
