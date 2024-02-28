@@ -25,6 +25,11 @@ class WbData {
 		this.batteryEnergyImport = 0;   // counter
 		this.batteryPowerExport = 0;
 		this.batteryPowerImport = 0;
+        this.batteryenable_priceloading = 0;
+        this.batteryiskalib   =0;
+        this.batteryloadWatt   ="0";
+        this.batteryload_minutes  ="0";
+        this.batterydischarge_max   ="0";
 		this.chargeMode = "0"
 		this.graphDate = new Date();
 		this.graphMonth = {
@@ -295,6 +300,17 @@ class WbData {
 		this[field] = value;
         console.log('updateBat  field:',field,' = ', value);
 		switch (field) {
+        
+			case 'batteryenable_priceloading':
+				break;
+            case 'batteryloadWatt':
+                break;
+            case 'batteryload_minutes':
+                break;
+			case 'batterydischarge_max':
+				break;
+
+
 			case 'batteryPowerImport':
 				this.updateUsageSummary("batIn", "power", value);
 				powerMeter.update();

@@ -310,10 +310,31 @@ function  geturl($file)
 
 			<!-- Speicher (batteryList) -->
 			<div class="rounded shadow wb-widget col-md p-2 m-1" id="batteryWidget">
-				<h3><span class="fas fa-car-battery" style="color: var(--color-battery)">&nbsp;</span>Speicher <small id="BatSupportTxt"> notext </small></h3>
-				<div class="wb-subwidget pb-3 ">
+		     <div class="container-fluid">
+		   	  <div class="row">
+				<div class="col-10 px-0">
+				  <h3><span class="fas fa-car-battery" style="color: var(--color-battery)">&nbsp;</span>Speicher<small id="BatSupportTxt"> notext </small></h3>
+				</div>
+				<div class="col-2 px-0" style="text-align: right;" id="rctbatmenu">
+					<div class="dropdown">
+						<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+							<span class="fa fa-bars fa-sm"></span>
+						</button>
+						<div class="dropdown-menu dropdown-menu-right colormenu">
+							<a class="dropdown-item" id="lade1hclick" href="#"><span class="fa fa-battery-quarter px-0"></span> 1 Stunde Laden</a>
+							<a class="dropdown-item" id="lade2hclick" href="#"><span class="fa fa-battery-half px-0"></span> 2 Stunden Laden</a>
+							<a class="dropdown-item" id="resetwattclick" href="#"><span class="fa fa-battery-half px-1"></span> <span class="fa fa-undo px-0"></span> Zurücksetzen</a>
+							<a class="dropdown-item" id="setcurrentclick" href="#"><span class="fa fa-ban px-1"></span></span> Endladeschutz 2 Std</a>
+							<a class="dropdown-item" id="resetcurrentclick" href="#"><span class="fa fa-ban px-1"></span> <span class="fa fa-undo  px-0"></span> Zurücksetzen</a>
+						</div>
+					</div>						
+				</div>
+				<div class="wb-subwidget pb-3 " style="width:100%;">
 					<div id="batteryStatus"></div>
 				</div>
+				
+			  </div>
+			 </div>
 			</div>
 
 			<!-- Smart Home (smartHomeList) -->
@@ -856,6 +877,35 @@ function  geturl($file)
 					publish("0", "openWB/config/set/SmartHome/Devices/" + dev + "/mode");
 				}
 			});
+
+
+// RCT Detailsmode start
+			$('#lade1hclick').click(function (event) {
+			    event.preventDefault()
+				console.log('lade1hclick', event);
+				publish("59", "openWB/set/houseBattery/loadbat");
+			});
+			$('#lade2hclick').click(function (event) {
+			    event.preventDefault()
+				console.log('lade2hclick', event);
+				publish("119", "openWB/set/houseBattery/loadbat");
+			});
+			$('#resetwattclick').click(function (event) {
+			    event.preventDefault()
+				console.log('resetwattclick', event);
+				publish("resetwatt", "openWB/set/houseBattery/reset_rct");
+			});
+			$('#resetcurrentclick').click(function (event) {
+			    event.preventDefault()
+				console.log('resetcurrentclick', event);
+				publish("resetcurrent", "openWB/set/houseBattery/reset_rct");
+			});
+			$('#setcurrentclick').click(function (event) {
+			    event.preventDefault()
+				console.log('setcurrentclick', event);
+				publish("180", "openWB/set/houseBattery/aktivateDrainmode");
+			});
+// RCT Detailsmode end
 
 			$('#chargeModeSelectBtn').click(function (event) {
 				$("#chargeModeModal").modal("show");

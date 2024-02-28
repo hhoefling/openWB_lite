@@ -206,6 +206,14 @@ var topicsToSubscribe = [
 	["openWB/lp/1/strChargePointName", 1],
 	["openWB/lp/2/strChargePointName", 1],
 	["openWB/lp/3/strChargePointName", 1],
+	// Status Autolock konfiguriert
+	["openWB/lp/1/AutolockConfigured", 1],
+	["openWB/lp/2/AutolockConfigured", 1],
+	["openWB/lp/3/AutolockConfigured", 1],
+	// Status Autolock
+	["openWB/lp/1/AutolockStatus", 1],
+	["openWB/lp/2/AutolockStatus", 1],
+	["openWB/lp/3/AutolockStatus", 1],
 	["openWB/lp/1/ADirectModeAmps", 1],
 	["openWB/lp/2/ADirectModeAmps", 1],
 	["openWB/lp/3/ADirectModeAmps", 1],
@@ -215,6 +223,11 @@ var topicsToSubscribe = [
 	["openWB/housebattery/W", 1],
 	["openWB/housebattery/%Soc", 1],
 	["openWB/housebattery/soctarget", 1],
+	["openWB/housebattery/iskalib", 1],
+	["openWB/housebattery/enable_priceloading", 1],
+    ["openWB/housebattery/loadWatt", 1],
+    ["openWB/housebattery/load_minutes", 1],
+	["openWB/housebattery/discharge_max", 1],
 	// Daily Yields
 	["openWB/housebattery/DailyYieldImportKwh", 1],
 	["openWB/housebattery/DailyYieldExportKwh", 1],
