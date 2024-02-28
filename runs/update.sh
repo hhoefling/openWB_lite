@@ -136,8 +136,8 @@ fi
 
 Log 1 "backup some files before fetching new release"
 # module soc_eq
-cp -p modules/soc_eq/soc_eq_acc_lp1 /tmp/soc_eq_acc_lp1
-cp -p modules/soc_eq/soc_eq_acc_lp2 /tmp/soc_eq_acc_lp2
+# cp -p modules/soc_eq/soc_eq_acc_lp1 /tmp/soc_eq_acc_lp1
+# cp -p modules/soc_eq/soc_eq_acc_lp2 /tmp/soc_eq_acc_lp2
 cp -p openwb.conf /tmp/openwb.conf
 
 Log 1 "fetch new release from GitHub as pi"
@@ -166,8 +166,8 @@ sudo chmod -R g+w /var/www/html/openWB/web/tools/upload
 
 Log 1 "restore saved files after fetching new release"
 # module soc_eq
-sudo cp -p /tmp/soc_eq_acc_lp1 /var/www/html/openWB/modules/soc_eq/soc_eq_acc_lp1
-sudo cp -p /tmp/soc_eq_acc_lp2 /var/www/html/openWB/modules/soc_eq/soc_eq_acc_lp2
+# sudo cp -p /tmp/soc_eq_acc_lp1 /var/www/html/openWB/modules/soc_eq/soc_eq_acc_lp1
+# sudo cp -p /tmp/soc_eq_acc_lp2 /var/www/html/openWB/modules/soc_eq/soc_eq_acc_lp2
 
 Log 1 "check links for standart theme"
 (
