@@ -35,7 +35,7 @@ function getIndex(topic) {
 function handlevar(mqttmsg, mqttpayload) {
 	// receives all messages and calls respective function to process them
 	processPreloader(mqttmsg);
-    // console.log(mqttmsg,' ',mqttpayload)
+    //console.log('handlevar' , mqttmsg,' ',mqttpayload)
 	if ( mqttmsg.match( /^openwb\/lp\//i) ) {
 		processLpMsg(mqttmsg, mqttpayload);
 	}
@@ -160,6 +160,8 @@ function processPvMsg (mqttmsg, mqttpayload) {
 		var index = getIndex(mqttmsg);  // extract number between two / /
 		if ( mqttmsg.match(/^openWB\/pv\/[0-9]+\/W$/i) )
 		{
+            // JQuery  Id inverter[1|2] dann .classnane .powerInvertrer
+            // https://stackoverflow.com/questions/1944302/jquery-select-an-elements-class-and-id-at-the-same-time
 			absShow(mqttpayload, '#inverter' + index + ' .powerInverter');
 		}
 		else if ( mqttmsg.match(/^openWB\/pv\/[0-9]+\/WhCounter$/i) )
@@ -391,6 +393,7 @@ function directShow(mqttpayload, variable) {
 
 // show missing value or zero value as --
 function noZeroShow(mqttpayload, variable) {
+    //console.log('noZeroShow( ' , mqttpayload, ',' , variable,')' )
 	var value = parseFloat(mqttpayload);
 	if ( isNaN(value) || (value == 0) ) {
 		valueStr = "--";
@@ -407,18 +410,20 @@ function impExpShow(mqttpayload, variable) {
 	var value = parseInt(mqttpayload);
 	var valueStr = Math.abs(value).toLocaleString(undefined);
     if(value > 0)
-       h = '<span style="background-color:#FFCFD0"> <small>Import</small> ' + valueStr + '</span>'; 
+       h = '<span style="background-color:#FFCFD0"><small>&nbsp;Import&nbsp;</small> ' + valueStr + '&nbsp;</span>'; 
     else
-       h = '<span style="background-color:#ACFFAB"> <small>Export</small> ' + valueStr + '</span>'; 
+       h = '<span style="background-color:#ACFFAB"><small>&nbsp;Export&nbsp;</small> ' + valueStr + '&nbsp;</span>'; 
 	$(variable).html(h);
 }
 
 // show value as kilo
 function kShow(mqttpayload, variable) {
 	var value = parseFloat(mqttpayload);
-	value = (value / 1000);
-	var valueStr = value.toLocaleString(undefined, {minimumFractionDigits: 3, maximumFractionDigits: 3}) ;
+	value = value / 1000
+	var valueStr = value.toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1});
+    // var valueStr = value.toLocaleString(); // undefined, {minimumFractionDigits: 3, maximumFractionDigits: 3}) ;
 	$(variable).text(valueStr);
+    //console.log('kShow( ' , mqttpayload, ',' , variable,') ',valueStr )
 }
 
 function BatShow(mqttpayload, variable) {
@@ -436,6 +441,7 @@ function BatShow(mqttpayload, variable) {
 
 // show absolute value (always >0)
 function absShow(mqttpayload, variable) {
+    //console.log('absShow( ' , mqttpayload, ',' , variable,')' )
 	var value = Math.abs(parseInt(mqttpayload));
 	var valueStr = value.toLocaleString(undefined) ;
 	$(variable).text(valueStr);
@@ -443,15 +449,17 @@ function absShow(mqttpayload, variable) {
 
 //show kilo-payloads with 3 fraction digits
 function fractionDigitsShow(mqttpayload, variable) {
+    //console.log('fractionDigitsShow( ' , mqttpayload, ',' , variable,')' )
 	var value = parseFloat(mqttpayload);
 	if ( isNaN(value) ) {
 		value = 0;
 	}
-	var valueStr = value.toLocaleString(undefined, {minimumFractionDigits: 3, maximumFractionDigits: 3});
+	var valueStr = value.toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1});
 	$(variable).text(valueStr);
 }
 
 function textShow(mqttpayload, variable) {
+    //console.log('textShow( ' , mqttpayload, ',' , variable,')' )
 	$(variable).text(mqttpayload);
 }
 
@@ -520,6 +528,7 @@ var pv2 = 0;
 //show/hide card, if module is configured
 function visibilityCard(card, mqttpayload) {
 	var value = parseInt(mqttpayload);
+    //console.log('visibilityCard ', card, ' ', value  ) );
 	if (value == 0) {
 		hideSection(card);
 	} else {

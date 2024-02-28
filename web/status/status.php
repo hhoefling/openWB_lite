@@ -1,3 +1,12 @@
+<?php
+function  geturl($file)
+	{
+ 			$fn=sprintf('status/%s', $file);
+ 			$ftime=filemtime($file);
+ 			return sprintf('%s?v=%d' , $fn,$ftime);
+	}
+
+?>
 <!DOCTYPE html>
 <html lang="de">
 	<head>
@@ -25,7 +34,7 @@
 		<link rel="stylesheet" type="text/css" href="css/normalize-8.0.1.css">
 		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5.8.2/css/all.css">
 		<!-- include settings-style -->
-		<link rel="stylesheet" type="text/css" href="status/status_style.css?ver=20210209">
+		<link rel="stylesheet" type="text/css" href="<?php echo geturl('status_style.css'); ?>">
 		<!-- local css due to async loading of theme css -->
 		<style>
 			#preloader {
@@ -55,7 +64,7 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "status/helperFunctions.js?ver=20210128" ></script>
+		<script src = "<?php echo geturl('helperFunctions.js');?>"></script>
 		<script>
 			function getCookie(cname) {
 				var name = cname + '=';
@@ -128,6 +137,9 @@
 			function lleventlog() {
 				readLogFile("/openWB/ramdisk/event.log", "#lleventdiv");
 			}
+            function errorlog() {
+                readLogFile("/openWB/ramdisk/openwb.error.log", "#errordiv");
+            }
 
             function etproviderlog() {
                 readLogFile("/openWB/ramdisk/etprovider.log", "#etproviderdiv");
@@ -154,12 +166,12 @@
 			<div id="preloader-inner">
 				<div class="row">
 					<div class="mx-auto d-block justify-content-center">
-						<img id="preloader-image" src="img/favicons/preloader-image.png" alt="openWB">
+					<img id="preloader-image" src="img/favicons/preloader-image-transparent.png" alt="openWB">
 					</div>
 				</div>
 				<div id="preloader-info" class="row justify-content-center mt-2">
 					<div class="col-10 col-sm-6">
-						Bitte warten, während die Seite aufgebaut wird.
+					Bitte geduld, während die Seite aufgebaut wird.
 					</div>
 				</div>
 				<div class="row justify-content-center mt-2">
@@ -187,9 +199,9 @@
 							<?php  
 							  if( $debugold>1 ) 
 							   {
-							     if ($chargepointNum==1)  echo "&nbsp;<small>[$ladeleistungmodulold]</small>";
-							     if ($chargepointNum==2)  echo "&nbsp;<small>[$ladeleistungs1modulold]</small>";
-							     if ($chargepointNum==3)  echo "&nbsp;<small>[$ladeleistungs2modulold]</small>";
+							     if ($chargepointNum==1)  echo "&nbsp;<small>[ $ladeleistungmodulold ]</small>";
+							     if ($chargepointNum==2)  echo "&nbsp;<small>[ $ladeleistungs1modulold ]</small>";
+							     if ($chargepointNum==3)  echo "&nbsp;<small>[ $ladeleistungs2modulold ]</small>";
 							   }   
 							?>
 						</div>
@@ -198,7 +210,9 @@
 								<table class="table table-sm ">
 									<tbody>
 										<tr class="faultStrLpRow hide">
-											<th scope="row">Störungsbeschreibung</th>
+											<th scope="row">Störungsbeschreibung
+                                           <span class="fa fa-xs fa-trash-alt" onclick="lpfaultclrclicked(<?php echo $chargepointNum ?>);" ></span>
+                                            </th>
 											<td class="faultStrLp"></td>
 										</tr>
 										<tr class="stromvorgabeRow">
@@ -218,7 +232,9 @@
 											<td class="soc">--</td>
 										</tr>
 										<tr class="faultStrSocLpRow hide">
-											<th scope="row">Störungsbeschreibung</th>
+											<th scope="row">Störungsbeschreibung
+                                            <span class="fa fa-xs fa-trash-alt" onclick="lpsocfaultclrclicked(<?php echo $chargepointNum ?>);" ></span>
+                                            </th>
 											<td class="faultStrSocLp"></td>
 										</tr>
 									</tbody>
@@ -286,14 +302,16 @@
 				<!-- EVU  -->
 				<div class="card border-danger <?php if($wattbezugmodulold == "none") echo "hide" ?>">
 					<div class="card-header bg-danger">
-						EVU <?php  if( $debugold>1 ) echo "[<small>$wattbezugmodulold</small>]";   ?>					
+						EVU <?php  if( $debugold>1 ) echo "[<small> $wattbezugmodulold </small>]";   ?>					
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
 							<table class="table" id="evu1">
 								<tbody>
 									<tr id="faultStrEvuRow" class="hide">
-										<th scope="row">Störungsbeschreibung</th>
+										<th scope="row">Störungsbeschreibung
+                                        <span class="fa fa-xs fa-trash-alt" onclick="evufaultclrclicked();" ></span>
+                                        </th>
 										<td><div id="faultStrEvu"></div></td>
 									</tr>
 									<tr id="gesamtleistungEvuStatusId">
@@ -370,7 +388,7 @@
 							<table class="table">
 								<tbody>
 									<tr id="pvCounterRow">
-										<th scope="row">Counter</th>
+										<th scope="row">PV Laden Anlauf/-Counter</th>
 										<td><div id="pvcounterdiv">--</div></td>
 									</tr>
 									<tr id="leistungRow">
@@ -406,9 +424,14 @@
 							PV Wechselrichter 
 							<?php 
 							echo $inverterNum ;
-							if (${'name_wechselrichter'.$inverterNum.'old'} != '') {
+							if (${'name_wechselrichter'.$inverterNum.'old'} != '') 
+							{
 								echo ' (' . ${'name_wechselrichter'.$inverterNum.'old'} . ')';
-				                if( $debugold>1 ) echo "[<small>$pvwattmodulold</small>]";   
+								if( $debugold>1 )
+								 if ($inverterNum==1)
+								   echo "[<small> ${pvwattmodulold} </small>]";   
+								 else
+								   echo "[<small> ${pv2wattmodulold} </small>]";   
 							}
 							?>
 						</div>
@@ -417,7 +440,9 @@
 								<table class="table">
 									<tbody>
 										<tr class="faultStrPvRow hide">
-											<th scope="row">Störungsbeschreibung</th>
+											<th scope="row">Störungsbeschreibung
+												<span class="fa fa-xs fa-trash-alt" onclick="pvfaultclrclicked();" ></span>
+											</th>
 											<td class="faultStrPv"></td>
 										</tr>
 										<tr>
@@ -450,14 +475,16 @@
 				<!-- Speicher -->
 				<div class="card border-warning hide" id="speicher">
 					<div class="card-header bg-warning">
-						Speicher <?php  if( $debugold>1 ) echo "[<small>$speichermodulold</small>]";   ?>
+						Speicher <?php  if( $debugold>1 ) echo "[<small> $speichermodulold </small>]";   ?>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
 							<table class="table">
 								<tbody>
 									<tr id="faultStrBatRow" class="hide">
-										<th scope="row">Störungsbeschreibung</th>
+										<th scope="row">Störungsbeschreibung
+                                        <span class="fa fa-xs fa-trash-alt" onclick="speicherfaultclrclicked();" ></span>
+                                        </th>
 										<td><div id="faultStrBat"></div></td>
 									</tr>
 									<tr id="geladenRow">
@@ -503,11 +530,11 @@
 										<th scope="row">Überschuss [W]</th>
 										<td><div id="wuberschuss"></div></td>
 									</tr>
-									<tr id="wuberschussoffsetRow">
+									<tr id="wuberschussoffsetRow" class="hide">
 										<th scope="row">Überschuss mit Offset [W]</th>
 										<td><div id="wuberschussoffset"></div></td>
 									</tr>
-									<tr id="wmaxspeicherladungRow">
+									<tr id="wmaxspeicherladungRow" class="hide">
 										<th scope="row">Maximale Speicherladung [W]</th>
 										<td><div id="wmaxspeicherladung"></div></td>
 									</tr>
@@ -627,6 +654,13 @@
                         <button class="btn btn-info reloadEtProviderLog" style="margin-bottom:12px" type="reset">Aktualisieren <i class="fas fa-redo-alt"></i> </button>
                         <pre id="etproviderdiv">Lade Daten...</pre>
                     </div>
+                    <div class="card-header bg-secondary collapsed" data-toggle="collapse" data-target="#collapse12">
+                        <a class="card-title">openwb-Error Log</a>
+                    </div>
+                    <div id="collapse12" class="card-body collapse" data-parent="#accordion">
+                        <button class="btn btn-info reloaderrorLog" style="margin-bottom:12px" type="reset">Aktualisieren <i class="fas fa-redo-alt"></i> </button>
+                        <pre id="errordiv">Lade Daten...</pre>
+                    </div>
 
 
 				</div>
@@ -641,6 +675,38 @@
 		</footer>
 
 		<script>
+
+ 
+
+            function lpfaultclrclicked(cp)
+            {
+             publish('0','openWB/set/lp/'+cp+'/faultState');
+             publish(' ','openWB/set/lp/'+cp+'/faultStr');
+            }
+            function lpsocfaultclrclicked(cp)
+            {
+             publish('0','openWB/set/lp/'+cp+'/socFaultState');
+             publish(' ','openWB/set/lp/'+cp+'/socFaultStr');
+            }
+
+
+            function speicherfaultclrclicked()
+            {
+             publish('0','openWB/set/houseBattery/faultState');
+             publish(' ','openWB/set/houseBattery/faultStr');
+            }
+            function pvfaultclrclicked()
+            {
+             publish('0','openWB/pv/1/faultState');
+             publish(' ','openWB/pv/1/faultStr');
+             publish('0','openWB/pv/2/faultState');
+             publish(' ','openWB/pv/2/faultStr');
+            }
+            function evufaultclrclicked()
+            {
+             publish('0','openWB/set/evu/faultState');
+             publish(' ','openWB/set/evu/faultStr');
+            }
 
 			// load navbar, be careful: it loads asynchronous
 			$.get(
@@ -711,9 +777,9 @@
 					// load mqtt library
 					'js/mqttws31.js',
 					// functions for processing messages
-					'status/processAllMqttMsg.js?ver=20230109',
+					'<?php echo geturl('processAllMqttMsg.js');?>',	
 					// functions performing mqtt and start mqtt-service
-					'status/setupMqttServices.js?ver=20230109',
+					'<?php echo geturl('setupMqttServices.js');?>',	
 				];
 				scriptsToLoad.forEach(function(src) {
 					var script = document.createElement('script');
@@ -789,8 +855,12 @@
             $('#collapse11').on('shown.bs.collapse', function(){
                 etproviderlog();
             });
-
-            			
+            $('.reloaderrorLog').click(function(event){
+                errorlog();
+            });
+            $('#collapse12').on('shown.bs.collapse', function(){
+                errorlog();
+            });
 		</script>
 
 	</body>
