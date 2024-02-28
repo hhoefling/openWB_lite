@@ -2,7 +2,7 @@
 
 ########## Re-Run as PI if not
 USER=${USER:-`id -un`}
-[ "$USER" != "pi" ] && exec sudo -u pi "$0" -- "$@"
+[ "$USER" != "pi" ] && exec sudo -u pi "$0" "$@"
 
 OPENWBBASEDIR=$(cd `dirname $0`/../ && pwd)
 RAMDISKDIR="$OPENWBBASEDIR/ramdisk"
@@ -26,22 +26,22 @@ if [[ "$1" == "restart" ]] ; then
 fi
 if pidof -x -o $$ "${BASH_SOURCE[0]}" >/dev/null
 then
-	openwbDebugLog "MAIN" 0 "Previous sysdaemon active, exit now"
+    openwbDebugLog "MAIN" 0 "SYSD: Previous sysdaemon active, exit now"
+    openwbDebugLog "DEB" 0 "SYSD: Previous sysdaemon active, exit now"
 	exit
 fi
 
 
 function cleanup()
 {
-  openwbDebugLog "DEB" 0 "**** Stop"
-  openwbDebugLog "MAIN" 0 "**** Stop"
+  openwbDebugLog "DEB" 0 "SYSD: **** Stop"
+  openwbDebugLog "MAIN" 0 "SYSD: **** Stop"
 }
 trap cleanup EXIT
-openwbDebugLog "DEB" 0 "**** Start as $USER."
-openwbDebugLog "MAIN" 0 "**** Start as $USER."
+openwbDebugLog "DEB" 0 "SYSD: **** Start as $USER."
+openwbDebugLog "MAIN" 0 "SYSD: **** Start as $USER."
 
 
-loop=0
 
 declare	-A cache
 
@@ -54,79 +54,41 @@ putter()
     val=" "
   fi 
   if [[ "$val" != "${cache[$name]}" ]] ; then
+    openwbDebugLog "DEB" 1 "SYSD: $topic [${cache[$name]:0:20}] => [${val:0:20}] "
     cache[$name]="$val"
-	#openwbDebugLog "DEB" 1 "$name now [${cache[$name]}] topic:$topic"
-	openwbDebugLog "DEB" 1 "$name now [${cache[$name]}]"
     if [[ "$topic" != "" ]] ; then
        mosquitto_pub -r -t "$topic" -m "$val"
     fi
+   # else
+   #   openwbDebugLog "DEB" 1 "SYSD: $topic [${cache[$name]:0:20}] SAME [${val:0:20}] "
   fi
 }
 
+arch=$(uname -m)
 
-while true 
-do
-	let loop=($loop + 1)	# darf ruhig modulo gehen
-	sleep 5
-	openwbDebugLog "DEB" 1 "---- ausgeschlafen, $loop"
-	if (( loop >= 10 )) ; then
-		#for key in "${!cache[@]}"; do echo "$key => [${cache[$key]}]"; done
-		unset cache
-		declare	-A cache
-		openwbDebugLog "DEB" 1 "clear cache"
-		loop=0
-	fi
+function do5min()
+{
+  putter "$arch" "arch" "openWB/global/cpuArch"
 
-	val=$( date '+%s' )
-	putter "$val" "systime" "openWB/system/Timestamp"
-
-	val=$(/usr/bin/uptime )
-	putter "$val" "uptime" "openWB/system/Uptime"
-
+  val=$(cat /proc/cpuinfo | grep -m 1 "model name" |  sed "s/^.*: //"  )
+  putter "$val" "cpumodel" "openWB/global/cpuModel"
 
 	val=$(cat /proc/stat | grep btime | awk '{print $2}' )
 	putter "$val" "lastreboot" "openWB/system/lastReboot"
 	putter "$(date --date="@${val}" "+%d.%m.%Y %H:%M" )" "lastrebootstr" "openWB/system/lastRebootStr"
 
-
-	val=$(uname -m)
-	putter "$val" "arch" "openWB/global/cpuArch"
-	arch="$val"
-	
-	val=$(ps aux | awk 'NR > 0 { s +=$3 }; END {print s}' )
-	putter "$val" "cpuuse" "openWB/global/cpuUse"
-
-	if (( loop == 0 )) ; then
 	   if [[ "$arch" == "x86_64" ]] ; then
 	   	val=""
 	   else
 		val=$(cat /sys/firmware/devicetree/base/model | sed 's/\x00//g' )
 	   fi
 	   putter "$val" "board" "openWB/global/board"
-	fi
 	
-	if [[ "$arch" == "x86_64" ]] ; then
-		val=""
-	else 		
-		val=$(cat /sys/class/thermal/thermal_zone0/temp)
-		val=$(echo "scale=2; $(echo $val) / 1000" | bc)
-	fi
-	putter "$val" "cputemp" "openWB/global/cpuTemp"
+  val=$(lsblk -r | egrep 'part /$'  | cut -d ' ' -f 1 )
+  putter "$val" "rootdev" "openWB/global/rootDev"
 
-
-	if [[ "$arch" == "x86_64" ]] ; then
-		val=""
-	else 		
-		val=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq)
-		val=$(echo "scale=0; $(echo $val) / 1000" | bc)
-	fi
-	putter "$val" "cpufreq" "openWB/global/cpuFreq"
-
-    
-	if (( loop == 0 )) ; then
-
-	   val=$(cat /proc/cpuinfo | grep -m 1 "model name" |  sed "s/^.*: //"  )
-	   putter "$val" "cpumodel" "openWB/global/cpuModel"
+  val=$(free -m | grep 'Mem' | awk '{print $2}' )
+  putter "$val" "memtot" "openWB/global/memTot"
 
     	if [[ "$arch" == "x86_64" ]] ; then
 	       	val=""
@@ -155,52 +117,106 @@ do
 		  val=$(sudo ifconfig eth0:0 |grep 'inet ' |awk '{print $2}' )
 	   fi
 	   putter "$val" "ethip2" "openWB/global/ethaddr2"
+}
 
-	   val=$(free -m | grep 'Mem' | awk '{print $2}' )
-	   putter "$val" "memtot" "openWB/global/memTot"
+loop=30     # trigger sofort den 5-Minutenmode
+dstart=$(date +"%s")
+dlopp=0     # secunden 
+while true 
+do
+    ptstart
+    ds=$(date +"%s")
+    ((  dloop= (ds - dstart) ))
+    let loop=($loop + 1)    # darf ruhig modulo gehen
 
-	   val=$(lsblk -r | egrep 'part /$'  | cut -d ' ' -f 1 )
-	   putter "$val" "rootdev" "openWB/global/rootDev"
        
+    openwbDebugLog "DEB" 1 "SYSD: ---- ausgeschlafen, $loop on $arch dl:$dloop"
+    
+    if (( loop >= 30 )) ; then  # 30 x 10 = 300 = 5 Minuten
+        loop=0
+        dstart=$(date +"%s")
+        openwbDebugLog "DEB" 1 "SYSD: **** MOD 30 alle 300 sekunden ***"
+        #for key in "${!cache[@]}"; do echo "$key => [${cache[$key]}]"; done
+        unset cache
+        declare    -A cache
+        openwbDebugLog "DEB" 1 "SYSD: clear cache"
+        
+        do5min
     fi
 
+    #if (( (loop % 3 ) == 0 )) ; then    
+    #    openwbDebugLog "DEB" 1 "SYSD: **** MOD 3 alle 30 sekunden ***"
+    #fi
 
-	val=$(df -h | grep  ramdisk | awk '{print $2}')
+    #if (( (loop % 6 ) == 0 )) ; then    
+    #    openwbDebugLog "DEB" 1 "SYSD: **** MOD 6 alle 60 sekunden ***"
+    #fi
+
+# Do every 10 seconds
+
+# macht weiterhin pubmqtt.sh  als ticker
+#	val=$( date '+%s' )
+#	putter "$val" "systime" "openWB/system/Timestamp"
+
+	val=$(/usr/bin/uptime )
+	putter "$val" "uptime" "openWB/system/Uptime"
+
+	
+	val=$(ps aux | awk 'NR > 0 { s +=$3 }; END {print s}' )
+	putter "$val" "cpuuse" "openWB/global/cpuUse"
+
+       
+	if [[ "$arch" == "x86_64" ]] ; then
+		val=""
+	else 		
+		val=$(cat /sys/class/thermal/thermal_zone0/temp)
+		val=$(echo "scale=2; $(echo $val) / 1000" | bc)
+    fi
+	putter "$val" "cputemp" "openWB/global/cpuTemp"
+
+	if [[ "$arch" == "x86_64" ]] ; then
+		val=""
+	else 		
+		val=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq)
+		val=$(echo "scale=0; $(echo $val) / 1000" | bc)
+	fi
+	putter "$val" "cpufreq" "openWB/global/cpuFreq"
+
+
+    df=$(df -h | grep  ramdisk )
+    val=$(echo $df | awk '{print $2}')
 	putter "$val" "tmptot" "openWB/global/tmpTot"
-
-	val=$(df -h | grep  ramdisk | awk '{print $3}')
+	val=$(echo $df | awk '{print $3}')
 	putter "$val" "tmpuse" "openWB/global/tmpUse"
-
-	val=$(df -h | grep  ramdisk | awk '{print $4}')
+	val=$(echo $df | awk '{print $4}')
 	putter "$val" "tmpfree" "openWB/global/tmpFree"
-
-	val=$(df -h | grep  ramdisk | awk '{print $5}')
+	val=$(echo $df | awk '{print $5}')
 	val=${val//%}
 	putter "$val" "tmpusedprz" "openWB/global/tmpUsedPrz"
 
-	val=$(df -h | grep  "/$" | awk '{print $2}')
+    df=$(df -h | grep  "/$" )
+    val=$(echo $df | awk '{print $2}')
 	putter "$val" "disktot" "openWB/global/diskTot"
-
-	val=$(df -h | grep  "/$" | awk '{print $3}')
+	val=$(echo $df | awk '{print $3}')
 	putter "$val" "diskuse" "openWB/global/diskUse"
-
-	val=$(df -h | grep  "/$" | awk '{print $4}')
+	val=$(echo $df | awk '{print $4}')
 	putter "$val" "diskfree" "openWB/global/diskFree"
-
-	val=$(df -h | grep  "/$" | awk '{print $5}')
+	val=$(echo $df | awk '{print $5}')
 	val=${val//%}
 	putter "$val" "diskusedprz" "openWB/global/diskUsedPrz"
     
     
-	val=$(free -m | grep 'Mem' | awk '{print $3}' )
+    mem=$(free -m | grep 'Mem' )
+    val=$(echo $mem | awk '{print $3}' )
 	putter "$val" "memuse" "openWB/global/memUse"
-
-	val=$(free -m | grep 'Mem' | awk '{print $7}' )
+	val=$(echo $mem | awk '{print $7}' )
 	putter "$val" "memfree" "openWB/global/memFree"
 
+    ptend "SYSD: sysdaem.loop" 200
+    sleep 10
 	
 done
 
-openwbDebugLog "DEB" 0 "**** End."
+openwbDebugLog "DEB" 0 "SYSD: **** End."
 exit 0
 
