@@ -59,9 +59,12 @@ def form_100sint16(value, startreg):
         data_store[startreg] = -1
 def get_pos(number, n):
     return number // 10**n % 10
-@app.route(slave_ids=[1], function_codes=[3, 4], addresses=list(range(0, 32000)))
+
+
+@app.route(slave_ids=[1],
+           function_codes=[3, 4],
+           addresses=list(range(0, 32000)))
 def read_data_store(slave_id, function_code, address):
-    """" Return value of address. """
     if (address == 110):
         form_sint16("rseaktiv", address)
     elif (address == 111):
@@ -220,7 +223,11 @@ def write_ramdisk(name, value):
     f = open('/var/www/html/openWB/ramdisk/' + str(name), 'w')
     f.write(str(value))
     f.close()
-@app.route(slave_ids=[1], function_codes=[6, 16], addresses=list(range(0, 32000)))
+
+
+@app.route(slave_ids=[1],
+           function_codes=[6, 16],
+           addresses=list(range(0, 32000)))
 def write_data_store(slave_id, function_code, address, value):
     """" Set value for address. """
     if (address == 112):
