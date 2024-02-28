@@ -37,6 +37,9 @@ function getIndex(topic) {
 
 function handlevar(mqttmsg, mqttpayload) {
 	// receives all messages and calls respective function to process them
+    if(debugmode>2)
+      console.log(mqttmsg, ' ', mqttpayload.substr(1, 80) );
+
 	if (mqttmsg.match(/^openwb\/graph\//i)) { processGraphMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/evu\//i)) { processEvuMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/global\/awattar\//i)) { processETProviderMessages(mqttmsg, mqttpayload); }
@@ -59,22 +62,23 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/global
 	// called by handlevar
 	processPreloader(mqttmsg);
-	//console.log( 'processETProviderMessages(', mqttmsg, ' , ', mqttpayload,')' )
     
  // colors theme
- if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
-	wbdata.updateET ('etProviderName', mqttpayload);
-} else if ( mqttmsg == 'openWB/global/ETProvider/modulePath' ) {
-	wbdata.updateET ('etModulePath', mqttpayload);
-} else if ( mqttmsg == 'openWB/global/awattar/boolAwattarEnabled' ) {
-	wbdata.updateET('isEtEnabled' ,(mqttpayload == '1'))
-} else if ( mqttmsg == 'openWB/global/awattar/pricelist' ) {
-	wbdata.updateET('etPriceList',mqttpayload);
-} else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
-	wbdata.updateET ('etMaxPrice', parseFloat(mqttpayload));
-} else if ( mqttmsg == 'openWB/global/awattar/ActualPriceForCharging' ) {
-	wbdata.updateET ('etPrice', parseFloat(mqttpayload));
-}
+	if (mqttmsg == 'openWB/global/ETProvider/providerName') {
+		wbdata.updateET('etProviderName', mqttpayload);
+	} else if (mqttmsg == 'openWB/global/ETProvider/modulePath') {
+		wbdata.updateET('etModulePath', mqttpayload);
+	} else if (mqttmsg == 'openWB/global/awattar/boolAwattarEnabled') {
+		wbdata.updateET('isEtEnabled', (mqttpayload == '1'))
+	} else if (mqttmsg == 'openWB/global/awattar/pricelist') {
+		wbdata.updateET('etPriceList', mqttpayload);
+	} else if (mqttmsg == 'openWB/global/awattar/MaxPriceForCharging') {
+		wbdata.updateET('etMaxPrice', parseFloat(mqttpayload));
+	} else if (mqttmsg == 'openWB/global/awattar/ActualPriceForCharging') {
+		wbdata.updateET('etPrice', parseFloat(mqttpayload));
+	}
+
+
 	// end color theme
 	if (mqttmsg == 'openWB/global/ETProvider/providerName') {
 		$('.etproviderName').text(mqttpayload);
@@ -285,7 +289,6 @@ function processGraphMessages(mqttmsg, mqttpayload) {
 	}
 	else if (mqttmsg == 'openWB/graph/lastlivevalues') {
 		powerGraph.updateLive(mqttmsg, mqttpayload);
-		console.log('lastlivevalues:' +  mqttpayload.length );
 		/* 	if ( initialread > 0) {
 				//updateGraph(mqttpayload);
 			}
@@ -621,10 +624,11 @@ function processHousebatteryMessages(mqttmsg, mqttpayload) {
 		wbdata.updateBat("batterySoc", speicherSoc);
 	}
 	else if (mqttmsg == 'openWB/housebattery/soctarget') {
-		var Soct = makeInt(mqttpayload);
-		if (isNaN(Soct) || Soct < 0 || Soct > 100) {
-			Soct = 0;
-		}
+		var Soct = mqttpayload;
+//		var Soct = makeInt(mqttpayload);
+//		if (isNaN(Soct) || Soct < 0 || Soct > 100) {
+//			Soct = 0;
+//		}
 		wbdata.updateBat("soctarget", Soct);
 	}
 	else if (mqttmsg == 'openWB/housebattery/boolHouseBatteryConfigured') {
@@ -663,7 +667,7 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 		var i = parseInt(mqttpayload, 10);
 		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
 	    debuglevel = i;
-		console.log('set debug level to '+debuglevel );
+		console.log('######################### set debug level to '+debuglevel + '###############');
 		if ( debuglevel >= 0)  {
 			$("#homebutton").removeClass("hide");
         } else {			
@@ -695,6 +699,7 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	else if (mqttmsg == 'openWB/system/devicename') {
      console.log('set devicename from ', mqttmsg, ' ', mqttpayload);
       $('.devicename').text(mqttpayload);
+      window.document.title='oWB ' + mqttpayload; 
     } 
 	else if (mqttmsg.match(/^openwb\/system\/daygraphdata[1-9][0-9]*$/i)) {
 		powerGraph.updateDay(mqttmsg, mqttpayload);
@@ -702,6 +707,10 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	else if (mqttmsg.match(/^openwb\/system\/monthgraphdatan[1-9][0-9]*$/i)) {
 		powerGraph.updateMonth(mqttmsg, mqttpayload);
 	}
+	else if (mqttmsg.match(/^openwb\/system\/yeargraphdatan[1-9][0-9]*$/i)) {
+		powerGraph.updateYear(mqttmsg, mqttpayload);
+	}
+	
 }
 
 function processPvMessages(mqttmsg, mqttpayload) {
@@ -889,7 +898,7 @@ function processLpMessages(mqttmsg, mqttpayload) {
 		if (isNaN(energyCharged)) {
 			energyCharged = 0;
 		}
-		wbdata.updateCP(index, "energy", energyCharged);
+		wbdata.updateCP(index, "energySincePlugged", energyCharged);
 	} else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/kWhactualcharged$/i)) {
 		// energy charged since reset of limitation
 		var actualCharged = parseFloat(mqttpayload, 10)
@@ -965,6 +974,17 @@ function processLpMessages(mqttmsg, mqttpayload) {
 	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/boolchargepointconfigured$/i)) {
 		// respective charge point configured
 		wbdata.updateCP(index, "configured", (mqttpayload == 1));
+	}
+	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
+		wbdata.updateCP(index, "isAutolockConfigured", (mqttpayload == 1));
+	}
+	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockstatus$/i)) {
+		// values used for AutolockStatus flag:
+		// 0 = standby
+		// 1 = waiting for autolock
+		// 2 = autolock performed
+		// 3 = auto-unlock performed
+		wbdata.updateCP(index, "autoLockStatus", mqttpayload);
 	}
 	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/energyconsumptionper100km$/i)) {
 		// store configured value in element attribute
@@ -1075,6 +1095,48 @@ function processLpMessages(mqttmsg, mqttpayload) {
 				$('[data-lp="' + index + '"]').show();
 				break;
 
+		}
+	}
+	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
+		var index = getIndex(mqttmsg);  // extract first match = number from
+		var parent = $('[data-lp="' + index + '"]');  // get parent row element for charge point
+		var element = parent.find('.autolockConfiguredLp');  // now get parents respective child element
+		if (mqttpayload == 0) {
+			element.hide();
+		} else {
+			element.show();
+		}
+	}
+	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockstatus$/i)) {
+		// values used for AutolockStatus flag:
+		// 0 = standby
+		// 1 = waiting for autolock
+		// 2 = autolock performed
+		// 3 = auto-unlock performed
+		var index = getIndex(mqttmsg);  // extract number between two / /
+		var parent = $('[data-lp="' + index + '"]');  // get parent row element for charge point
+		var element = parent.find('.autolockConfiguredLp');  // now get parents respective child element
+		switch (mqttpayload) {
+			case '0':
+				// remove animation from span and set standard colored key icon
+				element.removeClass('fa-lock fa-lock-open animate-alertPulsation text-red text-green');
+				element.addClass('fa-key');
+				break;
+			case '1':
+				// add animation to standard icon
+				element.removeClass('fa-lock fa-lock-open text-red text-green');
+				element.addClass('fa-key animate-alertPulsation');
+				break;
+			case '2':
+				// add red locked icon
+				element.removeClass('fa-lock-open fa-key animate-alertPulsation text-green');
+				element.addClass('fa-lock text-red');
+				break;
+			case '3':
+				// add green unlock icon
+				element.removeClass('fa-lock fa-key animate-alertPulsation text-red');
+				element.addClass('fa-lock-open text-green');
+				break;
 		}
 	}
 
@@ -1331,7 +1393,21 @@ function unsubscribeMonthGraph() {
 	}
 	publish("0", "openWB/set/graph/RequestMonthGraphv1");
 }
+function subscribeYearGraph(year) {
+	for (var segment = 1; segment < 13; segment++) {
+		var topic = "openWB/system/YearGraphDatan" + segment;
+		client.subscribe(topic, { qos: 0 });
+	}
+	publish(String(year), "openWB/set/graph/RequestYearGraphv1");
+}
 
+function unsubscribeYearGraph() {
+	for (var segment = 1; segment < 13; segment++) {
+		var topic = "openWB/system/YearGraphDatan" + segment;
+		client.unsubscribe(topic);
+	}
+	publish("0", "openWB/set/graph/RequestYearGraphv1");
+}
 function makeInt(message) {
 	var number = parseInt(message, 10);
 	if (isNaN(number)) {

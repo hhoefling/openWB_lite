@@ -44,6 +44,8 @@ class ChargePointList {
   // update if data has changed
   update() {
     this.updateValues();
+        if(debugmode>2) console.log('chargePountList.recreate widegt');
+
     this.tbody.selectAll("*").remove();
     this.footer.selectAll("*").remove();
 
@@ -57,31 +59,26 @@ class ChargePointList {
       .style("vertical-align", "middle");
 
     rows.append((row) => this.cpNameButtonCell(row));
-
-    rows.selectAll("cells")
-      .data(row => [
-        formatWatt(row.power) + " " + this.phaseSymbols[row.phasesInUse] + " " + row.targetCurrent + " A",
-        formatWattH(row.energy * 1000) + " / " + Math.round(row.energy / row.energyPer100km * 100)  + " km"
-
-      ]).enter()
-      .append("td")
-      .attr("class", "tablecell px-1 py-1")
-      .attr("style", "vertical-align:middle;")
-      .text(data => data);
+		rows.append((row) => this.cpChargeParamCell(row));
+		rows.append((row) => this.cpChargeDataCell(row));
     rows.append((row) => this.cpSocButtonCell(row));
 
+/* wird jetzt unter dem Kreis angezeigt
     if (wbdata.isEtEnabled) {
       this.footer.append('p')
         .attr("class", "pt-3 pb-0 m-0")
         .style("text-align", "center")
-        .text("Aktueller Strompreis: " + wbdata.etPrice + " ct/kWh");
+        .style("font-size", "1.1em")
+				.text("Strompreis: " + wbdata.etPrice + " ct/kWh");
     }
 
-    d3.select ("div#chargePointConfigWidget").classed ("hide", (wbdata.chargeMode != "0" && wbdata.chargeMode != "1"))
+*/
+		d3.select("div#chargePointConfigWidget").classed("hide", (wbdata.chargeMode != "0" && wbdata.chargeMode != "1"))
   }
 
   updateValues() {
     this.chargepoints = wbdata.chargePoint.filter(cp => cp.configured);
+        if(debugmode>2) console.log('chargePountList.updateValues:' , this.chargepoints);
   }
 
   cpNameButtonCell(row) {
@@ -126,6 +123,28 @@ class ChargePointList {
     return cell.node();
   }
 
+	cpChargeParamCell(row) {
+		const cell = d3.create("td")
+			.attr("class", "tablecell px-1 py-1")
+			.style("vertical-align", "middle")
+			.style("text-align", "center");
+		cell.append("span").text(
+			formatWatt(row.power) + " " + this.phaseSymbols[row.phasesInUse] + " " + row.targetCurrent + " A"
+		)
+		return cell.node()
+	}
+	cpChargeDataCell(row) {
+		const cell = d3.create("td")
+			.attr("class", "tablecell px-1 py-1 d-flex align-items-center justify-content-center flex-wrap")
+			.style("vertical-align", "middle")
+			.style("text-align", "center");
+		cell.append("span").text(
+			formatWattH(row.energySincePlugged * 1000))
+		cell.append("span")
+			.classed("px-1", true).text("/")
+		cell.append("span").text(" " + Math.round(row.energySincePlugged / row.energyPer100km * 100) + " km")
+		return cell.node()
+	}
   cpSocButtonCell(row) {
     const cell = d3.create("td")
       .attr("class", "tablecell px-1 py-1")
@@ -244,3 +263,4 @@ function socButtonClicked(i) {
 }
 
 var chargePointList = new ChargePointList();
+console.log('chargePointList.create');

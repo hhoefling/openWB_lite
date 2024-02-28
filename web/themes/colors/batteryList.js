@@ -40,12 +40,13 @@ class BatteryList {
 
       // current power
       const cell = row.append("td")
-        .attr("class", "tablecell py-1 px-1")
-        .attr("style", "vertical-align: middle;");
+				.attr("class", "tablecell py-1 px-1 d-flex align-items-center justify-content-center flex-wrap");
       if (wbdata.batteryPowerImport > 0) {
-        cell.text("Laden: " + formatWatt(wbdata.batteryPowerImport))
+				cell.append("span").attr("class", "pr-1").text("Laden: ");
+				cell.append("span").text(formatWatt(wbdata.batteryPowerImport));
       } else if (wbdata.batteryPowerExport > 0) {
-        cell.text("Liefern: " + formatWatt(wbdata.batteryPowerExport))
+				cell.append("span").attr("class", "pr-1").text("Liefern: ");
+				cell.append("span").text(formatWatt(wbdata.batteryPowerExport));
       } else {
         cell.text("0 W")
       }
@@ -59,13 +60,13 @@ class BatteryList {
       row.append("td")
         .attr("class", "tablecell py-1 px-1")
         .attr("style", "vertical-align: middle;")
-        .text(formatWattH(wbdata.batteryEnergyExport*1000));
+				.text(formatWattH(wbdata.batteryEnergyExport * 1000));
 
       // SoC
       const scell = row.append("td")
         .attr("class", "tablecell py-1 px-1")
            .attr("style", "vertical-align: middle;");
-      scell.html( wbdata.batterySoc + " %" + "&nbsp;<small>(" + wbdata.soctarget + "%</small>)" );
+            scell.html( wbdata.batterySoc + " %" + "<br><small>(" + wbdata.soctarget + "</small>)" );
     }
     else {
       d3.select("div#batteryWidget").classed("hide", true);
@@ -75,8 +76,8 @@ class BatteryList {
 
 
 
-
+// batteryList div enthöt die D3 
 var batteryList = new BatteryList();
-
+console.log('batteryList.create');
 
 

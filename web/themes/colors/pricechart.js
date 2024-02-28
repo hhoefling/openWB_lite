@@ -102,7 +102,7 @@ class PriceChart {
       .call(xAxisGenerator);
     xAxis.attr("transform", "translate(" + this.margin.left + "," + (height + this.margin.top) + ")");
     xAxis.selectAll(".tick")
-    .attr("font-size", 8)
+    .attr("font-size", 10)
     .attr("color", this.bgColor);
     xAxis.selectAll(".tick line")
     .attr("stroke", this.bgColor)
@@ -122,7 +122,7 @@ class PriceChart {
 
     yAxis.attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
     yAxis.selectAll(".tick")
-      .attr("font-size", 8)
+      .attr("font-size", 12)
       .attr("color", this.bgColor);
 
     yAxis.selectAll(".tick line")
@@ -162,3 +162,7 @@ function decrementMaxPrice() {
 }
 
 var priceChart = new PriceChart();
+console.log('priceChart.created');
+if(debugmode>2)
+  console.log('priceChart:', priceChart);
+

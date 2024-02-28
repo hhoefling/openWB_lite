@@ -4,15 +4,7 @@ Stylesheet zum openWB Standard-Theme
 2019-2020 Michael Ortenstein
 */
 
-.btn-smx,
-.btn-group-smx > .btn {
-  padding: 0.0rem 0.5rem 0.0rem 0.5rem; 
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-}
-
-html{
+html {
 	min-height: 100%;
 	min-width: 100%;
 }
@@ -23,9 +15,14 @@ body {
 	/* Old browsers */
 	background: var(--color-bg);
 }
-body > .container {
+
+body>.container {
 	padding: 55px 15px 0;
 }
+
+#mediacss:after{ 
+        content: "none"; 
+    } 
 h3 {
 	color: var(--color-title);
 }
@@ -34,7 +31,7 @@ h4 {
 	color: var(--color-axis);
 }
 
-body > .container-fluid {
+body>.container-fluid {
 	padding: 55px 15px 0;
 }
 @keyframes alertPulsation {
@@ -50,21 +47,8 @@ body > .container-fluid {
 		opacity: 1;
 	}
 }
-@-o-keyframes alertPulsation{
-	0% {
-		opacity: 1;
-	}
 
-	50% {
-		opacity: 0;
-}
-
-	100% {
-		opacity: 1;
-	}
-}
-
-@-moz-keyframes alertPulsation{
+@-o-keyframes alertPulsation {
 	0% {
 		opacity: 1;
 	}
@@ -77,7 +61,22 @@ body > .container-fluid {
 		opacity: 1;
 	}
 }
-@-webkit-keyframes alertPulsation{
+
+@-moz-keyframes alertPulsation {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes alertPulsation {
 	0% {
 		opacity: 1;
 	}
@@ -102,7 +101,7 @@ body > .container-fluid {
 }
 
 .pull-right {
-	float:right
+	float: right
 }
 
 .row.no-gutter [class*='col-']:first-child:not(:only-child) {
@@ -123,7 +122,7 @@ body > .container-fluid {
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 }
 
-.cursor-pointer{
+.cursor-pointer {
 	cursor: pointer;
 }
 
@@ -206,15 +205,19 @@ body > .container-fluid {
 }
 
 .bg-apricot {
-	background-color:#fefedf;
+	background-color: #fefedf;
 }
 
 .bg-orange {
-	background-color:#fcbe1e;
+	background-color: #fcbe1e;
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
 /* No media query since this is the default in Bootstrap */
+html {
+	font-size: 12px;
+}
+
 h1 {
 	font-size: 1.6rem;
 }
@@ -224,7 +227,7 @@ h2 {
 }
 
 h3 {
-	font-size: 1.0rem;  /*1.2 HH*/
+	font-size: var(--font-large);
 }
 
 h4 {
@@ -232,211 +235,205 @@ h4 {
 }
 
 .verySmallTextSize {
-	font-size: 0.8rem;
+	font-size: var(--font-verysmall);
 }
 
 .smallTextSize {
-	font-size: 0.7rem;
+	font-size: var(--font-small);
 }
 
 .regularTextSize {
-	font-size: 0.9rem;
+	font-size: var(--font-normal);
 }
 
 .largeTextSize {
-	font-size: 1.1rem;
+	font-size: var(--font-large);
 }
 
 .buttonTextSize {
 	font-size: 0.9rem;
 }
 .tablecell {
-	font-size: 0.9rem;
+	font-size: var(--font-normal);
 	line-height: 1.1rem;
 	vertical-align: middle;
 	padding: 0;
+
+
+
 }
 
+@media (min-width: 240px) {
+    #mediacss:after{ 
+        content: "240"; 
+	}
+	html {
+		font-size: 12px;
+	}
+}
+@media (min-width: 330px) {
+    #mediacss:after{ 
+        content: "330"; 
+	}
+	html {
+		font-size: 14px;
+	}
+}
+
+@media (min-width: 400px) {
+    #mediacss:after{ 
+        content: "400"; 
+	}
+	html {
+		font-size: 15px;
+	}
+}
+@media (min-width: 435px) {
+    #mediacss:after{ 
+        content: "435"; 
+	}
+    html {
+		font-size: 16px;
+	}
+
+
+}
+@media (min-width: 470px) {
+    #mediacss:after{ 
+        content: "470"; 
+	}
+	html {
+		font-size: 17px;
+	}
+}
+@media (min-width: 505px) {
+    #mediacss:after{ 
+        content: "505"; 
+ 	}
+	html {
+		font-size: 18px;
+	}
+}
+@media (min-width: 540px) {
+    #mediacss:after{ 
+        content: "540"; 
+	}
+	html {
+		font-size: 19px;
+	}
+}
 /* Small devices (landscape phones, 576px and up) */
-@media screen and (min-width: 576px) {
-	h1 {
-		font-size: 2.1rem;
+@media (min-width: 576px) {
+    #mediacss:after{ 
+        content: "576"; 
 	}
+	html {
+		font-size: 20px;
+	}
+}
 
-	h2 {
-		font-size: 1.9rem;
+@media (min-width: 672px) {
+    #mediacss:after{ 
+        content: "672"; 
 	}
-
-	h3 {
-		font-size: 1.7rem;
+	html {
+		font-size: 21px;
 	}
-
-	h4 {
-		font-size: 1.2rem;
-	}
-	
-	.verySmallTextSize {
-		font-size: 1.0rem;
-	}
-
-	.smallTextSize {
-		font-size: 1.2rem;
-	}
-
-	.regularTextSize {
-		font-size: 1.4rem;
-	}
-
-	.largeTextSize {
-		font-size: 1.6rem;
-	}
-
-	.buttonTextSize {
-		font-size: 1.4rem;
-	}
-	.tablecell {
-		font-size: 1.0rem; /* 1.2rem; */
- 		line-height: 0.8rem; /* 1.1rem; */
-		vertical-align: middle;
-		padding: 0;
-	}
-
-	.table-condensed>tbody>tr>td {
-		padding: 1px;
-	}
-
-
 }
 
 /* Medium devices (tablets, 768px and up) */
-@media screen and (min-width: 768px) {
-	h1 {
-		font-size: 1.5rem;
+@media (min-width: 768px) {
+    #mediacss:after{ 
+        content: "768"; 
 	}
-
-	h2 {
-		font-size: 1.3rem;
-	}
-
-	h3 {
-		font-size: 1.0rem; /* 1.1rem; */
- 	}
-
-	h4 {
-		font-size: 0.9rem;
-	}
-	
-	.verySmallTextSize {
-		font-size: 1.0rem;
-	}
-
-	.smallTextSize {
-		font-size: 0.6rem;
-	}
-
-	.regularTextSize {
-		font-size: 0.8rem;
-	}
-
-	.largeTextSize {
-		font-size: 1.0rem;
-	}
-
-	.buttonTextSize {
-		font-size: 0.8rem;
-	}
-	.tablecell {
-		font-size: 0.9rem;
-		line-height: 0.8rem;
-		vertical-align: middle;
-		padding: 0;
+	html {
+		font-size: 18px;
 	}
 }
 
 /* Large devices (desktops, 992px and up) */
-@media screen and (min-width: 992px) {
-	h1 {
-		font-size: 1.5rem;
+@media (min-width: 992px) {
+    #mediacss:after{ 
+        content: "992"; 
 	}
-
-	h2 {
-		font-size: 1.3rem;
+	html {
+		font-size: 13px;
 	}
+}
 
-	h3 {
-		font-size: 1.0rem; /* 1.1rem; */
+@media (min-width: 1061px) {
+    #mediacss:after{ 
+        content: "1061"; 
  	}
-
-	h4 {
-		font-size: 0.9rem;
+	html {
+		font-size: 14px;
 	}
-	
-	.verySmallTextSize {
-		font-size: 1.0rem;
+}
+@media (min-width: 1130px) {
+    #mediacss:after{ 
+        content: "1130"; 
 	}
-
-	.smallTextSize {
-		font-size: 0.7rem;
-	}
-
-	.regularTextSize {
-		font-size: 0.9rem;
-	}
-
-	.largeTextSize {
-		font-size: 1.1rem;
-	}
-
-	.buttonTextSize {
-		font-size: 0.9rem;
-	}
-	.tablecell {
-		font-size: 1.0rem;
-		line-height: 0.8rem;
-		vertical-align: middle;
-		padding: 0;
+	html {
+		font-size: 15px;
 	}
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-	h1 {
-		font-size: 3rem;
+    #mediacss:after{ 
+        content: "1200"; 
 	}
-
-	h2 {
-		font-size: 2.4rem;
+	html {
+		font-size: 16px;
 	}
-
-	h3 {
-		font-size: 1.3rem; /* 1.5rem; */
+}
+@media (min-width: 1283px) {
+    #mediacss:after{ 
+        content: "1283"; 
 	}
-
-	.verySmallTextSize {
-		font-size: 1.4rem;
+	html {
+		font-size: 17px;
 	}
-
-	.smallTextSize {
-		font-size: 1.65rem;
+}
+@media (min-width: 1366px) {
+    #mediacss:after{ 
+        content: "1366"; 
 	}
-
-	.regularTextSize {
-		font-size: 1.2rem;
+	html {
+		font-size: 18px;
 	}
-
-	.largeTextSize {
-		font-size: 1.8rem;
+}
+@media (min-width: 1449px) {
+    #mediacss:after{ 
+        content: "1449"; 
 	}
-
-	.buttonTextSize {
-		font-size: 2.0rem;
+	html {
+		font-size: 19px;
 	}
-	.tablecell {
-		font-size: 1.3rem; /* 1.3 und 1.0*/
-		line-height: 0.9rem;
-		vertical-align: middle;
-		padding: 0;
-		margin: 0;
+}
+@media (min-width: 1532px) {
+    #mediacss:after{ 
+        content: "1532"; 
+	}
+	html {
+		font-size: 20px;
+	}
+}
+@media (min-width: 1615px) {
+    #mediacss:after{ 
+        content: "1651"; 
+	}
+	html {
+		font-size: 21px;
+	}
+}
+/* Extra extra extra large devices (very large desktops, 2000px and up) */
+@media (min-width: 1700px) {
+    #mediacss:after{ 
+        content: "1700"; 
+	}
+	html {
+		font-size: 22px;
 	}
 }
 
@@ -446,14 +443,18 @@ h4 {
 /* Overarching colors */
 :root {
 	--fontCol: rgba(160, 160, 160, 0.82);
-	--gridCol: rgba(160,160,160, 0.82);
-	--xgridCol: rgba(160,160,160, 0.82);
-	--tickCol: rgba(160,160,160, 0.82);
+	--gridCol: rgba(160, 160, 160, 0.82);
+	--xgridCol: rgba(160, 160, 160, 0.82);
+	--tickCol: rgba(160, 160, 160, 0.82);
 	--evuCol: rgba(178, 34, 34, 1);
 	--color-switchRed: #d12020;
 	--color-switchGreen: #4db662;
 	--color-switchBlue: steelblue;
-	}
+	--font-normal: 0.9rem;	/* 1.1 */
+	--font-large: 1.0rem;	/* 1.3 */
+	--font-small: 0.9rem;	/* 1.0 */
+	--font-verysmall: 0.8rem; /* 0.8 */
+}
 
 
 /* Theme color sets */
@@ -476,6 +477,11 @@ h4 {
 	--color-lp1: #6baed6;
 	--color-lp2: #4292c6;
 	--color-lp3: #2171b5;
+	--color-lp4: #9ecae1;
+	--color-lp5: #c6dbef;
+	--color-lp6: #deebf7;
+	--color-lp7: #08519c;
+	--color-lp8: #6baed6;
 	--color-co1: #bf3caf;
 	--color-co2: #963db3;
 	--padding-widget: 5px;
@@ -505,6 +511,11 @@ h4 {
 	--color-lp1: #6baed6;
 	--color-lp2: #4292c6;
 	--color-lp3: #2171b5;
+	--color-lp4: #9ecae1;
+	--color-lp5: #c6dbef;
+	--color-lp6: #deebf7;
+	--color-lp7: #08519c;
+	--color-lp8: #6baed6;
 	--color-co1: #bf3caf;
 	--color-co2: #963db3;
 	--padding-widget: 0px;
@@ -608,13 +619,13 @@ h4 {
 }
 .wb-widget {
 	background-color: var(--color-bg);
-	border: 0.5px solid var(--color-frame) ;
+	border: 0.5px solid var(--color-frame);
+	height: 100%;
 }
 
 .wb-subwidget {
 	border: 0px solid var(--color-subframe);
-	padding:var(--padding-widget);
-    font-size: 1.5rem;  /* HH Texte om Kreis */
+	padding: var(--padding-widget);
 }
 	
 

@@ -31,15 +31,16 @@ class SmartHomeList {
       d3.select("div#smartHomeWidget").classed("hide", false);
       var table = this.div.append("table")
         .attr("class", "table table-borderless table-condensed p-0 m-0");
-      const headers = ["Gerät", "Verbrauch", "Laufzeit", "Modus", "Temp."];
+
+			const headers = ["Gerät", "Verbrauch", "Laufzeit", "Modus"];
       const thead = table.append("thead");
       thead
         .selectAll("headers")
         .data(headers).enter()
         .append("th")
         .attr("style", (data, i) => (i == 0) ? "text-align:left;"
-          : "text-align:center;")
-        .attr("class", "tablecell ")
+					: "text-align:left;")
+				.attr("class", "tablecell p-1 m-0")
         .text((data) => data)
         ;
       thead.append("th")
@@ -52,17 +53,22 @@ class SmartHomeList {
         .data(this.consumers).enter()
         .append("tr")
         .attr("style", row => this.calcColor(row));
-      rows.append ((row,i) => this.formatName(row,i));
+			rows.append((row, i) => this.formatName(row, i));
       // Power/energy
-      rows.append("td")
-        .attr("class", "tablecell py-1 px-1")
+			let cell = rows.append("td")
+				.attr("class", "tablecell py-1 px-1 d-flex align-items-center justify-content-center flex-wrap")
         .attr("style", "vertical-align: middle;color:var(--color-fg)")
-        .text(row => formatWatt(row.power) + " (" + formatWattH(row.energy * 1000) + ")");
+			cell
+				.append("span")
+				.text(row => formatWatt(row.power));
+			cell
+				.append("span")
+				.text(row => " (" + formatWattH(row.energy * 1000) + ")");
       // Running time
       rows.append("td")
         .attr("class", "tablecell py-1 px-1")
         .attr("style", "vertical-align: middle;color:var(--color-fg)")
-        .text(row => formatTime(row.runningTime));
+				.text(row => formatTime(row.runningTime))
       // Automatic mode button
       rows.append("td")
         .attr("class", "tablecell py-1 px-1")
@@ -122,6 +128,20 @@ class SmartHomeList {
     // name
     cell.append("span")
       .text(row.name);
+		let temps = row.temp.filter(r => (r < 200.0))
+		let tempString = "";
+		if (temps.length > 0) {
+			tempString += " (";
+			temps.map((t, i) => {
+				tempString += formatTemp(t);
+				if (i + 1 < temps.length) {
+					tempString += ', ';
+				}
+			})
+			tempString += ") ";
+		}
+		cell.append("span")
+			.text(tempString);
     if (row.countAsHouse) {
       cell.append("span")
         .attr("class", "fa fa-xs fa-home pl-1")
@@ -163,9 +183,9 @@ function shDeviceClicked(i) {
 
   if (!wbdata.shDevice[i].isAutomatic) {
     if (wbdata.shDevice[i].isOn) {
-      publish("0", "openWB/config/set/SmartHome/Devices" + (+i + 1) + "/device_manual_control");
+			publish("0", "openWB/config/set/SmartHome/Devices/" + (+i + 1) + "/device_manual_control");
     } else {
-      publish("1", "openWB/config/set/SmartHome/Devices" + (+i + 1) + "/device_manual_control");
+			publish("1", "openWB/config/set/SmartHome/Devices/" + (+i + 1) + "/device_manual_control");
     }
     d3.select("span#shbutton-" + i)
       .attr("class", "fa fa-clock text-white pr-2")
@@ -180,6 +200,7 @@ function toggleGraphDisplay(i) {
 }
 
 var smartHomeList = new SmartHomeList();
-
-
+console.log('smartHomeList.created');
+if(debugmode>2)
+  console.log('smartHomeList:', smartHomeList);
 
