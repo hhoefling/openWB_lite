@@ -1,22 +1,27 @@
 #!/usr/bin/python3
 import time
+import re
+import traceback
 
 basePath = "/var/www/html/openWB"
 ramdiskPath = basePath + "/ramdisk"
 logFilename = ramdiskPath + "/openWB.log"
+rse_inputs = [
+    {"gpio": 8, "file": "rsestatus"},
+    {"gpio": 9, "file": "rse2status"}
+]
 
-try:
-    import RPi.GPIO as GPIO
-except ModuleNotFoundError:
-    from myisss.mylog import log_debug
-    from myisss.mygpio import GPIO
+loglevel = 0
 
 
-#try:
-#    import RPi.GPIO as GPIO
-#except ModuleNotFoundError:
-#    exit("Module RPi.GPIO missing! Maybe we are not running on supported hardware?")
-#
+# handling of all logging statements
+def log_debug(level: int, msg: str, traceback_str: str = None) -> None:
+    if level >= loglevel:
+        with open(logFilename, 'a') as log_file:
+            log_file.write(time.ctime() + ': RSE: ' + msg + '\n')
+            if traceback_str is not None:
+                log_file.write(traceback_str + '\n')
+
 
 # write value to file in ramdisk
 def write_to_ramdisk(filename: str, content: str) -> None:
@@ -24,37 +29,52 @@ def write_to_ramdisk(filename: str, content: str) -> None:
         file.write(content)
 
 
+def init():
+    GPIO.setmode(GPIO.BCM)
+    for rse in rse_inputs:
+        GPIO.setup(rse["gpio"], GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        write_to_ramdisk(rse["file"], "0")
 
-# GPIOnr Nicht pins
-GPIO.setmode(GPIO.BCM)
-state = 0
-state1 = 0
-GPIO.setup(8, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(9, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+def get_rse_states():
+    return [GPIO.input(rse_inputs[rse]["gpio"]) == GPIO.LOW for rse in range(len(rse_inputs))]
+
 
 try:
+    import RPi.GPIO as GPIO
+except ModuleNotFoundError:
+    exit("Module RPi.GPIO missing! Maybe we are not running on supported hardware?")
+
+log_debug(2, "rse-daemon starting")
+try:
+    init()
+    log_debug(1, "rse-daemon initialized, running loop")
+    last_rse_states = get_rse_states()
     while True:
-        button1_state = GPIO.input(8)
-        button2_state = GPIO.input(9)
+        rse_states = get_rse_states()
+        log_debug(0, "rse-HW state: " + str(rse_states))
+        try:
+            text_file = open("ramdisk/rsesimulation.txt", "r")
+            log_debug(1, "Lese Simulationfile ramdisk/rsesimulation.txt")
+            line = text_file.read().strip()
+            text_file.close()
+            xxx = re.split(',',line)
+            rse_states = [ (xxx[0]=='True'), (xxx[1]=='True') ]
+        except:
+            pass    
 
+        log_debug(0, "rse-state: " + str(rse_states))
+        for rse in range(len(rse_inputs)):
+            if rse_states[rse] != last_rse_states[rse]:
+                write_to_ramdisk(rse_inputs[rse]["file"], str("1" if rse_states[rse] else "0"))
+                log_debug(2, "rse-input changed: RSE" + str(rse) + ": " + str(last_rse_states[rse]) + "->" +
+                          str(rse_states[rse]) + " (" + str("1" if rse_states[rse] else "0") + ">" + rse_inputs[rse]["file"] + ")")
         time.sleep(10.2)
-
-        if button1_state is False:
-            if state == 0:
-                write_to_ramdisk("rsestatus", "1")
-                state = 1
-        if button1_state is True:
-            if state == 1:
-                write_to_ramdisk("rsestatus", "0")
-                state = 0
-        if button2_state is False:
-            if state1 == 0:
-                write_to_ramdisk("rse2status", "1")
-                state1 = 1
-        if button2_state is True:
-            if state1 == 1:
-                write_to_ramdisk("rse2status", "0")
-                state1 = 0
-
-except Exception:
+        last_rse_states = rse_states
+except Exception as e:
+    log_debug(2, "ERROR in rse daemon: " + str(e), traceback.format_exc())
     GPIO.cleanup()
+
+log_debug(2, "rse-daemon stopped")
+
+
