@@ -1,5 +1,6 @@
 #!/bin/bash
 # Sende http-web events und/oder Pushover 
+# sendEvent.sh
 #
 # wird asyncron in eigener Shell ausgeführt
 # 
