@@ -975,17 +975,17 @@ function processLpMessages(mqttmsg, mqttpayload) {
 		// respective charge point configured
 		wbdata.updateCP(index, "configured", (mqttpayload == 1));
 	}
-	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
-		wbdata.updateCP(index, "isAutolockConfigured", (mqttpayload == 1));
-	}
-	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockstatus$/i)) {
-		// values used for AutolockStatus flag:
-		// 0 = standby
-		// 1 = waiting for autolock
-		// 2 = autolock performed
-		// 3 = auto-unlock performed
-		wbdata.updateCP(index, "autoLockStatus", mqttpayload);
-	}
+//	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
+//		wbdata.updateCP(index, "isAutolockConfigured", (mqttpayload == 1));
+//	}
+//	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockstatus$/i)) {
+//		// values used for AutolockStatus flag:
+//		// 0 = standby
+//		// 1 = waiting for autolock
+//		// 2 = autolock performed
+//		// 3 = auto-unlock performed
+//		wbdata.updateCP(index, "autoLockStatus", mqttpayload);
+//	}
 	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/energyconsumptionper100km$/i)) {
 		// store configured value in element attribute
 		// to calculate charged km upon receipt of charged energy
