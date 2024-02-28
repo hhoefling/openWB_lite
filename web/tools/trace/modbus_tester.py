@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import sys
 import time
-from modules.common import modbus
+#from modules.common import modbus
+from pyModbusTCP.client import ModbusClient
+
 
 host = sys.argv[1]
 port = int(sys.argv[2])
@@ -22,17 +24,17 @@ print("Anzahl: " + str(length))
 print("Datentyp: " + data_type)
 print("Funktion: " + str(func) + "\n")
 try:
-    client = modbus.ModbusTcpClient_(host, port=port)
+    client = ModbusTcpClient_(host, port=port)
     if func == 4:
         if length > 1:
-            resp = client.read_input_registers(start, [modbus.ModbusDataType[data_type]]*length, unit=slave_id)
+            resp = client.read_input_registers(start, [ModbusDataType[data_type]]*length, unit=slave_id)
         else:
-            resp = client.read_input_registers(start, modbus.ModbusDataType[data_type], unit=slave_id)
+            resp = client.read_input_registers(start, ModbusDataType[data_type], unit=slave_id)
     elif func == 3:
         if length > 1:
-            resp = client.read_holding_registers(start, [modbus.ModbusDataType[data_type]]*length, unit=slave_id)
+            resp = client.read_holding_registers(start, [ModbusDataType[data_type]]*length, unit=slave_id)
         else:
-            resp = client.read_holding_registers(start, modbus.ModbusDataType[data_type], unit=slave_id)
+            resp = client.read_holding_registers(start, ModbusDataType[data_type], unit=slave_id)
     else:
         print("unsupported function code: " + str(func))
         exit(1)
