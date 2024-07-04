@@ -34,14 +34,21 @@ Es wird je zu Software-Zähler einmal aufgerufen. ALso durchaus mehrfach je durc
 Hier mal die Laufzeiten auf den verschiedenen Plattformen.
 | Hardware | Software | Laufzeit | Diff.|
 | -------------| ------------| ------------- |------|
-| Pi3B+ Stretch | Python 2.7.13 | 60 ms | 100% |
-| Pi3B+ Stretch | Python 3.5.3 | 147 ms | 241% |
-| Pi3B+ Buster | Python 3.7.3 | 92 ms | 153% |
-| Pi4 Bullseye| Python 3.9.2 | 87 ms | 145% |
+| Pi3B+ Stretch | python 2.7.13 | 60 ms | 100% |
+| Pi3B+ Stretch | python 3.5.3 | 147 ms | 241% |
+| Pi3B+ Stretch | pypy 5.6.0/2.7.12| 144 ms | 240% |
+| Pi3B+ Buster | python 3.7.3 | 92 ms | 153% |
+| Pi3B+ Buster | pypy 7.0.0/2.7.13 | 173 ms | 286% |
+| Pi4 Bullseye| python 3.9.2 | 87 ms | 145% |
+| Pi4 Bullseye| pypy 7.3.3/2.7.18 | 69 ms | `115%` |
 
 Gemessen und gemittelt wurden wurden jeweils 300 Aufrufe.
 
 Hier wird deutlich das Stretch mit seinem Python-2 eindeutig die beste
 Hardware/Software Kompination ist für den Betrieb der openWB 1.X Software.
+
+Eine Umstellung auf <b>pypy</b> könnte bei Bullseye die entscheidenen Millisekunden bringen.
+
+
 
 
