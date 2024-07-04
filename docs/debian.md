@@ -28,7 +28,7 @@ sysctl -p
 **Laufzeiten**
 
 Im Rahmen der Regelschleife werden viele Processe gestartet. Die meisten sind Bash-Scripte
-Ein Zentraler bestandteil zum bilder der Zählersimulationen ist aber das Python-Script  simcount.py
+Ein Zentraler bestandteil zum bilden der Zählersimulationen ist aber das Python-Script  simcount.py
 Es wird je zu Software-Zähler einmal aufgerufen. ALso durchaus mehrfach je durchlauf der Regelschleife.
 
 Hier mal die Laufzeiten auf den verschiedenen Plattformen.
