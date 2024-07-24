@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -37,7 +46,8 @@
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<script src="js/bootstrap-selectpicker/bootstrap-select.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
+		
 	</head>
 
 	<body>
@@ -50,10 +60,10 @@
 
 		?>
 		<script>
-		  var debugold=<?php echo $debugold;?>;
+          var debugold=<?php echo $debugold;?>;
           var devicename='<?php echo $devicenameold;?>';
 		  console.log('openWB debug aus openwb.conf:',debugold);
-		</script>		
+		</script>	
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
 
@@ -70,6 +80,7 @@
 								<label for="devicename" class="col-md-4 col-form-label">Gerätename</label>
 								<div class="col">
 									<input type="text" name="devicename" id="devicename" value="<?php echo $devicenameold; ?>" placeholder="OpenWB" aria-describedby="devicenameHelpBlock" class="form-control" required="required" pattern="^[\w\d\s\t-,\.\#\+]{0,32}$">
+									<span class="d_label"> openwb.conf devicename [s] </span>
 									<span id="devicenameHelpBlock" class="form-text small">
 									Der Gerätename wird auf einigen Display-Themen zur Unterscheidung der Ladestationen angezeigt.<br>
 									Der Name darf bis zu 32 Zeichen lang sein und aus Buchstaben/Zahlen bestehen
@@ -96,12 +107,12 @@
 										<label class="btn btn-sm btn-outline-info<?php if($isssold == 1) echo " active" ?>">
 											<input type="radio" name="isss" id="isssOn" value="1"<?php if($isssold == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
+										<span class="d_label"> openwb.conf isss [0|1] </span>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<span class="d_label">&nbsp;isss   </span>				
 					<div class="card-body">
 						<div class="card-text alert alert-info">
 							Wird hier Ja gewählt ist diese openWB nur ein Ladepunkt und übernimmt keine eigene Regelung.
@@ -121,9 +132,9 @@
 											<option <?php if($ssdisplayold == 0) echo "selected" ?> value="0">Normal</option>
 											<option <?php if($ssdisplayold == 1) echo "selected" ?> value="1">Display der übergeordneten openWB</option>
 										</select>
+							  			<span class="d_label">openWB.conf&nbsp;ssdisplay  [0|1]  </span>				
 									</div>
 								</div>
-							  	<span class="d_label">openWB.conf&nbsp;ssdisplay   </span>				
 							</div>
 						</div>
 					</div>
@@ -164,12 +175,12 @@
 										<label class="btn btn-sm btn-outline-info<?php if($etprovideraktivold == 1) echo " active" ?>">
 											<input type="radio" name="etprovideraktiv" id="etprovideraktivOn" value="1"<?php if($etprovideraktivold == 1) echo " checked=\"checked\"" ?>>An
 										</label>
+										<span class="d_label"> openwb.conf etprovideraktiv  [0|1] </span>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<span class="d_label"> etprovideraktiv  </span>				
 					<div class="card-body">
 						<div class="card-text alert alert-info">
 							Ermöglicht Laden nach Strompreis. Hierfür wird ein unterstützter Anbieter benötigt. Die Funktion ist nur im Modus Sofortladen aktiv!
@@ -183,9 +194,9 @@
 										<option <?php if($etproviderold == "et_awattarcap") echo "selected" ?> value="et_awattarcap">aWATTar Hourly-CAP</option>
 										<option <?php if($etproviderold == "et_tibber") echo "selected" ?> value="et_tibber">Tibber</option>
 									</select>
+									<span class="d_label"> openwb.conf etprovider [s] </span>
 								</div>
 							</div>
-						   <div class="d_label">openWB/global/ETProvider/modulePath etprovider </div>				
 							<div id="awattardiv" class="disabled">
 								<div class="form-group">
 									<div class="form-row mb-1">
@@ -195,9 +206,9 @@
 												<option <?php if($awattarlocationold == "de") echo "selected" ?> value="de">Deutschland</option>
 												<option <?php if($awattarlocationold == "at") echo "selected" ?> value="at">Österreich</option>
 											</select>
+										<span class="d_label"> openwb.conf awattarlocation [de|at] </span>
 										</div>
 									</div>
-						         <div class="d_label">awattarlocation</div>				
 								</div>
 							</div>
 							<div id="tibberdiv" class="hide">
@@ -222,14 +233,14 @@
 											<input class="form-control" type="text" name="tibbertoken" id="tibbertoken" value="<?php echo $tibbertokenold; ?>">
 										</div>
 									</div>
-									<div class="d_label">tibbertoken</div>				
+									<div class="d_label">openwb.conf tibbertoken</div>				
 									<div class="form-row mb-1">
 										<label for="tibberhomeid" class="col-md-4 col-form-label">Home-ID</label>
 										<div class="col">
 											<input class="form-control" type="text" name="tibberhomeid" id="tibberhomeid" value="<?php echo $tibberhomeidold; ?>">
 										</div>
 									</div>
-									<div class="d_label">tibberhomeid</div>				
+									<div class="d_label">openwb.conf tibberhomeid</div>				
 								</div>
 								<div class="row justify-content-center">
 									<button id="getTibberHomeIdBtn" type="button" class="btn btn-primary m-2">Home-ID ermitteln</button>
@@ -653,12 +664,12 @@
 										<label class="btn btn-sm btn-outline-info<?php if($u1p3paktivold == 1) echo " active" ?>">
 											<input type="radio" name="u1p3paktiv" id="u1p3paktivOn" value="1"<?php if($u1p3paktivold == 1) echo " checked=\"checked\"" ?>>An
 										</label>
+										<span class="d_label">u1p3paktiv</span>				
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<span class="d_label">u1p3paktiv</span>				
 					<div class="card-body">
 						<div class="card-text alert alert-info">
 							Automatisierte Umschaltung von 1- und 3-phasiger Ladung. Nur aktivieren, wenn diese Option in der OpenWB verbaut ist. Je nach gekaufter Hardwareoption gültig für alle Ladepunkte!
@@ -774,9 +785,9 @@
 										<label class="btn btn-outline-info<?php if($schieflastaktivold == 1) echo " active" ?>">
 											<input type="radio" name="schieflastaktiv" id="schieflastaktivOn" value="1"<?php if($schieflastaktivold == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
+   										<span class="d_label">schieflastaktiv</span>				
 									</div>
 								</div>
-   							<span class="d_label">schieflastaktiv</span>				
 								<div class="form-row mb-1 disabled" id="schieflastan">
 									<label for="schieflastmaxa" class="col-md-4 col-form-label">Schieflastbegrenzung</label>
 									<div class="col-md-8">

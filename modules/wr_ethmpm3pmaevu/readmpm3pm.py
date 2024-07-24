@@ -5,7 +5,8 @@
 # import getopt
 import struct
 from pymodbus.client.sync import ModbusTcpClient
-client = ModbusTcpClient('192.168.192.15', port=8899)
+
+client = ModbusTcpClient('192.168.193.15', port=8899)
 
 resp = client.read_input_registers(0x0004,4, unit=8)
 value1 = resp.registers[0] 
@@ -59,5 +60,3 @@ final = int(struct.unpack('>i', all.decode('hex'))[0]) / 100
 f = open('/var/www/html/openWB/ramdisk/pvwatt', 'w')
 f.write(str(final))
 f.close()
-
-

@@ -10,8 +10,17 @@
 
 var topicsToSubscribe = [
 	["openWB/system/devicename", 0],
-	["openWB/system/debuglevel", 0],
+	["openWB/system/debug", 0],
 	["openWB/graph/boolDisplayHouseConsumption", 0],
+	["openWB/graph/boolDisplayShD1", 0],
+	["openWB/graph/boolDisplayShD2", 0],
+	["openWB/graph/boolDisplayShD3", 0],
+	["openWB/graph/boolDisplayShD4", 0],
+	["openWB/graph/boolDisplayShD5", 0],
+	["openWB/graph/boolDisplayShD6", 0],
+	["openWB/graph/boolDisplayShD7", 0],
+	["openWB/graph/boolDisplayShD8", 0],
+	["openWB/graph/boolDisplayShD9", 0],
 	["openWB/graph/boolDisplayLoad1", 0],
 	["openWB/graph/boolDisplayLoad2", 0],
 	["openWB/graph/boolDisplayLp1Soc", 0],
@@ -36,5 +45,15 @@ var topicsToSubscribe = [
 	["openWB/lp/2/boolChargePointConfigured", 0],
 	["openWB/lp/3/boolChargePointConfigured", 0],
 	["openWB/lp/1/boolSocConfigured", 0],
-	["openWB/lp/2/boolSocConfigured", 0]
+	["openWB/lp/2/boolSocConfigured", 0],
+	["openWB/config/get/SmartHome/Devices/1/device_configured", 0],
+	["openWB/config/get/SmartHome/Devices/2/device_configured", 0],
+	["openWB/config/get/SmartHome/Devices/3/device_configured", 0],
+	["openWB/config/get/SmartHome/Devices/4/device_configured", 0],
+	["openWB/config/get/SmartHome/Devices/5/device_configured", 0],
+	["openWB/config/get/SmartHome/Devices/6/device_configured", 0],
+	["openWB/config/get/SmartHome/Devices/7/device_configured", 0],
+	["openWB/config/get/SmartHome/Devices/8/device_configured", 0],
+	["openWB/config/get/SmartHome/Devices/9/device_configured", 0]
+	
 ];

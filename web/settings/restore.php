@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -33,7 +42,8 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
+		
 	</head>
 
 	<body>

@@ -1,6 +1,8 @@
 #!/bin/bash
-openwbDebugLog "MAIN" 2 "Source zielladen.sh immer wenn aktiv"
 
+openwbDebugLog "MAIN" 1 "source zielladen.sh"
+
+    
 #// Zielladen aktiv wunschawh:[4600], 
 #// maximal mögliche:[5520], 
 #// zu ladende Wh:[17280],  
@@ -9,8 +11,10 @@ openwbDebugLog "MAIN" 2 "Source zielladen.sh immer wenn aktiv"
 #// aufruf bei zielladenaktivlp1>0
 ziellademodus(){
 
-    local zielladenkorrektura
-    read zielladenkorrektura <ramdisk/zielladenkorrektura
+    openwbDebugLog "MAIN" 1 "ziellademodus called"
+
+	local zielladenkorrektura
+	read zielladenkorrektura <ramdisk/zielladenkorrektur)
 
 	read ladestatus <ramdisk/ladestatus
 
@@ -20,9 +24,9 @@ ziellademodus(){
 	local epochdateziel=$(date -d "$zielladenuhrzeitlp1" +"%s")
 	local zeitdiff=$(( epochdateziel - epochdateaktuell ))
 	local minzeitdiff=$(( zeitdiff / 60 ))
-
+	
 	# zu ladende Menge ermitteln
-	soc=$(<ramdisk/soc)
+	read soc <ramdisk/soc
 	local zuladendersoc=$(( zielladensoclp1 - soc ))
 	local akkuglp1wh=$(( akkuglp1 * 1000 ))
 	local zuladendewh=$(( akkuglp1wh * zuladendersoc / 100 ))
@@ -41,9 +45,10 @@ ziellademodus(){
 	diffwh=$(( zuladendewh - moeglichewh ))
 	openwbDebugLog "MAIN" 1 "Zielladen diffwh:[$diffwh]"
 	#vars
-	local ladungdurchziel=$(<ramdisk/ladungdurchziel)
+	local ladungdurchziel
+	read ladungdurchziel <ramdisk/ladungdurchziel
     meld " ZL:[$ladungdurchziel $ladestatus]"
-
+	
 	if (( zuladendewh <= 0 )); then
         meld " ZL:nix zu laden, stop if charging"
 		if (( ladestatus == 1 )); then
@@ -58,16 +63,16 @@ ziellademodus(){
 	else
         meld " ZL:$zuladendewh "
 		if (( zuladendewh > moeglichewh )); then
-			if (( ladestatus == 0 )); then
+			if (( ladestatus == 0  )); then
 				if (( lp1enabled == 1 )) ; then
     		    	meld " ZL: es wird zeit, start set $zielladenalp1"
-				runs/set-current.sh $zielladenalp1 m
-				openwbDebugLog "MAIN" 1 "setzte Soctimer hoch zum Abfragen des aktuellen SoC"
+					runs/set-current.sh $zielladenalp1 m
+					openwbDebugLog "MAIN" 1 "setzte Soctimer hoch zum Abfragen des aktuellen SoC"
 					echo 20000 > /var/www/html/openWB/ramdisk/soctimer
-				echo 1 > ramdisk/ladungdurchziel
-				openwbDebugLog "MAIN" 0 "*** EXIT 0"
-				exit 0
-			else
+					echo 1 > ramdisk/ladungdurchziel
+				    openwbDebugLog "MAIN" 0 "*** EXIT 0"
+					exit 0     # keine Weiter regelung"
+				else
     		    	meld " ZL: kann nicht, will aber"
 				fi			
 			else
@@ -83,7 +88,7 @@ ziellademodus(){
 						fi
 						runs/set-current.sh $zielneu m
 					    openwbDebugLog "MAIN" 0 "*** EXIT 0"
-						exit 0
+						exit 0    # keine Weiter regelung"
 					fi
 				fi
 			fi
@@ -101,7 +106,7 @@ ziellademodus(){
 						fi
 						runs/set-current.sh $zielneu m
 					    openwbDebugLog "MAIN" 0 "*** EXIT 0"
-						exit 0
+						exit 0    # keine Weiter regelung"
 					fi
 				fi
 			fi
@@ -109,7 +114,7 @@ ziellademodus(){
 	fi
 	if (( ladungdurchziel == 1 )); then
 	# breche regel.sh hier ab 
-		openwbDebugLog "MAIN" 0 "*** EXIT 0,  abord regel in Zielladen"
-		exit 0
+		openwbDebugLog "MAIN" 0 "*** EXIT 0,  Zielladen aktive, also abort regel in Zielladen"
+		exit 0        # keine Weiter regelung"
 	fi
 }

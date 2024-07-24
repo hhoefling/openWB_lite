@@ -173,6 +173,7 @@ class YieldMeter {
 			.attr("width", this.xScale.bandwidth())
 			.attr("height", (d) => (this.height - this.yScale(d.energy) - this.margin.top - this.margin.bottom))
 			.attr("fill", (d) => d.color);
+
 		if (wbdata.graphMode != 'live') {
 			// Display the PV Charging inner bar
 			bargroups
@@ -190,7 +191,7 @@ class YieldMeter {
 			bargroups.append("rect")
 				.attr("class", "bar")
 			.attr("x", (d) => this.xScale(d.name) + this.xScale.bandwidth() / 4 )
-				.attr("y", (d) => this.yScale(d.energyBat + d.energyPv))
+				.attr("y", (d) => this.yScale(d.energyPv + d.energyBat))
 			.attr("width", this.xScale.bandwidth() * 2 / 4)
 				.attr("height", (d) => (this.height - this.yScale(d.energyBat) - this.margin.top - this.margin.bottom))
 				.attr("fill", this.batColor)

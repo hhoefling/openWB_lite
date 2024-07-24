@@ -14,12 +14,12 @@ LOGLEVELINFO = 1
 LOGLEVELERROR = 2
 
 basePath = '/var/www/html/openWB'
-shconfigfile = basePath+'/smarthome.ini'
+shconfigfile = basePath + '/smarthome.conf'
 os.chdir(basePath)
 config = configparser.ConfigParser()
 config.read(shconfigfile)
-prefixpy = basePath+'/modules/smarthome/'
-loglevel=2
+prefixpy = basePath + '/modules/smarthome/'
+loglevel = 2
 maxspeicher = 100
 oldmaxspeicher = 0
 oldtotalwatt = 0
@@ -27,10 +27,10 @@ oldtotalwattot = 0
 oldtotalminhaus = -1
 olduberschuss = 0
 olduberschussoffset = 0
-numberOfSupportedDevices=9 # limit number of smarthome devices
-DeviceValues = { }
-DeviceTempValues = { }
-DeviceCounters = { }
+numberOfSupportedDevices = 9  # limit number of smarthome devices
+DeviceValues = {}
+DeviceTempValues = {}
+DeviceCounters = {}
 DeviceConfigured = []
 DeviceConfiguredOld = []
 
@@ -40,16 +40,16 @@ DeviceOnOld = []
 DeviceOnOldStandby = []
 StatusOld = []
 
-for i in range(1, (numberOfSupportedDevices+1)):
-    DeviceTempValues.update({'oldWHI'+str(i) : '2'})
-    DeviceTempValues.update({'oldw'+str(i) : '2'})
-    DeviceTempValues.update({'oldwh'+str(i) : '2'})
-    DeviceTempValues.update({'oldtemp'+str(i) : '2'})
-    DeviceTempValues.update({'oldtime'+str(i) : '2'})
-    DeviceTempValues.update({'oldrelais'+str(i) : '2'})
-    DeviceValues.update({ str(i)+"watt" : int(0)})
-    DeviceValues.update({ str(i)+"runningtime" : int(0)})
-    DeviceValues.update( {str(i)+"WHImported_tmp" : int(0)})
+for i in range(1, (numberOfSupportedDevices + 1)):
+    DeviceTempValues.update({'oldWHI' + str(i): '2'})
+    DeviceTempValues.update({'oldw' + str(i): '2'})
+    DeviceTempValues.update({'oldwh' + str(i): '2'})
+    DeviceTempValues.update({'oldtemp' + str(i): '2'})
+    DeviceTempValues.update({'oldtime' + str(i): '2'})
+    DeviceTempValues.update({'oldrelais' + str(i): '2'})
+    DeviceValues.update({ str(i) + "watt": int(0)})
+    DeviceValues.update({ str(i) + "runningtime": int(0)})
+    DeviceValues.update( {str(i) + "WHImported_tmp": int(0)})
     DeviceConfigured.append("0")
     DeviceConfiguredOld.append("9")
     DeviceOn.append("0")
@@ -57,7 +57,7 @@ for i in range(1, (numberOfSupportedDevices+1)):
     DeviceOnOld.append("9999")
     DeviceOnOldStandby.append("9999")
     StatusOld.append("9999")
-    filename = basePath+'/ramdisk/smarthome_device_minhaus_' + str(i)
+    filename = basePath + '/ramdisk/smarthome_device_minhaus_' + str(i)
     f = open(filename, 'w')
     f.write(str("0"))
     f.close()
@@ -190,7 +190,9 @@ def getdir(smarttype,name):
         dirname = prefixpy + 'avmhomeautomation'
         return dirname
     dirname = prefixpy + smarttype.lower()
+    logDebug(LOGLEVELDEBUG, "getdir --> [" + str(dirnmame) + "]")
     return dirname
+    
 def sepwatt(oldwatt,oldwattk,nummer):
     try:
         difmes = int(config.get('smarthomedevices', 'device_differentmeasurement_'+str(nummer)))
@@ -241,8 +243,8 @@ def sepwatt(oldwatt,oldwattk,nummer):
         argumentList[4] = config.get('smarthomedevices', 'device_measureid_'+str(nummer)) # replace uberschuss as third command line parameter with measureid
     elif meastyp == "shelly":
         argumentList[1] = prefixpy + 'shelly/watt.py'
-    elif meastyp == "tasmota": 
-        argumentList[1] = prefixpy + 'tasmota/watt.py'               
+    elif meastyp == "tasmota":
+        argumentList[1] = prefixpy + 'tasmota/watt.py'
     elif meastyp == "mystrom":
         argumentList[1] = prefixpy + 'mystrom/watt.py'
     elif meastyp == "http":
@@ -312,6 +314,7 @@ def sepwatt(oldwatt,oldwattk,nummer):
         return (newwatt, newwattk)
     # now we have everthing we need to call the subprocess
     try:
+        logDebug(LOGLEVELDEBUG, '#########' + str(argumentList) )
         proc = subprocess.Popen(argumentList)
         proc.communicate()
         f1 = open(basePath+'/ramdisk/smarthome_device_ret' + str(nummer) , 'r')
@@ -325,6 +328,8 @@ def sepwatt(oldwatt,oldwattk,nummer):
         logDebug(LOGLEVELERROR, "Leistungsmessung %s %d %s Fehlermeldung: %s " % (meastyp, nummer, str(configuredName), str(e1)))
         raise Exception("error in sepwatt")
     return (newwatt, newwattk)
+
+
 def logDebug(level, msg):
     if (int(level) >= int(loglevel)):
         local_time = datetime.now(timezone.utc).astimezone()
@@ -336,6 +341,8 @@ def logDebug(level, msg):
         if (int(level) == 2):
             file.write(local_time.strftime(format = "%Y-%m-%d %H:%M:%S") + ': ' + str(msg)+ '\n')
         file.close()
+
+
 def simcount(watt2, pref, importfn, exportfn, nummer,wattks):
     # Zaehler mitgeliefert in WH , zurueckrechnen fuer simcount
     if wattks > 0:
@@ -744,6 +751,7 @@ def getdevicevalues():
                     argumentList.append(device_password)
                     argumentList.append(device_stateurl)
                     try:
+                        logDebug(LOGLEVELDEBUG, '#########' + str(argumentList) )
                         proc=subprocess.Popen(argumentList)
                         proc.communicate()
                     except Exception as e:
@@ -796,7 +804,7 @@ def getdevicevalues():
                     wattstart = 0
                     wattkstart = 0
                     relais = 0
-                   # only relevant for canswitch == 1, file not found
+                    # only relevant for canswitch == 1, file not found
                     if (canswitch == 1):
                         logDebug(LOGLEVELDEBUG, "Device " + str(switchtyp) + str(numberOfDevices) + str(devicename) + " File not found: " + str(pyname))
                 # Separate Leistungs messung ?
@@ -951,6 +959,9 @@ def turndevicerelais(nummer, zustand,ueberschussberechnung,updatecnt):
                 f.close()
                 if updatecnt == 1:
                     DeviceCounters.update( {str(nummer) + "eintime" : time.time()})
+                logDebug(LOGLEVELDEBUG, '#########' + str(argumentList) )
+                # print(' Popen   ' + str(LOGLEVELDEBUG) + '#########' + str(argumentList) )
+                # log.info(' Popen   ' + str(LOGLEVELDEBUG) + '#########' + str(argumentList) )
                 proc=subprocess.Popen(argumentList)
                 proc.communicate()
             else:
@@ -963,6 +974,9 @@ def turndevicerelais(nummer, zustand,ueberschussberechnung,updatecnt):
             if os.path.isfile( pyname  ):
                 argumentList[1] = pyname
                 argumentList[5] = device_ausschalturl
+                logDebug(LOGLEVELDEBUG, '#########' + str(argumentList) )
+                # log.info(' Popen   ' + str(LOGLEVELDEBUG) + '#########' + str(argumentList) )
+                # print(' Popen   ' + str(LOGLEVELDEBUG) + '#########' + str(argumentList) )
                 proc=subprocess.Popen(argumentList)
                 proc.communicate()
                 logDebug(LOGLEVELINFO, "(" + str(nummer) + ") " + str(devicename) + " ausgeschaltet")
@@ -1161,10 +1175,10 @@ def conditions(nummer):
                             turndevicerelais(nummer, 0,0,1)
                             return
                         else:
-                            logDebug(LOGLEVELINFO,"(" + str(nummer) + ") " + str(name)  + " Mindesteinschaltdauer erreicht, setze Ausschaltschwelle auf 0")
-                            ausverz = 0
-                            if (ausschwelle < 0):
-                                ausschwelle = 0
+                        	logDebug(LOGLEVELINFO,"(" + str(nummer) + ") " + str(name)  + " Mindesteinschaltdauer erreicht, setze Ausschaltschwelle auf 0")
+                        	ausverz = 0
+                        	if (ausschwelle < 0):
+                            	  ausschwelle = 0
                     else:
                         logDebug(LOGLEVELINFO,"(" + str(nummer) + ") " + str(name)  + " Mindesteinschaltdauer nicht erreicht, " + str(mineinschaltdauer) + " > " + str(timestart))
                 else:
@@ -1173,10 +1187,10 @@ def conditions(nummer):
                         turndevicerelais(nummer, 0,0,1)
                         return
                     else:
-                        logDebug(LOGLEVELINFO,"(" + str(nummer) + ") " + str(name)+ " Mindesteinschaltdauer nicht bekannt,setze Ausschaltschwelle auf 0")
-                        ausverz = 0
-                        if (ausschwelle < 0):
-                            ausschwelle = 0
+                    	logDebug(LOGLEVELINFO,"(" + str(nummer) + ") " + str(name)+ " Mindesteinschaltdauer nicht bekannt,setze Ausschaltschwelle auf 0")
+                    	ausverz = 0
+                    	if (ausschwelle < 0):
+                        	ausschwelle = 0
             else:
                 logDebug(LOGLEVELDEBUG,"(" + str(nummer) + ") " + str(name) + " Ladung läuft nicht, pruefe weiter")
         else:
@@ -1361,12 +1375,16 @@ def resetmaxeinschaltdauerfunc():
     if (int(hour) == 1):
         resetmaxeinschaltdauer=0
 
+# Main
+
 client = mqtt.Client("openWB-mqttsmarthome")
 client.on_connect = on_connect
 client.on_message = on_message
 startTime = time.time()
 waitTime = 5
 client.connect("localhost")
+logDebug(LOGLEVELINFO, "mqtt.client connected")
+
 while True:
     client.loop()
     #client.subscribe("openWB/SmartHome/#", 2)

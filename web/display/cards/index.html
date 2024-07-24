@@ -1,3 +1,12 @@
+<?php function getdateurl($scriptdir,$filedir,$file) 
+   {
+   			$sn=sprintf('%s%s', $scriptdir,$file);
+   			$fn=sprintf('%s%s', $filedir,$file);
+			$ftime=filemtime($fn);
+			//return sprintf('%s?z=%d&fn=%s' , $sn,$ftime,$fn);
+			return sprintf('%s?z=%d' , $sn,$ftime);
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 	<head>
@@ -31,7 +40,7 @@
 					<i class="fas fa-lock text-success h4"></i>
 					<i class="fas fa-unlock text-danger h4 hide"></i>
 				</div>
-			</div><h4 class="devicename col text-center text-light">openwb</h4>
+			</div>
 			<hr class="border-info mt-1">
 			<!-- nav elements -->
 			<a class="btn btn-outline-info btn-toggle active" href="#dashboard" onclick="return false;">Dashboard</a>
@@ -166,6 +175,7 @@
 								Ladepunkt 1
 							</div>
 							<div class="col-3 text-center bg-dark" style="border-radius: 5px;">
+								<!-- span class="fas fa hide autolockConfiguredLp"></span> -->
 								<span class="fa fa fa-plug hide text-orange plugstatLp"></span>
 								<span class="fa fa fa-flag-checkered hide targetChargingLp"></span>
 								<span class="fa fa fa-moon hide nightChargingLp"></span>
@@ -183,9 +193,7 @@
 										<span class="targetCurrentLp"></span>
 									</div>
 									<div class="col text-right socConfiguredLp">
-										<i class="manualSocSymbol fas fa-edit hide"></i>
-										<i class="socHasError hide text-red fas fa-exclamation-triangle"></i>
-										<i class="socSymbol fas fa-car-battery"></i> <span class="socLp">--</span>
+										<i class="manualSocSymbol fas fa-edit hide"></i><i class="socSymbol fas fa-car-battery"></i> <span class="socLp">--</span>
 									</div>
 								</div>
 								<div class="form-row mb-1">
@@ -229,6 +237,7 @@
 							</div>
 							<!-- chargepoint info section -->
 							<div class="col-3 text-center bg-dark" style="border-radius: 5px;">
+								<!-- span class="fas fa hide autolockConfiguredLp"></span -->
 								<span class="fa fa fa-plug hide text-orange plugstatLp"></span>
 								<span class="fa fa fa-flag-checkered hide targetChargingLp"></span>
 								<span class="fa fa fa-moon hide nightChargingLp"></span>
@@ -247,9 +256,7 @@
 										<span class="targetCurrentLp"></span>
 									</div>
 									<div class="col text-right socConfiguredLp">
-										<i class="manualSocSymbol fas fa-edit hide"></i>
-										<i class="socHasError hide text-red fas fa-exclamation-triangle"></i>
-										<i class="socSymbol fas fa-car-battery"></i> <span class="socLp">--</span>
+										<i class="manualSocSymbol fas fa-edit hide"></i><i class="socSymbol fas fa-car-battery"></i> <span class="socLp">--</span>
 									</div>
 								</div>
 								<div class="form-row mb-1">
@@ -292,6 +299,7 @@
 								Ladepunkt 3
 							</div>
 							<div class="col-3 text-center bg-dark" style="border-radius: 5px;">
+								<!-- span class="fas fa hide autolockConfiguredLp"></span -->
 								<span class="fa fa fa-plug hide text-orange plugstatLp"></span>
 								<span class="fa fa fa-flag-checkered hide targetChargingLp"></span>
 								<span class="fa fa fa-moon hide nightChargingLp"></span>
@@ -1616,9 +1624,9 @@
 					// some helper functions
 					'display/cards/helperFunctions.js?ver=20210113',
 					// functions for processing messages
-					'display/cards/processAllMqttMsg.js?ver=20230102',
+					'display/cards/processAllMqttMsg.js?ver=20210301',
 					// functions performing mqtt and start mqtt-service
-					'display/cards/setupMqttServices.js?ver=20230102',
+					'display/cards/setupMqttServices.js?ver=20210301',
 				];
 
 				scriptsToLoad.forEach(function(src) {

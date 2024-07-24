@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -34,18 +43,18 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
 	</head>
 
 	<body>
 
-		<?php
+	<?php
 			$lines = file($_SERVER['DOCUMENT_ROOT'] . '/openWB/openwb.conf');
 			foreach($lines as $line) {
 				list($key, $value) = explode("=", $line, 2);
 				${$key."old"} = trim( $value, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes
 			}
-		?>
+	?>
 		<script>
 		  var debugold=<?php echo $debugold;?>;
 		  console.log('openWB debug aus openwb.conf:',debugold);
@@ -72,40 +81,42 @@
 										<option <?php if($speichermodulold == "speicher_mpm3pm") echo "selected" ?> value="speicher_mpm3pm">openWB Speicher Kit</option>
 									</optgroup>
 									<optgroup label="andere Hersteller">
-							<!--		<option <?php if($speichermodulold == "speicher_alphaess") echo "selected" ?> value="speicher_alphaess">Alpha ESS</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_bydhv") echo "selected" ?> value="speicher_bydhv">BYD</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_e3dc") echo "selected" ?> value="speicher_e3dc">E3DC Speicher</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_fronius") echo "selected" ?> value="speicher_fronius">Fronius Speicher (Solar Battery oder BYD HV/HVS/HVM)</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_kostalplenticore") echo "selected" ?> value="speicher_kostalplenticore">Kostal Plenticore mit Speicher</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_lgessv1") echo "selected" ?> value="speicher_lgessv1">LG ESS 1.0VI</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_fems") echo "selected" ?> value="speicher_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option> -->
+										<option <?php if($speichermodulold == "speicher_alphaess") echo "selected" ?> value="speicher_alphaess">Alpha ESS</option>
+										<option <?php if($speichermodulold == "speicher_bydhv") echo "selected" ?> value="speicher_bydhv">BYD</option>
+										<option <?php if($speichermodulold == "speicher_e3dc") echo "selected" ?> value="speicher_e3dc">E3DC Speicher</option>
+										<option <?php if($speichermodulold == "speicher_huawei") echo "selected" ?> value="speicher_huawei">Huawei</option>
+										<option <?php if($speichermodulold == "speicher_fronius") echo "selected" ?> value="speicher_fronius">Fronius Speicher (Solar Battery oder BYD HV/HVS/HVM)</option>
+										<option <?php if($speichermodulold == "speicher_kostalplenticore") echo "selected" ?> value="speicher_kostalplenticore">Kostal Plenticore mit Speicher</option>
+										<option <?php if($speichermodulold == "speicher_lgessv1") echo "selected" ?> value="speicher_lgessv1">LG ESS 1.0VI</option>
+										<option <?php if($speichermodulold == "speicher_fems") echo "selected" ?> value="speicher_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option>
 										<option <?php if($speichermodulold == "speicher_rct") echo "selected" ?> value="speicher_rct">RCT</option>
 										<option <?php if($speichermodulold == "speicher_rct2") echo "selected" ?> value="speicher_rct2">RCT V.2</option>
 										<option <?php if($speichermodulold == "speicher_rct2h") echo "selected" ?> value="speicher_rct2h">RCT V.2h</option>
-							<!--		<option <?php if($speichermodulold == "speicher_siemens") echo "selected" ?> value="speicher_siemens">Siemens</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_sbs25") echo "selected" ?> value="speicher_sbs25">SMA Sunny Boy Storage</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_sunnyisland") echo "selected" ?> value="speicher_sunnyisland">SMA Sunny Island</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_solaredge") echo "selected" ?> value="speicher_solaredge">Solaredge Speicher</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_solarwatt") echo "selected" ?> value="speicher_solarwatt">Solarwatt My Reserve</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_solax") echo "selected" ?> value="speicher_solax">Solax Speicher</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_sonneneco") echo "selected" ?> value="speicher_sonneneco">Sonnen eco</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_studer") echo "selected" ?> value="speicher_studer">Studer-Innotec System</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_sungrow") echo "selected" ?> value="speicher_sungrow">Sungrow Hybrid</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_powerwall") echo "selected" ?> value="speicher_powerwall">Tesla Powerwall</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_tesvoltsma") echo "selected" ?> value="speicher_tesvoltsma">Tesvolt mit SMA</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_varta") echo "selected" ?> value="speicher_varta">Varta Element u.a.</option> -->
-							<!--		<option <?php if($speichermodulold == "speicher_victron") echo "selected" ?> value="speicher_victron">Victron Speicher (GX o.ä.)</option> -->
+										<option <?php if($speichermodulold == "speicher_saxpower") echo "selected" ?> value="speicher_saxpower">Saxpower</option>
+										<option <?php if($speichermodulold == "speicher_siemens") echo "selected" ?> value="speicher_siemens">Siemens</option>
+										<option <?php if($speichermodulold == "speicher_sbs25") echo "selected" ?> value="speicher_sbs25">SMA Sunny Boy Storage</option>
+										<option <?php if($speichermodulold == "speicher_sunnyisland") echo "selected" ?> value="speicher_sunnyisland">SMA Sunny Island</option>
+										<option <?php if($speichermodulold == "speicher_solaredge") echo "selected" ?> value="speicher_solaredge">Solaredge Speicher</option>
+										<option <?php if($speichermodulold == "speicher_solarwatt") echo "selected" ?> value="speicher_solarwatt">Solarwatt My Reserve</option>
+										<option <?php if($speichermodulold == "speicher_solax") echo "selected" ?> value="speicher_solax">Solax Speicher</option>
+										<option <?php if($speichermodulold == "speicher_sonneneco") echo "selected" ?> value="speicher_sonneneco">Sonnen eco</option>
+										<option <?php if($speichermodulold == "speicher_studer") echo "selected" ?> value="speicher_studer">Studer-Innotec System</option>
+										<option <?php if($speichermodulold == "speicher_sungrow") echo "selected" ?> value="speicher_sungrow">Sungrow Hybrid</option>
+										<option <?php if($speichermodulold == "speicher_powerwall") echo "selected" ?> value="speicher_powerwall">Tesla Powerwall</option>
+										<option <?php if($speichermodulold == "speicher_tesvoltsma") echo "selected" ?> value="speicher_tesvoltsma">Tesvolt mit SMA</option>
+										<option <?php if($speichermodulold == "speicher_varta") echo "selected" ?> value="speicher_varta">Varta Element u.a.</option>
+										<option <?php if($speichermodulold == "speicher_victron") echo "selected" ?> value="speicher_victron">Victron Speicher (GX o.ä.)</option>
 									</optgroup>
 									<optgroup label="generische Module">
 										<option <?php if($speichermodulold == "speicher_http") echo "selected" ?> value="speicher_http">HTTP Abfrage</option>
-										<option <?php if($speichermodulold == "speicher_json") echo "selected" ?> value="speicher_json">JSON Abfrage BETA!!!!</option>
+										<option <?php if($speichermodulold == "speicher_json") echo "selected" ?> value="speicher_json">JSON Abfrage</option>
 										<option <?php if($speichermodulold == "mpm3pmspeicher") echo "selected" ?> value="mpm3pmspeicher">MPM3PM</option>
 										<option <?php if($speichermodulold == "speicher_mqtt") echo "selected" ?> value="speicher_mqtt">MQTT</option>
 									</optgroup>
 								</select>
 							</div>
 						</div>
-<!--
+
 						<div id="divspeicherlgessv1" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -138,7 +149,7 @@
 								</div>
 							</div>
 						</div>
--->
+
 						<div id="divspeicherkit" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -188,30 +199,33 @@
 							</div>
 -->
 							<script>
-								// function visibility_solarwatt_ip2() {
-								// 	if($('#solarwattmethod1').prop("checked")) {
-								// 		hideSection('#divspeicherip2');
-								// 	} else {
-								// 		showSection('#divspeicherip2');
-								// 	}
-								// }
+								function visibility_solarwatt_ip2() {
+									if($('#solarwattmethod1').prop("checked")) {
+										hideSection('#divspeicherip2');
+									} else {
+										showSection('#divspeicherip2');
+									}
+								}
 								
-								// $(function() {	
-								// 	$('input[type=radio][name=solarwattmethod]').change(function(){
-								// 		visibility_solarwatt_ip2();
-								// 	});
-								// });
+								$(function() {	
+									$('input[type=radio][name=solarwattmethod]').change(function(){
+										visibility_solarwatt_ip2();
+									});
+								});
 							</script>
 						</div>
 
-<!--
 						<div id="divspeichervictron" class="hide">
 							<div class="alert alert-info">
 								Konfiguration im Bezug Victron Modul.
 							</div>
 						</div>
--->
-<!--
+						<div id="divspeicherhuawei" class="hide">
+							<div class="alert alert-info">
+								Konfiguration im PV Huawei Modul.
+							</div>
+						</div>
+
 						<div id="divspeicherstuder" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -226,8 +240,7 @@
 								Hier bitte die IP Adresse des ModbusGateway's eintragen.
 							</div>
 						</div>
--->
-<!--						
+						
 						<div id="divspeicherfems" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -241,7 +254,7 @@
 								</div>
 							</div>
 						</div>
--->
+
 						<div id="divspeicherip" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -265,27 +278,26 @@
 								</div>
 							</div>
 						</div>
-<!--
+
 						<div id="divspeichersiemens" class="hide">
 							<div class="alert alert-info">
 								Im Siemens Speicher muss als Schnittstelle <span class="text-info">openWB</span> gewählt werden.
 							</div>
 						</div>
--->
-<!--
+
 						<div id="divspeichersungrow" class="hide">
 							<div class="alert alert-info">
 								Es muss Sungrow als PV und EVU Modul gewählt werden.
 							</div>
 						</div>
--->
+
 						<div id="divspeicherrct" class="hide">
 							<div class="alert alert-info">
 								RCT Power AC/DC Wechselrichter<br>
 								IP-Konfiguration im zugehörigen EVU Modul.
 							</div>
 						</div>
-
+						
 						<div id="divspeicherrct2" class="hide">
 							<div class="card-header bg-secondary">
 								RCT Speicher Hardware
@@ -301,7 +313,7 @@
 										} 
 										else if( $wattbezugmodulold == "bezug_rct2h"  && $speichermodulold == "speicher_rct2h" && isset($bezug1_ipold) ) {
 											$lines=[];
-											exec('/var/www/html/openWB/modules/bezug_rct2h/info.sh', $lines);
+											exec('/var/www/html/openWB/modules/speicher_rct2h/info.sh', $lines);
 											echo implode('<br>',$lines);
 										} else echo "<span class=\"text-warning text-center\">Kein RCT V2 Speicher-Module konfiguriert.</span>";
 										?></pre>
@@ -309,8 +321,7 @@
 								</div>
 							</div>
 			 			</div>
-						
-<!--
+
 						<div id="divspeichervarta" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -318,6 +329,13 @@
 									<div class="col">
 										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="vartaspeicherip" id="vartaspeicherip" value="<?php echo $vartaspeicheripold ?>">
 										<span class="form-text small">Gültige Werte IP Adresse im Format: 192.168.0.12</span>
+									</div>
+								</div>
+								<div class="form-row mb-1">
+									<label for="vartaspeicher2ip" class="col-md-4 col-form-label">IP Adresse des zweiten Speichers</label>
+									<div class="col">
+										<input class="form-control" type="text" name="vartaspeicher2ip" id="vartaspeicher2ip" value="<?php echo $vartaspeicher2ipold ?>">
+										<span class="form-text small">Gültige Werte IP Adresse im Format: 192.168.0.12, wenn nicht vorhanden none eintragen</span>
 									</div>
 								</div>
 								<div class="form-row mb-1">
@@ -332,8 +350,7 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
+
 						<div id="divspeicheralphaess" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -347,8 +364,7 @@
 								</div>
 							</div>
 						</div>
---->
-<!--
+
 						<div id="divspeicherpw" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -384,8 +400,7 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
+
 						<div id="divspeicherseco" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -406,16 +421,15 @@
 										<span class="form-text small">
 											Je nach Sonnen Batterie muss die richtige Datenverbindung ausgewählt werden.
 											Folgende URLs werden zum Abruf der Daten genutzt und können auch manuell über einen Browser abgefragt werden, um die richtige Einstellung zu finden:<br>
-											Rest-API 1: <a class="api-link" href="" target="_blank" rel="noopener noreferrer" data-template="http://[ip]:7979/rest/devices/battery"></a><br>
-											Rest-API 2: <a class="api-link" href="" target="_blank" rel="noopener noreferrer" data-template="http://[ip]:7979/rest/devices/battery/M05"></a><br>
-											JSON-API: <a class="api-link" href="" target="_blank" rel="noopener noreferrer" data-template="http://[ip]/api/v1/status"></a>
+											Rest-API 1: [ip]:7979/rest/devices/battery<br>
+											Rest-API 2: [ip]:7979/rest/devices/battery/M05<br>
+											JSON-API: [ip]/api/v1/status
 										</span>
 									</div>
 								</div>
 							</div>
 						</div>
--->
-<!--
+
 						<div id="divspeichere3dc" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -446,7 +460,7 @@
 								</div>
 							</div>
 						</div>
--->
+
 						<div id="divspeichersbs25" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -459,7 +473,6 @@
 							</div>
 						</div>
 
-<!--
 						<div id="divspeichersunnyisland" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -471,8 +484,7 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
+
 						<div id="divspeichersolaredge" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -498,29 +510,26 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
+
 						<div id="divspeichersolax" class="hide">
 							<div class="alert alert-info">
 								Die IP des Wechselrichters wird im dazugehörigen Solax PV-Modul eingestellt.
 							</div>
 						</div>
--->
-<!--
+
 						<div id="divspeicherplenti" class="hide">
 							<div class="alert alert-info">
 								Ein am 1. Kostal Plenticore angeschlossener Speicher setzt einen EM300/KSEM voraus.
 								Nach entsprechender Auswahl im Strombezugsmessmodul und Konfiguration der IP des WR im PV-Modul erfolgt das Auslesen des Speichers über den WR ohne weitere Einstellungen.
 							</div>
 						</div>
--->						
-<!--
+
 						<div id="divspeicherfronius" class="hide">
 							<div class="alert alert-info">
 								Die IP des Wechselrichters wird im dazugehörigen Fronius PV-Modul eingestellt.
 							</div>
 						</div>
--->
+
 						<div id="divspeicherhttp" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -600,9 +609,17 @@
 							</div>
 						</div>
 
-<!--
 						<div id="divspeicherbydhv" class="hide">
 							<div class="form-group">
+								<div class="form-row mb-1">
+									<div class="col-md-4">
+									</div>
+									<div class="col">
+										<span class="form-text small">
+											Ist der BYD-Speicher am Kostal Plenticore angebunden, ist in diesem Fall das Batteriespeicher-Modul "Kostal Plenticore mit Speicher" auszuwählen. Der WR stellt alle Daten der angeschlossenen Batterie bereit.
+										</span>
+									</div>
+								</div>
 								<div class="form-row mb-1">
 									<label for="bydhvuser" class="col-md-4 col-form-label">Benutzername</label>
 									<div class="col">
@@ -628,7 +645,7 @@
 								</div>
 							</div>
 						</div>
--->
+
 						<div id="divspeichermpm3pm" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -668,37 +685,38 @@
 
 						<script>
 							function display_speichermodul() {
+								hideSection('#divspeichermqtt');
 								hideSection('#divspeicherhttp');
 								hideSection('#divspeichermpm3pm');
-								//hideSection('#divspeicherbydhv');
-								//hideSection('#divspeicherfronius');
-								//hideSection('#divspeichere3dc');
-								//hideSection('#divspeichersbs25');
-								//hideSection('#divspeichersolaredge');
-								//hideSection('#divspeichersolax');
+								hideSection('#divspeicherbydhv');
+								hideSection('#divspeicherfronius');
+								hideSection('#divspeichere3dc');
+								hideSection('#divspeichersbs25');
+								hideSection('#divspeichersolaredge');
+								hideSection('#divspeichersolax');
 								hideSection('#divspeicherpw');
-								//hideSection('#divspeicherplenti');
-								//hideSection('#divspeichersunnyisland');
+								hideSection('#divspeicherplenti');
+								hideSection('#divspeichersunnyisland');
 								hideSection('#divspeicherseco');
 								hideSection('#divspeicherkit');
-								//hideSection('#divspeichervarta');
-                        	    //hideSection('#divspeicheralphaess');  
-								//hideSection('#divspeichervictron');
-								//hideSection('#divspeicherstuder');
-								//hideSection('#divspeicherlgessv1'); 
- 							   // hideSection('#divspeicherfems'); 
+								hideSection('#divspeichervarta');
+								hideSection('#divspeicheralphaess');
+								hideSection('#divspeichervictron');
+								hideSection('#divspeicherstuder');
+								hideSection('#divspeicherlgessv1');
+								hideSection('#divspeicherfems');
 								hideSection('#divspeicherip');
-								//hideSection('#divspeichersiemens');
+								hideSection('#divspeichersiemens');
 								hideSection('#divspeicherrct');
 								hideSection('#divspeicherrct2');
-								//hideSection('#divspeichersungrow');
+								hideSection('#divspeichersungrow');
 								hideSection('#divspeicherjson');
-								//hideSection('#divspeichersolarwatt');
+								hideSection('#divspeichersolarwatt');
 								hideSection('#divspeicherip2');
-
-								//if($('#speichermodul').val() == 'speicher_fems') {
-								//	showSection('#divspeicherfems');
-								//}
+								hideSection('#divspeicherhuawei');
+								if($('#speichermodul').val() == 'speicher_fems') {
+									showSection('#divspeicherfems');
+								}
 								if($('#speichermodul').val() == 'speicher_rct') {
 									showSection('#divspeicherrct');
 								}
@@ -710,40 +728,47 @@
 									showSection('#divspeicherrct');
 									showSection('#divspeicherrct2');
 								}
-								//if($('#speichermodul').val() == 'speicher_siemens') {
-								//	showSection('#divspeicherip');
-								//	showSection('#divspeichersiemens');
-								//}
-								//if($('#speichermodul').val() == 'speicher_solarwatt') {
-								//	showSection('#divspeichersolarwatt');
-								//	showSection('#divspeicherip');
-								//	visibility_solarwatt_ip2();
-								//}
-								//if($('#speichermodul').val() == 'speicher_tesvoltsma') {
-								//	showSection('#divspeicherip');
-								//}
-								//if($('#speichermodul').val() == 'speicher_sungrow') {
-								//	showSection('#divspeicherip');
-								//	showSection('#divspeichersungrow');
-								//}
-//								if($('#speichermodul').val() == 'speicher_alphaess') {
-//									showSection('#divspeicheralphaess');
-//								}
+								if($('#speichermodul').val() == 'speicher_siemens') {
+									showSection('#divspeicherip');
+									showSection('#divspeichersiemens');
+								}
+								if($('#speichermodul').val() == 'speicher_solarwatt') {
+									showSection('#divspeichersolarwatt');
+									showSection('#divspeicherip');
+									visibility_solarwatt_ip2();
+								}
+								if($('#speichermodul').val() == 'speicher_tesvoltsma') {
+									showSection('#divspeicherip');
+								}
+								if($('#speichermodul').val() == 'speicher_saxpower') {
+									showSection('#divspeicherip');
+								}
+
+								if($('#speichermodul').val() == 'speicher_sungrow') {
+									showSection('#divspeicherip');
+									showSection('#divspeichersungrow');
+								}
+								if($('#speichermodul').val() == 'speicher_alphaess') {
+									showSection('#divspeicheralphaess');
+								}
 								if($('#speichermodul').val() == 'speicher_mqtt') {
 									showSection('#divspeichermqtt');
 								}
-								//if($('#speichermodul').val() == 'speicher_victron') {
-								//	showSection('#divspeichervictron');
-								//}
-								//if($('#speichermodul').val() == 'speicher_studer') {
-								//	showSection('#divspeicherstuder');
-								//}
+								if($('#speichermodul').val() == 'speicher_victron') {
+									showSection('#divspeichervictron');
+								}
+								if($('#speichermodul').val() == 'speicher_huawei') {
+									showSection('#divspeicherhuawei');
+								}
+								if($('#speichermodul').val() == 'speicher_studer') {
+									showSection('#divspeicherstuder');
+								}
 								if($('#speichermodul').val() == 'speicher_mpm3pm') {
 									showSection('#divspeicherkit');
 								}
-								//if($('#speichermodul').val() == 'speicher_sonneneco') {
-								//	showSection('#divspeicherseco');
-								//}
+								if($('#speichermodul').val() == 'speicher_sonneneco') {
+									showSection('#divspeicherseco');
+								}
 								if($('#speichermodul').val() == 'speicher_http')   {
 									showSection('#divspeicherhttp');
 								}
@@ -753,39 +778,39 @@
 								if($('#speichermodul').val() == 'mpm3pmspeicher')   {
 									showSection('#divspeichermpm3pm');
 								}
-								//if($('#speichermodul').val() == 'speicher_bydhv')   {
-								//	showSection('#divspeicherbydhv');
-								//}
-								//if($('#speichermodul').val() == 'speicher_fronius')   {
-								//	showSection('#divspeicherfronius');
-								//}
-								//if($('#speichermodul').val() == 'speicher_e3dc')   {
-								//	showSection('#divspeichere3dc');
-								//}
-								//if($('#speichermodul').val() == 'speicher_sbs25')   {
-								//	showSection('#divspeichersbs25');
-								//}
-								//if($('#speichermodul').val() == 'speicher_solaredge')   {
-								//	showSection('#divspeichersolaredge');
-								//}
-								//if($('#speichermodul').val() == 'speicher_solax')   {
-								//	showSection('#divspeichersolax');
-								//}
-								//if($('#speichermodul').val() == 'speicher_varta')   {
-								//	showSection('#divspeichervarta');
-								//}
-								//if($('#speichermodul').val() == 'speicher_powerwall')   {
-								//	showSection('#divspeicherpw');
-								//}
-								//if($('#speichermodul').val() == 'speicher_kostalplenticore')   {
-								//	showSection('#divspeicherplenti');
-								//}
-								//if($('#speichermodul').val() == 'speicher_sunnyisland')   {
-								//	showSection('#divspeichersunnyisland');
-								//}
-								//if($('#speichermodul').val() == 'speicher_lgessv1')   {
-								//	showSection('#divspeicherlgessv1');
-								//}
+								if($('#speichermodul').val() == 'speicher_bydhv')   {
+									showSection('#divspeicherbydhv');
+								}
+								if($('#speichermodul').val() == 'speicher_fronius')   {
+									showSection('#divspeicherfronius');
+								}
+								if($('#speichermodul').val() == 'speicher_e3dc')   {
+									showSection('#divspeichere3dc');
+								}
+								if($('#speichermodul').val() == 'speicher_sbs25')   {
+									showSection('#divspeichersbs25');
+								}
+								if($('#speichermodul').val() == 'speicher_solaredge')   {
+									showSection('#divspeichersolaredge');
+								}
+								if($('#speichermodul').val() == 'speicher_solax')   {
+									showSection('#divspeichersolax');
+								}
+								if($('#speichermodul').val() == 'speicher_varta')   {
+									showSection('#divspeichervarta');
+								}
+								if($('#speichermodul').val() == 'speicher_powerwall')   {
+									showSection('#divspeicherpw');
+								}
+								if($('#speichermodul').val() == 'speicher_kostalplenticore')   {
+									showSection('#divspeicherplenti');
+								}
+								if($('#speichermodul').val() == 'speicher_sunnyisland')   {
+									showSection('#divspeichersunnyisland');
+								}
+								if($('#speichermodul').val() == 'speicher_lgessv1')   {
+									showSection('#divspeicherlgessv1');
+								}
 							}
 
 							$(function() {
@@ -868,8 +893,6 @@
 			// wizzard specific code
 			$(document).ready(function(){
 
-                $('.devicename').text("<?php echo trim($devicenameold); ?>");
-
 				$('#abortWizzardBtn').on("click",function() {
 					$('#abortWizzardConfirmationModal').modal();
 				});
@@ -878,8 +901,7 @@
 				$('#abortWizzardConfirmationBtn').on("click",function() {
 					$('#wizzarddoneForm').submit();
 				});
-              display_speichermodul();
-								
+
 			});
 
 			var wizzarddone = <?php if(isset($wizzarddoneold)){ echo $wizzarddoneold; } else { echo 100; } ?>

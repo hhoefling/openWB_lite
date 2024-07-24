@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+
 if [ -n "$bezug1_ip" ]; then
   opt=""
 else

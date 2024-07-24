@@ -8,7 +8,7 @@ cd /var/www/html/openWB || exit
 #TEST=echo
 
 if [[ $debug == "2" ]]; then
-	echo "Checking for MQTT bridge configs"
+    echo "Checking for MQTT bridge configs"
 fi
 
 # constant settings
@@ -18,9 +18,9 @@ sudo=sudo
 
 # perform the actual installation of a single config
 function InstallConfig {
-	configToInstall=$1
-	configFileNameToInstall=${configToInstall#ramdisk/}
-	echo "Installing or updating bridge config '$configToInstall' in Mosquitto '$mosquittoConfDir'";
+    configToInstall=$1
+    configFileNameToInstall=${configToInstall#ramdisk/}
+    echo "Installing or updating bridge config '$configToInstall' in Mosquitto '$mosquittoConfDir'";
 	$TEST $sudo mv -v "$configToInstall" "$mosquittoConfDir/$configFileNameToInstall"
 	$TEST $sudo chown mosquitto.www-data "$mosquittoConfDir/$configFileNameToInstall"
 	$TEST $sudo chmod 0660 "$mosquittoConfDir/$configFileNameToInstall"
@@ -28,11 +28,11 @@ function InstallConfig {
 
 # tell Mosquitto to re-read its configuration
 function TriggerMosquittoConfigRead {
-	if [[ $debug == "1" ]]; then
-		echo "Restarting Mosquitto server to trigger re-read of changed bridge config (SIGHUP would not remove deleted bridges)"
-	fi
+    if [[ $debug == "1" ]]; then
+        echo "Restarting Mosquitto server to trigger re-read of changed bridge config (SIGHUP would not remove deleted bridges)"
+    fi
 
-	# $TEST $sudo service mosquitto restart
+    # $TEST $sudo service mosquitto restart
 	# sometimes the ports were still blocked on restart causing mosquitto to fail!
 	# so we explicitly stop and start with a short delay
 	$TEST $sudo service mosquitto stop
@@ -50,34 +50,34 @@ anyConfigChanged="0"
 
 # handle bridges to delete
 if [ -f $deleteFile ]; then
-	for currentConfig in $(<$deleteFile); do
-		if [[ $debug == "1" ]]; then
-			echo "Removing bridge '$currentConfig'"
-		fi
+    for currentConfig in $(<$deleteFile); do
+        if [[ $debug == "1" ]]; then
+            echo "Removing bridge '$currentConfig'"
+        fi
 		$TEST $sudo rm -v "$currentConfig"
-		anyConfigChanged="1"
-	done
+        anyConfigChanged="1"
+    done
 
-	$TEST $sudo rm -v $deleteFile
+    $TEST $sudo rm -v $deleteFile
 #else
-	# echo "No bridges to be deleted"
+    # echo "No bridges to be deleted"
 fi
 
 # handle bridges to install
 for currentConfig in ramdisk/99-bridge-*; do
-	if [ -f "$currentConfig" ]; then
-		if [[ $debug == "1" ]]; then
-			echo "Found bridge config '$currentConfig' for installation or update in Mosquitto '$mosquittoConfDir'"
-		fi
+    if [ -f "$currentConfig" ]; then
+        if [[ $debug == "1" ]]; then
+            echo "Found bridge config '$currentConfig' for installation or update in Mosquitto '$mosquittoConfDir'"
+        fi
 		InstallConfig "$currentConfig"
-		anyConfigChanged="1"
-	fi
+        anyConfigChanged="1"
+    fi
 done
 
 if [ "$anyConfigChanged" != "0" ]; then
-	TriggerMosquittoConfigRead
+    TriggerMosquittoConfigRead
 #else
-	# echo "No bridges to be installed/updated"
+    # echo "No bridges to be installed/updated"
 fi
 #force pushing all values in broker
 timeout 3 mosquitto_sub -v -h localhost -t "openWB/#" > /tmp/mqttvars

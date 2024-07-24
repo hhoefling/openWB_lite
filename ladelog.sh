@@ -1,15 +1,17 @@
 #!/bin/bash
 
+# s h ellcheck -x  --exclude=SC2086  ladelog.sh 2>&1
 
 # check if config file is already in env
-if [[ -z "$debug" ]]; then
-	cd /var/www/html/openWB
-	./loadconfig.sh
+if [[ -z $debug ]]; then
+	cd /var/www/html/openWB || exit 0
+    # shellcheck source=/var/www/html/openWB/openwb.conf
+	source loadconfig.sh
 	# ./helperFunctions.sh
 	openwbDebugLog()
 	{
 	  shift; shift;
-	  echo $*
+	  echo "$*"
 	}
 	openwbDebugLog "MAIN" 0 "Ladelog start"
 fi
@@ -19,33 +21,41 @@ ptx=0
 pt=0
 
 declare -F ptstart &>/dev/null || {
- ptstart()
- {
-   ptx=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
- }
- ptend()
- {
+
+ptstart()
+{
+  ptx=$(date +"%s%N")
+  ptx=$(( ptx / 1000 / 1000))
+}
+ptend()
+{
  local txt=${1:-}
  local max=${2:-200}
  local te
- te=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
+ te=$(date +"%s%N")
+ te=$(( te / 1000 / 1000 ))
  pt=$(( te - ptx))
  if (( pt > max ))  ; then
    openwbDebugLog "DEB" 1 "TIME **** ${txt} needs $pt ms. (max:$max)"
    openwbDebugLog "MAIN" 2 "TIME **** ${txt} needs $pt ms. (max:$max)"
+   #echo "TIME **** ${txt} needs $pt ms. (max:$max)"
  fi
- }
+}
+
 } 
 ############### profiling End
 
 ptstart 
 
+alog=""
 
 
 monthlyfile="web/logging/data/ladelog/$(date +%Y%m).csv"
-if [ ! -f $monthlyfile ]; then
-	echo $monthlyfile
+if [ ! -f "$monthlyfile" ]; then
+	openwbDebugLog "CHARGESTAT" 1 "create $monthlyfile"
+	echo "" >"$monthlyfile"
 fi
+#openwbDebugLog "CHARGESTAT" 1 "### start $monthlyfile"
 
 readonly SOFORT0=0
 readonly MINPV1=1
@@ -55,26 +65,24 @@ readonly STANDBY4=4
 readonly SUBMODE_NACHLADEN7=7
 
 
+# ladeleistung , Summe aller LP's
 read ladeleistung <ramdisk/llaktuell
 read llkwh <ramdisk/llkwh
 read soc <ramdisk/soc
 read soc1 <ramdisk/soc1
 read nachtladenstate <ramdisk/nachtladenstate
-read nachtladen2state  <ramdisk/nachtladen2state
+read nachtladen2state <ramdisk/nachtladen2state
 read rfidlp1 <ramdisk/rfidlp1
 rfidlp1=$( cut -d ',' -f 1 <<< "$rfidlp1" )     # Zeit vom Tag abtennen
 read rfidlp2 <ramdisk/rfidlp2
 rfidlp2=$( cut -d ',' -f 1 <<< "$rfidlp2" )		# Zeit vom Tag abtennen
 read rfidlp3 <ramdisk/rfidlp3
-rfidlp4="0" # $(<ramdisk/rfidlp4)
-rfidlp5="0" # $(<ramdisk/rfidlp5)
-rfidlp6="0" # $(<ramdisk/rfidlp6)
-rfidlp7="0" # $(<ramdisk/rfidlp7)
+rfidlp3=$( cut -d ',' -f 1 <<< "$rfidlp3" )		# Zeit vom Tag abtennen
 read soc1KM <ramdisk/soc1KM
 read soc2KM <ramdisk/soc2KM
 read soc3KM <ramdisk/soc3KM
-read soc1Range <ramdisk/soc1Range
-read soc2Range <ramdisk/soc2Range
+# read soc1Range <ramdisk/soc1Range
+# read soc2Range <ramdisk/soc2Range
 
 
 if (( nachtladenstate == 0 )) && (( nachtladen2state == 0 )); then # Weder Nachtladen (nachtladestate) noch  Morgens laden (nachtladen2state) aktiv? nutze lademodus.
@@ -87,14 +95,14 @@ if [ -e ramdisk/loglademodus ]; then
 	loglademodus=$lademodus
 fi
 if (( soc > 0 )); then
-	soctext=$(echo ", bei $soc %SoC")
+	soctext=", bei $soc %SoC"
 else
-	soctext=$(echo ".")
+	soctext="."
 fi
 if (( soc1 > 0 )); then
-	soctext1=$(echo ", bei $soc1 %SoC")
+	soctext1=", bei $soc1 %SoC"
 else
-	soctext1=$(echo ".")
+	soctext1="."
 fi
 
 
@@ -103,32 +111,34 @@ fi
 ###################
 read plugstat <ramdisk/plugstat
 if (( plugstat == 1 )); then
+	alog="pluged "
 	read pluggedladungaktlp1 <ramdisk/pluggedladungaktlp1
 	if (( pluggedladungaktlp1 == 0 )); then
-		echo $llkwh > ramdisk/pluggedladunglp1startkwh
-		echo 1 > ramdisk/pluggedladungaktlp1
+		echo "$llkwh" > ramdisk/pluggedladunglp1startkwh
+		echo "1" > ramdisk/pluggedladungaktlp1
 	fi
-	if (( stopchargeafterdisclp1 == 1 )); then
+	if (( xstopchargeafterdisclp1 == 1 )); then
 		read boolstopchargeafterdisclp1 <ramdisk/boolstopchargeafterdisclp1
 		if (( boolstopchargeafterdisclp1 == 0 )); then
-			echo 1 > ramdisk/boolstopchargeafterdisclp1
+			echo "1" > ramdisk/boolstopchargeafterdisclp1
 		fi
 	fi
 	read pluggedladunglp1startkwh <ramdisk/pluggedladunglp1startkwh
 	pluggedladungbishergeladen=$(echo "scale=2;($llkwh - $pluggedladunglp1startkwh)/1" |bc | sed 's/^\./0./')
-	echo $pluggedladungbishergeladen > ramdisk/pluggedladungbishergeladen
-	echo 0 > ramdisk/pluggedtimer1
+	echo "$pluggedladungbishergeladen" > ramdisk/pluggedladungbishergeladen
+	echo "0" > ramdisk/pluggedtimer1
 else
+	alog="unpluged "
 	read pluggedtimer1 <ramdisk/pluggedtimer1
 	if (( pluggedtimer1 < 3 )); then
 		pluggedtimer1=$((pluggedtimer1 + 1))
-		echo $pluggedtimer1 > ramdisk/pluggedtimer1
+		echo "$pluggedtimer1" > ramdisk/pluggedtimer1
 	else
-		echo 0 > ramdisk/pluggedladungaktlp1
+		echo "0" > ramdisk/pluggedladungaktlp1
 		if (( stopchargeafterdisclp1 == 1 )); then
 			read boolstopchargeafterdisclp1 <ramdisk/boolstopchargeafterdisclp1
 			if (( boolstopchargeafterdisclp1 == 1 )); then
-				echo 0 > ramdisk/boolstopchargeafterdisclp1
+				echo "0" > ramdisk/boolstopchargeafterdisclp1
 				mosquitto_pub -r -t "openWB/set/lp/1/ChargePointEnabled" -m "0"
 			fi
 		fi
@@ -136,17 +146,18 @@ else
 fi
 
 if (( ladeleistung > 100 )); then
+	alog="$alog >100 "
 	if [ -e ramdisk/ladeustart ]; then
-		read ladelstart=<ramdisk/ladelstart
+		read ladelstart <ramdisk/ladelstart
 		bishergeladen=$(echo "scale=2;($llkwh - $ladelstart)/1" |bc | sed 's/^\./0./')
-		echo $bishergeladen > ramdisk/aktgeladen
+		echo "$bishergeladen" > ramdisk/aktgeladen
 		gelrlp1=$(echo "scale=2;$bishergeladen / $durchslp1 * 100" |bc)
 		gelrlp1=${gelrlp1%.*}
-		echo $gelrlp1 > ramdisk/gelrlp1
+		echo "$gelrlp1" > ramdisk/gelrlp1
 		restzeitlp1=$(echo "scale=6;($lademkwh - $bishergeladen)/ $ladeleistung * 1000 * 60" |bc)
 		restzeitlp1=${restzeitlp1%.*}
-		echo $restzeitlp1 > ramdisk/restzeitlp1m
-		if (( restzeitlp1 > 60 )); then
+		echo "$restzeitlp1" > ramdisk/restzeitlp1m
+		if (( restzeitlp1 >= 60 )); then
 			restzeitlp1h=$((restzeitlp1 / 60))
 			restzeitlp1r=$((restzeitlp1 % 60))
 			echo "$restzeitlp1h H $restzeitlp1r Min" > ramdisk/restzeitlp1
@@ -154,12 +165,12 @@ if (( ladeleistung > 100 )); then
 			echo "$restzeitlp1 Min" > ramdisk/restzeitlp1
 		fi
 	else
-		echo 1 > ramdisk/ladungaktivlp1
+		echo "1" > ramdisk/ladungaktivlp1
 		touch ramdisk/ladeustart
-		echo -e $(date +%d.%m.%y-%H:%M) > ramdisk/ladeustart
-		echo -e $(date +%s) > ramdisk/ladeustarts
-		echo $lmodus > ramdisk/loglademodus
-		echo $llkwh > ramdisk/ladelstart
+		echo -e "$(date +%d.%m.%y-%H:%M)" > ramdisk/ladeustart
+		echo -e "$(date +%s)" > ramdisk/ladeustarts
+		echo "$lmodus" > ramdisk/loglademodus
+		echo "$llkwh" > ramdisk/ladelstart
 		if ((pushbenachrichtigung == "1")) ; then
 			if ((pushbstartl == "1")) ; then
 				./runs/pushover.sh "$lp1name Ladung gestartet$soctext"
@@ -167,28 +178,29 @@ if (( ladeleistung > 100 )); then
 		fi
 		openwbDebugLog "CHARGESTAT" 0 "LP1, Ladung gestartet."
 	fi
-	echo 0 > ramdisk/llog1
+	echo "0" > ramdisk/llog1
 else
+	alog="$alog <100 "
 	read llog1 <ramdisk/llog1
 	if (( llog1 < 5 )); then
 		llog1=$((llog1 + 1))
-		echo $llog1 > ramdisk/llog1
+		echo "$llog1" > ramdisk/llog1
 	else
 		if [ -e ramdisk/ladeustart ]; then
-			echo 0 > ramdisk/ladungaktivlp1
+			echo "0" > ramdisk/ladungaktivlp1
 			echo "--" > ramdisk/restzeitlp1
 			read ladelstart <ramdisk/ladelstart
 			read ladeustarts <ramdisk/ladeustarts
 			bishergeladen=$(echo "scale=2;($llkwh - $ladelstart)/1" |bc | sed 's/^\./0./')
 			read start <ramdisk/ladeustart
-			jetzt=$(date +%d.%m.%y-%H:%M)
-			jetzts=$(date +%s)
+			jetzt="$(date +%d.%m.%y-%H:%M)"
+			jetzts="$(date +%s)"
 			ladedauer=$(((jetzts - ladeustarts) / 60 ))
 			ladedauers=$((jetzts - ladeustarts))
 			ladegeschw=$(echo "scale=2;$bishergeladen * 60 * 60 / $ladedauers" |bc)
 			gelrlp1=$(echo "scale=2;$bishergeladen / $durchslp1 * 100" |bc)
 			gelrlp1=${gelrlp1%.*}
-			if (( ladedauer > 60 )); then
+			if (( ladedauer >= 60 )); then
 				ladedauerh=$((ladedauer / 60))
 				laderest=$((ladedauer % 60))
 				sed -i '1i'$start,$jetzt,$gelrlp1,$bishergeladen,$ladegeschw,$ladedauerh' H '$laderest' Min,1',$loglademodus,$rfidlp1,$soc1KM $monthlyfile
@@ -223,30 +235,30 @@ if (( lastmanagement == 1 )); then
 	if (( plugstatlp2 == 1 )); then
 		read pluggedladungaktlp2 <ramdisk/pluggedladungaktlp2
 		if (( pluggedladungaktlp2 == 0 )); then
-			echo $llkwhs1 > ramdisk/pluggedladunglp2startkwh
-			echo 1 > ramdisk/pluggedladungaktlp2
+			echo "$llkwhs1" > ramdisk/pluggedladunglp2startkwh
+			echo "1" > ramdisk/pluggedladungaktlp2
 		fi
 		read pluggedladunglp2startkwh <ramdisk/pluggedladunglp2startkwh
 		pluggedladungbishergeladenlp2=$(echo "scale=2;($llkwhs1 - $pluggedladunglp2startkwh)/1" |bc | sed 's/^\./0./')
-		echo $pluggedladungbishergeladenlp2 > ramdisk/pluggedladungbishergeladenlp2
-		echo 0 > ramdisk/pluggedtimer2
+		echo "$pluggedladungbishergeladenlp2" > ramdisk/pluggedladungbishergeladenlp2
+		echo "0" > ramdisk/pluggedtimer2
 		if (( stopchargeafterdisclp2 == 1 )); then
 			read boolstopchargeafterdisclp2 <ramdisk/boolstopchargeafterdisclp2
 			if (( boolstopchargeafterdisclp2 == 0 )); then
-				echo 1 > ramdisk/boolstopchargeafterdisclp2
+				echo "1" > ramdisk/boolstopchargeafterdisclp2
 			fi
 		fi
 	else
 		read pluggedtimer2 <ramdisk/pluggedtimer2
 		if (( pluggedtimer2 < 3 )); then
 			pluggedtimer2=$((pluggedtimer2 + 1))
-			echo $pluggedtimer2 > ramdisk/pluggedtimer2
+			echo "$pluggedtimer2" > ramdisk/pluggedtimer2
 		else
-			echo 0 > ramdisk/pluggedladungaktlp2
+			echo "0" > ramdisk/pluggedladungaktlp2
 			if (( stopchargeafterdisclp2 == 1 )); then
 				read boolstopchargeafterdisclp2 <ramdisk/boolstopchargeafterdisclp2
 				if (( boolstopchargeafterdisclp2 == 1 )); then
-					echo 0 > ramdisk/boolstopchargeafterdisclp2
+					echo "0" > ramdisk/boolstopchargeafterdisclp2
 					mosquitto_pub -r -t "openWB/set/lp/2/ChargePointEnabled" -m "0"
 				fi
 			fi
@@ -258,15 +270,15 @@ if (( lastmanagement == 1 )); then
 
 			read ladelstarts1 <ramdisk/ladelstarts1
 			bishergeladens1=$(echo "scale=2;($llkwhs1 - $ladelstarts1)/1" |bc | sed 's/^\./0./')
-			echo $bishergeladens1 > ramdisk/aktgeladens1
+			echo "$bishergeladens1" > ramdisk/aktgeladens1
 			gelrlp2=$(echo "scale=2;$bishergeladens1 / $durchslp2 * 100" |bc)
 			gelrlp2=${gelrlp2%.*}
-			echo $gelrlp2 > ramdisk/gelrlp2
+			echo "$gelrlp2" > ramdisk/gelrlp2
 			restzeitlp2=$(echo "scale=6;($lademkwhs1 - $bishergeladens1)/ $ladeleistungs1 * 1000 * 60" |bc)
 			restzeitlp2=${restzeitlp2%.*}
-			echo $restzeitlp2 > ramdisk/restzeitlp2m
+			echo "$restzeitlp2" > ramdisk/restzeitlp2m
 
-			if (( restzeitlp2 > 60 )); then
+			if (( restzeitlp2 >= 60 )); then
 				restzeitlp2h=$((restzeitlp2 / 60))
 				restzeitlp2r=$((restzeitlp2 % 60))
 				echo "$restzeitlp2h H $restzeitlp2r Min" > ramdisk/restzeitlp2
@@ -283,33 +295,33 @@ if (( lastmanagement == 1 )); then
 
 			echo 1 > ramdisk/ladungaktivlp2
 			touch ramdisk/ladeustarts1
-			echo $lmodus > ramdisk/loglademodus
-			echo -e $(date +%d.%m.%y-%H:%M) > ramdisk/ladeustarts1
-			echo -e $(date +%s) > ramdisk/ladeustartss1
-			echo $llkwhs1 > ramdisk/ladelstarts1
+			echo "$lmodus" > ramdisk/loglademodus
+			echo -e "$(date +%d.%m.%y-%H:%M)" > ramdisk/ladeustarts1
+			echo -e "$(date +%s)" > ramdisk/ladeustartss1
+			echo "$llkwhs1" > ramdisk/ladelstarts1
 		fi
-		echo 0 > ramdisk/llogs1
+		echo "0" > ramdisk/llogs1
 	else
 		read llogs1 <ramdisk/llogs1
 		if (( llogs1 < 5 )); then
 			llogs1=$((llogs1 + 1))
-			echo $llogs1 > ramdisk/llogs1
+			echo "$llogs1" > ramdisk/llogs1
 		else
 			if [ -e ramdisk/ladeustarts1 ]; then
-				echo 0 > ramdisk/ladungaktivlp2
+				echo "0" > ramdisk/ladungaktivlp2
 				echo "--" > ramdisk/restzeitlp2
 				read ladelstarts1 <ramdisk/ladelstarts1
 				read ladeustartss1 <ramdisk/ladeustartss1
 				bishergeladens1=$(echo "scale=2;($llkwhs1 - $ladelstarts1)/1" |bc | sed 's/^\./0./')
 				read starts1 <ramdisk/ladeustarts1
-				jetzts1=$(date +%d.%m.%y-%H:%M)
-				jetztss1=$(date +%s)
+				jetzts1="$(date +%d.%m.%y-%H:%M)"
+				jetztss1="$(date +%s)"
 				ladedauers1=$(((jetztss1 - ladeustartss1) / 60 ))
 				ladedauerss1=$((jetztss1 - ladeustartss1))
 				ladegeschws1=$(echo "scale=2;$bishergeladens1 * 60 * 60 / $ladedauerss1" |bc)
 				gelrlp2=$(echo "scale=2;$bishergeladens1 / $durchslp2 * 100" |bc)
 				gelrlp2=${gelrlp2%.*}
-				if (( ladedauers1 > 60 )); then
+				if (( ladedauers1 >= 60 )); then
 					ladedauerhs1=$((ladedauers1 / 60))
 					laderests1=$((ladedauers1 % 60))
 					sed -i '1i'$starts1,$jetzts1,$gelrlp2,$bishergeladens1,$ladegeschws1,$ladedauerhs1' H '$laderests1' Min,2',$loglademodus,$rfidlp2,$soc2KM $monthlyfile
@@ -345,31 +357,31 @@ if (( lastmanagements2 == 1 )); then
 	if (( plugstatlp3 == 1 )); then
 		read pluggedladungaktlp3 <ramdisk/pluggedladungaktlp3
 		if (( pluggedladungaktlp3 == 0 )); then
-			echo $llkwhs2 > ramdisk/pluggedladunglp3startkwh
-			echo 1 > ramdisk/pluggedladungaktlp3
+			echo "$llkwhs2" > ramdisk/pluggedladunglp3startkwh
+			echo "1" > ramdisk/pluggedladungaktlp3
 		fi
 		read pluggedladunglp3startkwh <ramdisk/pluggedladunglp3startkwh
 		pluggedladungbishergeladenlp3=$(echo "scale=2;($llkwhs2 - $pluggedladunglp3startkwh)/1" |bc | sed 's/^\./0./')
-		echo $pluggedladungbishergeladenlp3 > ramdisk/pluggedladungbishergeladenlp3
-		echo 0 > ramdisk/pluggedtimer3
+		echo "$pluggedladungbishergeladenlp3" > ramdisk/pluggedladungbishergeladenlp3
+		echo "0" > ramdisk/pluggedtimer3
 		if (( stopchargeafterdisclp3 == 1 )); then
 			read boolstopchargeafterdisclp3 <ramdisk/boolstopchargeafterdisclp3
 			if (( boolstopchargeafterdisclp3 == 0 )); then
-				echo 1 > ramdisk/boolstopchargeafterdisclp3
+				echo "1" > ramdisk/boolstopchargeafterdisclp3
 			fi
 		fi
 	else
 		read pluggedtimer3 <ramdisk/pluggedtimer3
 		if (( pluggedtimer3 < 3 )); then
 			pluggedtimer3=$((pluggedtimer3 + 1))
-			echo $pluggedtimer3 > ramdisk/pluggedtimer3
+			echo "$pluggedtimer3" > ramdisk/pluggedtimer3
 		else
-			echo 0 > ramdisk/pluggedladungaktlp3
+			echo "0" > ramdisk/pluggedladungaktlp3
 
 			if (( stopchargeafterdisclp3 == 1 )); then
 				read boolstopchargeafterdisclp3 <ramdisk/boolstopchargeafterdisclp3
 				if (( boolstopchargeafterdisclp3 == 1 )); then
-					echo 0 > ramdisk/boolstopchargeafterdisclp3
+					echo "0" > ramdisk/boolstopchargeafterdisclp3
 					mosquitto_pub -r -t "openWB/set/lp/3/ChargePointEnabled" -m "0"
 				fi
 			fi
@@ -381,14 +393,14 @@ if (( lastmanagements2 == 1 )); then
 
 			read ladelstarts2 <ramdisk/ladelstarts2
 			bishergeladens2=$(echo "scale=2;($llkwhs2 - $ladelstarts2)/1" |bc | sed 's/^\./0./')
-			echo $bishergeladens2 > ramdisk/aktgeladens2
+			echo "$bishergeladens2" > ramdisk/aktgeladens2
 			gelrlp3=$(echo "scale=2;$bishergeladens2 / $durchslp3 * 100" |bc)
 			gelrlp3=${gelrlp3%.*}
-			echo $gelrlp3 > ramdisk/gelrlp3
+			echo "$gelrlp3" > ramdisk/gelrlp3
 			restzeitlp3=$(echo "scale=6;($lademkwhs2 - $bishergeladens2)/ $ladeleistungs2 * 1000 * 60" |bc)
 			restzeitlp3=${restzeitlp3%.*}
-			echo $restzeitlp3 > ramdisk/restzeitlp3m
-			if (( restzeitlp3 > 60 )); then
+			echo "$restzeitlp3" > ramdisk/restzeitlp3m
+			if (( restzeitlp3 >= 60 )); then
 				restzeitlp3h=$((restzeitlp3 / 60))
 				restzeitlp3r=$((restzeitlp3 % 60))
 				echo "$restzeitlp3h H $restzeitlp3r Min" > ramdisk/restzeitlp3
@@ -403,36 +415,36 @@ if (( lastmanagements2 == 1 )); then
 			fi
 			openwbDebugLog "CHARGESTAT" 0 "LP3, Ladung gestartet"
 
-			echo 1 > ramdisk/ladungaktivlp3
+			echo "1" > ramdisk/ladungaktivlp3
 			touch ramdisk/ladeustarts2
-			echo $lmodus > ramdisk/loglademodus
-			echo -e $(date +%d.%m.%y-%H:%M) > ramdisk/ladeustarts2
-			echo -e $(date +%s) > ramdisk/ladeustartss2
-			echo $llkwhs2 > ramdisk/ladelstarts2
+			echo "$lmodus" > ramdisk/loglademodus
+			echo -e "$(date +%d.%m.%y-%H:%M)" > ramdisk/ladeustarts2
+			echo -e "$(date +%s)" > ramdisk/ladeustartss2
+			echo "$llkwhs2"> ramdisk/ladelstarts2
 		fi
-		echo 0 > ramdisk/llogs2
+		echo "0" > ramdisk/llogs2
 	else
 		read llogs2 <ramdisk/llogs2
 		if (( llogs2 < 5 )); then
 			llogs2=$((llogs2 + 1))
-			echo $llogs2 > ramdisk/llogs2
+			echo "$llogs2" > ramdisk/llogs2
 		else
 			if [ -e ramdisk/ladeustarts2 ]; then
-				echo 0 > ramdisk/ladungaktivlp3
+				echo "0" > ramdisk/ladungaktivlp3
 				echo "--" > ramdisk/restzeitlp3
 				read ladelstarts2 <ramdisk/ladelstarts2
 				read ladeustartss2 <ramdisk/ladeustartss2
 				bishergeladens2=$(echo "scale=2;($llkwhs2 - $ladelstarts2)/1" |bc | sed 's/^\./0./')
 				read starts2 <ramdisk/ladeustarts2
-				jetzts2=$(date +%d.%m.%y-%H:%M)
-				jetztss2=$(date +%s)
+				jetzts2="$(date +%d.%m.%y-%H:%M)"
+				jetztss2="$(date +%s)"
 				ladedauers2=$(((jetztss2 - ladeustartss2) / 60 ))
 				ladedauerss2=$((jetztss2 - ladeustartss2))
 				ladegeschws2=$(echo "scale=2;$bishergeladens2 * 60 * 60 / $ladedauerss2" |bc)
 				gelrlp3=$(echo "scale=2;$bishergeladens2 / $durchslp3 * 100" |bc)
 				gelrlp3=${gelrlp3%.*}
 
-				if (( ladedauers2 > 60 )); then
+				if (( ladedauers2 >= 60 )); then
 					ladedauerhs2=$((ladedauers2 / 60))
 					laderests2=$((ladedauers2 % 60))
 					sed -i '1i'$starts2,$jetzts2,$gelrlp3,$bishergeladens2,$ladegeschws2,$ladedauerhs2' H '$laderests2' Min,3',$lademodus,$rfidlp3,$soc3KM $monthlyfile
@@ -461,6 +473,6 @@ fi
 
 # LP4-LP8
 
-
-ptend "ladelog " 10
+alog="ladelog $alog"
+ptend "$alog" 10
 

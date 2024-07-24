@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -31,7 +40,7 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
 	</head>
 
 	<body>
@@ -72,7 +81,11 @@
 					<div class="row">
 						<div class="col">
 							Kernel: <?php echo exec('uname -ors'); echo " (", exec('/var/www/html/openWB/runs/distro.sh'), ")"; ?><br>
-							<?php echo exec('python3 -V'); ?><br>
+							<?php echo "python2 -> ", exec('python2 -V 2>&1'); ?><br>
+							<?php echo "python3 -> " , exec('python3 -V 2>&1'); ?><br>
+							<?php echo "python3.11 -> ", exec('python3.11 -V 2>&1'); ?><br>
+                            <?php echo "python -> ", exec('python -V 2>&1'); ?><br>
+                            <?php echo "php -> ", exec('php -v | head -1'); ?>&nbsp;<a href="./phpinfo.php">php-Info</a><br>
 							openWB Version: <span id="installedVersionSpan" data-version=""></span>
 						</div>
 					</div>
@@ -87,10 +100,9 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
-
 							Board: <span id="board">--</span><br>
-							CPU: <?php echo exec('cat /proc/cpuinfo | grep -m 1 "model name" | sed "s/^.*: //"'); ?><br>
-							CPU-Kerne: <?php echo exec('cat /proc/cpuinfo | grep -E "processor\s*:" | wc -l'); ?><br>
+							CPU: <?php echo exec('lscpu | grep -m 1 "Model name" | sed "s/^.*:\s*//"'); ?><br>
+							CPU-Kerne: <?php echo exec('lscpu | grep -m 1 "Core" | sed "s/^.*:\s*//"'); ?><br>
 						</div>
 					</div>
 				</div>
@@ -125,6 +137,7 @@
 								<br>
 								Status: <span id="sdstatus">--</span>
 							</p>
+							Hostname : <span id="hostname">--</span><br>
 							IP-Adresse LAN: <span id="iplan">--</span><br>
 							IP-Adresse WLAN: <span id="ipwifi">--</span>
 							<div class="hide" id="wifidata">
@@ -152,7 +165,10 @@
 						<div class="col">
 							<p><pre style="font-size:0.7em;"><?php 
 											$lines=[];
-											exec('sudo netstat -nap | egrep "VERBUNDEN|ESTABLISHED|LISTEN" | grep tcp ', $lines);
+											exec('sudo netstat -nap | egrep "LISTEN" | grep tcp ', $lines);
+											echo implode('<br>',$lines); echo "<br>";
+											$lines=[];
+											exec('sudo netstat -nap | egrep "VERBUNDEN|ESTABLISHED" | grep tcp | sort -k 5 ', $lines);
 											echo implode('<br>',$lines);
                                        ?>		
                             	</pre>
@@ -168,8 +184,26 @@
 						<div class="col">
 							<p><pre style="font-size:0.7em;"><?php 
 											$lines=[];
-											exec('sudo ps -efl | grep -E "openWB|runs|tsp|puller|skoda" | grep -v grep | grep -v sudo ', $lines);
+											exec('sudo ps -efl | grep -E "regel.sh|openWB|runs|tsp|puller|skoda" | grep -v grep | grep -v sudo ', $lines);
                                             $lines[]="";
+											echo implode('<br>',$lines);
+                                       ?>
+								</pre>
+							</p>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="card-header bg-secondary">
+					Jobs
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<p><pre style="font-size:0.7em;"><?php 
+											$lines=[];
+											exec('sudo -u pi /var/www/html/openWB/runs/listat.sh ', $lines);
 											echo implode('<br>',$lines);
                                        ?>
 								</pre>
@@ -257,6 +291,7 @@
 
 					$.getJSON('tools/programmloggerinfo.php', function(data){
 						json = eval(data);
+						$('#hostname').text(json.hostname);
 						$('#board').text(json.board);
 						$('#cpu').val(json.cpuuse);
 						$('#cpuuse').text(json.cpuuse);

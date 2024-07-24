@@ -52,7 +52,7 @@ var topicsToSubscribe = [
 
 	
 	// system topics
-	["openWB/system/debuglevel", 1],
+	["openWB/system/debug", 1],
 	["openWB/system/Timestamp", 1],
 	["openWB/system/Uptime", 1],
 	["openWB/system/IpAddress", 0],
@@ -175,6 +175,25 @@ var topicsToSubscribe = [
 //	["openWB/lp/6/strChargePointName", 1],
 //	["openWB/lp/7/strChargePointName", 1],
 //	["openWB/lp/8/strChargePointName", 1],
+	// Status Autolock konfiguriert
+//	["openWB/lp/1/AutolockConfigured", 1],
+//	["openWB/lp/2/AutolockConfigured", 1],
+//	["openWB/lp/3/AutolockConfigured", 1],
+//	["openWB/lp/4/AutolockConfigured", 1],
+//	["openWB/lp/5/AutolockConfigured", 1],
+//	["openWB/lp/6/AutolockConfigured", 1],
+//	["openWB/lp/7/AutolockConfigured", 1],
+//	["openWB/lp/8/AutolockConfigured", 1],
+	// Status Autolock
+//	["openWB/lp/1/AutolockStatus", 1],
+//	["openWB/lp/2/AutolockStatus", 1],
+//	["openWB/lp/3/AutolockStatus", 1],
+//	["openWB/lp/4/AutolockStatus", 1],
+//	["openWB/lp/5/AutolockStatus", 1],
+//	["openWB/lp/6/AutolockStatus", 1],
+//	["openWB/lp/7/AutolockStatus", 1],
+//	["openWB/lp/8/AutolockStatus", 1],
+	// Sofortladen Stromstärke
 	["openWB/lp/1/ADirectModeAmps", 1],
 	["openWB/lp/2/ADirectModeAmps", 1],
 	["openWB/lp/3/ADirectModeAmps", 1],
@@ -296,7 +315,7 @@ var topicsToSubscribe = [
 	["openWB/config/get/SmartHome/Devices/6/mode", 1],
 	["openWB/config/get/SmartHome/Devices/7/mode", 1],
 	["openWB/config/get/SmartHome/Devices/8/mode", 1],
-	["openWB/config/get/SmartHome/Devices/9/mode", 1]
+	["openWB/config/get/SmartHome/Devices/9/mode", 1],
 
 	// etprovider topics
 	["openWB/global/ETProvider/modulePath", 1],
@@ -359,7 +378,6 @@ client.onConnectionLost = function (responseObject) {
 client.onMessageArrived = function (message) {
 	//console.log('message arrive:'+message.destinationName+ ' ' +message.payloadString);
 	handlevar(message.destinationName, message.payloadString);
-	
 };
 
 //Creates a new Messaging.Message Object and sends it
@@ -371,9 +389,9 @@ function publish(payload, topic) {
 	client.send(message);
 	console.log('publish ' + topic + ' ' + payload);
 
-	var message = new Messaging.Message("local client uid: " + clientuid + " sent: " + topic);
-	message.destinationName = "openWB/set/system/topicSender";
-	message.qos = 2;
-	message.retained = true;
-	client.send(message);
+//	var message = new Messaging.Message("local client uid: " + clientuid + " sent: " + topic);
+//	message.destinationName = "openWB/set/system/topicSender";
+//	message.qos = 2;
+//	message.retained = true;
+//	client.send(message);
 }

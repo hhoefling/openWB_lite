@@ -29,7 +29,7 @@ class WbData {
 			"month": this.graphDate.getMonth(),
 			"year": this.graphDate.getFullYear()
 		}
-		this.etPrice = 0;
+		this.etPrice = 0.0;
 		this.etMaxPrice = 0;
 		this.etPriceList = "";
 		this.isEtEnabled = false;
@@ -89,7 +89,7 @@ class WbData {
 		for (i = 0; i < 3; i++) {	// 0,1,2=1..3
 			this.chargePoint[i].color = 'var(--color-lp' + (i + 1) + ')';
 		}
-		for (i = 0; i < 9; i++) {   // 0..9=1..10
+		for (i = 0; i < 9; i++) {   // 0..8=1..9
 			this.shDevice[i].color = 'var(--color-sh' + (i + 1) + ')';
 		}
 		this.consumer[0].color = 'var(--color-co1)';
@@ -117,6 +117,8 @@ class WbData {
 		doc.classed("theme-dark", (this.displayMode == "dark"));
 		doc.classed("theme-light", (this.displayMode == "light"));
 		doc.classed("theme-gray", (this.displayMode == "gray"));
+        doc.classed("theme-hh", (this.displayMode == "hh"));
+        
 		doc.classed("shcolors-normal", true);
 
 		d3.select("button#powerSelectButton")
@@ -126,9 +128,9 @@ class WbData {
 		d3.select("button#energySelectButton")
 			.on("click", switchToEnergyView);
 		d3.select("button#statusButton")
-			.on("click", showStatus);
+			.on("click", statusButtonclicked);
 		d3.select("button#codeButton")
-			.on("click", showCode);
+			.on("click", codeButtonclicked);
 
 		d3.select(".DisplayLightInput")
 			.on("input", function () { updateDisplayLightInput(this.value) });
@@ -479,11 +481,11 @@ function switchToEnergyView() {
 	d3.select("button#energySelectButton").classed("btn-secondary", true).classed("btn-outline-secondary", false)
 	powerGraph.deactivateLive()
 }
-function showStatus() {
+function statusButtonclicked() {
 	$("#statusModal").modal("show");
 }
 
-function showCode() {
+function codeButtonclicked() {
 	$("#codeModal").modal("show");
 	
 }

@@ -50,10 +50,11 @@ function getIndex(topic) {
 
 function handlevar(mqttmsg, mqttpayload) {
 	// receives all messages and calls respective function to process them
+	
 	if (mqttmsg.match(/^openwb\/graph\//i)) { processGraphMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/evu\//i)) { processEvuMessages(mqttmsg, mqttpayload); }
-	else if (mqttmsg.match( /^openwb\/global\/awattar\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
-	else if (mqttmsg.match( /^openwb\/global\/ETProvider\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
+	else if (mqttmsg.match(/^openwb\/global\/awattar\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
+	else if (mqttmsg.match(/^openwb\/global\/ETProvider\//i) ) { processETProviderMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/global\//i)) { processGlobalMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/housebattery\//i)) { processHousebatteryMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/system\//i)) { processSystemMessages(mqttmsg, mqttpayload); }
@@ -62,9 +63,9 @@ function handlevar(mqttmsg, mqttpayload) {
 	else if (mqttmsg.match(/^openwb\/config\/get\/display\//i)) { processDisplayMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/config\/get\/sofort\/lp\//i)) { processSofortConfigMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/config\/get\/pv\//i)) { processPvConfigMessages(mqttmsg, mqttpayload); }
+	else if (mqttmsg.match(/^openwb\/config\/get\/SmartHome\/Devices\//i)) { processSmartHomeDevicesConfigMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/SmartHome\/Status\//i)) { processSmartHomeDevicesStatusMessages(mqttmsg, mqttpayload); }
 	else if (mqttmsg.match(/^openwb\/SmartHome\/Devices\//i)) { processSmartHomeDevicesMessages(mqttmsg, mqttpayload); }
-	else if (mqttmsg.match(/^openwb\/config\/get\/SmartHome\/Devices\//i)) { processSmartHomeDevicesConfigMessages(mqttmsg, mqttpayload); }
 	
 }  // end handlevar
 
@@ -72,7 +73,7 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/global
 	// called by handlevar
 	//processPreloader(mqttmsg);
-	console.log( mqttmsg, mqttpayload)
+//	console.log( mqttmsg, mqttpayload)
 	// colors theme
 	if ( mqttmsg == 'openWB/global/ETProvider/providerName' ) {
 		wbdata.updateET ('etProviderName', mqttpayload);
@@ -123,7 +124,7 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 		// Chartline (y-Achse) ist Preis in ct/kWh
 		electricityPriceChartline = getCol(csvData, 1);
 
-		loadElectricityPriceChart();
+		//loadElectricityPriceChart();
 	}
 	else if ( mqttmsg == 'openWB/global/awattar/MaxPriceForCharging' ) {
 		setInputValue('MaxPriceForCharging', mqttpayload);
@@ -136,6 +137,9 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 
 	
 function processPvConfigMessages(mqttmsg, mqttpayload) {
+
+	console.log( '##################processPvConfigMessages:' , mqttmsg, mqttpayload);
+
 	// color theme
 	if (mqttmsg == 'openWB/config/get/pv/priorityModeEVBattery') {
 		wbdata.updatePv("hasEVPriority", (mqttpayload == "1"))
@@ -148,8 +152,7 @@ function processPvConfigMessages(mqttmsg, mqttpayload) {
 		wbdata.updatePv("minCurrent", mqttpayload)
 		}
 	//end color theme
-
-	if (mqttmsg == 'openWB/config/get/pv/nurpv70dynact') {
+	else if (mqttmsg == 'openWB/config/get/pv/nurpv70dynact') {
 		//  and sets icon in mode select button
 		switch (mqttpayload) {
 			case '0':
@@ -163,8 +166,9 @@ function processPvConfigMessages(mqttmsg, mqttpayload) {
 		}
 	}
 	else if (mqttmsg == 'openWB/config/get/pv/minCurrentMinPv') {
-	//                         setInputValue('minCurrentMinPv', mqttpayload);
-	} else if ( mqttmsg == 'openWB/config/get/pv/priorityModeEVBattery' ) {
+	//    setInputValue('minCurrentMinPv', mqttpayload);
+	} 
+	else if ( mqttmsg == 'openWB/config/get/pv/priorityModeEVBattery' ) {
 		// sets button color in charge mode modal and sets icon in mode select button
 		switch (mqttpayload) {
 			case '0':
@@ -504,7 +508,7 @@ function processHousebatteryMessages(mqttmsg, mqttpayload) {
 function processSystemMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/system
 	// called by handlevar
-	if (mqttmsg == 'openWB/system/debuglevel') {
+	if (mqttmsg == 'openWB/system/debug') {
 		var i = parseInt(mqttpayload, 10);
 		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
 		if (typeof(debugmode) == "undefined" )
@@ -724,6 +728,17 @@ function processLpMessages(mqttmsg, mqttpayload) {
 		// respective charge point configured
 		wbdata.updateCP(index, "configured", (mqttpayload == 1));
 	}
+//	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
+//		wbdata.updateCP(index, "isAutolockConfigured", (mqttpayload == 1));
+//	}
+//	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockstatus$/i)) {
+//		// values used for AutolockStatus flag:
+//		// 0 = standby
+//		// 1 = waiting for autolock
+//		// 2 = autolock performed
+//		// 3 = auto-unlock performed
+//		wbdata.updateCP(index, "autoLockStatus", mqttpayload);
+//	}
 	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/energyconsumptionper100km$/i)) {
 		// store configured value in element attribute
 		// to calculate charged km upon receipt of charged energy
@@ -774,6 +789,48 @@ function processLpMessages(mqttmsg, mqttpayload) {
 				break;
 		}
 	}
+//	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
+//		var index = getIndex(mqttmsg);  // extract first match = number from
+//		var parent = $('[data-lp="' + index + '"]');  // get parent row element for charge point
+//		var element = parent.find('.autolockConfiguredLp');  // now get parents respective child element
+//		if (mqttpayload == 0) {
+//			element.addClass('hide');
+//		} else {
+//			element.removeClass('hide');
+//		}
+//	}
+//	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockstatus$/i)) {
+//		// values used for AutolockStatus flag:
+//		// 0 = standby
+//		// 1 = waiting for autolock
+//		// 2 = autolock performed
+//		// 3 = auto-unlock performed
+//		var index = getIndex(mqttmsg);  // extract number between two / /
+//		var parent = $('[data-lp="' + index + '"]');  // get parent row element for charge point
+//		var element = parent.find('.autolockConfiguredLp');  // now get parents respective child element
+//		switch (mqttpayload) {
+//			case '0':
+//				// remove animation from span and set standard colored key icon
+//				element.removeClass('fa-lock fa-lock-open animate-alertPulsation text-red text-green');
+//				element.addClass('fa-key');
+//				break;
+//			case '1':
+//				// add animation to standard icon
+//				element.removeClass('fa-lock fa-lock-open text-red text-green');
+//				element.addClass('fa-key animate-alertPulsation');
+//				break;
+//			case '2':
+//				// add red locked icon
+//				element.removeClass('fa-lock-open fa-key animate-alertPulsation text-green');
+//				element.addClass('fa-lock text-red');
+//				break;
+//			case '3':
+//				// add green unlock icon
+//				element.removeClass('fa-lock fa-key animate-alertPulsation text-red');
+//				element.addClass('fa-lock-open text-green');
+//				break;
+//		}
+//	}
 	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/energyconsumptionper100km$/i)) {
 		// store configured value in element attribute
 		// to calculate charged km upon receipt of charged energy

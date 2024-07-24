@@ -1,3 +1,13 @@
+<?php 
+function getdateurl($scriptdir,$filedir,$file) 
+   {
+   			$sn=sprintf('%s%s', $scriptdir,$file);
+   			$fn=sprintf('%s%s', $filedir,$file);
+			$ftime=filemtime($fn);
+			//return sprintf('%s?z=%d&fn=%s' , $sn,$ftime,$fn);
+			return sprintf('%s?z=%d' , $sn,$ftime);
+ 	}
+?>	
 <!DOCTYPE html>
 <html lang="de">
 	<head>
@@ -60,12 +70,8 @@
 		<!-- Main style -->
 		<link rel="stylesheet" type="text/css" href="css/cardio.css">
 		<!-- Data refresher -->
-		<script src="livefunctions.js"></script>
+		<script src="<?php echo getdateurl('','../','livefunctions.js');?>"></script>
 		<style>
-            /* prevent touch gestures */
-            html, body {
-                overscroll-behavior: none;
-            }        
 			#PINform input:focus,
 			#PINform select:focus,
 			#PINform textarea:focus,
@@ -174,7 +180,6 @@
 		<input type="hidden" name="displaypincode" id="displaypincode" value="<?php echo trim($displaypincodeold); ?>" />
 
 		<div id="main">
-			<div style="font-size: 18px; height: 20px; top: 0px; left: 20px; text-align:center; position: absolute; width: 65px; color: white;" class="devicename"></div>
 			<div style="font-size: 18px; height: 20px; top: 0px; left: 740px; text-align:center; position: absolute; width: 65px; color: white;" id="theclock"></div>
 			<div id="gaugediv">
 				<?php if ( $speicherstatold != "none\n" ){ ?>
@@ -429,7 +434,7 @@
 						?>
 						<div class="row col-xs-12 text-center" style="height: 100px;">
 							<div class="col-xs-2">
-								<span id="lp1enableddiv" class="fa fa-2x" style="cursor: pointer;" onclick="lp1checkenabledclick()"></span><span id="stationlp1" class="fas fa-2x fa-charging-station"></span>
+								<span id="lp1enableddiv" class="fa fa-2x" style="cursor: pointer;" onclick="lp1enabledclick()"></span><span id="stationlp1" class="fas fa-2x fa-charging-station"></span>
 							</div>
 							<div class="col-xs-3">
 								<div id="speedlp1">
@@ -582,7 +587,7 @@
 					CPU: <meter id="cpu" high="85" min="0" max="100" value="0"></meter> <span id='cpuuse'>--</span>%<br>
 					Memory: <span id='memtot'>--</span>MB <meter id="mem" min="0" value="0"></meter> <font size='-1'>(<span id='memfree'>--</span>MB free)</font><br>
 					Disk Usage: <span id='diskuse'>--</span>, <span id='diskfree'>--</span> avail.<br>
-					openWB Version: <?php echo $owbversion; ?>
+					OpenWB Version: <?php echo $owbversion; ?>
 				</div>
 				<div id="backend" class="row col-xs-12 text-left" style="font-size: 22px; height: 100px; top: 250px; left: 50px; position: absolute; width: 750px; color: white; text-align:left;"> 
 					Backend: <span class="connectionState">-</span><br>
@@ -664,19 +669,14 @@
 					if(strpos($line, "verbraucher2_name=") !== false) {
 						list(, $verbraucher2_nameold) = explode("=", $line);
 					}
-//					if(strpos($line, "verbraucher3_name=") !== false) {
-//						list(, $verbraucher3_nameold) = explode("=", $line);
-//					}
 				}
 
-//				$speichervorhanden = file_get_contents('/var/www/html/openWB/ramdisk/speichervorhanden');
-//				$soc1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/soc1vorhanden');
-//				$verbraucher1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher1vorhanden');
-//				$verbraucher2vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher2vorhanden');
-//				$verbraucher3vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher3vorhanden');
+				$speichervorhanden = file_get_contents('/var/www/html/openWB/ramdisk/speichervorhanden');
+				$soc1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/soc1vorhanden');
+				$verbraucher1vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher1vorhanden');
+				$verbraucher2vorhanden = file_get_contents('/var/www/html/openWB/ramdisk/verbraucher2vorhanden');
 				$verbraucher1_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher1_nameold));
 				$verbraucher2_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher2_nameold));
-//				$verbraucher3_nameold = trim(preg_replace('/\s+/', ' ', $verbraucher3_nameold));
 			?>
 			<div style="height:440px; width:800px;" id="dailydiv"></div>
 				<div class="row col-xs-12 text-center" style="font-size: 12px; height: 10px; top: 430px; left: 50px; position: absolute; width: 750px; color: white; text-align:center;"> 
@@ -1181,26 +1181,24 @@
 					});
 				})();
 
-//				var lastmanagements2 = <?php echo $lastmanagements2old ?>;
-//				var lastmanagement = <?php echo $lastmanagementold ?>;
-//				var soc1vorhanden = <?php echo $soc1vorhanden ?>; jetzt MQTT boolSocConfiguredLp1
-//				var speichervorhanden = <?php echo $speichervorhanden ?>;
-//				var verbraucher1vorhanden = <?php echo $verbraucher1vorhanden ?>;
-//				var verbraucher1name = "<?php echo $verbraucher1_nameold ?> (I)";
-//				var verbrauchere1name = "<?php echo $verbraucher1_nameold ?> (E)";
-//				var verbraucher2vorhanden = <?php echo $verbraucher2vorhanden ?>;
-//				var verbraucher2name = "<?php echo $verbraucher2_nameold ?> (I)";
-//				var verbrauchere2name = "<?php echo $verbraucher2_nameold ?> (E)";
-//				var verbraucher3vorhanden = <?php echo $verbraucher3vorhanden ?>;
-//				var verbraucher3name = "<?php echo $verbraucher3_nameold ?>";
+				var lastmanagements2 = <?php echo $lastmanagements2old ?>;
+				var lastmanagement = <?php echo $lastmanagementold ?>;
+				var soc1vorhanden = <?php echo $soc1vorhanden ?>;
+				var speichervorhanden = <?php echo $speichervorhanden ?>;
+				var verbraucher1vorhanden = <?php echo $verbraucher1vorhanden ?>;
+				var verbraucher1name = "<?php echo $verbraucher1_nameold ?> (I)";
+				var verbrauchere1name = "<?php echo $verbraucher1_nameold ?> (E)";
+				var verbraucher2vorhanden = <?php echo $verbraucher2vorhanden ?>;
+				var verbraucher2name = "<?php echo $verbraucher2_nameold ?> (I)";
+				var verbrauchere2name = "<?php echo $verbraucher2_nameold ?> (E)";
 			</script>
 
-			<script src="livechart_chartjs.js"></script>
+            <script src="<?php echo getdateurl('','../','livechart_chartjs.js');?>"></script>
 			<script src="js/mqttws31.js"></script>
 			<script src="js/Chart.bundle.min.js"></script>
-			<script src="display/gauges/alllive.js?vers=20201201"></script>
-			<script src="display/gauges/symbollive.js?vers=20201201"></script>
-			<script src="display/gauges/live.js?vers=20230301"></script>
+            <script src="<?php echo getdateurl('display/gauges/','gauges/','alllive.js');?>"></script>
+            <script src="<?php echo getdateurl('display/gauges/','gauges/','symbollive.js');?>"></script>
+            <script src="<?php echo getdateurl('display/gauges/','gauges/','live.js');?>"></script>
 
 			<div id="graphsettings" style="position: fixed; display: none; width: 100%; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 2; cursor: pointer;">
 				<div style="position: absolute; top: 50%; left: 50%; width: 80%; font-size: 12px; color: black; text-align: center; background-color: white; border-radius: 6px 6px 6px 6px; transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%); ">

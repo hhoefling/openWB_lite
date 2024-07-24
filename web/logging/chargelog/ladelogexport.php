@@ -1,8 +1,22 @@
 <?php
+
+function makedatetime($start,$f)
+{
+	preg_match('/(.*)-(.*)/',$start,$xx);
+	$day=$xx[1];
+	$vonuhr=$xx[2];
+	preg_match('/(.*)-(.*)/',$f,$xx);
+	$bisuhr=$xx[2];
+	echo "$day;$vonuhr - $bisuhr;";
+}
+
+
+
  if( $_GET['do']=='export')
  {
    $dates='';
    $year=0;
+	$fn='';
 
    if( isset($_GET['date']) )
    {
@@ -10,9 +24,7 @@
       $fin="/var/www/html/openWB/web/logging/data/ladelog/$dates.csv";
       $file=file($fin);
       asort($file);
-   	  header('Content-Type: application/csv; charset=UTF-8');
-   	  header('Content-Disposition: attachment;filename="Ladelog_'.$dates.'.csv";');
-	  
+		$fn='Ladelog_'.$dates.'.csv';
    }
    else if ( isset($_GET['year']) )
    {
@@ -24,8 +36,7 @@
       $file=[];
       foreach ($files as $current) 
       {
-        if( preg_match('/\.*\/ladelog\/([0-9]{4})([0-9]{2})\.csv/',$current,$m) )
-         {
+        preg_match('/\/var\/www\/html\/openWB\/web\/logging\/data\/ladelog\/([0-9]{4})([0-9]{2})\.csv/',$current,$m);
         if( $m[1] == $year )
         { 
           $onef = file($current);
@@ -35,14 +46,22 @@
                $file[]=$line;
         }  
       }
-      }
-   	  header('Content-Type: application/csv; charset=UTF-8');
-      header('Content-Disposition: attachment;filename="ladelog_'.$year.'.csv";');
+		$fn='Ladelog_'.$year.'.csv';	
    }
 
-   		$head[]="Start;Ende;Km;Kwh;Lade KW;Ladezeit;Ladepunkt;Lademodus;RFID;Km\n";
+	header('Content-Type: application/csv; charset=UTF-8');
+	header('Content-Disposition: attachment;filename="'.$fn.'";');
+
+	// Haben wir den Kilometerstand vom Ladestart im Ladelog ?   
+	if(file_exists('/var/www/html/openWB/ramdisk/soc1Range'))
+		$head="Tag;Zeit;Km;Kwh;Lade Kw;Ladezeit;Ladepunkt;Lademodus;RFID;Km-Stand;Reichweite\n";	
+	else if(file_exists('/var/www/html/openWB/ramdisk/soc1KM'))
+		$head="Tag;Zeit;Km;Kwh;Lade Kw;Ladezeit;Ladepunkt;Lademodus;RFID;Km-Stand\n";	
+	else 
+		$head="Tag;Zeit;Km;Kwh;Lade Kw;Ladezeit;Ladepunkt;Lademodus;RFID\n";
+
   // kopfzeile mit ;
-   		echo str_replace(",",";",$head[0]);
+	echo str_replace(",",";",$head);
    // daten mit ; und "," als dezimaltrenner
    foreach($file as $line)
      {
@@ -50,12 +69,14 @@
        $fields=explode(",",$line);
        $idx=0;
        foreach($fields as $f)
-         {    $idx++;
+		{    
+			$idx++;
               $f=trim($f);
               switch($idx)
               {
-         		case 1:
-         		case 2: echo $f.";";
+			case 1: $starts=$f;
+					break;
+			case 2: makedatetime($starts,$f);
                        break;
                case 6: echo str_replace('H','Std',$f).";";
                        break;
@@ -66,8 +87,10 @@
                                 break;
                         case 1: echo "Min+PV;";
                                 break;
-		                  case 2: echo "PV;";
+					case 2: echo "Nur PV;";
                                 break;
+					case 4: echo "Standby;";
+							break;
                         case 7: echo "Nachtladen;";
                                 break;
                         default:
@@ -81,11 +104,6 @@
         } 
         echo "\n";
     }
- 		
-   exit;
-   echo "<pre>";
-   print_r($GLOBALS); 
-   echo "</pre>";
     exit;
  }
 
@@ -99,7 +117,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>OpenWB Ladelog</title>
+		<title>OpenWB Ladelog Excel Export</title>
 		<meta name="description" content="Control your charge" />
 		<meta name="author" content="Kevin Wieland" />
 		<!-- Favicons (created with http://realfavicongenerator.net/)-->
@@ -154,7 +172,7 @@
 	<body>
 		<div id="nav"></div> <!-- placeholder for navbar -->
 		<div role="main" class="container">
-			<h1>Lade-Log Export</h1>
+			<h1>Lade-Log Excel-Export</h1>
 			<div class="card border-secondary">
 				<div class="card-header bg-secondary">
 					Aufgezeichnete Logdateien
@@ -165,20 +183,17 @@
 						$files = glob($_SERVER['DOCUMENT_ROOT'] . "/openWB/web/logging/data/ladelog/*.csv");
 						arsort($files);
 						$rowClasses = "";
-						foreach ($files as $current) 
-                        {
-                         if( preg_match('/\.*\/ladelog\/([0-9]{4})([0-9]{2})\.csv/',$current,$m) )
-                         {
+						foreach ($files as $current) {
 					?>
 						<div class="row<?php echo $rowClasses; ?>">
 							<label class="col-6 col-form-label">
 								<?php 
-                                    $year=$m[1]; 
+									preg_match('/\/var\/www\/html\/openWB\/web\/logging\/data\/ladelog\/([0-9]{4})([0-9]{2})\.csv/',$current,$m);
+									$years[$m[1]]='found'; 
 									$month = $m[2];
-                                    $years[$year]='found'; 
 									setlocale(LC_TIME, "de_DE.UTF-8");
-									$month_name = strftime('%B', mktime(0, 0, 0, $month,1,$year));
-									echo "$month_name ", $year;
+									$month_name = strftime('%B', mktime(0, 0, 0, $month));
+									echo "$month_name ", $m[1];
 								?>
 							</label>
 							<div class="col-6 text-right">
@@ -189,7 +204,6 @@
 							</div>
 						</div>
 					<?php
-                       }
 						$rowClasses = " border-top pt-2";
 						}
 
@@ -212,7 +226,7 @@
 
 		<footer class="footer bg-dark text-light font-small">
 			<div class="container text-center">
-				<small>Sie befinden sich hier: <a href="logging/chargelog/ladelog.php">Lade-Log</a> - Lade-Log Export</small>
+				<small>Sie befinden sich hier: <a href="logging/chargelog/ladelog.php">Lade-Log</a>Ladeprotokoll-Export</small>
 			</div>
 		</footer>
 

@@ -5,7 +5,8 @@
 # import getopt
 import struct
 from pymodbus.client.sync import ModbusTcpClient
-client = ModbusTcpClient('192.168.192.15', port=8899)
+
+client = ModbusTcpClient('192.168.193.15', port=8899)
 sdmid = 116
 
 # phasen watt
@@ -22,7 +23,6 @@ finalw3 = int(llw1)
 finalw= finalw1 + finalw2 + finalw3
 if ( finalw > 10):
     finalw=finalw*-1
-
 
 f = open('/var/www/html/openWB/ramdisk/pvwatt', 'w')
 f.write(str(finalw))
@@ -52,12 +52,9 @@ f = open('/var/www/html/openWB/ramdisk/pva3', 'w')
 f.write(str(lla3))
 f.close()
 
-
 resp = client.read_input_registers(0x0156,2, unit=sdmid)
 pvkwh = struct.unpack('>f',struct.pack('>HH',*resp.registers))[0]
 pvkwh = float("%.3f" % pvkwh) * 1000
 f = open('/var/www/html/openWB/ramdisk/pvkwh', 'w')
 f.write(str(pvkwh))
 f.close()
-
-

@@ -2,7 +2,7 @@
  if( isset($_GET['do'])  && $_GET['do']=='export')
  {
    // $dates=str_replace("-","",$_GET['date']);
-   $fin="/var/www/html/openWB/ramdisk/all.graph";
+   $fin="/var/www/html/openWB/ramdisk/all.graph.csv";
    
    //$head=file("/var/www/html/openWB/web/logging/data/daily/daily_header.csv");
    $file=file($fin);
@@ -169,12 +169,11 @@
 		<!-- load mqtt library -->
 		<script src = "js/mqttws31.js" ></script>
 
-		<!-- load respective Chart.js definition -->
-		<script src="logging/longlivechart.js?ver=20210209"></script>
         <script>
 			$(document).ready(function(){
                   console.log('document ready ', devicename );
                   $('.devicename').text(devicename);
+				  $.getScript("logging/longlivechart.js");
 				});
 
         </script>        

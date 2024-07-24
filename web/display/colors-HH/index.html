@@ -1,10 +1,24 @@
+<?php
+
+# heist html wird aber von display.php included 
+
+function  geturl($file)
+{
+ $fn=sprintf('display/colors-HH/%s', $file);
+ $fn2=sprintf('./colors-HH/%s', $file);
+ $ftime=filemtime($fn2);
+ return sprintf('%s?v=%d' , $fn,$ftime);
+}
+
+?>
 <!DOCTYPE html>
 <html lang="de" class="theme-gray shcolors-normal">
 
 <head>
   <base href="/openWB/web/">
   <meta charset="UTF-8">
-  <title>openWB Display</title>
+  <title>openWB Colors-HH</title>
+  <link rel="shortcut icon" href="img/favicons/favicon.ico">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="css/bootstrap-4.4.1/bootstrap.min.css">
   <!-- Normalize -->
@@ -15,14 +29,14 @@
   <script src="js/jquery-3.6.0.min.js"></script>
   <script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
   <!-- display style -->
-  <link rel="stylesheet" type="text/css" href="display/colors/style.css">
+  <link rel="stylesheet" type="text/css" href="display/colors-HH/style.css">
   <script src="themes/colors-HH/js/d3.v6.min.js"></script>
-  <script src="display/colors-HH/powerdata.js?ver=20230313"></script>
-  <script src="display/colors-HH/powermeter.js?ver=20230313"></script>
-  <script src="display/colors-HH/yieldmeter.js?ver=20230313"></script>
-  <script src="display/colors-HH/powergraph.js?ver=20230313"></script>
-  <script src="display/colors-HH/chargePointList.js?ver=20230313"></script>
-  <script src="display/colors-HH/pricechart.js?ver=20230313"></script>
+  <script src="<?php echo geturl('powerdata.js');?>"></script>
+  <script src="<?php echo geturl('powermeter.js');?>"></script>
+  <script src="<?php echo geturl('yieldmeter.js');?>"></script>
+  <script src="<?php echo geturl('powergraph.js');?>"></script>
+  <script src="<?php echo geturl('chargePointList.js');?>"></script>
+  <script src="<?php echo geturl('pricechart.js');?>"></script>
 
 </head>
 
@@ -33,37 +47,45 @@
 
       <!-- Linke Spalte (Buttons)-->
       <div class="col-2 pl-1 pr-0">
-
+           
         <button class="btn btn-block btn-outline-secondary display-button mt-1 pt-2 pb-0 px-0 " id="backlightConfigButton" type="button" onclick = "backlightConfigButtonClicked() ">
              <span id="date" class="text-center text-light ">--.--.----</span><br>
              <span id="time" class="text-center text-light ">--:--</span>&nbsp;(<span id="regelneeds" class="text-center text-light "> x </span>)
-		  </button>
+  	    </button>
 		  
         <button class="btn btn-block btn-secondary display-button p-4" id="powerSelectButton" type="button">
           <span><i class="fas fa-bolt"></i>&nbsp;&nbsp; Aktuell</span>
         </button>
+
         <button class="btn btn-block btn-outline-secondary display-button p-4" id="timeSelectButton" type="button">
           <span><i class="fas fa-chart-area"></i>&nbsp;&nbsp; Graph</span>
         </button>
-        <button class="btn btn-block btn-outline-secondary display-button mb-4 p-4" id="energySelectButton"
-          type="button">
+
+        <button class="btn btn-block btn-outline-secondary display-button p-4" id="energySelectButton" type="button">
           <span><i class="fas fa-chart-bar"></i>&nbsp;&nbsp; Heute</span>
         </button>
 
-        <button class="btn btn-block btn-outline-secondary display-button mt-5 p-4" id="statusButton" type="button">
+        <button class="btn btn-block btn-outline-secondary display-button mt-4 p-3" id="statusButton" type="button">
           <span><i class="fas fa-info-circle"></i>&nbsp;&nbsp; Status</span>
         </button>
 
-        <button class="btn btn-block btn-outline-secondary display-button  p-4" id="codeButton" type="button">
+        <button class="btn btn-block btn-outline-secondary display-button  p-3" id="codeButton" type="button">
           <span><i class="fas fa-keyboard"></i>&nbsp;&nbsp; Code</span>
+        </button>
+        
+        <button class="btn btn-block btn-outline-secondary display-button  p-3 hide text-danger" id="lastmanagementShowBtn" type="button">
+          <span><i class="fas fa-exclamation-triangle"></i>&nbsp;Warnungen</span>
         </button>
 
         <div id="displaylock" class="mt-2">
-          <button class="btn btn-block btn-outline-secondary display-button p-4" id="lockButton" type="button">
+          <button class="btn btn-block btn-outline-secondary display-button p-3" id="lockButton" type="button">
             <i class="fas fa-lock text-danger "></i>
             <i class="fas fa-unlock text-success hide"></i>
           </button>
         </div>
+        
+
+
       </div>
 
       <!-- Mittlere Spalte (Widgets) -->
@@ -176,7 +198,7 @@
             <div class="row px-0">
               <div class="col-12">
                 <div class="status-header bg-secondary">
-                  Systeminformationen (HH)
+                  Systeminformationen  (HH)
                 </div>
                 <div class="">
                   <div class="form-row">
@@ -230,12 +252,12 @@
                       <span id='diskusedprz'>--</span> %, <span id='diskuse'>--</span> belegt, <span id='diskfree'>--</span> verfügbar auf <span id='rootdev'>--</span>
                     </div>
 				  </div>		
-       			  <div class="form-row">
+                     <div class="form-row">
                     <div class="col-3">
                       Temp / Ramdisk:
                     </div>
                     <div class="col">
-					  <meter id="tmpusedprz2" high=65 min=0 max=100 value=0></meter>
+                      <meter id="tmpusedprz2" high=65 min=0 max=100 value=0></meter>
                       <span id='tmpusedprz'>--</span> %, <span id='tmpuse'>--</span> belegt, <span id='tmpfree'>--</span> verfügbar.
                     </div>
                   </div>
@@ -295,17 +317,20 @@
 
     <script>
       // TODO: replace by MQTT topics, done
-      function updateit() {
-            console.log('ticker');			
-        	// $.getJSON('tools/programmloggerinfo.php', function (data) {
-          	     // json = eval(data);
-                //  }
-			    //)
-      };
+//       function updateit() {
+//             console.log('ticker');			
+//         	// $.getJSON('tools/programmloggerinfo.php', function (data) {
+//           	     // json = eval(data);
+//                 //  }
+// 			    //)
+//       };
 
-      $(document).ready(function () {
-        updateit();
-        setInterval(updateit, 20000);
+      $(document).ready(function () 
+      {
+        //updateit();
+        //setInterval(updateit, 20000);
+        console.log('.ready');
+        console.log(window.location.href);
       });
 
 		$('#backend .homeBtn').on("click", function(event){
@@ -506,7 +531,7 @@
                   data-suffix="A"></label>
               </div>
               <div class="col">
-                <input type="range" class="form-control-range maxPriceInput" id="maxPrice" min="-25" max="95" step="0.1"
+                <input type="range" class="form-control-range maxPriceInput" id="maxPrice" min="-5" max="55" step="0.1"
                   value="0" data-initialized="0">
               </div>
             </div>
@@ -903,11 +928,15 @@
 
 	
 	function backlightConfigButtonClicked(index) {
-    	$('#backlightConfigModal').modal("show");
+        if( window.location.href.match('localhost') )
+    	   $('#backlightConfigModal').modal("show");
+        else 
+           console.log('backlightConfigButtonClicked only on intern display');   
    }
 
 	
     function lockDisplay(lock = true) {
+       console.log('lockDisplay' , lock);
       if (lock == false) {
         displaylocked = false;
         $('#displaylock').find('.fa-lock').addClass('hide');
@@ -986,11 +1015,11 @@
         // load mqtt library
         'js/mqttws31.js',
         // some helper functions
-        'display/colors-HH/helperFunctions.js?ver=20220119',
+        '<?php echo geturl('helperFunctions.js');?>',
         // functions for processing messages
-        'display/colors-HH/processAllMqttMsg.js?ver=20230119',
+        '<?php echo geturl('processAllMqttMsg.js');?>',
         // functions performing mqtt and start mqtt-service
-        'display/colors-HH/setupMqttServices.js?ver=20230119',
+        '<?php echo geturl('setupMqttServices.js');?>',
       ];
 
       scriptsToLoad.forEach(function (src) {
@@ -1010,21 +1039,6 @@
       $('#lastmanagementShowBtn').on("click", function (event) {
         $("#lastregelungModal").modal("show");
       });
-
-      // display lock
-      //$.get(
-      //  { url: "display/colors-HH/checklock.php?lock=1", cache: false },
-      //  function (data) {
-      //    if (data == "1") {
-      //      displaypinaktiv = 1;
-      //      $('#displaylock').removeClass('hide');
-      //    } else {
-      //      displaypinaktiv = 0;
-      //      displaylocked = false;
-      //      $('#displaylock').addClass('hide');
-      //    }
-      //  }
-      //);
 
       $('#displaylock').on("click", function () {
         if (displaylocked == true) {

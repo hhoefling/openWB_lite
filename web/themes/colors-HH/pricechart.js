@@ -26,8 +26,8 @@ class PriceChart {
     var svg = this.createOrUpdateSvg();
     
 //    d3.select(".priceConfiguration").classed("hide", !((wbdata.chargeMode == "0") && wbdata.isEtEnabled));
-    d3.select(".priceConfiguration").classed("hide", !( (wbdata.chargeMode != "3") && wbdata.isEtEnabled));
-    d3.select(".labelMaxPrice").text(wbdata.etMaxPrice + " ct/kWh");
+    d3.select(".priceConfiguration").classed("hide", !( wbdata.isEtEnabled));
+    d3.select(".labelMaxPrice").text(wbdata.etMaxPrice + " ct/KWh");
     d3.select(".maxPriceInput").property("value", wbdata.etMaxPrice);
       
     if (wbdata.etPriceList != "") {
@@ -38,6 +38,12 @@ class PriceChart {
       }) .map(line => [line[0] * 1000, +line[1]]);           // multiply timestamps by 1000
       this.drawGraph(svg);
     }
+
+    // eingabe-Schieber bei "MinPv|Pv|Stop" nicht zeigen
+    var hidepriceselect = "123".match(wbdata.chargeMode) || !wbdata.isEtEnabled;
+    d3.select(".priceSelectWidget").classed("hide", hidepriceselect);
+    
+
     d3.select(".maxPriceInput")
 			.on("input", function () { updateMaxPriceInput(this.value) });
     d3.select(".priceMore")
@@ -80,21 +86,23 @@ class PriceChart {
     bargroups.append("rect")
       .attr("class", "bar")
       .attr("x", (d) => this.xScale(d[0]))
-      .attr("y", (d) => (d[1] >= 0) ? this.yScale(d[1]) : this.yScale(0))
+      .attr("y", (d) => (d[1] >= 0) ? this.yScale(d[1]) : this.yScale(0) )
       .attr("width", barwidth)
       .attr("height", (d) => (d[1] >=0) 
         ? this.yScale(0) - this.yScale(d[1]) 
-        : this.yScale(d[1]) - this.yScale(0))
+        : this.yScale(d[1]) - this.yScale(0) )
       .attr("fill", (d) => (d[1] <= wbdata.etMaxPrice) ? this.chargeColor : this.noChargeColor)
 
     // Line for max price
+    if( wbdata.chargeMode != "3" )
+     {
     const generator = d3.line();
     const points = [[0, this.yScale(wbdata.etMaxPrice)], [width, this.yScale(wbdata.etMaxPrice)]]
     const path = generator(points)
     svg.append("path")
       .attr('d', path)
       .attr("stroke", "yellow")
-
+      }
     // X Axis
     const xAxisGenerator = d3.axisBottom(this.xScale)
       .ticks(4)

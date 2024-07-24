@@ -27,23 +27,23 @@ class rct_id():
     t_enum = 8
     t_float = 9
     t_string = 10
-    
+
     def __init__(self, msgid, idx, name, data_type, desc=''):
         self.id = msgid
         self.idx = idx
         self.data_type = data_type
         self.name = name
         self.desc = desc
-        
+
     def get_idx(entry):
         return entry.idx
-        
+
     def get_id(entry):
         return entry.id
-        
+
     def get_name(entry):
         return entry.name
-        
+
 
 # local variables
 id_tab = []
@@ -54,28 +54,32 @@ receive_timeout = 2.0
 search_id = 0
 search_name = None
 
+
 def sort_by_id():
     id_tab.sort(key=operator.attrgetter('id'))
 
+
 def sort_by_name():
     id_tab.sort(key=operator.attrgetter('name'))
+
 
 # find a table entry by using the 32 bit ID
 def find_by_id(id):
     for l in id_tab:
         if l.id == id:
             return l
-    
+
     return None
+
 
 # find a table entry by using the 32 bit ID and return the data type
 def get_type_by_id(id):
     obj = find_by_id(id)
     if obj is None:
         return rct_id.t_unknown
-    
+
     return obj.data_type
-    
+
 
 # decode a value according to the id data type
 def decode_value(id, data):
@@ -109,6 +113,7 @@ def decode_value(id, data):
             return 0
     except:
         return 0
+
 
 # encode a value according to the id data type
 def encode_value(id, value):
@@ -151,7 +156,7 @@ def encode_by_type(data_type, value):
         return None
 
 
-########################################## FRAME
+# ######################################### FRAME
 start_token = '+'
 escape_token = '-'
 
@@ -170,7 +175,9 @@ FRAME_CRC16_LENGTH = 2              # nr of bytes for CRC16 field
 
 
 # frame class
-default_frame_type=FRAME_TYPE_STANDARD
+default_frame_type = FRAME_TYPE_STANDARD
+
+
 class Frame:
     def __init__(self, frame_type=default_frame_type):
         self.FrameComplete = False
@@ -184,20 +191,20 @@ class Frame:
         self.bEscapeMode = False
         self.EscapeCount = 0
 
-
     # consume a data fragment until frame is complete
     # The function returns the number of consumed bytes in data
     def consume(self, data):
-        i = 0;
-        for c in data:
+        i = 0
+        for d in data:
+            c = bytes([d])
             i += 1
-            
+
             # sync to start_token
             if len(self.stream) == 0:
                 if c == start_token:
                     self.stream += c
                 continue
-                
+
             if self.bEscapeMode:
                 self.bEscapeMode = False
             else:
@@ -208,7 +215,7 @@ class Frame:
 
             # add byte to receive stream
             self.stream += c
-            
+
             # when minimum frame size is received, decode the length and check completness of frame
             if len(self.stream) >= HEADER_WITH_LENGTH:
                 if len(self.stream) == HEADER_WITH_LENGTH:
@@ -217,7 +224,7 @@ class Frame:
                         self.FrameLength = struct.unpack(">H", self.stream[2:4])[0] + 2     # 2 byte length MSBF
                     else:
                         self.FrameLength = struct.unpack(">B", self.stream[2])[0] + 1       # 1 byte length
-                        
+
                     self.FrameLength += 2                                                   # 2 bytes header
                 else:
                     if len(self.stream) == self.FrameLength + FRAME_CRC16_LENGTH:
@@ -225,11 +232,10 @@ class Frame:
                         self.decode()
                         return i
         return i
-    
-    
+
     # decode a stream and store the values in the frame
     def decode(self):
-        crc16_pos = len(self.stream)-2
+        crc16_pos = len(self.stream) - 2
         self.crc16 = struct.unpack(">H", self.stream[crc16_pos:crc16_pos+2])[0]
         if self.crc16 == self.CRC16(self.stream[1:crc16_pos]):
             self.CRCOk = True
@@ -240,9 +246,9 @@ class Frame:
             else:
                 data_length = struct.unpack(">B", self.stream[2])[0]   # 1 byte length
                 idx = 3
-    
+
             data_length -= self.frame_type                             # substract frame type specific length
-    
+
             self.id = struct.unpack(">I", self.stream[idx:idx+4])[0]
             self.id_obj = find_by_id(self.id)
             idx += 4
@@ -256,7 +262,7 @@ class Frame:
             # decode data using id and id data type
             if data_length > 0 and (self.command == cmd_response or self.command == cmd_long_response or self.command == cmd_write or self.command == cmd_long_write):
                 self.value = decode_value(self.id, self.data) 
-        
+
     # encode a transmit stream using the frame values    
     def encode(self):
         self.id_obj = find_by_id(self.id)
@@ -264,7 +270,7 @@ class Frame:
         # build a byte stream
         buf = b""
         buf += struct.pack('B', self.command)
-        
+
         if self.command == cmd_long_write or self.command == cmd_long_response:
             buf += struct.pack('>H', self.frame_type+len(self.data))  # 2 bytes
         else:
@@ -272,7 +278,7 @@ class Frame:
 
         if self.frame_type == FRAME_TYPE_PLANT:
             buf += struct.pack('>I', self.address)                    # 4 bytes
-            
+
         buf += struct.pack('>I', self.id)                             # 4 bytes
         buf += self.data                                              # N byte
         crc16 = self.CRC16(buf)
@@ -287,15 +293,16 @@ class Frame:
     # add a byte array to the stream and consider adding escape token in case of start or escape/stop token
     def response(self, rsp):
         self.data = encode_value(self.id, rsp) 
-            
+
     # add a byte array to the stream and consider adding escape token in case of start or escape/stop token
     def addToStream(self, data):
-        for c in data:
+        for d in data:
+            c = bytes([d])
             if c == start_token or c == escape_token:
                 if len(self.stream) > 0:
                     self.EscapeCount += 1                    # just for debugging
                     self.stream += escape_token
-            
+
             self.stream += c
 
     # calculate the CRC16 for the passed data stream
@@ -308,7 +315,7 @@ class Frame:
         Buffer = bytearray(data)
         if len(data) & 0x01:
             Buffer.append(0)
-            
+
         for byte in Buffer:
             crcsum ^= byte << 8
             for bit in bitrange: # Loop for 8 bits 
@@ -338,14 +345,15 @@ class Frame:
 # helper function to print and error
 def errlog(*args):
     sys.stderr.write(' '.join(map(str,args)) + '\n')
-    
+
+
 # helper function to print debug messages
 def dbglog(*args):
     if bVerbose == True:
         sys.stdout.write(' '.join(map(str,args)) + '\n')
-        
+
     return bVerbose
-        
+
 # helper function to connect to the server (e.g. the RCT power device)
 def connect_to_server():
     try:
@@ -402,14 +410,14 @@ def read(clientsocket, id, address = 0, timeout = receive_timeout):
         # repeat until the correct response has been received
         while(True):
             frame = send(clientsocket, cmd_read, id, address)
-        
             response = receive(clientsocket, id, timeout)
             if response is not None:
                 return response.value
-    
+
 def close(clientsocket):
     clientsocket.close()
-        
+
+
 def hexdump(src, length=16):
     FILTER = ''.join([(len(repr(chr(x))) == 3) and chr(x) or '.' for x in range(256)])
     lines = []
@@ -425,12 +433,13 @@ def hexdump(src, length=16):
             lines.append("%04x  %-*s  %s" % (c, length*3, hex, printable))
         else:
             lines.append("%-*s  %s" % (length*3, hex, printable))
-            
+
         if c + length < len(src):
             lines.append("\n")
 
     return ''.join(lines)
-    
+
+
 # setup the rct_id table with id and expected data type          
 def init(argv):
     global bVerbose
@@ -446,10 +455,10 @@ def init(argv):
         options, remainder = getopt.getopt(argv[1:], 'p:i:v', ['port=', 'ip=', 'verbose', 'id=', 'name='])
     except getopt.GetoptError as err:
         # print help information and exit:
-        errlog(err) # will print something like "option -a not recognized"
+        errlog(err)  # will print something like "option -a not recognized"
         errlog('usage: ', argv[0], '[--ip_addr=<host>] [--verbose] [--port=<portnr>] [--id=0xXXXXXXXX|--name=<string>] ')
         sys.exit(-1)
-    
+
     for opt, arg in options:
         if opt in ('-p', '--port'):
             port = int(arg, base=10)
@@ -576,7 +585,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x1D49380A,  99, 'logger.minutes_eb_log_ts',                         rct_id.t_int32,   'logger.minutes_eb_log_ts'))
     id_tab.append(rct_id(0x1D83D2A5, 100, 'battery_placeholder[0].cells[4]',                  rct_id.t_string,  'battery_placeholder[0].cells[4]'))
     id_tab.append(rct_id(0x1E0EB397, 101, 'battery_placeholder[0].cells_stat[6].u_max.value', rct_id.t_float,   'battery_placeholder[0].cells_stat[6].u_max.value'))
-    id_tab.append(rct_id(0x1E5FCA70, 102, 'battery.maximum_charge_current',                   rct_id.t_float,   'Max. charge current [A]'))
+    id_tab.append(rct_id(0x1E5FCA70, 102, 'battery.maximum_charge_current',                   rct_id.t_float,   'Max. charge current [A] RO'))
     id_tab.append(rct_id(0x1F44C23A, 103, 'battery_placeholder[0].cells_stat[1].t_min.index', rct_id.t_uint8,   'battery_placeholder[0].cells_stat[1].t_min.index'))
     id_tab.append(rct_id(0x1F73B6A4, 104, 'battery.cells_stat[3].t_max.time',                 rct_id.t_uint32,  'battery.cells_stat[3].t_max.time'))
     id_tab.append(rct_id(0x1F9CBBF2, 105, 'db.power_board.Calibr_Value_Mean',                 rct_id.t_float,   'db.power_board.Calibr_Value_Mean'))
@@ -778,7 +787,7 @@ def id_tab_setup():
     id_tab.append(rct_id(0x5673D737, 301, 'wifi.connect_to_wifi',                             rct_id.t_bool,    'wifi.connect_to_wifi'))
     id_tab.append(rct_id(0x57429627, 302, 'wifi.authentication_method',                       rct_id.t_string,  'WiFi authentication method'))
     id_tab.append(rct_id(0x576D2A08, 303, 'battery_placeholder[0].cells_stat[3].t_min.time',  rct_id.t_uint32,  'battery_placeholder[0].cells_stat[3].t_min.time'))
-    id_tab.append(rct_id(0x57945EE4, 304, 'battery_placeholder[0].maximum_charge_current',    rct_id.t_float,   'Max. charge current [A]'))
+    id_tab.append(rct_id(0x57945EE4, 304, 'battery_placeholder[0].maximum_charge_current',    rct_id.t_float,   'Max. charge current [A] RO'))
     id_tab.append(rct_id(0x58378BD0, 305, 'hw_test.bt_time[3]',                               rct_id.t_float,   'hw_test.bt_time[3]'))
     id_tab.append(rct_id(0x5847E59E, 306, 'battery.maximum_charge_voltage_constant_u',        rct_id.t_float,   'Max. charge voltage [V]'))
     id_tab.append(rct_id(0x5867B3BE, 307, 'io_board.rse_table[2]',                            rct_id.t_float,   'K4..K1: 0010'))

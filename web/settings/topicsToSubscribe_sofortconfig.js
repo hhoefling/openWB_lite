@@ -10,7 +10,7 @@
 
 var topicsToSubscribe = [
 	["openWB/system/devicename", 0],
-	["openWB/system/debuglevel", 0],
+	["openWB/system/debug", 0],
 	["openWB/lp/1/boolChargePointConfigured", 0],
 	["openWB/lp/2/boolChargePointConfigured", 0],
 	["openWB/lp/3/boolChargePointConfigured", 0],

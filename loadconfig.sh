@@ -8,6 +8,7 @@ while read -r x; do
 		export "$x"
 	fi
 done < /var/www/html/openWB/openwb.conf
+echo $debug >/var/www/html/openWB/ramdisk/debug
 
 readonly SOFORT0=0
 readonly MINPV1=1

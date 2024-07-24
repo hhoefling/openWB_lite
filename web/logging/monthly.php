@@ -190,7 +190,7 @@
 				});
 
 				// load graph
-				$.getScript("logging/monthlychart.js?ver=2023209");
+				$.getScript("logging/monthlychart.js");
 			})
 		</script>
 

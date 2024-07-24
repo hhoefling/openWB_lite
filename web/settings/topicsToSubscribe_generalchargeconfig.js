@@ -10,7 +10,7 @@
 
 var topicsToSubscribe = [
 	["openWB/system/devicename", 0],
-	["openWB/system/debuglevel", 0],
+	["openWB/system/debug", 0],
 	["openWB/config/get/global/maxEVSECurrentAllowed", 0],
 	["openWB/config/get/global/minEVSECurrentAllowed", 0]	
 ];

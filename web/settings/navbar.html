@@ -18,10 +18,9 @@
 						<a class="dropdown-item" id="navAllgemein" href="./settings/settings.php">Allgemein</a>
 						<a class="dropdown-item" id="navSmartHome" href="./settings/smarthome.php">Smart Home</a>
 						<a class="dropdown-item" id="navSmartHome2" href="./settings/smarthomeconfig.php">Smart Home 2.0</a>
-						<a class="dropdown-item" id="navEvent" href="./settings/eventconfig.php">Events</a>
 						<a class="dropdown-item" id="navOpenwbCloud" href="./settings/cloudconfig.php">openWB Cloud</a>
 						<a class="dropdown-item" id="navMqttBruecke" href="./settings/mqtt.php">MQTT-Brücke</a>
-						<!--<a class="dropdown-item" id="navAutolock" href="./settings/autoLock.php">Auto-Lock</a> -->
+						<!-- <a class="dropdown-item" id="navAutolock" href="./settings/autoLock.php">Auto-Lock</a> -->
 						<!--<a class="dropdown-item" id="navNachtladen" href="./settings/nachtladenconfig.php">Nachtladen</a>-->
 						<!--<a class="dropdown-item" id="navZielladen" href="./settings/zielladenconfig.php">Zielladen</a>-->
 						<a class="dropdown-item" id="navVerschiedenes" href="./settings/misc.php">Verschiedenes</a>
@@ -49,7 +48,7 @@
 					</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" id="navSetTheme" href="./settings/setTheme.php">Theme-Auswahl</a>
-						<a class="dropdown-item" id="navGraphSettings" href="./settings/graphconfig.html">Graph</a>
+						<a class="dropdown-item" id="navGraphSettings" href="./settings/graphconfig.php">Graph</a>
 					</div>
 				</li>
 
@@ -73,10 +72,11 @@
 						<a class="dropdown-item" id="navBackup" data-toggle="modal" data-target="#backupConfirmationModal" style="cursor: pointer;">Backup erstellen</a>
 						<a class="dropdown-item" id="navWiederherstellen" data-toggle="modal" data-target="#restoreConfirmationModal" style="cursor: pointer;">Backup wiederherstellen</a>
 						<a class="dropdown-item" id="navReboot" data-toggle="modal" data-target="#rebootConfirmationModal" style="cursor: pointer;">Reboot</a>
+                        <a class="dropdown-item" id="navRestartDisplay" data-toggle="modal" data-target="#restartDisplayConfirmationModal" style="cursor: pointer;">Restart-Display</a>
 						<a class="dropdown-item" id="navShutdown" data-toggle="modal" data-target="#shutdownConfirmationModal" style="cursor: pointer;">Shutdown</a>
 						<a class="dropdown-item" id="navUpdate" href="./settings/update.php">Update</a>
 						<a class="dropdown-item" id="navDebugging" href="./settings/debugging.php">Debugging</a>
-						<!-- a class="dropdown-item" id="navFehlerbericht" href="./settings/fehlerbericht.html">Support</a --> 
+						<a class="dropdown-item" id="navFehlerbericht" href="./settings/fehlerbericht.html">Support</a> 
 						<a class="dropdown-item" id="navPasswortschutz" href="./settings/setPassword.php">Passwortschutz</a>
 						<a class="dropdown-item" id="navSystemInfo" href="./settings/systeminfo.php">System-Info</a>
 						<a class="dropdown-item" id="navNetworkSettings" href="./settings/network.php">Netzwerk-Einstellungen</a>
@@ -171,6 +171,33 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- modal restartDisplay-confirmation window -->
+<div class="modal fade" id="restartDisplayConfirmationModal" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- modal header -->
+            <div class="modal-header bg-danger">
+                <h4 class="modal-title text-light">Achtung</h4>
+            </div>
+            <!-- modal body -->
+            <div class="modal-body text-center">
+                <p>
+                    <b>
+                    Soll der Service des internen LC-Displays neu gestartet werden?<br>
+                    <small>( Es wird Service lightdm neu gestartet )</small><br> 
+                    </b>
+                    <span class="text-danger">Fahrzeuge sind vorher abzustecken!</span>
+                </p>
+            </div>
+            <!-- modal footer -->
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="window.location.href='./settings/restartDisplay.html'">Restart</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Abbruch</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- modal shutdown-confirmation window -->
@@ -304,44 +331,22 @@
   if (typeof(debugold) == "undefined" ) 
       debugold=-1;
   var debugmode=debugold; // defaults to
-  tmp=getCookie('debugmode');
-  if ( tmp>'') 
-    debugmode=tmp;	// override
-  
   console.log('debugold', debugold, ' debugmode now:',debugmode);
-  if ( debugold>0)	//
-   {
-    console.log("Bind dropdown-item ");
-    $('.dropdown-item').bind('click', function(event){
-     if(  event.ctrlKey   &&  event.shiftKey)
-     {
-        console.log('shift-Ctrl pressed set debugmode=3' )
-		event.preventDefault();
-	    if( debugmode!=3) {
-		   debugmode=3
-  	       setCookie('debugmode', 3, 2);		// Mode 3 für 2 Tage
-		   alert( "Set Debug mode to 3");
-		  } 
-        this.click(event);
-     }
-     if(event.altKey)
-     {
-      console.log('alt pressd set debugmode=4' )
-	    if( debugmode!=4) {
-	     debugmode=4
-	     setCookie('debugmode', 4, 2);		// Mode 4 für 2 Tage
-	     alert( "Set Debug mode to 4");
-        }
-	  this.click(event);
-     }	  
-    });
-  }
-  
+  tmp=getCookie('debugmode');
+  if ( tmp>'')
+   { 
+    debugmode=tmp;	// override
+    console.log('debugmode from cookie:',debugmode);
+   } 
   $(document).ready(function(){
 	    if(debugmode>2)
+         {
+               console.log('debugmode>2 remove hide');
 			   $('.d_label').removeClass('hide');
-		else   
+		 } else {   
+               console.log('debugmode<=2 hide');
 			   $('.d_label').addClass('hide');
+         }      
 	 });
 		   	
 </script>

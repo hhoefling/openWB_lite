@@ -24,16 +24,16 @@ if ! [ -z "$output" ]; then
 	
 	watt=$(echo "scale=0;$watt * 1000 /1" |bc)
 	if [[ $watt =~ $re ]] ; then
-	echo $watt > /var/www/html/openWB/ramdisk/llaktuell
+		echo $watt > /var/www/html/openWB/ramdisk/llaktuell
 	fi
 	if [[ $lla1 =~ $rekwh ]] ; then
-	echo $lla1 > /var/www/html/openWB/ramdisk/lla1
+		echo $lla1 > /var/www/html/openWB/ramdisk/lla1
 	fi
 	if [[ $lla2 =~ $rekwh ]] ; then
-	echo $lla2 > /var/www/html/openWB/ramdisk/lla2
+		echo $lla2 > /var/www/html/openWB/ramdisk/lla2
 	fi
 	if [[ $lla3 =~ $rekwh ]] ; then
-	echo $lla3 > /var/www/html/openWB/ramdisk/lla3
+		echo $lla3 > /var/www/html/openWB/ramdisk/lla3
 	fi
 	if [[ $llv1 =~ $rekwh ]] ; then
 		echo $llv1 > /var/www/html/openWB/ramdisk/llv1
@@ -46,23 +46,23 @@ if ! [ -z "$output" ]; then
 	fi
 
 	if [[ $llkwh =~ $rekwh ]] ; then
-	echo $llkwh > /var/www/html/openWB/ramdisk/llkwh
+		echo $llkwh > /var/www/html/openWB/ramdisk/llkwh
 	fi
 	if [[ $evsewifiplugstatelp1 > "1" ]] ; then
-        echo 1 > /var/www/html/openWB/ramdisk/plugstat
+		echo 1 > /var/www/html/openWB/ramdisk/plugstat
 	else
-        echo 0 > /var/www/html/openWB/ramdisk/plugstat
+		echo 0 > /var/www/html/openWB/ramdisk/plugstat
 	fi
 	if [[ $evsewifiplugstatelp1 > "2" ]] ; then
-        echo 1 > /var/www/html/openWB/ramdisk/chargestat
+		echo 1 > /var/www/html/openWB/ramdisk/chargestat
 	else
-	echo 0 > /var/www/html/openWB/ramdisk/chargestat
+		echo 0 > /var/www/html/openWB/ramdisk/chargestat
 	fi
 	if [ ${#rfidtag} -ge 3 ];then
 		echo $rfidtag > /var/www/html/openWB/ramdisk/readtag
 		curl --connect-timeout $evsewifitimeoutlp1 -s http://$evsewifiiplp1/clearRfid
 	fi
-	read llswb1 </var/www/html/openWB/ramdisk/llsoll
+	llswb1=$(</var/www/html/openWB/ramdisk/llsoll)
 	if [[ $llakt != $llswb1 ]]; then
 		curl --silent --connect-timeout $evsewifitimeoutlp1 -s http://$evsewifiiplp1/setCurrent?current=$llswb1 > /dev/null
 	fi

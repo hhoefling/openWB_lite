@@ -27,7 +27,7 @@ var boolDisplayLiveGraph;
 var alldata;
 
 $.ajax({
-	url: "/openWB/ramdisk/all.graph",
+	url: "/openWB/ramdisk/all.graph.csv",
 	contentType: "text/plain",
 	dataType: "text",
 	beforeSend: function(xhr) {

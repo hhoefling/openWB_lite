@@ -17,6 +17,8 @@ $debug = false;
 $bridgePrefix = "99-bridge-";
 $bridgeOperationDuration = 15;
 $randomnr = rand(1, 1000000);
+$hostid=$SERVER['SERVER_NAME']; //  => 192.168.xx.xx oder text
+$histids=str_replace(".", "", $hostid);
 
 function debugPrint($message){
 	global $debug;
@@ -233,8 +235,36 @@ topic openWB/lp/# out 2 "" $remotePrefix
 # export all charge point data to remote
 topic openWB/housebattery/# out 2 "" $remotePrefix
 
+# export all Verbraucher data to remote
+topic openWB/Verbraucher/# out 2 "" $remotePrefix
+
 # export all charge point data to remote
 topic openWB/pv/# out 2 "" $remotePrefix
+# Bool-Schalter weitergeben als default
+topic openWB/graph/boolDisplayLp1  out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayLp2  out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayLp3  out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayLpAll  out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayLp1Soc  out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayLp2Soc  out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayEvu  out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayLoad1 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayLoad2 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayPv out 2 "" $remotePrefix
+topic openWB/graph/boolDisplaySpeicher out 2 "" $remotePrefix
+topic openWB/graph/boolDisplaySpeicherSoc out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayShD1 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayShD2 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayShD3 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayShD4 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayShD5 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayShD6 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayShD7 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayShD8 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayShD9 out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayHouseConsumption out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayLegend out 2 "" $remotePrefix
+topic openWB/graph/boolDisplayLiveGraph out 2 "" $remotePrefix
 
 EOS
 	);
@@ -296,7 +326,7 @@ remote_password $remotePass
 # Client ID that appears in remote MQTT server's log data.
 # Setting it might simplify debugging.
 # Commenting uses a random ID and thus gives more privacy.
-remote_clientid openwbBridge$bridgeToConfig-$randomnr
+remote_clientid $histids-$bridgeToConfig-$randomnr
 
 # MQTT protocol to use - ideally leave at latest version (mqttv311).
 # Only change if remote doesn't support mqtt protocol version 3.11.

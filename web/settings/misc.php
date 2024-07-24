@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -34,30 +43,7 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
-		<script>
-		 function setDefaults(target)
-		 {
-		  //console.log('setdefaults for ', target);
-		  $('input', $(target)).each(function () 
-		  		{
-	    			// console.log($(this)); //log every element found to console output
-					if($(this).attr("data-default"))
-					 {
-					  console.log('---def', this.id, this.name, this.value , $(this).data('default')  );
-					  var defval=$(this).data('default');
-					  var deftyp=$(this).data('typ');
-					  console.log(defval, deftyp);
-				      if( $(this).val()==''  )
-                      {
-					     $(this).val( defval );
-                      } else console.log('value set', this.value )
-					 } 				
-			   }
-		   );
-		 }
-
-		</script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
 	</head>
 
 
@@ -107,7 +93,7 @@
 											<input type="radio" name="dspeed" id="dspeed3" value="3"<?php if($dspeedold == 3) echo " checked=\"checked\"" ?>>Sehr Langsam
 										</label>
 									</div>
-									<span class="d_label">openWB.conf dspeed</span>
+									<span class="d_label">openwb.conf  dspeed [0|2|3]</span>
 									<span class="form-text small">
 										Sollten Probleme, oder Fehlermeldungen, auftauchen, zunächst das Regelintervall auf "Normal" stellen. Werden Module genutzt, welche z.B. eine Online API zur Abfrage nutzen, oder möchte man weniger regeln, kann man das Regelintervall auf "Langsam" (20 Sekunden) herabsetzen. Die Einstellungen „Sehr Langsam“ führt zu einer Regelzeit von 60 Sekunden.<br>
 										<span class="text-danger">Nicht nur die Regelung der PV geführten Ladung, sondern auch Ladestromänderung, beispielsweise “Stop“ etc., werden dann nur noch in diesem Intervall ausgeführt. Die Regelung wird insgesamt träger. Ebenso können eingestellte Verzögerungen um den Faktor der Änderung langsamer ausgeführt werden. Solange es keinen triftigen Grund gibt sollte immer Normal gewählt werden.</span>
@@ -129,7 +115,7 @@
 											<input type="radio" name="ladetaster" id="ladetasterOn" value="1"<?php if($ladetasterold == 1) echo " checked=\"checked\"" ?>>An
 										</label>
 									</div>
-									<span class=\"d_label\">openWB.conf ladetaster</span>
+									<span class="d_label">openwb.conf  ladetaster [0|1]</span>
 									<span class="form-text small">Wenn aktiviert, sind nach einem Neustart die externen Taster aktiv. Wenn keine verbaut sind, diese Option ausschalten.</span>
 								</div>
 							</div>
@@ -157,7 +143,7 @@
 											<input type="radio" name="bootmodus" id="bootmodus0" value="0"<?php if($bootmodusold == 0) echo " checked=\"checked\"" ?>>Sofort Laden
 										</label>
 									</div>
-									<span class="d_label">openWB.conf bootmodus</span>
+									<span class="d_label">openwb.conf  bootmodus [0,1,2,3,4]</span>
 									<span class="form-text small">Definiert den Lademodus nach Boot der openWB.</span>
 								</div>
 							</div>
@@ -176,7 +162,7 @@
 											<input type="radio" name="netzabschaltunghz" id="netzabschaltunghzOn" value="1"<?php if($netzabschaltunghzold == 1) echo " checked=\"checked\"" ?>>An
 										</label>
 									</div>
-									<span class="d_label">openWB.conf netzabschaltunghz</span>
+									<span class="d_label">openwb.conf  netzabschaltunghz [0|1]</span>
 									<span class="form-text small">
 										Diese Option ist standardmäßig aktiviert und sollte so belassen werden. Bei Unterschreitung einer kritischen Frequenz des Stromnetzes wird die Ladung nach einer zufälligen Zeit zwischen 1 und 90 Sekunden pausiert. Der Lademodus wechselt auf "Stop".
 										Sobald die Frequenz wieder in einem normalen Bereich ist wird automatisch der zuletzt gewählte Lademodus wieder aktiviert.
@@ -208,8 +194,8 @@
 									<label class="btn btn-outline-info<?php if($cpunterbrechunglp1old == 1) echo " active" ?>">
 										<input type="radio" name="cpunterbrechunglp1" id="cpunterbrechunglp1On" value="1"<?php if($cpunterbrechunglp1old == 1) echo " checked=\"checked\"" ?>>An
 									</label>
+									<span class="d_label">openwb.conf  cpunterbrechunglp1 [0|1]</span>
 								</div>
-  							   <span class="d_label">openWB.conf cpunterbrechunglp1</span>
 							</div>
 							<div class="form-row mb-1 lp1cpon disabled">
 								<label for="cpunterbrechungdauerlp1" class="col-md-4 col-form-label">Dauer der Unterbrechung</label>
@@ -219,13 +205,13 @@
 										<div class="col-10">
 											<input type="range" class="form-control-range rangeInput" name="cpunterbrechungdauerlp1" id="cpunterbrechungdauerlp1" min="4" max="150" step="1" value="<?php echo $cpunterbrechungdauerlp1old; ?>">
 										</div>
+										<span class="d_label">openwb.conf  cpunterbrechungdauerlp1 [n]</span>
 									</div>
 									<span class="form-text small">
 										Die Standardeinstellung ist 4 Sekunden. Falls ein Fahrzeug den Ladevorgang nicht zuverlässig startet, kann dieser Wert erhöht werden.
 										<span class="text-danger">Achtung: experimentelle Einstellung!</span>
 									</span>
 								</div>
-  							    <span class="d_label">openWB.conf cpunterbrechungdauerlp1</span>
 							</div>
 							<div id="lp2cpdiv" class="disabled">
 								<div class="form-row mt-2">
@@ -240,7 +226,7 @@
 											<input type="radio" name="cpunterbrechunglp2" id="cpunterbrechunglp2On" value="1"<?php if($cpunterbrechunglp2old == 1) echo " checked=\"checked\"" ?>>An
 										</label>
 									</div>
-  							        <span class="d_label">openWB.conf cpunterbrechunglp2</span>
+									<span class="d_label">openwb.conf  cpunterbrechunglp2 [0|1]</span>
 								</div>
 								<div class="form-row mb-1 lp2cpon disabled">
 									<label for="cpunterbrechungdauerlp2" class="col-md-4 col-form-label">Dauer der Unterbrechung</label>
@@ -250,13 +236,14 @@
 											<div class="col-10">
 												<input type="range" class="form-control-range rangeInput" name="cpunterbrechungdauerlp2" id="cpunterbrechungdauerlp2" min="4" max="150" step="1" value="<?php echo $cpunterbrechungdauerlp2old; ?>">
 											</div>
+											<span class="d_label">openwb.conf  cpunterbrechungdauerlp2 [n]</span>
 										</div>
 										<span class="form-text small">
 											Die Standardeinstellung ist 4 Sekunden. Falls ein Fahrzeug den Ladevorgang nicht zuverlässig startet, kann dieser Wert erhöht werden.
 										<span class="text-danger">Achtung: experimentelle Einstellung!</span>
 									</span>
 									</div>
-  							        <span class="d_label">openWB.conf cpunterbrechungdauerlp2</span>
+									
 								</div>
 							</div>
 							<div class="form-row mt-2 mb-1">
@@ -271,8 +258,8 @@
 										<label class="btn btn-outline-info<?php if($cpunterbrechungmindestlaufzeitold == 1) echo " active" ?>">
 											<input type="radio" name="cpunterbrechungmindestlaufzeitaktiv" id="cpunterbrechungmindestlaufzeitaktivOn" value="1"<?php if($cpunterbrechungmindestlaufzeitaktivold == 1) echo " checked=\"checked\"" ?>>An
 										</label>
+										<span class="d_label">openwb.conf  cpunterbrechungmindestlaufzeitaktiv [0|1]</span>
 									</div>
-  							        <span class="d_label">openWB.conf cpunterbrechungmindestlaufzeitaktiv</span>
 									<span class="form-text small">
 										Diese Option hält die Ladung im nurPV Modus eine Zeit lang aktiv, auch wenn kurz nach der CP Unterbrechung die Mindestladeleistung unterschritten wird noch bevor die Ladung begonnen hat. 
 										Dies ist immer dann hilfreich wenn der Ladestart nach CP Unterbrechung erst verzögert erfolgt, z.b. bei PSA (Peugeot, Opel).
@@ -290,7 +277,7 @@
 											<input type="range" class="form-control-range rangeInput" name="cpunterbrechungmindestlaufzeit" id="cpunterbrechungmindestlaufzeit" min="10" max="60" step="10" value="<?php echo $cpunterbrechungmindestlaufzeitold; ?>">
 										</div>
 									</div>
-  							        <span class="d_label">openWB.conf cpunterbrechungmindestlaufzeit</span>
+									<span class="d_label">openwb.conf  cpunterbrechungmindestlaufzeit [n]</span>
 									<span class="form-text small">
 										Die Standardeinstellung ist 30 Sekunden. Falls ein Fahrzeug den Ladevorgang nicht zuverlässig startet, kann dieser Wert erhöht werden.
 										<span class="text-danger">Achtung: experimentelle Einstellung!</span>
@@ -313,29 +300,9 @@
 										<label class="btn btn-outline-info<?php if($modbus502enabledold == 1) echo " active" ?>">
 											<input type="radio" name="modbus502enabled" id="modbus502enabledOn" value="1"<?php if($modbus502enabledold == 1) echo " checked=\"checked\"" ?>>An
 										</label>
+										<span class="d_label">openwb.conf  modbus502enabled [0|1]</span>
 									</div>
-  							        <span class="d_label">openWB.conf modbus502enabled</span>
 									<span class="form-text small">Wenn aktiviert, wird nach einem Neustart der Modbus-Server auf Port 502 aktiviert.</span>
-								</div>
-							</div>
-						</div>
-						<hr class="border-secondary">
-						<div class="form-group">
-							<div class="form-row mb-1">
-								<div class="col-md-4">
-									<label class="col-form-label">Event-System</label>
-								</div>
-								<div class="col">
-									<div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
-										<label class="btn btn-outline-info<?php if($taskerenabledold == 0) echo " active" ?>">
-											<input type="radio" name="taskerenabled" id="taskerenabledOff" value="0"<?php if($taskerenabledold == 0) echo " checked=\"checked\"" ?>>Aus
-										</label>
-										<label class="btn btn-outline-info<?php if($taskerenabledold == 1) echo " active" ?>">
-											<input type="radio" name="taskerenabled" id="taskerenabledOn" value="1"<?php if($taskerenabledold == 1) echo " checked=\"checked\"" ?>>An
-										</label>
-									</div>
-  							        <span class="d_label">openWB.conf taskerenabled</span>
-									<span class="form-text small">Wenn aktiviert, wird der Task-Scheduler gestartet.</span>
 								</div>
 							</div>
 						</div>
@@ -411,8 +378,8 @@
 										<label class="btn btn-sm btn-outline-info<?php if($rfidaktold == 2) echo " active" ?>">
 											<input type="radio" name="rfidakt" id="rfidaktOn2" value="2"<?php if($rfidaktold == 2) echo " checked=\"checked\"" ?>>An Modus 2
 										</label>
-  							        <span class="d_label">openWB.conf rfidakt 0,1,2</span>
 									</div>
+									<span class="d_label">openwb.conf  rfidakt [0|1|2]</span>
 								</div>
 							</div>
 						</div>
@@ -448,6 +415,7 @@
 											</div>
 											<input type="text" name="rfidlp1c1" id="rfidlp1c1" class="form-control" value="<?php echo $rfidlp1c1old ?>">
 										</div>
+										<span class="d_label">openwb.conf  rfidlp1c1 </span>
 									</div>
 									<div class="col-lg-4">
 										<div class="input-group">
@@ -458,6 +426,7 @@
 											</div>
 											<input type="text" name="rfidlp1c2" id="rfidlp1c2" class="form-control" value="<?php echo $rfidlp1c2old ?>">
 										</div>
+										<span class="d_label">openwb.conf  rfidlp1c2 </span>
 									</div>
 									<div class="col-lg-4">
 										<div class="input-group">
@@ -468,6 +437,7 @@
 											</div>
 											<input type="text" name="rfidlp1c3" id="rfidlp1c3" class="form-control" value="<?php echo $rfidlp1c3old ?>">
 										</div>
+										<span class="d_label">openwb.conf  rfidlp1c3 </span>
 									</div>
 								</div>
 							</div>
@@ -487,6 +457,7 @@
 											</div>
 											<input type="text" name="rfidlp2c1" id="rfidlp2c1" class="form-control" value="<?php echo $rfidlp2c1old ?>">
 										</div>
+										<span class="d_label">openwb.conf  rfidlp2c1 </span>
 									</div>
 									<div class="col-lg-4">
 										<div class="input-group">
@@ -497,6 +468,7 @@
 											</div>
 											<input type="text" name="rfidlp2c2" id="rfidlp2c2" class="form-control" value="<?php echo $rfidlp2c2old ?>">
 										</div>
+										<span class="d_label">openwb.conf  rfidlp2c2 </span>
 									</div>
 									<div class="col-lg-4">
 										<div class="input-group">
@@ -507,6 +479,7 @@
 											</div>
 											<input type="text" name="rfidlp2c3" id="rfidlp2c3" class="form-control" value="<?php echo $rfidlp2c3old ?>">
 										</div>
+										<span class="d_label">openwb.conf  rfidlp2c3 </span>
 									</div>
 								</div>
 							</div>
@@ -901,6 +874,146 @@
 					</script>
 				</div>
 
+				<!-- Benachrichtigungen mit Pushover -->
+				<div class="card border-secondary">
+					<div class="card-header bg-secondary">
+						<div class="form-group mb-0">
+							<div class="form-row vaRow mb-0">
+								<div class="col-4">Benachrichtigungen mit Pushover</div>
+								<div class="col">
+									<div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-sm btn-outline-info<?php if($pushbenachrichtigungold == 0) echo " active" ?>">
+											<input type="radio" name="pushbenachrichtigung" id="pushbenachrichtigungOff" value="0"<?php if($pushbenachrichtigungold == 0) echo " checked=\"checked\"" ?>>Aus
+										</label>
+										<label class="btn btn-sm btn-outline-info<?php if($pushbenachrichtigungold == 1) echo " active" ?>">
+											<input type="radio" name="pushbenachrichtigung" id="pushbenachrichtigungOn" value="1"<?php if($pushbenachrichtigungold == 1) echo " checked=\"checked\"" ?>>An
+										</label>
+										<span class="d_label">openwb.conf  pushbenachrichtigung [0|1] </span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="card-text alert alert-info">
+							<p>Zur Nutzung von Pushover muss ein Konto auf Pushover.net bestehen. Zudem muss im Pushover-Nutzerkonto eine Applikation openWB eingerichtet werden, um den benötigten API-Token/Key zu erhalten.</p>
+							Wenn Pushover eingeschaltet ist, werden die Zählerstände aller konfigurierten Ladepunkte immer zum 1. des Monats gepusht.
+						</div>
+						<div id="pushban" class="disabled">
+							<div class="form-group">
+								<div class="form-row mb-1">
+									<label for="pushoveruser" class="col-md-4 col-form-label">Pushover User Key</label>
+									<div class="col">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<div class="input-group-text">
+													<i class="fa fa-user"></i>
+												</div>
+											</div>
+											<input type="text" name="pushoveruser" id="pushoveruser" value="<?php echo $pushoveruserold ?>" placeholder="User Token" class="form-control">
+										</div>
+									<span class="d_label">openwb.conf  pushoveruser [s] </span>
+									</div>
+								</div>
+								<div class="form-row">
+									<label for="pushovertoken" class="col-md-4 col-form-label">Pushover API-Token/Key</label>
+									<div class="col">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<div class="input-group-text">
+													<i class="fa fa-lock"></i>
+												</div>
+											</div>
+											<input type="text" name="pushovertoken" id="pushovertoken" value="<?php echo $pushovertokenold ?>" placeholder="App Token" class="form-control">
+										</div>
+									<span class="d_label">openwb.conf  pushovertoken [s] </span>
+									</div>
+								</div>
+							</div>
+							<hr class="border-secondary">
+							<div class="form-group">
+								<div class="form-row">
+									<div class="col">
+										Benachrichtigungen
+									</div>
+								</div>
+								<div class="form-row mb-1">
+									<div class="col-md-4">
+										<label class="col-form-label">Beim Starten der Ladung</label>
+									</div>
+									<div class="btn-group btn-group-toggle col-md-8" data-toggle="buttons">
+										<label class="btn btn-outline-info<?php if($pushbstartlold == 0) echo " active" ?>">
+											<input type="radio" name="pushbstartl" id="pushbstartlOff" value="0"<?php if($pushbstartlold == 0) echo " checked=\"checked\"" ?>>Aus
+										</label>
+										<label class="btn btn-outline-info<?php if($pushbstartlold == 1) echo " active" ?>">
+											<input type="radio" name="pushbstartl" id="pushbstartlOn" value="1"<?php if($pushbstartlold == 1) echo " checked=\"checked\"" ?>>An
+										</label>
+									</div>
+									<span class="d_label">openwb.conf  pushbstartl [0|1] </span>
+								</div>
+								<div class="form-row mb-1">
+									<div class="col-md-4">
+										<label class="col-form-label">Beim Stoppen der Ladung</label>
+									</div>
+									<div class="btn-group btn-group-toggle col-md-8" data-toggle="buttons">
+										<label class="btn btn-outline-info<?php if($pushbstoplold == 0) echo " active" ?>">
+											<input type="radio" name="pushbstopl" id="pushbstoplOff" value="0"<?php if($pushbstoplold == 0) echo " checked=\"checked\"" ?>>Aus
+										</label>
+										<label class="btn btn-outline-info<?php if($pushbstoplold == 1) echo " active" ?>">
+											<input type="radio" name="pushbstopl" id="pushbstoplOn" value="1"<?php if($pushbstoplold == 1) echo " checked=\"checked\"" ?>>An
+										</label>
+									</div>
+									<span class="d_label">openwb.conf  pushbstopl [0|1] </span>
+								</div>
+								<div class="form-row mb-1">
+									<div class="col-md-4">
+										<label class="col-form-label">Beim Einstecken des Fahrzeugs</label>
+									</div>
+									<div class="btn-group btn-group-toggle col-md-8" data-toggle="buttons">
+										<label class="btn btn-outline-info<?php if($pushbplugold == 0) echo " active" ?>">
+											<input type="radio" name="pushbplug" id="pushbplugOff" value="0"<?php if($pushbplugold == 0) echo " checked=\"checked\"" ?>>Aus
+										</label>
+										<label class="btn btn-outline-info<?php if($pushbplugold == 1) echo " active" ?>">
+											<input type="radio" name="pushbplug" id="pushbplugOn" value="1"<?php if($pushbplugold == 1) echo " checked=\"checked\"" ?>>An
+										</label>
+									</div>
+									<span class="d_label">openwb.conf  pushbplug [0|1] </span>
+								</div>
+								<div class="form-row mb-1">
+									<div class="col-md-4">
+										<label class="col-form-label">Bei Triggern von Smart Home Aktionen</label>
+									</div>
+									<div class="btn-group btn-group-toggle col-md-8" data-toggle="buttons">
+										<label class="btn btn-outline-info<?php if($pushbsmarthomeold == 0) echo " active" ?>">
+											<input type="radio" name="pushbsmarthome" id="pushbsmarthomeOff" value="0"<?php if($pushbsmarthomeold == 0) echo " checked=\"checked\"" ?>>Aus
+										</label>
+										<label class="btn btn-outline-info<?php if($pushbsmarthomeold == 1) echo " active" ?>">
+											<input type="radio" name="pushbsmarthome" id="pushbsmarthomeOn" value="1"<?php if($pushbsmarthomeold == 1) echo " checked=\"checked\"" ?>>An
+										</label>
+									</div>
+									<span class="d_label">openwb.conf  pushbsmarthome [0|1] </span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<script>
+						function visibility_pushbenachrichtigung() {
+							if($('#pushbenachrichtigungOff').prop("checked")) {
+								hideSection('#pushban');
+							} else {
+								showSection('#pushban');
+							}
+						}
+
+						$(document).ready(function(){
+							$('input[type=radio][name=pushbenachrichtigung]').change(function(){
+								visibility_pushbenachrichtigung();
+							});
+
+							visibility_pushbenachrichtigung();
+						});
+					</script>
+				</div>
 
 				<!-- LED Ausgänge -->
 				<div class="card border-secondary">
@@ -916,8 +1029,8 @@
 										<label class="btn btn-sm btn-outline-info<?php if($ledsaktold == 1) echo " active" ?>">
 											<input type="radio" name="ledsakt" id="ledsaktOn" value="1"<?php if($ledsaktold == 1) echo " checked=\"checked\"" ?>>An
 										</label>
-										<span class="d_label">openWB.conf ledsakt</span>
 									</div>
+									<span class="d_label">openwb.conf  ledsakt [0|1] </span>
 								</div>
 							</div>
 						</div>
@@ -948,8 +1061,8 @@
 										<option <?php if($led0sofortold == "blink13") echo "selected" ?> value="blink13">LED 1 & 3 blinkend</option>
 										<option <?php if($led0sofortold == "blink23") echo "selected" ?> value="blink23">LED 2 & 3 blinkend</option>
 									</select>
-									<span class="d_label">openWB.conf led0sofort</span>
 								</div>
+								<span class="d_label">openwb.conf  led0sofortt [s] </span>
 							</div>
 							<div class="form-row mb-1">
 								<label for="led0nurpv" class="col-md-4 col-form-label">Nur PV Laden Modus</label>
@@ -970,8 +1083,8 @@
 										<option <?php if($led0nurpvold == "blink13") echo "selected" ?> value="blink13">LED 1 & 3 blinkend</option>
 										<option <?php if($led0nurpvold == "blink23") echo "selected" ?> value="blink23">LED 2 & 3 blinkend</option>
 									</select>
-									<span class="d_label">openWB.conf led0nurpv</span>
 								</div>
+								<span class="d_label">openwb.conf  led0nurpv [s] </span>
 							</div>
 							<div class="form-row mb-1">
 								<label for="led0minpv" class="col-md-4 col-form-label">Min + PV Laden Modus</label>
@@ -992,8 +1105,8 @@
 										<option <?php if($led0minpvold == "blink13") echo "selected" ?> value="blink13">LED 1 & 3 blinkend</option>
 										<option <?php if($led0minpvold == "blink23") echo "selected" ?> value="blink23">LED 2 & 3 blinkend</option>
 									</select>
-									<span class="d_label">openWB.conf led0minpv</span>
 								</div>
+								<span class="d_label">openwb.conf  led0minpv [s] </span>
 							</div>
 							<div class="form-row mb-1">
 								<label for="led0standby" class="col-md-4 col-form-label">Standby Modus</label>
@@ -1014,8 +1127,8 @@
 										<option <?php if($led0standbyold == "blink13") echo "selected" ?> value="blink13">LED 1 & 3 blinkend</option>
 										<option <?php if($led0standbyold == "blink23") echo "selected" ?> value="blink23">LED 2 & 3 blinkend</option>
 									</select>
-									<span class="d_label">openWB.conf led0standby</span>
 								</div>
+								<span class="d_label">openwb.conf  led0standby [s] </span>
 							</div>
 							<div class="form-row mb-1">
 								<label for="led0stop" class="col-md-4 col-form-label">Stop Modus</label>
@@ -1036,8 +1149,8 @@
 										<option <?php if($led0stopold == "blink13") echo "selected" ?> value="blink13">LED 1 & 3 blinkend</option>
 										<option <?php if($led0stopold == "blink23") echo "selected" ?> value="blink23">LED 2 & 3 blinkend</option>
 									</select>
-									<span class="d_label">openWB.conf led0stop</span>
 								</div>
+								<span class="d_label">openwb.conf  led0stop [s] </span>
 							</div>
 						</div>
 						<hr class="border-secondary">
@@ -1066,8 +1179,8 @@
 										<option <?php if($ledsofortold == "blink13") echo "selected" ?> value="blink13">LED 1 & 3 blinkend</option>
 										<option <?php if($ledsofortold == "blink23") echo "selected" ?> value="blink23">LED 2 & 3 blinkend</option>
 									</select>
-									<span class="d_label">openWB.conf ledsofort</span>
 								</div>
+								<span class="d_label">openwb.conf  ledsofort [s] </span>
 							</div>
 							<div class="form-row mb-1">
 								<label for="lednurpv" class="col-md-4 col-form-label">Nur PV Laden Modus</label>
@@ -1088,8 +1201,8 @@
 										<option <?php if($lednurpvold == "blink13") echo "selected" ?> value="blink13">LED 1 & 3 blinkend</option>
 										<option <?php if($lednurpvold == "blink23") echo "selected" ?> value="blink23">LED 2 & 3 blinkend</option>
 									</select>
-									<span class="d_label">openWB.conf lednurpv</span>
 								</div>
+								<span class="d_label">openwb.conf  lednurpv [s] </span>
 							</div>
 							<div class="form-row mb-1">
 								<label for="ledminpv" class="col-md-4 col-form-label">Min + PV Laden Modus</label>
@@ -1110,8 +1223,8 @@
 										<option <?php if($ledminpvold == "blink13") echo "selected" ?> value="blink13">LED 1 & 3 blinkend</option>
 										<option <?php if($ledminpvold == "blink23") echo "selected" ?> value="blink23">LED 2 & 3 blinkend</option>
 									</select>
-									<span class="d_label">openWB.conf ledminpv</span>
 								</div>
+								<span class="d_label">openwb.conf  ledminpv [s] </span>
 							</div>
 							<div class="form-row mb-1">
 								<label for="ledstandby" class="col-md-4 col-form-label">Standby Modus</label>
@@ -1132,8 +1245,8 @@
 										<option <?php if($ledstandbyold == "blink13") echo "selected" ?> value="blink13">LED 1 & 3 blinkend</option>
 										<option <?php if($ledstandbyold == "blink23") echo "selected" ?> value="blink23">LED 2 & 3 blinkend</option>
 									</select>
-									<span class="d_label">openWB.conf ledstandby</span>
 								</div>
+								<span class="d_label">openwb.conf  ledstandby [s] </span>
 							</div>
 							<div class="form-row mb-1">
 								<label for="ledstop" class="col-md-4 col-form-label">Stop Modus</label>
@@ -1154,8 +1267,8 @@
 										<option <?php if($ledstopold == "blink13") echo "selected" ?> value="blink13">LED 1 & 3 blinkend</option>
 										<option <?php if($ledstopold == "blink23") echo "selected" ?> value="blink23">LED 2 & 3 blinkend</option>
 									</select>
-									<span class="d_label">openWB.conf ledstop</span>
 								</div>
+								<span class="d_label">openwb.conf  ledstop [s] </span>
 							</div>
 						</div>
 					</div>
@@ -1197,9 +1310,9 @@
 										<label class="btn btn-outline-info<?php if($displayaktivold == 1) echo " active" ?>">
 											<input type="radio" name="displayaktiv" id="displayaktivOn" value="1"<?php if($displayaktivold == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
-									     <span class="d_label">openWB.conf displayaktiv</span>
 									</div>
 								</div>
+								<span class="d_label">openwb.conf  displayaktiv [0|1] </span>
 							</div>
 						</div>
 						<div class="disabled" id="displayan">
@@ -1214,7 +1327,7 @@
 									<div class="col">
 										<input type="number" min="5" step="5" name="displaysleep" id="displaysleep" class="form-control" value="<?php echo $displaysleepold ?>">
 									</div>
-									<span class="d_label">openWB.conf displaysleep</span>
+									<span class="d_label">openwb.conf  displaysleep [n] </span>
 								</div>
 								<div class="form-row mb-1">
 									<div class="col-md-4">
@@ -1228,7 +1341,7 @@
 											<label class="btn btn-outline-info<?php if($displayEinBeimAnsteckenold == 1) echo " active" ?>">
 												<input type="radio" name="displayEinBeimAnstecken" id="displayEinBeimAnsteckenOn" value="1"<?php if($displayEinBeimAnsteckenold == 1) echo " checked=\"checked\"" ?>>Ja
 											</label>
-  									    <span class="d_label">openWB.conf displayEinBeimAnstecken</span>
+											<span class="d_label">openwb.conf  displayEinBeimAnstecken [0|1] </span>
 										</div>
 									</div>
 								</div>
@@ -1248,7 +1361,7 @@
 										<option <?php if($displaythemeold == 5) echo "selected" ?> value="5">Colors</option>
                                         <option <?php if($displaythemeold == 6) echo "selected" ?> value="6">Colors-HH</option>
 									</select>
-  									<span class="d_label">openWB.conf displaytheme</span>
+									<span class="d_label">openwb.conf  displaytheme [s] </span>
 								</div>
 							</div>
 							<div id="displaygauge" class="disabled">
@@ -1257,21 +1370,18 @@
 									<div class="col">
 										<input type="number" min="5000" step="100" name="displayevumax" id="displayevumax" class="form-control" value="<?php echo $displayevumaxold ?>">
 									</div>
-  									<span class="d_label">openWB.conf displayevumax</span>
 								</div>
 								<div class="form-row vaRow mb-1">
 									<label for="displaypvmax" class="col-md-4 col-form-label">PV Skala Max</label>
 									<div class="col">
 										<input type="number" min="1000" step="100" name="displaypvmax" id="displaypvmax" class="form-control" value="<?php echo $displaypvmaxold ?>">
 									</div>
-  									<span class="d_label">openWB.conf displaypvmax</span>
 								</div>
 								<div class="form-row vaRow mb-1">
 									<label for="displayspeichermax" class="col-md-4 col-form-label">Speicher Skala Min Max</label>
 									<div class="col">
 										<input type="number" min="1000" step="100" name="displayspeichermax" id="displayspeichermax" class="form-control" value="<?php echo $displayspeichermaxold ?>">
 									</div>
-  									<span class="d_label">openWB.conf displayspeichermax</span>
 								</div>
 								<div class="form-row mb-1">
 									<div class="col-md-4">
@@ -1287,38 +1397,35 @@
 											</label>
 										</div>
 									</div>
-  									<span class="d_label">openWB.conf displayhausanzeigen</span>
 								</div>
 								<div class="form-row vaRow mb-1">
 									<label for="displayhausmax" class="col-md-4 col-form-label">Hausverbrauch Skala Max</label>
 									<div class="col">
 										<input type="number" min="1000" step="100" name="displayhausmax" id="displayhausmax" class="form-control" value="<?php echo $displayhausmaxold ?>">
 									</div>
-  									<span class="d_label">openWB.conf displayhausmax</span>
 								</div>
-							</div>
-								<div class="form-row vaRow mb-1 hide" id="displaylp1" name="displaylp1" >
-									<label for="xdisplaylp1max" class="col-md-4 col-form-label">Ladepunkt 1 Skala Max</label>
+								<div class="form-row vaRow mb-1">
+									<label for="displaylp1max" class="col-md-4 col-form-label">Ladepunkt 1 Skala Max</label>
 									<div class="col">
-										<input type="number" min="1000" step="100" name="xdisplaylp1max" id="xdisplaylp1max" class="form-control" value="<?php echo $displaylp1maxold ?>">
+										<input type="number" min="1000" step="100" name="displaylp1max" id="displaylp1max" class="form-control" value="<?php echo $displaylp1maxold ?>">
 									</div>
-  									<span class="d_label">openWB.conf displaylp1max</span>
 								</div>
-								<div class="form-row vaRow mb-1 hide" id="displaylp2" name="displaylp2">
+								<div class="form-row vaRow mb-1" id="displaylp2">
 									<label for="displaylp2max" class="col-md-4 col-form-label">Ladepunkt 2 Skala Max</label>
 									<div class="col">
 										<input type="number" min="1000" step="100" name="displaylp2max" id="displaylp2max" class="form-control" value="<?php echo $displaylp2maxold ?>">
 									</div>
-  									<span class="d_label">openWB.conf displaylp2max</span>
 								</div>
-								<div class="form-row vaRow mb-1 hide" id="displaylp3" name="displaylp3">
+							</div>
+							<div id="displaycards" class="disabled">
+								<div class="form-row vaRow mb-1" id="displaylp3">
 									<label for="displaylp3max" class="col-md-4 col-form-label">Ladepunkt 3 Skala Max</label>
 									<div class="col">
 										<input type="number" min="1000" step="100" name="displaylp3max" id="displaylp3max" class="form-control" value="<?php echo $displaylp3maxold ?>">
 									</div>
-  									<span class="d_label">openWB.conf displaylp3max</span>
 								</div>
 							</div>
+						</div>
 						<hr class="border-secondary">
 						<div class="form-group">
 							<div class="form-row mb-1">
@@ -1338,7 +1445,7 @@
 										<label class="btn btn-outline-info<?php if($displaypinaktivold == 1) echo " active" ?>">
 											<input type="radio" name="displaypinaktiv" id="displaypinaktivOn" value="1"<?php if($displaypinaktivold == 1) echo " checked=\"checked\"" ?>>Ja
 										</label>
-    									<span class="d_label">openWB.conf displaypinaktiv</span>
+										<span class="d_label">openwb.conf  displaypinaktiv [0|1] </span>
 									</div>
 								</div>
 							</div>
@@ -1346,8 +1453,8 @@
 								<label for="displaypincode" class="col-md-4 col-form-label">PIN (4 Stellen, nur Zahlen erlaubt)</label>
 								<div class="col">
 									<input type="text" pattern="[0-9]{4}" minlength="4" maxlength="4" size="4" name="displaypincode" id="displaypincode" class="form-control" value="<?php echo $displaypincodeold ?>">
+									<span class="d_label">openwb.conf  displaypincode [s] </span>
 								</div>
-  								<span class="d_label">openWB.conf displaypincode</span>
 							</div>
 						</div>
 					</div>
@@ -1371,31 +1478,18 @@
 						}
 
 						function visibility_displaytheme() {
-							console.log('displaytheme ' , $('#displaytheme').val() )
 							switch ($('#displaytheme').val()) {
 								case '0': // Cards
 									showSection('#displaygauge');
-									showSection('#displaylp1');
-									showSection('#displaylp2');
-									showSection('#displaylp3');
-									break;
-								case '2': // Minimal
-									hideSection('#displaygauge');
-									showSection('#displaylp1');
-									showSection('#displaylp2');
-									hideSection('#displaylp3');
+									showSection('#displaycards');
 									break;
 								case '3': // Gauges
 									showSection('#displaygauge');
-									showSection('#displaylp1');
-									showSection('#displaylp2');
-									hideSection('#displaylp3');
+									hideSection('#displaycards');
 									break;
 								default:
 								hideSection('#displaygauge');
-									hideSection('#displaylp1');
-									hideSection('#displaylp2');
-									hideSection('#displaylp3');
+								hideSection('#displaycards');
 							}
 						}
 
@@ -1435,7 +1529,7 @@
 									<label class="btn btn-outline-info<?php if($hausverbrauchstatold == 1) echo " active" ?>">
 										<input type="radio" name="hausverbrauchstat" id="hausverbrauchstatOn" value="1"<?php if($hausverbrauchstatold == 1) echo " checked=\"checked\"" ?>>Ja
 									</label>
-  								<span class="d_label">openWB.conf hausverbrauchstat</span>
+									<span class="d_label">openwb.conf  hausverbrauchstat [0|1] </span>
 								</div>
 							</div>
 							<div class="form-row vaRow mb-1">
@@ -1449,7 +1543,7 @@
 									<label class="btn btn-outline-info<?php if($heutegeladenold == 1) echo " active" ?>">
 										<input type="radio" name="heutegeladen" id="heutegeladenOn" value="1"<?php if($heutegeladenold == 1) echo " checked=\"checked\"" ?>>Ja
 									</label>
-  								    <span class="d_label">openWB.conf heutegeladenOn</span>
+									<span class="d_label">openwb.conf  heutegeladen [0|1] </span>
 								</div>
 							</div>
 							<div class="form-row mb-1">
@@ -1459,7 +1553,7 @@
 										<label for="livegraph" class="col-2 col-form-label valueLabel" suffix="Min"><?php echo $livegraphold; ?> Min</label>
 										<div class="col-10">
 											<input type="range" class="form-control-range rangeInput" name="livegraph" id="livegraph" min="10" max="120" step="10" value="<?php echo $livegraphold; ?>">
-  								    <span class="d_label">openWB.conf livegraph</span>
+											<span class="d_label">openwb.conf  livegraph [n] </span>
 										</div>
 									</div>
 								</div>
@@ -1478,9 +1572,8 @@
 								<label for="preisjekwh" class="col-md-4 col-form-label">Preis je kWh</label>
 								<div class="col">
 									<input class="form-control" type="number" min="0" step="0.0001" name="preisjekwh" id="preisjekwh" value="<?php echo $preisjekwhold ?>">
+									<span class="d_label">openwb.conf  preisjekwh [f] </span>
 									<span class="form-text small">Gültige Werte xx.xx, z.B. 0.2833. Dient zur Berechnung der Ladekosten im Ladelog.</span>
-  								    <span class="d_label">openWB.conf preisjekwh</span>
-									
 								</div>
 							</div>
 						</div>

@@ -130,8 +130,6 @@ var thevalues = [
 	["openWB/config/get/SmartHome/Devices/10/device_name", "#"],
 
 ];
-
-
 //Connect Options
 var isSSL = location.protocol == 'https:';
 var port = isSSL ? 443 : 9001;
@@ -151,7 +149,6 @@ var options = {
 		client.connect(options);
 	}
 }
-
 var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 var client = new Messaging.Client(location.hostname, port, clientuid);
 
@@ -801,7 +798,7 @@ function loadgraph() {
 						afterTickToLabelConversion : function(q){
 							// convert labels from W to kW
 							for ( var tick in q.ticks ) {
-								var value = (parseInt(q.ticks[tick]) / 1000).toFixed(1);
+								var value = (parseInt(q.ticks[tick]) / 1000).toFixed(2);
 								q.ticks[tick] = value;
 							}
 						}

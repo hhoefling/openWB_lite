@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -31,7 +40,8 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
+		
 	</head>
 
 	<body>
@@ -61,11 +71,6 @@
 			}
 
 			$updateinprogress = trim(file_get_contents('/var/www/html/openWB/ramdisk/updateinprogress'));
-			
-			$lines=[];
-			exec('curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/web/version > /var/www/html/openWB/ramdisk/versnightly', $lines);
-			exec('curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/beta/web/version > /var/www/html/openWB/ramdisk/versbeta', $lines);
-			exec('curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/stable/web/version > /var/www/html/openWB/ramdisk/versstable', $lines);
 		?>
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
@@ -147,7 +152,7 @@
 							<h2>Nightly</h2>
 							<p>
 								Die Nightly-Version beinhaltet Neuentwicklungen, die teils nur eingeschränkt getestet sind. Fehlverhalten ist wahrscheinlich.<br>
-								Alle Änderungen können auf <a href="https://github.com/hhoefling/openWB_lite/commits/master">GitHub</a> eingesehen werden.
+								Alle Änderungen können auf <a href="https://github.com/snaptec/openWB/commits/master">GitHub</a> eingesehen werden.
 							</p>
 						</div>
 					</div>
@@ -219,8 +224,8 @@
 				function getVersion(dataURL) {
 					console.log('getVersion ' + dataURL);
 					return $.get({
-						//url: dataURL,
-						url: "/openWB/ramdisk/"+dataURL,
+						url: dataURL,
+						//url: "/openWB/ramdisk/"+dataURL,
 						cache: false
 					});
 				}
@@ -246,9 +251,9 @@
 				}
 
 				$(function getAllVersions() {
-					displayVersion("Stable", 'versstable');
-					displayVersion("Beta",   'versbeta');
-                    displayVersion("Nightly",'versnightly');				
+					displayVersion("Stable", 'https://raw.githubusercontent.com/snaptec/openWB/stable17/web/version');
+					displayVersion("Beta",   'https://raw.githubusercontent.com/snaptec/openWB/beta/web/version');
+					displayVersion("Nightly",'https://raw.githubusercontent.com/snaptec/openWB/master/web/version');
 				});
 
 				$.get({
@@ -286,9 +291,9 @@
 						if ( releasetrains.includes("<?php echo $releasetrain?>") ) {
 							// check the box matching config file releasetrain
 							$("input[value='<?php echo $releasetrain?>']").prop('checked', true);
-						} else if ( releasetrains.includes("stable") ) {
+						} else if ( releasetrains.includes("stable17") ) {
 							// version from config file not availabe so select stable
-							$("input[value='stable']").prop('checked', true);
+							$("input[value='stable17']").prop('checked', true);
 						} else if ( releasetrains.includes("beta") ) {
 							// stable not availabe so select beta
 							$("input[value='beta']").prop('checked', true);

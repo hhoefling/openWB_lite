@@ -22,13 +22,23 @@
 
 
 function getIndex(topic) {
+
+	var index
+	try {
+		index = topic.match(/(?:\/)([0-9]+)(?=\/)/g)[0].replace(/[^0-9]+/g, '');
+	  }
+    catch(err) {
+  		index='';
+	}
+
+
 	// get occurrence of numbers between / / in topic
 	// since this is supposed to be the index like in openwb/lp/4/w
 	// no lookbehind supported by safari, so workaround with replace needed
-	var index = topic.match(/(?:\/)([0-9]+)(?=\/)/g)[0].replace(/[^0-9]+/g, '');
-	if ( typeof index === 'undefined' ) {
-		index = '';
-	}
+	//var index = topic.match(/(?:\/)([0-9]+)(?=\/)/g)[0].replace(/[^0-9]+/g, '');
+	//if ( typeof index === 'undefined' ) {
+	//	index = '';
+	//}
 	return index;
 }
 
@@ -51,8 +61,11 @@ function handlevar(mqttmsg, mqttpayload) {
 	else if ( mqttmsg.match( /^openwb\/housebattery\//i) ) {
 		processBatMsg(mqttmsg, mqttpayload);
 	}
-		else if ( mqttmsg.match( /^openwb\/SmartHome\//i) ) {
+	else if ( mqttmsg.match( /^openwb\/SmartHome\//i) ) {
 		processSmartHomeMsg(mqttmsg, mqttpayload);
+	}
+	else if ( mqttmsg.match( /^openwb\/config\/get\/SmartHome\//i) ) {
+		processSmartHomeDeviceMsg(mqttmsg, mqttpayload);
 	}
 	else if ( mqttmsg.match( /^openwb\/system\//i) ) {
 		processSystemMsg(mqttmsg, mqttpayload);
@@ -253,42 +266,67 @@ function processBatMsg (mqttmsg, mqttpayload) {
 	}
 }
 
-function processSmartHomeMsg (mqttmsg, mqttpayload) {
-	switch(mqttmsg){
-		case "openWB/SmartHome/Status/maxspeicherladung":
+function processSmartHomeDeviceMsg(mqttmsg, mqttpayload)
+{
+ var index = getIndex(mqttmsg);  // extract number between two / /
+ console.log(index, mqttmsg, mqttpayload);
+ if ( mqttmsg.match(/device_configured$/i ) ) {
+   visibilityCard('#device'+index, mqttpayload);
+ }
+ else if ( mqttmsg.match(/device_name$/i ) ) {
+	textShow(mqttpayload, '#device'+index+'_name');
+ }
+ else if ( mqttmsg.match(/device_type$/i ) ) {
+	textShow(mqttpayload, '#device'+index+'_typ');
+ }
+}
+
+
+function processSmartHomeMsg (mqttmsg, mqttpayload) 
+{
+	var index = getIndex(mqttmsg);  // extract number between two / /
+	console.log("processSmartHomeMsg.", index, mqttmsg, mqttpayload);
+
+	if ( mqttmsg.match(/maxspeicherladung$/i ) ) 
 			directShow(mqttpayload, '#wmaxspeicherladung');
-			break;
-		case "openWB/SmartHome/Status/wattschalt":
+	else if ( mqttmsg.match(/wattschalt$/i ) ) 
 			directShow(mqttpayload, '#wwattschalt');
-			break;
-		case "openWB/SmartHome/Status/wattnichtschalt":
+	else if ( mqttmsg.match(/wattnichtschalt$/i ) ) 
 			directShow(mqttpayload, '#wwattnichtschalt');
-			break;
-		case "openWB/SmartHome/Status/uberschuss":
+	else if ( mqttmsg.match(/uberschuss$/i ) ) 
 			directShow(mqttpayload, '#wuberschuss');
-			break;
-		case "openWB/SmartHome/Status/uberschussoffset":
+	else if ( mqttmsg.match(/uberschussoffset$/i ) ) 
 			directShow(mqttpayload, '#wuberschussoffset');
-			break;
-		default:
+	else if ( mqttmsg.match(/Watt$/i ) ) 
+			directShow(mqttpayload, '#device'+index+' .shWatt');
+	else if ( mqttmsg.match(/Wh$/i ) ) 
+			kShow(mqttpayload, '#device'+index+' .importsh');
+	else if ( mqttmsg.match(/Whe$/i ) ) 
+			kShow(mqttpayload, '#device'+index+' .exportsh');
+	else
 			console.log("Unknown topic: "+mqttmsg+": "+mqttpayload);
-			break;
-	}
 }
 
 function processVerbraucherMsg (mqttmsg, mqttpayload) {
 	var index = getIndex(mqttmsg);  // extract number between two / /
-	if ( mqttmsg.match( /^openwb\/Verbraucher\/[1-2]\/Configured$/i ) ) {
+    console.log('Verbraucher:' , index, mqttmsg, mqttpayload);
+	if ( mqttmsg.match( /^openwb\/verbraucher\/[1-2]\/configured$/i ) ) {
 		visibilityCard('#loads'+index, mqttpayload);
 	}
 	else if ( mqttmsg.match( /^openwb\/Verbraucher\/[1-2]\/Watt$/i ) ) {
 		directShow(mqttpayload, '#loads'+index+' .verbraucherWatt');
 	}
 	else if ( mqttmsg.match( /^openwb\/Verbraucher\/[1-2]\/WhImported$/i ) ) {
-		kShow(mqttpayload, '#loads'+index+' .importVerbraucher');
+		kShow0(mqttpayload, '#loads'+index+' .TotalimportVerbraucher');
 	}
 	else if ( mqttmsg.match( /^openwb\/Verbraucher\/[1-2]\/WhExported$/i ) ) {
-		kShow(mqttpayload, '#loads'+index+' .exportVerbraucher');
+		kShow0(mqttpayload, '#loads'+index+' .TotalexportVerbraucher');
+	}
+	else if ( mqttmsg.match( /^openwb\/Verbraucher\/[1-2]\/DailyYieldImportkWh$/i ) ) {
+		kShow0(mqttpayload, '#loads'+index+' .importVerbraucher');
+	}
+	else if ( mqttmsg.match( /^openwb\/Verbraucher\/[1-2]\/DailyYieldExportkWh$/i ) ) {
+		kShow0(mqttpayload, '#loads'+index+' .exportVerbraucher');
 	}
 }
 
@@ -426,6 +464,24 @@ function kShow(mqttpayload, variable) {
     //console.log('kShow( ' , mqttpayload, ',' , variable,') ',valueStr )
 }
 
+// show value as kilo
+function kShow0(mqttpayload, variable) {
+	var value = parseFloat(mqttpayload);
+	value = value / 1000
+	if ( value == 0.0 )
+	{
+	  $(variable).parent().addClass('hide');
+      updateFormFieldVisibility();
+	
+	} else
+	{
+	  var valueStr = value.toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 3});
+      // var valueStr = value.toLocaleString(); // undefined, {minimumFractionDigits: 3, maximumFractionDigits: 3}) ;
+	  $(variable).text(valueStr);
+      //console.log('kShow( ' , mqttpayload, ',' , variable,') ',valueStr )
+	}  
+}
+
 function BatShow(mqttpayload, variable) {
 		var value = parseFloat(mqttpayload);
 		if ( isNaN(value) ) {
@@ -528,26 +584,41 @@ var pv2 = 0;
 //show/hide card, if module is configured
 function visibilityCard(card, mqttpayload) {
 	var value = parseInt(mqttpayload);
-    //console.log('visibilityCard ', card, ' ', value  ) );
+    console.log('visibilityCard ', card, ' ', value  );
 	if (value == 0) {
 		hideSection(card);
-	} else {
+	} else 
+	{
 		showSection(card);
 		if ( (card.match( /^[#]lp[2-3]$/i)) && lpGesCardShown == false ) {
 			showSection('#lpges');
 			lpGesCardShown = true;
-		} else if ( card.match(/^[#]inverter[1-2]+$/i) ) {
+		}
+		else if ( card.match(/^[#]inverter[1-2]+$/i) ) 
+		{
 			if ( card == "#inverter1" ) {
-				pv1 = mqttpayload;
+				pv1 = value;
 			} else {
-				pv2 = mqttpayload;
+				pv2 = value;
 			}
-
-			if ( (pv1 + pv2) > 0 ) {
-				showSection('#pvGes');
-			} else {
-				hideSection('#pvGes');
+			if( (pv1+pv2)==0 )		// war vorher String-Add statt int Int-Add
+			 {
+			    visibilityCard('#pvGes',"0");
+				hideSection('#inverter1');
+				hideSection('#inverter2');
 			}
+			 else if( (pv1+pv2)==1 )
+			 {
+			    visibilityCard('#pvGes',"1");
+				hideSection('#inverter1');
+				hideSection('#inverter2');
+			}
+			 else if( (pv1+pv2)==2)
+			 {
+			    visibilityCard('#pvGes',"1");
+				showSection('#inverter1');
+				showSection('#inverter2');
+			 }
 		}
 	}
 }

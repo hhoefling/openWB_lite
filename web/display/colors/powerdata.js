@@ -73,6 +73,7 @@ class WbData {
 		this.prefs = {};
 		this.chargePointToConfig = 0;
 		this.minCurrent = 6;
+
 		this.displaylocked = true;
 	};
 
@@ -118,6 +119,7 @@ class WbData {
 		doc.classed("theme-dark", (this.displayMode == "dark"));
 		doc.classed("theme-light", (this.displayMode == "light"));
 		doc.classed("theme-gray", (this.displayMode == "gray"));
+        doc.classed("theme-hh", (this.displayMode == "hh"));
 		doc.classed("shcolors-normal", true);
 
 		d3.select("button#powerSelectButton")
@@ -533,7 +535,6 @@ function updateEnergyRangeInput(value) {
 
 
 }
-
 function updateMaxPriceInput(value) {
 	const label = d3.select(".labelMaxPrice").text(value + " Cent");
 	label.classed("text-danger", true)
@@ -547,7 +548,6 @@ function updateMaxPriceInput(value) {
 		publish(value, "openWB/set/awattar/MaxPriceForCharging" )
 		wbdata.maxPriceDelayTimer = null;
 	}, 2000)
-
 }
 
 

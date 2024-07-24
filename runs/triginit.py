@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 #coding: utf8
 #
 # Up atreboot.sh
@@ -6,11 +6,7 @@
 #
 
 import time
-try:
-    import RPi.GPIO as GPIO
-except ModuleNotFoundError:
-    from myisss.mylog import log_debug
-    from myisss.mygpio import GPIO
+import RPi.GPIO as GPIO
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -21,10 +17,6 @@ args = parser.parse_args()
 if(args.verbose):
     print("Wartezeit vor und nach 1p/3p Umschaltung: %fs" % (args.duration))
 
-
-# BCM-Nummerierung verwenden
-# GPIO.setmode(GPIO.BCM)
-	
 # setup GPIOs
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
@@ -40,19 +32,18 @@ GPIO.output(22, GPIO.HIGH)
 GPIO.output(15, GPIO.HIGH)
 time.sleep(float(args.duration))
 
-# init phases PIN37=GPIO26,  PIN29=GPIO5,  PIN13 GPIO27,   PIN11=GPIO17
+# init phases
 GPIO.output(37, GPIO.LOW)
 GPIO.output(29, GPIO.LOW)
 GPIO.output(13, GPIO.LOW)
 GPIO.output(11, GPIO.LOW)
 time.sleep(float(args.duration))
 
-# enable CP  PIN22=GPIO25  PIN15=GPIO22
+# enable CP
 GPIO.output(22, GPIO.LOW)
 GPIO.output(15, GPIO.LOW)
 
-# Socket: power to lock motor PIN26=GPIO7
+# Socket: power to lock motor
 GPIO.setup(26, GPIO.OUT)
 # set pin to low to prevent the motor from burning out
 GPIO.output(26, GPIO.LOW)
-

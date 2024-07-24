@@ -231,7 +231,7 @@ header( 'Refresh:600;' );
 				});
 
 				// load graph
-				$.getScript("logging/dailychart.js?ver=20210209");
+				$.getScript("logging/dailychart.js");
 			})
 		</script>
 

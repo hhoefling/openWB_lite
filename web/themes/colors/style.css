@@ -4,7 +4,15 @@ Stylesheet zum openWB Standard-Theme
 2019-2020 Michael Ortenstein
 */
 
-html {
+.btn-smx,
+.btn-group-smx > .btn {
+  padding: 0.0rem 0.5rem 0.0rem 0.5rem; 
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+html{
 	min-height: 100%;
 	min-width: 100%;
 }
@@ -34,6 +42,7 @@ h4 {
 body>.container-fluid {
 	padding: 55px 15px 0;
 }
+
 @keyframes alertPulsation {
 	0% {
 		opacity: 1;
@@ -89,6 +98,7 @@ body>.container-fluid {
 		opacity: 1;
 	}
 }
+
 .animate-alertPulsation {
 	-webkit-animation: alertPulsation 1s infinite;
 	-moz-animation: alertPulsation 1s infinite;
@@ -107,9 +117,11 @@ body>.container-fluid {
 .row.no-gutter [class*='col-']:first-child:not(:only-child) {
 	padding-right: 0;
 }
+
 .row.no-gutter [class*='col-']:last-child:not(:only-child) {
 	padding-left: 0;
 }
+
 .row.no-gutter [class*='col-']:not(:first-child):not(:last-child):not(:only-child) {
 	padding-right: 0;
 	padding-left: 0;
@@ -126,6 +138,20 @@ body>.container-fluid {
 	cursor: pointer;
 }
 
+
+
+.accordion .card-header:after {
+    font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+    content: "\f146";
+    float: right; 
+}
+.accordion .card-header.collapsed:after {
+    /* symbol for "collapsed" panels */
+	content: "\f0fe"; 
+}
+
+
 .vaRow {
 	/* vertical alignment of content in rows */
 	display: flex;
@@ -140,10 +166,12 @@ body>.container-fluid {
 	color: #006515;
 	text-decoration: none;
 }
+
 .lpWaitingStyle {
 	color: #ffdb00;
 	text-decoration: none;
 }
+
 .lpDisabledStyle {
 	color: #A30000;
 	text-decoration: line-through;
@@ -192,6 +220,7 @@ body>.container-fluid {
 .bg-lightgrey {
 	background-color: #d0d7e6;
 }
+
 .bg-lightblue {
 	background-color: #23ebe1;
 }
@@ -253,6 +282,7 @@ h4 {
 .buttonTextSize {
 	font-size: 0.9rem;
 }
+
 .tablecell {
 	font-size: var(--font-normal);
 	line-height: 1.1rem;
@@ -266,7 +296,7 @@ h4 {
 @media (min-width: 240px) {
     #mediacss:after{ 
         content: "240"; 
-	}
+    } 
 	html {
 		font-size: 12px;
 	}
@@ -274,7 +304,7 @@ h4 {
 @media (min-width: 330px) {
     #mediacss:after{ 
         content: "330"; 
-	}
+    } 
 	html {
 		font-size: 14px;
 	}
@@ -283,7 +313,7 @@ h4 {
 @media (min-width: 400px) {
     #mediacss:after{ 
         content: "400"; 
-	}
+    } 
 	html {
 		font-size: 15px;
 	}
@@ -291,17 +321,15 @@ h4 {
 @media (min-width: 435px) {
     #mediacss:after{ 
         content: "435"; 
-	}
+    } 
     html {
 		font-size: 16px;
 	}
-
-
 }
 @media (min-width: 470px) {
     #mediacss:after{ 
         content: "470"; 
-	}
+    } 
 	html {
 		font-size: 17px;
 	}
@@ -309,7 +337,7 @@ h4 {
 @media (min-width: 505px) {
     #mediacss:after{ 
         content: "505"; 
- 	}
+    } 
 	html {
 		font-size: 18px;
 	}
@@ -317,7 +345,7 @@ h4 {
 @media (min-width: 540px) {
     #mediacss:after{ 
         content: "540"; 
-	}
+    } 
 	html {
 		font-size: 19px;
 	}
@@ -326,7 +354,7 @@ h4 {
 @media (min-width: 576px) {
     #mediacss:after{ 
         content: "576"; 
-	}
+    } 
 	html {
 		font-size: 20px;
 	}
@@ -335,7 +363,7 @@ h4 {
 @media (min-width: 672px) {
     #mediacss:after{ 
         content: "672"; 
-	}
+    } 
 	html {
 		font-size: 21px;
 	}
@@ -345,7 +373,7 @@ h4 {
 @media (min-width: 768px) {
     #mediacss:after{ 
         content: "768"; 
-	}
+    } 
 	html {
 		font-size: 18px;
 	}
@@ -355,7 +383,7 @@ h4 {
 @media (min-width: 992px) {
     #mediacss:after{ 
         content: "992"; 
-	}
+    } 
 	html {
 		font-size: 13px;
 	}
@@ -364,7 +392,7 @@ h4 {
 @media (min-width: 1061px) {
     #mediacss:after{ 
         content: "1061"; 
- 	}
+    } 
 	html {
 		font-size: 14px;
 	}
@@ -372,7 +400,7 @@ h4 {
 @media (min-width: 1130px) {
     #mediacss:after{ 
         content: "1130"; 
-	}
+    } 
 	html {
 		font-size: 15px;
 	}
@@ -382,7 +410,7 @@ h4 {
 @media (min-width: 1200px) {
     #mediacss:after{ 
         content: "1200"; 
-	}
+    } 
 	html {
 		font-size: 16px;
 	}
@@ -390,7 +418,7 @@ h4 {
 @media (min-width: 1283px) {
     #mediacss:after{ 
         content: "1283"; 
-	}
+    } 
 	html {
 		font-size: 17px;
 	}
@@ -398,7 +426,7 @@ h4 {
 @media (min-width: 1366px) {
     #mediacss:after{ 
         content: "1366"; 
-	}
+    } 
 	html {
 		font-size: 18px;
 	}
@@ -406,7 +434,7 @@ h4 {
 @media (min-width: 1449px) {
     #mediacss:after{ 
         content: "1449"; 
-	}
+    } 
 	html {
 		font-size: 19px;
 	}
@@ -414,7 +442,7 @@ h4 {
 @media (min-width: 1532px) {
     #mediacss:after{ 
         content: "1532"; 
-	}
+    } 
 	html {
 		font-size: 20px;
 	}
@@ -422,7 +450,7 @@ h4 {
 @media (min-width: 1615px) {
     #mediacss:after{ 
         content: "1651"; 
-	}
+    } 
 	html {
 		font-size: 21px;
 	}
@@ -431,7 +459,7 @@ h4 {
 @media (min-width: 1700px) {
     #mediacss:after{ 
         content: "1700"; 
-	}
+    } 
 	html {
 		font-size: 22px;
 	}
@@ -440,6 +468,7 @@ h4 {
 .maxPrice {
 	text-align: center;
 }
+
 /* Overarching colors */
 :root {
 	--fontCol: rgba(160, 160, 160, 0.82);
@@ -489,7 +518,7 @@ h4 {
 	--gridCol: rgba(255, 255, 255, 0.82);
 	--xgridCol: rgba(255, 255, 255, 0.1);
 	--tickCol: rgba(255, 255, 255, 0.82);
-	--evuCol: rgba(255, 0, 0, 0.7);	
+	--evuCol: rgba(255, 0, 0, 0.7);
 	--invertLogo: invert(0)
 }
 
@@ -567,7 +596,7 @@ h4 {
 	--color-co1: #bf3caf;
 	--color-co2: #963db3;
 	--padding-widget: 0px;
-	--invertLogo: invert(1);	
+	--invertLogo: invert(1);
 }
 
 .shcolors-normal {
@@ -607,8 +636,8 @@ h4 {
 	--color-sh7: rgba(50, 200, 200, 0.7);
 	--color-sh8: rgba(0, 200, 200, 0.7);
 	--color-sh9: rgba(200, 200, 200, 0.7);
-}	
-	
+}
+
 .openwb-devices {
 	color: #ccffff;
 	background-color: #009696;
@@ -617,6 +646,7 @@ h4 {
 .colormenu {
 	background-color: var(--color-frame);
 }
+
 .wb-widget {
 	background-color: var(--color-bg);
 	border: 0.5px solid var(--color-frame);
@@ -627,18 +657,22 @@ h4 {
 	border: 0px solid var(--color-subframe);
 	padding: var(--padding-widget);
 }
-	
 
 th {
 	color: var(--color-axis);
 }
+
 .table-borderless td {
 	border: 0;
 }
+
 .popup-header {
 	color: midnightblue;
 }
+
 .axis text {
 	color: var(--color-axis);
 	stroke-width: 0;
-} 
+}
+
+

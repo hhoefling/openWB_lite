@@ -163,7 +163,7 @@
 				});
 
 				// load graph
-				$.getScript("logging/yearlychart.js?ver=20230101");
+				$.getScript("logging/yearlychart.js");
 			})
 		</script>
 

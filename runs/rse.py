@@ -62,7 +62,7 @@ try:
             rse_states = [ (xxx[0]=='True'), (xxx[1]=='True') ]
         except:
             pass    
-
+        
         log_debug(0, "rse-state: " + str(rse_states))
         for rse in range(len(rse_inputs)):
             if rse_states[rse] != last_rse_states[rse]:

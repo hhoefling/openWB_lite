@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 	<!-- Auswahl der verfügbaren Themes zur weiteren Anzeige
@@ -31,7 +40,8 @@
 		<!-- include settings-style -->
 		<link rel="stylesheet" type="text/css" href="css/settings_style.css">
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
+		
 	</head>
 
 	<body>

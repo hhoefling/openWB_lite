@@ -1,6 +1,12 @@
-NC
-
-
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('./%s/%s', $dir,$file);
+			$ftime=filemtime("$dir/$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -45,7 +51,8 @@ NC
 		<link rel="stylesheet" type="text/css" href="css/clockpicker/bootstrap-clockpicker.min.css">
 
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
+		
 		<script>
 			var oldClockpickerTime;  // holds old value of clockpicker during changing the time
 		</script>
@@ -102,9 +109,9 @@ NC
 			$isConfiguredLp[1] = 1;  // lp1 always configured
 			$isConfiguredLp[2] = ($settingsArray['lastmanagement'] == 1) ? 1 : 0;
 			$isConfiguredLp[3] = ($settingsArray['lastmanagements2'] == 1) ? 1 : 0;
-			//for ($lp=4; $lp<=$maxQuantityLp; $lp++) {
-			//	$isConfiguredLp[$lp] = ($settingsArray['lastmanagementlp'.$lp] == 1) ? 1 : 0;
-			//}
+			for ($lp=4; $lp<=$maxQuantityLp; $lp++) {
+				$isConfiguredLp[$lp] = ($settingsArray['lastmanagementlp'.$lp] == 1) ? 1 : 0;
+			}
 
 			// just to make sure... reset all elements for non-configured lp
 			for ($lp=1; $lp<=$maxQuantityLp; $lp++) {

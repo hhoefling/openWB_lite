@@ -1,13 +1,8 @@
-#!/usr/bin/python3
-# coding: utf8
+#!/usr/bin/env python
+#coding: utf8
 
 import time
-try:
-    import RPi.GPIO as GPIO
-except ModuleNotFoundError:
-    from myisss.mylog import log_debug
-    from myisss.mygpio import GPIO
-
+import RPi.GPIO as GPIO
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -15,8 +10,8 @@ parser.add_argument("-d", "--duration", type=int, default=4, help="duration in s
 parser.add_argument("-v", "--verbose", action="store_true", help="verbose debug output")
 args = parser.parse_args()
 
-if (args.verbose):
-    print("CP-Unterbrechung LP2: %ds" % (args.duration))
+if(args.verbose):
+    print("CP-Unterbrechung LP2: %ds"%(args.duration))
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)

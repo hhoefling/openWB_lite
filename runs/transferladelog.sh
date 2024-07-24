@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# Urlalte Logs vorhanden ?
+
 if [ -e /var/www/html/openWB/web/ladelog ]; then
 	mkdir /var/www/html/openWB/web/logging/data/ladelog
 	oldlog="/var/www/html/openWB/web/ladelog"
@@ -16,3 +19,9 @@ if [ -e /var/www/html/openWB/web/ladelog ]; then
 	  chmod 777 /var/www/html/openWB/web/logging/data/ladelog/*
 
 fi
+
+
+###  # upgrade charge log data with costs
+### python3 "${OPENWBBASEDIR}/runs/upgradeChargeLogs.py" --price "$preisjekwh"
+### macht mir die KM wieder kaputt also inkompatieble
+

@@ -27,7 +27,7 @@ semiauslademodus(){
 		openwbDebugLog "CHARGESTAT" 0 "LP3, Lademodus Standby. Ladefreigabe noch aktiv. Stoppe Ladung"
 	fi
 
-	openwbDebugLog "MAIN" 0 "*** EXIT 0 (semiauslademodus)"
+	openwbDebugLog "MAIN" 0 "*** EXIT 0 "
 	exit 0
 }
 

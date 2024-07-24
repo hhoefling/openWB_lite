@@ -1,7 +1,7 @@
 <?php
 function  geturl($file)
 	{
- 			$fn=sprintf('status/%s', $file);
+ 			$fn=sprintf('./status/%s', $file);
  			$ftime=filemtime($file);
  			return sprintf('%s?v=%d' , $fn,$ftime);
 	}
@@ -36,7 +36,7 @@ function  geturl($file)
 		<!-- include settings-style -->
 		<link rel="stylesheet" type="text/css" href="<?php echo geturl('status_style.css'); ?>">
 		<!-- local css due to async loading of theme css -->
-		<style>
+	<style>
 			#preloader {
 				background-color:white;
 				position:fixed;
@@ -63,6 +63,9 @@ function  geturl($file)
 		<!-- important scripts to be loaded -->
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
+		<script src="js/Chart.bundle.min.js"></script>
+		
+				
 		<!-- load helper functions -->
 		<script src = "<?php echo geturl('helperFunctions.js');?>"></script>
 		<script>
@@ -90,6 +93,7 @@ function  geturl($file)
 
 		<script>
 			function readLogFile(urlStr, target) {
+				$.ajaxSetup({ cache: false });
 				$.ajax({
 					url: urlStr,
 					complete: function(request){
@@ -133,10 +137,10 @@ function  geturl($file)
 			function llanbindunglog() {
 				readLogFile("/openWB/ramdisk/isss.log", "#llanbindungdiv");
 			}
-			
-			function lleventlog() {
-				readLogFile("/openWB/ramdisk/event.log", "#lleventdiv");
-			}
+
+            function lleventlog() {
+                readLogFile("/openWB/ramdisk/event.log", "#lleventdiv");
+            }
             function errorlog() {
                 readLogFile("/openWB/ramdisk/openwb.error.log", "#errordiv");
             }
@@ -169,12 +173,12 @@ function  geturl($file)
 					<img id="preloader-image" src="img/favicons/preloader-image-transparent.png" alt="openWB">
 					</div>
 				</div>
-				<div id="preloader-info" class="row justify-content-center mt-2">
+			<div id="preloader-info" class="row justify-content-center mt-2">
 					<div class="col-10 col-sm-6">
 					Bitte geduld, während die Seite aufgebaut wird.
 					</div>
 				</div>
-				<div class="row justify-content-center mt-2">
+			<div class="row justify-content-center mt-2">
 					<div class="col-10 col-sm-6">
 						<div class="progress active">
 							<div class="progress-bar progress-bar-success progress-bar-striped progress-bar-animated" id="preloaderbar" role="progressbar">
@@ -211,8 +215,8 @@ function  geturl($file)
 									<tbody>
 										<tr class="faultStrLpRow hide">
 											<th scope="row">Störungsbeschreibung
-                                           <span class="fa fa-xs fa-trash-alt" onclick="lpfaultclrclicked(<?php echo $chargepointNum ?>);" ></span>
-                                            </th>
+												<span class="fa fa-xs fa-trash-alt" onclick="lpfaultclrclicked(<?php echo $chargepointNum ?>);" ></span>
+											</th>
 											<td class="faultStrLp"></td>
 										</tr>
 										<tr class="stromvorgabeRow">
@@ -509,6 +513,7 @@ function  geturl($file)
 					</div>
 				</div>
 
+				
 				<!-- Smarthome -->
 				<div class="card border-info " id="Smarthome">
 					<div class="card-header bg-info">
@@ -544,6 +549,31 @@ function  geturl($file)
 					</div>
 				</div>
 
+
+	        <?php for( $shNum = 1; $shNum <= 9; $shNum++ ){ ?>
+				<div class="card border-info hide" id="device<?php echo $shNum; ?>">
+					<div class="card-header bg-info">
+                       Gerät <?php echo $shNum;?>: <span id="device<?php echo $shNum;?>_name"></span>&nbsp
+                         [<small><span id="device<?php echo $shNum;?>_typ"></span></small>]
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+    						<table class="table">
+								<tbody>
+										<tr class="leistungshRow">
+											<th scope="row">Leistung [W]</th>
+											<td class="shWatt">--</td>
+										</tr>
+										<tr class="importshRow">
+											<th scope="row">Import [kWh]</th>
+											<td class="importsh">--</td>
+										</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+            <?php } ?>
 				<!--Verbraucher-->
 				<?php for( $loadsNum = 1; $loadsNum <= 2; $loadsNum++ ){ ?>
 					<div class="card border-secondary hide" id="loads<?php echo $loadsNum ?>">
@@ -559,12 +589,20 @@ function  geturl($file)
 											<td class="verbraucherWatt">--</td>
 										</tr>
 										<tr class="importVerbraucherRow">
-											<th scope="row">Import [kWh]</th>
+											<th scope="row">Heute Import [kWh]</th>
 											<td class="importVerbraucher">--</td>
 										</tr>
 										<tr class="exportVerbraucherRow">
-											<th scope="row">Export [kWh]</th>
+											<th scope="row">Heute Export [kWh]</th>
 											<td class="exportVerbraucher">--</td>
+										</tr>
+										<tr class="importVerbraucherRow">
+											<th scope="row">Total-Import [kWh]</th>
+											<td class="TotalimportVerbraucher">--</td>
+										</tr>
+										<tr class="exportVerbraucherRow">
+											<th scope="row">Total-Export [kWh]</th>
+											<td class="TotalexportVerbraucher">--</td>
 										</tr>
 									</tbody>
 								</table>
@@ -640,13 +678,13 @@ function  geturl($file)
 						<button class="btn btn-info reloadEventLog" style="margin-bottom:12px" type="reset">Aktualisieren <i class="fas fa-redo-alt"></i> </button>
 						<pre id="lleventdiv">Lade Daten...</pre>
 					</div>
-					<div class="card-header bg-secondary collapsed" data-toggle="collapse" data-target="#collapseTen">
-						<a class="card-title">Debug Log 2  </a>
-					</div>
-					<div id="collapseTen" class="card-body collapse" data-parent="#accordion">
-						<button class="btn btn-info reloadDbgLog" style="margin-bottom:12px" type="reset">Aktualisieren <i class="fas fa-redo-alt"></i> </button>
-						<pre id="lldbgdiv">Lade Daten...</pre>
-					</div>
+                    <div class="card-header bg-secondary collapsed" data-toggle="collapse" data-target="#collapseTen">
+                        <a class="card-title">Debug Log 2  </a>
+                    </div>
+                    <div id="collapseTen" class="card-body collapse" data-parent="#accordion">
+                        <button class="btn btn-info reloadDbgLog" style="margin-bottom:12px" type="reset">Aktualisieren <i class="fas fa-redo-alt"></i> </button>
+                        <pre id="lldbgdiv">Lade Daten...</pre>
+                    </div>
                     <div class="card-header bg-secondary collapsed" data-toggle="collapse" data-target="#collapse11">
                         <a class="card-title">Et-Provider Log</a>
                     </div>
@@ -776,9 +814,7 @@ function  geturl($file)
 				var scriptsToLoad = [
 					// load mqtt library
 					'js/mqttws31.js',
-					// functions for processing messages
 					'<?php echo geturl('processAllMqttMsg.js');?>',	
-					// functions performing mqtt and start mqtt-service
 					'<?php echo geturl('setupMqttServices.js');?>',	
 				];
 				scriptsToLoad.forEach(function(src) {
@@ -787,6 +823,8 @@ function  geturl($file)
 					script.async = false;
 					document.body.appendChild(script);
 				});
+				
+				
 			});  // end document ready
 
 			$('.reloadLadestatusLog').click(function(event){
@@ -840,15 +878,15 @@ function  geturl($file)
 			$('.reloadEventLog').click(function(event){
 				lleventlog();
 			});
-			$('#collapseNine').on('shown.bs.collapse', function(){
-				lleventlog();
-			});
-			$('.reloadDbgLog').click(function(event){
-				lldbglog();
-			});
-			$('#collapseTen').on('shown.bs.collapse', function(){
-				lldbglog();
-			});			
+            $('#collapseNine').on('shown.bs.collapse', function(){
+                lleventlog();
+            });
+            $('.reloadDbgLog').click(function(event){
+                lldbglog();
+            });
+            $('#collapseTen').on('shown.bs.collapse', function(){
+                lldbglog();
+            });
             $('.reloadEtProviderLog').click(function(event){
                 etproviderlog();
             });

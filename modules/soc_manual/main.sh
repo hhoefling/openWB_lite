@@ -13,10 +13,6 @@ if [[ -z "$debug" ]]; then
 	. $OPENWBBASEDIR/loadconfig.sh
 	# load helperFunctions
 	. $OPENWBBASEDIR/helperFunctions.sh
-	openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: OPENWBBASEDIR: [$OPENWBBASEDIR]" 
-	openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: RAMDISKDIR: [$RAMDISKDIR]" 
-	openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: MODULEDIR: [$MODULEDIR]"
-    debug=1 
 fi
 
 case $CHARGEPOINT in
@@ -26,7 +22,7 @@ case $CHARGEPOINT in
 		manualMeterFile="$RAMDISKDIR/manual_soc_meter_lp2"
 		socFile="$RAMDISKDIR/soc1"
 		soctimerfile="$RAMDISKDIR/soctimer1"
-		socIntervall=1 # update every 20 Sec if script is called every 10 seconds
+		socIntervall=1 # update every minute if script is called every 10 seconds
 		meterFile="$RAMDISKDIR/llkwhs1"
 		akkug=$akkuglp2
 		efficiency=$wirkungsgradlp2
@@ -39,7 +35,7 @@ case $CHARGEPOINT in
 		manualMeterFile="$RAMDISKDIR/manual_soc_meter_lp1"
 		socFile="$RAMDISKDIR/soc"
 		soctimerfile="$RAMDISKDIR/soctimer"
-		socIntervall=1 # update every 20 Sec  if script is called every 10 seconds
+		socIntervall=1 # update every minute if script is called every 10 seconds
 		meterFile="$RAMDISKDIR/llkwh"
 		akkug=$akkuglp1
 		efficiency=$wirkungsgradlp1
@@ -69,23 +65,25 @@ incrementTimer(){
 	echo $soctimer > $soctimerfile
 }
 
-read soctimer <$soctimerfile
+soctimer=$(<$soctimerfile)
+openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer"
+
 if (( soctimer < socIntervall )); then
-	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer , Nothing to do yet. Incrementing."
+	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Nothing to do yet. Incrementing timer."
 	incrementTimer
 else
-	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: timer = $soctimer, Calculating manual SoC"
+	openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: Calculating manual SoC"
 	# reset timer
 	echo 0 > $soctimerfile
 
 	# read current meter
-	if [[ -f "$meterFile" ]]; then					# "$RAMDISKDIR/llkwhs1"
-		read currentMeter <$meterFile					# llkwhs1
+	if [[ -f "$meterFile" ]]; then
+		currentMeter=$(<$meterFile)
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentMeter: $currentMeter"
 
 		# read manual Soc
 		if [[ -f "$manualSocFile" ]]; then
-			read manualSoc <$manualSocFile
+			manualSoc=$(<$manualSocFile)
 		else
 			# set manualSoc to 0 as a starting point
 			manualSoc=0
@@ -94,8 +92,8 @@ else
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: manual SoC: $manualSoc"
 
 		# read manualMeterFile if file exists and manualMeterFile is newer than manualSocFile
-		if [[ -f "$manualMeterFile" ]] && [[ "$manualMeterFile" -nt "$manualSocFile" ]]; then
-			read manualMeter <$manualMeterFile
+		if [[ -f "$manualMeterFile" ]] && [ "$manualMeterFile" -nt "$manualSocFile" ]; then
+			manualMeter=$(<$manualMeterFile)
 		else
 			# manualMeterFile does not exist or is outdated
 			# update manualMeter with currentMeter
@@ -105,8 +103,8 @@ else
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: manualMeter: $manualMeter"
 
 		# read current soc
-		if [[ -f "$socFile" ]] ; then      
-			read currentSoc <$socFile
+		if [[ -f "$socFile" ]]; then
+			currentSoc=$(<$socFile)
 		else
 			currentSoc=$manualSoc
 			echo $currentSoc > $socFile
@@ -115,15 +113,13 @@ else
 
 		# calculate newSoc
 		currentMeterDiff=$(echo "scale=5;$currentMeter - $manualMeter" | bc)
-		currentEffectiveMeterDiff=$(echo "scale=5;$currentMeterDiff * $efficiency / 100" | bc)
-		currentSocDiff=$(echo "scale=5;100 / $akkug * $currentEffectiveMeterDiff" | bc | awk '{printf"%d\n",$1}')
-
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentMeterDiff: $currentMeterDiff"
+		currentEffectiveMeterDiff=$(echo "scale=5;$currentMeterDiff * $efficiency / 100" | bc)
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentEffectiveMeterDiff: $currentEffectiveMeterDiff ($efficiency %)"
+		currentSocDiff=$(echo "scale=5;100 / $akkug * $currentEffectiveMeterDiff" | bc | awk '{printf"%d\n",$1}')
 		openwbDebugLog ${DMOD} 1 "Lp$CHARGEPOINT: currentSocDiff: $currentSocDiff"
 		newSoc=$(echo "$manualSoc + $currentSocDiff" | bc)
 		if (( newSoc > 100 )); then
-			openwbDebugLog ${DMOD} 0 "Lp$CHARGEPOINT: Calculated SoC of $newSoc% exceeds maximum and is limited to 100%%! Check your settings!"
 			newSoc=100
 		fi
 		if (( newSoc < 0 )); then

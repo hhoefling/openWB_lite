@@ -31,24 +31,24 @@ function processMessages(mqttmsg, mqttpayload) {
     checkAllSaved(mqttmsg, mqttpayload);
     // last part of topic after /
 	
-	if (mqttmsg == 'openWB/system/debuglevel') 
+	if (mqttmsg == 'openWB/system/debug') 
 	{
 		var i = parseInt(mqttpayload, 10);
 		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
-	    debuglevel = i;
-		console.log('set debug level to '+debuglevel );
-//		if ( debuglevel >= 2)  {
+	    debug = i;
+		console.log('set debug level to '+debug );
+//		if ( debug >= 2)  {
 //			$(".d_label").removeClass("hide");
 //        } else {			
 //			$(".d_label").addClass("hide");
 //		}
 		return	
-	}
+    }
     else if ( mqttmsg=="openWB/system/devicename" ) {
        $(".devicename").text(mqttpayload);
-       return
-    }
-    
+		return	
+	}
+	
     var topicIdentifier = mqttmsg.substring(mqttmsg.lastIndexOf('/')+1);
     // check if topic contains subgroup like /lp/1/
     var topicSubGroup = mqttmsg.match( /(\w+)\/(\d\d?)\// );
@@ -65,7 +65,6 @@ function processMessages(mqttmsg, mqttpayload) {
     }
     // Could be a main on / off switch, check visibility func on main settings page
     visibiltycheck(elementId, mqttpayload);
-	
     var element = $('#' + elementId);
     if ( element.attr('type') == 'number' || element.attr('type') == 'text' || 
 	     element.attr('type') == 'url' || element.attr('type') == 'password' || 

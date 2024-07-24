@@ -96,13 +96,12 @@ function handlevar(mqttmsg, mqttpayload) {
 		gotprice = 1;
 		putladelogtogether();
 	}
-    else if ( mqttmsg =='openWB/system/Version' ) {
+	else if ( mqttmsg =='openWB/system/Version' ) {
 		$('.systemVersion').text(mqttpayload);
 	}
     else if ( mqttmsg =='openWB/system/devicename' ) {
         console.log('system.. ', mqttmsg,' ',mqttpayload);
 		$('.devicename').text(mqttpayload);
-
 	}
 	else if( mqttmsg.match( /^openwb\/system\/MonthLadelogData[1-9][0-9]*$/i )){
 		// respective month index
@@ -389,7 +388,7 @@ function putladelogtogether() {
                         '<th scope="col" class="text-right">' + totalprice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '€ Kosten</th>'+
                         '</tr>';
 			content += '<tr><th scope="col">Ladeart</th><th scope="col" colspan="1">Summe</th></tr>';
-			for(var i=1; i<8; i++){
+			for(var i=0; i<8; i++){
 			 if ( parseFloat(summs[i])>0 ) 
 			 {
 				content += '<tr>';

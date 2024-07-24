@@ -14,6 +14,7 @@ if [[ -z "$debug" ]]; then
 	source $OPENWBBASEDIR/helperFunctions.sh
 fi
 
+export LC_ALL='C'
 # at first call,  script ist starts up normaly
 # ar next call, new call terminate (allready running)
 # with "restart" as param, New instance is runnung with new Vars from  openWB.conf
@@ -54,7 +55,7 @@ putter()
     val=" "
   fi 
   if [[ "$val" != "${cache[$name]}" ]] ; then
-    openwbDebugLog "DEB" 1 "SYSD: $topic [${cache[$name]:0:20}] => [${val:0:20}] "
+    openwbDebugLog "DEB" 1 "SYSD: $topic [${cache[$name]:0:30}] => [${val:0:30}] "
     cache[$name]="$val"
     if [[ "$topic" != "" ]] ; then
        mosquitto_pub -r -t "$topic" -m "$val"
@@ -73,50 +74,50 @@ function do5min()
   val=$(cat /proc/cpuinfo | grep -m 1 "model name" |  sed "s/^.*: //"  )
   putter "$val" "cpumodel" "openWB/global/cpuModel"
 
-	val=$(cat /proc/stat | grep btime | awk '{print $2}' )
-	putter "$val" "lastreboot" "openWB/system/lastReboot"
-	putter "$(date --date="@${val}" "+%d.%m.%Y %H:%M" )" "lastrebootstr" "openWB/system/lastRebootStr"
+  val=$(cat /proc/stat | grep btime | awk '{print $2}' )
+  putter "$val" "lastreboot" "openWB/system/lastReboot"
+  putter "$(date --date="@${val}" "+%d.%m.%Y %H:%M" )" "lastrebootstr" "openWB/system/lastRebootStr"
 
-	   if [[ "$arch" == "x86_64" ]] ; then
-	   	val=""
-	   else
-		val=$(cat /sys/firmware/devicetree/base/model | sed 's/\x00//g' )
-	   fi
-	   putter "$val" "board" "openWB/global/board"
-	
+  if [[ "$arch" == "x86_64" ]] ; then
+    val=""
+  else
+    val=$(cat /sys/firmware/devicetree/base/model | sed 's/\x00//g' )
+  fi
+  putter "$val" "board" "openWB/global/board"
+
   val=$(lsblk -r | egrep 'part /$'  | cut -d ' ' -f 1 )
   putter "$val" "rootdev" "openWB/global/rootDev"
 
   val=$(free -m | grep 'Mem' | awk '{print $2}' )
   putter "$val" "memtot" "openWB/global/memTot"
+            
+  if [[ "$arch" == "x86_64" ]] ; then
+      val=""
+  else         
+      val=$( sudo ifconfig wlan0 |grep 'inet ' |awk '{print $2}' )
+  fi
+  putter "$val" "wlanip1" "openWB/global/wlanaddr"
 
-    	if [[ "$arch" == "x86_64" ]] ; then
-	       	val=""
-	   else 		
-		  val=$( sudo ifconfig wlan0 |grep 'inet ' |awk '{print $2}' )
-	   fi
-	   putter "$val" "wlanip1" "openWB/global/wlanaddr"
+  if [[ "$arch" == "x86_64" ]] ; then
+    val=""
+  else         
+    val=$(sudo ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
+  fi
+  putter "$val" "wlanip2" "openWB/global/wlanaddr2"
 
-	   if [[ "$arch" == "x86_64" ]] ; then
-		  val=""
-	   else 		
-	   	   val=$(sudo ifconfig wlan0:0 |grep 'inet ' |awk '{print $2}' )
-	   fi
-	   putter "$val" "wlanip2" "openWB/global/wlanaddr2"
+  if [[ "$arch" == "x86_64" ]] ; then
+     val=""
+  else         
+     val=$(sudo ifconfig eth0 |grep 'inet ' |awk '{print $2}' )
+  fi
+  putter "$val" "ethip1" "openWB/global/ethaddr"
 
-	   if [[ "$arch" == "x86_64" ]] ; then
-	   	   val=""
-	   else 		
-		  val=$(sudo ifconfig eth0 |grep 'inet ' |awk '{print $2}' )
-	   fi
-	   putter "$val" "ethip1" "openWB/global/ethaddr"
-
-	   if [[ "$arch" == "x86_64" ]] ; then
-		  val=""
-	   else 		
-		  val=$(sudo ifconfig eth0:0 |grep 'inet ' |awk '{print $2}' )
-	   fi
-	   putter "$val" "ethip2" "openWB/global/ethaddr2"
+  if [[ "$arch" == "x86_64" ]] ; then
+     val=""
+  else         
+     val=$(sudo ifconfig eth0:0 |grep 'inet ' |awk '{print $2}' )
+  fi
+  putter "$val" "ethip2" "openWB/global/ethaddr2"
 }
 
 loop=30     # trigger sofort den 5-Minutenmode
@@ -128,8 +129,8 @@ do
     ds=$(date +"%s")
     ((  dloop= (ds - dstart) ))
     let loop=($loop + 1)    # darf ruhig modulo gehen
-
-       
+   
+     
     openwbDebugLog "DEB" 1 "SYSD: ---- ausgeschlafen, $loop on $arch dl:$dloop"
     
     if (( loop >= 30 )) ; then  # 30 x 10 = 300 = 5 Minuten
@@ -143,11 +144,11 @@ do
         
         do5min
     fi
-
+    
     #if (( (loop % 3 ) == 0 )) ; then    
     #    openwbDebugLog "DEB" 1 "SYSD: **** MOD 3 alle 30 sekunden ***"
     #fi
-
+    
     #if (( (loop % 6 ) == 0 )) ; then    
     #    openwbDebugLog "DEB" 1 "SYSD: **** MOD 6 alle 60 sekunden ***"
     #fi
@@ -165,13 +166,13 @@ do
 	val=$(ps aux | awk 'NR > 0 { s +=$3 }; END {print s}' )
 	putter "$val" "cpuuse" "openWB/global/cpuUse"
 
-       
+
 	if [[ "$arch" == "x86_64" ]] ; then
 		val=""
 	else 		
 		val=$(cat /sys/class/thermal/thermal_zone0/temp)
 		val=$(echo "scale=2; $(echo $val) / 1000" | bc)
-    fi
+	fi
 	putter "$val" "cputemp" "openWB/global/cpuTemp"
 
 	if [[ "$arch" == "x86_64" ]] ; then
@@ -196,7 +197,7 @@ do
 
     df=$(df -h | grep  "/$" )
     val=$(echo $df | awk '{print $2}')
-	putter "$val" "disktot" "openWB/global/diskTot"
+    putter "$val" "disktot" "openWB/global/diskTot"
 	val=$(echo $df | awk '{print $3}')
 	putter "$val" "diskuse" "openWB/global/diskUse"
 	val=$(echo $df | awk '{print $4}')

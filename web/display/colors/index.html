@@ -33,8 +33,13 @@
 
 			<!-- Linke Spalte (Buttons)-->
 			<div class="col-2 pl-1 pr-0">
+
+        <button class="btn btn-block btn-outline-secondary display-button px-0 mx-0  py3" id="backlightConfigButton"
+          type="button" onclick = "backlightConfigButtonClicked() "> 
 				<h4 id="date" class="text-center text-light pt-3">11.11.2020</h4>
 				<h4 id="time" class="text-center text-light pb-2 mb-1">11:11</h4>
+		  </button>
+		  
 				<button class="btn btn-block btn-secondary display-button p-4" id="powerSelectButton" type="button">
 					<span><i class="fas fa-bolt"></i>&nbsp;&nbsp; Aktuell</span>
 				</button>
@@ -64,7 +69,7 @@
 
 			<!-- Mittlere Spalte (Widgets) -->
 			<div class="col-7 p-0">
-				<div class="container-fluid m-0 pb-1">
+        <div class="container-fluid m-0 "> 
 					<div class="row">
 						<div class="col wb-widget p-0">
 							<figure id="powermeter" class=" mb-0"></figure>
@@ -152,11 +157,13 @@
 
 	<!-- Status -->
 	<div class="modal" id="statusModal">
-		<div class="modal-dialog">
+    <div class="modal-dialog-wide">
 			<div class="modal-content">
 				<!-- modal header -->
 				<div class="modal-header ">
-					<div class="col-1">&nbsp;</div>
+           <div id="homebutton" class="col-1">
+		   	<a href="/openWB/web/index.php"><i class="fas fa-home swhite" style="color: white;"></i></a>
+		   </div>
 					<div class="col">
 						<div class="status-title">Status</div>
 					</div>
@@ -174,7 +181,7 @@
 								</div>
 								<div class="">
 									<div class="form-row">
-										<div class="col-4">
+                    <div class="col-3">
 											Version:
 										</div>
 										<div class="col">
@@ -182,15 +189,16 @@
 										</div>
 									</div>
 									<div class="form-row">
-										<div class="col-4">
+                    <div class="col-3">
 											IP Adresse:
 										</div>
 										<div class="col">
-											<span class="systemIpAddress"></span>
+					  Eth:<span id="iplan">--</span> / <span id="iplan2">--</span>
+					  Wlan:<span id="ipwifi">--</span> / <span id="ipwifi2">--</span>					  
 										</div>
 									</div>
 									<div class="form-row">
-										<div class="col-4">
+                    <div class="col-3">
 											Betriebszeit:
 										</div>
 										<div class="col">
@@ -198,30 +206,39 @@
 										</div>
 									</div>
 									<div class="form-row">
-										<div class="col-4">
+                    <div class="col-3">
 											Prozessor:
 										</div>
 										<div class="col">
-											<meter id="cpu" high="85" min="0" max="100" value="0"></meter> <span id='cpuuse'>--</span>%
+                      <meter id="cpu" high="85" min="0" max="100" value="0"></meter> <span id='cpuuse'>--</span>% &nbsp;&nbsp;&nbsp;<span id='cputemp'>--</span> °C
 										</div>
 									</div>
 									<div class="form-row">
-										<div class="col-4">
+                    <div class="col-3">
 											Arbeitsspeicher:
 										</div>
 										<div class="col">
-											<span id='memtot'>--</span> MB <meter id="mem" min="0" value="0"></meter>
-											(<span id='memfree'>--</span> MB frei)
+                      <meter id="mem" min="0" value="0"></meter> <span id='memtot'>--</span> MB (<span id='memfree'>--</span> MB frei)
 										</div>
 									</div>
 									<div class="form-row">
-										<div class="col-4">
+                    <div class="col-3">
 											SD-Karte:
 										</div>
 										<div class="col">
-											<span id='diskuse'>--</span>, <span id='diskfree'>--</span> verfügbar.
+					  <meter id="diskusedprz2" high=65 min=0 max=100 value=0></meter>
+                      <span id='diskusedprz'>--</span> %, <span id='diskuse'>--</span> belegt, <span id='diskfree'>--</span> verfügbar auf <span id='rootdev'>--</span>
 										</div>
 									</div>
+       			  <div class="form-row">
+                    <div class="col-3">
+                      Temp / Ramdisk:
+                    </div>
+                    <div class="col">
+					  <meter id="tmpusedprz2" high=65 min=0 max=100 value=0></meter>
+                      <span id='tmpusedprz'>--</span> %, <span id='tmpuse'>--</span> belegt, <span id='tmpfree'>--</span> verfügbar.
+                    </div>
+                  </div>
 								</div>
 							</div>
 						</div>
@@ -232,15 +249,13 @@
 								</div>
 								<div id="backend">
 									<div class="form-row">
-										<div class="col-4">
+                    <div class="col-3">
 											Status:
 										</div>
 										<div class="col">
 											<span class="connectionState">-</span>
-										</div>
-									</div>
-									<div class="form-row">
-										<div class="col-4">
+                    </div>&nbsp;&nbsp;&nbsp;
+                    <div class="col">
 											Verbindungsversuche:
 										</div>
 										<div class="col">
@@ -248,7 +263,17 @@
 										</div>
 									</div>
 									<div class="form-row justify-content-end">
-										<div class="col-8">
+                    <div class="col-4 hide" id="homebutton">
+                      <button class="btn btn-block btn-danger displayButton homeBtn" type="button">
+                        Home
+                      </button>
+                    </div>
+                    <div class="col-4 hide" id="setupbutton">
+                      <button class="btn btn-block btn-danger displayButton setupBtn" type="button">
+                        Einstellungen
+                      </button>
+                    </div>
+                    <div class="col-4">
 											<button class="btn btn-block btn-danger displayButton reloadBtn" type="button">
 												Display neu Laden
 											</button>
@@ -269,28 +294,36 @@
 		</div>
 
 		<script>
-			// TODO: replace by MQTT topics
+      // TODO: replace by MQTT topics, done
 			function updateit() {
-				$.getJSON('tools/programmloggerinfo.php', function (data) {
-					json = eval(data);
-					// console.log(json);
-					$('#cpu').val(json.cpuuse);
-					$('#cpuuse').html(json.cpuuse);
-					$('#memtot').html(json.memtot);
-					$('#mem').prop('max', json.memtot);
-					$('#mem').val(json.memuse);
-					$('#mem').prop('high', json.memtot * 0.85);
-					$('#memfree').html(json.memfree);
-					$('#diskuse').html(json.diskuse);
-					$('#diskfree').html(json.diskfree);
-				})
+            console.log('ticker');			
+        	// $.getJSON('tools/programmloggerinfo.php', function (data) {
+          	     // json = eval(data);
+                //  }
+			    //)
 			};
 
 			$(document).ready(function () {
 				updateit();
-				setInterval(updateit, 10000);
+        setInterval(updateit, 20000);
 			});
 
+		$('#backend .homeBtn').on("click", function(event){
+			if (wbdata.displaylocked == false)
+			{
+			 window.location.href = "/openWB/web/index.php";
+  		    } else {
+    	      $("#lockInfoModal").modal("show");
+			}
+		})	  
+		$('#backend .setupBtn').on("click", function(event){
+			if (wbdata.displaylocked == false)
+			{
+				window.location.href = "/openWB/web/settings/settings.php";
+  		    } else {
+    	      $("#lockInfoModal").modal("show");
+			}
+		})	  
 			$('#backend .reloadBtn').click(function () {
 				location.reload();
 			});
@@ -300,6 +333,46 @@
 
 
 	<!-- modal chargepoint-config-window -->
+  <div class="modal" id="backlightConfigModal">
+    <div class="modal-dialog">
+      <div class="modal-content border-promary">
+        <!-- modal header -->
+        <div class="modal-header bg-primary">
+          <div class="col-1">&nbsp;</div>
+          <div class="col justify-content-center">
+            <div class="modal-title text-light text-center">Hintergrund Helligkeit</div>
+          </div>
+        </div>
+        <!-- modal body -->
+        <div class="modal-body">
+          <!-- options specific for charge mode Min+PV -->
+          <div class="XXchargeMode XXchargeModeMinPv">
+            <div class="form-row vaRow">
+              <div class="col-4">
+                <label for="DisplayLightInput" class="modalLabel col-form-label">Helligkeit:</label>
+                <label for="DisplayLightInput" class="modalLabel labeDisplayLight col-form-label pull-right"data-suffix=""></label>
+              </div>
+              <div class="col">
+                <input type="range" class="form-control-range DisplayLightInput" id="DisplayLightInput" min="40" max="250"
+                  step="10" value="100" data-initialized="100">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col pt-1 px-3">
+              <button type="button" class="btn btn-info btn-block btn-lg modal-button" data-dismiss="modal">
+			     <i class="fas fa-check"></i>&nbsp;&nbsp; OK</button>
+            </div>
+          </div>
+        </div> <!-- /modal body -->
+      </div>
+    </div>
+  </div>
+
+
+
+  
+  <!-- modal chargepoint-config-window -->
 	<div class="modal" id="ladepunktConfigModal">
 		<div class="modal-dialog">
 			<div class="modal-content border-promary">
@@ -433,7 +506,7 @@
 									data-suffix="A"></label>
 							</div>
 							<div class="col">
-								<input type="range" class="form-control-range maxPriceInput" id="maxPrice" min="-25" max="95" step="0.1"
+								<input type="range" class="form-control-range maxPriceInput" id="maxPrice" min="-15" max="55" step="0.1"
 									value="0" data-initialized="0">
 							</div>
 						</div>
@@ -678,7 +751,7 @@
 					<div class="row justify-content-center">
 						<div class="col-sm-4 px-3 pb-3 pt-1 modalLabel ">
 							<button type="button" class="chargeModeBtn chargeModeBtnSofort btn  btn-block btn-secondary"
-								data-chargeMode="0">Sofort</button>
+                data-chargeMode="0" >Sofort</button>
 						</div>
 						<div class="col-sm-4 px-3 pb-3 pt-1 modalLabel">
 							<button type="button" class="chargeModeBtn chargeModeBtnPV btn btn-lg btn-block btn-secondary"
@@ -686,18 +759,18 @@
 						</div>
 						<div class="col-sm-4 px-3 pb-3 pt-1 modalLabel">
 							<button type="button" class="chargeModeBtn chargeModeBtnMinPV btn btn-lg btn-block btn-secondary"
-								data-chargeMode="1">Min + PV</button>
+                data-chargeMode="1" >Min + PV</button>
 						</div>
 						<div class="col-sm-4 px-3 pb-3 pt-1" id="disableButton">
 
 						</div>
 						<div class="col-sm-4 px-3 pb-3 pt-1 modalLabel">
 							<button type="button" class="chargeModeBtn chargeModeBtnStandby btn btn-lg btn-block btn-secondary"
-								data-chargeMode="4">Standby</button>
+                data-chargeMode="4" >Standby</button>
 						</div>
 						<div class="col-sm-4 px-3 pb-3 pt-1 modalLabel">
 							<button type="button" class="chargeModeBtn chargeModeBtnStop btn btn-lg btn-block btn-secondary"
-								data-chargeMode="3">Stop</button>
+                data-chargeMode="3" >Stop</button>
 						</div>
 					</div>
 					<div class="row justify-content-center">
@@ -754,7 +827,7 @@
 
 		<script>
 			$('.chargeModeBtn').on("click", function (event) {
-				if (wbdata.displaylocked == false) {
+        if (wbdata.displaylocked == false) {
 					var chargeMode = $(this).attr("data-chargeMode");
 					publish(chargeMode, "openWB/set/ChargeMode");
 					if (!wbdata.isBatteryConfigured || (chargeMode != '1' && chargeMode != '2')) {
@@ -765,7 +838,7 @@
 
 			$('.priorityModeBtn').on("click", function (event) {
 				// prio: 0 = battery, 1 = ev
-				if (wbdata.displaylocked == false) {
+        if (wbdata.displaylocked == false) {
 					var priority = $(this).attr('data-priority');
 					if (priority == '0' || priority == '1') {
 						publish(priority, 'openWB/config/set/pv/priorityModeEVBattery');
@@ -775,7 +848,7 @@
 
 			$('.70PvBtn').on("click", function (event) {
 				// 0 deaktiviert, 1 aktiviert
-				if (wbdata.displaylocked == false) {
+        if (wbdata.displaylocked == false) {
 					if ($(this).hasClass("btn-success")) {
 						publish("0", "openWB/set/pv/NurPV70Status");
 					} else {
@@ -827,18 +900,24 @@
 		var displaypinaktiv = 1;
 		var lockTimeoutHandler = null;
 		var lockTimeout = 60000;
-		wbdata.displaylocked = true;
+        wbdata.displaylocked = true;
+
+	
+	function backlightConfigButtonClicked(index) {
+    	$('#backlightConfigModal').modal("show");
+   }
+
 
 		function lockDisplay(lock = true) {
 			if (lock == false) {
-				wbdata.displaylocked = false;
+        wbdata.displaylocked = false;
 				$('#displaylock').find('.fa-lock').addClass('hide');
 				$('#displaylock').find('.fa-unlock').removeClass('hide');
         $("#homebutton").removeClass("hide");
         $("#setupbutton").removeClass("hide");
 				lockTimeoutHandler = window.setTimeout(lockDisplay, lockTimeout);
 			} else {
-				wbdata.displaylocked = true;
+        wbdata.displaylocked = true;
 				$('#displaylock').find('.fa-lock').removeClass('hide');
 				$('#displaylock').find('.fa-unlock').addClass('hide');
 		$("#homebutton").addClass("hide");
@@ -848,26 +927,28 @@
 			}
 		}
 
-		window.setInterval(function () {
-			$.get(
-				{ url: "display/colors/checklock.php?lock=1", cache: false },
-				function (data) {
-					if (data == "1") {
-						displaypinaktiv = 1;
-						if (lockTimeoutHandler == null) {
-							wbdata.displaylocked = true;
-						}
-						$('#displaylock').removeClass('hide');
-					} else {
-						displaypinaktiv = 0;
-						wbdata.displaylocked = false;
-						window.clearTimeout(lockTimeoutHandler);
-						lockTimeoutHandler = null;
-						$('#displaylock').addClass('hide');
-					}
-				}
-			);
-		}, 15000);
+//    window.setInterval(function () {
+//      $.get(
+//        { url: "display/colors/checklock.php?lock=1", cache: false },
+//        function (data) {
+//          if (data == "1") {
+//            displaypinaktiv = 1;
+//            if (lockTimeoutHandler == null) {
+//              wbdata.displaylocked = true;
+//            }
+//            $('#displaylock').removeClass('hide');
+//		//	$("#homebutton").addClass("hide");
+//          } else {
+//            displaypinaktiv = 0;
+//            wbdata.displaylocked = false;
+//            window.clearTimeout(lockTimeoutHandler);
+//            lockTimeoutHandler = null;
+//            $('#displaylock').addClass('hide');
+//		//	$("#homebutton").removeClass("hide");
+//          }
+//        }
+//      );
+//    }, 15000);
 
 		var delayUserInput = (function () {
 			// sets a timeout on call and resets timout if called again for same id before timeout fires
@@ -906,11 +987,11 @@
 				// load mqtt library
 				'js/mqttws31.js',
 				// some helper functions
-				'display/colors/helperFunctions.js',
+        'display/colors/helperFunctions.js?ver=20220119',
 				// functions for processing messages
-				'display/colors/processAllMqttMsg.js',
+        'display/colors/processAllMqttMsg.js?ver=20220119',
 				// functions performing mqtt and start mqtt-service
-				'display/colors/setupMqttServices.js',
+        'display/colors/setupMqttServices.js?ver=20220119',
 			];
 
 			scriptsToLoad.forEach(function (src) {
@@ -923,29 +1004,31 @@
 
 			// handling of display panels
 			initPanels();
+	  $("#homebutton").addClass("hide");
+	  $("#setupbutton").addClass("hide");
 
 
-			$('#lastmanagementShowBtn').on("click", function (event) {
+	  $('#lastmanagementShowBtn').on("click", function (event) {
 				$("#lastregelungModal").modal("show");
 			});
 
 			// display lock
-			$.get(
-				{ url: "display/colors/checklock.php?lock=1", cache: false },
-				function (data) {
-					if (data == "1") {
-						displaypinaktiv = 1;
-						$('#displaylock').removeClass('hide');
-					} else {
-						displaypinaktiv = 0;
-						wbdata.displaylocked = false;
-						$('#displaylock').addClass('hide');
-					}
-				}
-			);
+      //$.get(
+      //  { url: "display/colors/checklock.php?lock=1", cache: false },
+      //  function (data) {
+      //    if (data == "1") {
+      //      displaypinaktiv = 1;
+      //      $('#displaylock').removeClass('hide');
+      //    } else {
+      //      displaypinaktiv = 0;
+      //      wbdata.displaylocked = false;
+      //      $('#displaylock').addClass('hide');
+      //    }
+      //  }
+      //);
 
 			$('#displaylock').on("click", function () {
-				if (wbdata.displaylocked == true) {
+        if (wbdata.displaylocked == true) {
 					$("#lockModal").modal("show");
 				} else {
 					lockDisplay(true);

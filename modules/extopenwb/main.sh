@@ -4,7 +4,8 @@ ip=$2
 chargepcp=$3
 outputname="extopenwb"$chargep"temp"
 timeout 1 mosquitto_sub -v -h $ip -t openWB/lp/$chargepcp/# > /var/www/html/openWB/ramdisk/$outputname
-read myipaddress </var/www/html/openWB/ramdisk/ipaddress
+myipaddress=$(</var/www/html/openWB/ramdisk/ipaddress)
+
 #values=$(</var/www/html/openWB/ramdisk/extopenwb$chargeptemp)
 #echo -e $values
 #watt=$(mosquitto_sub -C 1 -h $ip -t openWB/lp/1/W) 
@@ -42,7 +43,7 @@ if [[ $(wc -l </var/www/html/openWB/ramdisk/$outputname) -ge 5 ]]; then
 		echo $kWhCounter > /var/www/html/openWB/ramdisk/llkwh
 		echo $boolPlugStat > /var/www/html/openWB/ramdisk/plugstat
 		echo $boolChargeStat > /var/www/html/openWB/ramdisk/chargestat
-		read soc </var/www/html/openWB/ramdisk/soc
+		soc=$(</var/www/html/openWB/ramdisk/soc)
 		mosquitto_pub -h $ip -r -t openWB/set/lp/$chargepcp/%Soc -m "$soc"
 
 
@@ -58,7 +59,7 @@ if [[ $(wc -l </var/www/html/openWB/ramdisk/$outputname) -ge 5 ]]; then
 		echo $kWhCounter > /var/www/html/openWB/ramdisk/llkwhs1
 		echo $boolPlugStat > /var/www/html/openWB/ramdisk/plugstats1
 		echo $boolChargeStat > /var/www/html/openWB/ramdisk/chargestats1
-		read soc </var/www/html/openWB/ramdisk/soc1
+		soc=$(</var/www/html/openWB/ramdisk/soc1)
 		mosquitto_pub -h $ip -r -t openWB/set/lp/$chargepcp/%Soc -m "$soc"
 
 	fi
@@ -102,15 +103,18 @@ if [[ $(wc -l </var/www/html/openWB/ramdisk/$outputname) -ge 5 ]]; then
 	mosquitto_pub -h $ip -r -t openWB/set/isss/heartbeat -m "0"
 	openwbModulePublishState "LP" 0 "Kein Fehler" $chargep
 	echo 0 > /var/www/html/openWB/ramdisk/errcounterextopenwb
+	
+	outputname2="extopenwb"$chargep"temp.old"
+	mv outputname outputname2
 
 else
 	openwbModulePublishState "LP" 1 "Keine Daten vom LP erhalten, IP Korrekt?" $chargep
 	openwbDebugLog "MAIN" 0 "Keine Daten von externe openWB LP $chargep empfangen"
-	read errcounter </var/www/html/openWB/ramdisk/errcounterextopenwb
+	errcounter=$(</var/www/html/openWB/ramdisk/errcounterextopenwb)
 	errcounter=$((errcounter+1))
 	echo $errcounter > /var/www/html/openWB/ramdisk/errcounterextopenwb
-	if (( errcounter > 5 )); then
+	if (( $errcounter > 5 )); then
 		echo "Fehler bei Auslesung externe openWB LP $chargep, Netzwerk oder Konfiguration prüfen" > /var/www/html/openWB/ramdisk/lastregelungaktiv
+		openwbModulePublishState "LP" 1 "Dauerhaft keine Daten vom LP erhalten, IP Korrekt?" $chargep
 	fi
 fi
-

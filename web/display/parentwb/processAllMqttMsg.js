@@ -44,7 +44,4 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	else if ( mqttmsg == 'openWB/system/parentWB' ) {
 		setIframeSource( mqttpayload );
 	}
-	else if ( mqttmsg == 'openWB/system/devicename' ) {
-    	$('.devicename').text(mqttpayload);
-	}
 }

@@ -1,8 +1,6 @@
 #!/bin/bash
-exit 0
-
-# Call readmodule from bezug_rct2    
-python3 /var/www/html/openWB/modules/bezug_rct2/rct_read_speicher.py --ip=$bezug1_ip
- 
-
-
+# aus modules/speicher_rctxx/main.sh  modules/bezug_rctxx/speicher_main.sh machen
+B=${0/speicher_/bezug_}
+B=${B/main.sh/speicher_main.sh}
+[ ! -r $B  ] && exit 0
+. $B

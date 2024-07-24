@@ -10,7 +10,7 @@
 
 var topicsToSubscribe = [
 	["openWB/system/devicename", 0],
-	["openWB/system/debuglevel", 0],
+	["openWB/system/debug", 0],
 	// global settings
 	["openWB/housebattery/boolHouseBatteryConfigured", 0],
 	["openWB/config/get/SmartHome/logLevel", 0],

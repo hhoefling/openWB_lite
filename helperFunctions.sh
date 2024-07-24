@@ -1,6 +1,48 @@
 #!/bin/bash
 
 
+# !!!! Nicht aus $(...) heraus aufrufen, da sonst kein Nebeneffect m?ch
+readrd()  # read to name and oname
+{
+ declare -n np="$1"
+ declare -n onp="o${1}"
+ if [ -r ramdisk/$1 ] ; then
+   #np=$(<ramdisk/$1)        # 1000 x ~3 Sec
+   #np=$(cat ramdisk/$1)    # 1000 x ~5 Sec
+   read -r np <ramdisk/$1    # 1000 x ~0,3 Sec
+   onp=$np
+   (( debug >= 2 )) && openwbDebugLog "MAIN" 2 "rrd $1 readin to [$np]" 
+ else
+  (( debug == 2 )) && openwbDebugLog "MAIN" 2 "rrd $1 not found, defaults to 0" 
+  np=0
+  onp=""
+ fi
+}
+
+writerd() # name, val
+{
+ declare -n np="$1"
+ declare -n onp="o${1}"
+
+ if [[ "$onp" == "" ]] ; then
+   (( debug == 2 )) && openwbDebugLog "MAIN" 2 "wrd old value for $1 not defined so readin now" 
+  readrd $1 
+ fi
+ np="$2"    # im Speicher abelegen
+ if [[ "$np" != "$onp" ]] ; then
+  (( debug==2 )) && openwbDebugLog "MAIN" 2 "wrd [$np] <> [$onp], diffent so store [$2]"
+  onp=$2
+  echo "$2" >ramdisk/$1
+ else
+  (( debug == 2 )) && openwbDebugLog "MAIN" 2 "wrd no change, no writes ($np==$onp)"
+ fi
+}
+export -f writerd 
+export -f readrd 
+
+
+
+
 writeifchanged()
 {
  sollstate=$1
@@ -12,17 +54,17 @@ writeifchanged()
  checktxt="${sollstate}##${solltxt}"
  
  if ! [ -f $cf ]; then
-	  cached=""
+	cached=""
  else
-    read cached <$cf
+	read cached <$cf
  fi
  #openwbDebugLog "MAIN" 0 "checkcache [$checktxt] [$cf] [$cached] $t1 $t2"
  if [[ "$cached" != "$checktxt" ]] ; then
-		echo $checktxt >$cf
-		mosquitto_pub -t "openWB/set/${token}/$t1" -r -m "$sollstate"
-		mosquitto_pub -t "openWB/set/${token}/$t2" -r -m "$solltxt"
-		openwbDebugLog "MAIN" 2 "writeifchanged:  $token $sollstate $solltxt"
-		openwbDebugLog "ERR" 0 "ERR: $token $sollstate $solltxt"
+	echo $checktxt >$cf
+	mosquitto_pub -t "openWB/set/${token}/$t1" -r -m "$sollstate"
+	mosquitto_pub -t "openWB/set/${token}/$t2" -r -m "$solltxt"
+	openwbDebugLog "MAIN" 2 "writeifchanged:  $token $sollstate $solltxt"
+	openwbDebugLog "ERR" 0 "ERR: $token $sollstate $solltxt"
  fi
 }
 
@@ -79,6 +121,7 @@ openwbModulePublishState() {
 export -f openwbModulePublishState
 
 
+
 rlog()  # rlog TAG Messages
 {
  if [[ -n "$debloggerip" ]] ; then
@@ -93,9 +136,13 @@ openwbDebugLog() {
 	# $1: Channel (MAIN=default, EVSOC, PV, MQTT, RFID, SMARTHOME, CHARGESTAT, DEB, EVENT, ERR)
 	# $2: Level (0=Info, 1=Regelwerte , 2=Berechnungsgrundlage)
 	# $3: Meldung (String)
+    # $4: optinaler cachname
 	LOGFILE="/var/log/openWB.log"
 	timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
+    local t4
+    t4=${4:-}
+  
 	if [[ -z "${debug:-}" ]]; then
 		# enable all levels as global $debug is not set up yet
 		DEBUGLEVEL=2
@@ -104,6 +151,22 @@ openwbDebugLog() {
 	fi
 	# echo "LVL: $2 DEBUG: $debug DEBUGLEVEL: $DEBUGLEVEL" >> $LOGFILE
 	if (( $2 <= DEBUGLEVEL )); then
+        if [ "$t4" != "" ] ; then
+            cf="/var/www/html/openWB/ramdisk/${4}_scache"
+            if ! [ -f $cf ]; then
+	           cached=""
+               # echo "no cache for $4 " >>"/var/www/html/openWB/ramdisk/dbg.log"
+            else
+	           read cached <$cf
+               # echo "cache for $4  is [$cached]" >>"/var/www/html/openWB/ramdisk/dbg.log"
+            fi
+            if [[ "$cached" != "$3" ]] ; then
+	           echo "$3" >$cf
+            else
+               # echo "$3 skipped" >>"/var/www/html/openWB/ramdisk/dbg.log"
+               return
+            fi
+        fi
 		case $1 in
 			"ERR")
 				LOGFILE="/var/log/openwb.error.log"
@@ -156,8 +219,8 @@ openwbDebugLog() {
 	
 	
 	if ! realpath -e ramdisk >/dev/null 2>&1 ; then
-	    echo "$timestamp: $$ Oh no!, wrong basedir: [$(pwd)] " >> $LOGFILE
-        echo "$timestamp: $$ switch to /var/www/html/openWB " >> $LOGFILE        
+	    echo "$timestamp: $$ Oh no!, wrong currentdir: [$(pwd)] " >> $LOGFILE
+	    echo "$timestamp: $$ switch to /var/www/html/openWB " >> $LOGFILE
         cd /var/www/html/openWB
 	fi
 	
@@ -165,75 +228,34 @@ openwbDebugLog() {
 
 export -f openwbDebugLog
 
-openwbRunLoggingOutput() {
-	$1 2>&1 | while read -r line
-	do
-		echo "$(date +"%Y-%m-%d %H:%M:%S"): $1: $line" >> "$OPENWBBASEDIR/ramdisk/openWB.log"
-	done
-}
-export -f openwbRunLoggingOutput
-
-#===================================================================
 
 # Increment var with Name $1 to $2 (0..n) default 5
-function IncVar()   
+function incvar()
 {
  local -n pvar=$1
  local -i toval=${2:-"5"}
  local fn="/var/www/html/openWB/ramdisk/${!pvar}"
- # openwbDebugLog "MAIN" 2 "IncVar:  increment file $fn  '${!pvar}'  to $toval"
+ # openwbDebugLog "MAIN" 2 "incvar:  increment file $fn  '${!pvar}'  to $toval"
  pvar=$(cat "$fn" 2>/dev/null); rc=$?
  if [ ! $rc -eq  0 ] ; then
-   openwbDebugLog "MAIN" 2 "IncVar: file $fn not found, use 0"
+   openwbDebugLog "MAIN" 2 "incvar: file $fn not found, use 0"
    pvar=0
  fi
+ if (( pvar < toval )); then
 	 pvar=$((pvar + 1))
- if (( pvar >= toval )); then
-	 pvar=0
-         res=0
-         openwbDebugLog "MAIN" 2 "IncVar: '$1 has $2 reached"
  else
-         res=1
+	 pvar=0
  fi
  echo $pvar >"$fn"
- return "$res"
+ openwbDebugLog "MAIN" 2 "incvar: '${!pvar}' now $pvar"
 }
 
-export -f IncVar
-
+export -f incvar
 # Sample
 # if IncVar evsemodbustimer 30 ; then
 #   openwbDebugLog "MAIN" 1 "call evse modbus check, every 5 minutes"
 #   evsemodbuscheck5
 # fi
-
-#===================================================================
-
-function flagIsClear() # $1=name
-{
- local -n pvar=$1
- local fn="/var/www/html/openWB/ramdisk/${!pvar}"
- pvar=$(cat "$fn" 2>/dev/null); rc=$?
- if [ ! $rc -eq  0 ] ; then
-   openwbDebugLog "MAIN" 2 "Warning flagIsClear: file $fn not found, created as 0"
-   pvar=0
- fi
- if(( pvar != 0 )) ; then
-     openwbDebugLog "MAIN" 2 "flagIsClear [$1] fired"
- fi
- echo "0" >"$fn"
- return "$pvar"
-}
-
-export -f  flagIsClear
-
-
-# sample
-#if ! flagIsClear testfliper2  ; then
-#  echo "war auf <>0 gesetzt"
-#else
-#  echo "war clear"
-#fi
 
 #===================================================================
 # FUNCTION trap_befor ()
@@ -297,27 +319,32 @@ export -f bmeld
 ############### profiling Anf
 ptx=0
 pt=0
-
-declare -F ptstart &>/dev/null || {
- ptstart()
- {
-   ptx=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
- }
+ptstart()
+{
+  # ptx=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) # debian-11 
+  ptx=$(date +"%s%N")           # debian-10
+  ptx=$(( ptx / 1000 / 1000))   # debian-10
+}
 export -f ptstart
- ptend()
- {
+
+ptend()
+{
  local txt=${1:-}
  local max=${2:-200}
  local te
- te=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
+  # te=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) debian-11 
+ te=$(date +"%s%N")             # debian-11
+ te=$(( te / 1000 / 1000 ))     # debian-11
+ 
  pt=$(( te - ptx))
  if (( pt > max ))  ; then
    openwbDebugLog "DEB" 1 "TIME **** ${txt} needs $pt ms. (max:$max)"
    openwbDebugLog "MAIN" 2 "TIME **** ${txt} needs $pt ms. (max:$max)"
+   #echo "TIME **** ${txt} needs $pt ms. (max:$max)"
  fi
- }
-} 
+}
 export -f ptend 
+
 
 # Enable all python scripts to import from the "package"-directory without fiddling with sys.path individually
 SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)

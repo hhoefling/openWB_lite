@@ -18,6 +18,10 @@ def main():
         try:
             MyTab = []
             #           (self, msgid, idx, name, data_type, desc=''):
+            MyTab.append(rct_id(0    ,  0,  '-----------------Gerät -------------------- ',0 ))
+            rct_lib.add_by_name(MyTab, 'flash_param.erase_cycles')
+            rct_lib.add_by_name(MyTab, 'flash_param.write_cycles')
+            
             MyTab.append(rct_id(0    ,  0,  '-----------------Batterie-------------------- ',0 ))
             rct_lib.add_by_name(MyTab, 'battery.soc')
             rct_lib.add_by_name(MyTab, 'battery.efficiency')

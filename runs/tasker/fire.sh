@@ -4,6 +4,7 @@ if [[ -z "$OPENWBBASEDIR" ]]; then
 	OPENWBBASEDIR=$(cd "$(dirname "$0")/../../" && pwd)
 	OPENWBBASEDIR=/var/www/html/openWB
 	RAMDISKDIR="${OPENWBBASEDIR}/ramdisk"
+    LOGFILE="/var/www/html/openWB/ramdisk/event.log"
 fi
 
 declare -F openwbDebugLog &> /dev/null || {
@@ -27,9 +28,9 @@ openwbDebugLog "EVENT" 0 "fire $evt $*"
 for f in $OPENWBBASEDIR/runs/tasker/${evt}/*.sh
 do
   echo "[$f]"
-  tid=$(tsp $f $*)
+  tid=$(tsp $f $* >>$LOGFILE )
   f=$(basename $f)
-  openwbDebugLog "EVENT" 0 "shedule $f fid:$tid"
+  openwbDebugLog "EVENT" 0 "shedule $f fid:[$tid]"
   
 done
 

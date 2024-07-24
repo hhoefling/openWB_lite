@@ -40,7 +40,7 @@ def main():
             # read parameters
             response = rct_lib.read(clientsocket, MyTab)
             rct_lib.close(clientsocket)
-            
+
             # output all response elements
             rct_lib.dbglog("Overall access time: {:.3f} seconds".format(time.time() - start_time))
             rct_lib.dbglog(rct_lib.format_list(response))
@@ -79,14 +79,14 @@ def main():
             print ( '<hr>')
 
             print( "PV Peek Power        : " + str(pvPP.value) + ' W')
-            PR = int( (pvPR.value+0.0049999) * 100.0) 
+            PR = int( (pvPR.value+0.0049999) * 100.0)
             print( "PV max Feed Power    : " + str(pvPF.value) + ' W, Reduced to ' + str(PR) + '%')
 
 
         except Exception as e:
             rct_lib.close(clientsocket)
             raise(e)
-            
+
     sys.exit(0)
 
 if __name__ == "__main__":

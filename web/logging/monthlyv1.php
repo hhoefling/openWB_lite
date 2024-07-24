@@ -190,7 +190,7 @@
 				});
 
 				// load graph
-				$.getScript("logging/monthlychartv1.js?ver=20230101");
+				$.getScript("logging/monthlychartv1.js");
 			})
 		</script>
 

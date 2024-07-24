@@ -46,13 +46,11 @@ var topicsToSubscribe = [
  	["openWB/global/cpuTemp", 0],
  	["openWB/global/rootDev", 0],
 
-	["openWB/config/get/pv/priorityModeEVBattery", 1],
-	["openWB/config/get/pv/minCurrentMinPv", 1],
 
 
 	
 	// system topics
-	["openWB/system/debuglevel", 1],
+	["openWB/system/debug", 1],
 	["openWB/system/Timestamp", 1],
 	["openWB/system/Uptime", 1],
 	["openWB/system/IpAddress", 0],
@@ -223,8 +221,12 @@ var topicsToSubscribe = [
 //	["openWB/config/get/sofort/lp/8/energyToCharge", 1],
 	["openWB/config/get/sofort/lp/1/socToChargeTo", 1],
 	["openWB/config/get/sofort/lp/2/socToChargeTo", 1],
-	["openWB/pv/bool70PVDynStatus", 1],
 	["openWB/config/get/pv/nurpv70dynact", 1],
+	["openWB/config/get/pv/priorityModeEVBattery", 1],
+	["openWB/config/get/pv/minCurrentMinPv", 1],
+
+	["openWB/pv/bool70PVDynStatus", 1],
+	
 	// Display configuration
 	["openWB/config/get/display/displayPinAktiv", 1],
 	["openWB/config/get/display/displayLight", 1],
@@ -372,9 +374,9 @@ function publish(payload, topic) {
 	client.send(message);
 	console.log('publish ' + topic + ' ' + payload);
 
-	var message = new Messaging.Message("local client uid: " + clientuid + " sent: " + topic);
-	message.destinationName = "openWB/set/system/topicSender";
-	message.qos = 2;
-	message.retained = true;
-	client.send(message);
+//	var message = new Messaging.Message("local client uid: " + clientuid + " sent: " + topic);
+//	message.destinationName = "openWB/set/system/topicSender";
+//	message.qos = 2;
+//	message.retained = true;
+//	client.send(message);
 }

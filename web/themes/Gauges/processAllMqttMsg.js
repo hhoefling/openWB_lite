@@ -4,7 +4,7 @@
  * @author Kevin Wieland
  * @author Michael Ortenstein
  */
-var graphrefreshcounter = 0;
+var graphrefreshcounter = 0;		// nur bei "local" nicht bei "cloud"
 function getCol(matrix, col){
 	var column = [];
 	for(var i=0; i<matrix.length; i++){
@@ -155,7 +155,7 @@ function processSofortConfigMessages(mqttmsg, mqttpayload) {
 function processGraphMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/graph
 	// called by handlevar
-	// console.log("received graph msg: " + mqttmsg + ": " + mqttpayload);
+	// console.log("received graph msg: " + mqttmsg + ": " + mqttpayload.length);
 	processPreloader(mqttmsg);
 	if ( mqttmsg == 'openWB/graph/boolDisplayHouseConsumption' ) {
 		if ( mqttpayload == 1) {
@@ -204,6 +204,17 @@ function processGraphMessages(mqttmsg, mqttpayload) {
 		}
 		checkgraphload();
 	}
+	else if ( mqttmsg.match( /^openwb\/graph\/booldisplaylp[1-9][0-9]*soc$/i ) ) {
+		var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];  // extract last match = number from mqttmsg
+		if ( mqttpayload == 1) {
+			window['boolDisplayLp' + index + 'Soc'] = false;
+			window['hidelp' + index + 'soc'] = 'foo';
+		} else {
+			window['boolDisplayLp' + index + 'Soc'] = true;
+			window['hidelp' + index + 'soc'] = 'LP' + index + ' SoC';
+		}
+		checkgraphload();
+	}
 	else if ( mqttmsg.match( /^openwb\/graph\/booldisplaylp[1-9][0-9]*$/i ) ) {
 		var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];  // extract last match = number from mqttmsg
 		// now call functions or set variables corresponding to the index
@@ -246,31 +257,32 @@ function processGraphMessages(mqttmsg, mqttpayload) {
 		}
 		checkgraphload();
 	}
-	else if ( mqttmsg.match( /^openwb\/graph\/booldisplaylp[1-9][0-9]*soc$/i ) ) {
-		var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];  // extract last match = number from mqttmsg
-		if ( mqttpayload == 1) {
-			$('#socenabledlp' + index).removeClass('hide');
-			window['boolDisplayLp' + index + 'Soc'] = false;
-			window['hidelp' + index + 'soc'] = 'foo';
-		} else {
-			$('#socenabledlp' + index).addClass('hide');
-			window['boolDisplayLp' + index + 'Soc'] = true;
-			window['hidelp' + index + 'soc'] = 'LP' + index + ' SoC';
-		}
-		checkgraphload();
-	}
 	else if ( mqttmsg.match( /^openwb\/graph\/booldisplayload[1-9][0-9]*$/i ) ) {
 		var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];  // extract last match = number from mqttmsg
 		// now call functions or set variables corresponding to the index
 		if ( mqttpayload == 1) {
-			window['hideload'+index] = 'foo';
-			window['boolDisplayLoad'+index] = false;
+			window['hideload' + index] = 'foo';
+			window['boolDisplayLoad' + index] = false;
 		} else {
 			window['hideload'+index] = 'Verbraucher ' + index;
 			window['boolDisplayLoad'+index] = true;
 		}
 		checkgraphload();
 	}
+	else if ( mqttmsg.match( /^openwb\/graph\/booldisplayshd[1-9][0-9]*$/i ) ) {
+		var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];  // extract last match = number from mqttmsg
+		// now call functions or set variables corresponding to the index
+		console.log('booldisplayshd', index, mqttpayload)
+		if ( mqttpayload == 1) {
+			window['hideshd'+index] = 'foo';
+			window['boolDisplayShD'+index] = false;
+		} else {
+			window['hideshd'+index] = window['d'+index+'name'];
+			window['boolDisplayShD'+index] = true;
+		}
+		checkgraphload();
+	}
+	// bei localem mode daten aus dem Graph Zweig
 	else if ( mqttmsg.match( /^openwb\/graph\/[1-9][0-9]*alllivevalues$/i ) ) {
 		// graph messages if local connection
 		var index = mqttmsg.match(/(\d+)(?!.*\d)/g)[0];  // extract last match = number from mqttmsg
@@ -289,7 +301,7 @@ function processGraphMessages(mqttmsg, mqttpayload) {
 		if (graphrefreshcounter > 60) {
 			// reload graph completely
 			initialread = 0;
-			all1 = 0;		// bis z u 16 Zeilen
+			all1 = 0;
 			all2 = 0;
 			all3 = 0;
 			all4 = 0;
@@ -397,7 +409,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 				$('#chargeModeSelectBtnText').text('Sofortladen');  // text btn main page
 				$('.chargeModeBtn').removeClass('btn-success');  // changes to select buttons in modal
 				$('#chargeModeSofortBtn').addClass('btn-success');
-				$('#targetChargingProgress').removeClass('hide');  // visibility of divs for special settings
+				//$('#targetChargingProgress').removeClass('hide');  // visibility of divs for special settings
 				$('#sofortladenEinstellungen').removeClass('hide');
 				$('#priorityEvBatteryIcon').addClass('hide');  // visibility of priority icon
 				$('#minundpvladenEinstellungen').addClass('hide');
@@ -408,7 +420,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 				$('#chargeModeSelectBtnText').text('Min+PV-Laden');
 				$('.chargeModeBtn').removeClass('btn-success');
 				$('#chargeModeMinPVBtn').addClass('btn-success');
-				$('#targetChargingProgress').addClass('hide');
+				//$('#targetChargingProgress').addClass('hide');
 				$('#sofortladenEinstellungen').addClass('hide');
 				$('#priorityEvBatteryIcon').addClass('hide');
 				$('#minundpvladenEinstellungen').removeClass('hide');
@@ -420,7 +432,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 				$('.chargeModeBtn').removeClass('btn-success');
 				$('#chargeModePVBtn').addClass('btn-success');
 				$('#targetChargingProgress').addClass('hide');
-				$('#sofortladenEinstellungen').addClass('hide');
+				//$('#sofortladenEinstellungen').addClass('hide');
 				$('#priorityEvBatteryIcon').removeClass('hide');
 				$('#minundpvladenEinstellungen').addClass('hide');
 
@@ -430,7 +442,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 				$('#chargeModeSelectBtnText').text('Stop');
 				$('.chargeModeBtn').removeClass('btn-success');
 				$('#chargeModeStopBtn').addClass('btn-success');
-				$('#targetChargingProgress').addClass('hide');
+				//$('#targetChargingProgress').addClass('hide');
 				$('#sofortladenEinstellungen').addClass('hide');
 				$('#priorityEvBatteryIcon').addClass('hide');
 				$('#minundpvladenEinstellungen').addClass('hide');
@@ -441,7 +453,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 				$('#chargeModeSelectBtnText').text('Standby');
 				$('.chargeModeBtn').removeClass('btn-success');
 				$('#chargeModeStdbyBtn').addClass('btn-success');
-				$('#targetChargingProgress').addClass('hide');
+				//$('#targetChargingProgress').addClass('hide');
 				$('#sofortladenEinstellungen').addClass('hide');
 				$('#priorityEvBatteryIcon').addClass('hide');
 				$('#minundpvladenEinstellungen').addClass('hide');
@@ -493,12 +505,12 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	// called by handlevar
 	// console.log("received system msg: " + mqttmsg + ": " + mqttpayload);
 	processPreloader(mqttmsg);
-	if (mqttmsg == 'openWB/system/debuglevel') {
+	if (mqttmsg == 'openWB/system/debug') {
 		var i = parseInt(mqttpayload, 10);
 		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
-	    debuglevel = i;
-		console.log('set debug level to '+debuglevel );
-		if ( debuglevel >=0)  {
+	    debug = i;
+		console.log('set debug level to '+debug );
+		if ( debug >=0)  {
 			$("#homebutton").removeClass("hide");
         } else {			
 			$("#homebutton").addClass("hide");
@@ -519,11 +531,21 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 			var dayOfWeek = dateObject.toLocaleDateString('de-DE', { weekday: 'short'});
 			date = dayOfWeek + ', ' + dd + '.' + mm + '.' + dateObject.getFullYear();
 		}
-		$('#time').text(time);
+		if( iscloud )
+			$('#time').text("Daten von: " + time);
+		else
+			$('#time').text(time);
 		$('#date').text(date);
 	}
 	else if (mqttmsg == 'openWB/system/devicename') {
+     console.log('set devicename from ', mqttmsg, ' ', mqttpayload);
       $('.devicename').text(mqttpayload);
+	  if( iscloud )
+	     $('.devicename').addClass('fa fa-cloud');
+      window.document.title='oWB ' + mqttpayload; 
+    } 
+	else if (mqttmsg == 'openWB/system/Version') {
+      $('.spanversion').text(mqttpayload);
     } 
 }
 

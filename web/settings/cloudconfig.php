@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -33,9 +42,8 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20220714" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
 	</head>
-
 		<?php
 
 			$lines = file('/var/www/html/openWB/openwb.conf');
@@ -117,7 +125,7 @@
 						</div>
 						<div class="form-row mb-1">
 							<div class="col">
-								Mit den Zugangsdaten auf web.openwb.de anmelden
+								Mit den Zugangsdaten auf wb.fleckies.de anmelden
 							</div>
 						</div>
 					</div>
@@ -157,24 +165,11 @@
 									<div class="col">
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<div class="input-group-text" onclick="togglePasswordInput('#cloudpass, #cloudpass_confirm', '#cloudpass-lock, #cloudpass_confirm-lock')">
-													<i id="cloudpass-lock" class="fa fa-lock"></i>
+												<div class="input-group-text">
+													<i class="fa fa-lock"></i>
 												</div>
 											</div> 
-											<input type="password" name="cloudpass" id="cloudpass" value="" class="form-control" required="required" oninput="checkPasswordMatch('#cloudpass, #cloudpass_confirm')">
-										</div>
-									</div>
-								</div>
-								<div class="form-row mb-1">
-									<label for="cloudpass" class="col-md-4 col-form-label">Passwort wiederholen</label>
-									<div class="col">
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<div class="input-group-text" onclick="togglePasswordInput('#cloudpass, #cloudpass_confirm', '#cloudpass-lock, #cloudpass_confirm-lock')">
-													<i id="cloudpass_confirm-lock" class="fa fa-lock"></i>
-												</div>
-											</div> 
-											<input type="password" id="cloudpass_confirm" value="" class="form-control" required="required" oninput="checkPasswordMatch('#cloudpass, #cloudpass_confirm')">
+											<input type="password" name="cloudpass" id="cloudpass" value="" class="form-control" required="required">
 										</div>
 									</div>
 								</div>
@@ -185,7 +180,6 @@
 						</div>
 					</form>
 				</div> <!-- card 1 -->
-				<!-- temporary disabled! -->
 				<div class="card border-secondary">
 					<form action="./settings/cloudregistrate.php" method="POST">
 						<div class="card-header bg-secondary">
@@ -202,7 +196,7 @@
 													<i class="fa fa-user"></i>
 												</div>
 											</div>
-											<input disabled="disabled" type="text" name="username" id="register_username" value="" aria-describedby="registerUsernameHelpBlock" class="form-control" required="required" pattern="[A-Za-z]+">
+											<input type="text" name="username" id="register_username" value="" aria-describedby="registerUsernameHelpBlock" class="form-control" required="required" pattern="[A-Za-z]+">
 										</div>
 										<span id="registerUsernameHelpBlock" class="form-text small">Der Benutzername darf nur Buchstaben enthalten. Keine Umlaute, Zahlen, Sonderzeichen oder Leerzeichen</span>
 									</div>
@@ -216,15 +210,14 @@
 													<i class="fa fa-envelope"></i>
 												</div>
 											</div>
-											<input disabled="disabled" type="email" name="email" id="email" value="" class="form-control" required="required">
+											<input type="email" name="email" id="email" value="" class="form-control" required="required">
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="card-footer text-center">
-							<!-- <button type="submit" class="btn btn-success"<?php if( $datenschutzackold != 1 ) echo ' disabled="disabled"'; ?>>Neuen Account erstellen und einrichten</button> -->
-							<button type="submit" class="btn btn-success" disabled="disabled">Neuen Account erstellen und einrichten</button>
+							<button type="submit" class="btn btn-success"<?php if( $datenschutzackold != 1 ) echo ' disabled="disabled"'; ?>>Neuen Account erstellen und einrichten</button>
 						</div>
 					</form>
 				</div> <!-- card 2 -->
@@ -257,7 +250,7 @@
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navOpenwbCloud').addClass('disabled');
-                   $('.devicename').text(devicename);
+					$('.devicename').text(devicename);
 				}
 			);
 

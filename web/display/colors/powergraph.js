@@ -180,7 +180,7 @@ class PowerGraph {
     values.lp0 = +elements[4];
     values.lp1 = +elements[5];
     for (i = 2; i < 3; i++) {	// 3
-      values["lp" + i] = +elements[11 + i];
+      values["lp" + i] = +elements[14 - 2 + i];
     }
     for (i = 3; i < 8; i++) {	// 4..8
       values["lp" + i] = 0; 

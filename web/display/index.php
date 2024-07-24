@@ -74,7 +74,7 @@
 	</head>
 	<body>
 		<div id="preload"> 
-			openWB startet... <br>bitte warten
+			openWB startet... bitte warten
 		</div>
 		<div id="loaded" style="visibility: hidden">
 			<button id="goButton">Klicken zum Interface laden</button>

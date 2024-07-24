@@ -35,8 +35,6 @@ var topicsToSubscribe = [
 	["openWB/system/Version", 1],
 	["openWB/system/wizzardDone", 1],
 	["openWB/system/reloadDisplay", 1],
-	["openWB/system/devicename", 1],
-    
 	// pv topics
 	["openWB/pv/W", 1],
 	["openWB/pv/DailyYieldKwh", 1],
@@ -154,6 +152,24 @@ var topicsToSubscribe = [
 //	["openWB/lp/6/strChargePointName", 1],
 //	["openWB/lp/7/strChargePointName", 1],
 //	["openWB/lp/8/strChargePointName", 1],
+	// Status Autolock konfiguriert
+//	["openWB/lp/1/AutolockConfigured", 1],
+//	["openWB/lp/2/AutolockConfigured", 1],
+//	["openWB/lp/3/AutolockConfigured", 1],
+//	["openWB/lp/4/AutolockConfigured", 1],
+//	["openWB/lp/5/AutolockConfigured", 1],
+//	["openWB/lp/6/AutolockConfigured", 1],
+//	["openWB/lp/7/AutolockConfigured", 1],
+//	["openWB/lp/8/AutolockConfigured", 1],
+	// Status Autolock
+//	["openWB/lp/1/AutolockStatus", 1],
+//	["openWB/lp/2/AutolockStatus", 1],
+//	["openWB/lp/3/AutolockStatus", 1],
+//	["openWB/lp/4/AutolockStatus", 1],
+//	["openWB/lp/5/AutolockStatus", 1],
+//	["openWB/lp/6/AutolockStatus", 1],
+//	["openWB/lp/7/AutolockStatus", 1],
+//	["openWB/lp/8/AutolockStatus", 1],
 	// Sofortladen Stromstärke
 	["openWB/lp/1/ADirectModeAmps", 1],
 	["openWB/lp/2/ADirectModeAmps", 1],
@@ -281,9 +297,9 @@ function publish(payload, topic) {
 	message.qos = 2;
 	message.retained = true;
 	client.send(message);
-	var message = new Messaging.Message("local client uid: " + clientuid + " sent: " + topic);
-	message.destinationName = "openWB/set/system/topicSender";
-	message.qos = 2;
-	message.retained = true;
-	client.send(message);
+//	var message = new Messaging.Message("local client uid: " + clientuid + " sent: " + topic);
+//	message.destinationName = "openWB/set/system/topicSender";
+//	message.qos = 2;
+//	message.retained = true;
+//	client.send(message);
 }

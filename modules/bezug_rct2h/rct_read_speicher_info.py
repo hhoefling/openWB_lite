@@ -25,7 +25,7 @@ def main():
             Eff       = rct_lib.add_by_name(MyTab, "battery.efficiency")
             Soh       = rct_lib.add_by_name(MyTab, "battery.soh")
             SoC       = rct_lib.add_by_name(MyTab, "battery.soc") 
-            temp      = rct_lib.add_by_name(MyTab, "battery.max_cell_temperature") 
+            temp      = rct_lib.add_by_name(MyTab, "battery.max_cell_temperature")
             Stat1     = rct_lib.add_by_name(MyTab, "battery.status")
             Stat2     = rct_lib.add_by_name(MyTab, "battery.status2") 
             Stor      = rct_lib.add_by_name(MyTab, "battery.stored_energy") 

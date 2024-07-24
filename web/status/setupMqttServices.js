@@ -216,15 +216,22 @@ var topicsToSubscribe = [
 	["openWB/SmartHome/Status/wattnichtschalt", 1],
 	["openWB/SmartHome/Status/uberschuss", 1],
 	["openWB/SmartHome/Status/uberschussoffset", 1],
+	["openWB/SmartHome/Devices/#", 1],
+	["openWB/config/get/SmartHome/Devices/#", 1],
 
 	["openWB/Verbraucher/1/Configured", 1],
 	["openWB/Verbraucher/1/Watt", 1],
 	["openWB/Verbraucher/1/WhImported", 1],
 	["openWB/Verbraucher/1/WhExported", 1],
+	["openWB/Verbraucher/1/DailyYieldImportkWh", 1],
+	["openWB/Verbraucher/1/DailyYieldExportkWh", 1],
+
 	["openWB/Verbraucher/2/Configured", 1],
 	["openWB/Verbraucher/2/Watt", 1],
 	["openWB/Verbraucher/2/WhImported", 1],
 	["openWB/Verbraucher/2/WhExported", 1],
+	["openWB/Verbraucher/2/DailyYieldImportkWh", 1],
+	["openWB/Verbraucher/2/DailyYieldExportkWh", 1],
 ];
 
 // holds number of topics flagged 1 initially

@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -34,7 +43,7 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
 	</head>
 
 	<body>
@@ -46,10 +55,6 @@
 				${$key."old"} = trim( $value, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes
 			}
 		?>
-		<script>
-		  var debugold=<?php echo $debugold;?>;
-		  console.log('openWB debug aus openwb.conf:',debugold);
-		</script>		
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
 
@@ -72,39 +77,40 @@
 										<option <?php if($wattbezugmodulold == "bezug_ethmpm3pm") echo "selected" ?> value="bezug_ethmpm3pm">openWB EVU Kit</option>
 									</optgroup>
 									<optgroup label="andere Hersteller">
-						<!--			<option <?php if($wattbezugmodulold == "bezug_alphaess") echo "selected" ?> value="bezug_alphaess">Alpha ESS</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_carlogavazzilan") echo "selected" ?> value="bezug_carlogavazzilan">Carlo Gavazzi EM24 LAN</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_discovergy") echo "selected" ?> value="bezug_discovergy">Discovergy</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_e3dc") echo "selected" ?> value="bezug_e3dc">E3DC Speicher</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_fronius_sm") echo "selected" ?> value="bezug_fronius_sm">Fronius Energy Meter</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_fronius_s0") echo "selected" ?> value="bezug_fronius_s0">Fronius WR mit S0 Meter</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_kostalpiko") echo "selected" ?> value="bezug_kostalpiko">Kostal Piko mit Energy Meter</option>  -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_kostalplenticoreem300haus") echo "selected" ?> value="bezug_kostalplenticoreem300haus">Kostal Plenticore mit EM300/KSEM</option>  -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_ksem") echo selected ?> value="bezug_ksem">Kostal Smart Energy Meter oder TQ EM410</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_lgessv1") echo "selected" ?> value="bezug_lgessv1">LG ESS 1.0VI</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_janitza") echo "selected" ?> value="bezug_janitza">Janitza</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_fems") echo "selected" ?> value="bezug_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_powerdog") echo "selected" ?> value="bezug_powerdog">Powerdog</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_powerfox") echo "selected" ?> value="bezug_powerfox">Powerfox</option> -->
+										<option <?php if($wattbezugmodulold == "bezug_alphaess") echo "selected" ?> value="bezug_alphaess">Alpha ESS</option>
+										<option <?php if($wattbezugmodulold == "bezug_carlogavazzilan") echo "selected" ?> value="bezug_carlogavazzilan">Carlo Gavazzi EM24 LAN</option>
+										<option <?php if($wattbezugmodulold == "bezug_discovergy") echo "selected" ?> value="bezug_discovergy">Discovergy</option>
+										<option <?php if($wattbezugmodulold == "bezug_e3dc") echo "selected" ?> value="bezug_e3dc">E3DC Speicher</option>
+										<option <?php if($wattbezugmodulold == "bezug_fronius_sm") echo "selected" ?> value="bezug_fronius_sm">Fronius Energy Meter</option>
+										<option <?php if($wattbezugmodulold == "bezug_fronius_s0") echo "selected" ?> value="bezug_fronius_s0">Fronius WR mit S0 Meter</option>
+										<option <?php if($wattbezugmodulold == "bezug_huawei") echo "selected" ?> value="bezug_huawei">Huawei mit SmartMeter</option>
+										<option <?php if($wattbezugmodulold == "bezug_kostalpiko") echo "selected" ?> value="bezug_kostalpiko">Kostal Piko mit Energy Meter</option>
+										<option <?php if($wattbezugmodulold == "bezug_kostalplenticoreem300haus") echo "selected" ?> value="bezug_kostalplenticoreem300haus">Kostal Plenticore mit EM300/KSEM</option>
+										<option <?php if($wattbezugmodulold == "bezug_ksem") echo selected ?> value="bezug_ksem">Kostal Smart Energy Meter oder TQ EM410</option>
+										<option <?php if($wattbezugmodulold == "bezug_lgessv1") echo "selected" ?> value="bezug_lgessv1">LG ESS 1.0VI</option>
+										<option <?php if($wattbezugmodulold == "bezug_janitza") echo "selected" ?> value="bezug_janitza">Janitza</option>
+										<option <?php if($wattbezugmodulold == "bezug_fems") echo "selected" ?> value="bezug_fems">openEMS / Fenecon FEMS / Kaco Hy-Control</option>
+										<option <?php if($wattbezugmodulold == "bezug_powerdog") echo "selected" ?> value="bezug_powerdog">Powerdog</option>
+										<option <?php if($wattbezugmodulold == "bezug_powerfox") echo "selected" ?> value="bezug_powerfox">Powerfox</option>
 										<option <?php if($wattbezugmodulold == "bezug_rct") echo "selected" ?> value="bezug_rct">RCT</option>
 										<option <?php if($wattbezugmodulold == "bezug_rct2") echo "selected" ?> value="bezug_rct2">RCT V.2</option>
 										<option <?php if($wattbezugmodulold == "bezug_rct2h") echo "selected" ?> value="bezug_rct2h">RCT V.2h</option>
-						<!--			<option <?php if($wattbezugmodulold == "bezug_siemens") echo "selected" ?> value="bezug_siemens">Siemens Speicher</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_smashm") echo "selected" ?> value="bezug_smashm">SMA HomeManager</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_sbs25") echo "selected" ?> value="bezug_sbs25">SMA Sunny Boy Storage </option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_smartfox") echo "selected" ?> value="bezug_smartfox">Smartfox</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_smartme") echo "selected" ?> value="bezug_smartme">Smartme</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_solaredge") echo "selected" ?> value="bezug_solaredge">Solaredge</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_solarlog") echo "selected" ?> value="bezug_solarlog">SolarLog</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_solarview") echo "selected" ?> value="bezug_solarview">Solarview</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_solarwatt") echo "selected" ?> value="bezug_solarwatt">Solarwatt / My Reserve Speicher</option>  -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_solarworld") echo "selected" ?> value="bezug_solarworld">Solarworld</option>  -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_solax") echo "selected" ?> value="bezug_solax">Solax</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_sonneneco") echo "selected" ?> value="bezug_sonneneco">Sonnen eco</option> -->
-						<!--  		<option <?php if($wattbezugmodulold == "bezug_sungrow") echo "selected" ?> value="bezug_sungrow">Sungrow Speicher</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_powerwall") echo "selected" ?> value="bezug_powerwall">Tesla Powerwall</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_varta") echo "selected" ?> value="bezug_varta">Varta Speicher</option> -->
-						<!--			<option <?php if($wattbezugmodulold == "bezug_victrongx") echo "selected" ?> value="bezug_victrongx">Victron (z.B. GX)</option> -->
+										<option <?php if($wattbezugmodulold == "bezug_siemens") echo "selected" ?> value="bezug_siemens">Siemens Speicher</option>
+										<option <?php if($wattbezugmodulold == "bezug_smashm") echo "selected" ?> value="bezug_smashm">SMA HomeManager</option>
+										<option <?php if($wattbezugmodulold == "bezug_sbs25") echo "selected" ?> value="bezug_sbs25">SMA Sunny Boy Storage </option>
+										<option <?php if($wattbezugmodulold == "bezug_smartfox") echo "selected" ?> value="bezug_smartfox">Smartfox</option>
+										<option <?php if($wattbezugmodulold == "bezug_smartme") echo "selected" ?> value="bezug_smartme">Smartme</option>
+										<option <?php if($wattbezugmodulold == "bezug_solaredge") echo "selected" ?> value="bezug_solaredge">Solaredge</option>
+										<option <?php if($wattbezugmodulold == "bezug_solarlog") echo "selected" ?> value="bezug_solarlog">SolarLog</option>
+										<option <?php if($wattbezugmodulold == "bezug_solarview") echo "selected" ?> value="bezug_solarview">Solarview</option>
+										<option <?php if($wattbezugmodulold == "bezug_solarwatt") echo "selected" ?> value="bezug_solarwatt">Solarwatt / My Reserve Speicher</option>
+										<option <?php if($wattbezugmodulold == "bezug_solarworld") echo "selected" ?> value="bezug_solarworld">Solarworld</option>
+										<option <?php if($wattbezugmodulold == "bezug_solax") echo "selected" ?> value="bezug_solax">Solax</option>
+										<option <?php if($wattbezugmodulold == "bezug_sonneneco") echo "selected" ?> value="bezug_sonneneco">Sonnen eco</option>
+										<option <?php if($wattbezugmodulold == "bezug_sungrow") echo "selected" ?> value="bezug_sungrow">Sungrow Speicher</option>
+										<option <?php if($wattbezugmodulold == "bezug_powerwall") echo "selected" ?> value="bezug_powerwall">Tesla Powerwall</option>
+										<option <?php if($wattbezugmodulold == "bezug_varta") echo "selected" ?> value="bezug_varta">Varta Speicher</option>
+										<option <?php if($wattbezugmodulold == "bezug_victrongx") echo "selected" ?> value="bezug_victrongx">Victron (z.B. GX)</option>
 									</optgroup>
 									<optgroup label="generische Module">
 										<option <?php if($wattbezugmodulold == "bezug_http") echo "selected" ?> value="bezug_http">HTTP</option>
@@ -112,21 +118,19 @@
 										<option <?php if($wattbezugmodulold == "bezug_mpm3pm") echo "selected" ?> value="bezug_mpm3pm">MPM3PM</option>
 										<option <?php if($wattbezugmodulold == "bezug_mqtt") echo "selected" ?> value="bezug_mqtt">MQTT</option>
 										<option <?php if($wattbezugmodulold == "sdm630modbusbezug") echo "selected" ?> value="sdm630modbusbezug">SDM 630</option>
-										<!-- <option <?php if($wattbezugmodulold == "vzlogger") echo "selected" ?> value="vzlogger">VZLogger</option> -->
+										<option <?php if($wattbezugmodulold == "bezug_ethmpm3pmflex") echo "selected" ?> value="bezug_ethmpm3pmflex">openWB EVU Kit flexible IP</option>
+										<option <?php if($wattbezugmodulold == "vzlogger") echo "selected" ?> value="vzlogger">VZLogger</option>
 									</optgroup>
 								</select>
 							</div>
 						</div>
-<!--
 						<div id="wattbezugalphaess" class="hide">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich.
 							</div>
 						</div>
--->						
-<!--
 						<div id="wattbezugsungrow" class="hide">
-							<div class="form-row mb-1">
+							<div class="card-text alert alert-info">
 								<label for="sungrowsr" class="col-md-4 col-form-label">Version des Sungrow</label>
 								<div class="col">
 									<select name="sungrowsr" id="sungrowsr" class="form-control">
@@ -136,46 +140,33 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
+
 						<div id="wattbezugsonneneco" class="hide">
 							<div class="card-text alert alert-info">
-								Keine Konfiguration erforderlich. Alle Einstellungen werden in dem Speicher-Modul vorgenommen.
-							</div>
-							<div class="card-text alert alert-warning">
-								Die EVU-Leistung steht nur in den Varianten "Rest-API 2" und "JSON-API" zur Verfügung!<br />
-								Mit diesem Modul ist kein Lastmanagement möglich, da keine Ströme der einzelnen Phasen gemessen werden!
+								Keine Konfiguration erforderlich. Es muss beim Speicher die alternative Methode ausgewählt werden, da die Daten nur von der JSON-API übergeben werden.
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezugvarta" class="hide">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich. Es muss beim Speicher Varta ausgewählt werden.
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezugjanitza" class="hide">
 							<div class="card-text alert alert-info">
 								Ausgelesen wird Register 19026 auf Port 502. ModbusTCP muss im Janitza aktiv sein und die ID 1 vergeben sein.
 							</div>
 						</div>
--->						
-<!--	
-     					<div id="wattbezugcarlogavazzilan" class="hide">
+						<div id="wattbezugcarlogavazzilan" class="hide">
 							<div class="card-text alert alert-info">
 								Ausgelesen wird ID 1 auf Port 502. ModbusTCP muss aktiviert sein.
 							</div>
- 						</div>
--->
-<!--
+						</div>
+
 						<div id="wattbezugsolarwatt" class="hide">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich. Es muss beim Speicher Solarwatt / My Reserve ausgewählt werden.
 							</div>
 						</div>
--->
 						<div id="wattbezugmqtt" class="hide">
 							<div class="alert alert-info">
 								Keine Konfiguration erforderlich.<br>
@@ -189,16 +180,14 @@
 								<span class="text-info">openWB/set/evu/VPhase1</span> Spannung in Volt für Phase 1, float, Punkt als Trenner<br>
 								<span class="text-info">openWB/set/evu/VPhase2</span> Spannung in Volt für Phase 2, float, Punkt als Trenner<br>
 								<span class="text-info">openWB/set/evu/VPhase3</span> Spannung in Volt für Phase 3, float, Punkt als Trenner<br>
-								<span class="text-info">openWB/set/evu/HzFrequenz</span> Netzfrequenz in Hz, float, Punkt als Trenner<br>
+								<span class="text-info">openWB/set/evu/HzFrequenz</span> Netzfrequenz in Hz, float, Punkt als Trenner
 							</div>
 						</div>
-<!--
 						<div id="wattbezuglgessv1" class="hide">
 							<div class="card-text alert alert-info">
 								Konfiguration im zugehörigen Speichermodul des LG ESS 1.0VI erforderlich. Als PV-Modul auch LG ESS 1.0VI wählen!
 							</div>
 						</div>
--->						
 						<div id="wattbezugip" class="hide">
 							<div class="form-row mb-1">
 								<label for="bezug1_ip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -210,13 +199,11 @@
 								</div>
 							</div>
 						</div>
-<!--
 						<div id="wattbezugsiemens" class="hide">
 							<div class="card-text alert alert-info">
 								IP Adresse des Siemens Speichers eingeben. Im Siemens Speicher muss die Schnittstelle openWB gewählt werden.
 							</div>
 						</div>
--->						
 						<div id="wattbezugrct" class="hide">
 							<div class="card-text alert alert-info">
 								IP Adresse des RCT AC/DC Wechselrichter eingeben.
@@ -248,12 +235,13 @@
 								Konfiguration erfolgt im zugehörigen PV Modul.
 							</div>
 						</div>
-<!--						
+
 						<div id="wattbezugpowerdog" class="hide">
 							<div class="card-text alert alert-info">
 								IP Adresse des Powerdog eingeben. Im Powerdog muss die Schnittstelle ModbusTCP aktiviert werden.
 							</div>
 						</div>
+						
 						<div id="wattbezugpowerfox" class="hide">
 							<div class="form-row mb-1">
 								<label for="powerfoxuser" class="col-md-4 col-form-label">powerfox Username (Email)</label>
@@ -277,7 +265,6 @@
 								</div>
 							</div>
 						</div>
--->
 						<div id="wattbezugethmpm3pm" class="hide">
 							<div class="form-row mb-1">
 								<label for="evukitversion" class="col-md-4 col-form-label">Version des openWB evu Kits</label>
@@ -290,21 +277,54 @@
 								</div>
 							</div>
 						</div>
-<!--
+						<div id="wattbezugethmpm3pmflex" class="hide">
+							<div class="form-row mb-1">
+								<label for="evuflexversion" class="col-md-4 col-form-label">Version des openWB evu Kits</label>
+								<div class="col">
+									<select name="evuflexversion" id="evuflexversion" class="form-control">
+										<option <?php if($evuflexversionold == 0) echo "selected" ?> value="0">EVU Kit MPM3PM</option>
+										<option <?php if($evuflexversionold == 1) echo "selected" ?> value="1">EVU Kit var 2 Lovato</option>
+										<option <?php if($evuflexversionold == 2) echo "selected" ?> value="2">EVU Kit SDM</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-row mb-1">
+								<label for="evuflexip" class="col-md-4 col-form-label">EVU Adapter IP</label>
+								<div class="col">
+									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="evuflexip" id="evuflexip" value="<?php echo $evuflexipold ?>">
+									<span class="form-text small">
+										Gültige Werte IP Adresse im Format: 192.168.0.12<br>
+										IP Adresse des Protoss/Elfin Adapters.
+									</span>
+								</div>
+							</div>
+							<div class="form-row mb-1">
+								<label for="evuflexport" class="col-md-4 col-form-label">Port</label>
+								<div class="col">
+									<input class="form-control" type="number" min="1" step="1" name="evuflexport" id="evuflexport" value="<?php echo (empty($evuflexportold)?'502':$evuflexportold) ?>">
+									<span class="form-text small">
+										TCP Port der im Protoss/Elfin konfiguriert ist.<br>
+									</span>
+								</div>
+							</div>
+							<div class="form-row mb-1">
+									<label for="evuflexid" class="col-md-4 col-form-label">Unit ID</label>
+									<div class="col">
+										<input class="form-control" type="number" min="1" max="254" step="1" name="evuflexid" id="evuflexid" value="<?php echo $evuflexidold ?>">
+										<span class="form-text small">Gültige Werte 1-254. Modbus ID des Gerätes.</span>
+									</div>
+								</div>
+						</div>
 						<div id="wattbezugsolarview" class="hide">
 							<div class="card-text alert alert-info">
 								Konfiguration im zugehörigen PV Modul erforderlich.
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezugpowerwall" class="hide">
 							<div class="card-text alert alert-info">
 								Keine Konfiguration erforderlich. Mit diesem Modul ist kein Lastmanagement / Hausanschlussüberwachung möglich.
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezugvictrongx" class="hide">
 							<div class="form-row mb-1">
 								<label for="bezug_victronip" class="col-md-4 col-form-label">Victron IP</label>
@@ -324,8 +344,6 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezugfems" class="hide">
 							<div class="form-row mb-1">
 								<label for="femsip" class="col-md-4 col-form-label">Fenecon IP</label>
@@ -347,8 +365,6 @@
 								</div>
 							</div>
 						</div>
--->						
-<!--
 						<div id="wattbezugsolarworld" class="hide">
 							<div class="form-row mb-1">
 								<label for="solarworld_emanagerip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -361,8 +377,6 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezugdiscovergy" class="hide">
 							<div class="form-row mb-1">
 								<label for="discovergyuser" class="col-md-4 col-form-label">Discovergy Username (Email)</label>
@@ -387,8 +401,6 @@
 								</div>
 							</div>
 						</div>
--->
-<!--						
 						<div id="wattbezugkostalsmartenergymeter" class="hide">
 							<div class="form-row mb-1">
 								<label for="ksemip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -400,16 +412,12 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezugkostalpiko" class="hide">
 							<div class="card-text alert alert-info">
 								IP Adresse wird im PV Modul konfiguriert. Angeschlossenes Meter erforderlich. Der WR liefert Werte nur solange er auch PV Leistung liefert. Nachts geht er in den Standby.
 								Die Hausanschlussüberwachung ist nur aktiv wenn der Wechselrichter auch aktiv ist. Ein extra PV-Modul muss nicht mehr ausgewählt werden.
 							</div>
 						</div>
--->						
-<!--
 						<div id="wattbezugplentihaus" class="hide">
 							<div class="card-text alert alert-info">
 								Dieses Modul erfordert als 1. PV-Modul das Modul "Kostal Plenticore". Dieses wird automatisch fest eingestellt. Der EM300 bzw. das KSEM muss am 1. Plenticore angeschlossen sein.
@@ -436,7 +444,6 @@
 								</div>
 							</div>
 						</div>
--->
 						<div id="wattbezugmpm3pm" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -524,7 +531,6 @@
 								</div>
 							</div>
 						</div>
-<!--
 						<div id="wattbezugvz" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -569,8 +575,6 @@
 								</div>
 							</div>
 						</div>
--->
-	
 						<div id="wattbezughttp" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -629,7 +633,6 @@
 								</div>
 							</div>
 						</div>
-<!--
 						<div id="wattbezugsmartme" class="hide">
 							<div class="form-row mb-1">
 								<label for="bezug_smartme_user" class="col-md-4 col-form-label">Smartme Benutzername</label>
@@ -650,8 +653,6 @@
 								</div>
 							</div>
 						</div>
--->						
-<!--
 						<div id="wattbezugshm" class="hide">
 							<div class="form-row mb-1">
 								<label for="smashmbezugid" class="col-md-4 col-form-label">Seriennummer</label>
@@ -664,8 +665,6 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezugsmartfox" class="hide">
 							<div class="form-row mb-1">
 								<label for="bezug_smartfox_ip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -677,8 +676,6 @@
 								</div>
 							</div>
 						</div>
--->						
-<!--
 						<div id="wattbezugsma" class="hide">
 							<div class="form-row mb-1">
 								<label for="smaemdbezugid" class="col-md-4 col-form-label">Seriennummer des SMA Energy Meter</label>
@@ -691,8 +688,6 @@
 								</div>
 							</div>
 						</div>
--->						
-<!--
 						<div id="wattbezugfronius" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -703,7 +698,7 @@
 											Gültige Werte IP Adresse im Format: 192.168.0.12<br>
 											IP Adresse des Fronius WR.
 										</span>
-										<button id="wattbezugfroniusload" class="btn btn-primary" type="button" data-value="<?php echo $wrfroniusip ?>">Daten auslesen</button>
+										<button id="wattbezugfroniusload" class="btn btn-primary" type="button" data-value="<?php if(isset($wrfroniusip)) echo $wrfroniusip ?>">Daten auslesen</button>
 										<button id="wattbezugfroniusmanual" class="btn btn-primary hide" type="button">Daten manuell eingeben</button>
 										<span id="wattbezugfroniusloadmessage" class="form-text small"></span>
 									</div>
@@ -778,7 +773,6 @@
 								</div>
 							</div>
 						</div>
--->								
 						<div id="wattbezugjson" class="hide">
 							<div class="form-group">
 								<div class="form-row mb-1">
@@ -822,7 +816,6 @@
 								</div>
 							</div>
 						</div>
-<!--
 						<div id="wattbezugsolarlog" class="hide">
 							<div class="card-text alert alert-info">
 								Die zugehörige IP Adresse ist im PV Modul einzustellen.
@@ -843,8 +836,6 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezugsolaredge" class="hide">
 							<div class="form-row mb-1">
 								<label for="solaredgeip" class="col-md-4 col-form-label">IP Adresse</label>
@@ -869,15 +860,11 @@
 								</div>
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezugsolax" class="hide">
 							<div class="alert alert-info">
 								Die IP des Wechselrichters wird im dazugehörigen Solax PV-Modul eingestellt.
 							</div>
 						</div>
--->
-<!--
 						<div id="wattbezuge3dc" class="hide">
 							<div class="card-text alert alert-info">
 								Die IP des Speichers wird im dazugehörigen E3DC Speicher-Modul eingestellt.<br>
@@ -885,14 +872,11 @@
 								Das Protokoll in den E3DC Einstellungen ist auf E3DC zu stellen.
 							</div>
 						</div>
--->
-<!--						
 						<div id="wattbezugsbs25" class="hide">
 							<div class="card-text alert alert-info">
 								Die IP des Speichers wird im dazugehörigen SMA SBS Speicher-Modul eingestellt.
 							</div>
 						</div>
--->
 
 						<div id="evuglaettungdiv" class="hide">
 							<hr class="border-danger">
@@ -944,42 +928,44 @@
 								hideSection('#wattbezugsdm');
 								hideSection('#wattbezugnone');
 								hideSection('#wattbezughttp');
-								//hideSection('#wattbezugsma');
-								//hideSection('#wattbezugsolarworld');
-								//hideSection('#wattbezugfronius');
+								hideSection('#wattbezugsma');
+								hideSection('#wattbezugsolarworld');
+								hideSection('#wattbezugfronius');
 								hideSection('#wattbezugjson');
 								hideSection('#wattbezugmpm3pm');
-								//hideSection('#wattbezugsolarlog');
-								//hideSection('#wattbezugsolaredge');
-								//hideSection('#wattbezugsolax');
+								hideSection('#wattbezugsolarlog');
+								hideSection('#wattbezugsolaredge');
+								hideSection('#wattbezugsolax');
 								hideSection('#wattbezugshm');
-								//hideSection('#wattbezugsmartme');
-								//hideSection('#wattbezugsbs25');
-								//hideSection('#wattbezuge3dc');
+								hideSection('#wattbezugsmartme');
+								hideSection('#wattbezugsbs25');
+								hideSection('#wattbezuge3dc');
 								hideSection('#wattbezugethmpm3pm');
+								hideSection('#wattbezugethmpm3pmflex');
 								hideSection('#wattbezugplentihaus');
-								//hideSection('#wattbezugkostalpiko');
-								//hideSection('#wattbezugkostalsmartenergymeter');
-								//hideSection('#wattbezugsmartfox');
-								//hideSection('#wattbezugpowerwall');
-								//hideSection('#wattbezugvictrongx');
-								//hideSection('#wattbezugsolarview');
-								//hideSection('#wattbezugdiscovergy');
-								//hideSection('#wattbezuglgessv1');
+								hideSection('#wattbezugkostalpiko');
+								hideSection('#wattbezugkostalsmartenergymeter');
+								hideSection('#wattbezugsmartfox');
+								hideSection('#wattbezugpowerwall');
+								hideSection('#wattbezugvictrongx');
+								hideSection('#wattbezugsolarview');
+								hideSection('#wattbezugdiscovergy');
+								hideSection('#wattbezuglgessv1');
 								hideSection('#wattbezugmqtt');
-								//hideSection('#wattbezugsonneneco');
-								//hideSection('#wattbezugvarta');
-								//hideSection('#wattbezugfems');
-								//hideSection('#wattbezugsiemens');
-								//hideSection('#wattbezugpowerdog');
-								//hideSection('#wattbezugpowerfox');
+								hideSection('#wattbezugsonneneco');
+								hideSection('#wattbezugvarta');
+								hideSection('#wattbezugfems');
+								hideSection('#wattbezugsiemens');
+								hideSection('#wattbezugpowerdog');
+								hideSection('#wattbezugpowerfox');
 								hideSection('#wattbezugrct');
+								hideSection('#wattbezughuawei');
 								hideSection('#wattbezugip');
-								// hideSection('#wattbezugalphaess');
-								//hideSection('#wattbezugsungrow');
-								//hideSection('#wattbezugsolarwatt');
-								//hideSection('#wattbezugjanitza');
-								// hideSection('#wattbezugcarlogavazzilan');
+								hideSection('#wattbezugalphaess');
+								hideSection('#wattbezugsungrow');
+								hideSection('#wattbezugsolarwatt');
+								hideSection('#wattbezugjanitza');
+								hideSection('#wattbezugcarlogavazzilan');
 								// Auswahl PV-Modul generell erlauben
 								//enable_pv_selector();
 								if($('#wattbezugmodul').val() != 'none') {
@@ -988,33 +974,36 @@
 								} else {
 									showSection('#wattbezugnone');
 								}
-								// if($('#wattbezugmodul').val() == 'bezug_alphaess') {
-								// 	showSection('#wattbezugalphaess');
-								// }
-								//if($('#wattbezugmodul').val() == 'bezug_sungrow') {
-								//	showSection('#wattbezugsungrow');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_sonneneco') {
-								//	showSection('#wattbezugsonneneco');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_varta') {
-								//	showSection('#wattbezugvarta');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_siemens') {
-								//	showSection('#wattbezugsiemens');
-								//	showSection('#wattbezugip');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_janitza') {
-								//	showSection('#wattbezugjanitza');
-								//	showSection('#wattbezugip');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_carlogavazzilan') {
-								//	showSection('#wattbezugcarlogavazzilan');
-								//	showSection('#wattbezugip');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_solax') {
-								//	showSection('#wattbezugsolax');
-								//}
+								if($('#wattbezugmodul').val() == 'bezug_alphaess') {
+									showSection('#wattbezugalphaess');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_sungrow') {
+									showSection('#wattbezugsungrow');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_sonneneco') {
+									showSection('#wattbezugsonneneco');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_varta') {
+									showSection('#wattbezugvarta');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_siemens') {
+									showSection('#wattbezugsiemens');
+									showSection('#wattbezugip');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_janitza') {
+									showSection('#wattbezugjanitza');
+									showSection('#wattbezugip');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_carlogavazzilan') {
+									showSection('#wattbezugcarlogavazzilan');
+									showSection('#wattbezugip');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_solax') {
+									showSection('#wattbezugsolax');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_huawei') {
+									showSection('#wattbezughuawei');
+								}
 								if($('#wattbezugmodul').val() == 'bezug_rct') {
 									showSection('#wattbezugrct');
 									showSection('#wattbezugip');
@@ -1027,107 +1016,114 @@
 									showSection('#wattbezugrct');
 									showSection('#wattbezugip');
 								}
-								//if($('#wattbezugmodul').val() == 'bezug_powerdog') {
-								//	showSection('#wattbezugpowerdog');
-								//	showSection('#wattbezugip');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_powerfox') {
-								//	showSection('#wattbezugpowerfox');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_fems') {
-								//	showSection('#wattbezugfems');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_solarworld') {
-								//	showSection('#wattbezugsolarworld');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_solarview') {
-								//	showSection('#wattbezugsolarview');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_discovergy') {
-								//	showSection('#wattbezugdiscovergy');
-								//}
+								if($('#wattbezugmodul').val() == 'bezug_rct2h') {
+									showSection('#wattbezugrct');
+									showSection('#wattbezugip');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_powerdog') {
+									showSection('#wattbezugpowerdog');
+									showSection('#wattbezugip');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_powerfox') {
+									showSection('#wattbezugpowerfox');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_fems') {
+									showSection('#wattbezugfems');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_solarworld') {
+									showSection('#wattbezugsolarworld');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_solarview') {
+									showSection('#wattbezugsolarview');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_discovergy') {
+									showSection('#wattbezugdiscovergy');
+								}
 								if($('#wattbezugmodul').val() == 'bezug_mqtt') {
 									showSection('#wattbezugmqtt');
 								}
-								//if($('#wattbezugmodul').val() == 'bezug_victrongx') {
-								//	showSection('#wattbezugvictrongx');
-								//}
-								//if($('#wattbezugmodul').val() == 'vzlogger') {
-								//	showSection('#wattbezugvz');
-								//}
+								if($('#wattbezugmodul').val() == 'bezug_victrongx') {
+									showSection('#wattbezugvictrongx');
+								}
+								if($('#wattbezugmodul').val() == 'vzlogger') {
+									showSection('#wattbezugvz');
+								}
 								if($('#wattbezugmodul').val() == 'sdm630modbusbezug')   {
 									showSection('#wattbezugsdm');
 								}
 								if($('#wattbezugmodul').val() == 'bezug_http')   {
 									showSection('#wattbezughttp');
 								}
-								//if($('#wattbezugmodul').val() == 'smaemd_bezug')   {
-								//	showSection('#wattbezugsma');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_fronius_sm')   {
-								//	showSection('#wattbezugfronius');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_fronius_s0')   {
-								//	showSection('#wattbezugfronius');
-								//}
+								if($('#wattbezugmodul').val() == 'smaemd_bezug')   {
+									showSection('#wattbezugsma');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_fronius_sm')   {
+									showSection('#wattbezugfronius');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_fronius_s0')   {
+									showSection('#wattbezugfronius');
+								}
 								if($('#wattbezugmodul').val() == 'bezug_json')   {
 									showSection('#wattbezugjson');
 								}
 								if($('#wattbezugmodul').val() == 'bezug_mpm3pm')   {
 									showSection('#wattbezugmpm3pm');
 								}
-								//if($('#wattbezugmodul').val() == 'bezug_solarlog')   {
-								//	showSection('#wattbezugsolarlog');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_solaredge')   {
-								//	showSection('#wattbezugsolaredge');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_smashm')   {
-								//	showSection('#wattbezugshm');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_smartme')   {
-								//	showSection('#wattbezugsmartme');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_e3dc')   {
-								//	showSection('#wattbezuge3dc');
-								//}
+								if($('#wattbezugmodul').val() == 'bezug_solarlog')   {
+									showSection('#wattbezugsolarlog');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_solaredge')   {
+									showSection('#wattbezugsolaredge');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_smashm')   {
+									showSection('#wattbezugshm');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_smartme')   {
+									showSection('#wattbezugsmartme');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_e3dc')   {
+									showSection('#wattbezuge3dc');
+								}
 								if($('#wattbezugmodul').val() == 'bezug_ethmpm3pm')   {
 									showSection('#wattbezugethmpm3pm');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_ethmpm3pmflex')   {
+									showSection('#wattbezugethmpm3pmflex');
 								}
 								if($('#wattbezugmodul').val() == 'bezug_sbs25')   {
 									showSection('#wattbezugsbs25');
 								}
-								//if($('#wattbezugmodul').val() == 'bezug_kostalplenticoreem300haus')   {
-								//	showSection('#wattbezugplentihaus');
-								//	// keine Auswahl PV-Modul in dieser Konfiguration
-								//	// Plenticore immer fix auswählen
-								//	//document.getElementById('pvwattmodul').value = 'wr_plenticore';
-								//	// und Einstellung sperren
-								//	//disable_pv_selector();
-								//	//display_pvwattmodul();
-								//	// passendes Speichermodul 'optisch' voreinstellen, da automatisch alle Werte
-								//	// mit aus dem WR gelesen werden
-								//	//document.getElementById('speichermodul').value = 'speicher_kostalplenticore';
-								//	//display_speichermodul();
-								//}
-								//($('#wattbezugmodul').val() == 'bezug_kostalpiko')   {
-								//howSection('#wattbezugkostalpiko');
-								//
-								//($('#wattbezugmodul').val() == 'bezug_ksem')   {
-								//howSection('#wattbezugkostalsmartenergymeter');
-								//
-								//if($('#wattbezugmodul').val() == 'bezug_smartfox')   {
-								//	showSection('#wattbezugsmartfox');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_powerwall')   {
-								//	showSection('#wattbezugpowerwall');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_lgessv1')   {
-								//	showSection('#wattbezuglgessv1');
-								//}
-								//if($('#wattbezugmodul').val() == 'bezug_solarwatt')   {
-								//	showSection('#wattbezugsolarwatt');
-								//}
+								if($('#wattbezugmodul').val() == 'bezug_kostalplenticoreem300haus')   {
+									showSection('#wattbezugplentihaus');
+									// keine Auswahl PV-Modul in dieser Konfiguration
+									// Plenticore immer fix auswählen
+									//document.getElementById('pvwattmodul').value = 'wr_plenticore';
+									// und Einstellung sperren
+									//disable_pv_selector();
+									//display_pvwattmodul();
+									// passendes Speichermodul 'optisch' voreinstellen, da automatisch alle Werte
+									// mit aus dem WR gelesen werden
+									//document.getElementById('speichermodul').value = 'speicher_kostalplenticore';
+									//display_speichermodul();
+								}
+								if($('#wattbezugmodul').val() == 'bezug_kostalpiko')   {
+									showSection('#wattbezugkostalpiko');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_ksem')   {
+									showSection('#wattbezugkostalsmartenergymeter');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_smartfox')   {
+									showSection('#wattbezugsmartfox');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_powerwall')   {
+									showSection('#wattbezugpowerwall');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_lgessv1')   {
+									showSection('#wattbezuglgessv1');
+								}
+								if($('#wattbezugmodul').val() == 'bezug_solarwatt')   {
+									showSection('#wattbezugsolarwatt');
+								}
 							}
 
 							$(function() {
@@ -1212,8 +1208,6 @@
 			// wizzard specific code
 			$(document).ready(function(){
 
-                $('.devicename').text("<?php echo trim($devicenameold); ?>");
-
 				$('#abortWizzardBtn').on("click",function() {
 					$('#abortWizzardConfirmationModal').modal();
 				});
@@ -1223,64 +1217,62 @@
 					$('#wizzarddoneForm').submit();
 				});
 
-				display_pvwattmodul();
+				// load meter data from Fronius inverter
+				$('#wattbezugfroniusload').on("click",function() {
+					$('#wattbezugfroniusload').attr("disabled", true);
+					$('#wattbezugfroniusloadmessage').text("Lade Daten...");
+					$.getJSON('/openWB/modules/bezug_fronius_sm/froniusloadmeterdata.php?ip=' + $('#wrfroniusip').val(), function(data) {
+						var options = '';
+						// fill listbox, format <manufacturer> <meter model> (<serial>)
+						for(var i in data.Body.Data) {
+							var meter = data.Body.Data[i];
+							var meter_location = meter.hasOwnProperty('1SMARTMETER_VALUE_LOCATION_U16') ? parseInt(meter.SMARTMETER_VALUE_LOCATION_U16) : meter.Meter_Location_Current;
+							options += '<option value="'+i+'" data-meterlocation="'+meter_location+'"'
+							if($('#froniuserzeugung').attr("data-old") == i) {
+								options += ' selected=true';
+							}
+							options += '>';
+							options += meter.Details.Manufacturer+' '+meter.Details.Model;
+							options += ' ('+meter.Details.Serial+')';
+							options += '</option>';
+						}
+						$('#froniuserzeugung').html(options);
+						$('#wattbezugfroniusloadmessage').text("");
+
+						// set meter location corresponding to displayed entry in listbox
+						setToggleBtnGroup('froniusmeterlocation', $('#froniuserzeugung option:selected').attr('data-meterlocation'));
+
+						hideSection('#wattbezugfroniusload')
+						hideSection('#wattbezugfroniusmeterid');
+						showSection('#wattbezugfroniusmanual')
+						showSection('#wattbezugfroniusmeterlist');
+					})
+					.fail(function(jqXHR, textStatus, errorThrown) {
+						var errorMsg = 'Die Daten konnten nicht abgerufen werden. Eingabe pr&uuml;fen oder Daten manuell eingeben.';
+						if(jqXHR.responseText !== "") {
+							errorMsg += '<br>';
+							errorMsg += jqXHR.responseText;
+						}
+						$('#wattbezugfroniusloadmessage').html(errorMsg);
+					})
+					.always(function() {
+						$('#wattbezugfroniusload').attr("disabled", false);
+					});
+					
+				});
 				
-  			    // load meter data from Fronius inverter
-			
-				//$('#wattbezugfroniusload').on("click",function() {
-				//	$('#wattbezugfroniusload').attr("disabled", true);
-				//	$('#wattbezugfroniusloadmessage').text("Lade Daten...");
-				//	$.getJSON('/openWB/modules/bezug_fronius_sm/froniusloadmeterdata.php?ip=' + $('#wrfroniusip').val(), function(data) {
-				//		var options = '';
-				//		// fill listbox, format <manufacturer> <meter model> (<serial>)
-				//		for(var i in data.Body.Data) {
-				//			var meter = data.Body.Data[i];
-				//			options += '<option value="'+i+'" data-meterlocation="'+meter.Meter_Location_Current+'"'
-				//			if($('#froniuserzeugung').attr("data-old") == i) {
-				//				options += ' selected=true';
-				//			}
-				//			options += '>';
-				//			options += meter.Details.Manufacturer+' '+meter.Details.Model;
-				//			options += ' ('+meter.Details.Serial+')';
-				//			options += '</option>';
-				//		}
-				//		$('#froniuserzeugung').html(options);
-				//		$('#wattbezugfroniusloadmessage').text("");
-                //
-				//		// set meter location corresponding to displayed entry in listbox
-				//		setToggleBtnGroup('froniusmeterlocation', $('#froniuserzeugung option:selected').attr('data-meterlocation'));
-                //
-				//		hideSection('#wattbezugfroniusload')
-				//		hideSection('#wattbezugfroniusmeterid');
-				//		showSection('#wattbezugfroniusmanual')
-				//		showSection('#wattbezugfroniusmeterlist');
-				//	})
-				//	.fail(function(jqXHR, textStatus, errorThrown) {
-				//		var errorMsg = 'Die Daten konnten nicht abgerufen werden. Eingabe pr&uuml;fen oder Daten manuell eingeben.';
-				//		if(jqXHR.responseText !== "") {
-				//			errorMsg += '<br>';
-				//			errorMsg += jqXHR.responseText;
-				//		}
-				//		$('#wattbezugfroniusloadmessage').html(errorMsg);
-				//	})
-				//	.always(function() {
-				//		$('#wattbezugfroniusload').attr("disabled", false);
-				//	});
-				//	
-				//});
+				$('#wattbezugfroniusmanual').on("click",function() {
+					// switch back to default configuration form
+					hideSection('#wattbezugfroniusmanual')
+					hideSection('#wattbezugfroniusmeterlist');
+					showSection('#wattbezugfroniusload')
+					showSection('#wattbezugfroniusmeterid');
+				});
 				
-				//$('#wattbezugfroniusmanual').on("click",function() {
-				//	// switch back to default configuration form
-				//	hideSection('#wattbezugfroniusmanual')
-				//	hideSection('#wattbezugfroniusmeterlist');
-				//	showSection('#wattbezugfroniusload')
-				//	showSection('#wattbezugfroniusmeterid');
-				//});
-				
-				//$('#froniuserzeugung').change(function() {
-				//	// on change entry of listbox, set corresponding meter location
-				//	setToggleBtnGroup('froniusmeterlocation', $('#froniuserzeugung option:selected').attr('data-meterlocation'));
-				//});
+				$('#froniuserzeugung').change(function() {
+					// on change entry of listbox, set corresponding meter location
+					setToggleBtnGroup('froniusmeterlocation', $('#froniuserzeugung option:selected').attr('data-meterlocation'));
+				});
 			});
 
 			var wizzarddone = <?php if(isset($wizzarddoneold)){ echo $wizzarddoneold; } else { echo 100; } ?>

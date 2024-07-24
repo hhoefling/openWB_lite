@@ -250,7 +250,7 @@
 						$("#dataErrorText").text(error);
 						$("#dataError").show();
 						$('#validData').hide();
-					})
+	  				})
 			}
 
 			$(document).ready(function(){

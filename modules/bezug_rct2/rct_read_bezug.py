@@ -4,6 +4,8 @@ import sys
 import rct_lib
 import fnmatch
 
+
+
 # Author Heinz Hoefling
 # Version 1.0 Okt.2021
 # Fragt die Werte gebuendelt ab, nicht mit einer Connection je Wert 
@@ -65,17 +67,17 @@ def main():
         
         watt=int(rct_lib.read(clientsocket,0x27BE51D9 ))
         writeRam('bezugw1', watt  , '0x27BE51D9 als Watt g_sync.p_ac_sc[0]')
-        ampere=int( watt / volt1 * 10.0) / 10.0
+        ampere=int( watt / volt1 * 100.0) / 100.0
         writeRam('bezuga1', ampere, '0x27BE51D9 als Ampere g_sync.p_ac_sc[0]')
 
         watt=int(rct_lib.read(clientsocket,0xF5584F90 ))
         writeRam('bezugw2', watt  , '0xF5584F90 als Watt g_sync.p_ac_sc[1]')
-        ampere=int( watt / volt2 * 10.0) / 10.0
+        ampere=int( watt / volt2 * 100.0) / 100.0
         writeRam('bezuga2', ampere, '0xF5584F90 als Ampere g_sync.p_ac_sc[1]')
 
         watt=int(rct_lib.read(clientsocket,0xB221BCFA ))
         writeRam('bezugw3', watt  , '0xB221BCFA als Watt g_sync.p_ac_sc[2]')
-        ampere=int( watt / volt3 * 10.0) / 10.0
+        ampere=int( watt / volt3 * 100.0) / 100.0
         writeRam('bezuga3', ampere, '0xF5584F90 als Ampere g_sync.p_ac_sc[2]')
 
 
@@ -105,9 +107,8 @@ def main():
             faultStr = "ALARM EVU Status nicht 0"
             faultState=2
              # speicher in mqtt 
-           
-        os.system('mosquitto_pub -r -t openWB/set/evu/faultState -m "' + str(faultState) +'"')
-        os.system('mosquitto_pub -r -t openWB/set/evu/faultStr -m "' + str(faultStr) +'"')
+            os.system('mosquitto_pub -r -t openWB/set/evu/faultState -m "' + str(faultState) +'"')
+            os.system('mosquitto_pub -r -t openWB/set/evu/faultStr -m "' + str(faultStr) +'"')
 
         rct_lib.close(clientsocket)
     sys.exit(0)

@@ -4,7 +4,7 @@ Stylesheet zum openWB Dark-Theme
 2019-2020 Michael Ortenstein
 */
 
-html{
+html {
 	min-height: 100%;
 	min-width: 100%;
 }
@@ -13,19 +13,20 @@ body {
 	color: white;
 	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#5a5a5a+0,0e0e0e+100;Black+3D */
 	/* Old browsers */
-	background: rgb(90,90,90);
+	background: rgb(90, 90, 90);
 	/* FF3.6-15 */
-	background: -moz-linear-gradient(top,  rgba(90,90,90,1) 0%, rgba(14,14,14,1) 100%);
+	background: -moz-linear-gradient(top, rgba(90, 90, 90, 1) 0%, rgba(14, 14, 14, 1) 100%);
 	/* Chrome10-25,Safari5.1-6 */
-	background: -webkit-linear-gradient(top,  rgba(90,90,90,1) 0%,rgba(14,14,14,1) 100%);
+	background: -webkit-linear-gradient(top, rgba(90, 90, 90, 1) 0%, rgba(14, 14, 14, 1) 100%);
 	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	background: linear-gradient(to bottom,  rgba(90,90,90,1) 0%,rgba(14,14,14,1) 100%);
+	background: linear-gradient(to bottom, rgba(90, 90, 90, 1) 0%, rgba(14, 14, 14, 1) 100%);
 	/* IE6-9 */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5a5a5a', endColorstr='#0e0e0e',GradientType=0 );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5a5a5a', endColorstr='#0e0e0e', GradientType=0);
 	background-attachment: fixed;
 }
-body > .container {
-	padding: 55px 15px 0;
+
+body>.container {
+	padding: 55px 15px 15px;
 }
 
 @keyframes alertPulsation {
@@ -61,7 +62,7 @@ body > .container {
 }
 
 .pull-right {
-	float:right
+	float: right
 }
 
 .row.no-gutter [class*='col-']:first-child:not(:only-child) {
@@ -82,9 +83,24 @@ body > .container {
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 }
 
-.cursor-pointer{
+.cursor-pointer {
 	cursor: pointer;
 }
+
+
+
+.accordion .card-header:after {
+    font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+    content: "\f146";
+    float: right; 
+}
+.accordion .card-header.collapsed:after {
+    /* symbol for "collapsed" panels */
+	content: "\f0fe"; 
+}
+
+
 
 .vaRow {
 	/* vertical alignment of content in rows */
@@ -161,11 +177,11 @@ body > .container {
 }
 
 .bg-apricot {
-	background-color:#fefedf;
+	background-color: #fefedf;
 }
 
 .bg-orange {
-	background-color:#fcbe1e;
+	background-color: #fcbe1e;
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
@@ -363,7 +379,7 @@ h3 {
 	--speicherSocbgCol: rgba(200, 255, 13, 0.3);
 	--lp1SocCol: rgba(0, 0, 255, 0.5);
 	--lp2SocCol: rgba(50, 50, 55, 0.5);
-	--hausverbrauchCol: rgba(255,255,255,0.7);
+	--hausverbrauchCol: rgba(255, 255, 255, 0.7);
 	--hausverbrauchbgCol: rgba(200, 255, 13, 0.3);
 	--verbraucher1Col: rgba(0, 150, 150, 0.7);
 	--verbraucher1bgCol: rgba(200, 255, 13, 0.3);
@@ -385,21 +401,21 @@ h3 {
 	--lp8bgCol: blue;
 	--d1Col: rgba(230, 50, 220, 0.7);
 	--d1bgCol: blue;
-	--d2Col: rgba(230, 50, 220, 0.7);
+	--d2Col: rgba(230, 70, 220, 0.7);
 	--d2bgCol: blue;
-	--d3Col: rgba(230, 50, 220, 0.7);
+	--d3Col: rgba(230, 90, 220, 0.7);
 	--d3bgCol: blue;
-	--d4Col: rgba(230, 50, 220, 0.7);
+	--d4Col: rgba(230, 110, 220, 0.7);
 	--d4bgCol: blue;
-	--d5Col: rgba(230, 50, 220, 0.7);
+	--d5Col: rgba(230, 130, 220, 0.7);
 	--d5bgCol: blue;
-	--d6Col: rgba(230, 50, 220, 0.7);
+	--d6Col: rgba(230, 150, 220, 0.7);
 	--d6bgCol: blue;
-	--d7Col: rgba(230, 50, 220, 0.7);
+	--d7Col: rgba(230, 170, 220, 0.7);
 	--d7bgCol: blue;
-	--d8Col: rgba(230, 50, 220, 0.7);
+	--d8Col: rgba(230, 190, 220, 0.7);
 	--d8bgCol: blue;
-	--d9Col: rgba(230, 50, 220, 0.7);
+	--d9Col: rgba(230, 210, 220, 0.7);
 	--d9bgCol: blue;
 }
 
@@ -411,4 +427,28 @@ h3 {
 .openwb-device-2 {
 	color: rgb(255 255 204);
 	background-color: rgb(150 150 0);
+}
+
+@media screen and (max-width: 575px) {
+	#date {
+		padding-right: 0;
+		padding-left: 5px;
+	}
+
+	#time {
+		padding-right: 5px;
+		padding-left: 0;
+	}
+}
+
+.progress {
+	background-color: #424242;
+}
+
+.progress-bar {
+	background-color: #424242;
+}
+
+.row.middle {
+	align-items: center;
 }

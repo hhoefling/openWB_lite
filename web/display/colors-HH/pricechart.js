@@ -27,7 +27,7 @@ class PriceChart {
       this.plotdata = wbdata.etPriceList.split(/\r?\n|\r/); // split into lines
       this.plotdata.shift();                                // remove first line
       this.plotdata = this.plotdata.map((line, i) => {      // split lines into tuples [time,price]
-        return line.split(',')
+            return line.split(',')
       }) .map(line => [line[0] * 1000, +line[1]]);           // multiply timestamps by 1000
       this.drawGraph(svg);
     }

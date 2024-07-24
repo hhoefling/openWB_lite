@@ -8,8 +8,9 @@ f=$1
 kb=${2:-2048}
 
 logfilesize=$(stat --format=%s "$f")
-#echo  $logfilesize $kb 
-if  (( $logfilesize > (kb * 1024) )) ; then
+bytes=$(( kb * 1024 ))
+# echo  "$f $logfilesize $kb $bytes"
+if  (( $logfilesize > (kb * 600) )) ; then
     timestamp=`date +"%Y-%m-%d %H:%M:%S"`
     linesges=$(wc -l <"$f" )
     lines=$(( $linesges / 4 ))   # truncate to 1/4 size
@@ -20,4 +21,5 @@ if  (( $logfilesize > (kb * 1024) )) ; then
     chmod a+rw $f
     #ls -l $f
 fi
+
 

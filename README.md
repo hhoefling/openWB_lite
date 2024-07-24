@@ -1,112 +1,179 @@
-# openWB_lite
+# openWB
+Die Software steht frei für jeden zur Verfügung, siehe GPLv3 Bedingungen.
+
+	Unterstüztung ist gerne gesehen!
+	Sei es in Form von Code oder durch Spenden
+	Spenden bitte an spenden@openwb.de
+
+Anfragen für Supportverträge an info@openwb.de
+Weitere Infos unter https://openwb.de
+
+# Haftungsausschluss
+Es wird mit Kleinspannung aber auch 220V beim Anschluss der EVSE gearbeitet. 
+Dies darf nur geschultes Personal. Die Anleitung ist ohne Gewähr und jegliches Handeln basiert auf eigene Gefahr.
+Eine Fehlkonfiguration der Software kann höchstens ein nicht geladenes Auto bedeuten.
+Falsch zusammengebaute Hardware kann lebensgefährlich sein. Im Zweifel diesen Part von einem Elektriker durchführen lassen.
+Keine Gewährleistung für die Software - use at your own RISK!
+
+# Wofür?
+Steuerung einer EVSE DIN oder anderer Ladepunkte für sofortiges laden, Überwachung der Ladung, PV Überschussladung und Lastmanagement mehrerer WB.
+
+Unterstützt wird jedes EV das den AC Ladestandard unterstützt.
 
 
-Dies ist eine Kopie der stable17 (1.9.244) von snaptec
-( https://github.com/snaptec/openWB/tree/stable17 )
-Erweitert um fehlende Module die ich für meine Hardware brauche, die aber erst in der 1.9.250 enthalten sind (rct2)
-Weiterhin wird diese Version auf den Raspi 3B+ hin optimiert um die Stabilität zu erhöhen.
 
-Aktuell wird getestet auf einem:
-```
-Raspberry Pi 3 Model B Plus Rev 1.3
-Kernel: Linux 4.19.66-v7+ GNU/Linux (Stretch)
-Python 3.5.3
-```
-und auch auf:
-```
-Raspberry Pi 4 Model B Rev 1.4 (2GB)
-Kernel: Linux 5.10.103-v7l+ GNU/Linux (Buster)
-Python 3.7.3
-```
-Seit Januar 2023 wird alles auf Debian 11/Bulleye umgestellt.
-Diese läuft jetzt auf:
-```
-Raspberry Pi 4 Model B Rev 1.4 (2GB)
-Kernel: Linux 5.15.84-v7l+ GNU/Linux (Bullseye)
-Python 3.9.2
-```
-Da die Firma openWB im Nov.2021 keine stabile Version der Software auf Basis der 1.9'er zur Verfügung stellt bei der die richtigen RCT2 Module enthalten sind bleibt mir nur auf Basis des alten Stretch-Kernels (4.19.66-v7) meine eigene Version zu pflegen. Zu Testzwecken läuft meine Version auch auf einem Pi4 mit Buster. Wobei hier natürlich nicht die Hardwareebene mit getestet werden kann. Alle Module die direkt mit der Hardware der openWB kommunizieren, können so nicht getestet werden. Dies sind meist auch noch Python2.x Module. Zum testen können, mit Hilfe meines Mqtt-Pullers, die Hardwaremodule aus der echten OpenWB mit Daten versorgt werden.
-Inzwischen läuft auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display hängt an einem Pi4. 
 
-## Abweichungen zur normalen openWB
-- Diese Version arbeite nicht mit dem Legathy-Run-Server (LRS) der ab 12.2022 sucessive eingebaut wurde. Gerade die RCT2 Module haben damit Probleme. Daher versuche ich die jeweils letzte Version der Module zu verwenden die noch ohne den LRS auskommt.
-- Reduktion auf LP1-LP3, dies ist weitgehend abgeschlossen.
-- Ich werde alle Module die ich nicht selbst verwende aus dem Repository herausnehmen. Wenn jemand dieser Module verwenden, oder sogar daran mitarbeiten möchte, kann ich sie gerne die in der letzen (vor LRS) Version heraussuchen und wieder hinzufügen. "auf Vorrat" werde ich die Module nicht mitpflegen. Im Einzelfall muss dann geprüft werden ob Aktualisierungen in der offiziellen OpenWB vorgenommen wurden und bei relevanz diese dann Nachpflegen. Rausgenommen wird ebenfalls die Preismodule. Mein Ziel ist einfaches PV-Überschuss laden. Strombezug ist zweitrangig.
-- Nicht übernommen wurde die Umwidmung der mqtt Zuweisungen zur pv Leistung. Bei der 1.9'er bis hin zur 254 wurde dort ein negativer Wert von der Datenquelle abgelegt. Diese Version behält dies verhalten bei  da sonst auch älter Backups dann ihr gültigkeit verlieren würden. OpenwWB selbst hatte dies dann mit der 1.9.259 auch wieder zurückgenommen.
-- Ladelog um KM ergänzen. wird via MQTT aus dem Skoda-SoC Module übergeben. 
-- Ladelog Export nach Excel an die deutsche Variante der Trennzeichen angepasst. Ausserdem wurde ein Jahresexport zugefügt
-- Nachladen. Die Startzeit für das Nachladen kann nun von 17:00 bis 4:00 Uhr Nachts gesetzt werden. Die Endzeit für das Nachladen kann nun von 20:00 bis 9:00 Uhr Morgens gesetzt werden. 
-- Bei den SoC gesteuerten Lademodi wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vorher)
-- Der Modbusserver auf Port 502 ist nun abschaltbar da er von openWB selbst nicht mehr verwendet wird. 
-- Datenexport zu Excel mit ',' / ';' statt '.'/ ','
-- RCT2h weiter Optimierung, Regelschleife auf Pi3B+ von 6-7 auf 3-4 Sekunden gesenkt
-- Weiter Hilfsscript statregel.sh und restsmat.sh
-- Der Name der Linux Distribution wird mit angezeigt (Seite System-Info)
-- Das Colour Thema wurde leicht angepasst. Sowohl eine neue 4 Farbe (Schwarz) als auch größer Schriften.
-- Die openWB.Coud funktioniert bei mir. Mit eingriffen in die Firefox-Konfiguartion und die mosquitto Konfiguration
-- Module die ich weiterhin mitpflegen werde da ich sie selbst verwende sind:
-- - Bezug/Pv/Speicher  **RCT** / **RCT2** / **RCT2h** /  **MQTT** / **HTTP**
-- - LP   In den OpenWB Varianten und  **HTTP** / **MQTT** 
-- - SOC **Manual** /  **Citigo** / **MQTT** / **HTTP**
-- - Sonstiges: Tibber
-- Das Integrierte Display wird in seiner Funktion erweitert. Bei mir ist die openWB nicht öffentlich zugänglich (hängt auf der Innenseite der Aussenwand). Daher kann ich auf dem Display auch die normal Web-Oberfläche verwenden. Lediglich für die eventuell nötigen Tastattureingabe ist ein Zugang mit einem PC & Browser nötig.
-- Die Helligkeit der Hintergrundbeleuchtung ist nun Regelbar.
-- - Umstellung auf HTTPS und verwendung von "Same-Site=Lax"
-- MQTT-Exlorer über TLS möglich (via https)
+
+# Bezug
+openWB gibt es unter 
+
+	https://openwb.de/shop/
+
+
+
+# Installation
+
+
+Bei fertigen openWB vorinstalliert
+
+
+
+Software:
+
+Installiertes Raspbian auf einem Raspberry pi 3.
+
+Installationsanleitung für Windows: http://openwb.de/main/wp-content/uploads/2019/07/install_openWB_v2.pdf
+
+Raspbian installieren aktuell werden in der Version 1.9 nur Stretch (bevorzugt) und Buster unterstützt.
+
+	http://downloads.raspberrypi.org/raspbian_full/images/
+
+In der Shell folgendes eingeben:
+
+	curl -s  http://user:passwd@www.hhoefling.local:3000/gitea/openwb67/raw/branch/master/openwb-install.sh  | sudo bash
+
+
+
+Crontab anpassen:
+	crontab -e
+hier einfügen:
+
+	* * * * * /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 
+	* * * * * sleep 10 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 
+	* * * * * sleep 20 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 
+	* * * * * sleep 30 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 
+	* * * * * sleep 40 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 
+	* * * * * sleep 50 && /var/www/html/openWB/regel.sh >> /var/log/openWB.log 2>&1 
+
+
+
+ 
+
+
+# Extras
+
+ Bei Nutzung von einem USR-TCP232-410 Lan to Modbus Converter folgende Konfiguration verwenden:
+
+	Baud Rate: 9600
+	Data Size: 8 Bit
+	Parity: None
+	Stop Bits: 1
+	Flow COntrol and RS485: RS485
+	Local Port Number: 26
+	Remote Port Number: 26
+	Worke Mode: TCP Server None
+	TCP Server detail: default Type
+	Timeout: 0
+	UART packet Time: 10 ms
+	UART packet length: 512 chars
+
+
+Der Raspberry funktioniert zuverlässig mit gutem WLAN. Lan Kabel ist zu bevorzugen.
+
+Taster am Raspberry zur Einstellung des Lademodi
+
+Der Lademodi kann nicht nur über die Weboberfläche sondern auch an der Wallbox direkt eingestellt werden.
+Hierzu müssen schließer Taster von GND (Pin 34) nach Gpio X  angeschlossen werden.
+
+	SofortLaden GPIO 12, PIN 32
+
+	Min+PV GPIO 16, PIN 36
+
+	NurPV GPIO 6, Pin 31
+
+	Aus Gpio 13, Pin 33
 	
-Weiter Info **[History](docs/history.md)**
-
-*******************************************************
-
-***Die weitere Entwicklung***
-
-- Ladesteuerung an meine Wünsche anpassen, insbesondere Nachtladen und Zielladen.
-- Eine 220V Steckdose mit Notladekabel als 3-Wallbox integrieren
-- Ladelog, Ein Eintrag je Ab/AnStecken, nicht je Ladeunterbrechung
-- Eigenes offenes Event-Sytem mit EMail Benachrichtigung statt PushOver.
-- Eigenes Buster-ISO-Image mit unterstützung des integrierten Display.
-- Bullseye hat keine verwendbares Pyhton2.x. (es fehlt z.b. GPIO nach dem Nachinstallieren). Da die Kernmodule alle noch in python2 geschrieben sind scheidet bullseye erst mal aus. Inzwischen habe ich python 2.7.16 und GPIO 0.7.0 installieren können. Also werde ich auch mit Bullseye weitertesten.
-- Bullseye zum testen in einer VM auf dem PC
-- Für mich irrelevante Functionen werden entfernen. (awatar, pushover, evse ) Wenn jemand diese Module benötigt, bitte melden, vieleicht lassen sie sich ja aus der alten 1'9er-24x übernehmen und weiterverwenden.
-- Erweiterung der Log Funktion um die Regelmodule besser zu debugen. 
-- Ich habe nun begonnen mich von Stretch und Buster zu verabschieden.
-- Aktuell wird nur noch unter Bullseye weitergetestet. Damit hat aber endgültig Python2.7 ausgedient. Allerdings sind die vielen kleinen Python Sripte unter python3.9 ca. 50% langsamer als unter Python2.7 auf einenm Strech/Buster System. Aber sollange bei meiner Hadrware-Mischung keine Regel-Laufzeit über 8 Sekunden daraus resultiert werde ich das in Kauf nehmen. Aber eine Vollausgestatte Box mit Taster/Led/Rfid/DUO, da wird es schon eng mit der Laufzeit unter Python3.9
-- Nov 2023. Seit ich Tibber als Stromanbieter habe kommen mir viele neue Idene wie man openWB und den Hausakku damit sinnvoll koppeln kann.
-- In der Testphase befindet sich folgende Änderungen.
--	- Die Anzeige des Preisselektors bei allen Lademodi ausser Stop.
--	- Verwendung des Preiselektors um das Laden des Hausakkus zu niedrigpreis Zeiten zu ermöglichen.
--	- Entladesperre für den Hausakku um beim Sofortladen/Nachladen/Morgenladen das entladen des Hausakkus zu verhindern.
--	- Manuelles "Sofort-Laden" für den Hausakku.
--	- Anzeige diverser Statusinformationen über den Wechselrichter und den Hausakku.
--	- Grafisch wird das ganze in das Colors-Thema integriert (in das Batterie-Widget)
-  
- *************
-**[RCT DC6, Preis/Nachladen und anderes](docs/rct_regelung.md)**
-
- ****************
-
-**[Umzug auf openwb_lite](docs/umzug.md)**
-
-*****************
-
-**[info zu Buster/Bullseye](docs/debian.md)**
-
-****************
-
-**[History](docs/history.md)**
-
-******************
-
-**[Infos](docs/infos.md)**
-
-******************
-
-**[Tips zur Instalation](docs/Install.md)**
-
-******************
-
-**[Tips zur Umstellung auf HTTPS](docs/https.md)**
 
 
+
+
+# Module erstellen
+
+Ist ein Modul für den gewünscht Einsatszweck noch nicht verfügbar kann man dies selbst erstellen.
+Wenn es läuft bitte reporten und es (einstellbar) dem Projekt hinzugefügt.
+
+Ein Modul ist immer ein Ordner mit dem Modulnamen im Ordner openWB/modules. Es besteht aus einem Shell script mit dem Namen main.sh. Sollten weitere Dateien benötigt werden liegen diese mit im Ordner. 
+
+Exemplarisch der Aufbau erklärt am bezug_http Modul:
+
+
+	#!/bin/bash
+	#Die eigentliche (in dem Fall http) Abfrage. Die Variable sollte den Modulnamen und im Anschluss den Wert enthalten um sie eindeutig zu identifizieren
+	wattbezug=$(curl --connect-timeout 10 -s $bezug_http_w_url)
+	#Prüfung auf Richtigkeit der Variable. Sie darf bei bezug modulen ein - enthalten sowie die Zahlen 0-9
+	re='^-?[0-9]+$'
+	# Entspricht der abgefragte Wert nicht der Anforderung wird sie auf 0 gesetzt um ein Fehlverhalten der Regelung zu verhindern
+	if ! [[ $wattbezug =~ $re ]] ; then
+		wattbezug="0"
+	fi
+	#Der Hauptwert (Watt) wird als echo an die Regellogik zurückgegeben
+	echo $wattbezug
+	#Zusätzlich wird der Wert in die Ramdisk geschrieben, dies ist für das Webinterface sowie das Logging und ggf. externe Abfragen
+	echo $wattbezug > /var/www/html/openWB/ramdisk/wattbezug
+	#Wird Logging von metern genutzt wird der absolute Zählerstand in Wh benötigt. Ist dieser nicht vorhanden sollte die Variable auf none gesetzt werden
+	if [[ $bezug_http_ikwh_url != "none" ]]; then
+		ikwh=$(curl --connect-timeout 5 -s $bezug_http_ikwh_url)
+		echo $ikwh > /var/www/html/openWB/ramdisk/bezugkwh
+	fi
+	#Analog zum bezug dasselbe Verfahren für die Einspeisung
+	if [[ $bezug_http_ekwh_url != "none" ]]; then
+		ekwh=$(curl --connect-timeout 5 -s $bezug_http_ekwh_url)
+		echo $ekwh > /var/www/html/openWB/ramdisk/einspeisungkwh
+	fi
+
+
+Bei PV Modulen muss geschrieben werden:
+
+	#Rückgabewert in Watt
+	echo $pvwatt
+	echo $pvwatt > /var/www/html/openWB/ramdisk/pvwatt
+	#ggf wenn verfügbar für logging den Zählerstand in Wh
+	echo $pvwh > /var/www/html/openWB/ramdisk/pvkwh
+
+Beispielhaft das wr_fronius modul für deren Wechselrichter mit Webinterface:
+Fronius bietet eine Json API an. Diese wird hier auf die Werte die gebraucht werden reduziert.
+
+
+	#!/bin/bash
+	#Auslesen eine Fronius Symo WR über die integrierte API des WR. Rückgabewert ist die aktuelle Wattleistung
+	#Abfrage der kompletten Json Rückgabe
+	pvwatttmp=$(curl --connect-timeout 5 -s $wrfroniusip/solar_api/v1/GetInverterRealtimeData.cgi?Scope=System)
+	# Das Tool jq verarbeitet die Rückgabe und reduziert sie auf die gewünschte Zeile. sed & tr entfernen ungewollte Klammern, Punkte und \n newline Zeichen um die reine Zahl zu erhalten
+	pvwatt=$(echo $pvwatttmp | jq '.Body.Data.PAC.Values' | sed 's/.*://' | tr -d '\n' | sed 's/^.\{2\}//' | sed 's/.$//' )
+	#wenn WR aus bzw. im standby (keine Antwort) ersetze leeren Wert durch eine 0
+	#Fronius Wechselrichter gehen nachts in den Standby und antworten dann nicht. Um einen Fehler abzufangen bei leerer Rückgabe wird eine 0 gesetzt
+	re='^[0-9]+$'
+	if ! [[ $pvwatt =~ $re ]] ; then
+	   pvwatt="0"
+	fi
+	#Rückgabe des Watt Wertes an die Regellogik
+	echo $pvwatt
+	#zur weiteren verwendung im webinterface, zum Logging & zur externen Abfrage
+	echo $pvwatt > /var/www/html/openWB/ramdisk/pvwatt
+	#Aus dem selben String erhält man ebenso den totalen Zählerstand für das Logging
+	#Hier sieht man das statt .Body.Data.PAC der Wert .Body.Data:TOTAL_Energy "ausgeschnitten" wird
+	pvkwh=$(echo $pvwatttmp | jq '.Body.Data.TOTAL_ENERGY.Values' | sed '2!d' |sed 's/.*: //' )
+	#Dieser Wert wird nun in die ramdisk gespeichert
+	echo $pvkwh > /var/www/html/openWB/ramdisk/pvkwh
 
 

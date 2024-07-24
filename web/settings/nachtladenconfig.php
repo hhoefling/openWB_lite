@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -37,7 +46,8 @@
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<script src="js/bootstrap-selectpicker/bootstrap-select.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
+		
 	</head>
 
 	<body>
@@ -331,6 +341,7 @@
 										<label class="btn btn-outline-info<?php if($nachtladens1old == 1) echo " active" ?>">
 											<input type="radio" name="nachtladens1" id="nachtladens1On" value="1"<?php if($nachtladens1old == 1) echo " checked=\"checked\"" ?>>An
 										</label>
+                                        <span class="d_label">nachtladens1</span>    
 									</div>
 								</div>
 								<div id="nachtladenans1" class="hide">

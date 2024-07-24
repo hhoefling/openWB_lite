@@ -1,17 +1,22 @@
 #!/bin/bash
-OPENWBBASEDIR=$(cd `dirname $0`/../../ && pwd)
-MODULEDIR=$(cd `dirname $0` && pwd)
+#
+# debug=$(</var/www/html/openWB/ramdisk/debug)
+BSELF=$(cd `dirname $BASH_SOURCE`  &&  pwd)
 
-# check if config file is already in env
-if [[ -z "$debug" ]]; then
-    . $OPENWBBASEDIR/loadconfig.sh
+debug=${debug:-3}
+ip=${bezug1_ip:-192.168.208.63}
+
+export PYTHONIOENCODING=utf8 
+
+if (( debug > 2 )) ; then
+  echo "BSelf:$BSELF debug:$debug"
+  python3 $BSELF/rct_read_wr_info2.py -v --ip=$ip 2>&1
+else
+  if (( debug > 1 )) ; then
+    echo $BSELF
+  fi
+  python3 $BSELF/rct_read_wr_info2.py --ip=$ip 2>&1
 fi
 
-
-timeout -k 9 3 python3 $MODULEDIR/rct_read_pv_info.py --ip=$bezug1_ip
-rc=$?
-if  [[ ($rc == 143)  || ($rc == 124) ]] ; then
-  echo "PV-Info Script timed out"
-fi
-exit $rc
+exit 0
 

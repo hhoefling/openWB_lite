@@ -1,3 +1,12 @@
+<?php function getdateurl($scriptdir,$filedir,$file) 
+   {
+   			$sn=sprintf('%s%s', $scriptdir,$file);
+   			$fn=sprintf('%s%s', $filedir,$file);
+			$ftime=filemtime($fn);
+			//return sprintf('%s?z=%d&fn=%s' , $sn,$ftime,$fn);
+			return sprintf('%s?z=%d' , $sn,$ftime);
+ 	}
+?>	
 <!DOCTYPE html>
 <html lang="de">
 	<head>
@@ -45,7 +54,9 @@
 		<!-- Main style -->
 		<link rel="stylesheet" type="text/css" href="css/cardio.css">
 		<!-- Data refresher -->
-		<script src="livefunctions.js?ver=20201201"></script>
+		<script src="<?php echo getdateurl('','../','livefunctions.js');?>"></script>
+
+		
 		<script>
 			$(document).ready(function(){
 				/**
@@ -85,7 +96,7 @@
 
 		<!-- minimal.html -->
 		<?php include ("gaugevalues.php"); ?>
-		<script src="display/minimal/gauge.min.js"></script>
+		<script src="<?php echo getdateurl('display/minimal/','minimal/','gauge.min.js');?>"></script>
 		<link rel="stylesheet" href="display/minimal/minimal.css">
 
 		<input type="hidden" name="displayevumax" id="displayevumax" value="<?php echo $displayevumaxold; ?>" />
@@ -99,7 +110,6 @@
 		<input type="hidden" name="displaypincode" id="displaypincode" value="<?php echo $displaypincodeold; ?>" />
 
 		<div id="main">
-            <div class="devicename">OpenWB</div>
 			<div style="font-size: 18px; height: 20px; top: 0px; left: 740px; text-align:center; position: absolute; width: 65px; color: white;" id="theclock"></div>
 			<div id="gaugediv">
 				<canvas id="lp1" style="height: 600px; top: -150px; left: 20px; position: absolute; width: 760px;"></canvas>
@@ -107,7 +117,8 @@
 				<canvas id="lp1s" style="height: 520px; top: -80px; left: 30px; position: absolute; width: 740px;"></canvas>
 				<div id="lp1st" style="font-size: 35px; height: 200px; top: 230px; left: 265px; text-align:center; position: absolute; width: 265px; color: white;">0</div>
 			</div>
-		</div>
+			
+	  </div>
 
 		<script>
 			function startTime() {
@@ -141,6 +152,7 @@
 			// var lastmanagementold = <?php echo $lastmanagementold; ?>;
 		</script>
 		<script src="display/minimal/minimalgauge.js"></script>
+
 		<script>
 			var doInterval;
 
@@ -171,11 +183,12 @@
 			doInterval = setInterval(getfile, 10000);
 			getfile();
 
-			// var lastmanagements2 = <?php echo $lastmanagements2old; ?>;
-			// var lastmanagement = <?php echo $lastmanagementold; ?>;
-			// var soc1vorhanden = <?php echo $soc1vorhanden; ?>;
+			var lastmanagements2 = <?php echo $lastmanagements2old; ?>;
+			var lastmanagement = <?php echo $lastmanagementold; ?>;
+			var soc1vorhanden = <?php echo $soc1vorhanden; ?>;
 		</script>
-		<script src="display/minimal/alllive.js?vers=20201201"></script>
+		<script src="<?php echo getdateurl('display/minimal/','minimal/','alllive.js');?>"></script>
+		
 		<script>
 			// ************** beginning of MQTT code *************
 			$(document).ready(function(){
@@ -185,9 +198,9 @@
 					// load mqtt library
 					'js/mqttws31.js',
 					// functions for processing messages
-					'display/minimal/processAllMqttMsg.js?ver=20231201',
+					'<?php echo getdateurl('display/minimal/','minimal/','processAllMqttMsg.js');?>',
 					// functions performing mqtt and start mqtt-service
-					'display/minimal/setupMqttServices.js?ver=20231201',
+					'<?php echo getdateurl('display/minimal/','minimal/','setupMqttServices.js');?>'
 				];
 
 				scriptsToLoad.forEach(function(src) {

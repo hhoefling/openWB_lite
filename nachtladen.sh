@@ -113,7 +113,7 @@ private_nachtlademodus(){
         doit=$?
 		if [ $doit -eq 1 ] ; then
 #		if (( nachtladenabuhr <= 10#$H && 10#$H <= 24 )) || (( 0 <= 10#$H && 10#$H < nachtladenbisuhr )); then
-      		openwbDebugLog "MAIN" 0 "nachtladen Year doit LP1" 
+			openwbDebugLog "MAIN" 0 "nachtladen Year doit LP1" 
 			nachtladenstate=1
 			llnachtneu=""	# wird auf -Z getestet, NEU HH 2.1.2023
 			dayoftheweek=$(date +%w)
@@ -422,7 +422,7 @@ private_nachtlademodus(){
 				openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus Nachtladen. Ladung mit $llnachtreturn Ampere, Zielsoc: $diesersocs1 % soc: $soc1 "
 			fi
 		fi
-		openwbDebugLog "MAIN" 0 "*** EXIT 0"
+		openwbDebugLog "MAIN" 0 "*** exit 0"
 		exit 0
 	fi
 }

@@ -1,3 +1,12 @@
+<?php function getdateurl($scriptdir,$filedir,$file) 
+   {
+   			$sn=sprintf('%s%s', $scriptdir,$file);
+   			$fn=sprintf('%s%s', $filedir,$file);
+			$ftime=filemtime($fn);
+			//return sprintf('%s?z=%d&fn=%s' , $sn,$ftime,$fn);
+			return sprintf('%s?z=%d' , $sn,$ftime);
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 	<head>
@@ -46,7 +55,7 @@
 		<!-- Main style -->
 		<link rel="stylesheet" type="text/css" href="css/cardio.css">
 		<!-- Data refresher -->
-		<script src="livefunctions.js?ver=20201201"></script>
+		<script src="<?php echo getdateurl('','../','livefunctions.js');?>"></script>
 		<script>
 			$(document).ready(function(){
 				/**
@@ -62,12 +71,6 @@
 				});
 			});
 		</script>
-        <style>
-            /* prevent touch gestures */
-            html, body {
-                overscroll-behavior: none;
-            }
-        </style>
 	</head>
 	<body>
 		<input type="hidden" name="lastmanagement" id="lastmanagement" value="<?php echo trim($lastmanagementold); ?>" />
@@ -94,7 +97,10 @@
 		<?php include ("gaugevalues.php"); ?>
 		<!-- load Chart.js library -->
 		<script src="js/Chart.bundle.js"></script>
-		<script src="livechart_chartjs.js"></script>
+        
+        <script src="<?php echo getdateurl('','../','livechart_chartjs.js');?>"></script>
+		<!--script src="livechart_chartjs.js"></script-->
+        
 		<script src="js/mqttws31.js" ></script>
 		<link rel="stylesheet" href="display/simple/arrow.css">
 		<link rel="stylesheet" href="display/simple/pin.css">
@@ -110,7 +116,6 @@
 		<input type="hidden" name="displaypincode" id="displaypincode" value="<?php echo trim($displaypincodeold); ?>" />
 
 		<div id="main">
-			<div style="font-size: 18px; height: 20px; top: 0px; left: 10px; text-align:center; position: absolute; width: 65px; color: white;" class="devicename">openWB</div>
 			<div style="font-size: 18px; height: 20px; top: 0px; left: 740px; text-align:center; position: absolute; width: 65px; color: white;" id="theclock"></div>
 			<div style="color: white; top: 0px; left: 10px; position: absolute; font-size: 18px; width: 810px;">
 				<div class="row col-xs-12 text-center" style="height: 120px;">
@@ -593,12 +598,12 @@
 				});
 			})();
 
-			//var lastmanagements2 = <?php echo trim($lastmanagements2old); ?>;
-			//var lastmanagement = <?php echo trim($lastmanagementold); ?>;
-			//var soc1vorhanden = <?php echo trim($soc1vorhanden); ?>;
-			//var speichervorhanden = <?php echo trim($speichervorhanden); ?>;
+			var lastmanagements2 = <?php echo trim($lastmanagements2old); ?>;
+			var lastmanagement = <?php echo trim($lastmanagementold); ?>;
+			var soc1vorhanden = <?php echo trim($soc1vorhanden); ?>;
+			var speichervorhanden = <?php echo trim($speichervorhanden); ?>;
 		</script>
-		<script src="display/simple/live.js?ver=20231201"></script>
+  	    <script src="<?php echo getdateurl('display/simple/','simple/','live.js');?>"></script>
 
 		<div id="graphsettings" style="position: fixed; display: none; width: 100%; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 2; cursor: pointer;">
 			<div style="  position: absolute; top: 50%; left: 50%; width: 80%; font-size: 12px; color: black; text-align: center; background-color: white; border-radius: 6px 6px 6px 6px; transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%); ">

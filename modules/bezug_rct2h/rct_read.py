@@ -45,7 +45,7 @@ def main():
             elif obj.data_type == rct_data.t_string:
                 rct_lib.dbglog(fmt.format(obj.id, obj.idx, obj.data_type, obj.name, obj.desc,  "'"+str(obj.value)+"'" ))
             elif obj.data_type == rct_data.t_log_ts:
-               rct_lib.dbglog(fmt.format(obj.id, obj.idx, obj.data_type, obj.name, obj.desc,  obj.value ))
+               rct_lib.dbglog(fmt.format(obj.id, obj.idx, obj.data_type, obj.name, obj.desc,  str(obj.value) ))
             elif obj.data_type == rct_data.t_dump:
                rct_lib.dbglog(fmt.format(obj.id, obj.idx, obj.data_type, obj.name, obj.desc,  obj.value ))
             else:

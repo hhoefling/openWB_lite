@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>		
 <!DOCTYPE html>
 <html lang="de">
 
@@ -32,7 +41,7 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
 	</head>
 
 	<body>
@@ -45,10 +54,10 @@
                     list(, $devicenameold) = explode("=", $line, 2);
                     $devicenameold = trim( $devicenameold, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes       
                 }
-                if(strpos($line, "debug=") !== false) {
+				if(strpos($line, "debug=") !== false) {
                     list(, $debugold) = explode("=", $line, 2);
                     $debugold = trim( $debugold, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes                    
-                }
+				}
 			}
 
 			$lines = file('/etc/os-release');

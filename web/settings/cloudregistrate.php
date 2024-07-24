@@ -6,7 +6,7 @@
 			'email' => $_POST['email']
 		);
 		# Create a connection
-		$url = 'https://web.openwb.de/php/localregistrate.php';
+		$url = 'https://wb.fleckies.de/localregistrate.php';
 		$ch = curl_init($url);
 		# Form data string
 		$postString = http_build_query($data)."\n";
@@ -62,7 +62,7 @@
 		$data = array(
 			'ConnectionName' => 'cloud',
 			'bridgeEnabled' => '1',
-			'RemoteAddress' => 'web.openwb.de:1883',
+			'RemoteAddress' => 'v35574.1blu.de:8883',
 			'RemoteUser' => $clouduser,
 			'RemotePass' => $cloudpw,
 			'RemotePrefix' => $clouduser.'/',
@@ -71,7 +71,7 @@
 			'tryPrivate' => '1',
 			'exportStatus' => '1',
 			'exportGraph' => '1',
-			'subscribeConfigs' => '1',
+			'subscribeConfigs' => '0',
 			'username' => $_POST['username']
 		);
 		$ch = curl_init($url);

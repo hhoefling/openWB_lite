@@ -14,8 +14,7 @@ idadd = int(sys.argv[2])
 
 client = ModbusTcpClient(ipadd, port=8899)
 
-if ( idadd < 100 ):
-    # MDM3MP(id?1)
+if ( idadd < 100 ): 
     #resp = client.read_input_registers(0x0002,2, unit=idadd)
     #ikwh = resp.registers[1]
     resp = client.read_input_registers(0x0002,4, unit=idadd)
@@ -81,7 +80,6 @@ if ( idadd < 100 ):
     f.write(str(voltage))
     f.close()
 else:
-	# SDM72D-M(id?105)  mdm630
     resp = client.read_input_registers(0x00,2, unit=idadd)
     voltage = struct.unpack('>f',struct.pack('>HH',*resp.registers))[0]
     voltage = float("%.1f" % voltage)
@@ -140,5 +138,3 @@ else:
     f = open('/var/www/html/openWB/ramdisk/llaktuells1', 'w')
     f.write(str(llg))
     f.close()
-	
-client.close()	

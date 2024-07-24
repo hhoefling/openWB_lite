@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 import sys
 import os
 import os.path
@@ -12,7 +12,7 @@ from pymodbus.client.sync import ModbusSerialClient
 
 seradd = str(sys.argv[1])
 sdmid = int(sys.argv[2])
-
+# on 64 /dev/ttyUSB0 105
 client = ModbusSerialClient(method="rtu", port=seradd, baudrate=9600, stopbits=1, bytesize=8, timeout=1)
 
 if (sdmid < 100):
@@ -21,8 +21,8 @@ if (sdmid < 100):
     value2 = resp.registers[1]
     all = format(value1, '04x') + format(value2, '04x')
     ikwh = int(struct.unpack('>i', all.decode('hex'))[0])
-    #resp = client.read_input_registers(0x0002,2, unit=sdmid)
-    #ikwh = resp.registers[1]
+    # resp = client.read_input_registers(0x0002, 2, unit=sdmid)
+    # ikwh = resp.registers[1]
     ikwh = float(ikwh) / 100
     f = open('/var/www/html/openWB/ramdisk/llkwh', 'w')
     f.write(str(ikwh))

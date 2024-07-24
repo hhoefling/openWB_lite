@@ -66,7 +66,7 @@
 		<div role="main" class="container" style="margin-top:20px">
 			<div class="card border-secondary">
 				<div class="card-header bg-secondary">
-					<span class="devicename">openwb</span> ist nur als Ladepunkt konfiguriert
+					openWB ist nur als Ladepunkt konfiguriert
 				</div>
 				<div class="card-body p-0">
 					<div class="row mx-0">
@@ -76,22 +76,10 @@
 						<div class="col py-3 border-left bg-light">
 							<h4>Alle Einstellungen erfolgen über die Haupt openWB.</h4>
 							Zum deaktivieren des "nur Ladepunkt Modus" bitte <a href="./settings/settings.php">Hier Klicken!</a>
-                            <br><span id="simlink"></span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</body>
-        <script>
-            // wizzard specific code
-            $(document).ready(function()
-                {
-                console.log('docready', hassim, isss);
-                //$("#openWB").replaceWith(devicename);
-                if( hassim > '')
-                   $("#simlink").html('Hier gehts zur ISSS-<a href="' +  hassim + '">Simulation</a>');
-                 
-                });
-    </script>                
 </html>

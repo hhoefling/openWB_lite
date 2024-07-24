@@ -62,8 +62,8 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 	// processes mqttmsg for topic openWB/global
 	// called by handlevar
 	processPreloader(mqttmsg);
-    
- // colors theme
+
+	// colors theme
 	if (mqttmsg == 'openWB/global/ETProvider/providerName') {
 		wbdata.updateET('etProviderName', mqttpayload);
 	} else if (mqttmsg == 'openWB/global/ETProvider/modulePath') {
@@ -80,6 +80,7 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 
 
 	// end color theme
+
 	if (mqttmsg == 'openWB/global/ETProvider/providerName') {
 		$('.etproviderName').text(mqttpayload);
 	}
@@ -100,7 +101,7 @@ function processETProviderMessages(mqttmsg, mqttpayload) {
 			$('#navStromtarifInfo').addClass('hide');
 		}
 	}
-	
+
 }
 
 function processPvConfigMessages(mqttmsg, mqttpayload) {
@@ -520,7 +521,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 				$('#chargeModeSelectBtnText').text('Sofortladen');  // text btn mainpage
 				$('.chargeModeBtn').removeClass('btn-success');  // changes to select btns in modal
 				$('#chargeModeSofortBtn').addClass('btn-success');
-				$('#targetChargingProgress').show();  // visibility of divs for special settings
+				// $('#targetChargingProgress').show();  // visibility of divs for special settings
 				$('#sofortladenEinstellungen').show();
 				$('#priorityEvBatteryIcon').hide();  // visibility of priority icon
 				$('#minundpvladenEinstellungen').hide();
@@ -531,7 +532,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 				$('#chargeModeSelectBtnText').text('Min+PV-Laden');
 				$('.chargeModeBtn').removeClass('btn-success');
 				$('#chargeModeMinPVBtn').addClass('btn-success');
-				$('#targetChargingProgress').hide();
+				//$('#targetChargingProgress').hide();
 				$('#sofortladenEinstellungen').hide();
 				$('#priorityEvBatteryIcon').hide();
 				$('#minundpvladenEinstellungen').show();
@@ -542,7 +543,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 				$('#chargeModeSelectBtnText').text('PV-Laden');
 				$('.chargeModeBtn').removeClass('btn-success');
 				$('#chargeModePVBtn').addClass('btn-success');
-				$('#targetChargingProgress').hide();
+				//$('#targetChargingProgress').hide();
 				$('#sofortladenEinstellungen').hide();
 				$('#priorityEvBatteryIcon').show();
 				$('#minundpvladenEinstellungen').hide();
@@ -553,7 +554,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 				$('#chargeModeSelectBtnText').text('Stop');
 				$('.chargeModeBtn').removeClass('btn-success');
 				$('#chargeModeStopBtn').addClass('btn-success');
-				$('#targetChargingProgress').hide();
+				//$('#targetChargingProgress').hide();
 				$('#sofortladenEinstellungen').hide();
 				$('#priorityEvBatteryIcon').hide();
 				$('#minundpvladenEinstellungen').hide();
@@ -564,7 +565,7 @@ function processGlobalMessages(mqttmsg, mqttpayload) {
 				$('#chargeModeSelectBtnText').text('Standby');
 				$('.chargeModeBtn').removeClass('btn-success');
 				$('#chargeModeStdbyBtn').addClass('btn-success');
-				$('#targetChargingProgress').hide();
+				//$('#targetChargingProgress').hide();
 				$('#sofortladenEinstellungen').hide();
 				$('#priorityEvBatteryIcon').hide();
 				$('#minundpvladenEinstellungen').hide();
@@ -663,12 +664,12 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	// called by handlevar
 	processPreloader(mqttmsg);
     //console.log(mqttmsg, ' ', mqttpayload);
-	if (mqttmsg == 'openWB/system/debuglevel') {
+	if (mqttmsg == 'openWB/system/debug') {
 		var i = parseInt(mqttpayload, 10);
 		if (isNaN(i) || i < 0 || i > 9) { i = 0; }
-	    debuglevel = i;
-		console.log('######################### set debug level to '+debuglevel + '###############');
-		if ( debuglevel >= 0)  {
+	    debug = i;
+		console.log('######################### set debug level to '+debug + '###############');
+		if ( debug >= 0)  {
 			$("#homebutton").removeClass("hide");
         } else {			
 			$("#homebutton").addClass("hide");
@@ -688,7 +689,10 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 			var dayOfWeek = dateObject.toLocaleDateString('de-DE', { weekday: 'short' });
 			date = dayOfWeek + ', ' + dd + '.' + mm + '.' + dateObject.getFullYear();
 		}
-		$('#time').text(time);
+		if( iscloud )
+			$('#time').text("Daten von: " + time);
+		else
+			$('#time').text(time);
 		$('#date').text(date);
 	}
 	else if (mqttmsg == 'openWB/system/Uptime') {
@@ -699,6 +703,8 @@ function processSystemMessages(mqttmsg, mqttpayload) {
 	else if (mqttmsg == 'openWB/system/devicename') {
      console.log('set devicename from ', mqttmsg, ' ', mqttpayload);
       $('.devicename').text(mqttpayload);
+	  if( iscloud )
+	     $('.devicename').addClass('fa fa-cloud');
       window.document.title='oWB ' + mqttpayload; 
     } 
 	else if (mqttmsg.match(/^openwb\/system\/daygraphdata[1-9][0-9]*$/i)) {
@@ -1097,49 +1103,48 @@ function processLpMessages(mqttmsg, mqttpayload) {
 
 		}
 	}
-	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
-		var index = getIndex(mqttmsg);  // extract first match = number from
-		var parent = $('[data-lp="' + index + '"]');  // get parent row element for charge point
-		var element = parent.find('.autolockConfiguredLp');  // now get parents respective child element
-		if (mqttpayload == 0) {
-			element.hide();
-		} else {
-			element.show();
-		}
-	}
-	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockstatus$/i)) {
-		// values used for AutolockStatus flag:
-		// 0 = standby
-		// 1 = waiting for autolock
-		// 2 = autolock performed
-		// 3 = auto-unlock performed
-		var index = getIndex(mqttmsg);  // extract number between two / /
-		var parent = $('[data-lp="' + index + '"]');  // get parent row element for charge point
-		var element = parent.find('.autolockConfiguredLp');  // now get parents respective child element
-		switch (mqttpayload) {
-			case '0':
-				// remove animation from span and set standard colored key icon
-				element.removeClass('fa-lock fa-lock-open animate-alertPulsation text-red text-green');
-				element.addClass('fa-key');
-				break;
-			case '1':
-				// add animation to standard icon
-				element.removeClass('fa-lock fa-lock-open text-red text-green');
-				element.addClass('fa-key animate-alertPulsation');
-				break;
-			case '2':
-				// add red locked icon
-				element.removeClass('fa-lock-open fa-key animate-alertPulsation text-green');
-				element.addClass('fa-lock text-red');
-				break;
-			case '3':
-				// add green unlock icon
-				element.removeClass('fa-lock fa-key animate-alertPulsation text-red');
-				element.addClass('fa-lock-open text-green');
-				break;
-		}
-	}
-
+//	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockconfigured$/i)) {
+//		var index = getIndex(mqttmsg);  // extract first match = number from
+//		var parent = $('[data-lp="' + index + '"]');  // get parent row element for charge point
+//		var element = parent.find('.autolockConfiguredLp');  // now get parents respective child element
+//		if (mqttpayload == 0) {
+//			element.hide();
+//		} else {
+//			element.show();
+//		}
+//	}
+//	else if (mqttmsg.match(/^openwb\/lp\/[1-9][0-9]*\/autolockstatus$/i)) {
+//		// values used for AutolockStatus flag:
+//		// 0 = standby
+//		// 1 = waiting for autolock
+//		// 2 = autolock performed
+//		// 3 = auto-unlock performed
+//		var index = getIndex(mqttmsg);  // extract number between two / /
+//		var parent = $('[data-lp="' + index + '"]');  // get parent row element for charge point
+//		var element = parent.find('.autolockConfiguredLp');  // now get parents respective child element
+//		switch (mqttpayload) {
+//			case '0':
+//				// remove animation from span and set standard colored key icon
+//				element.removeClass('fa-lock fa-lock-open animate-alertPulsation text-red text-green');
+//				element.addClass('fa-key');
+//				break;
+//			case '1':
+//				// add animation to standard icon
+//				element.removeClass('fa-lock fa-lock-open text-red text-green');
+//				element.addClass('fa-key animate-alertPulsation');
+//				break;
+//			case '2':
+//				// add red locked icon
+//				element.removeClass('fa-lock-open fa-key animate-alertPulsation text-green');
+//				element.addClass('fa-lock text-red');
+//				break;
+//			case '3':
+//				// add green unlock icon
+//				element.removeClass('fa-lock fa-key animate-alertPulsation text-red');
+//				element.addClass('fa-lock-open text-green');
+//				break;
+//		}
+//	}
 
 }
 

@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -33,7 +42,8 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
+		
 	</head>
 
 	<body>
@@ -49,6 +59,8 @@
 				$debugold = "0";
 			}
 
+          //$x=system('pwd');
+		  //echo "<br><br>$x";
 		?>
 
 		<div id="nav"></div> <!-- placeholder for navbar -->
@@ -114,7 +126,6 @@
 				</form>
 			</div>
 
-<!---
 			<div class="card border-secondary">
 				<form class="form" id="sendTokenForm" action="./settings/starttunnel.php" method="POST">
 					<div class="card-header bg-secondary">
@@ -179,7 +190,6 @@
 					</div>
 				</form>
 			</div>
---->
 
 		</div>  <!-- container -->
 
@@ -197,17 +207,20 @@
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navDebugging').addClass('disabled');
-                    $('.devicename').text("<?php echo trim($devicenameold); ?>");
 				}
 			);
 
-//			$(document).ready(function(){
-//				$('textarea').on('change keyup paste', function() {
-//					var length = $(this).val().length;
-//					var length = 500-length;
-//					$('#textareaTextLength').text(length+"/500");
-//				});
-//			});
+			$(document).ready(function(){
+
+               $('.devicename').text("<?php echo trim($devicenameold); ?>");
+
+				$('textarea').on('change keyup paste', function() {
+					var length = $(this).val().length;
+					var length = 500-length;
+					$('#textareaTextLength').text(length+"/500");
+				});
+
+			});
 
 		</script>
 

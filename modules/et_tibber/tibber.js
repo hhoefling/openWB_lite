@@ -197,18 +197,18 @@ function fillCardTagesbezug(response, consumptionDayDate){
             return new Date(e.from).getDate() == consumptionDayDate.getDate();
         });
         // now sum up totals and fill arrays for chart
-        for (i=0; i<consumptionHourly.length; i++) {
-            if (typeof consumptionHourly[i].cost === 'number' && typeof consumptionHourly[i].consumption === 'number') {
-                totalConsumptionDay += consumptionHourly[i].consumption;
-                totalCostsDay += consumptionHourly[i].cost;
-                labels.push(createXLabel(consumptionHourly[i].from, consumptionHourly[i].to));
-                dataConsumption.push(consumptionHourly[i].consumption.toFixed(2));
-                dataPrice.push((consumptionHourly[i].unitPrice * 100).toFixed(2));
+            for (i=0; i<consumptionHourly.length; i++) {
+                if (typeof consumptionHourly[i].cost === 'number' && typeof consumptionHourly[i].consumption === 'number') {
+                    totalConsumptionDay += consumptionHourly[i].consumption;
+                    totalCostsDay += consumptionHourly[i].cost;
+                    labels.push(createXLabel(consumptionHourly[i].from, consumptionHourly[i].to));
+                    dataConsumption.push(consumptionHourly[i].consumption.toFixed(2));
+                    dataPrice.push((consumptionHourly[i].unitPrice * 100).toFixed(2));
+                }
             }
-        }
-        $('#totalConsumptionDay').text(convertToLocale(totalConsumptionDay, ' kWh'));
-        $('#totalCostsDay').text(convertToLocale(totalCostsDay, ' €'));
-        $('#avgPriceDay').text(convertToLocale((totalCostsDay / totalConsumptionDay * 100), ' ct/kWh'));
+            $('#totalConsumptionDay').text(convertToLocale(totalConsumptionDay, ' kWh'));
+            $('#totalCostsDay').text(convertToLocale(totalCostsDay, ' €'));
+            $('#avgPriceDay').text(convertToLocale((totalCostsDay / totalConsumptionDay * 100), ' ct/kWh'));
         // create chart or hide it
         if (totalConsumptionDay > 0) {
             $('#noDailychartDiv').hide();

@@ -1,3 +1,11 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -31,7 +39,8 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
+		
 	</head>
 
 <?php
@@ -87,23 +96,26 @@
 					//$('#navSofortLadeeinstellungen').addClass('disabled');
 				}
 			);
-      </script>
-     
+		</script>
+
 
 <?php
 
 		// update chosen setting in array
 		foreach($_POST as $key => $value) {
+            # $debs[]=" key:$key = value=[$value]";
 			// only update settings already present in array
 			if( array_key_exists( $key, $settingsArray ) )
 			{
-			   $k=$key; $a=$settingsArray[$key]; $v=$value;
-			   if( $a != $v )
-			      $debs[]=sprintf(" change %s from [%s] to [%s]", $k,$a,$v);
-				// check if loaded config entry has single quotes
-				if( (strpos( $settingsArray[$key], "'" ) === 0) && (strrpos( $settingsArray[$key], "'" ) === strlen( $settingsArray[$key])-1) ){
+				$k=$key; $a=$settingsArray[$key]; $v=$value;
+				if( $a != $v )
+					$debs[]=sprintf(" change %s from [%s] to [%s]", $k,$a,$v);
+					// check if loaded config entry has single quotes
+				if( (strpos( $settingsArray[$key], "'" ) === 0) && (strrpos( $settingsArray[$key], "'" ) === strlen( $settingsArray[$key])-1) )
+				{
 					$settingsArray[$key] = "'".$value."'";
-				} else {
+				} else 
+				{
 					$settingsArray[$key] = $value;
 				}
 			}
@@ -112,12 +124,12 @@
 			  $k=$key; $v=$value;
 			  $debs[]=sprintf(" Add  %s  = [%s]", $k,$v);
 			  if( (strpos( $settingsArray[$key], "'" ) === 0) && (strrpos( $settingsArray[$key], "'" ) === strlen( $settingsArray[$key])-1) )
-			    {
+				{
 					$settingsArray[$key] = "'".$value."'";
-			     } else 
-				 {
+				} else 
+				{
 					$settingsArray[$key] = $value;
-			     }
+				}
 			}
 		}
 
@@ -131,26 +143,28 @@
 			if( strlen($key) > 0 ){
 				fwrite($fp, $key."=".$value."\n");
 			}
-            else
-            {
-                $debs[]=sprintf(" ignore empty variable [%s] ", $key);
-            }
+			else
+			{
+				$debs[]=sprintf(" ignore empty variable [%s] ", $key);
+			}
 		}
 		fclose($fp);
 
 		// handling of different actions required by some modules
-		
-		
+
+
 		if( array_key_exists( 'debug', $_POST ) )
 		{
-        
-           $debs[]=sprintf(" publish debuglevel [%s] to mqtt", $settingsArray['debug']) ;
-		   exec( 'mosquitto_pub -t openWB/system/debuglevel -r -m "' . $settingsArray['debug'] .'"' );
+           $debug=$settingsArray['debug'];
+           $debs[]=sprintf(" publish debuglevel [%s] to mqtt (old)", $debug) ;
+		   exec( 'mosquitto_pub -t openWB/system/debuglevel -r -m "' . $debug .'"' );
+
+           $debs[]=sprintf(" publish debug [%s] to mqtt (new)", $debug) ;
+		   exec( 'mosquitto_pub -t openWB/system/debug -r -m "' . $debug .'"' );
 		}
 
 		// check for manual ev soc module on lp1
-		if( array_key_exists( 'socmodul', $_POST ) )
-        {
+		if( array_key_exists( 'socmodul', $_POST ) ) {
             $debs[]=" trigger boolSocManual in mqtt for lp1";
             if (preg_match("/^soc_manual/", $_POST['socmodul'] )) {
 				exec( 'mosquitto_pub -t openWB/lp/1/boolSocManual -r -m "1"' );
@@ -159,8 +173,7 @@
 			}
 		}
 		// check for manual ev soc module on lp2
-		if( array_key_exists( 'socmodul1', $_POST ) )
-        {
+		if( array_key_exists( 'socmodul1', $_POST ) ) {
             $debs[]=" trigger boolSocManual in mqtt for lp2";
             if (preg_match("/^soc_manuallp2/", $_POST['socmodul1'] )) {
 				exec( 'mosquitto_pub -t openWB/lp/2/boolSocManual -r -m "1"' );
@@ -170,20 +183,18 @@
 		}
 
 		// update display process if in POST data
-		if( array_key_exists( 'displayaktiv', $_POST ) || array_key_exists( 'isss', $_POST) )
-        {
-         ?>
+		if( array_key_exists( 'displayaktiv', $_POST ) || array_key_exists( 'isss', $_POST) ) {
+?>
             <script>$('#feedbackdiv').append("<br>Isss changed, sync daeomons.");</script>
-		<?php
+<?php
             $debs[]=" trigger reload isss/daemons";
-            exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/services.sh reboot all >> /var/log/openWB.log 2>&1 &" );
+            exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/runs/services.sh reboot all >> /var/log/openWB.log 2>&1" );
             
             $debs[]=" trigger reload display in MQTT";
 			exec( 'mosquitto_pub -t openWB/system/reloadDisplay -m "1"' );
 			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/execdisplay', "1");
 		}
-		if( array_key_exists( 'displaypinaktiv', $_POST ) ) 
-        { 
+		if( array_key_exists( 'displaypinaktiv', $_POST ) ) { 
            $debs[]=" remove activ displaypin from  MQTT";
 		   exec( 'mosquitto_pub -t openWB/config/get/display/displayPinAktiv -r -m "' . $settingsArray['displaypinaktiv'] .'"' );
 		}
@@ -193,8 +204,12 @@
 		if( array_key_exists( 'etprovideraktiv', $_POST ) && ($_POST['etprovideraktiv'] == 1) ){ ?>
 			<script>$('#feedbackdiv').append("<br>Update des Stromtarifanbieters gestartet.");</script>
 			<?php
-			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['etprovider'] . "/main.sh >> /var/log/openWB.log 2>&1 &" );
-			exec( 'mosquitto_pub -t openWB/global/ETProvider/modulePath -r -m "' . $_POST['etprovider'] . '"' );
+			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . escapeshellcmd($_POST['etprovider']) . "/main.sh >> /var/log/openWB.log 2>&1 &" );
+			exec( 'mosquitto_pub -t openWB/global/ETProvider/modulePath -r -m ' . escapeshellarg($_POST['etprovider']) );
+
+			# Macht '' drum????
+			# exec( 'mosquitto_pub -t openWB/global/ETProvider/modulePath -r -m "' . escapeshellarg($_POST['etprovider']) . '"' );
+			# exec( 'mosquitto_pub -t openWB/global/ETProvider/modulePath -r -m "' . $_POST['etprovider'] . '"' );
           $debs[]=" trigger Etprovider update";
 		}
 
@@ -204,7 +219,7 @@
 			<script>$('#feedbackdiv').append("<br>Update SoC-Modul an Ladepunkt 1 gestartet.");</script>
 			<?php
 			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/soctimer', "20005");
-			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['socmodul'] . "/main.sh > /dev/null &" );
+			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . escapeshellcmd($_POST['socmodul']) . "/main.sh > /dev/null &" );
             $debs[]=" trigger socmodule update for lp1";
 		}
 		// if( array_key_exists( 'socmodul1', $_POST ) && ($_POST['socmodul1'] != 'none') ){
@@ -212,7 +227,7 @@
 			<script>$('#feedbackdiv').append("<br>Update SoC-Modul an Ladepunkt 2 gestartet.");</script>
 			<?php
 			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/openWB/ramdisk/soctimer1', "20005");
-			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . $_POST['socmodul1'] . "/main.sh > /dev/null &" );
+			exec( $_SERVER['DOCUMENT_ROOT'] . "/openWB/modules/" . escapeshellcmd($_POST['socmodul1']) . "/main.sh > /dev/null &" );
             $debs[]=" trigger socmodule update for lp2";
 		}
 

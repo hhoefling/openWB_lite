@@ -1,30 +1,30 @@
 <?php
-
-	// read config file
-	$lines = file($_SERVER['DOCUMENT_ROOT'] . '/openWB/openwb.conf');
-	foreach($lines as $line) {
-		list($key, $value) = explode("=", $line, 2);
-		${$key} = trim( $value, " '\t\n\r\0\x0B" ); // remove all garbage and single quotes
-	}
 	// if parameter extendedFilename is passed with value 1 the filename changes
 	// from backup.tar.gz to openWB_backup_YYYY-MM-DD_HH-MM-SS.tar.gz
 	$useExtendedFilename = false;
 	if( isset($_GET["extendedFilename"]) && $_GET["extendedFilename"] == "1") {
 		$useExtendedFilename = true;
 	}
-
+	$backupPath = "/var/www/html/openWB/web/backup/";
 	$timestamp = date("Y-m-d") . "_" . date("H-i-s");
 	if ( $useExtendedFilename ) {
-		$filename = $_SERVER['HTTP_HOST'] ."_".$_SERVER['SERVER_ADDR'] . "_openWB_backup_". $timestamp . ".tar.gz" ;
+		$filename = "openWB_backup_" . $timestamp . ".tar.gz" ;
 	} else {
 		$filename = "backup.tar.gz" ;
 	}
+
+	// first empty backup-directory
+	array_map( "unlink", array_filter((array) glob($backupPath . "*") ) );
+	// then create new backup-file
+	exec("tar --exclude='/var/www/html/openWB/web/backup' --exclude='/var/www/html/openWB/.git' -czf ". $backupPath . $filename . " /var/www/html/");
 	
-	$downloadfile="/openWB/web/backup/" . $filename;
-	$filename = "/var/www/html/openWB/web/backup/" . $filename;
-		
-	// execute backup script
-	exec("sudo -u pi " . escapeshellarg($_SERVER['DOCUMENT_ROOT']) . "/openWB/runs/backup.sh " . $filename ." " .$debug , $output, $result);
+  function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('./%s/%s', $dir,$file);
+			$ftime=filemtime("$dir/$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -61,7 +61,7 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
 	</head>
 
 	<body>
@@ -70,42 +70,15 @@
 		<div role="main" class="container" style="margin-top:20px">
 
 			<h1>Backup erstellen</h1>
-			<?php if( $debug >0) {   ?>
-			<div class="card border-secondary">
-				<div class="card-header bg-secondary">
-					Backup <small><?php echo "(Debug:$debug)"; ?></small>
+			<div class="alert alert-success">
+				Backup-Datei <?php echo $filename; ?> erfolgreich erstellt.
+			</div>
+
+			<div class="row">
+				<div class="col text-center">
+					<a class="btn btn-success" href="/openWB/web/backup/<?php echo $filename; ?>" target="_blank"><i class="fas fa-download"></i> Backup herunterladen</a>
 				</div>
-				<div class="card-body">
-					<div class="row">
-						<div class="col">
-							<?php echo implode('<br>',$output);  ?>
-							<!--  <pre>	< ? php print_r( $_GLOBALS );  ? > </pre>  -->
-							
-						</div>
-					</div>
-				</div>
-  		  </div>  <!-- container -->
-			<?php } ?>
-			
-			<?php if ($filename !== false && $result == 0) 
-			{ ?>
-				<div class="alert alert-success">
-					Backup-Datei <?php echo $downloadfile; ?> erfolgreich erstellt.
-				</div>
-				<div class="row">
-					<div class="col text-center">
-						<a class="btn btn-success" href="<?php echo $downloadfile; ?>" target="_blank"><i class="fas fa-download"></i> Backup herunterladen</a>
-					</div>
-				</div>
-			<?php 
-			} else { 
-			?>
-				<div class="alert alert-danger">
-					Es gab einen Fehler beim Erstellen der Backup-Datei. Bitte die Logmeldungen prüfen!
-				</div>
-			<?php 
-			} 
-			?>
+			</div>
 
 		</div>  <!-- container -->
 
@@ -123,10 +96,10 @@
 					$("#nav").replaceWith(data);
 					// disable navbar entry for current page
 					$('#navBackup').addClass('disabled');
-					$('.devicename').text("<?php echo trim($devicename); ?>");
 				}
 			);
 
-</script>
+		</script>
+
 	</body>
 </html>

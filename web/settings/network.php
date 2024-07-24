@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -33,7 +42,8 @@
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 		<!-- load helper functions -->
-		<script src = "settings/helperFunctions.js?ver=20210329" ></script>
+		<script src = "<?php echo getdateurl('settings','helperFunctions.js');?>"></script>
+		
 	</head>
 
 	<body>
@@ -182,7 +192,7 @@
 										<span class="text-danger">
 											Achtung!<br>
 											Wenn hier ungültige Daten eingetragen werden, funktioniert die Verbindung zu einem openWB EVU-/PV-/Speicher-/AlphaESS-Kit nicht mehr! Ein externes Display kann ebenfalls keine Verbindung mehr aufbauen!<br>
-											Die Standardeinstellung ist <span class="text-primary">192.168.192.5</span> und sollte nur in Ausnahmefällen geändert werden!<br>
+											Die Standardeinstellung ist <span class="text-primary">192.168.193.5</span> und sollte nur in Ausnahmefällen geändert werden!<br>
 											Die openWB wird direkt nach der Änderung neu gestartet! Alle Fahrzeuge sind vorher abzustecken!
 										</span>
 									</span>
@@ -197,7 +207,7 @@
 										<span class="text-danger">
 											Achtung!<br>
 											Wenn hier ungültige Daten eingetragen werden, funktioniert die Verbindung zu einem openWB EVU-/PV-/Speicher-/AlphaESS-Kit nicht mehr! Ein externes Display kann ebenfalls keine Verbindung mehr aufbauen!<br>
-											Die Standardeinstellung ist <span class="text-primary">192.168.192.6</span> und sollte nur in Ausnahmefällen geändert werden!<br>
+											Die Standardeinstellung ist <span class="text-primary">192.168.193.6</span> und sollte nur in Ausnahmefällen geändert werden!<br>
 											Die openWB wird direkt nach der Änderung neu gestartet! Alle Fahrzeuge sind vorher abzustecken!
 										</span>
 									</span>

@@ -7,8 +7,10 @@ python3 /var/www/html/openWB/runs/csvselmonth.py --input /var/www/html/openWB/we
 # file 1 -> headerst
 # file 2 -> Zaehler summe
 # file 3 -> beträge summe
-# file 4 -> Zaehler detail
-# file 5 -> beträge detail
+# file 4 -> Zaehler detail 1..14
+# file 5 -> beträge detail 1..14
+# file 6 -> beträge detail 15..31
+# file 7 -> Zaehler detail 15..31
 
 mosquitto_pub -t openWB/system/MonthGraphDatan1 -r -f /var/www/html/openWB/ramdisk/a_onl1 &
 mosquitto_pub -t openWB/system/MonthGraphDatan2 -r -f /var/www/html/openWB/ramdisk/a_onl2 &

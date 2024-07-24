@@ -1,3 +1,12 @@
+<?php
+function  getdateurl($dir,$file)
+	{
+ 			$fn=sprintf('%s/%s', $dir,$file);
+			$ftime=filemtime("./$file");
+			return sprintf('%s?w=%d' , $fn,$ftime);
+	
+ 	}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -30,7 +39,7 @@
 		<!-- Font Awesome, all styles -->
 		<link href="fonts/font-awesome-5.8.2/css/all.css" rel="stylesheet">
 		<!-- include settings-style -->
-		<link rel="stylesheet" type="text/css" href="logging/chargelog/ladelog_style.css?ver=20230102">
+		<script src = "<?php echo getdateurl('logging/chargelog','ladelog_style.css');?>"></script>
 		<!-- important scripts to be loaded -->
 		<script src="js/jquery-3.6.0.min.js"></script>
 		<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
@@ -38,8 +47,8 @@
 		<script src="js/bootstrap-datepicker/bootstrap-datepicker.de.min.js"></script>
 		<script src="js/bootstrap4-toggle/bootstrap4-toggle.min.js"></script>
 		<script src="js/mqttws31.js"></script>
-		<script src="logging/chargelog/helperFunctions.js?ver=20210202"></script>
-		<script src="logging/chargelog/ladelog.js?ver=20230103"></script>
+		<script src = "<?php echo getdateurl('logging/chargelog','helperFunctions.js');?>"></script>
+		<script src = "<?php echo getdateurl('logging/chargelog','ladelog.js');?>"></script>
 		<script>
 			function getCookie(cname) {
 				var name = cname + '=';
@@ -184,7 +193,6 @@
 			<div class="container text-center">
 				<small>Sie befinden sich hier: Lade-Log - 
 				  <a href="logging/chargelog/ladelogexport.php">Ladeprotokoll Export</a>
-				  <a href="logging/chargelog/ladelogexportexcel.php">Ladeprotokoll Excel Export</a>
 				</small>
 			</div>
 		</footer>

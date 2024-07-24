@@ -10,7 +10,7 @@ import struct
 from pymodbus.client.sync import ModbusSerialClient
 
 seradd = str(sys.argv[1])
-sdmid = int(sys.argv[2])
+sdmid  = int(sys.argv[2])
 sdm2id = int(sys.argv[3])
 sdm3id = int(sys.argv[4])
 

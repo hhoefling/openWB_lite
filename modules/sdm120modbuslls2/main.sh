@@ -85,7 +85,7 @@ if [[ $sdm120modbusllid1s2 != "254" ]] && [[ $sdm120modbusllid2s2 != "254" ]] &&
 			llkwh3=${llkwh3%???}
 			fi
 		n=$((n + 1))
-	    done <<< "$output"
+	done <<< "$output"
 	if [[ $llkwh =~ $rekwh ]] && [[ $llkwh2 =~ $rekwh ]] && [[ $llkwh3 =~ $rekwh ]]; then
 		lltotal=`echo "($llkwh+$llkwh2+$llkwh3)" |bc`
 		LANG=C printf "%.3f\n" $lltotal > /var/www/html/openWB/ramdisk/llkwhs2
@@ -144,7 +144,7 @@ else
 				llkwh2=${llkwh2%???}
 			fi
 			n=$((n + 1))
-		    done <<< "$output"
+		done <<< "$output"
 		if [[ $llkwh =~ $rekwh ]] && [[ $llkwh2 =~ $rekwh ]] ; then
 			lltotal=`echo "($llkwh+$llkwh2)" |bc`
 			LANG=C printf "%.3f\n" $lltotal > /var/www/html/openWB/ramdisk/llkwhs2

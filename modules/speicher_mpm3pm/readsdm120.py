@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 # import sys
 # import os
 # import time
@@ -30,5 +30,3 @@ ekwh = float("%.3f" % vwhe[0]) * int(1000)
 f = open('/var/www/html/openWB/ramdisk/speicherekwh', 'w')
 f.write(str(ekwh))
 f.close()
-
-

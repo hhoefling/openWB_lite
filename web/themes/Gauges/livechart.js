@@ -64,6 +64,15 @@ var boolDisplayLoad1;
 var boolDisplayLp1Soc;
 var boolDisplayLoad2;
 var boolDisplayLp2Soc;
+var boolDisplayShD1;
+var boolDisplayShD2;
+var boolDisplayShD3;
+var boolDisplayShD4;
+var boolDisplayShD5;
+var boolDisplayShD6;
+var boolDisplayShD7;
+var boolDisplayShD8;
+var boolDisplayShD9;
 var boolDisplayLp1;
 var boolDisplayLp2;
 var boolDisplayLp3;
@@ -79,15 +88,6 @@ var boolDisplayEvu;
 var boolDisplayPv;
 var boolDisplayLegend;
 var boolDisplayLiveGraph;
-var boolDisplayshd1;
-var boolDisplayshd2;
-var boolDisplayshd3;
-var boolDisplayshd4;
-var boolDisplayshd5;
-var boolDisplayshd6;
-var boolDisplayshd7;
-var boolDisplayshd8;
-var boolDisplayshd9;
 var d1name = 'Device 1';
 var d2name = 'Device 2';
 var d3name = 'Device 3';
@@ -328,7 +328,7 @@ function loadgraph(animationDuration = 1000)
 			borderWidth: 2,
 			data: ashd1,
 			yAxisID: 'y-axis-1',
-			hidden: boolDisplayshd1
+			hidden: boolDisplayShD1
 		}, {
 			label: d2name,
 			borderColor: d2Col,
@@ -338,7 +338,7 @@ function loadgraph(animationDuration = 1000)
 			borderWidth: 2,
 			data: ashd2,
 			yAxisID: 'y-axis-1',
-			hidden: boolDisplayshd2
+			hidden: boolDisplayShD2
 		}, {
 			label: d3name,
 			borderColor: d3Col,
@@ -348,7 +348,7 @@ function loadgraph(animationDuration = 1000)
 			borderWidth: 2,
 			data: ashd3,
 			yAxisID: 'y-axis-1',
-			hidden: boolDisplayshd3
+			hidden: boolDisplayShD3
 		}, {
 			label: d4name,
 			borderColor: d4Col,
@@ -358,7 +358,7 @@ function loadgraph(animationDuration = 1000)
 			borderWidth: 2,
 			data: ashd4,
 			yAxisID: 'y-axis-1',
-			hidden: boolDisplayshd4
+			hidden: boolDisplayShD4
 		}, {
 			label: d5name,
 			borderColor: d5Col,
@@ -368,7 +368,7 @@ function loadgraph(animationDuration = 1000)
 			borderWidth: 2,
 			data: ashd5,
 			yAxisID: 'y-axis-1',
-			hidden: boolDisplayshd5
+			hidden: boolDisplayShD5
 		}, {
 			label: d6name,
 			borderColor: d6Col,
@@ -378,7 +378,7 @@ function loadgraph(animationDuration = 1000)
 			borderWidth: 2,
 			data: ashd6,
 			yAxisID: 'y-axis-1',
-			hidden: boolDisplayshd6
+			hidden: boolDisplayShD6
 		}, {
 			label: d7name,
 			borderColor: d7Col,
@@ -388,7 +388,7 @@ function loadgraph(animationDuration = 1000)
 			borderWidth: 2,
 			data: ashd7,
 			yAxisID: 'y-axis-1',
-			hidden: boolDisplayshd7
+			hidden: boolDisplayShD7
 		}, {
 			label: d8name,
 			borderColor: d8Col,
@@ -398,7 +398,7 @@ function loadgraph(animationDuration = 1000)
 			borderWidth: 2,
 			data: ashd8,
 			yAxisID: 'y-axis-1',
-			hidden: boolDisplayshd8
+			hidden: boolDisplayShD8
 		}, {
 			label: d9name,
 			borderColor: d9Col,
@@ -408,7 +408,7 @@ function loadgraph(animationDuration = 1000)
 			borderWidth: 2,
 			data: ashd9,
 			yAxisID: 'y-axis-1',
-			hidden: boolDisplayshd9
+			hidden: boolDisplayShD9
 		}/*, {
 			label: 'Device 1t0',
 			borderColor: "rgba(250, 250, 155, 0.7)",
@@ -458,8 +458,7 @@ function loadgraph(animationDuration = 1000)
 	function setGraphLineBorderWidth(theGraph, newWidth) {
 		// sets borderWidth attribute for all single lines without fill
 		for ( var index = 0; index < theGraph.config.data.datasets.length; index++) {
-			if ( !theGraph.config.data.datasets[index].fill ) 
-			{
+			if ( !theGraph.config.data.datasets[index].fill ) {
 				theGraph.config.data.datasets[index].borderWidth = newWidth;
 			}
 		}
@@ -601,12 +600,13 @@ function loadgraph(animationDuration = 1000)
 	initialread = 1;
 	$('#waitforgraphloadingdiv').hide();
 }  // end loadgraph
+
 // Sichtbarkeit für SmartHome Devices im Graph
 function setvisibility(datarr,hidevar,hidevalue,booldisplay){
 	var arrayLength = datarr.length;
 	var vis=0
 	for (var i = 0; i < arrayLength; i++) {
-		if (( datarr[i] >= 0.010) || (datarr[i] <=- 0.010)) {
+		if (( datarr[i] >= 0.002) || (datarr[i] <=- 0.002)) {
 			vis=1
 		}
 	}
@@ -681,21 +681,25 @@ function putgraphtogether() {
 			//ashd1t2 = getCol(csvData, 31);
 			
 			
-			setvisibility(alp3,'hidelp3','Lp3');
-			setvisibility(alp4,'hidelp4','Lp4');
-			setvisibility(alp5,'hidelp5','Lp5');
-			setvisibility(alp6,'hidelp6','Lp6');
-			setvisibility(alp7,'hidelp7','Lp7');
-			setvisibility(alp8,'hidelp8','Lp8');
-			setvisibility(ashd1,'hideshd1',d1name,'boolDisplayshd1');
-			setvisibility(ashd2,'hideshd2',d2name,'boolDisplayshd2');
-			setvisibility(ashd3,'hideshd3',d3name,'boolDisplayshd3');
-			setvisibility(ashd4,'hideshd4',d4name,'boolDisplayshd4');
-			setvisibility(ashd5,'hideshd5',d5name,'boolDisplayshd5');
-			setvisibility(ashd6,'hideshd6',d6name,'boolDisplayshd6');
-			setvisibility(ashd7,'hideshd7',d7name,'boolDisplayshd7');
-			setvisibility(ashd8,'hideshd8',d8name,'boolDisplayshd8');
-			setvisibility(ashd9,'hideshd9',d9name,'boolDisplayshd9');
+			setvisibility(asoc,'hidelp1soc','Lp1 Soc','boolDisplayLp1Soc');
+			setvisibility(asoc1,'hidelp2soc','Lp2 Soc','boolDisplayLp2Soc');
+			setvisibility(alp1,'hidelp1','Lp1','boolDisplayLp1');
+			setvisibility(alp2,'hidelp2','Lp2','boolDisplayLp2');
+			setvisibility(alp3,'hidelp3','Lp3','boolDisplayLp3');
+			setvisibility(alp3,'hidelp4','Lp4','boolDisplayLp4');
+			setvisibility(alp3,'hidelp5','Lp5','boolDisplayLp5');
+			setvisibility(alp3,'hidelp6','Lp6','boolDisplayLp6');
+			setvisibility(alp3,'hidelp7','Lp7','boolDisplayLp7');
+			setvisibility(alp3,'hidelp8','Lp8','boolDisplayLp8');
+			setvisibility(ashd1,'hideshd1',d1name,'boolDisplayShD1');
+			setvisibility(ashd2,'hideshd2',d2name,'boolDisplayShD2');
+			setvisibility(ashd3,'hideshd3',d3name,'boolDisplayShD3');
+			setvisibility(ashd4,'hideshd4',d4name,'boolDisplayShD4');
+			setvisibility(ashd5,'hideshd5',d5name,'boolDisplayShD5');
+			setvisibility(ashd6,'hideshd6',d6name,'boolDisplayShD6');
+			setvisibility(ashd7,'hideshd7',d7name,'boolDisplayShD7');
+			setvisibility(ashd8,'hideshd8',d8name,'boolDisplayShD8');
+			setvisibility(ashd9,'hideshd9',d9name,'boolDisplayShD9');
 
 			initialread = 1 ;
 			// after receipt of all 8 first data segments, unsubscribe from these topics to save bandwidth
@@ -731,7 +735,6 @@ function updateGraph(dataset) {
 	for (var i = 0; i < lines.length; i++) 
 	{
 		var linessplit=lines[i].split(",");
-		console.log(updateGraph, linessplit);
 	
 		var ldate = linessplit[0];
 		var lbezug = linessplit[1];
@@ -765,7 +768,6 @@ function updateGraph(dataset) {
 		//var shd1t0 = lines[i].split(",")[29];
 		//var shd1t1 = lines[i].split(",")[30];
 		//var shd1t2 = lines[i].split(",")[31];
-
 	}
 	myLine.data.labels.push(ldate.substring(0, ldate.length -3));
 	myLine.data.datasets[0].data.push(llp1 / 1000);
@@ -819,6 +821,15 @@ function checkgraphload(){
 		typeof boolDisplayLp1 === "boolean" &&
 		typeof boolDisplayLp2 === "boolean" &&
 		typeof boolDisplayLp3 === "boolean" &&
+		typeof boolDisplayShD1 === "boolean" &&
+		typeof boolDisplayShD2 === "boolean" &&
+		typeof boolDisplayShD3 === "boolean" &&
+		typeof boolDisplayShD4 === "boolean" &&
+		typeof boolDisplayShD5 === "boolean" &&
+		typeof boolDisplayShD6 === "boolean" &&
+		typeof boolDisplayShD7 === "boolean" &&
+		typeof boolDisplayShD8 === "boolean" &&
+		typeof boolDisplayShD9 === "boolean" &&
 		// typeof boolDisplayLp4 === "boolean" &&
 		// typeof boolDisplayLp5 === "boolean" &&
 		// typeof boolDisplayLp6 === "boolean" &&
@@ -842,7 +853,12 @@ function checkgraphload(){
 }
 
 $(document).ready(function(){
-	setTimeout(forcegraphload, 15000);
+	if( iscloud ) {
+		setTimeout(forcegraphload, 15000);
+		console.log('Timer 15000 startet')
+	} else {
+		console.log('no cloud, No Timer ,  ')
+	}
 });
 
 function forcegraphload() {
@@ -889,6 +905,33 @@ function forcegraphload() {
 		if ( !(typeof boolDisplayLpAll === "boolean") ) {
 			showhidedataset('boolDisplayLpAll');
 		}
+		if ( !(typeof boolDisplayShD1 === "boolean") ) {
+			showhidedataset('boolDisplayShD1');
+		}
+		if ( !(typeof boolDisplayShD1 === "boolean") ) {
+			showhidedataset('boolDisplayShD1');
+		}
+		if ( !(typeof boolDisplayShD2 === "boolean") ) {
+			showhidedataset('boolDisplayShD2');
+		}
+		if ( !(typeof boolDisplayShD3 === "boolean") ) {
+			showhidedataset('boolDisplayShD3');
+		}
+		if ( !(typeof boolDisplayShD4 === "boolean") ) {
+			showhidedataset('boolDisplayShD4');
+		}
+		if ( !(typeof boolDisplayShD5 === "boolean") ) {
+			showhidedataset('boolDisplayShD5');
+		}
+		if ( !(typeof boolDisplayShD6 === "boolean") ) {
+			showhidedataset('boolDisplayShD6');
+		}
+		if ( !(typeof boolDisplayShD7 === "boolean") ) {
+			showhidedataset('boolDisplayShD7');
+		}
+		if ( !(typeof boolDisplayShD8 === "boolean") ) {
+			showhidedataset('boolDisplayShD8');
+		}
 		if ( !(typeof boolDisplaySpeicherSoc === "boolean") ) {
 			showhidedataset('boolDisplaySpeicherSoc');
 		}
@@ -908,6 +951,7 @@ function forcegraphload() {
 	}
 }  // end forcegraphload
 
+// Nach timer 15000 
 function showhidedataset(thedataset) {
 	if ( window[thedataset] == true ) {
 		publish("1","openWB/graph/"+thedataset);
@@ -918,6 +962,7 @@ function showhidedataset(thedataset) {
 	}
 }
 
+// NC
 function showhidelegend(thedataset) {
 	if ( window[thedataset] == true ) {
 		publish("0","openWB/graph/"+thedataset);
@@ -928,6 +973,7 @@ function showhidelegend(thedataset) {
 	}
 }
 
+// NC
 function showhide(thedataset) {
 	if ( window[thedataset] == 0 ) {
 		publish("1","openWB/graph/"+thedataset);
@@ -938,20 +984,18 @@ function showhide(thedataset) {
 	}
 }
 
+// nur bei "local"
 function subscribeMqttGraphSegments() {
-	for (var segments = 1; segments < 17; segments++) 
-	{
+	for (var segments = 1; segments < 17; segments++) {
 		topic = "openWB/graph/" + segments + "alllivevalues";
-		console.log('Subscribe ',topic);
 		client.subscribe(topic, {qos: 0});
 	}
 }
 
+// nur bei "local"
 function unsubscribeMqttGraphSegments() {
-	for (var segments = 1; segments < 17; segments++) 
-	{
+	for (var segments = 1; segments < 17; segments++) {
 		topic = "openWB/graph/" + segments + "alllivevalues";
-		//console.log('UnSubscribe ',topic);
 		client.unsubscribe(topic);
 	}
 }

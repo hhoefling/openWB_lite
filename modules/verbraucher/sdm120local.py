@@ -33,6 +33,7 @@ f = open(wattstring, 'w')
 f.write(str(watt))
 f.close()
 
+# Import active energy kWh
 resp = client.read_input_registers(0x0048,2, unit=sdmid)
 vwh = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 vwh2 = float("%.3f" % vwh[0]) * int(1000)
@@ -42,7 +43,8 @@ f = open(vwhstring, 'w')
 f.write(str(vwh3))
 f.close()
 
-resp = client.read_input_registers(0x004a,2, unit=sdmid)
+# Export active energy kWh
+resp = client.read_input_registers(0x004A,2, unit=sdmid)
 vwhe = struct.unpack('>f',struct.pack('>HH',*resp.registers))
 vwhe2 = float("%.3f" % vwhe[0]) * int(1000)
 vwhe3 = str(vwhe2)

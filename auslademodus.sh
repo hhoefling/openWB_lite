@@ -1,14 +1,14 @@
 #!/bin/bash
 
 
-# Import ladeleistung
+# Import ladeleistung , Summe aller LP's 
 # Export None, set new Current to Hardware
 
  
 # If Modue=STOP 
 auslademodus(){
 	local ladeleistung=${ladeleistung:-0}
-	openwbDebugLog "MAIN" 2 "auslademodus: Ladeleistung $ladeleistung"
+	openwbDebugLog "MAIN" 2 "auslademodus: Ges.Ladeleistung $ladeleistung"
 	if grep -q 1 ramdisk/ladestatus; then
 		meld "force stop m"
 		runs/set-current.sh 0 m
@@ -32,7 +32,6 @@ auslademodus(){
 
 		openwbDebugLog "CHARGESTAT" 0 "Alle Ladepunkte, Lademodus Stop. Stoppe Ladung"
 	fi
-	openwbDebugLog "MAIN" 0 "*** EXIT 0 (auslademodus)"
+	openwbDebugLog "MAIN" 0 "*** EXIT 0 "
 	exit 0
 }
-

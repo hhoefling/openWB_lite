@@ -89,7 +89,8 @@ class PowerMeter {
 //    this.addLabel(svg, this.width / 2 - this.margin / 4, this.height / 2 - this.margin + 15, "end", wbdata.usageSummary.batIn); // Bat:
 
     
-// oben Links    
+// oben Links
+/*    
     if (wbdata.chargePoint[0].isSocConfigured) {
       this.addLabelWithColor(svg,
         (  -this.width / 2 ),
@@ -98,7 +99,9 @@ class PowerMeter {
         (wbdata.chargePoint[0].name + ": " + (wbdata.chargePoint[0].soc) + "%"),
         wbdata.chargePoint[0].color);
     }
-// oben rechts    
+*/    
+// oben rechts
+/*    
     if (wbdata.chargePoint[1].isSocConfigured) {
       this.addLabelWithColor(svg,
         (    this.width / 2),
@@ -107,6 +110,7 @@ class PowerMeter {
         (wbdata.chargePoint[1].name + ": " + (wbdata.chargePoint[1].soc) + "%"),
         wbdata.chargePoint[1].color);
     }
+*/    
 // unten links    
     if (wbdata.batterySoc > 0) {
       this.addLabelWithColor(svg,
@@ -287,9 +291,10 @@ function switchTheme() {
       break;
     default: break;
   }
-  doc.classed("theme-dark", (wbdata.displayMode == "dark"));
+  doc.classed("theme-dark",  (wbdata.displayMode == "dark"));
   doc.classed("theme-light", (wbdata.displayMode == "light"));
-  doc.classed("theme-gray", (wbdata.displayMode == "gray"));
+  doc.classed("theme-gray",  (wbdata.displayMode == "gray"));
+  doc.classed("theme-hh",    (wbdata.displayMode == "hh"));
 
 
   wbdata.persistGraphPreferences();

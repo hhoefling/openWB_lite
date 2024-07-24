@@ -1,30 +1,24 @@
 #!/bin/bash
+
+openwbDebugLog "MAIN" 1 "source minundpvlademodus.sh"
 ########################
 #Min Ladung + PV Uberschussregelung lademodus 1
 minundpvlademodus(){
-	maxll=("$llalt" "$llalts1" "$llalts2" ) 
-	maxllvar=0
-	for v in "${maxll[@]}"; do
-		if (( v > maxllvar )); then maxllvar=$v; fi;
-	done
-	llalt=$maxllvar
-
-	openwbDebugLog "PV" 0 "(1:$llalt 2:$llalts1 3:$llalts2):Max:[$maxllvar] (Min:$minimalapv)-> $llalt "  
-
+    openwbDebugLog "MAIN" 1 "minundpvlademodus called"
 	if [[ $schieflastaktiv == "1" ]]; then
 		if [[ $u1p3paktiv == "1" ]]; then
 			read u1p3pstat <ramdisk/u1p3pstat
 			if [[ $u1p3pstat == "1" ]]; then
-				if (( schieflastmaxa < maximalstromstaerke )); then
+				if (( schieflastmax < maximalstromstaerke )); then
 					maximalstromstaerke=$schieflastmaxa
-					openwbDebugLog "PV" 0 "Lademodus MinundPV Maximalstromstärke begrenzt auf $schieflastmaxa da Schieflastbegrenzung konfiguriert"
+					openwbDebugLog "PV" 0 "Maximalstromstärke begrenzt auf $schieflastmaxa da Schieflastbegrenzung konfiguriert"
 				fi
 			fi
 		fi
 	fi
 	if (( stopchargeafterdisclp1 == 0 )); then
 		if [[ $stopchargepvatpercentlp1 == "1" ]]; then
-			if (( soc > stopchargepvpercentagelp1 )); then
+			if (( soc > stopchargepvpercentagelp1 )); then   
 				if [[ $lp1enabled == "1" ]]; then
 					mosquitto_pub -r -t "openWB/set/lp/1/ChargePointEnabled" -m "0"
 					openwbDebugLog "CHARGESTAT" 0 "LP1, Lademodus MinundPV. Schalte Ladepunkt auf gesperrt da $soc % SoC erreicht, Ziel $stopchargepvpercentagelp1 %"
@@ -44,7 +38,7 @@ minundpvlademodus(){
 	fi
 	if (( stopchargeafterdisclp2 == 0 )); then
 		if [[ $stopchargepvatpercentlp2 == "1" ]]; then
-			if (( soc1 > stopchargepvpercentagelp2 )); then
+			if (( soc1 > stopchargepvpercentagelp2 )); then 
 				if [[ $lp2enabled == "1" ]]; then
 					mosquitto_pub -r -t "openWB/set/lp/2/ChargePointEnabled" -m "0"
 					openwbDebugLog "CHARGESTAT" 0 "LP2, Lademodus MinundPV. Schalte Ladepunkt auf gesperrt da $soc1 % SoC erreicht, Ziel $stopchargepvpercentagelp2 %"
@@ -62,18 +56,21 @@ minundpvlademodus(){
 			fi
 		fi
 	fi
-
-# Siehe oben, fast identisch
-#	if [[ $schieflastaktiv == "1" ]]; then
-#		if [[ $u1p3paktiv == "1" ]]; then
-#			u1p3pstat=$(<ramdisk/u1p3pstat)
-#			if [[ $u1p3pstat == "1" ]]; then
-#				maximalstromstaerke=$schieflastmaxa
-#			fi
-#		fi
-#	fi
-
-	if (( speichervorhanden == 1 )); then 
+	maxll=($llalt $llalts1 $llalts2 ) # $llaltlp4 $llaltlp5 $llaltlp6 $llaltlp7 $llaltlp8)
+	maxllvar=0
+	for v in "${maxll[@]}"; do
+		if (( v > maxllvar )); then maxllvar=$v; fi;
+	done
+	llalt=$maxllvar
+	if [[ $schieflastaktiv == "1" ]]; then
+		if [[ $u1p3paktiv == "1" ]]; then
+			read u1p3pstat <ramdisk/u1p3pstat
+			if [[ $u1p3pstat == "1" ]]; then
+				maximalstromstaerke=$schieflastmaxa
+			fi
+		fi
+	fi
+	if [[ $speichervorhanden == "1" ]]; then 
 		if (( speicherleistung < 0 )); then 
 			uberschuss=$((uberschuss + speicherleistung)) 
 		fi 
@@ -82,12 +79,12 @@ minundpvlademodus(){
 		speichersochystminpv=0
 		speichersocminpv=0
 	fi
-	if (( speichersoc >= speichersochystminpv )); then         # > stoppunkt
+	if (( speichersoc >= speichersochystminpv )); then
 		if (( ladestatus == 0 )); then
-			if (( speichersoc >= speichersocminpv )); then    # > startpunkt soll die Ladereglung starten.
+			if (( speichersoc >= speichersocminpv )); then
 				runs/set-current.sh $minimalampv all
 				openwbDebugLog "PV" 0 "setzte Soctimer hoch zum Abfragen des aktuellen SoC"
-				echo 20000 > ramdisk/soctimer
+				echo 20000 > /var/www/html/openWB/ramdisk/soctimer
 				openwbDebugLog "CHARGESTAT" 0 "alle Ladepunkte, Lademodus Min und PV. Starte Ladung mit $minimalampv Ampere"
 				openwbDebugLog "MAIN" 1 "starte min + pv ladung mit $minimalampv"
 			fi

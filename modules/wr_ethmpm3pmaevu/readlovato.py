@@ -5,7 +5,8 @@
 # import getopt
 import struct
 from pymodbus.client.sync import ModbusTcpClient
-client = ModbusTcpClient('192.168.192.15', port=8899)
+
+client = ModbusTcpClient('192.168.193.15', port=8899)
 
 # Counters
 resp = client.read_input_registers(0x1a1f,2, unit=0x08)
@@ -69,6 +70,3 @@ lla3 = float(struct.unpack('>i', all.decode('hex'))[0]) / 10000
 f = open('/var/www/html/openWB/ramdisk/pva3', 'w')
 f.write(str(lla3))
 f.close()
-
-
-

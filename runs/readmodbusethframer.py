@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 import sys
+import os
+import time
+import getopt
+import socket
+import struct
+import binascii
 from pymodbus.transaction import ModbusRtuFramer
 from pymodbus.client.sync import ModbusTcpClient
 

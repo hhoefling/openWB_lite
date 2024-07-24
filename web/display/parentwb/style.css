@@ -1,8 +1,3 @@
-/* prevent touch gestures */
-html, body {
-    overscroll-behavior: none;
-}
-
 body, html, iframe {
     height: 100%;
     width: 100%;

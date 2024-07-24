@@ -193,15 +193,16 @@ function lpButtonClicked(i) {
     .classed("disabled", true);
 }
 
-function lpButtonClicked(i) {
-  if (wbdata.chargePoint[i].isEnabled) {
-    publish("0", "openWB/set/lp/" + (+i + 1) + "/ChargePointEnabled");
-  } else {
-    publish("1", "openWB/set/lp/" + (+i + 1) + "/ChargePointEnabled");
-  }
-  d3.select("button#lpbutton-" + i)
-    .classed("disabled", true);
-}
+// doppelt
+// function lpButtonClicked(i) {
+//   if (wbdata.chargePoint[i].isEnabled) {
+//     publish("0", "openWB/set/lp/" + (+i + 1) + "/ChargePointEnabled");
+//   } else {
+//     publish("1", "openWB/set/lp/" + (+i + 1) + "/ChargePointEnabled");
+//   }
+//   d3.select("button#lpbutton-" + i)
+//     .classed("disabled", true);
+// }
 
 function configButtonClicked(index) {
   if (displaylocked == false) {

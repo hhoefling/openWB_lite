@@ -61,10 +61,10 @@ function loadHourlyConsumptionchart(labels, dataConsumption, dataPrice) {
 			scales: {
 				xAxes: [{
 					gridLines: {
-						color: 'rgba(204, 204, 204, 0.3)',
+							color: 'rgba(204, 204, 204, 0.3)',
 					},
 					ticks: {
-						fontColor: 'rgba(153, 153, 153, 1)'
+							fontColor: 'rgba(153, 153, 153, 1)'
 					}
 				}],
 				yAxes: [{

@@ -10,7 +10,7 @@
 
 var topicsToSubscribe = [
 	["openWB/system/devicename", 0],
-	["openWB/system/debuglevel", 0],
+	["openWB/system/debug", 0],
 	["openWB/config/get/pv/chargeSubmode", 0],
 	["openWB/config/get/pv/regulationPoint", 0],
 	["openWB/config/get/pv/minFeedinPowerBeforeStart", 0],

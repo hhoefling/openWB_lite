@@ -1,158 +1,420 @@
 #!/bin/bash
-
-# private plugin/out and ladestart/stop webhooks
-function hooker() # 
+hook()
 {
-   local -i bool=$1		
-   local  hookaktivname=$2	# angesteckthooklp1aktiv
-   local  url="$3"
-   local  txt="$4"
-   local  hockaktivfile="ramdisk/${hookaktivname}"
-#  openwbDebugLog "CHARGESTAT" 0 "hooker b:$bool f:$hockaktivfile t:$txt u:$url "
-   
-		if (( bool == 1 )); then
-			if [ ! -e $hockaktivfile ]; then
-				touch $hockaktivfile
-				curl -s --connect-timeout 5 $url > /dev/null
-				openwbDebugLog "CHARGESTAT" 0 "$txt LP1 ausgeführt touch ($hockaktivfile) "
-				openwbDebugLog "MAIN" 1 "$txt LP1 ausgeführt"
-			fi
-		else
-			if [  -e $hockaktivfile ]; then
-				rm $hockaktivfile
-				openwbDebugLog "CHARGESTAT" 0 "$txt LP1 rm ($hockaktivfile) "
-				fi
-			fi
-}
 
-# private pushover für geräte 
-function pushover()
-{
- if ((pushbsmarthome == "1")) && ((pushbenachrichtigung == "1")); then
-	./runs/pushover.sh "$*"
-		fi
-}
-
-# private smartHome1_geraet
-smgeraet() # $1 gnr 1,2,3 
-{
- # C hook1_aktiv hook1ein_watt hook1einschaltverz hook1ein_url hook1_dauer hook1aus_watt hook1aus_url hook1_ausverz
- # C hook2_aktiv hook2ein_watt hook2einschaltverz hook2ein_url hook2_dauer hook2aus_watt hook2aus_url hook2_ausverz
- # C hook3_aktiv hook3ein_watt hook3einschaltverz hook3ein_url hook3_dauer hook3aus_watt hook3aus_url hook3_ausverz
- declare -n  Chook_aktiv="hook${1}_aktiv"
- declare -n  Chookein_watt="hook${1}ein_watt"
- declare -n  Chookeinschaltverz="hook${1}einschaltverz" 
- declare -n  Chookein_url="hook${1}ein_url"
- declare -n  Chook_dauer="hook${1}_dauer" 
- declare -n  Chookaus_watt="hook${1}aus_watt" 
- declare -n  Chookaus_url="hook${1}aus_url" 
- declare -n  Chook_ausverz="hook${1}_ausverz"
-# V hook1akt  
-# V hook2akt  
-# V hook3akt  
- declare -n Vhookakt="hook${1}akt"  # varname statusvar  
-# F hook1akt hook1aktiv  hook1counter  hook1einschaltverzcounter 
-# F hook2akt hook2aktiv  hook2counter  hook2einschaltverzcounter 
-# F hook3akt hook3aktiv  hook3counter  hook3einschaltverzcounter 
- declare    Fhookakt="hook${1}akt"	# filename statusfile
- declare    Fhookaktiv="hook${1}aktiv"	# filename aktiv-status-file 
- declare    Fhookcounter="hook${1}counter"   
- declare    Fhookeinschaltverzcounter="hook${1}einschaltverzcounter" 
-
-
- openwbDebugLog "MAIN" 2 "Hook-Gerät $1 uberschuss:$uberschuss"
-# openwbDebugLog "MAIN" 2 "Hook-C- $1 aktiv:$Chook_aktiv einwatt:$Chookein_watt einverz:$Chookeinschaltverz dauer:$Chook_dauer auswatt:$Chookaus_watt aus_verz:$Chook_ausverz "
-# openwbDebugLog "MAIN" 2 "Hook-F- $1 ${Fhookakt} ${Fhookaktiv} ${Fhookcounter} "  
-# openwbDebugLog "MAIN" 2 "Hook-V- $1 ${!Vhookakt}:${Vhookakt-.""}  " 
-
-# V hook1akt hook1aktiv  hook1counter   V+F hook1einschaltverzcounter 
-# T hook1msg       
-# C Chook1_aktiv Chook1ein_watt Chook1einschaltverz hook1ein_url hook1_dauer hook1aus_watt hook1aus_url hook1_ausverz    
-	if (( Chook_aktiv == "1" )); then
-		if (( Vhookakt == 0 )); then		# von loadvars eingelesen
-			if (( uberschuss > Chookein_watt )); then
-			    read Thookeinschaltverzcounter <ramdisk/$Fhookeinschaltverzcounter
-			    openwbDebugLog "MAIN" 2 "Hook $Fhookeinschaltverzcounter is $Thookeinschaltverzcounter "
-				if (( Thookeinschaltverzcounter > Chookeinschaltverz)); then
-					echo 0 > ramdisk/$Fhookeinschaltverzcounter
-					echo 0 > ramdisk/$Fhookcounter
-					if [ ! -e ramdisk/$Fhookaktiv ]; then
-						touch ramdisk/$Fhookaktiv
-						echo 1 > ramdisk/$Fhookakt
-						curl -s --connect-timeout 5 $Chookein_url > ramdisk/hookmsg
-						openwbDebugLog "CHARGESTAT" 0 "WebHook $1 aktiviert"
+# Gerät 1..3
+	if (( hook1_aktiv == "1" )); then		# is configured?
+		if (( hook1akt == 0 )); then
+			read hook1einschaltverzcounter <ramdisk/hook1einschaltverzcounter
+			if (( uberschuss > hook1ein_watt )); then
+				if (( hook1einschaltverzcounter > hook1einschaltverz)); then
+					echo 0 > /var/www/html/openWB/ramdisk/hook1einschaltverzcounter
+					echo 0 > /var/www/html/openWB/ramdisk/hook1counter
+					if [ ! -e ramdisk/hook1aktivstamp ]; then
+						touch ramdisk/hook1aktivstamp
+						echo 1 > ramdisk/hook1akt
+						curl -s --connect-timeout 5 $hook1ein_url > ramdisk/hookmsg
+						openwbDebugLog "CHARGESTAT" 0 "WebHook 1 aktiviert"
 						openwbDebugLog "CHARGESTAT" 0 "$(cat ramdisk/hookmsg)"
 						rm ramdisk/hookmsg
-						openwbDebugLog "MAIN" 1 "Gerät $1 aktiviert bei $uberschuss"
-						pushover  "Gerät $1 eingeschaltet bei $uberschuss"
+						openwbDebugLog "MAIN" 1 "Gerät 1 aktiviert"
+						if ((pushbsmarthome == "1")) && ((pushbenachrichtigung == "1")); then
+							./runs/pushover.sh "Gerät 1 eingeschaltet bei $uberschuss"
+						fi
 					fi
 				else
-					Thookeinschaltverzcounter=$((Thookeinschaltverzcounter +10))
-					echo $Thookeinschaltverzcounter > ramdisk/$Fhookeinschaltverzcounter
+					hook1einschaltverzcounter=$((hook1einschaltverzcounter +10))
+					echo $hook1einschaltverzcounter > /var/www/html/openWB/ramdisk/hook1einschaltverzcounter
 				fi
+			else
+				hook1einschaltverzcounter=0
 			fi
 		fi
 
-		if [ -e ramdisk/$Fhookaktiv  ]; then
-		    #Chook_dauer=1
-			if test $(find "ramdisk/$Fhookaktiv" -mmin +$Chook_dauer); then
-				if (( uberschuss < Chookaus_watt )); then
-					read hookcounter  <ramdisk/$Fhookcounter
-					openwbDebugLog "MAIN" 2 "off counter $Fhookcounter is $hookcounter "
-					if (( hookcounter < Chook_ausverz )); then
-						hookcounter=$((Vhookcounter + 10))
-						echo $hookcounter > ramdisk/$Fhookcounter
+		if [ -e ramdisk/hook1aktivstamp  ]; then
+			if test $(find "ramdisk/hook1aktivstamp" -mmin +$hook1_dauer); then
+				if (( uberschuss < hook1aus_watt )); then
+					read hook1counter <ramdisk/hook1counter
+					if (( hook1counter < hook1_ausverz )); then
+						hook1counter=$((hook1counter + 10))
+						echo $hook1counter > /var/www/html/openWB/ramdisk/hook1counter
 					else
-						rm ramdisk/$Fhookaktiv
-						echo 0 > ramdisk/$Fhookakt
-						curl -s --connect-timeout 5 $Chookaus_url > ramdisk/hookmsg
-						openwbDebugLog "CHARGESTAT" 0 "WebHook $1 deaktiviert"
+						rm ramdisk/hook1aktivstamp
+						echo 0 > ramdisk/hook1akt
+						curl -s --connect-timeout 5 $hook1aus_url > ramdisk/hookmsg
+						openwbDebugLog "CHARGESTAT" 0 "WebHook 1 deaktiviert"
 						openwbDebugLog "CHARGESTAT" 0 "$(cat ramdisk/hookmsg)"
 						rm ramdisk/hookmsg
-						openwbDebugLog "MAIN" 1 "Gerät $1 deaktiviert bei $uberschuss"
-						pushover "Gerät $1 ausgeschaltet bei $uberschuss"
-		fi
-	fi
-			else
-					openwbDebugLog "MAIN" 2 "hook wait for mintime "
-
+						openwbDebugLog "MAIN" 1 "Gerät 1 deaktiviert"
+						if ((pushbsmarthome == "1")) && ((pushbenachrichtigung == "1")); then
+							./runs/pushover.sh "Gerät 1 ausgeschaltet bei $uberschuss"
 						fi
 					fi
 				fi
-}
-
-# public
-hook(){
-
-  if (( hook1_aktiv == "1" )); then
-     smgeraet 1
 			fi
-  if (( hook2_aktiv == "1" )); then
-     smgeraet 2
 		fi
-  if (( hook3_aktiv == "1" )); then
-     smgeraet 3
 	fi
 
-	# Steckt der Stecker...
-		read plugstat <ramdisk/plugstat
-	
+	if (( hook2_aktiv == "1" )); then	# is configured?
+		if (( hook2akt == 0 )); then
+			read hook2einschaltverzcounter <ramdisk/hook2einschaltverzcounter
+			if (( uberschuss > hook2ein_watt )); then
+				if (( hook2einschaltverzcounter > hook2einschaltverz)); then
+					echo 0 > /var/www/html/openWB/ramdisk/hook2einschaltverzcounter
+					echo 0 > /var/www/html/openWB/ramdisk/hook2counter
+					if [ ! -e ramdisk/hook2aktiv ]; then
+						touch ramdisk/hook2aktiv
+						echo 1 > ramdisk/hook2akt
+						curl -s --connect-timeout 5 $hook2ein_url > ramdisk/hook2msg
+						openwbDebugLog "CHARGESTAT" 0 "WebHook 2 aktiviert"
+						openwbDebugLog "CHARGESTAT" 0 "$(cat ramdisk/hook2msg)"
+						rm ramdisk/hook2msg
+						openwbDebugLog "MAIN" 1 "Gerät 2 aktiviert"
+						if ((pushbsmarthome == "1")) && ((pushbenachrichtigung == "1")); then
+							./runs/pushover.sh "Gerät 2 eingeschaltet bei $uberschuss"
+						fi
+					fi
+				else
+					hook2einschaltverzcounter=$((hook2einschaltverzcounter +10))
+					echo $hook2einschaltverzcounter > /var/www/html/openWB/ramdisk/hook2einschaltverzcounter
+				fi
+			else
+				hook2einschaltverzcounter=0
+			fi
+		fi
+
+		if [ -e ramdisk/hook2aktiv  ]; then
+			if test $(find "ramdisk/hook2aktiv" -mmin +$hook2_dauer); then
+				if (( uberschuss < hook2aus_watt )); then
+					read hook2counter <ramdisk/hook2counter
+					if (( hook2counter < hook2_ausverz )); then
+						hook2counter=$((hook2counter + 10))
+						echo $hook2counter > /var/www/html/openWB/ramdisk/hook2counter
+					else
+						rm ramdisk/hook2aktiv
+						echo 0 > ramdisk/hook2akt
+						curl -s --connect-timeout 5 $hook2aus_url > ramdisk/hook2msg
+						openwbDebugLog "CHARGESTAT" 0 "WebHook 2 deaktiviert"
+						openwbDebugLog "CHARGESTAT" 0 "$(cat ramdisk/hook2msg)"
+						rm ramdisk/hook2msg
+						openwbDebugLog "MAIN" 1 "Gerät 2 deaktiviert"
+						if ((pushbsmarthome == "1")) && ((pushbenachrichtigung == "1")); then
+							./runs/pushover.sh "Gerät 2 ausgeschaltet bei $uberschuss"
+						fi
+					fi
+				fi
+			fi
+		fi
+	fi
+
+	if (( hook3_aktiv == "1" )); then	# is configured?
+		if (( uberschuss > hook3ein_watt )); then
+			echo 0 > /var/www/html/openWB/ramdisk/hook3counter
+			if [ ! -e ramdisk/hook3aktiv ]; then
+				touch ramdisk/hook3aktiv
+				echo 1 > ramdisk/hook3akt
+				curl -s --connect-timeout 5 $hook3ein_url > /dev/null
+				openwbDebugLog "CHARGESTAT" 0 "WebHook 3 aktiviert"
+				openwbDebugLog "MAIN" 1 "Gerät 3 aktiviert"
+				if ((pushbsmarthome == "1")) && ((pushbenachrichtigung == "1")); then
+					./runs/pushover.sh "Gerät 3 eingeschaltet bei $uberschuss"
+				fi
+			fi
+		fi
+		if [ -e ramdisk/hook3aktiv  ]; then
+			if test $(find "ramdisk/hook3aktiv" -mmin +$hook3_dauer); then
+				if (( uberschuss < hook3aus_watt )); then
+					read hook3counter <ramdisk/hook3counter
+					if (( hook3counter < hook3_ausverz )); then
+						hook3counter=$((hook3counter + 10))
+						echo $hook3counter > /var/www/html/openWB/ramdisk/hook3counter
+					else
+						rm ramdisk/hook3aktiv
+						echo 0 > ramdisk/hook3akt
+						curl -s --connect-timeout 5 $hook3aus_url > /dev/null
+						openwbDebugLog "CHARGESTAT" 0 "WebHook 3 deaktiviert"
+						openwbDebugLog "MAIN" 1 "Gerät 3 deaktiviert"
+						if ((pushbsmarthome == "1")) && ((pushbenachrichtigung == "1")); then
+							./runs/pushover.sh "Gerät 3 ausgeschaltet bei $uberschuss"
+						fi
+					fi
+				fi
+			fi
+		fi
+	fi
+
+# verbrauchwr 1,2
+
+
+	if (( verbraucher1_aktiv == "1")); then	# is configured?
+		echo "1" > /var/www/html/openWB/ramdisk/verbraucher1vorhanden
+		if [[ $verbraucher1_typ == "http" ]]; then
+			verbraucher1_watt=$(curl --connect-timeout 3 -s "$verbraucher1_urlw" )
+            openwbDebugLog "MAIN" 1 "verbraucher1 W[$verbraucher1_watt]"
+			if ! [[ "$verbraucher1_watt" =~ ^[+-]?[0-9]+([\.][0-9]+)?$ ]]; then
+               openwbDebugLog "MAIN" 1 "verbraucher1 W[$verbraucher1_watt] Bad"
+				verbraucher1_watt=0
+			fi
+			echo $verbraucher1_watt > /var/www/html/openWB/ramdisk/verbraucher1_watt
+			
+			verbraucher1_wh=$(curl --connect-timeout 3 -s $verbraucher1_urlh &)
+			if ! [[ "$verbraucher1_wh" =~ ^[+-]?[0-9]+([\.][0-9]+)?$ ]]; then
+                openwbDebugLog "MAIN" 1 "verbraucher1 wh[$verbraucher1_wh] Bad"
+				verbraucher1_wh=0
+			fi				
+			echo $verbraucher1_wh > /var/www/html/openWB/ramdisk/verbraucher1_wh
+		fi
+		if [[ $verbraucher1_typ == "mpm3pm" ]]; then
+			if [[ $verbraucher1_source == *"dev"* ]]; then
+				sudo python modules/verbraucher/mpm3pmlocal.py 1 $verbraucher1_source $verbraucher1_id &
+				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
+			else
+				sudo python modules/verbraucher/mpm3pmremote.py 1 $verbraucher1_source $verbraucher1_id &
+				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
+			fi
+		fi
+		if [[ $verbraucher1_typ == "sdm630" ]]; then
+			if [[ $verbraucher1_source == *"dev"* ]]; then
+				sudo python modules/verbraucher/sdm630local.py 1 $verbraucher1_source $verbraucher1_id &
+				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
+			else
+				sudo python modules/verbraucher/sdm630remote.py 1 $verbraucher1_source $verbraucher1_id &
+				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
+			fi
+		fi
+		if [[ $verbraucher1_typ == "sdm120" ]]; then
+			if [[ $verbraucher1_source == *"dev"* ]]; then
+				sudo python modules/verbraucher/sdm120local.py 1 $verbraucher1_source $verbraucher1_id &
+				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
+			else
+				sudo python modules/verbraucher/sdm120remote.py 1 $verbraucher1_source $verbraucher1_id &
+				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
+			fi
+		fi
+		if [[ $verbraucher1_typ == "abb-b23" ]]; then
+				python modules/verbraucher/abb-b23remote.py 1 $verbraucher1_source $verbraucher1_id &
+				verbraucher1_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher1_watt)
+				sleep .3
+		fi
+		if [[ $verbraucher1_typ == "tasmota" ]]; then
+			verbraucher1_out=$(curl --connect-timeout 3 -s $verbraucher1_ip/cm?cmnd=Status%208 )
+			verbraucher1_watt=$(echo $verbraucher1_out | jq '.StatusSNS.ENERGY.Power')
+			echo $verbraucher1_watt > /var/www/html/openWB/ramdisk/verbraucher1_watt
+			verbraucher1_wh=$(echo $verbraucher1_out | jq '.StatusSNS.ENERGY.Total')
+			verbraucher1_totalwh=$(echo "scale=0;(($verbraucher1_wh * 1000) + $verbraucher1_tempwh)  / 1" | bc)
+			echo $verbraucher1_totalwh > /var/www/html/openWB/ramdisk/verbraucher1_wh
+		fi
+		if [[ $verbraucher1_typ == "shelly" ]]; then
+			verbraucher1_out=$(curl --connect-timeout 3 -s $verbraucher1_ip/status )
+			verbraucher1_watt=$(echo $verbraucher1_out |jq '.meters[0].power' | sed 's/\..*$//')
+			echo $verbraucher1_watt > /var/www/html/openWB/ramdisk/verbraucher1_watt
+		fi
+	else
+      if grep -q 1 /var/www/html/openWB/ramdisk/verbraucher1vorhanden ; then
+        openwbDebugLog "MAIN" 1 "verbraucher1vorhanden verschwunden, reset values"
+        verbraucher1_watt=0
+        echo "0" > /var/www/html/openWB/ramdisk/verbraucher1vorhanden
+        echo "0" > /var/www/html/openWB/ramdisk/verbraucher1_watt
+        echo "0" > /var/www/html/openWB/ramdisk/verbraucher1_wh
+        echo "0" > /var/www/html/openWB/ramdisk/verbraucher1_out
+        echo "0" > /var/www/html/openWB/ramdisk/verbraucher1_totalwh
+     fi   
+	fi
+
+	if (( verbraucher2_aktiv == "1")); then	# is configured?
+		echo "1" > /var/www/html/openWB/ramdisk/verbraucher2vorhanden
+		if [[ $verbraucher2_typ == "http" ]]; then
+			verbraucher2_watt=$(curl --connect-timeout 3 -s $verbraucher2_urlw )
+            openwbDebugLog "MAIN" 1 "verbraucher2 W[$verbraucher2_watt]"
+			if ! [[ "$verbraucher2_watt" =~ ^[+-]?[0-9]+([\.][0-9]+)?$ ]]; then
+                openwbDebugLog "MAIN" 1 "verbraucher2 W[$verbraucher2_watt] Bad"
+				verbraucher2_watt=0
+			fi
+			echo $verbraucher2_watt > /var/www/html/openWB/ramdisk/verbraucher2_watt
+			verbraucher2_wh=$(curl --connect-timeout 3 -s $verbraucher2_urlh &)
+			if ! [[ "$verbraucher2_wh" =~ ^[+-]?[0-9]+([\.][0-9]+)?$ ]]; then
+                openwbDebugLog "MAIN" 1 "verbraucher2 wh[$verbraucher2_wh] Bad"
+				verbraucher2_wh=0
+			fi
+			echo $verbraucher2_wh > /var/www/html/openWB/ramdisk/verbraucher2_wh
+		fi
+		if [[ $verbraucher2_typ == "mpm3pm" ]]; then
+			if [[ $verbraucher2_source == *"dev"* ]]; then
+				sudo python modules/verbraucher/mpm3pmlocal.py 2 $verbraucher2_source $verbraucher2_id &
+			else
+				sudo python modules/verbraucher/mpm3pmremote.py 2 $verbraucher2_source $verbraucher2_id &
+			fi
+		fi
+		if [[ $verbraucher2_typ == "sdm630" ]]; then
+			if [[ $verbraucher2_source == *"dev"* ]]; then
+				sudo python modules/verbraucher/sdm630local.py 2 $verbraucher2_source $verbraucher2_id &
+				verbraucher2_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher2_watt)
+			else
+				sudo python modules/verbraucher/sdm630remote.py 2 $verbraucher2_source $verbraucher2_id &
+				verbraucher2_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher2_watt)
+			fi
+		fi
+		if [[ $verbraucher2_typ == "sdm120" ]]; then
+			if [[ $verbraucher2_source == *"dev"* ]]; then
+				sudo python modules/verbraucher/sdm120local.py 2 $verbraucher2_source $verbraucher2_id &
+				verbraucher2_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher2_watt)
+			else
+				sudo python modules/verbraucher/sdm120remote.py 2 $verbraucher2_source $verbraucher2_id &
+				verbraucher2_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher2_watt)
+			fi
+		fi
+		if [[ $verbraucher2_typ == "abb-b23" ]]; then
+				python modules/verbraucher/abb-b23remote.py 2 $verbraucher2_source $verbraucher2_id &
+				verbraucher2_watt=$(cat /var/www/html/openWB/ramdisk/verbraucher2_watt)
+				sleep .3
+		fi
+		if [[ $verbraucher2_typ == "tasmota" ]]; then
+			verbraucher2_out=$(curl --connect-timeout 3 -s $verbraucher2_ip/cm?cmnd=Status%208 )
+			verbraucher2_watt=$(echo $verbraucher2_out | jq '.StatusSNS.ENERGY.Power')
+			echo $verbraucher2_watt > /var/www/html/openWB/ramdisk/verbraucher2_watt
+			verbraucher2_wh=$(echo $verbraucher2_out | jq '.StatusSNS.ENERGY.Total')
+			verbraucher2_totalwh=$(echo "scale=0;(($verbraucher2_wh * 1000) + $verbraucher2_tempwh)  / 1" | bc)
+			echo $verbraucher2_totalwh > /var/www/html/openWB/ramdisk/verbraucher2_wh
+		fi
+		if [[ $verbraucher2_typ == "shelly" ]]; then
+			verbraucher2_out=$(curl --connect-timeout 3 -s $verbraucher2_ip/status )
+			verbraucher2_watt=$(echo $verbraucher2_out |jq '.meters[0].power' | sed 's/\..*$//')
+			echo $verbraucher2_watt > /var/www/html/openWB/ramdisk/verbraucher2_watt
+		fi
+	else
+      if grep -q 1 /var/www/html/openWB/ramdisk/verbraucher2vorhanden ; then
+        openwbDebugLog "MAIN" 1 "verbraucher2vorhanden verschwunden, reset values"
+		verbraucher2_watt=0
+        echo "0" > /var/www/html/openWB/ramdisk/verbraucher2vorhanden
+        echo "0" > /var/www/html/openWB/ramdisk/verbraucher2_watt
+        echo "0" > /var/www/html/openWB/ramdisk/verbraucher2_wh
+        echo "0" > /var/www/html/openWB/ramdisk/verbraucher2_out
+        echo "0" > /var/www/html/openWB/ramdisk/verbraucher2_totalwh
+      fi
+	fi
+
+
+# WebHooks  / Events
+#2022-06-20 16:35:32: 22994 LP1, Ladung gestoppt (LV0) at 149 main ./ladelog.sh
+#2022-06-20 16:35:44: 22983 U1P3 für nurPV auf 1 Phasen geändert (LV0) at 90 u1p3pswitch u1p3p.sh
+#2022-06-20 16:35:44: 22983 Abgesteckt-WebHook LP1 ausgeführt (LV0) at 282 hook hook.sh
+#2022-06-20 16:35:44: 22983 Ladestopp-WebHook LP1 ausgeführt (LV0) at 312 hook hook.sh
+#2022-06-20 16:35:58: 25538 Angesteckt-WebHook LP1 ausgeführt (LV0) at 267 hook hook.sh
+                                                                                        
+
+	read plugstat <ramdisk/plugstat
+	#openwbDebugLog "CHARGESTAT" 0 "Ab/angesteckt-WebHook LP1 $plugstat"
 	if (( angesteckthooklp1 == 1 )); then
-	    hooker $((plugstat==1)) "angesteckthooklp1aktiv"  $angesteckthooklp1_url "Angesteckt-WebHook"
+		read plugstat <ramdisk/plugstat
+		if (( plugstat == 1 )); then
+			if [ ! -e ramdisk/angesteckthooklp1aktiv ]; then
+				touch ramdisk/angesteckthooklp1aktiv
+				curl -s --connect-timeout 5 $angesteckthooklp1_url > /dev/null
+				openwbDebugLog "CHARGESTAT" 0 "Angesteckt-WebHook LP1 ausgeführt"
+				openwbDebugLog "MAIN" 1 "Angesteckt-WebHook LP1 ausgeführt"
+			fi
+		else
+			if [  -e ramdisk/angesteckthooklp1aktiv ]; then
+				rm ramdisk/angesteckthooklp1aktiv
+			fi
+		fi
 	fi
 	if (( abgesteckthooklp1 == 1 )); then
-		hooker  $((plugstat==0)) "abgesteckthooklp1aktiv"  $abgesteckthooklp1_url "Abgesteckt-WebHook"
+		read plugstat <ramdisk/plugstat
+		if (( plugstat == 0 )); then
+			if [ ! -e ramdisk/abgesteckthooklp1aktiv ]; then
+				touch ramdisk/abgesteckthooklp1aktiv
+				curl -s --connect-timeout 5 $abgesteckthooklp1_url > /dev/null
+				openwbDebugLog "CHARGESTAT" 0 "Abgesteckt-WebHook LP1 ausgeführt"
+				openwbDebugLog "MAIN" 1 "Abgesteckt-WebHook LP1 ausgeführt"
+			fi
+		else
+			if [  -e ramdisk/abgesteckthooklp1aktiv ]; then
+				rm ramdisk/abgesteckthooklp1aktiv
+			fi
 		fi
-
-	# geht bei ladeleustung>100w sofort auf 1 (ladelog.sh)
-	# geht 50Sec nach ladestop auf 0 (von ladelog.sh) verzögert um u1p3 unterbrechungen zu überbrücken 
-		read ladungaktivlp1 <ramdisk/ladungaktivlp1
-	      
+	fi
+    
+	# RCT-Add start
+    # RCT Hausakku-Entladeschutz verwenden ?
+	# Wenn aktive Hilfsscript bei Lade-Start/Stop aufrufen (alle Modi)
+    if [[ -e ramdisk/HB_enable_discharge_max ]] ; then
+        read HB_enable_discharge_max <ramdisk/HB_enable_discharge_max
+        if (( HB_enable_discharge_max == 1 )) ; then
+            read ladungaktivlp1 <ramdisk/ladungaktivlp1
+	        if (( ladungaktivlp1 == 1 )); then
+		  	       if [ ! -e ramdisk/ladestarthooklp1aktiv2 ]; then
+			 	        touch ramdisk/ladestarthooklp1aktiv2
+						# "nackig" starten lassen, kein stdout, nur sciript-errors
+                        # env -i ./modules/bezug_rct2/rct_setter.sh hookstart >>/var/log/rct.log &
+                        mosquitto_pub -q 2 -r -t openWB/set/houseBattery/hooker -m "hookstart"
+				        openwbDebugLog "CHARGESTAT" 0 "Ladestart RCT hookstart sended "
+				        openwbDebugLog "MAIN" 1 "Ladestart-RCTHook2 LP1 ausgeführt"
+			     fi
+	        else
+			     if [  -e ramdisk/ladestarthooklp1aktiv2 ]; then
+			 	       rm ramdisk/ladestarthooklp1aktiv2
+                fi
+           fi
+	       if (( ladungaktivlp1 == 0 )); then
+			     if [ ! -e ramdisk/ladestophooklp1aktiv2 ]; then
+				        touch ramdisk/ladestophooklp1aktiv2
+						# "nackig" starten lassen, kein stdout, nur sciript-errors
+                        # env -i ./modules/bezug_rct2/rct_setter.sh hookstop >>/var/log/rct.log &
+                        mosquitto_pub -q 2 -r -t openWB/set/houseBattery/hooker -m "hookstop"
+				        openwbDebugLog "CHARGESTAT" 0 "Ladestopp-RCT hookstop sended"
+				        openwbDebugLog "MAIN" 1 "Ladestopp-RCTHook2 LP1 ausgeführt "
+			     fi
+	       else
+			     if [  -e ramdisk/ladestophooklp1aktiv2 ]; then
+				        rm ramdisk/ladestophooklp1aktiv2
+		         fi
+          fi
+      fi # Disharge_max=1
+    fi # Disharge_max vorhanden
+	# RCT-Add end
+    
 	if (( ladestarthooklp1 == 1 )); then
-		hooker  $((ladungaktivlp1==1)) "ladestarthooklp1aktiv"  $ladestarthooklp1_url "Ladestart-WebHook"
+		read ladungaktivlp1 <ramdisk/ladungaktivlp1
+		if (( ladungaktivlp1 == 1 )); then
+			if [ ! -e ramdisk/ladestarthooklp1aktiv ]; then
+				touch ramdisk/ladestarthooklp1aktiv
+				if [[ $ladestarthooklp1_url  =~ ^http.*:// ]] ; then
+					#openwbDebugLog "CHARGESTAT" 0 "Ladestart-curl [$ladestarthooklp1_url]"
+					curl -s --connect-timeout 5 $ladestarthooklp1_url > /dev/null
+				else
+					#openwbDebugLog "CHARGESTAT" 0 "Ladestart-tsp [$ladestarthooklp1_url] "
+					tsp  bash -c "$ladestarthooklp1_url >>/var/www/html/openWB/ramdisk/event.log"
+				fi	
+				openwbDebugLog "CHARGESTAT" 0 "Ladestart-WebHook LP1 ausgeführt "
+				openwbDebugLog "MAIN" 1 "Ladestart-WebHook LP1 ausgeführt"
+			fi
+		else
+			if [  -e ramdisk/ladestarthooklp1aktiv ]; then
+				rm ramdisk/ladestarthooklp1aktiv
+			fi
+		fi
 	fi
 	if (( ladestophooklp1 == 1 )); then
-		hooker  $((ladungaktivlp1==0)) "ladestophooklp1aktiv"  $ladestophooklp1_url "Ladestop-WebHook"
+		read ladungaktivlp1 <ramdisk/ladungaktivlp1
+		if (( ladungaktivlp1 == 0 )); then
+			if [ ! -e ramdisk/ladestophooklp1aktiv ]; then
+				touch ramdisk/ladestophooklp1aktiv
+				if [[ $ladestophooklp1_url =~ ^http.*:// ]] ; then
+					#openwbDebugLog "CHARGESTAT" 0 "Ladestopp-curl [$ladestophooklp1_url]"
+					curl -s --connect-timeout 5 $ladestophooklp1_url > /dev/null
+				else
+					#openwbDebugLog "CHARGESTAT" 0 "Ladestopp-tsp [$ladestophooklp1_url] "
+					tsp  bash -c "$ladestophooklp1_url >>/var/www/html/openWB/ramdisk/event.log"
+				fi	
+				openwbDebugLog "CHARGESTAT" 0 "Ladestopp-WebHook LP1 ausgeführt"
+				openwbDebugLog "MAIN" 1 "Ladestopp-WebHook LP1 ausgeführt "
+			fi
+		else
+			if [  -e ramdisk/ladestophooklp1aktiv ]; then
+				rm ramdisk/ladestophooklp1aktiv
+			fi
+		fi
 	fi
 
 }

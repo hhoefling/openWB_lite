@@ -6,10 +6,10 @@ DMOD="PV"
 Debug=$debug
 
 
-read pvwatt <${RAMDISKDIR}/pv2watt
-echo $pvwatt
-openwbDebugLog ${DMOD} 1 "PV2Watt: ${pvwatt}"
+pv2watt=$(<${RAMDISKDIR}/pv2watt)
+echo $pv2watt
+openwbDebugLog ${DMOD} 1 "PV2Watt: ${pv2watt}"
 
-read pvkwh <${RAMDISKDIR}/pv2kwh
-openwbDebugLog ${DMOD} 1 "PV2kWh: ${pvkwh}"
+pv2kwh=$(<${RAMDISKDIR}/pv2kwh)
+openwbDebugLog ${DMOD} 1 "PV2kWh: ${pv2kwh}"
 openwbModulePublishState "PV" 0 "Kein Fehler" 1

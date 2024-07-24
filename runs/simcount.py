@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 import sys
 import os
 import time
@@ -69,7 +69,7 @@ if os.path.isfile('/var/www/html/openWB/ramdisk/' + prefix + 'sec0'):
     f = open('/var/www/html/openWB/ramdisk/' + export_filename, 'w')
     f.write(str(wattnegkh))
     f.close()
-else:
+else: 
     f = open('/var/www/html/openWB/ramdisk/' + prefix + 'sec0', 'w')
     value1 = "%22.6f" % seconds2
     f.write(str(value1))
@@ -77,3 +77,4 @@ else:
     f = open('/var/www/html/openWB/ramdisk/' + prefix + 'wh0', 'w')
     f.write(str(watt2))
     f.close()
+  

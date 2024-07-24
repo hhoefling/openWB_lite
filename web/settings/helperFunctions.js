@@ -75,7 +75,6 @@ function togglePasswordInput(inputQuery, iconQuery = undefined) {
         $(iconQuery).removeClass(oldIcon).addClass(newIcon);
     }
 };
-
 /**
  * checks if the two input elements value match
  * @param {String} inputQuery JQuery select statement for exact two input fields to check
@@ -83,7 +82,7 @@ function togglePasswordInput(inputQuery, iconQuery = undefined) {
 function checkPasswordMatch(inputQuery) {
     var inputElements = $(inputQuery);
     if (inputElements[0].value != inputElements[1].value) {
-        inputElements[1].setCustomValidity('Die PasswÃ¶rter mÃ¼ssen identisch sein.');
+        inputElements[1].setCustomValidity('Die Passwörter müssen identisch sein.');
     } else {
         // input is valid -- reset the error message
         inputElements[1].setCustomValidity('');
@@ -96,16 +95,9 @@ function checkPasswordMatch(inputQuery) {
  * disables all contained input and select elements if 'disableChildren' is not set to false
 **/
 function hideSection(section, disableChildren=true) {
-    console.log('hideSection ',section)
-   if( debugmode>2)
-    {
-	    $(section).addClass('disabled');
-	    $(section).css('opacity', '0.2');
-	}
-	else
-	{
-	    $(section).addClass('hide');
-	}
+    $(section).addClass('hide');
+//    $(section).addClass('disabled');
+//    $(section).css('opacity', '0.2');
     updateFormFieldVisibility();
 }
 
@@ -115,10 +107,9 @@ function hideSection(section, disableChildren=true) {
  * enables all contained input and select elements if 'enableChildren' is not set to false
 **/
 function showSection(section, enableChildren=true) {
-    console.log('showSection ',section)
     $(section).removeClass('hide');
     $(section).removeClass('disabled');
-  	$(section).css('opacity', '1.0');
+    $(section).css('opacity', '1.0');
     updateFormFieldVisibility();
 }
 
@@ -187,15 +178,6 @@ function updateLabel(elementId) {
     }
 }
 
-function setDefault(elementId, value) 
-{
-	if (  $('#'+elementId).val()=='' ) 
-	 {
-       console.log('setDefault: ',elementId, ' alt:', $('#'+elementId).val(), ' set to' , value );
-	   $('#'+elementId).val(value); 
-     }
-}
-
 function setInputValue(elementId, value) {
     /** @function setInputValue
      * sets the value-label (if exists) attached to the element to the element value
@@ -259,7 +241,7 @@ function sendValues() {
         $('#saveSettingsBtn').prop('disabled', true);
         $('#modalDefaultsBtn').prop('disabled', true);
         // delay in ms between publishes
-        var intervall = 200;
+        var interval = 200;
         // then send changed values
 
         Object.keys(changedValues).forEach(function(topic, index) {
@@ -267,7 +249,7 @@ function sendValues() {
 			console.log('publish[' + index+']['+topic+'] = ['+value+']');
             setTimeout(function () {
                 // console.log("publishing changed value: "+topic+": "+value);
-                // as all empty messages are not processed by mqttsub.py, we have to send something usefull
+                // as all empty messages are not processed by mqttsub.py, we have to send something useful
                 if ( value.length == 0 ) {
                     publish("none", topic);
                     // delete empty values as we will never get an answer
@@ -276,7 +258,7 @@ function sendValues() {
                 } else {
                     publish(value, topic);
                 }
-            }, index * intervall);
+            }, index * interval);
         }, changedValues);
 
     } else {

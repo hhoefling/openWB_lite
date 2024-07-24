@@ -14,6 +14,7 @@ var options = {
 	useSSL: isSSL,
 	//Gets Called if the connection has been established
 	onSuccess: function () {
+		console.log('connected, subscribe' , topicsToSubscribe.length, ' topics');
 		topicsToSubscribe.forEach((topic) => {
 			client.subscribe(topic[0], {qos: 0});
 		});
@@ -28,6 +29,7 @@ var clientuid = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 5);
 var client = new Messaging.Client(location.hostname, port, clientuid);
 
 $(document).ready(function(){
+	console.log('do connect');
 	client.connect(options);
 });
 
@@ -49,6 +51,8 @@ client.onDeliveryComplete = function (token) {
 
 //Creates a new Messaging.Message Object and sends it
 function publish(payload, topic) {
+	console.log('MQTT SEND ', topic, ' =  [', payload, ']');
+
 	var message = new Messaging.Message(payload);
 	message.destinationName = topic;
 	message.qos = 2;
