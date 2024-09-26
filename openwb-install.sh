@@ -50,6 +50,8 @@ if (( isPC == 0 )) ; then
 	# bullseye
 	apt-get -q -y install python3-pip python3-rpi.gpio
   fi
+else
+	apt-get -q -y install python3-pip python3-rpi.gpio
 fi
 # pip2 on Bullseye, replace pip3, that's bad:-( 
 #apt-get -q -y install python2-pip python2
