@@ -759,6 +759,8 @@ at_reboot() {
 	mosquitto_pub -t openWB/lp/2/W -r -m "0"
 	mosquitto_pub -t openWB/lp/3/W -r -m "0"
 	mosquitto_pub -t openWB/lp/1/boolChargePointConfigured -r -m "1"
+	mosquitto_pub -t openWB/lp/2/boolChargePointConfigured -r -m "0"
+	mosquitto_pub -t openWB/lp/3/boolChargePointConfigured -r -m "0"
 	mosquitto_pub -r -t openWB/SmartHome/Devices/1/TemperatureSensor0 -m ""
 	mosquitto_pub -r -t openWB/SmartHome/Devices/1/TemperatureSensor1 -m ""
 	mosquitto_pub -r -t openWB/SmartHome/Devices/1/TemperatureSensor2 -m ""
@@ -799,7 +801,8 @@ at_reboot() {
 	    log "logrotate config file copied."
 	fi
     
-    
+    # refresh mqtt
+     rm -r /var/www/html/openWB/ramdisk/mqttcvc
 
 	# all done, remove boot and update status
 	log "remove boot und update marker"
