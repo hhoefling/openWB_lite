@@ -1,8 +1,8 @@
 
 ## Installation in einer VM auf Debian 9.13 (amd64) mit Kernel  4.9.0-13-amd64
 
-	Aktuell probleme mit der alten Bash 4.4.12 und 
-	openwb-install.sh, atreboot.sh, und helperFunctions.sh müssen agepasst werden
+Aktuell probleme mit der alten Bash 4.4.12.
+openwb-install.sh, atreboot.sh, und helperFunctions.sh müssen angepasst werden
 	....
 
 ## Installation auf einer Pi3B+/Pi4B+ ##
