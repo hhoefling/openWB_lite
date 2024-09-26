@@ -301,6 +301,7 @@ pt=0
 declare -F ptstart &>/dev/null || {
  ptstart()
  {
+   # TODO EPOCHREALTIME erst ab bash 5.x verfügbar, fehlt in Debian9
    ptx=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
  }
 export -f ptstart
@@ -309,6 +310,7 @@ export -f ptstart
  local txt=${1:-}
  local max=${2:-200}
  local te
+ # TODO EPOCHREALTIME erst ab bash 5.x verfügbar, fehlt in Debian9
  te=$(( ${EPOCHREALTIME/[\,\.]/} / 1000 )) 
  pt=$(( te - ptx))
  if (( pt > max ))  ; then
