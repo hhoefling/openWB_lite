@@ -11,6 +11,7 @@ In mosquitto.conf muss "socket_domain ipv4" raus. Kennt der alte Mosuqitto nicht
 ## Installation in einer VM auf Debian 10.7 (Buster) mit Kernel  4.19.0-13-amd64
 
 Installiert via "2021-01-11-raspios-buster-i386.iso"
+
 Hat moch Python2 als default aber schon bash>5
 
 
