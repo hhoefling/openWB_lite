@@ -3,6 +3,7 @@
 
 Aktuell probleme mit der alten Bash 4.4.12.
 openwb-install.sh, atreboot.sh, und helperFunctions.sh müssen angepasst werden
+In mosquitto.conf muss "socket_domain ipv4" raus. Kennt der alte Mosuqitto nicht.
 	....
 
 ## Installation auf einer Pi3B+/Pi4B+ ##
