@@ -13,6 +13,7 @@ Vorbereiten
 - (optional) root password setzen
 - (optional) root für ssh freischalten
 - apt update/upgrade ausführen
+- Sicherstellen das sudo und curl installiert sind.
 
 curl -s https://raw.githubusercontent.com/hhoefling/openWB_lite/master/openwb-install.sh | sudo bash
 
