@@ -72,6 +72,14 @@ at_reboot() {
 	sudo chmod a+rw  /var/www/html/rinfo.txt
 	cat /etc/fstab |grep "/boot" | cut -d " " -f 1 | cut -d "-" -f 1 | grep -o -E '[0-9a-f]*' >>/var/www/html/rinfo.txt
 
+	# check for outdated sources.list (Stretch only)
+	if grep -q -e "^deb http://raspbian.raspberrypi.org/raspbian/ stretch" /etc/apt/sources.list; then
+		echo "sources.list outdated! upgrading..."
+		sudo sed -i "s/^deb http:\/\/raspbian.raspberrypi.org\/raspbian\/ stretch/deb http:\/\/legacy.raspbian.org\/raspbian\/ stretch/g" /etc/apt/sources.list
+	else
+		echo "sources.list already updated"
+	fi
+	
 	# read openwb.conf
 	log "loading config"
 	. "$OPENWBBASEDIR/loadconfig.sh"

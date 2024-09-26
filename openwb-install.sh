@@ -21,7 +21,18 @@ if (( isPC == 0 )) ; then
     hasLCD=0
   fi
 fi
+
 echo "install required packages..."
+# check for outdated sources.list (Stretch only)
+if grep -q -e "^deb http://raspbian.raspberrypi.org/raspbian/ stretch" /etc/apt/sources.list; then
+	echo "sources.list outdated! upgrading..."
+	sudo sed -i "s/^deb http:\/\/raspbian.raspberrypi.org\/raspbian\/ stretch/deb http:\/\/legacy.raspbian.org\/raspbian\/ stretch/g" /etc/apt/sources.list
+else
+	echo "sources.list already updated"
+fi
+
+echo "install required packages..."
+
 
 apt-get update
 dpkg -l >/home/pi/firstdpkg.txt
