@@ -35,7 +35,7 @@ Inzwischen läuft auch das 7"Zoll Display an einem Pi3 und ein 4.3 Display häng
 - Nicht übernommen wurde die Umwidmung der mqtt Zuweisungen zur pv Leistung. Bei der 1.9'er bis hin zur 254 wurde dort ein negativer Wert von der Datenquelle abgelegt. Diese Version behält dies verhalten bei  da sonst auch älter Backups dann ihr gültigkeit verlieren würden. OpenwWB selbst hatte dies dann mit der 1.9.259 auch wieder zurückgenommen.
 - Ladelog um KM ergänzen. wird via MQTT aus dem Skoda-SoC Module übergeben. 
 - Ladelog Export nach Excel an die deutsche Variante der Trennzeichen angepasst. Ausserdem wurde ein Jahresexport zugefügt
-- Nachladen. Die Startzeit für das Nachladen kann nun von 17:00 bis 4:00 Uhr Nachts gesetzt werden. Die Endzeit für das Nachladen kann nun von 20:00 bis 9:00 Uhr Morgens gesetzt werden. 
+- Nachtladen. Die Startzeit für das Nachtladen kann nun von 17:00 bis 4:00 Uhr Nachts gesetzt werden. Die Endzeit für das Nachtladen kann nun von 20:00 bis 9:00 Uhr Morgens gesetzt werden. 
 - Bei den SoC gesteuerten Lademodi wird die Regel 80%=80% eingehalten + Überladen bei 100% Einstellung (wie vorher)
 - Der Modbusserver auf Port 502 ist nun abschaltbar da er von openWB selbst nicht mehr verwendet wird. 
 - Datenexport zu Excel mit ',' / ';' statt '.'/ ','
