@@ -1,9 +1,60 @@
+<?php
+// heist html, wird aber von index.php geincluded
+$theme = $_COOKIE['openWBTheme'];  // colors-hh oder colors
+
+function  xgeturl($file)
+{
+ global $theme;
+ $fn=sprintf('themes/%s/%s', $theme,$file);
+ $ftime=filemtime($fn);
+ return sprintf('%s?v=%d' , $fn,$ftime);
+}
+
+
+function makedebugreihe()
+{
+ global $dbdebs,$dbdeb,$debug;
+ 
+ echo <<<END
+	<!-- debug reihe  -->
+	<div id="altclicker" class="container-fluid py-0 pb-2">
+	  <div class="row py-0 px-0">
+		<div class="rounded shadow wb-widget col-md p-2 m-1 ">
+			<div id="accordion" class="accordion">
+				<div class="card mb-0">
+					<div class="card-header bg-secondary collapsed" data-toggle="collapse" data-target="#debugOne">
+						<a class="card-title">Debug </a>
+					</div>
+					<div id="debugOne" class="card-body collapse" data-parent="#accordion" style="background-color: white" >
+						<pre id="debugdiv" style="font-size:0.7rem;">
+
+END;
+					foreach( $dbdebs as $s)
+						echo "DEB:$s\n";
+					if( $dbdeb > 3) { 
+						echo "---- Globals---\n";
+						$dbdebs="striped";	
+				 		print_r($GLOBALS);
+					}
+echo <<<END
+						</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+  	  </div>
+	</div>
+	<!-- debug reihe  -->
+END;
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
 <head>
 	<!-- theme with gauges for openWB -->
 	<!-- 2020 Michael Ortenstein -->
+	<!-- 2024 Modified for SmartHome by Heinz Hoefling -->
 
 	<title>openWB</title>
 	<meta charset="UTF-8">
@@ -83,6 +134,31 @@
 	<script src="js/RGraph.common.effects.js"></script>
 	<script src="js/RGraph.gauge.js"></script>
 
+<?php
+$iscl=($iscloud) ? 'true' : 'false';
+out('iscl:' . $iscl);
+echo <<<END
+    <script>
+    function validate()
+     {
+        console.log('validate..');
+        usern='$_CURRENT_USER->username';
+        passwd='$_CURRENT_USER->passwd';
+        dbdeb=$dbdeb;
+        iscloud=$iscl;
+		MOSQSERVER='$MOSQSERVER';
+		MOSQPORT=$MOSQPORT;
+		MOSQPORTSSL=$MOSQPORTSSL;
+		PROJECT='$PROJECT';
+        theme='$theme';
+    }
+    validate();
+    </script>
+
+END;
+?>
+
+
 	<script>
 		function setCookie(name, value, days) {
 			var expires = '';
@@ -109,9 +185,8 @@
 			}
 			return '';
 		}
-		var themeCookie = getCookie('openWBTheme');
-		// include special Theme style
-		$('head').append('<link rel="stylesheet" href="themes/' + themeCookie + '/style.css?v=20221125">');
+	 	$('head').append('<link rel="stylesheet" href="<?php echo xgeturl('style.css');?>">');	var debugmode=<?php echo $dbdeb;?>;
+
 	</script>
 </head>
 
@@ -128,7 +203,7 @@
 			<div id="preloader-info" class="row justify-content-center mt-2">
 				<div class="col-10 col-sm-6">
 					Bitte warten, während die Seite aufgebaut wird.
-                    <div class="devicename">openWB</div>
+					<div class="devicename">openWB</div>
 				</div>
 			</div>
 			<div class="row justify-content-center mt-2">
@@ -550,12 +625,11 @@
 					<label for="MaxPriceForCharging" class="col-3 col-form-label valueLabel" suffix="ct/kWh"></label>
 				</div>
 				<div class="row justify-content-center regularTextSize vaRow">
-					<button type="button" class="btn btn-secondary mr-3 priceLess"><i class="far fa-minus-square"></i></button>
+					<button type="button" class="btn btn-secondary mr-3 priceLess"><i class="fa fa-minus-square"></i></button>
 					Preis
-					<button type="button" class="btn btn-secondary ml-3 priceMore"><i class="far fa-plus-square"></i></button>
+					<button type="button" class="btn btn-secondary ml-3 priceMore"><i class="fa fa-plus-square"></i></button>
 				</div>
-			</div>  <!--/ priceBasedCharging -->
-
+			</div>  <!-- priceBasedCharging -->
 			<hr class="border-secondary">
 			<div class="row justify-content-center">
 				<h3 class="font-weight-bold text-center text-lightgrey">Sofortladen Stromstärke</h3>
@@ -897,13 +971,8 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-	</div>  <!-- container -->
-	<footer class="bg-dark fixed-bottom small text-light">
-		<div class="container text-center">
-			openWB_lite - die modulare Wallbox
-		</div>
-	</footer>
 
 	<script>
 		var defaultScaleCounter = 8640;  // ca. 12 Stunden Gauge Auto-Rescale
@@ -1332,25 +1401,18 @@
 		}
 
 		$(document).ready(function(){
+			console.log('ready main');
 
 			// load scripts synchronously in order specified
 			var scriptsToLoad = [
-				// load Chart.js library
-				'js/Chart.bundle.min.js',
-				// load Chart.js annotation plugin
-				'js/chartjs-plugin-annotation.min.js',
-				// load mqtt library
-				'js/mqttws31.js',
-				// some helper functions
-				'themes/Gauges/helperFunctions.js?ver=20201228',
-				// functions for processing messages
-				'themes/Gauges/processAllMqttMsg.js?ver=20231125',
-				// respective Chart.js definition live
-				'themes/Gauges/livechart.js?ver=20210307',
-				// respective Chart.js definition price chart
-				'themes/Gauges/electricityPriceChart.js?ver=20210210',
-				// functions performing mqtt and start mqtt-service
-				'themes/Gauges/setupMqttServices.js?ver=20230129',
+				'js/Chart.bundle.min.js',					// load Chart.js library
+				'js/chartjs-plugin-annotation.min.js',		// load Chart.js annotation plugin
+				'js/mqttws31.js',							// load mqtt library
+				'<?php echo xgeturl('helperFunctions.js');?>',		// some helper functions			
+				'<?php echo xgeturl('setupMqttServices.js');?>',		// functions performing mqtt and start mqtt-service
+				'<?php echo xgeturl('processAllMqttMsg.js');?>',		// functions for processing messages			
+				'<?php echo xgeturl('livechart.js');?>',				// functions performing mqtt and start mqtt-service
+				'<?php echo xgeturl('electricityPriceChart.js');?>' 	// functions performing mqtt and start mqtt-service
 			];
 			scriptsToLoad.forEach(function(src) {
 				var script = document.createElement('script');
@@ -1537,7 +1599,7 @@
 				label.addClass('text-danger');
 				 if ( $.escapeSelector(elementId) == 'MaxPriceForCharging') {
 					// marks times in the price chart where the price is low enough so charging would be allowed
-	 			 	var priceAnnotations = createPriceAnnotations();
+	 				var priceAnnotations = createPriceAnnotations();
 	 			 	electricityPricechart.options.annotation.annotations = priceAnnotations;
 	 			 	electricityPricechart.update();
 				 }
@@ -1606,6 +1668,26 @@
 
 		});  // end document ready
 	</script>
+
+
+<?php
+	 if($dbdeb>0)
+	 {
+		$lines="striped";
+		$owbconf="striped";
+   		makedebugreihe();
+	 }
+?>
+
+	<div id="footer">
+		<footer class="bg-dark fixed-bottom small text-light">
+			<div class="container text-center">
+				openWB_lite <span id='spanversion' class='spanversion'></span>, die modulare Wallbox
+			</div>
+		</footer>
+	</div>
+
+
 
 </body>
 
