@@ -36,7 +36,7 @@ h4 {
 }
 
 body>.container-fluid {
-	padding: 55px 15px 0;
+	padding: 40px 15px 0;
 }
 @keyframes alertPulsation {
 	0% {
@@ -129,6 +129,20 @@ body>.container-fluid {
 .cursor-pointer {
 	cursor: pointer;
 }
+
+
+
+.accordion .card-header:after {
+    font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+    content: "\f146";
+    float: right; 
+}
+.accordion .card-header.collapsed:after {
+    /* symbol for "collapsed" panels */
+	content: "\f0fe"; 
+}
+
 
 .vaRow {
 	/* vertical alignment of content in rows */

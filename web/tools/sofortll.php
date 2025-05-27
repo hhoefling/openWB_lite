@@ -49,10 +49,6 @@ if(isset($_POST['lademlp1'])) {
 			$result .= 'sofortsoclp2='.$_POST['sofortsoclp2']."\n";
 			$writeit = '1';
 		}
-		if(strpos($line, "sofortsoclp3=") !== false) {
-			$result .= 'sofortsoclp3='.$_POST['sofortsoclp3']."\n";
-			$writeit = '1';
-		}
 		if(strpos($line, "sofortsocstatlp1=") !== false) {
 			if($_POST['msmoduslp1'] == 1 ) {
 				$result .= 'sofortsocstatlp1='."0"."\n";

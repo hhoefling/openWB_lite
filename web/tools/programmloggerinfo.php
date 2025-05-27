@@ -3,6 +3,7 @@
 $arch =exec('uname -m');
 
 
+$hostname=exec('hostname');
 $uptime = exec('uptime');
 $systime = exec("date +%s");
 $lastreboot = exec("cat /proc/stat | grep btime | awk '{print $2}'");
@@ -57,6 +58,7 @@ $ethaddr2 = exec("ifconfig eth0:0 |grep 'inet ' |awk '{print $2}'");
 $sdstatus = exec("/var/www/html/openWB/web/tools/sdstatus.sh");
 
 $arr = array(
+	'hostname' => trim($hostname),
 	'board' => trim($board),
 	'arch' => trim($arch),
 	'uptime' => trim($uptime),

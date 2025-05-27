@@ -78,11 +78,11 @@ class PriceChart {
     bargroups.append("rect")
       .attr("class", "bar")
       .attr("x", (d) => this.xScale(d[0]))
-      .attr("y", (d) => (d[1] >= 0) ? this.yScale(d[1]) : this.yScale(0))
+      .attr("y", (d) => (d[1] >= 0) ? this.yScale(d[1]) : this.yScale(0) )
       .attr("width", barwidth)
       .attr("height", (d) => (d[1] >=0) 
         ? this.yScale(0) - this.yScale(d[1]) 
-        : this.yScale(d[1]) - this.yScale(0))
+        : this.yScale(d[1]) - this.yScale(0) )
       .attr("fill", (d) => (d[1] <= wbdata.etMaxPrice) ? this.chargeColor : this.noChargeColor)
 
     // Line for max price

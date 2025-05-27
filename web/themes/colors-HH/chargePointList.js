@@ -79,7 +79,7 @@ class ChargePointList {
         .text("Strompreis: " + wbdata.etPrice + " ct/kWh");
     }
 */
-    d3.select("div#chargePointConfigWidget").classed("hide", (wbdata.chargeMode != "0" && wbdata.chargeMode != "1"))
+    // d3.select("div#chargePointConfigWidget").classed("hide", (wbdata.chargeMode != "0" && wbdata.chargeMode != "1" && wbdata.chargeMode != "2"))
   }
 
   updateValues() {
@@ -102,7 +102,26 @@ class ChargePointList {
       cell.append("span")
         .attr("class", "fa fa-toggle-off text-red px-0")
     }
-
+    if (wbdata.cplp1_inwork==1) {
+      const span3 =
+        	cell.append("span")
+          	.attr("class", "fa fa-eye-dropper text-orange pr-2")
+        ;
+	}
+    if (wbdata.u1p3p_inwork==0) {
+      const span =
+        cell.append("span")
+          .attr("class", "xx")
+		  .text( wbdata.phaseSymbols[wbdata.u1p3p_state] )
+      span.classed("text-red", (!row.isEnabled))
+      span.classed("text-green", row.isEnabled)
+        ;
+    } else {
+      const span2 =
+        cell.append("span")
+          .attr("class", "fa fa-hourglass-half text-orange pr-2")
+        ;
+	}
     cell
       .append("span").text(row.name)
       .attr("class", "px-2");

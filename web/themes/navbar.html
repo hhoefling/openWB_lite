@@ -1,8 +1,8 @@
 <header>
 	<!-- Fixed navbar -->
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top" style="line-height: 1.0;">
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top" style="line-height:1.0;">
 		<a class="navbar-brand" href="./index.php">
-			<span class="devicename">openWB</span>
+			<span class="devicename" style="color:gray;">openWB</span>
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 			<span class="navbar-toggler-icon"></span>
@@ -27,7 +27,10 @@
 				</li>
 				<li class="nav-item hide" id="navStromtarifInfo">
 					<!-- link will be setup with mqtt topic -->
-					<a class="nav-link etproviderLink" href="#">Stromtarif-Info</a>
+					<a class="nav-link etproviderLink" href="#">Stromtarif</a>
+				</li>
+				<li class="nav-item hide" id="navMHI">
+					<a class="nav-link " href="mhi.php">MhI</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="hilfe/hilfe.php">Hilfe</a>
@@ -38,6 +41,9 @@
 				</li>
 				<li class="nav-item" id="homebutton">
 					<a class="nav-link" href="display/display.php">Display</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link urlforlink" href="#">####</a>
 				</li>
 			</ul>
 		</div>

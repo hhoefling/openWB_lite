@@ -1,8 +1,7 @@
 <?php
 // heist html, wird aber von index.php geincluded
-$theme = $_COOKIE['openWBTheme'];  // colors-hh oder colors
 
-function  geturl($file)
+function  xgeturl($file)
 {
  global $theme;
  $fn=sprintf('themes/%s/%s', $theme,$file);
@@ -10,30 +9,134 @@ function  geturl($file)
  return sprintf('%s?v=%d' , $fn,$ftime);
 
 }
+
+
+function makedebugreihe()
+{
+ global $dbdebs,$dbdeb,$debug;
+ 
+ echo <<<END
+	<!-- debug reihe  -->
+	<div id="altclicker" class="container-fluid py-0 pb-2">
+	  <div class="row py-0 px-0">
+		<div class="rounded shadow wb-widget col-md p-2 m-1 ">
+			<div id="accordion" class="accordion">
+				<div class="card mb-0">
+					<div class="card-header bg-secondary collapsed" data-toggle="collapse" data-target="#debugOne">
+						<a class="card-title">Debug </a>
+					</div>
+					<div id="debugOne" class="card-body collapse" data-parent="#accordion" style="background-color: white" >
+						<pre id="debugdiv" style="font-size:0.7rem;">
+
+END;
+					foreach( $dbdebs as $s)
+						echo "DEB:$s\n";
+					if( $debug > 3) { 
+						echo "---- Globals---\n";
+						$dbdebs="striped";	
+				 		print_r($GLOBALS);
+					}
+echo <<<END
+						</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+  	  </div>
+	</div>
+	<!-- debug reihe  -->
+END;
+}
+
+function makerctclicker()
+{
+ global $iscloud;
+ if( $iscloud )
+   return;
+
+echo <<<END
+		if (Math.floor(wbdata.batterydischarge_max)>0)   // rct vorhanden, sonst default -1
+			$("#rctbatmenu").addClass("hide");
+
+// RCT Detailsmode start
+			$('#lade1hclick').click(function (event) {
+			    event.preventDefault()
+				console.log('lade1hclick', event);
+				publish("59", "openWB/set/houseBattery/loadbat");
+			});
+			$('#lade2hclick').click(function (event) {
+			    event.preventDefault()
+				console.log('lade2hclick', event);
+				publish("119", "openWB/set/houseBattery/loadbat");
+			});
+			$('#resetwattclick').click(function (event) {
+			    event.preventDefault()
+				console.log('resetwattclick', event);
+				publish("resetwatt", "openWB/set/houseBattery/reset_rct");
+			});
+			$('#resetcurrentclick').click(function (event) {
+			    event.preventDefault()
+				console.log('resetcurrentclick', event);
+				publish("resetcurrent", "openWB/set/houseBattery/reset_rct");
+			});
+			$('#setcurrentclick').click(function (event) {
+			    event.preventDefault()
+				console.log('setcurrentclick', event);
+				publish("180", "openWB/set/houseBattery/aktivateDrainmode");
+			});
+// RCT Detailsmode end
+
+END;
+}
+
+function makebatmenu()
+{
+ global $iscloud;
+ if( $iscloud )
+   return;
+
+echo <<<END
+				<div class="col-2 px-0" style="text-align: right;" id="rctbatmenu">
+					<div class="dropdown">
+						<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+							<span class="fa fa-bars fa-sm"></span>
+						</button>
+						<div class="dropdown-menu dropdown-menu-right colormenu">
+							<a class="dropdown-item" id="lade1hclick" href="#"><span class="fa fa-battery-quarter px-0"></span> 1 Stunde Laden</a>
+							<a class="dropdown-item" id="lade2hclick" href="#"><span class="fa fa-battery-half px-0"></span> 2 Stunden Laden</a>
+							<a class="dropdown-item" id="resetwattclick" href="#"><span class="fa fa-battery-half px-1"></span> <span class="fa fa-undo px-0"></span> Zurücksetzen</a>
+							<a class="dropdown-item" id="setcurrentclick" href="#"><span class="fa fa-ban px-1"></span></span> Endladeschutz 2 Std</a>
+							<a class="dropdown-item" id="resetcurrentclick" href="#"><span class="fa fa-ban px-1"></span> <span class="fa fa-undo  px-0"></span> Zurücksetzen</a>
+						</div>
+					</div>
+				</div>
+
+END;
+
+}
+
 ?>
 <!DOCTYPE html>
-<html lang="de" class="theme-dark">
-
+<html lang="de" class="theme-hh">
+ 
 <head>
-	<!-- theme for openWB layout for standard and dark, only css is different-->
-	<!-- 2020 Michael Ortenstein -->
-
 	<title>openWB</title>
 	<meta charset="UTF-8">
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-	<meta name="apple-mobile-web-app-title" content="openWB">
+	<meta name="apple-mobile-web-app-title" content="openWB-PWA">
 	<meta name="apple-mobile-web-app-status-bar-style" content="default">
 	<link rel="apple-touch-startup-image" href="/openWB/web/img/favicons/splash1125x2436w.png" />
 	<link rel="apple-touch-startup-image"
 		media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
 		href="img/favicons/splash1125x2436w.png">
 	<meta name="apple-mobile-web-app-title" content="openWB">
+    <meta name="mobile-web-app-capable" content="yes" />
 
-	<meta name="description" content="openWB">
-	<meta name="keywords" content="openWB">
+	<meta name="description" content="openWB-d">
+	<meta name="keywords" content="openWB-k">
 	<meta name="author" content="Michael Ortenstein">
 	<link rel="apple-touch-icon" sizes="72x72" href="img/favicons/apple-icon-72x72.png">
 	<link rel="apple-touch-icon" sizes="76x76" href="img/favicons/apple-icon-76x76.png">
@@ -51,13 +154,14 @@ function  geturl($file)
 	<link rel="apple-touch-icon" sizes="57x57" href="img/favicons/apple-touch-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="img/favicons/apple-touch-icon-60x60.png">
 	<link rel="manifest" href="manifest.json">
+	<link rel="manifest" href="./manifest.json">
 	<link rel="shortcut icon" href="img/favicons/favicon.ico">
-	<!-- <link rel="apple-touch-startup-image" href="img/loader.gif"> -->
+	<!-- link rel="apple-touch-startup-image" href="img/loader.gif"> -->
 	<meta name="msapplication-config" content="img/favicons/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
 
 	<!-- Bootstrap -->
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-4.4.1/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-4.4.1/bootstrap.css?v=1235">
 	<!-- Normalize -->
 	<link rel="stylesheet" type="text/css" href="css/normalize-8.0.1.css">
 	<!-- Font Awesome, all styles -->
@@ -93,8 +197,8 @@ function  geturl($file)
 		}
 	</style>
 	<!-- important scripts to be loaded -->
-	<script src="js/jquery-3.6.0.js"></script>
-	<script src="js/bootstrap-4.4.1/bootstrap.bundle.js"></script>
+	<script src="js/jquery-3.6.0.min.js"></script>
+	<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
 
 	<script>
 		function getCookie(cname) {
@@ -129,36 +233,69 @@ function  geturl($file)
 
 
 		// include special Theme style
-	 	$('head').append('<link rel="stylesheet" href="<?php echo geturl('style.css');?>">');
+	 	$('head').append('<link rel="stylesheet" href="<?php echo xgeturl('style.css');?>">');
 		
-		var debugmode=0;
-        var debugold=<?php echo $debugold;?>;
-  		var debugmode=debugold; // defaults to openwb.conf debug
-  		console.log('debugold', debugold, ' debugmode now:',debugmode);
-  		tmp=getCookie('debugmode');
-  		if ( tmp>'')
-   		{ 
-    		debugmode=tmp;	// override
-    		console.log('debugmode from cookie:[debugmode]',debugmode);
-   		} else console.log('Cookie debugmode not set'); 
-		console.log('window.debugmode' + window.debugmode)
+		<?php
+			echo "\r\t\t console.log('php.debug',  $debug)";
+		?>
 		
+		var debugmode=<?php echo $debug;?>;
+		var debugold=<?php echo $debug;?>;
+		console.log('js.debugold', debugold, ' js.debugmode:',debugmode);
+		tmp=getCookie('debugmode');
+		if ( tmp>'')
+		{ 
+			debugmode=tmp;	// override
+			console.log('js-debugmode from cookie:[debugmode]',debugmode);
+		} else console.log('Cookie js.debugmode not set'); 
+		console.log('js window.debugmode' + window.debugmode)
+
 	</script>
-    <script src="<?php echo geturl('js/d3.v6.js');?>"></script>
-	<script src="<?php echo geturl('powerdata.js');?>"></script>
-	<script src="<?php echo geturl('powermeter.js');?>"></script>
-	<script src="<?php echo geturl('yieldmeter.js');?>"></script>
-	<script src="<?php echo geturl('powergraph.js');?>"></script>
-	<script src="<?php echo geturl('chargePointList.js');?>"></script>
-	<script src="<?php echo geturl('smartHomeList.js');?>"></script>
-	<script src="<?php echo geturl('batteryList.js');?>"></script>
-	<script src="<?php echo geturl('pricechart.js');?>"></script>
+	<script src="<?php echo xgeturl('js/d3.v6.min.js');?>"></script>
+	<script src="<?php echo xgeturl('powerdata.js');?>"></script>
+	<script src="<?php echo xgeturl('powermeter.js');?>"></script>
+	<script src="<?php echo xgeturl('yieldmeter.js');?>"></script>
+	<script src="<?php echo xgeturl('powergraph.js');?>"></script>
+	<script src="<?php echo xgeturl('chargePointList.js');?>"></script>
+	<script src="<?php echo xgeturl('smartHomeList.js');?>"></script>
+	<script src="<?php echo xgeturl('batteryList.js');?>"></script>
+	<script src="<?php echo xgeturl('pricechart.js');?>"></script>
+
+<?php
+
+// out('owbconf' . print_r($owbconf,true)); 				
+ //$iscloud=true;
+
+$iscl=($iscloud) ? 'true' : 'false';
+out('iscl:' . $iscl);
+echo <<<END
+    <script>
+    function validate()
+     {
+        console.log('validate..');
+        usern='$_CURRENT_USER->username';
+        passwd='$_CURRENT_USER->passwd';
+        dbdeb=$dbdeb;
+        iscloud=$iscl;
+		MOSQSERVER='$MOSQSERVER';
+		MOSQPORT=$MOSQPORT;
+		MOSQPORTSSL=$MOSQPORTSSL;
+		PROJECT='$PROJECT';
+        theme='$theme';
+    }
+    validate();
+    </script>
+
+END;
+
+?>
 
 </head>
 
 <body>
 	<!-- Preloader with Progress Bar -->
 	<!-- style instead of css due to async loading of theme css -->
+	<!--  display:none statt hide   -->
 	<div id="preloader">
 		<div id="preloader-inner">
 			<div class="row">
@@ -168,8 +305,8 @@ function  geturl($file)
 			</div>
 			<div id="preloader-info" class="row justify-content-center mt-2">
 				<div class="col-10 col-sm-6">
-					Bitte warten, während die Seite aufgebaut wird.
-					<br><span class="devicename">openWB</span>&nbsp;
+					Bitte Geduld, während die Seite aufgebaut wird.
+					<br><span class="devicename">openWB</span>&nbsp;Theme <?php echo $theme; ?>
 				</div>
 			</div>
 			<div class="row justify-content-center mt-2">
@@ -187,37 +324,50 @@ function  geturl($file)
 	<!-- Landing Page -->
 	<div id="nav-placeholder">
 	</div>
-	<div id="altclicker" class="container-fluid px-1 py-3 my-5">
-		<div class="row d-flex align-items-center py-0 px-2 regularTextSize" style="color: var(--color-fg)">
-			<div id="date" class="col text-left">
+	
+	<!-- main page  -->
+	<div id="altclicker" class="container-fluid">
+
+
+		<!-- Kopfzeile -->
+		<div class="row py-1 verySmallTextSize" style="color: var(--color-fg)">
+			<div id="date" class="col-2 text-left" style="padding-right: 5px; padding-left: 5px;" >
 				&nbsp;
 			</div>
-			<div class="col-3 text-left" id="uptime" >
-				&nbsp;
+			<div class="col-2 text-left" >
+             <meter id="uptimem" min="0" low="0.05" high="1.5" max="2.0" value="0.1" style="width:70%" ></meter>
+  			 <span id="uptime">	&nbsp; </span>
 			</div>
-			<div class="col-3 text-center">
-				<button type="button" class="btn btn-sm btn-secondary cursor-pointer regularTextSize" id="chargeModeSelectBtn">
+			<div class="col-4 text-center">
+				<button type="button" class="btnfcss btn-secondary cursor-pointer regularTextSize" id="chargeModeSelectBtn">
 					<span id="chargeModeSelectBtnText">Lademodus</span>
 					<span id="priorityEvBattery">
 						<span class="fas fa-car" id="priorityEvBatteryIcon">&nbsp;</span>
 					</span>
 				</button>
+		
 			</div>
-			<div id="regelneeds" class="col text-center">
-				&nbsp;
+            <div class="col-2 text-left"  >
+             <meter id="need" min="0" xlow="5" high="8" max="12" value="0" style="width:80%" ></meter>
+			 <span id="needs">	&nbsp; </span>
 			</div>
-			<div id="time" class="col text-right">
-				&nbsp;
+			<div id="time" class="col-2 text-right" style="padding-right: 5px; padding-left: 5px;" >
+				&nbsp;needs
 			</div>
-		</div>
+		</div>  <!-- end kopf row -->
 		<!-- Kopfzeile Ende -->
-				
-		<div class="row p-0 mt-2 mx-0 mb-0 d-flex justify-content-center">
+
+
+
+
+		<div class="row py-0 d-flex justify-content-center">
+			<!-- Obere reihe mit drei elementen -->
 			<!-- Aktuelle Leistung (powermeter) -->
+
 			<div class="col-lg-4 p-1 m-0 main-window">
 				<div class="rounded shadow wb-widget m-0 p-2">
 					<div class="d-flex justify-content-between">
-						<h3 class="mt-0">Aktuelle Leistung</h3>
+							<h3>Aktuelle Leistung</h3>
 						<div class="col-4 m-0 p-0" style="text-align: right;">
 							<div class="dropdown">
 								<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
@@ -229,27 +379,23 @@ function  geturl($file)
 									<a class="dropdown-item" href="#" onclick="toggleGrid()"><span class="fa fa-th px-0"></span> Graph:
 										Raster an/aus</a>
 									<a class="dropdown-item" href="#" onclick="switchDisplay()"><span
-											class="fa fa-chart-area px-0"></span>
-										Fixe Bögen an/aus</a>
+											class="fa fa-chart-area px-0"></span> Fixe Bögen an/aus</a>
 									<a class="dropdown-item hide" id="meterResetButton" href="#" onclick="resetButtonClicked()"><span
 											class="fa fa-undo"></span> Bögen reset</a>
 									<a class="dropdown-item" href="#" onclick="switchDecimalPlaces()"><span
 											class="fa fa-sliders-h px-0"></span> Dezimalstellen kW & kWh ändern</a>
 									<a class="dropdown-item" href="#" onclick="switchSmartHomeColors()"><span
 											class="fa fa-palette px-0"></span> Farbschema Smart-Home-Geräte ändern</a>
-									<a class="dropdown-item" href="#" onclick="toggleChargepointSummary()"><span
-												class="fa fa-charging-station x-0"></span> LP-Energie: Zusammenfassung und/oder Details </a>
 									<a class="dropdown-item" href="#" onclick="toggleSmartHomeSummary()"><span
-											class="fa fa-object-group px-0"></span> Smarthome-Zusammenfassung an/aus </a>
-									<a class="dropdown-item" href="#" onclick="toggleWideBoxes()"><span
-											class="fa fa-window-restore px-0"></span> Breite Widgets an/aus </a>
-									<a class="dropdown-item" href="#" onclick="toggleLandscape()"><span
-											class="fa fa-desktop px-0"></span> Hochformat/Breitformat/dynamisch </a>
+											class="fa fa-palette px-0"></span> Smarthome-Zusammenfassung an/aus </a>
 								</div>
 							</div>
+
+						</div>
 					</div>
+					<div class=" wb-subwidget">
+						<figure id="powermeter" class="mb-0"></figure>
 				</div>
-				<figure id="powermeter" class="wb-subwidget mb-0"></figure>
 			</div>
 						</div>
 			<!-- Graph - Live, Tag (powergraph) -->
@@ -266,7 +412,9 @@ function  geturl($file)
 									class="fa fa-chevron-circle-right px-0"></span></button>
 						</div>
 					</div>
-				<figure id="powergraph" class="wb-subwidget mb-0"></figure>
+					<div class="p-0 wb-subwidget">
+						<figure id="powergraph" class="mb-0"></figure>
+				</div>
 			</div>
 						</div>
 			<!-- Energie heute (yieldmeter) -->
@@ -284,18 +432,20 @@ function  geturl($file)
 									class="fa fa-chevron-circle-right px-0"></span></button>
 						</div>
 					</div>
-				<figure id="energymeter" class="wb-subwidget mb-0"></figure>
+					<div class="p-0 wb-subwidget">
+						<figure id="energymeter" class="mb-0"></figure>
+				</div>
 			</div>
 		</div>
-		</div>
-		<div class="row py-0 m-0 d-flex justify-content-center">
+		</div> <!-- end obere row -->
+
+		<!-- zweite reihe  -->
+	 <div class="row py-0 px-0">
 			<!-- Ladepunkte (chargePointList) -->
-			<div class="col-lg-4 p-1 m-0 var-width">
-				<div class="wb-widget p-2 m-0 rounded shadow">
-					<div class="d-flex justify-content-between">
-						<h3 class="mt-0"><span class="fas fa-charging-station" style="color: var(--color-charging)">&nbsp;</span> Ladepunkte</h3>
-					</div>
-					<div class="p-0 wb-subwidget">
+			<div class="rounded shadow wb-widget col-md p-2 m-1 ">
+				<h3 class="mt-0"><span class="fas fa-charging-station" style="color: var(--color-charging)">&nbsp;</span>Ladepunkte
+				<small><small id="LadereglerTxt"> notext </small></small></h3>
+				<div class="pb-2 wb-subwidget">
 					<div style="text-align:center;">
 						<span id="lastregelungaktiv" class="regularTextSize text-red animate-alertPulsation"></span>
 					</div>
@@ -303,48 +453,56 @@ function  geturl($file)
 					<div id="chargePointTable"></div>
 				</div>
 			</div>
-			</div>
+
 			<!-- Speicher (batteryList) -->
-			<div class="col-lg-4 p-1 m-0 var-width" id="batteryWidget">
-				<div class="wb-widget p-2 m-0 rounded shadow">
-					<h3><span class="fas fa-car-battery" style="color: var(--color-battery)">&nbsp;</span> Speicher</h3>
-					<div class="wb-subwidget p-0 ">
-					<div id="batteryStatus"></div>
+			<div class="rounded shadow wb-widget col-md p-2 m-1" id="batteryWidget">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-10 px-0">
+							<h3><span class="fas fa-car-battery" style="color: var(--color-battery)">&nbsp;</span>Speicher
+							<small><small id="BatSupportTxt"> notext </small></small></h3>
+						</div>
+						<?php makebatmenu(); ?>
+						<div class="wb-subwidget pb-2 " style="width:100%;">
+							<div id="batteryStatus"></div>
+						</div>
+				
+					</div>			
 				</div>
 			</div>
-			</div>
+
 			<!-- Smart Home (smartHomeList) -->
-			<div class="col-lg-4 p-1 m-0 var-width" id="smartHomeWidget">
-				<div class="wb-widget p-2 m-0 rounded shadow">
-					<h3><span class="fas fa-plug" style="color: var(--color-devices)">&nbsp;</span> Geräte</h3>
-					<div class="wb-subwidget p-0 ">
+			<div class="rounded shadow wb-widget col-md p-2 m-1" id="smartHomeWidget">
+				<h3><span class="fas fa-plug" style="color: var(--color-devices)">&nbsp;</span>Geräte</h3>
+				<div class="wb-subwidget pb-2 ">
 					<div id="smartHomeTable"></div>
 				</div>
 			</div>
-			</div>
+ 
 			<!-- Preisbasiertes Laden -->
-			<div class="col-lg-4 p-1 m-0 priceConfiguration var-width" id="priceConfigWidget">
-				<div class="wb-widget p-2 m-0 rounded shadow">
-					<h3 class="mt-0"><span class="fas fa-chart-line" style="color: var(--color-charging)">&nbsp;</span> Preisbasiertes Laden</h3>
-					<div class="p-0 wb-subwidget">
+ 
+			<div class="rounded shadow wb-widget col-md-4 p-2 m-1 priceConfiguration" id="priceConfigWidget">
+				<h3 class="mt-0"><span class="fas fa-chart-line" style="color: var(--color-charging)">&nbsp;</span>Preis - Verlauf</h3>
+				<div class="pb-2 wb-subwidget">
 					<div class="row p-0 m-0 ">
 						<div class="col-12 pricechartColumn p-0 m-0">
 							<figure id="priceChart"></figure>
 						</div>
 					</div>
-					<div class="container-fluid m-0 p-0">
+					<div class="container-fluid m-0 p-0 priceSelectWidget" >
+			       	   <h3 class="mt-0"><span class="fas fa-chart-line" style="color: var(--color-charging)">&nbsp;</span>Preisbasiertes Laden</h3>
 
 
 						<div class="row vaRow m-0 p-0">
 							<div class="col-2 m-0 p-0">
-									<button type="button" class="btn btn-secondary priceLess"><i class="far fa-minus-square"></i></button>
+								<button type="button" class="btn btn-secondary priceLess"><i class="fa fa-minus-square"></i></button>
 							</div>
 							<div class="col-8">
-									<input type="range" class="form-control-range maxPriceInput" id="maxPrice" min="-25" max="95"
-										step="0.1" value="0" data-initialized="0">
+								<input type="range" class="form-control-range maxPriceInput" id="maxPrice" min="-15" max="55"
+									step="0.1" value="0" data-initialized="0">
 							</div>
 							<div class="col-2 m-0 p-0 text-right">
-									<button type="button" class="btn btn-secondary priceMore"><i class="far fa-plus-square"></i></button>
+								<button type="button" class="btn btn-secondary priceMore"><i class="fa fa-plus-square"></i></button>
 							</div>
 						</div>
 						<div class="form-row vaRow p-0 m-0">
@@ -356,14 +514,11 @@ function  geturl($file)
 					</div>
 				</div>
 			</div>
-			</div>
-
 
 			<!-- Ladepunkt Konfig -->
-			<div class="col-lg-4 p-1 m-0 var-width" id="chargePointConfigWidget">
-				<div class="wb-widget p-2 m-0 rounded shadow">
-					<h3 class="mt-0"><span class="fas fa-cog" style="color: var(--color-charging)">&nbsp;</span> Einstellungen Ladepunkte</h3>
-				<div class="pb-3 wb-subwidget">
+			<div class="rounded shadow wb-widget col-md p-2 m-1 hide" id="chargePointConfigWidget">
+				<h3 class="mt-0"><span class="fas fa-cog" style="color: var(--color-charging)">&nbsp;</span>Einstellungen Ladepunkte</h3>
+				<div class="pb-2 wb-subwidget">
 					<!-- depending on charge mode show options -->
 					<form id="minundpvladenEinstellungen" class="hide">
 						<div class="row justify-content-center">
@@ -373,44 +528,45 @@ function  geturl($file)
 						<div class="form-row form-group mb-1 vaRow regularTextSize" data-lp="1">
 							<label for="minCurrentMinPv" class="col-3 col-form-label text-right"></label>
 							<div class="col">
-									<input type="range" class="form-control-range rangeInput" id="minCurrentMinPv" min="6" max="16"
-										step="1" value="6" data-initialized="0" data-topicprefix="openWB/config/get/pv/">
+								<input type="range" class="form-control-range rangeInput" id="minCurrentMinPv" min="6" max="16" step="1"
+									value="6" data-initialized="0" data-topicprefix="openWB/config/get/pv/">
 							</div>
 							<label for="minCurrentMinPv" class="col-3 col-form-label valueLabel" suffix="A"></label>
 						</div>
 					</form>
 
 					<form id="sofortladenEinstellungen" class="hide">
-						<div class="row justify-content-center">
-							<h4 class="text-center">Sofortladen Stromstärke</h4>
-						</div>
+							<div class="row justify-content-center">
+								<h4 class="text-center">Sofortladen Stromstärke</h4>
+							</div>
 
-						<div class="form-row form-group mb-1 vaRow regularTextSize" data-lp="1">
-								<label for="lp/1/current" class="col-3 col-form-label text-right"><span
-										class="nameLp">LP1</span>:</label>
-							<div class="col">
-								<input type="range" class="form-control-range rangeInput" id="lp/1/current" min="6" max="32" step="1"
-									value="6" data-initialized="0" data-topicprefix="openWB/config/get/sofort/">
+							<div class="form-row form-group mb-1 vaRow regularTextSize" data-lp="1">
+								<label for="lp/1/current" class="col-3 col-form-label text-right">
+									<span class="nameLp">LP1</span>:</label>
+								<div class="col">
+									<input type="range" class="form-control-range rangeInput" id="lp/1/current" min="6" max="32" step="1"
+										value="6" data-initialized="0" data-topicprefix="openWB/config/get/sofort/">
+								</div>
+								<label for="lp/1/current" class="col-3 col-form-label valueLabel" suffix="A"></label>
 							</div>
-							<label for="lp/1/current" class="col-3 col-form-label valueLabel" suffix="A"></label>
-						</div>
-						<div class="form-row form-group mb-1 vaRow regularTextSize" data-lp="2">
-								<label for="lp/2/current" class="col-3 col-form-label text-right"><span
-										class="nameLp">LP2</span>:</label>
-							<div class="col">
-								<input type="range" class="form-control-range rangeInput" id="lp/2/current" min="6" max="32" step="1"
-									value="6" data-initialized="0" data-topicprefix="openWB/config/get/sofort/">
+							<div class="form-row form-group mb-1 vaRow regularTextSize" data-lp="2">
+								<label for="lp/2/current" class="col-3 col-form-label text-right">
+									<span class="nameLp">LP2</span>:</label>
+								<div class="col">
+									<input type="range" class="form-control-range rangeInput" id="lp/2/current" min="6" max="32" step="1"
+										value="6" data-initialized="0" data-topicprefix="openWB/config/get/sofort/">
+								</div>
+								<label for="lp/2/current" class="col-3 col-form-label valueLabel" suffix="A"></label>
 							</div>
-							<label for="lp/2/current" class="col-3 col-form-label valueLabel" suffix="A"></label>
-						</div>
-						<div class="form-row form-group mb-1 vaRow regularTextSize" data-lp="3">
-								<label for="lp/3/current" class="col-3 col-form-label text-right"><span
-										class="nameLp">LP3</span>:</label>
-							<div class="col">
-								<input type="range" class="form-control-range rangeInput" id="lp/3/current" min="6" max="32" step="1"
-									value="6" data-initialized="0" data-topicprefix="openWB/config/get/sofort/">
+							<div class="form-row form-group mb-1 vaRow regularTextSize" data-lp="3">
+								<label for="lp/3/current" class="col-3 col-form-label text-right">
+									<span class="nameLp">LP3</span>:</label>
+								<div class="col">
+									<input type="range" class="form-control-range rangeInput" id="lp/3/current" min="6" max="32" step="1"
+										value="6" data-initialized="0" data-topicprefix="openWB/config/get/sofort/">
+								</div>
+								<label for="lp/3/current" class="col-3 col-form-label valueLabel" suffix="A"></label>
 							</div>
-							<label for="lp/3/current" class="col-3 col-form-label valueLabel" suffix="A"></label>
 						</div>
 
 						<div class="chargeLimitation" data-lp="1">
@@ -549,16 +705,12 @@ function  geturl($file)
 							</div>
 						</div>
 					</form>
-				</div>
-			</div>
-			</div>
-		</div>
-		</div>
-	</div>
+				</div> 	<!-- Ladepunkt Konfig -->
+		</div> 	<!-- zweite reihe  -->
+
+	</div> <!-- main page  -->
+
 	<!-- ENDE COLOR THEME -->
-
-	<div id="footer">
-
 
 
 		<!-- modal chargemode-select-window -->
@@ -687,7 +839,7 @@ function  geturl($file)
         console.log('shift-Ctrl pressed set debugmode=3' )
 		event.preventDefault();
 		debugmode=3
-  	    setCookie('debugmode', 3, 2);		// Mode 3 für 2 Tage
+		setCookie('debugmode', 3, 30);		// Mode 3 für 30 Tage
 		alert( "Set Debug mode to 3");
         this.click(event);
      }
@@ -695,7 +847,7 @@ function  geturl($file)
      {
        console.log('shift or cntrl pressd set debugmode=2' )
 	    debugmode=2
-	    setCookie('debugmode', 2, 2);		// Mode 4 für 2 Tage
+	    setCookie('debugmode', 2, 30);		// Mode 4 für 30 Tage
 	    alert( "Set Debug mode to 2");
 	  this.click(event);
      }	  
@@ -703,7 +855,7 @@ function  geturl($file)
      {
       console.log('alt pressd set debugmode=4' )
 	    debugmode=4
-	    setCookie('debugmode', 4, 2);		// Mode 4 für 2 Tage
+	    setCookie('debugmode', 4, 30);		// Mode 4 für 30 Tage
 	    alert( "Set Debug mode to 4");
 	  this.click(event);
      }	  
@@ -736,10 +888,21 @@ function  geturl($file)
 						countTopicsReceived++;
 					}
 				};
+				
+	var d = new Date();
+	let h = (d.getHours());
+	let m = (d.getMinutes());
+	let s = (d.getSeconds());
+	let ms =(d.getMilliseconds());
+	let time = h + ":" + m + ":" + s + ":" + ms;	
+
+				
 				// countTopicsToBeReceived holds all topics flagged 1 and not only those for preloader
 				countTopicsReceived = countTopicsReceived - countTopicsNotForPreloader;
 				var countTopicsToBeReceived = topicsToSubscribe.length - countTopicsNotForPreloader;
 				var percentageReceived = (countTopicsReceived / countTopicsToBeReceived * 100).toFixed(0);
+				console.log( time + ' Preloader:'+ mqttTopic + ' '+countTopicsReceived + ' '+percentageReceived);
+
 				var timeBetweenTwoMessages = Date.now() - timeOfLastMqttMessage;
 				if (timeBetweenTwoMessages > 3000) {
 					// latest after 3 sec without new messages
@@ -759,7 +922,7 @@ function  geturl($file)
 					landingpageShown = true;
 					setTimeout(function () {
 						// delay a little bit
-						$("#preloader").fadeOut(1000);
+						$("#preloader").fadeOut(600);
 					}, 500);
 				}
 			}
@@ -785,9 +948,9 @@ function  geturl($file)
 			var scriptsToLoad = [
 				// NC 'js/Chart.bundle.js',		// load Chart.js library
 				'js/mqttws31.js',			// load mqtt library
-				'<?php echo geturl('helperFunctions.js');?>',		// some helper functions			
-				'<?php echo geturl('processAllMqttMsg.js');?>',		// functions for processing messages			
-				'<?php echo geturl('setupMqttServices.js');?>'		// functions performing mqtt and start mqtt-service
+				'<?php echo xgeturl('helperFunctions.js');?>',		// some helper functions			
+				'<?php echo xgeturl('processAllMqttMsg.js');?>',		// functions for processing messages			
+				'<?php echo xgeturl('setupMqttServices.js');?>'		// functions performing mqtt and start mqtt-service
 			];
 			scriptsToLoad.forEach(function (src) {
 				var script = document.createElement('script');
@@ -807,23 +970,7 @@ function  geturl($file)
 			batteryList.init();
 			priceChart.init();
 			$("#homebutton").addClass("hide");
-			console.log('all modules inited.')
 
-			if(debugmode>3)
-        {
-        console.log('debugmode: ' + debugmode);
-        console.log('wbdata after init');
-        console.log(wbdata);
-        }  
-
-
-			console.log('connect callbacks...')
-			
-			if (wbdata.graphMode == 'live') {
-				powerGraph.activateLive()
-			} else {
-				powerGraph.activateDay()
-			}
 			$('.enableLp').click(function (event) {
 				// send mqtt set to enable/disable charge point after click
 				var lp = parseInt($(this).closest('[data-lp]').data('lp'));  // get attribute lp-# of parent element
@@ -863,7 +1010,6 @@ function  geturl($file)
 						} else {
 							publish("1", "openWB/config/set/SmartHome/Devices/" + dev + "/device_manual_control");
 							$(this).removeClass('lpEnabledStyle').removeClass('lpDisabledStyle').addClass('lpWaitingStyle');
-
 						}
 					}
 				}
@@ -878,6 +1024,8 @@ function  geturl($file)
 					publish("0", "openWB/config/set/SmartHome/Devices/" + dev + "/mode");
 				}
 			});
+
+			<?php makerctclicker(); ?>
 
 			$('#chargeModeSelectBtn').click(function (event) {
 				$("#chargeModeModal").modal("show");
@@ -1027,14 +1175,23 @@ function  geturl($file)
 	</script>
 
 <?php
-			if( $debugold>9)
-			{
-			 echo "<pre>";
-			 $lines=[];
-			 print_r($GLOBALS);  
-			 echo "</pre>";
-			}   
+	 if($debug>2)
+	 {
+		$lines="striped";
+		$owbconf="striped";
+   		makedebugreihe();
+	 }
 ?>
+
+	<br>
+	<div id="footer">
+		<footer class="bg-dark fixed-bottom small text-light">
+			<div class="container text-center">
+				openWB_lite <span id='spanversion' class='spanversion'></span>, die modulare Wallbox
+			</div>
+		</footer>
+	</div>
+
 </body>
 
 </html>

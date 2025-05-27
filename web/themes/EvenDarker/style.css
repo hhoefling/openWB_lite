@@ -13,8 +13,9 @@ html {
 body {
 	color: white;
 }
-body > .container {
-	padding: 55px 15px 0;
+
+body>.container {
+	padding: 55px 15px 15px;
 }
 
 @keyframes alertPulsation {
@@ -75,6 +76,21 @@ body > .container {
 	cursor: pointer;
 }
 
+
+
+.accordion .card-header:after {
+    font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+    content: "\f146";
+    float: right; 
+}
+.accordion .card-header.collapsed:after {
+    /* symbol for "collapsed" panels */
+	content: "\f0fe"; 
+}
+
+
+
 .vaRow {
 	/* vertical alignment of content in rows */
 	display: flex;
@@ -115,7 +131,8 @@ body > .container {
 }
 
 .text-black {
-	color: white;
+	//color: white;
+	color: black;
 }
 
 .text-blue {
@@ -409,12 +426,14 @@ h3 {
 }
 
 .openwb-device-1 {
-	color: rgb(204 255 255);
+	//color: rgb(204 255 255);
+	color: rgb(15 15 14);
 	background-color: rgb(0 150 150);
 }
 
 .openwb-device-2 {
-	color: rgb(255 255 204);
+	// color: rgb(255 255 204);
+	color: rgb(15 15 14);
 	background-color: rgb(150 150 0);
 }
 

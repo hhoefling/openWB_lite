@@ -1,5 +1,5 @@
 /**
- * Show the daily yield and consumption in a bar graph
+ * Show the daily yield and consumption in a bar graph, live, day moth, yearly
  *
  * @author Claus Hagen
  */
@@ -24,8 +24,8 @@ class YieldMeter {
 		this.xScale=null;
 		this.yScale=null;
 		this.svg=null;
-
 	}
+
 	// to be called when the document is loaded
 	init() {
 		const figure = d3.select("figure#energymeter");
@@ -122,10 +122,11 @@ class YieldMeter {
 		this.drawChart(svg);
 		this.updateHeading();
 	};
+
 	plotfilter(row) {
 		if (row instanceof ChargePoint && !wbdata.showCpEnergyDetails) {
-			  	return false
-				} else {
+			return false
+		} else {
 			if (row.energy > 0) {
 				switch (row.name) {
 					case "Geräte": return (wbdata.smartHomeSummary)
@@ -190,7 +191,7 @@ class YieldMeter {
 		const yAxisGenerator = d3.axisLeft(this.yScale)
 			.tickFormat((d, i) => {
 				if (wbdata.graphMode == 'year' || wbdata.graphMode == 'month') {
-				return ((d == 0) ? "" : (Math.round(d / 100)/10))
+					return ((d == 0) ? "" : (Math.round(d / 100) / 10))
 				} else {
 					return ((d == 0) ? "" : d)
 				}
@@ -227,6 +228,7 @@ class YieldMeter {
 			.attr("font-size", this.axisFontSize)
 			.text((wbdata.graphMode == 'month' || wbdata.graphMode == 'year') ? "MWh" : "kWh")
 			;
+
 		// add value labels to the bars
 		const labels = svg.selectAll(".label")
 			.data(this.plotdata)
@@ -273,7 +275,7 @@ class YieldMeter {
 			return ("PV: " + item.pvPercentage.toLocaleString(undefined) + " %");
 		} else if (item.name == 'Netz') {
 			return ("Aut: " + this.autarchyPercentage.toLocaleString(undefined) + " %");
-			
+
 		} else if (item.name == 'PV') {
 			return ("Eigen: " + this.selfUsePercentage.toLocaleString(undefined) + " %")
 		} else {
@@ -287,7 +289,6 @@ class YieldMeter {
 			return (this.pvColor)
 		}
 	}
-
 	updateHeading() {
 		var heading = "Energie ";
 
@@ -315,19 +316,19 @@ class YieldMeter {
 	adjustLabelSize() {
 		let xCount = this.plotdata.length		// abzahl bars
 		if (xCount <= 5) {
-			       this.maxTextLength = 12;
+			this.maxTextLength = 12;
 			       this.labelfontsize = 16+6
 		} else if (xCount == 6) {
-			       this.maxTextLength = 11;
+			this.maxTextLength = 11;
 			       this.labelfontsize = 14+6
 		} else if (xCount >=7 && xCount <= 8) {
-			       this.maxTextLength = 8;
+			this.maxTextLength = 8;
 			       this.labelfontsize = 13+3;
 		} else if (xCount == 9) {
-			       this.maxTextLength = 8;
+			this.maxTextLength = 8;
 			       this.labelfontsize = 11+1;
 		} else if (xCount == 10) {
-			       this.maxTextLength = 7;
+			this.maxTextLength = 7;
 			       this.labelfontsize = 10+4;
 		}
 		else {

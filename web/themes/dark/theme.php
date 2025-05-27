@@ -1,9 +1,83 @@
+<?php
+
+// Check gegen directaufruf, statt inlcude von index.php
+if( !isset($_CURRENT_USER) || $_CURRENT_USER->id<=0 )
+{
+ echo <<<END
+<!DOCTYPE HTML>
+<html lang="de">
+	<head>
+		<title>Weiterleitung</title>
+		<meta charset="UTF-8">
+		<meta http-equiv="refresh" content="1; url=/web">
+		<script>
+			window.location.href = "/web"
+		</script>
+	</head>
+	<body>
+		<p>Falls keine automatische Weiterleitung erfolgt, <a href='/web'>bitte dem Link folgen</a></p>
+	</body>
+</html>
+END;
+ exit;	
+}
+
+$theme = $_COOKIE['openWBTheme'];  // colors-hh oder colors
+out("global theme:$theme");
+
+function  xgeturl($dir, $file)
+{
+ $fn=sprintf('themes/%s/%s', $dir,$file);
+ $ftime=filemtime($fn);
+ out("xgeturl.Filename:$fn time:$ftime");
+ return sprintf('%s?v=%d' , $fn,$ftime);
+}
+
+
+function makedebugreihe()
+{
+ global $dbdebs,$dbdeb,$debug;
+ 
+ echo <<<END
+	<!-- debug reihe  -->
+	<div id="altclicker" class="container-fluid py-0 pb-2">
+	  <div class="row py-0 px-0">
+		<div class="rounded shadow wb-widget col-md p-2 m-1 ">
+			<div id="accordion" class="accordion">
+				<div class="card mb-0">
+					<div class="card-header bg-secondary collapsed" data-toggle="collapse" data-target="#debugOne">
+						<a class="card-title">Debug </a>
+					</div>
+					<div id="debugOne" class="card-body collapse" data-parent="#accordion">
+						<pre id="debugdiv" style="font-size:0.7rem;">
+
+END;
+					foreach( $dbdebs as $s)
+						echo "DEB:$s\n";
+					if( $dbdeb > 3) { 
+						echo "---- Globals---\n";
+						$dbdebs="striped";	
+				 		print_r($GLOBALS);
+					}
+echo <<<END
+						</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+  	  </div>
+	</div>
+	<!-- debug reihe  -->
+END;
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
 <head>
 	<!-- theme for openWB layout for standard and dark, only css is different-->
 	<!-- 2020 Michael Ortenstein -->
+	<!-- 2024 Modified for SmartHome by Heinz Hoefling -->
 
 	<title>openWB</title>
 	<meta charset="UTF-8">
@@ -49,7 +123,12 @@
 	<!-- local css due to async loading of theme css -->
 	<style>
 		#preloader {
-			background-color:black;
+<?php
+			if( stripos($theme,'dark')>0)
+				echo 'background-color:black;';
+			else	
+				echo 'background-color:white;';
+?>
 			position:fixed;
 			top:0px;
 			left:0px;
@@ -63,10 +142,21 @@
 		}
 		#preloader-image {
 			max-width: 300px;
-			filter:invert(1);
+<?php
+			if( stripos($theme,'dark')>0)
+				echo 'filter:invert(1);';
+			else
+			 	echo 'filter:invert(0);';
+?>
 		}
 		#preloader-info {
-			color: #e4e4e4;
+<?php
+			if( stripos($theme,'dark')>0)
+				echo 'color: #e4e4e4;';
+			else
+				echo 'color: #141414;';
+?>
+			
 		}
 		#thegraph > div {
 			height: 350px;
@@ -78,6 +168,31 @@
 	<!-- important scripts to be loaded -->
 	<script src="js/jquery-3.6.0.min.js"></script>
 	<script src="js/bootstrap-4.4.1/bootstrap.bundle.min.js"></script>
+<?php
+//$iscloud=true;
+$iscl=($iscloud) ? 'true' : 'false';
+out('iscl:' . $iscl);
+echo <<<END
+    <script>
+    function validate()
+     {
+        console.log('validate..');
+        usern='$_CURRENT_USER->username';
+        passwd='$_CURRENT_USER->passwd';
+        dbdeb=$dbdeb;
+        iscloud=$iscl;
+		MOSQSERVER='$MOSQSERVER';
+		MOSQPORT=$MOSQPORT;
+		MOSQPORTSSL=$MOSQPORTSSL;
+		PROJECT='$PROJECT';
+        theme='$theme';
+    }
+    validate();
+    </script>
+
+END;
+?>
+
 	<script>
 		function getCookie(cname) {
 			var name = cname + '=';
@@ -94,9 +209,7 @@
 			}
 			return '';
 		}
-		var themeCookie = getCookie('openWBTheme');
-		// include special Theme style
-		$('head').append('<link rel="stylesheet" href="themes/' + themeCookie + '/style.css?v=20221125">');
+	 	$('head').append('<link rel="stylesheet" href="<?php echo xgeturl($theme,'style.css');?>">');	var debugmode=<?php echo $dbdeb;?>;
 	</script>
 </head>
 
@@ -113,7 +226,7 @@
 			<div id="preloader-info" class="row justify-content-center mt-2">
 				<div class="col-10 col-sm-6">
 					Bitte warten, während die Seite aufgebaut wird.
-                <div class="devicename">openWB</div>
+					<div class="devicename">openWB</div>
 				</div>
 			</div>
 			<div class="row justify-content-center mt-2">
@@ -175,8 +288,8 @@
 			</div>
 		</div>
 
-		<div id="verbraucher" class="row justify-content-center regularTextSize font-weight-bold text-center hide">
-			<div id="verbraucher1" class="col-sm px-1 openwb-device-1 hide">
+		<div id="verbraucher" class="row justify-content-center regularTextSize font-weight-bold text-center text-black hide">
+			<div id="verbraucher1" class="col-sm px-1x openwb-device-1 hide">
 				<span class="smallTextSize"><span id="verbraucher1name">Verbraucher 1</span>: <span id="verbraucher1leistung">lade Daten</span></span><span class="verySmallTextSize" id="verbraucher1dailyyield"></span>
 			</div>
 			<div id="verbraucher2" class="col-sm px-1 openwb-device-2 hide">
@@ -327,6 +440,7 @@
 				<a class="socHasError hide text-red" href="status/status.php"><i class="fas fa-exclamation-triangle"></i></a>
 			</div>
 		</div>
+
 
 		<div class="smartHome hide">
 			<hr class="border-secondary">
@@ -528,9 +642,9 @@
 					<label for="MaxPriceForCharging" class="col-3 col-form-label valueLabel" suffix="ct/kWh"></label>
 				</div>
 				<div class="row justify-content-center regularTextSize vaRow">
-					<button type="button" class="btn btn-secondary mr-3 priceLess"><i class="far fa-minus-square"></i></button>
+					<button type="button" class="btn btn-secondary mr-3 priceLess"><i class="fa fa-minus-square"></i></button>
 					Preis
-					<button type="button" class="btn btn-secondary ml-3 priceMore"><i class="far fa-plus-square"></i></button>
+					<button type="button" class="btn btn-secondary ml-3 priceMore"><i class="fa fa-plus-square"></i></button>
 				</div>
 			</div>  <!-- priceBasedCharging -->
 			<hr class="border-secondary">
@@ -853,19 +967,16 @@
 		</div>
 
 	</div>  <!-- container -->
-	<footer class="bg-dark fixed-bottom small text-light">
-		<div class="container text-center">
-			openWB_lite - die modulare Wallbox
-		</div>
-	</footer>
 
 	<script>
 
-		// load navbar, be careful: it loads asynchronous
+		validate();
+ 		// load navbar, be careful: it loads asynchronous
 		$.get(
 			{ url: "themes/navbar.html", cache: false },
 			function(data){
 				$("#nav-placeholder").replaceWith(data);
+				$('#devicename').text(PROJECT);
 			}
 		);
 
@@ -940,22 +1051,14 @@
 
 			// load scripts synchronously in order specified
 			var scriptsToLoad = [
-				// load Chart.js library
-				'js/Chart.bundle.min.js',
-				// load Chart.js annotation plugin
-				'js/chartjs-plugin-annotation.min.js',
-				// load mqtt library
-				'js/mqttws31.js',
-				// some helper functions
-				'themes/dark/helperFunctions.js?ver=20201218',
-				// functions for processing messages
-				'themes/dark/processAllMqttMsg.js?ver=20231102',
-				// respective Chart.js definition live
-				'themes/dark/livechart.js?ver=20210307',
-				// respective Chart.js definition
-				'themes/dark/electricityPriceChart.js?ver=20210210',
-				// functions performing mqtt and start mqtt-service
-				'themes/dark/setupMqttServices.js?ver=20231102',
+				'js/Chart.bundle.min.js',					// load Chart.js library
+				'js/chartjs-plugin-annotation.min.js',		// load Chart.js annotation plugin
+				'js/mqttws31.js',							// load mqtt library
+				'<?php echo xgeturl('dark','helperFunctions.js');?>',		// some helper functions			
+				'<?php echo xgeturl('dark','processAllMqttMsg.js');?>',		// functions for processing messages			
+				'<?php echo xgeturl('dark','livechart.js');?>',				// functions performing mqtt and start mqtt-service
+				'<?php echo xgeturl('dark','electricityPriceChart.js');?>',	// functions performing mqtt and start mqtt-service
+				'<?php echo xgeturl('dark','setupMqttServices.js');?>'		// functions performing mqtt and start mqtt-service
 			];
 			scriptsToLoad.forEach(function(src) {
 				var script = document.createElement('script');
@@ -1005,10 +1108,10 @@
 					if ( !isNaN(dev) && dev > 0 && dev < 10 ) {
 						var isEnabled = $(this).hasClass("lpEnabledStyle")
 						if ( isEnabled ) {
-							publish("0", "openWB/config/set/SmartHome/Devices" + dev + "/device_manual_control");
+							publish("0", "openWB/config/set/SmartHome/Devices/" + dev + "/device_manual_control");
 							$(this).removeClass('lpEnabledStyle').removeClass('lpDisabledStyle').addClass('lpWaitingStyle');
 						} else {
-							publish("1", "openWB/config/set/SmartHome/Devices" + dev + "/device_manual_control");
+							publish("1", "openWB/config/set/SmartHome/Devices/" + dev + "/device_manual_control");
 							$(this).removeClass('lpEnabledStyle').removeClass('lpDisabledStyle').addClass('lpWaitingStyle');
 
 						}
@@ -1123,12 +1226,12 @@
 				var element = $('#' + $.escapeSelector(elementId));
 				var label = $('label[for="' + elementId + '"].valueLabel');
 				label.addClass('text-danger');
-				 if ( $.escapeSelector(elementId) == 'MaxPriceForCharging') {
+				if ( $.escapeSelector(elementId) == 'MaxPriceForCharging') {
 					// marks times in the price chart where the price is low enough so charging would be allowed
-	 			 	var priceAnnotations = createPriceAnnotations();
-	 			 	electricityPricechart.options.annotation.annotations = priceAnnotations;
-	 			 	electricityPricechart.update();
-				 }
+					var priceAnnotations = createPriceAnnotations();
+					electricityPricechart.options.annotation.annotations = priceAnnotations;
+					electricityPricechart.update();
+				}
 				delayUserInput(elementId, function (id) {
 					// gets executed on callback, 2000ms after last input-change
 					// changes label color back to normal and sends input-value by mqtt
@@ -1194,6 +1297,23 @@
 
 		});  // end document ready
 	</script>
+
+<?php
+	 if($dbdeb>0)
+	 {
+		$lines="striped";
+		$owbconf="striped";
+   		makedebugreihe();
+	 }
+?>
+
+	<div id="footer">
+		<footer class="bg-dark fixed-bottom small text-light">
+			<div class="container text-center">
+				openWB_lite <span id='spanversion' class='spanversion'></span>, die modulare Wallbox
+			</div>
+		</footer>
+	</div>
 
 </body>
 

@@ -1,6 +1,6 @@
 /**
  * Show the daily yield and consumption in a bar graph
- *
+ * top right widget
  * @author Claus Hagen
  */
 
@@ -56,6 +56,8 @@ class YieldMeter {
 		let exportedEnergy = 0
 		let generatedEnergy = 0
 		let batEnergy = 0
+   		let storedEnergy = 0
+
 		switch (wbdata.graphMode) {
 			case 'live':
 				this.plotdata = Object.values(wbdata.sourceSummary)
@@ -69,6 +71,8 @@ class YieldMeter {
 				exportedEnergy = wbdata.usageSummary.evuOut.energy
 				generatedEnergy = wbdata.sourceSummary.pv.energy
 				batEnergy = wbdata.sourceSummary.batOut.energy
+				storedEnergy = wbdata.usageSummary.batIn.energy
+
 				break;
 			case 'day':
 				if (wbdata.showTodayGraph) {
@@ -84,6 +88,7 @@ class YieldMeter {
 					exportedEnergy = wbdata.usageSummary.evuOut.energy
 					generatedEnergy = wbdata.sourceSummary.pv.energy
 					batEnergy = wbdata.sourceSummary.batOut.energy
+					storedEnergy = wbdata.usageSummary.batIn.energy
 
 				} else {
 					this.plotdata = Object.values(wbdata.historicSummary)
@@ -95,6 +100,7 @@ class YieldMeter {
 					exportedEnergy = wbdata.historicSummary.evuOut.energy
 					generatedEnergy = wbdata.historicSummary.pv.energy
 					batEnergy = wbdata.historicSummary.batOut.energy
+					storedEnergy = wbdata.historicSummary.batIn.energy
 
 				}
 				break;
@@ -110,12 +116,15 @@ class YieldMeter {
 				exportedEnergy = wbdata.historicSummary.evuOut.energy
 				generatedEnergy = wbdata.historicSummary.pv.energy
 				batEnergy = wbdata.historicSummary.batOut.energy
+				storedEnergy = wbdata.historicSummary.batIn.energy
 
 				break;
 			default: break;
 		}
 		this.selfUsePercentage = Math.round((generatedEnergy - exportedEnergy) / generatedEnergy *100)
-		this.autarchyPercentage = Math.round ((generatedEnergy + batEnergy - exportedEnergy) / (generatedEnergy + batEnergy + importedEnergy - exportedEnergy) *100)
+	//	this.autarchyPercentage = Math.round ((generatedEnergy + batEnergy - exportedEnergy) / (generatedEnergy + batEnergy + importedEnergy - exportedEnergy) *100)
+		this.autarchyPercentage = Math.round((generatedEnergy + batEnergy - exportedEnergy - storedEnergy) / (generatedEnergy + batEnergy - exportedEnergy + importedEnergy - storedEnergy) * 100)
+
 		this.adjustLabelSize()
 		const svg = this.createOrUpdateSvg();
 		this.drawChart(svg);
@@ -173,6 +182,7 @@ class YieldMeter {
 			.attr("width", this.xScale.bandwidth())
 			.attr("height", (d) => (this.height - this.yScale(d.energy) - this.margin.top - this.margin.bottom))
 			.attr("fill", (d) => d.color);
+
 		if (wbdata.graphMode != 'live') {
 			// Display the PV Charging inner bar
 			bargroups
@@ -190,7 +200,7 @@ class YieldMeter {
 			bargroups.append("rect")
 				.attr("class", "bar")
 			.attr("x", (d) => this.xScale(d.name) + this.xScale.bandwidth() / 4 )
-				.attr("y", (d) => this.yScale(d.energyBat + d.energyPv))
+				.attr("y", (d) => this.yScale(d.energyPv + d.energyBat))
 			.attr("width", this.xScale.bandwidth() * 2 / 4)
 				.attr("height", (d) => (this.height - this.yScale(d.energyBat) - this.margin.top - this.margin.bottom))
 				.attr("fill", this.batColor)

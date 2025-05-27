@@ -1,3 +1,4 @@
+NC 
 <?php
 $ajax = new Ajaxloader();
 
